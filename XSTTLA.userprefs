@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="XSTTLA.Android/XSTTLA.Android.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.Nexus 4 (KitKat)" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="XSTTLA.Android/MainActivity.cs">
+    <Files>
+      <File FileName="XSTTLA.iOS/AppDelegate.cs" Line="18" Column="13" />
+      <File FileName="XSTTLA.Android/MainActivity.cs" Line="12" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
