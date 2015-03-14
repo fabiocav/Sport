@@ -1,13 +1,16 @@
-﻿<Properties StartupItem="XSTTLA.Android/XSTTLA.Android.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="Android.Nexus 4 (KitKat)" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="XSTTLA.Android/MainActivity.cs">
+﻿<Properties StartupItem="XSTTLA.iOS/XSTTLA.iOS.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.8.2" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="XSTTLA.iOS/AuthenticationRenderer.cs">
     <Files>
-      <File FileName="XSTTLA.iOS/AppDelegate.cs" Line="18" Column="13" />
-      <File FileName="XSTTLA.Android/MainActivity.cs" Line="12" Column="1" />
+      <File FileName="XSTTLA.Shared/ViewModels/AuthenticationViewModel.cs" Line="22" Column="1" />
+      <File FileName="XSTTLA.iOS/AuthenticationRenderer.cs" Line="15" Column="3" />
+      <File FileName="XSTTLA.Shared/Views/AuthenticationPage.cs" Line="12" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/XSTTLA/XSTTLA.iOS/OAuthViewController.cs" line="54" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
