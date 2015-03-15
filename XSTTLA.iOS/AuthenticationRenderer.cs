@@ -1,6 +1,4 @@
-﻿
-using System;
-using UIKit;
+﻿using System;
 using XSTTLA.Shared;
 using Auth0.SDK;
 using System.Threading.Tasks;
