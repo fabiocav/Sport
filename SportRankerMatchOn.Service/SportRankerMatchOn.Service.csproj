@@ -184,6 +184,18 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SportRankerMatchOn.Shared\Models\BaseModel.cs">
+      <Link>Models\Linked\BaseModel.cs</Link>
+    </Compile>
+    <Compile Include="..\SportRankerMatchOn.Shared\Models\League.cs">
+      <Link>Models\Linked\League.cs</Link>
+    </Compile>
+    <Compile Include="..\SportRankerMatchOn.Shared\Models\Member.cs">
+      <Link>Models\Linked\Member.cs</Link>
+    </Compile>
+    <Compile Include="..\SportRankerMatchOn.Shared\Models\UserProfile.cs">
+      <Link>Models\Linked\UserProfile.cs</Link>
+    </Compile>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="DataObjects\Member.cs" />

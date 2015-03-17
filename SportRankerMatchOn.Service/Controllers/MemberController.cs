@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportRankerMatchOn.Service.DataObjects;
+using SportRankerMatchOn.Shared;
 using SportRankerMatchOn.Service.Models;
 
 namespace SportRankerMatchOn.Service.Controllers

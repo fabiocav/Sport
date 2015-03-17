@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Http;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportRankerMatchOn.Service.DataObjects;
+using SportRankerMatchOn.Shared;
 using SportRankerMatchOn.Service.Models;
 
 namespace SportRankerMatchOn.Service
@@ -32,8 +32,8 @@ namespace SportRankerMatchOn.Service
         {
             List<Member> Members = new List<Member>
             {
-                new Member { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
-                new Member { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
+				//new Member { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
+				//new Member { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
             };
 
             foreach (Member Member in Members)

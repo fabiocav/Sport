@@ -1,19 +1,11 @@
 ﻿using Microsoft.WindowsAzure.Mobile.Service;
 
-namespace SportRankerMatchOn.Service.DataObjects
+namespace SportRankerMatchOn.Shared
 {
-	public class Member : EntityData
+	public partial class Member : EntityData
 	{
-		public string Text
+		public Member()
 		{
-			get;
-			set;
-		}
-
-		public bool Complete
-		{
-			get;
-			set;
 		}
 	}
 }

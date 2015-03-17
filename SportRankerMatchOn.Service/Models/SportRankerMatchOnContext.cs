@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Tables;
-using SportRankerMatchOn.Service.DataObjects;
+using SportRankerMatchOn.Shared;
 
 namespace SportRankerMatchOn.Service.Models
 {
