@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SportRankerMatchOn.Shared", "SportRankerMatchOn.Shared\SportRankerMatchOn.Shared.shproj", "{B2889C9F-D3F9-4DCC-AA61-D1548DA57BEE}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SportRankerMatchOn.Shared.Mobile", "SportRankerMatchOn.Shared.Mobile\SportRankerMatchOn.Shared.Mobile.shproj", "{B2889C9F-D3F9-4DCC-AA61-D1548DA57BEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportRankerMatchOn.iOS", "SportRankerMatchOn.iOS\SportRankerMatchOn.iOS.csproj", "{17993819-E7E6-43D3-9059-BC0D1C21B5C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportRankerMatchOn.Android", "SportRankerMatchOn.Android\SportRankerMatchOn.Android.csproj", "{33FE7662-D5B1-47DC-96E0-CA3C18CFBF8B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SportRankerMatchOn.Shared", "SportRankerMatchOn.Shared\SportRankerMatchOn.Shared.shproj", "{75F0B2B8-3CFA-4F1E-BB89-02975C004D3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

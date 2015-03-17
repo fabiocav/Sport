@@ -1,10 +1,10 @@
 ﻿using System;
-using SportRankerMatchOn.Shared;
-using Auth0.SDK;
 using System.Threading.Tasks;
-using Xamarin.Forms.Platform.iOS;
-using Xamarin.Forms;
+using Auth0.SDK;
 using SportRankerMatchOn.Shared;
+using SportRankerMatchOn.Shared.Mobile;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 [assembly:ExportRenderer(typeof(AuthenticationPage), typeof(SportRankerMatchOn.iOS.AuthenticationRenderer))]
 
