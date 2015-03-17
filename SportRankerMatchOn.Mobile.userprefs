@@ -1,8 +1,14 @@
 ﻿<Properties StartupItem="SportRankerMatchOn.iOS/SportRankerMatchOn.iOS.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.8.2" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SportRankerMatchOn.Shared.Mobile/Pages/NewLeaguePage.xaml.cs">
+    <Files>
+      <File FileName="SportRankerMatchOn.Shared.Mobile/Pages/NewLeaguePage.xaml.cs" Line="12" Column="15" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Pages/NewLeaguePage.xaml.cs" line="12" column="15" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <AuthorInfo Name="Rob DeRosa" Email="rob.derosa@xamarin.com" Copyright="Rob DeRosa" Company="Xamarin" Trademark="" />

@@ -8,7 +8,12 @@ namespace SportRankerMatchOn.Shared.Mobile
 		public static string AuthClientId = "5Qf0iIssIZ7Km9Fiwd041uxbfVdtyAqP";
 		public static string AuthDomain = "SportRankerMatchOn.auth0.com";
 
-		public static string AzureDomain = "https://SportRankerMatchOntest.azure-mobile.net/";
+		#if DEBUG
+		public static string AzureDomain = "https://192.168.182.2:51541/";
+		#else
+		public static string AzureDomain = "https://sportsranker-matchon.azure-mobile.net/";
+		#endif
+
 		public static string AzureClientId = "ECLOfrQpIrqSxhKseSPAUtXoEsKYfd70";
 	}
 }

@@ -12,6 +12,12 @@ namespace SportRankerMatchOn.Shared
 			//Matches = new List<Match>();
 		}
 
+		public string Id
+		{
+			get;
+			set;
+		}
+
 		public string Name
 		{
 			get;

@@ -56,7 +56,6 @@ namespace SportRankerMatchOn.Shared.Mobile
 		{
 			await Client.GetTable<Member>().InsertAsync(member);
 		}
-
 	}
 }
 

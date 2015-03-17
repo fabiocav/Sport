@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:NewLeaguePageXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportRankerMatchOn.Shared.Mobile.NewLeaguePage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared.Mobile;assembly=SportRankerMatchOn">
+	<local:NewLeaguePageXaml.Content>
+		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
+			<Entry Text="{Binding LeagueName}" Placeholder="League name" />
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Enabled" HorizontalOptions="StartAndExpand" />
+				<Switch IsToggled="{Binding IsEnabled}" HorizontalOptions="End" />
+			</StackLayout>
+			<Button Text="Add League" Command="{Binding SaveLeagueCommand}" BackgroundColor="Gray" TextColor="White"
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+		</StackLayout>
+	</local:NewLeaguePageXaml.Content>
+</local:NewLeaguePageXaml>

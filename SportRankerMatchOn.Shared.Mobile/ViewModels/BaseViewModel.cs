@@ -23,6 +23,15 @@ namespace SportRankerMatchOn.Shared.Mobile
 			set
 			{
 				SetProperty(ref _isBusy, value, IsBusyPropertyName);
+				OnPropertyChanged("IsNotBusy");
+			}
+		}
+
+		public bool IsNotBusy
+		{
+			get
+			{
+				return !IsBusy;
 			}
 		}
 
