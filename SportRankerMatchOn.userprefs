@@ -1,0 +1,9 @@
+﻿<Properties StartupItem="SportRankerMatchOn.iOS/SportRankerMatchOn.iOS.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.8.2" />
+  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <AuthorInfo Name="Rob DeRosa" Email="rob.derosa@xamarin.com" Copyright="Rob DeRosa" Company="Xamarin" Trademark="" />
+</Properties>
