@@ -184,20 +184,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SportRankerMatchOn.Shared\Models\BaseModel.cs">
-      <Link>Models\Linked\BaseModel.cs</Link>
-    </Compile>
-    <Compile Include="..\SportRankerMatchOn.Shared\Models\League.cs">
-      <Link>Models\Linked\League.cs</Link>
-    </Compile>
-    <Compile Include="..\SportRankerMatchOn.Shared\Models\Member.cs">
-      <Link>Models\Linked\Member.cs</Link>
-    </Compile>
-    <Compile Include="..\SportRankerMatchOn.Shared\Models\UserProfile.cs">
-      <Link>Models\Linked\UserProfile.cs</Link>
-    </Compile>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\LeagueController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="DataObjects\League.cs" />
     <Compile Include="DataObjects\Member.cs" />
     <Compile Include="Models\SportRankerMatchOnContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
@@ -219,6 +209,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <Import Project="..\SportRankerMatchOn.Shared\SportRankerMatchOn.Shared.projitems" Label="Shared" Condition="Exists('..\SportRankerMatchOn.Shared\SportRankerMatchOn.Shared.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
