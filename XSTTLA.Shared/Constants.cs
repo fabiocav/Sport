@@ -8,7 +8,7 @@ namespace XSTTLA.Shared
 		public static string AuthClientId = "5Qf0iIssIZ7Km9Fiwd041uxbfVdtyAqP";
 		public static string AuthDomain = "xsttla.auth0.com";
 
-		public static string AzureDomain = "https://xsttla.azure-mobile.net/";
-		public static string AzureClientId = "SNVKyNkVfBTkiqhZLwbHJOGqLkqbfC87";
+		public static string AzureDomain = "https://xsttlatest.azure-mobile.net/";
+		public static string AzureClientId = "ECLOfrQpIrqSxhKseSPAUtXoEsKYfd70";
 	}
 }

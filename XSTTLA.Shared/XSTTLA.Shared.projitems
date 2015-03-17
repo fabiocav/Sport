@@ -25,7 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Dependencies\IAuthenticationHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AuthenticationPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\BasePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\League.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Member.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureService.cs" />
@@ -33,6 +32,9 @@
       <DependentUpon>AdminPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AdminViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\BaseContentPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AdminPage.xaml">

@@ -1,9 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace XSTTLA.Shared
 {
-	public class AuthenticationPage : BasePage<AuthenticationViewModel>
+	public class AuthenticationPage : BaseContentPage<AuthenticationViewModel>
 	{
 		Label _userLabel;
 		Button _loginButton;
@@ -13,14 +14,20 @@ namespace XSTTLA.Shared
 		public AuthenticationPage()
 		{
 			Initialize();
+			Title = "Authentication";
 		}
 
-		public void UserAuthenticationUpdated()
+		async public void UserAuthenticationUpdated()
 		{
 			if(!ViewModel.IsUserValid())
 			{
 				AppSettings.AuthUserProfile = null;
-
+//				await DisplayAlert("Invalid Email", "This service is only available to Xamarin employees.", "OK");
+			}
+			else
+			{
+//				await Task.Delay(2000);
+//				await Navigation.PushAsync(new AdminPage());
 			}
 
 			_userLabel.Text = AppSettings.AuthUserProfile == null ? "empty" : AppSettings.AuthUserProfile.Email;

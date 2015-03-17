@@ -11,7 +11,7 @@ namespace XSTTLA.Shared
 
 		public event EventHandler IsBusyChanged;
 
-		private bool _isBusy;
+		bool _isBusy;
 		public const string IsBusyPropertyName = "IsBusy";
 
 		public bool IsBusy
@@ -66,6 +66,26 @@ namespace XSTTLA.Shared
 				return;
 
 			PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		#endregion
+	}
+
+	public class Busy : IDisposable
+	{
+		readonly BaseViewModel _viewModel;
+
+		public Busy(BaseViewModel viewModel)
+		{
+			_viewModel = viewModel;
+			_viewModel.IsBusy = true;
+		}
+
+		#region IDisposable implementation
+
+		public void Dispose()
+		{
+			_viewModel.IsBusy = false;
 		}
 
 		#endregion

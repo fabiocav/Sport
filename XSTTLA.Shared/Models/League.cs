@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace XSTTLA.Shared
 {
-	public class League
+	public class League : BaseModel
 	{
 		public League()
 		{
@@ -17,12 +18,14 @@ namespace XSTTLA.Shared
 			set;
 		}
 
+		[JsonIgnore]
 		public IList<Member> Users
 		{
 			get;
 			set;
 		}
 
+		[JsonIgnore]
 		public IList<Match> Matches
 		{
 			get;
@@ -35,6 +38,7 @@ namespace XSTTLA.Shared
 			set;
 		}
 
+		[JsonIgnore]
 		public Member Admin
 		{
 			get;

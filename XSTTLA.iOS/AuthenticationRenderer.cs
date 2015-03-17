@@ -11,6 +11,8 @@ namespace XSTTLA.iOS
 {
 	public class AuthenticationRenderer : PageRenderer
 	{
+		AuthenticationPage _page;
+
 		async public Task AuthenticateUser()
 		{
 			if(AppSettings.AuthUserProfile == null)
@@ -33,13 +35,16 @@ namespace XSTTLA.iOS
 			}
 		}
 
-		public override void ViewDidAppear(bool animated)
+		async public override void ViewDidAppear(bool animated)
 		{
-			MessagingCenter.Subscribe<AuthenticationPage>(this, "AuthenticateUser", async(sender) =>
-			{
-				await AuthenticateUser();
-				sender.UserAuthenticationUpdated();
-			});
+			await AuthenticateUser();
+			_page.UserAuthenticationUpdated();
+
+//			MessagingCenter.Subscribe<AuthenticationPage>(this, "AuthenticateUser", async(sender) =>
+//			{
+//				await AuthenticateUser();
+//				sender.UserAuthenticationUpdated();
+//			});
 			base.ViewDidAppear(animated);
 		}
 
@@ -51,9 +56,9 @@ namespace XSTTLA.iOS
 
 		protected override void OnElementChanged(VisualElementChangedEventArgs e)
 		{
-			var page = e.NewElement as AuthenticationPage;
+			_page = e.NewElement as AuthenticationPage;
 
-			if(page != null)
+			if(_page != null)
 			{
 			}
 

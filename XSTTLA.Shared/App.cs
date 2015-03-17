@@ -7,7 +7,7 @@ namespace XSTTLA.Shared
 	{
 		public App()
 		{
-			MainPage = new AuthenticationPage();
+			MainPage = new NavigationPage(new AdminPage());
 		}
 	}
 }

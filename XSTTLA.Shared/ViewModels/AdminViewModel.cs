@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace XSTTLA.Shared
 {
-	public class AdminViewModel
+	public class AdminViewModel : BaseViewModel
 	{
 		public ICommand AddLeagueCommand
 		{
@@ -12,14 +13,52 @@ namespace XSTTLA.Shared
 			{
 				return new Command(async(param) =>
 				{
-//					var league = new League {
-//						Name = "Xamarin"
-//					};
-//					await AzureService.Instance.SaveLeague(league);
+					using(new Busy(this))
+					{
+						var league = new League {
+							Name = "Xamarin",
+							Season = 1
+						};
+
+						try
+						{
+							await AzureService.Instance.SaveLeague(league);
+						}
+						catch(Exception e)
+						{
+							Console.WriteLine(e);
+						}
+					}
+				});
+			}
+		}
+
+		public ICommand AddMemberCommand
+		{
+			get
+			{
+				return new Command(async(param) =>
+				{
+					using(new Busy(this))
+					{
+						var league = new Member {
+							FirstName = "Rob",
+							LastName = "DeRosa",
+
+						};
+
+						try
+						{
+							await AzureService.Instance.SaveMember(member);
+						}
+						catch(Exception e)
+						{
+							Console.WriteLine(e);
+						}
+					}
 				});
 			}
 		}
 
 	}
 }
-

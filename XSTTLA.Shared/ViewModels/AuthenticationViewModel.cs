@@ -27,28 +27,26 @@ namespace XSTTLA.Shared
 			if(!force && (AppSettings.AuthUserProfile != null || string.IsNullOrWhiteSpace(AppSettings.AuthToken) || string.IsNullOrWhiteSpace(AppSettings.AuthUserID)))
 				return;
 
-			IsBusy = true;
-			try
+			using(new Busy(this))
 			{
-				string json = null;
-				using(var client = new HttpClient())
+				try
 				{
-					client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer {0}".Fmt(AppSettings.AuthToken));
-					json = await client.GetStringAsync("https://xsttla.auth0.com/api/users/{0}".Fmt(AppSettings.AuthUserID));
-				}
+					string json = null;
+					using(var client = new HttpClient())
+					{
+						client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer {0}".Fmt(AppSettings.AuthToken));
+						json = await client.GetStringAsync("https://xsttla.auth0.com/api/users/{0}".Fmt(AppSettings.AuthUserID));
+					}
 
-				if(json != null)
-				{
-					AppSettings.AuthUserProfile = JsonConvert.DeserializeObject<UserProfile>(json);
+					if(json != null)
+					{
+						AppSettings.AuthUserProfile = JsonConvert.DeserializeObject<UserProfile>(json);
+					}
 				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine("Error getting user profile: {0}", e);
-			}
-			finally
-			{
-				IsBusy = false;
+				catch(Exception e)
+				{
+					Console.WriteLine("Error getting user profile: {0}", e);
+				}
 			}
 		}
 	}
