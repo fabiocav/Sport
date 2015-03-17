@@ -1,18 +1,18 @@
 ﻿using Android.App;
-using Android.Widget;
-using Android.SportRankerMatchOning Xamarin.Forms.Platform.Android;
+using Android.OS;
 using SportRankerMatchOn.Shared;
+using Xamarin.Forms.Platform.Android;
 
 namespace SportRankerMatchOn.Android
 {
-    [Activity(Label = "SportRankerMatchOn.Android", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : FormsApplicationActivity
-    {
-        protected override void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
-            Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
-        }
-    }
+	[Activity(Label = "SportRankerMatchOn.Android", MainLauncher = true, Icon = "@drawable/icon")]
+	public class MainActivity : FormsApplicationActivity
+	{
+		protected override void OnCreate(Bundle bundle)
+		{
+			base.OnCreate(bundle);
+			Xamarin.Forms.Forms.Init(this, bundle);
+			LoadApplication(new App());
+		}
+	}
 }
