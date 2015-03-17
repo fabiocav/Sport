@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using System.Globalization;
 
-namespace SportRankerMatchOn.Shared
+namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class InverseBoolConverter : IValueConverter
 	{

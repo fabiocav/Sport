@@ -15,5 +15,17 @@ namespace SportRankerMatchOn.Shared
 			get;
 			set;
 		}
+
+		public string GoogleID
+		{
+			get;
+			set;
+		}
+
+		public string EmailAddress
+		{
+			get;
+			set;
+		}
 	}
 }

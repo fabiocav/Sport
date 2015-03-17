@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace SportRankerMatchOn.Shared
+namespace SportRankerMatchOn.Shared.Mobile
 {
 	public static class Extensions
 	{

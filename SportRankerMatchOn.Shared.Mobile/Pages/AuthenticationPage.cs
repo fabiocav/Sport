@@ -1,9 +1,9 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using SportRankerMatchOn.Shared;
+using SportRankerMatchOn.Shared.Mobile;
 
-namespace SportRankerMatchOn.Shared
+namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class AuthenticationPage : BaseContentPage<AuthenticationViewModel>
 	{

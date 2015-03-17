@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 
-namespace SportRankerMatchOn.Shared
+namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class AzureService
 	{

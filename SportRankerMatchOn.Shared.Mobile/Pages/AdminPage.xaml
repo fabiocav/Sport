@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <local:AdminPageXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportRankerMatchOn.Shared.AdminPage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared;assembly=SportRankerMatchOn.iOS">
+	x:Class="SportRankerMatchOn.Shared.Mobile.AdminPage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared.Mobile;assembly=SportRankerMatchOn.iOS">
 	<local:AdminPageXaml.Content>
 		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
 			<Button Text="Add League" Command="{Binding AddLeagueCommand}" BackgroundColor="Gray" TextColor="White"

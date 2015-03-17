@@ -2,9 +2,9 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SportRankerMatchOn.Shared;
+using SportRankerMatchOn.Shared.Mobile;
 
-namespace SportRankerMatchOn.Shared
+namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class AuthenticationViewModel : BaseViewModel
 	{

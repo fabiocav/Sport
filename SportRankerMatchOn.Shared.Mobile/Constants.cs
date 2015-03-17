@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SportRankerMatchOn.Shared
+namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class Constants
 	{

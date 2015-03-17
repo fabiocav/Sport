@@ -3,7 +3,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace SportRankerMatchOn.Shared
+namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class BaseViewModel : INotifyPropertyChanged
 	{

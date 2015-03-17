@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using System.Threading.Tasks;
 
-namespace SportRankerMatchOn.Shared
+namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
 	{
