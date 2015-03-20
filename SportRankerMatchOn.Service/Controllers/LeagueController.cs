@@ -6,6 +6,8 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using SportRankerMatchOn.Shared;
 using SportRankerMatchOn.Service.Models;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SportRankerMatchOn.Service.Controllers
 {
@@ -21,13 +23,16 @@ namespace SportRankerMatchOn.Service.Controllers
         // GET tables/League
         public IQueryable<League> GetAllLeagues()
         {
-            return Query();
+			return Query();
         }
 
         // GET tables/League/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public SingleResult<League> GetLeague(string id)
         {
-            return Lookup(id);
+            var result = Lookup(id);
+			var league = result.Queryable.FirstOrDefault();
+			league.LoadMemberIds();
+			return result;
         }
 
         // PATCH tables/League/48D68C86-6EA6-4C25-AA33-223FC9A27959
@@ -39,6 +44,7 @@ namespace SportRankerMatchOn.Service.Controllers
         // POST tables/League
         public async Task<IHttpActionResult> PostLeague(League item)
         {
+			item.MemberIdsString = JsonConvert.SerializeObject(item.MemberIds);
             League current = await InsertAsync(item);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
