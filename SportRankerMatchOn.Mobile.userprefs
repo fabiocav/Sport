@@ -1,15 +1,16 @@
 ﻿<Properties StartupItem="SportRankerMatchOn.iOS/SportRankerMatchOn.iOS.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.8.2" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.8.2" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SportRankerMatchOn.Shared.Mobile/ViewModels/AuthenticationViewModel.cs">
     <Files>
-      <File FileName="SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs" Line="66" Column="6" />
+      <File FileName="SportRankerMatchOn.Shared.Mobile/Pages/AuthenticationPage.cs" Line="70" Column="29" />
+      <File FileName="SportRankerMatchOn.Android/MainActivity.cs" Line="18" Column="2" />
+      <File FileName="SportRankerMatchOn.Shared.Mobile/ViewModels/AuthenticationViewModel.cs" Line="27" Column="24" />
+      <File FileName="SportRankerMatchOn.Android/AuthenticationRenderer.cs" Line="25" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/ViewModels/NewLeageViewModel.cs" line="45" column="1" />
-      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs" line="69" column="1" />
-      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs" line="61" column="1" />
+      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Pages/NewLeaguePage.xaml.cs" line="12" column="15" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -27,6 +27,22 @@ namespace SportRankerMatchOn.Shared
 			}
 		}
 
+		string _sport;
+		public const string SportPropertyName = "Sport";
+
+		[JsonProperty("sport")]
+		public string Sport
+		{
+			get
+			{
+				return _sport;
+			}
+			set
+			{
+				SetProperty(ref _sport, value, SportPropertyName);
+			}
+		}
+
 		bool _isEnabled;
 		public const string IsEnabledPropertyName = "IsEnabled";
 

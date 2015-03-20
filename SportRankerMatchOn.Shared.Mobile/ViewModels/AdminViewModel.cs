@@ -7,29 +7,37 @@ namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class AdminViewModel : BaseViewModel
 	{
+		public void LogOut()
+		{
+			AppSettings.AuthToken = null;
+			AppSettings.AuthUserID = null;
+			AppSettings.AuthUserProfile = null;
+		}
+
+
 		public ICommand AddMemberCommand
 		{
 			get
 			{
 				return new Command(async(param) =>
-				{
-					using(new Busy(this))
 					{
-						var member = new Member {
-							FirstName = "Rob",
-							LastName = "DeRosa",
-						};
+						using(new Busy(this))
+						{
+							var member = new Member {
+								FirstName = "Rob",
+								LastName = "DeRosa",
+							};
 
-						try
-						{
-							await AzureService.Instance.SaveMember(member);
+							try
+							{
+								await AzureService.Instance.SaveMember(member);
+							}
+							catch(Exception e)
+							{
+								Console.WriteLine(e);
+							}
 						}
-						catch(Exception e)
-						{
-							Console.WriteLine(e);
-						}
-					}
-				});
+					});
 			}
 		}
 	}

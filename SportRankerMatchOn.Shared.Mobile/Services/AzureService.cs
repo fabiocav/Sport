@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using System.Net;
+using System.Collections.Generic;
 
 namespace SportRankerMatchOn.Shared.Mobile
 {
@@ -41,6 +42,18 @@ namespace SportRankerMatchOn.Shared.Mobile
 			}			
 		}
 
+		async public Task<List<League>> GetAllLeagues()
+		{
+			var list = await Client.GetTable<League>().ToListAsync();
+			return list;
+		}
+
+		async public Task<List<League>> GetAllEnabledLeagues()
+		{
+			var list = await Client.GetTable<League>().Where(l => l.IsEnabled).OrderBy(l => l.Name).ToListAsync();
+			return list;
+		}
+
 		async public Task<League> GetLeagueByName(string name)
 		{
 			var list = await Client.GetTable<League>().Where(l => l.Name == name).Take(1).ToListAsync();
@@ -51,10 +64,7 @@ namespace SportRankerMatchOn.Shared.Mobile
 		async public Task SaveLeague(League league)
 		{
 			ServicePointManager.ServerCertificateValidationCallback = delegate
-				(object sender,
-			  System.Security.Cryptography.X509Certificates.X509Certificate pCertificate,
-			  System.Security.Cryptography.X509Certificates.X509Chain pChain,
-			  System.Net.Security.SslPolicyErrors pSSLPolicyErrors)
+				(object sender, System.Security.Cryptography.X509Certificates.X509Certificate pCertificate, System.Security.Cryptography.X509Certificates.X509Chain pChain, System.Net.Security.SslPolicyErrors pSSLPolicyErrors)
 			{
 				//if (pSSLPolicyErrors == System.Net.Security.SslPolicyErrors.RemoteCertificateNameMismatch && pCertificate.Issuer == "CN=Entrust Certification Authority - L1C, OU=\"(c) 2009 Entrust, Inc.\", OU=www.entrust.net/rpa is incorporated by reference, O=\"Entrust, Inc.\", C=US")
 				{

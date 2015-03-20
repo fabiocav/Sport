@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SportRankerMatchOn.Shared.Mobile;
+using Xamarin.Forms;
 
 namespace SportRankerMatchOn.Shared.Mobile
 {
@@ -36,7 +37,7 @@ namespace SportRankerMatchOn.Shared.Mobile
 					using(var client = new HttpClient())
 					{
 						client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer {0}".Fmt(AppSettings.AuthToken));
-						json = await client.GetStringAsync("https://SportRankerMatchOn.auth0.com/api/users/{0}".Fmt(AppSettings.AuthUserID));
+						json = await client.GetStringAsync("https://{0}.com/api/users/{1}".Fmt(Constants.AuthDomain, AppSettings.AuthUserID));
 					}
 
 					if(json != null)

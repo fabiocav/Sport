@@ -37,21 +37,27 @@ namespace SportRankerMatchOn.Shared.Mobile
 			get
 			{
 				return new Command(async(param) =>
-				{
-					using(new Busy(this))
 					{
-						IsBusy = true;
-						try
+						using(new Busy(this))
 						{
-							await AzureService.Instance.SaveLeague(League);
+							try
+							{
+								League.Season = 3;
+								League.MemberIds.Add(Guid.NewGuid().ToString());
+								League.MemberIds.Add(Guid.NewGuid().ToString());
+								League.MemberIds.Add(Guid.NewGuid().ToString());
+								League.MemberIds.Add(Guid.NewGuid().ToString());
+
+								var leagues = await AzureService.Instance.GetAllLeagues();
+
+								await AzureService.Instance.SaveLeague(League);
+							}
+							catch(Exception e)
+							{
+								Console.WriteLine(e);
+							}
 						}
-						catch(Exception e)
-						{
-							Console.WriteLine(e);
-						}
-						IsBusy = false;
-					}
-				});
+					});
 			}
 		}
 	}

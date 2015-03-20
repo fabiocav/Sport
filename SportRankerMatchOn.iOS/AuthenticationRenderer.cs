@@ -41,17 +41,18 @@ namespace SportRankerMatchOn.iOS
 			await AuthenticateUser();
 			_page.UserAuthenticationUpdated();
 
-//			MessagingCenter.Subscribe<AuthenticationPage>(this, "AuthenticateUser", async(sender) =>
-//			{
-//				await AuthenticateUser();
-//				sender.UserAuthenticationUpdated();
-//			});
+			MessagingCenter.Subscribe<BaseViewModel>(this, "AuthenticateUser", async(sender) =>
+				{
+					await AuthenticateUser();
+					_page.UserAuthenticationUpdated();
+				});
+			
 			base.ViewDidAppear(animated);
 		}
 
 		public override void ViewDidDisappear(bool animated)
 		{
-			MessagingCenter.Unsubscribe<AuthenticationPage>(this, "AuthenticateUser");
+			MessagingCenter.Unsubscribe<BaseViewModel>(this, "AuthenticateUser");
 			base.ViewDidDisappear(animated);
 		}
 
