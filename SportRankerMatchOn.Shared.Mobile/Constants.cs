@@ -9,7 +9,7 @@ namespace SportRankerMatchOn.Shared.Mobile
 		public static string AuthDomain = "SportRankerMatchOn.auth0.com";
 
 		#if DEBUG
-		public static string AzureDomain = "https://192.168.182.2:51541/";
+		public static string AzureDomain = "http://192.168.1.19:51541/";
 		#else
 		public static string AzureDomain = "https://sportsranker-matchon.azure-mobile.net/";
 		#endif

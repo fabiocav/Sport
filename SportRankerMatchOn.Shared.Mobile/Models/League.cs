@@ -6,6 +6,11 @@ namespace SportRankerMatchOn.Shared
 {
 	public class League : BaseModel
 	{
+		public League()
+		{
+			MemberIds = new List<string>();
+		}
+
 		string _name;
 		public const string NamePropertyName = "Name";
 

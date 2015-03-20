@@ -13,25 +13,9 @@ namespace SportRankerMatchOn.Shared.Mobile
 			InitializeComponent();
 			Title = "Admin";
 		}
-
-		public ICommand SaveLeagueCommand
-		{
-			get
-			{
-				return new Command(async(args) =>
-					{
-						await SaveLeague();
-					});
-			}
-		}
-
-		async Task SaveLeague()
-		{
-			await AzureService.Instance.SaveLeague(ViewModel.League);
-		}
 	}
 
-	public partial class NewLeaguePageXaml : BaseContentPage<NewLeagueViewModel>
+	public partial class NewLeaguePageXaml : BaseContentPage<LeagueDetailsViewModel>
 	{
 	}
 }

@@ -5,10 +5,20 @@ using System.Threading.Tasks;
 
 namespace SportRankerMatchOn.Shared.Mobile
 {
-	public class NewLeagueViewModel : BaseViewModel
+	public class LeagueDetailsViewModel : BaseViewModel
 	{
 		League _league;
 		public const string LeaguePropertyName = "League";
+
+		public LeagueDetailsViewModel()
+		{
+			League = new League();
+		}
+
+		public LeagueDetailsViewModel(League league = null)
+		{
+			League = league ?? new League();
+		}
 
 		public League League
 		{
@@ -27,21 +37,21 @@ namespace SportRankerMatchOn.Shared.Mobile
 			get
 			{
 				return new Command(async(param) =>
+				{
+					using(new Busy(this))
 					{
-						using(new Busy(this))
+						IsBusy = true;
+						try
 						{
-							IsBusy = true;
-							try
-							{
-								await AzureService.Instance.SaveLeague(League);
-							}
-							catch(Exception e)
-							{
-								Console.WriteLine(e);
-							}
-							IsBusy = false;
+							await AzureService.Instance.SaveLeague(League);
 						}
-					});
+						catch(Exception e)
+						{
+							Console.WriteLine(e);
+						}
+						IsBusy = false;
+					}
+				});
 			}
 		}
 	}

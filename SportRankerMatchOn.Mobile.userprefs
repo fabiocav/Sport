@@ -1,12 +1,16 @@
 ﻿<Properties StartupItem="SportRankerMatchOn.iOS/SportRankerMatchOn.iOS.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone5s.8.2" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SportRankerMatchOn.Shared.Mobile/App.xaml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs">
     <Files>
-      <File FileName="SportRankerMatchOn.Shared.Mobile/App.xaml" Line="13" Column="29" />
+      <File FileName="SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs" Line="66" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/ViewModels/NewLeageViewModel.cs" line="45" column="1" />
+      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs" line="69" column="1" />
+      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs" line="61" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <AuthorInfo Name="Rob DeRosa" Email="rob.derosa@xamarin.com" Copyright="Rob DeRosa" Company="Xamarin" Trademark="" />

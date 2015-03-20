@@ -32,7 +32,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewLeaguePage.xaml.cs">
       <DependentUpon>NewLeaguePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NewLeageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GameResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\League.cs" />
@@ -42,6 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LeagueDetailsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AdminPage.xaml">
