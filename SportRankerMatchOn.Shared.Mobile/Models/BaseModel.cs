@@ -42,4 +42,3 @@ namespace SportRankerMatchOn.Shared
 		}
 	}
 }
-

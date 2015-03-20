@@ -3,10 +3,11 @@ using Xamarin.Forms;
 
 namespace SportRankerMatchOn.Shared.Mobile
 {
-	public class App : Application
+	public partial class App
 	{
 		public App()
 		{
+			InitializeComponent();
 			MainPage = new NavigationPage(new AdminPage());
 		}
 	}

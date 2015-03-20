@@ -15,7 +15,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthenticationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
@@ -34,12 +33,24 @@
       <DependentUpon>NewLeaguePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NewLeageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GameResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\League.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Match.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Member.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserProfile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AdminPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\NewLeaguePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

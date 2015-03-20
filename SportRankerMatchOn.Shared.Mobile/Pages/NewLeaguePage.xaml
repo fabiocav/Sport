@@ -13,7 +13,7 @@
 				<Label Text="Accepting new members" HorizontalOptions="StartAndExpand" />
 				<Switch IsToggled="{Binding IsAcceptingNewMembers}" HorizontalOptions="End" />
 			</StackLayout>
-			<Button Text="Add League" Command="{Binding SaveLeagueCommand}" BackgroundColor="Gray" TextColor="White"
+			<Button Text="Add League" Command="{Binding SaveLeagueCommand}" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 		</StackLayout>

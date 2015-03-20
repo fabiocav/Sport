@@ -3,9 +3,9 @@
 	x:Class="SportRankerMatchOn.Shared.Mobile.AdminPage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared.Mobile;assembly=SportRankerMatchOn">
 	<local:AdminPageXaml.Content>
 		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
-			<Button x:Name="btnAddLeague" Text="Add League" BackgroundColor="Gray" TextColor="White"
+			<Button x:Name="btnAddLeague" Text="Add League" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-			<Button Text="Add Member" BackgroundColor="Gray" TextColor="White" />
+			<Button Text="Add Member" Style="{StaticResource buttonStyle}" />
 		</StackLayout>
 	</local:AdminPageXaml.Content>
 </local:AdminPageXaml>
