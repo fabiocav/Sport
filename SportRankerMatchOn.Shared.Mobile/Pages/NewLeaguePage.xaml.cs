@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace SportRankerMatchOn.Shared.Mobile
 {
@@ -11,6 +12,22 @@ namespace SportRankerMatchOn.Shared.Mobile
 		{
 			InitializeComponent();
 			Title = "Admin";
+		}
+
+		public ICommand SaveLeagueCommand
+		{
+			get
+			{
+				return new Command(async(args) =>
+					{
+						await SaveLeague();
+					});
+			}
+		}
+
+		async Task SaveLeague()
+		{
+			await AzureService.Instance.SaveLeague(ViewModel.League);
 		}
 	}
 

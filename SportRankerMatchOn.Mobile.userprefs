@@ -1,10 +1,6 @@
 ﻿<Properties StartupItem="SportRankerMatchOn.iOS/SportRankerMatchOn.iOS.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.8.2" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SportRankerMatchOn.Shared.Mobile/Pages/NewLeaguePage.xaml.cs">
-    <Files>
-      <File FileName="SportRankerMatchOn.Shared.Mobile/Pages/NewLeaguePage.xaml.cs" Line="12" Column="15" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.ResizableIPhone.8.2" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Pages/NewLeaguePage.xaml.cs" line="12" column="15" />

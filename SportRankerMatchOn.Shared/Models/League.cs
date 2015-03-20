@@ -4,50 +4,92 @@ using Newtonsoft.Json;
 
 namespace SportRankerMatchOn.Shared
 {
-	public partial class League
+	public class League : BaseModel
 	{
-		public League()
-		{
-			//Users = new List<Member>();
-			//Matches = new List<Match>();
-		}
+		string _name;
+		public const string NamePropertyName = "Name";
 
-		public string Id
-		{
-			get;
-			set;
-		}
-
+		[JsonProperty("name")]
 		public string Name
 		{
-			get;
-			set;
+			get
+			{
+				return _name;
+			}
+			set
+			{
+				SetProperty(ref _name, value, NamePropertyName);
+			}
 		}
 
-		//[JsonIgnore]
-		//public IList<Member> Users
-		//{
-		//	get;
-		//	set;
-		//}
+		bool _isEnabled;
+		public const string IsEnabledPropertyName = "IsEnabled";
 
-		//[JsonIgnore]
-		//public IList<Match> Matches
-		//{
-		//	get;
-		//	set;
-		//}
+		[JsonProperty("is-enabled")]
+		public bool IsEnabled
+		{
+			get
+			{
+				return _isEnabled;
+			}
+			set
+			{
+				SetProperty(ref _isEnabled, value, IsEnabledPropertyName);
+			}
+		}
 
+		bool _isAcceptingNewMembers;
+		public const string IsAcceptingNewMembersPropertyName = "IsAcceptingNewMembers";
+
+		[JsonProperty("is-accepting-new-members")]
+		public bool IsAcceptingNewMembers
+		{
+			get
+			{
+				return _isAcceptingNewMembers;
+			}
+			set
+			{
+				SetProperty(ref _isAcceptingNewMembers, value, IsAcceptingNewMembersPropertyName);
+			}
+		}
+
+		int _season;
+		public const string SeasonPropertyName = "Season";
+
+		[JsonProperty("season")]
 		public int Season
 		{
-			get;
-			set;
+			get
+			{
+				return _season;
+			}
+			set
+			{
+				SetProperty(ref _season, value, SeasonPropertyName);
+			}
+		}
+
+		List<string> _memberIds;
+		public const string MemberIdsPropertyName = "MemberIds";
+
+		[JsonProperty("member-ids")]
+		public List<string> MemberIds
+		{
+			get
+			{
+				return _memberIds;
+			}
+			set
+			{
+				SetProperty(ref _memberIds, value, MemberIdsPropertyName);
+			}
 		}
 	}
 
-	public class Match
+	public enum Sports
 	{
-		
+		TableTennis,
+		Foosball,
 	}
 }
-

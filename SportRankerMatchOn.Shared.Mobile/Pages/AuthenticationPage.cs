@@ -87,7 +87,10 @@ namespace SportRankerMatchOn.Shared.Mobile
 				Padding = 40,
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
-				Children = { _activity, _userLabel, _loginButton, _logoutButton }
+				Children = {
+					_activity,
+						_userLabel,
+					_loginButton, _logoutButton }
 			};
 		}
 	}

@@ -3,10 +3,15 @@
 	x:Class="SportRankerMatchOn.Shared.Mobile.NewLeaguePage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared.Mobile;assembly=SportRankerMatchOn">
 	<local:NewLeaguePageXaml.Content>
 		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
-			<Entry Text="{Binding LeagueName}" Placeholder="League name" />
+			<Entry Text="{Binding Name}" Placeholder="League name" />
+			<Entry Text="{Binding Sport}" Placeholder="League sport" />
 			<StackLayout Orientation="Horizontal">
 				<Label Text="Enabled" HorizontalOptions="StartAndExpand" />
 				<Switch IsToggled="{Binding IsEnabled}" HorizontalOptions="End" />
+			</StackLayout>
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Accepting new members" HorizontalOptions="StartAndExpand" />
+				<Switch IsToggled="{Binding IsAcceptingNewMembers}" HorizontalOptions="End" />
 			</StackLayout>
 			<Button Text="Add League" Command="{Binding SaveLeagueCommand}" BackgroundColor="Gray" TextColor="White"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />

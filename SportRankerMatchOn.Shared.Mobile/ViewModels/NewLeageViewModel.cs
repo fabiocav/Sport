@@ -7,33 +7,18 @@ namespace SportRankerMatchOn.Shared.Mobile
 {
 	public class NewLeagueViewModel : BaseViewModel
 	{
-		string _leagueName;
-		public const string LeagueNamePropertyName = "LeagueName";
+		League _league;
+		public const string LeaguePropertyName = "League";
 
-		public string LeagueName
+		public League League
 		{
 			get
 			{
-				return _leagueName;
+				return _league;
 			}
 			set
 			{
-				SetProperty(ref _leagueName, value, LeagueNamePropertyName);
-			}
-		}
-
-		bool _isEnabled;
-		public const string IsEnabledPropertyName = "IsEnabled";
-
-		public bool IsEnabled
-		{
-			get
-			{
-				return _isEnabled;
-			}
-			set
-			{
-				SetProperty(ref _isEnabled, value, IsEnabledPropertyName);
+				SetProperty(ref _league, value, LeaguePropertyName);
 			}
 		}
 
@@ -42,26 +27,21 @@ namespace SportRankerMatchOn.Shared.Mobile
 			get
 			{
 				return new Command(async(param) =>
-				{
-//					using(new Busy(this))
 					{
-						IsBusy = true;
-						var league = new League {
-							Name = LeagueName,
-							Season = 1
-						};
-		
-						try
+						using(new Busy(this))
 						{
-							await AzureService.Instance.SaveLeague(league);
+							IsBusy = true;
+							try
+							{
+								await AzureService.Instance.SaveLeague(League);
+							}
+							catch(Exception e)
+							{
+								Console.WriteLine(e);
+							}
+							IsBusy = false;
 						}
-						catch(Exception e)
-						{
-							Console.WriteLine(e);
-						}
-						IsBusy = false;
-					}
-				});
+					});
 			}
 		}
 	}
