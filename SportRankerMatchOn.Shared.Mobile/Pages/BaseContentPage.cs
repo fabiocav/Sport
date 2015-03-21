@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using System.Threading.Tasks;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
 	{
@@ -23,7 +23,7 @@ namespace SportRankerMatchOn.Shared.Mobile
 
 		public void EnsureUserAuthenticated()
 		{
-			if(AppSettings.AuthUserProfile == null)
+			if(App.AuthUserProfile == null)
 			{
 				MessagingCenter.Send<BaseContentPage<T>>(this, "AuthenticateUser");
 			}

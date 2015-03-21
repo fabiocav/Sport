@@ -1,6 +1,6 @@
 ﻿using Android.App;
 using Android.OS;
-using SportRankerMatchOn.Shared.Mobile;
+using SportRankerMatchOn.Shared;
 using Xamarin.Forms.Platform.Android;
 
 namespace SportRankerMatchOn.Android

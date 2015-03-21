@@ -185,10 +185,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\LeagueController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
-    <Compile Include="DataObjects\League.cs" />
-    <Compile Include="DataObjects\Member.cs" />
+    <Compile Include="Controllers\LeagueController.cs" />
+    <Compile Include="Controllers\AthleteController.cs" />
+    <Compile Include="Data\AthleteBase.cs" />
+    <Compile Include="Data\DataObjects\Member.cs" />
+    <Compile Include="Data\DataObjects\League.cs" />
+    <Compile Include="Data\DataObjects\Athlete.cs" />
+    <Compile Include="Data\DataTransferObjects\MemberDto.cs" />
+    <Compile Include="Data\DataTransferObjects\AthleteDto.cs" />
+    <Compile Include="Data\DataTransferObjects\LeagueDto.cs" />
+    <Compile Include="Data\LeagueBase.cs" />
+    <Compile Include="Data\MemberBase.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Models\SportRankerMatchOnContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
     <Compile Include="Global.asax.cs">

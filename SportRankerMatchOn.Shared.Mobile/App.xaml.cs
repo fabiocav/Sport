@@ -1,17 +1,17 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public partial class App
 	{
 		public App()
 		{
 			InitializeComponent();
-			MainPage = new NavigationPage(new AdminPage());
+			MainPage = new NavigationPage(new AuthenticationPage());
 		}
 
-		public static Member CurrentMember
+		public static Athlete CurrentAthlete
 		{
 			get;
 			set;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using System.Windows.Input;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public partial class AdminPage : AdminPageXaml
 	{

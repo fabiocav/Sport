@@ -4,7 +4,7 @@ using Xamarin.Forms;
 using System.Windows.Input;
 using System.Threading.Tasks;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public partial class LeagueDetailsPage : LeagueDetailsXaml
 	{

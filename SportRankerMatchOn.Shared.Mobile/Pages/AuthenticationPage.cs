@@ -1,9 +1,9 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using SportRankerMatchOn.Shared.Mobile;
+using SportRankerMatchOn.Shared;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public class AuthenticationPage : BaseContentPage<AuthenticationViewModel>
 	{
@@ -16,32 +16,41 @@ namespace SportRankerMatchOn.Shared.Mobile
 		{
 			Initialize();
 			Title = "Authentication";
+			CheckForAuthentication();
+
 		}
 
 		async public void UserAuthenticationUpdated()
 		{
 			if(!ViewModel.IsUserValid())
 			{
-				AppSettings.AuthUserProfile = null;
+				App.AuthUserProfile = null;
 				await DisplayAlert("Invalid Email", "This service is only available to Xamarin employees.", "OK");
 			}
 			else
 			{
-				await Task.Delay(2000);
 				await Navigation.PushAsync(new AdminPage());
 			}
 
-			_userLabel.Text = AppSettings.AuthUserProfile == null ? "empty" : AppSettings.AuthUserProfile.Email;
-			_loginButton.IsVisible = AppSettings.AuthUserProfile == null;
+			_userLabel.Text = App.AuthUserProfile == null ? "empty" : App.AuthUserProfile.Email;
+			_loginButton.IsVisible = App.AuthUserProfile == null;
 			_logoutButton.IsVisible = !_loginButton.IsVisible;
 		}
 
-		async protected override void OnAppearing()
+		async public Task CheckForAuthentication()
 		{
 			await ViewModel.GetUserProfile();
-			UserAuthenticationUpdated();
 
-			base.OnAppearing();
+			if(App.AuthUserProfile != null)
+			{
+				await ViewModel.EnsureAthleteRegistered();
+			}
+			else
+			{
+				MessagingCenter.Send<AuthenticationPage>(this, "AuthenticateUser");
+			}
+
+			UserAuthenticationUpdated();
 		}
 
 		void Initialize()
@@ -88,10 +97,10 @@ namespace SportRankerMatchOn.Shared.Mobile
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-						_activity,
-					_userLabel,
-						_loginButton,
-					_logoutButton
+					_activity,
+						_userLabel,
+					_loginButton,
+						_logoutButton
 				}
 			};
 		}

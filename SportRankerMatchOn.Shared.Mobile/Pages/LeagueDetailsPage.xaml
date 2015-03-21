@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <local:LeagueDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportRankerMatchOn.Shared.Mobile.LeagueDetailsPage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared.Mobile;assembly=SportRankerMatchOn">
+	x:Class="SportRankerMatchOn.Shared.LeagueDetailsPage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared;assembly=SportRankerMatchOn">
 	<local:LeagueDetailsXaml.Content>
 		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
 			<Entry Text="{Binding League.Name}" Placeholder="League name" />

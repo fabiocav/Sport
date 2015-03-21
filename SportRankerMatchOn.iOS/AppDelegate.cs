@@ -2,7 +2,7 @@
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using SportRankerMatchOn.Shared.Mobile;
+using SportRankerMatchOn.Shared;
 
 namespace SportRankerMatchOn.iOS
 {

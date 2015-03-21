@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public class AdminViewModel : BaseViewModel
 	{
@@ -11,34 +11,7 @@ namespace SportRankerMatchOn.Shared.Mobile
 		{
 			AppSettings.AuthToken = null;
 			AppSettings.AuthUserID = null;
-			AppSettings.AuthUserProfile = null;
-		}
-
-
-		public ICommand AddMemberCommand
-		{
-			get
-			{
-				return new Command(async(param) =>
-					{
-						using(new Busy(this))
-						{
-							var member = new Member {
-								FirstName = "Rob",
-								LastName = "DeRosa",
-							};
-
-							try
-							{
-								await AzureService.Instance.SaveMember(member);
-							}
-							catch(Exception e)
-							{
-								Console.WriteLine(e);
-							}
-						}
-					});
-			}
+			App.AuthUserProfile = null;
 		}
 	}
 }

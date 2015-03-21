@@ -1,6 +1,6 @@
 ﻿using System;
 using Auth0.SDK;
-using SportRankerMatchOn.Shared.Mobile;
+using SportRankerMatchOn.Shared;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using System.Threading.Tasks;

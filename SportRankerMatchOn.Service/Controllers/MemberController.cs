@@ -4,42 +4,57 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportRankerMatchOn.Shared;
+using SportRankerMatchOn;
 using SportRankerMatchOn.Service.Models;
 
 namespace SportRankerMatchOn.Service.Controllers
 {
     public class MemberController : TableController<Member>
     {
-        protected override void Initialize(HttpControllerContext controllerContext)
+		SportRankerMatchOnContext _context = new SportRankerMatchOnContext();
+
+		protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            SportRankerMatchOnContext context = new SportRankerMatchOnContext();
-            DomainManager = new EntityDomainManager<Member>(context, Request, Services);
+            DomainManager = new EntityDomainManager<Member>(_context, Request, Services);
         }
 
         // GET tables/Member
-        public IQueryable<Member> GetAllMembers()
+		public IQueryable<MemberDto> GetAllMembers()
         {
-            return Query();
+			return Query().Select(m => new MemberDto
+			{
+				Id = m.Id,
+				AthleteId = m.Athlete.Id,
+				LeagueId = m.League.Id,
+				CurrentRank = m.CurrentRank,
+				JoinDate = m.CreatedAt,
+			});
         }
 
         // GET tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult<Member> GetMember(string id)
+		public SingleResult<MemberDto> GetMember(string id)
         {
-            return Lookup(id);
-        }
+			return SingleResult<MemberDto>.Create(Lookup(id).Queryable.Select(m => new MemberDto
+			{
+				Id = m.Id,
+				AthleteId = m.Athlete.Id,
+				LeagueId = m.League.Id,
+				CurrentRank = m.CurrentRank,
+				JoinDate = m.CreatedAt,
+			}));
+		}
 
         // PATCH tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task<Member> PatchMember(string id, Delta<Member> patch)
+		public Task<Member> PatchMember(string id, Delta<Member> patch)
         {
             return UpdateAsync(id, patch);
         }
 
         // POST tables/Member
-        public async Task<IHttpActionResult> PostMember(Member item)
+		public async Task<IHttpActionResult> PostMember(MemberDto item)
         {
-            Member current = await InsertAsync(item);
+            Member current = await InsertAsync(item.ToMember());
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 

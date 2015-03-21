@@ -24,7 +24,7 @@ namespace SportRankerMatchOn.Shared
 		public string LeagueId
 		{
 			get;
-			set;			
+			set;
 		}
 
 		[JsonIgnore]
@@ -36,6 +36,13 @@ namespace SportRankerMatchOn.Shared
 
 		[JsonProperty("join_date")]
 		public DateTime JoinDate
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("current_rank")]
+		public int CurrentRank
 		{
 			get;
 			set;

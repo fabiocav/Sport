@@ -5,15 +5,19 @@ namespace SportRankerMatchOn.Shared
 {
 	public class Athlete : BaseModel
 	{
-		[JsonProperty("first_name")]
-		public string FirstName
+		public Athlete()
 		{
-			get;
-			set;
 		}
 
-		[JsonProperty("last_name")]
-		public string LastName
+		public Athlete(UserProfile profile)
+		{
+			Name = profile.Name;
+			AuthenticationId = profile.UserId;
+			Email = profile.Email;
+		}
+
+		[JsonProperty("name")]
+		public string Name
 		{
 			get;
 			set;

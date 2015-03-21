@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public class LeagueDetailsViewModel : BaseViewModel
 	{
@@ -43,7 +43,7 @@ namespace SportRankerMatchOn.Shared.Mobile
 							try
 							{
 								await AzureService.Instance.SaveLeague(League);
-								await AzureService.Instance.AddMemberToLeague(AppSettings.Member.Id, League.Id);
+								await AzureService.Instance.AddAthleteToLeague(App.CurrentAthlete.Id, League.Id);
 							}
 							catch(Exception e)
 							{

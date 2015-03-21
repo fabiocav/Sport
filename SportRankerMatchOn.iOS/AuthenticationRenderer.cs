@@ -4,7 +4,6 @@ using Auth0.SDK;
 using SportRankerMatchOn.Shared;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using SportRankerMatchOn.Shared.Mobile;
 
 [assembly:ExportRenderer(typeof(AuthenticationPage), typeof(SportRankerMatchOn.iOS.AuthenticationRenderer))]
 
@@ -16,7 +15,7 @@ namespace SportRankerMatchOn.iOS
 
 		async public Task AuthenticateUser()
 		{
-			if(AppSettings.AuthUserProfile == null)
+			if(App.AuthUserProfile == null)
 			{
 				Auth0User user;
 				try
@@ -26,7 +25,7 @@ namespace SportRankerMatchOn.iOS
 					user = await authClient.LoginAsync(this, Constants.AuthType, true);
 					var profile = user.Profile.ToObject<UserProfile>();
 					AppSettings.AuthToken = user.IdToken;
-					AppSettings.AuthUserProfile = profile;
+					App.AuthUserProfile = profile;
 					AppSettings.AuthUserID = profile.UserId;
 				}
 				catch(Exception e)
@@ -36,11 +35,8 @@ namespace SportRankerMatchOn.iOS
 			}
 		}
 
-		async public override void ViewDidAppear(bool animated)
+		public override void ViewDidAppear(bool animated)
 		{
-			await AuthenticateUser();
-			_page.UserAuthenticationUpdated();
-
 			MessagingCenter.Subscribe<BaseViewModel>(this, "AuthenticateUser", async(sender) =>
 				{
 					await AuthenticateUser();
@@ -56,15 +52,14 @@ namespace SportRankerMatchOn.iOS
 			base.ViewDidDisappear(animated);
 		}
 
-		protected override void OnElementChanged(VisualElementChangedEventArgs e)
+		async protected override void OnElementChanged(VisualElementChangedEventArgs e)
 		{
 			_page = e.NewElement as AuthenticationPage;
+			base.OnElementChanged(e);
 
 			if(_page != null)
 			{
 			}
-
-			base.OnElementChanged(e);
 		}
 	}
 }

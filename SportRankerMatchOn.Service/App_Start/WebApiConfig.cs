@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Http;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportRankerMatchOn.Shared;
+using SportRankerMatchOn;
 using SportRankerMatchOn.Service.Models;
 
 namespace SportRankerMatchOn.Service
@@ -30,17 +30,6 @@ namespace SportRankerMatchOn.Service
     {
         protected override void Seed(SportRankerMatchOnContext context)
         {
-            List<Member> Members = new List<Member>
-            {
-				//new Member { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
-				//new Member { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
-            };
-
-            foreach (Member Member in Members)
-            {
-                context.Set<Member>().Add(Member);
-            }
-
             base.Seed(context);
         }
     }

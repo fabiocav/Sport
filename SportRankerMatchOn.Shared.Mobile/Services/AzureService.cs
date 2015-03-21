@@ -7,7 +7,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Net.Http;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public class AzureService
 	{
@@ -43,12 +43,12 @@ namespace SportRankerMatchOn.Shared.Mobile
 			}			
 		}
 
-		async public Task AddMemberToLeague(string memberId, string leagueId)
+		async public Task<Member> AddAthleteToLeague(string athleteId, string leagueId)
 		{
 			try
 			{
-				await _client.InvokeApiAsync<string[], object>("add-to-league", new[] {
-						memberId,
+				await _client.InvokeApiAsync<string[], object>("add_to_league", new[] {
+						athleteId,
 						leagueId,
 					});
 			}
@@ -60,6 +60,11 @@ namespace SportRankerMatchOn.Shared.Mobile
 			{
 				Console.WriteLine(ex2.Message);
 			}
+
+			return new Member {
+				Athlete = App.CurrentAthlete,
+				LeagueId = leagueId,
+			};
 		}
 
 		async public Task<List<League>> GetAllLeagues()
@@ -98,14 +103,14 @@ namespace SportRankerMatchOn.Shared.Mobile
 			await Client.GetTable<League>().InsertAsync(league);
 		}
 
-		async public Task<Member> GetMemberById(string id)
+		async public Task<Athlete> GetAthleteById(string id)
 		{
-			return await Client.GetTable<Member>().LookupAsync(id);
+			return await Client.GetTable<Athlete>().LookupAsync(id);
 		}
 
-		async public Task SaveMember(Member member)
+		async public Task SaveAthlete(Athlete athlete)
 		{
-			await Client.GetTable<Member>().InsertAsync(member);
+			await Client.GetTable<Athlete>().InsertAsync(athlete);
 		}
 	}
 }

@@ -3,19 +3,12 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Tables;
-using SportRankerMatchOn.Shared;
+using SportRankerMatchOn;
 
 namespace SportRankerMatchOn.Service.Models
 {
 	public class SportRankerMatchOnContext : DbContext
 	{
-		// You can add custom code to this file. Changes will not be overwritten.
-		// 
-		// If you want Entity Framework to alter your database
-		// automatically whenever you change your model schema, please use data migrations.
-		// For more information refer to the documentation:
-		// http://msdn.microsoft.com/en-us/data/jj591621.aspx
-		//
 		// To enable Entity Framework migrations in the cloud, please ensure that the 
 		// service name, set by the 'MS_MobileServiceName' AppSettings in the local 
 		// Web.config, is the same as the service name when hosted in Azure.
@@ -25,7 +18,19 @@ namespace SportRankerMatchOn.Service.Models
 		{
 		}
 
+		public DbSet<Athlete> Athletes
+		{
+			get;
+			set;
+		}
+
 		public DbSet<Member> Members
+		{
+			get;
+			set;
+		}
+
+		public DbSet<League> Leagues
 		{
 			get;
 			set;
@@ -39,8 +44,17 @@ namespace SportRankerMatchOn.Service.Models
 				modelBuilder.HasDefaultSchema(schema);
 			}
 
-			modelBuilder.Entity<Member>().ToTable("Member");
+			modelBuilder.Entity<Athlete>().ToTable("Athlete");
 			modelBuilder.Entity<League>().ToTable("League");
+			modelBuilder.Entity<Member>().ToTable("Member");
+
+			modelBuilder.Entity<Member>().HasRequired(m => m.League)
+				.WithMany(l => l.Members)
+				.HasForeignKey(m => m.LeagueId);
+
+			modelBuilder.Entity<Member>().HasRequired(m => m.Athlete)
+				.WithMany(a => a.LeagueAssociations)
+				.HasForeignKey(m => m.AthleteId);
 
 			modelBuilder.Conventions.Add(
 				new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(

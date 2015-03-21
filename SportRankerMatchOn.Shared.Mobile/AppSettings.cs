@@ -2,7 +2,7 @@
 using Refractored.Xam.Settings;
 using Refractored.Xam.Settings.Abstractions;
 
-namespace SportRankerMatchOn.Shared.Mobile
+namespace SportRankerMatchOn.Shared
 {
 	public class AppSettings
 	{
