@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿using Newtonsoft.Json;
 using SportRankerMatchOn;
 using System;
@@ -53,6 +52,17 @@ namespace SportRankerMatchOn.Service
 				Email = athlete.Email,
 				AuthenticationId = athlete.AuthenticationId
 			};
+		}
+
+		public static void LoadAthleteIds(this League league)
+		{
+			if(league != null)
+			{
+				//if(!string.IsNullOrWhiteSpace(league.AthleteIdsString))
+				//{
+				//	league.AthleteIds = JsonConvert.DeserializeObject<List<string>>(league.AthleteIdsString);
+				//}
+			}
 		}
 	}
 }
