@@ -42,15 +42,8 @@ namespace SportRankerMatchOn.Shared.Mobile
 						{
 							try
 							{
-								League.Season = 3;
-								League.MemberIds.Add(Guid.NewGuid().ToString());
-								League.MemberIds.Add(Guid.NewGuid().ToString());
-								League.MemberIds.Add(Guid.NewGuid().ToString());
-								League.MemberIds.Add(Guid.NewGuid().ToString());
-
-								var leagues = await AzureService.Instance.GetAllLeagues();
-
 								await AzureService.Instance.SaveLeague(League);
+								await AzureService.Instance.AddMemberToLeague(AppSettings.Member.Id, League.Id);
 							}
 							catch(Exception e)
 							{

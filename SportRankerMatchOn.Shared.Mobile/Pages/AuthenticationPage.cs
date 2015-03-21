@@ -23,12 +23,12 @@ namespace SportRankerMatchOn.Shared.Mobile
 			if(!ViewModel.IsUserValid())
 			{
 				AppSettings.AuthUserProfile = null;
-//				await DisplayAlert("Invalid Email", "This service is only available to Xamarin employees.", "OK");
+				await DisplayAlert("Invalid Email", "This service is only available to Xamarin employees.", "OK");
 			}
 			else
 			{
-//				await Task.Delay(2000);
-//				await Navigation.PushAsync(new AdminPage());
+				await Task.Delay(2000);
+				await Navigation.PushAsync(new AdminPage());
 			}
 
 			_userLabel.Text = AppSettings.AuthUserProfile == null ? "empty" : AppSettings.AuthUserProfile.Email;
@@ -88,9 +88,11 @@ namespace SportRankerMatchOn.Shared.Mobile
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-					_activity,
-						_userLabel,
-					_loginButton, _logoutButton }
+						_activity,
+					_userLabel,
+						_loginButton,
+					_logoutButton
+				}
 			};
 		}
 	}

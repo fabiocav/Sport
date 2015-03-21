@@ -46,7 +46,7 @@ namespace SportRankerMatchOn.Shared
 		bool _isEnabled;
 		public const string IsEnabledPropertyName = "IsEnabled";
 
-		[JsonProperty("is-enabled")]
+		[JsonProperty("is_enabled")]
 		public bool IsEnabled
 		{
 			get
@@ -62,7 +62,7 @@ namespace SportRankerMatchOn.Shared
 		bool _isAcceptingNewMembers;
 		public const string IsAcceptingNewMembersPropertyName = "IsAcceptingNewMembers";
 
-		[JsonProperty("is-accepting-new-members")]
+		[JsonProperty("is_accepting_new_members")]
 		public bool IsAcceptingNewMembers
 		{
 			get
@@ -94,7 +94,7 @@ namespace SportRankerMatchOn.Shared
 		List<string> _memberIds;
 		public const string MemberIdsPropertyName = "MemberIds";
 
-		[JsonProperty("member-ids")]
+		[JsonProperty("member_ids")]
 		public List<string> MemberIds
 		{
 			get

@@ -6,7 +6,7 @@ namespace SportRankerMatchOn.Shared
 {
 	public class Match : BaseModel
 	{
-		[JsonProperty("member-ids")]
+		[JsonProperty("member_ids")]
 		public List<string> MemberIds
 		{
 			get;
@@ -20,28 +20,28 @@ namespace SportRankerMatchOn.Shared
 			set;
 		}
 
-		[JsonProperty("start-date")]
+		[JsonProperty("start_date")]
 		public DateTime StartDate
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("end-date")]
+		[JsonProperty("end_date")]
 		public DateTime EndDate
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("game-results")]
+		[JsonProperty("game_results")]
 		public List<GameResult> GameResults
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("league-id")]
+		[JsonProperty("league_id")]
 		public string LeagueId
 		{
 			get;

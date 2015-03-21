@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace SportRankerMatchOn.Shared.Mobile
 {
-	public partial class NewLeaguePage : NewLeaguePageXaml
+	public partial class LeagueDetailsPage : LeagueDetailsXaml
 	{
-		public NewLeaguePage()
+		public LeagueDetailsPage()
 		{
 			InitializeComponent();
 			Title = "Admin";
 		}
 	}
 
-	public partial class NewLeaguePageXaml : BaseContentPage<LeagueDetailsViewModel>
+	public partial class LeagueDetailsXaml : BaseContentPage<LeagueDetailsViewModel>
 	{
 	}
 }

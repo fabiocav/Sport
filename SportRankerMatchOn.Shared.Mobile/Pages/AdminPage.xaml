@@ -5,7 +5,6 @@
 		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
 			<Button x:Name="btnAddLeague" Text="Add League" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-			<Button Text="Add Member" Style="{StaticResource buttonStyle}" />
 		</StackLayout>
 	</local:AdminPageXaml.Content>
 </local:AdminPageXaml>

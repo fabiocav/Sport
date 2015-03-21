@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<local:NewLeaguePageXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportRankerMatchOn.Shared.Mobile.NewLeaguePage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared.Mobile;assembly=SportRankerMatchOn">
-	<local:NewLeaguePageXaml.Content>
+<local:LeagueDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportRankerMatchOn.Shared.Mobile.LeagueDetailsPage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared.Mobile;assembly=SportRankerMatchOn">
+	<local:LeagueDetailsXaml.Content>
 		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
 			<Entry Text="{Binding League.Name}" Placeholder="League name" />
 			<Entry Text="{Binding League.Sport}" Placeholder="League sport" />
@@ -17,5 +17,5 @@
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 		</StackLayout>
-	</local:NewLeaguePageXaml.Content>
-</local:NewLeaguePageXaml>
+	</local:LeagueDetailsXaml.Content>
+</local:LeagueDetailsXaml>

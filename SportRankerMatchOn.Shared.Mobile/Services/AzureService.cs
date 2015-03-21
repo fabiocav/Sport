@@ -5,6 +5,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using System.Net;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace SportRankerMatchOn.Shared.Mobile
 {
@@ -42,6 +43,25 @@ namespace SportRankerMatchOn.Shared.Mobile
 			}			
 		}
 
+		async public Task AddMemberToLeague(string memberId, string leagueId)
+		{
+			try
+			{
+				await _client.InvokeApiAsync<string[], object>("add-to-league", new[] {
+						memberId,
+						leagueId,
+					});
+			}
+			catch(MobileServiceInvalidOperationException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			catch(HttpRequestException ex2)
+			{
+				Console.WriteLine(ex2.Message);
+			}
+		}
+
 		async public Task<List<League>> GetAllLeagues()
 		{
 			var list = await Client.GetTable<League>().ToListAsync();
@@ -76,6 +96,11 @@ namespace SportRankerMatchOn.Shared.Mobile
 			};
 
 			await Client.GetTable<League>().InsertAsync(league);
+		}
+
+		async public Task<Member> GetMemberById(string id)
+		{
+			return await Client.GetTable<Member>().LookupAsync(id);
 		}
 
 		async public Task SaveMember(Member member)

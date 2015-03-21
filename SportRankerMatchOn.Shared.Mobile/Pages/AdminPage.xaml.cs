@@ -17,7 +17,7 @@ namespace SportRankerMatchOn.Shared.Mobile
 		{
 			btnAddLeague.Clicked += (sender, e) =>
 			{
-				Navigation.PushModalAsync(new NewLeaguePage());	
+				Navigation.PushModalAsync(new LeagueDetailsPage());	
 			};
 
 			base.OnAppearing();

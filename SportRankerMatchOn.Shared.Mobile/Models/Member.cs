@@ -1,35 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace SportRankerMatchOn.Shared
 {
 	public class Member : BaseModel
 	{
-		[JsonProperty("first-name")]
-		public string FirstName
+		[JsonProperty("athlete_id")]
+		public string AthleteId
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("last-name")]
-		public string LastName
+		[JsonIgnore]
+		public Athlete Athlete
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("authentication-id")]
-		public string AuthenticationId
+		[JsonProperty("league_id")]
+		public string LeagueId
+		{
+			get;
+			set;			
+		}
+
+		[JsonIgnore]
+		public League League
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("email")]
-		public string Email
+		[JsonProperty("join_date")]
+		public DateTime JoinDate
 		{
 			get;
 			set;

@@ -10,5 +10,17 @@ namespace SportRankerMatchOn.Shared.Mobile
 			InitializeComponent();
 			MainPage = new NavigationPage(new AdminPage());
 		}
+
+		public static Member CurrentMember
+		{
+			get;
+			set;
+		}
+
+		public static UserProfile AuthUserProfile
+		{
+			get;
+			set;
+		}
 	}
 }

@@ -42,10 +42,18 @@ namespace SportRankerMatchOn.Shared.Mobile
 			}
 		}
 
-		public static UserProfile AuthUserProfile
+		const string _athleteIdKey = "athlete_id";
+
+		public static string AthleteId
 		{
-			get;
-			set;
+			get
+			{
+				return Instance.GetValueOrDefault<string>(_athleteIdKey);
+			}
+			set
+			{
+				Instance.AddOrUpdateValue(_athleteIdKey, value);
+			}
 		}
 	}
 }
