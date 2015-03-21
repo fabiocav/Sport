@@ -4,7 +4,6 @@ using SportRankerMatchOn.Shared;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using System.Threading.Tasks;
-using SportRankerMatchOn.Shared;
 
 [assembly:ExportRenderer(typeof(AuthenticationPage), typeof(SportRankerMatchOn.Android.AuthenticationRenderer))]
 
@@ -14,7 +13,7 @@ namespace SportRankerMatchOn.Android
 	{
 		async public Task AuthenticateUser()
 		{
-			if(AppSettings.AuthUserProfile == null)
+			if(App.AuthUserProfile == null)
 			{
 				Auth0User user;
 				try
@@ -23,9 +22,9 @@ namespace SportRankerMatchOn.Android
 					authClient.Logout();
 					user = await authClient.LoginAsync(this.Context, Constants.AuthType, true);
 					var profile = user.Profile.ToObject<UserProfile>();
-					AppSettings.AuthToken = user.IdToken;
-					AppSettings.AuthUserProfile = profile;
+					App.AuthUserProfile = profile;
 					AppSettings.AuthUserID = profile.UserId;
+					AppSettings.AuthToken = user.IdToken;
 				}
 				catch(Exception e)
 				{
@@ -37,10 +36,10 @@ namespace SportRankerMatchOn.Android
 		protected override void OnAttachedToWindow()
 		{
 			MessagingCenter.Subscribe<AuthenticationPage>(this, "AuthenticateUser", async(sender) =>
-			{
-				await AuthenticateUser();
-				sender.UserAuthenticationUpdated();
-			});
+				{
+					await AuthenticateUser();
+					sender.UserAuthenticationUpdated();
+				});
 
 			base.OnAttachedToWindow();
 		}
