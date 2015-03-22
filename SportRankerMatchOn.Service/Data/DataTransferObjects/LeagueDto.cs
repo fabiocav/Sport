@@ -6,7 +6,6 @@ namespace SportRankerMatchOn
 {
 	public partial class LeagueDto : LeagueBase
 	{
-		[JsonProperty("member_ids")]
 		public List<string> MemberIds
 		{
 			get;
