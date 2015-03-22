@@ -11,16 +11,11 @@ namespace SportRankerMatchOn.Shared
 		{
 			InitializeComponent();
 			Title = "Admin";
-		}
 
-		protected override void OnAppearing()
-		{
-			btnAddLeague.Clicked += (sender, e) =>
+			btnLeagues.Clicked += async(sender, e) =>
 			{
-				Navigation.PushModalAsync(new LeagueDetailsPage());	
+				await Navigation.PushAsync(new LeagueLandingPage());	
 			};
-
-			base.OnAppearing();
 		}
 	}
 

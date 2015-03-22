@@ -12,7 +12,6 @@ namespace SportRankerMatchOn.Shared
 		Button _loginButton;
 		Button _logoutButton;
 		ActivityIndicator _activity;
-		bool _isFistLoad = true;
 
 		public AuthenticationPage()
 		{
@@ -42,15 +41,10 @@ namespace SportRankerMatchOn.Shared
 			_logoutButton.IsVisible = !_loginButton.IsVisible;
 		}
 
-		async protected override void OnAppearing()
+		async protected override void OnLoaded()
 		{
-			if(_isFistLoad)
-			{
-				_isFistLoad = false;
-				await AttemptToReauthenticateAthlete();
-			}
-
-			base.OnAppearing();
+			await AttemptToReauthenticateAthlete();
+			base.OnLoaded();
 		}
 
 		async public Task AttemptToReauthenticateAthlete()

@@ -9,12 +9,13 @@ namespace SportRankerMatchOn.Shared
 		public League()
 		{
 			MemberIds = new List<string>();
+			IsAcceptingMembers = true;
+			IsEnabled = true;
 		}
 
 		string _name;
 		public const string NamePropertyName = "Name";
 
-		[JsonProperty("name")]
 		public string Name
 		{
 			get
@@ -30,7 +31,6 @@ namespace SportRankerMatchOn.Shared
 		string _sport;
 		public const string SportPropertyName = "Sport";
 
-		[JsonProperty("sport")]
 		public string Sport
 		{
 			get
@@ -46,7 +46,6 @@ namespace SportRankerMatchOn.Shared
 		bool _isEnabled;
 		public const string IsEnabledPropertyName = "IsEnabled";
 
-		[JsonProperty("is_enabled")]
 		public bool IsEnabled
 		{
 			get
@@ -59,26 +58,24 @@ namespace SportRankerMatchOn.Shared
 			}
 		}
 
-		bool _isAcceptingNewMembers;
-		public const string IsAcceptingNewMembersPropertyName = "IsAcceptingNewMembers";
+		bool _isAcceptingMembers;
+		public const string IsAcceptingMembersPropertyName = "IsAcceptingMembers";
 
-		[JsonProperty("is_accepting_new_members")]
-		public bool IsAcceptingNewMembers
+		public bool IsAcceptingMembers
 		{
 			get
 			{
-				return _isAcceptingNewMembers;
+				return _isAcceptingMembers;
 			}
 			set
 			{
-				SetProperty(ref _isAcceptingNewMembers, value, IsAcceptingNewMembersPropertyName);
+				SetProperty(ref _isAcceptingMembers, value, IsAcceptingMembersPropertyName);
 			}
 		}
 
 		int _season;
 		public const string SeasonPropertyName = "Season";
 
-		[JsonProperty("season")]
 		public int Season
 		{
 			get
@@ -94,7 +91,6 @@ namespace SportRankerMatchOn.Shared
 		List<string> _memberIds;
 		public const string MemberIdsPropertyName = "MemberIds";
 
-		[JsonProperty("member_ids")]
 		public List<string> MemberIds
 		{
 			get

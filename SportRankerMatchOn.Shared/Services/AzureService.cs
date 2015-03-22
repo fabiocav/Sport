@@ -86,9 +86,30 @@ namespace SportRankerMatchOn.Shared
 			return DefaultLeague;
 		}
 
+		async public Task DeleteLeague(string id)
+		{
+			try
+			{
+				await Client.GetTable<League>().DeleteAsync(new League {
+						Id = id
+					});
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
 		async public Task SaveLeague(League league)
 		{
-			await Client.GetTable<League>().InsertAsync(league);
+			if(league.Id == null)
+			{
+				await Client.GetTable<League>().InsertAsync(league);
+			}
+			else
+			{
+				await Client.GetTable<League>().UpdateAsync(league);
+			}
 		}
 
 		async public Task<Athlete> GetAthleteById(string id)
@@ -110,6 +131,32 @@ namespace SportRankerMatchOn.Shared
 			try
 			{
 				await Client.GetTable<Athlete>().InsertAsync(athlete);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
+		async public Task<Member> GetMemberById(string id)
+		{
+			try
+			{
+				return await Client.GetTable<Member>().LookupAsync(id);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+
+			return null;
+		}
+
+		async public Task SaveMember(Member member)
+		{
+			try
+			{
+				await Client.GetTable<Member>().InsertAsync(member);
 			}
 			catch(Exception e)
 			{

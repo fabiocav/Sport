@@ -13,11 +13,17 @@ namespace SportRankerMatchOn.Shared
 
 		T _viewModel;
 
+		public bool HasInitialized
+		{
+			get;
+			private set;
+		}
+
 		public T ViewModel
 		{
 			get
 			{
-				return _viewModel ?? (_viewModel = new T());
+				return _viewModel ?? (_viewModel = DependencyService.Get<T>());
 			}
 		}
 
@@ -29,9 +35,19 @@ namespace SportRankerMatchOn.Shared
 			}
 		}
 
+		protected virtual void OnLoaded()
+		{
+			
+		}
+
 		protected override void OnAppearing()
 		{
-			EnsureUserAuthenticated();
+			if(!HasInitialized)
+			{
+				HasInitialized = true;
+				OnLoaded();
+			}
+
 			base.OnAppearing();
 		}
 	}

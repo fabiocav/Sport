@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SportRankerMatchOn.Shared;
 using Xamarin.Forms;
-using Microsoft.WindowsAzure.MobileServices;
+
+[assembly: Dependency(typeof(SportRankerMatchOn.Shared.AuthenticationViewModel))]
 
 namespace SportRankerMatchOn.Shared
 {

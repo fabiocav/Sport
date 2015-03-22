@@ -3,6 +3,8 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 
+[assembly: Dependency(typeof(SportRankerMatchOn.Shared.AdminViewModel))]
+
 namespace SportRankerMatchOn.Shared
 {
 	public class AdminViewModel : BaseViewModel

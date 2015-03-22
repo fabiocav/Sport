@@ -8,6 +8,10 @@
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="BackgroundColor" Value="Gray" />
             </Style>
+            <Style x:Key="deleteButtonStyle" TargetType="Button">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Red" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

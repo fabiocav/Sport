@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:LeagueLandingXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportRankerMatchOn.Shared.LeagueLandingPage"
+	xmlns:local="clr-namespace:SportRankerMatchOn.Shared;assembly=SportRankerMatchOn">
+	<local:LeagueLandingXaml.Content>
+		<StackLayout Spacing="20" VerticalOptions="Center">
+			<ListView x:Name="list" ItemsSource="{Binding AllLeagues}" RefreshCommand="{Binding GetAllLeaguesCommand}" IsRefreshing="{Binding IsBusy}">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<ViewCell.View>
+							<StackLayout Padding="20,10,10,10" Spacing="0">
+								<Label Text="{Binding Name}" FontSize="13" />
+								<Label Text="{Binding Sport}" FontSize="11" />
+							</StackLayout>
+							</ViewCell.View>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</StackLayout>
+	</local:LeagueLandingXaml.Content>
+
+	<local:LeagueLandingXaml.ToolbarItems>
+		<ToolbarItem x:Name="btnAdd" Text="Add" />
+	</local:LeagueLandingXaml.ToolbarItems>
+
+</local:LeagueLandingXaml>

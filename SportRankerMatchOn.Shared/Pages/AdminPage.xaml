@@ -3,7 +3,9 @@
 	x:Class="SportRankerMatchOn.Shared.AdminPage" xmlns:local="clr-namespace:SportRankerMatchOn.Shared;assembly=SportRankerMatchOn">
 	<local:AdminPageXaml.Content>
 		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
-			<Button x:Name="btnAddLeague" Text="Add League" Style="{StaticResource buttonStyle}"
+			<Button x:Name="btnLeagues" Text="Leagues" Style="{StaticResource buttonStyle}"
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+			<Button x:Name="btnAthletes" Text="Athletes" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 		</StackLayout>
 	</local:AdminPageXaml.Content>
