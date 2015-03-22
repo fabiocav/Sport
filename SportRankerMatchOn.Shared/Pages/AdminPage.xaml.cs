@@ -16,6 +16,11 @@ namespace SportRankerMatchOn.Shared
 			{
 				await Navigation.PushAsync(new LeagueLandingPage());	
 			};
+
+			btnAthletes.Clicked += async(sender, e) =>
+			{
+				await Navigation.PushAsync(new AthleteLandingPage());	
+			};
 		}
 	}
 

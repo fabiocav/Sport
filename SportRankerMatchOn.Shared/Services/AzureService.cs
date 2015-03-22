@@ -67,9 +67,11 @@ namespace SportRankerMatchOn.Shared
 			};
 		}
 
+		#region League
+
 		async public Task<List<League>> GetAllLeagues()
 		{
-			var list = await Client.GetTable<League>().ToListAsync();
+			var list = await Client.GetTable<League>().OrderBy(l => l.Name).ToListAsync();
 			return list;
 		}
 
@@ -86,6 +88,18 @@ namespace SportRankerMatchOn.Shared
 			return DefaultLeague;
 		}
 
+		async public Task SaveLeague(League league)
+		{
+			if(league.Id == null)
+			{
+				await Client.GetTable<League>().InsertAsync(league);
+			}
+			else
+			{
+				await Client.GetTable<League>().UpdateAsync(league);
+			}
+		}
+
 		async public Task DeleteLeague(string id)
 		{
 			try
@@ -100,16 +114,14 @@ namespace SportRankerMatchOn.Shared
 			}
 		}
 
-		async public Task SaveLeague(League league)
+		#endregion
+
+		#region Athlete
+
+		async public Task<List<Athlete>> GetAllAthletes()
 		{
-			if(league.Id == null)
-			{
-				await Client.GetTable<League>().InsertAsync(league);
-			}
-			else
-			{
-				await Client.GetTable<League>().UpdateAsync(league);
-			}
+			var list = await Client.GetTable<Athlete>().OrderBy(a => a.Name).ToListAsync();
+			return list;
 		}
 
 		async public Task<Athlete> GetAthleteById(string id)
@@ -128,15 +140,33 @@ namespace SportRankerMatchOn.Shared
 
 		async public Task SaveAthlete(Athlete athlete)
 		{
-			try
+			if(athlete.Id == null)
 			{
 				await Client.GetTable<Athlete>().InsertAsync(athlete);
+			}
+			else
+			{
+				await Client.GetTable<Athlete>().UpdateAsync(athlete);
+			}
+		}
+
+		async public Task DeleteAthlete(string id)
+		{
+			try
+			{
+				await Client.GetTable<Athlete>().DeleteAsync(new Athlete {
+						Id = id
+					});
 			}
 			catch(Exception e)
 			{
 				Console.WriteLine(e);
 			}
 		}
+
+		#endregion
+
+		#region Member
 
 		async public Task<Member> GetMemberById(string id)
 		{
@@ -154,15 +184,31 @@ namespace SportRankerMatchOn.Shared
 
 		async public Task SaveMember(Member member)
 		{
-			try
+			if(member.Id == null)
 			{
 				await Client.GetTable<Member>().InsertAsync(member);
+			}
+			else
+			{
+				await Client.GetTable<Member>().UpdateAsync(member);
+			}
+		}
+
+		async public Task DeleteMember(string id)
+		{
+			try
+			{
+				await Client.GetTable<Member>().DeleteAsync(new Member {
+						Id = id
+					});
 			}
 			catch(Exception e)
 			{
 				Console.WriteLine(e);
 			}
 		}
+
+		#endregion
 	}
 }
 
