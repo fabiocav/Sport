@@ -27,24 +27,25 @@ namespace SportRankerMatchOn.Shared
 
 		async public Task<bool> EnsureAthleteRegistered()
 		{
-			Action addAthlete = async() =>
+			using(new Busy(this))
 			{
-				var athlete = new Athlete(App.AuthUserProfile);
-				await AzureService.Instance.SaveAthlete(athlete);
-				AppSettings.AthleteId = athlete.Id;
-				App.CurrentAthlete = athlete;
-			};
-
-			if(string.IsNullOrWhiteSpace(AppSettings.AthleteId))
-			{
-				addAthlete();
-			}
-			else
-			{
-				App.CurrentAthlete = await AzureService.Instance.GetAthleteById(AppSettings.AthleteId);
-				if(App.CurrentAthlete == null)
+				if(string.IsNullOrWhiteSpace(AppSettings.AthleteId))
 				{
-					addAthlete();
+					var athlete = new Athlete(App.AuthUserProfile);
+					await AzureService.Instance.SaveAthlete(athlete);
+					AppSettings.AthleteId = athlete.Id;
+					App.CurrentAthlete = athlete;
+				}
+				else if(App.CurrentAthlete == null)
+				{
+					App.CurrentAthlete = await AzureService.Instance.GetAthleteById(AppSettings.AthleteId);
+					if(App.CurrentAthlete == null)
+					{
+						var athlete = new Athlete(App.AuthUserProfile);
+						await AzureService.Instance.SaveAthlete(athlete);
+						AppSettings.AthleteId = athlete.Id;
+						App.CurrentAthlete = athlete;
+					}
 				}
 			}
 

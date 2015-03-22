@@ -8,19 +8,19 @@ namespace SportRankerMatchOn.Shared
 	public class AuthenticationPage : BaseContentPage<AuthenticationViewModel>
 	{
 		Label _userLabel;
+		Label _statusLabel;
 		Button _loginButton;
 		Button _logoutButton;
 		ActivityIndicator _activity;
+		bool _isFistLoad = true;
 
 		public AuthenticationPage()
 		{
-			Initialize();
 			Title = "Authentication";
-			CheckForAuthentication();
-
+			InitializeInterface();
 		}
 
-		async public void UserAuthenticationUpdated()
+		async public Task UserAuthenticationUpdated()
 		{
 			if(!ViewModel.IsUserValid())
 			{
@@ -29,6 +29,11 @@ namespace SportRankerMatchOn.Shared
 			}
 			else
 			{
+				if(App.AuthUserProfile != null)
+				{
+					await ViewModel.EnsureAthleteRegistered();
+				}
+
 				await Navigation.PushAsync(new AdminPage());
 			}
 
@@ -37,12 +42,24 @@ namespace SportRankerMatchOn.Shared
 			_logoutButton.IsVisible = !_loginButton.IsVisible;
 		}
 
-		async public Task CheckForAuthentication()
+		async protected override void OnAppearing()
 		{
-			await ViewModel.GetUserProfile();
+			if(_isFistLoad)
+			{
+				_isFistLoad = false;
+				await AttemptToReauthenticateAthlete();
+			}
 
+			base.OnAppearing();
+		}
+
+		async public Task AttemptToReauthenticateAthlete()
+		{
+			_statusLabel.Text = "Getting user profile...";
+			await ViewModel.GetUserProfile();
 			if(App.AuthUserProfile != null)
 			{
+				_statusLabel.Text = "Checking athlete registration...";
 				await ViewModel.EnsureAthleteRegistered();
 			}
 			else
@@ -50,17 +67,22 @@ namespace SportRankerMatchOn.Shared
 				MessagingCenter.Send<AuthenticationPage>(this, "AuthenticateUser");
 			}
 
-			UserAuthenticationUpdated();
+			await UserAuthenticationUpdated();
 		}
 
-		void Initialize()
+		void InitializeInterface()
 		{
 			BackgroundColor = Color.White;
 
 			_activity = new ActivityIndicator();
 			_activity.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
-			_activity.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
+			_activity.SetBinding(VisualElement.IsVisibleProperty, "IsBusy");
 			_activity.Color = Color.Gray;
+
+			_statusLabel = new Label();
+			_statusLabel.TextColor = Color.Black;
+			_statusLabel.FontSize = 18;
+			_statusLabel.HorizontalOptions = LayoutOptions.Center;
 
 			_userLabel = new Label();
 			_userLabel.TextColor = Color.Black;
@@ -97,10 +119,11 @@ namespace SportRankerMatchOn.Shared
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-					_activity,
+						_activity,
+						_statusLabel,
 						_userLabel,
 					_loginButton,
-						_logoutButton
+					_logoutButton
 				}
 			};
 		}

@@ -163,7 +163,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="AuthenticationRenderer.cs" />
   </ItemGroup>
-  <Import Project="..\SportRankerMatchOn.Shared.Mobile\SportRankerMatchOn.Shared.projitems" Label="Shared" Condition="Exists('..\SportRankerMatchOn.Shared.Mobile\SportRankerMatchOn.Shared.projitems')" />
+  <Import Project="..\SportRankerMatchOn.Shared\SportRankerMatchOn.Shared.projitems" Label="Shared" Condition="Exists('..\SportRankerMatchOn.Shared\SportRankerMatchOn.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.4.0.6341\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.4.0.6341\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

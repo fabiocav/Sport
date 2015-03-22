@@ -88,29 +88,33 @@ namespace SportRankerMatchOn.Shared
 
 		async public Task SaveLeague(League league)
 		{
-			ServicePointManager.ServerCertificateValidationCallback = delegate
-				(object sender, System.Security.Cryptography.X509Certificates.X509Certificate pCertificate, System.Security.Cryptography.X509Certificates.X509Chain pChain, System.Net.Security.SslPolicyErrors pSSLPolicyErrors)
-			{
-				//if (pSSLPolicyErrors == System.Net.Security.SslPolicyErrors.RemoteCertificateNameMismatch && pCertificate.Issuer == "CN=Entrust Certification Authority - L1C, OU=\"(c) 2009 Entrust, Inc.\", OU=www.entrust.net/rpa is incorporated by reference, O=\"Entrust, Inc.\", C=US")
-				{
-					return true;
-				}
-				//if (pSSLPolicyErrors == System.Net.Security.SslPolicyErrors.None)
-				//    return true;
-				//return false;
-			};
-
 			await Client.GetTable<League>().InsertAsync(league);
 		}
 
 		async public Task<Athlete> GetAthleteById(string id)
 		{
-			return await Client.GetTable<Athlete>().LookupAsync(id);
+			try
+			{
+				return await Client.GetTable<Athlete>().LookupAsync(id);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+
+			return null;
 		}
 
 		async public Task SaveAthlete(Athlete athlete)
 		{
-			await Client.GetTable<Athlete>().InsertAsync(athlete);
+			try
+			{
+				await Client.GetTable<Athlete>().InsertAsync(athlete);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
 		}
 	}
 }
