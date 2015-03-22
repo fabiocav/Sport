@@ -40,7 +40,8 @@ namespace SportRankerMatchOn.Service.Controllers
 				Name = athlete.Name,
 				Id = athlete.Id,
 				Email = athlete.Email,
-				AuthenticationId = athlete.AuthenticationId
+				AuthenticationId = athlete.AuthenticationId,
+				LeagueAssociationIds = athlete.LeagueAssociations.Select(la => la.Id).ToList()
 			}));
         }
 
