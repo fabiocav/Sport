@@ -27,8 +27,9 @@ namespace SportRankerMatchOn.Service.Controllers
 				Name = athlete.Name,
 				Id = athlete.Id,
 				Email = athlete.Email,
+				IsAdmin = athlete.IsAdmin,
 				AuthenticationId = athlete.AuthenticationId,
-				LeagueAssociationIds = athlete.LeagueAssociations.Select(la => la.Id).ToList()
+				MembershipIds = athlete.Memberships.Select(la => la.Id).ToList()
 			});
         }
 
@@ -40,16 +41,16 @@ namespace SportRankerMatchOn.Service.Controllers
 				Name = athlete.Name,
 				Id = athlete.Id,
 				Email = athlete.Email,
+				IsAdmin = athlete.IsAdmin,
 				AuthenticationId = athlete.AuthenticationId,
-				LeagueAssociationIds = athlete.LeagueAssociations.Select(la => la.Id).ToList()
+				MembershipIds = athlete.Memberships.Select(la => la.Id).ToList()
 			}));
         }
 
         // PATCH tables/Athlete/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task<AthleteDto> PatchAthlete(string id, Delta<AthleteDto> patch)
+        public Task<Athlete> PatchAthlete(string id, Delta<Athlete> patch)
         {
-           // return UpdateAsync(id, patch);
-			return null;
+           return UpdateAsync(id, patch);
         }
 
         // POST tables/Athlete

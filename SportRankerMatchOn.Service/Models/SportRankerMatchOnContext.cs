@@ -24,7 +24,7 @@ namespace SportRankerMatchOn.Service.Models
 			set;
 		}
 
-		public DbSet<Member> Members
+		public DbSet<Membership> Members
 		{
 			get;
 			set;
@@ -46,14 +46,14 @@ namespace SportRankerMatchOn.Service.Models
 
 			modelBuilder.Entity<Athlete>().ToTable("Athlete");
 			modelBuilder.Entity<League>().ToTable("League");
-			modelBuilder.Entity<Member>().ToTable("Member");
+			modelBuilder.Entity<Membership>().ToTable("Membership");
 
-			modelBuilder.Entity<Member>().HasRequired(m => m.League)
-				.WithMany(l => l.Members)
+			modelBuilder.Entity<Membership>().HasRequired(m => m.League)
+				.WithMany(l => l.Memberships)
 				.HasForeignKey(m => m.LeagueId);
 
-			modelBuilder.Entity<Member>().HasRequired(m => m.Athlete)
-				.WithMany(a => a.LeagueAssociations)
+			modelBuilder.Entity<Membership>().HasRequired(m => m.Athlete)
+				.WithMany(a => a.Memberships)
 				.HasForeignKey(m => m.AthleteId);
 
 			modelBuilder.Conventions.Add(

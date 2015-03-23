@@ -32,7 +32,7 @@ namespace SportRankerMatchOn.Service.Controllers
 				IsEnabled = l.IsEnabled,
 				Season = l.Season,
 				IsAcceptingMembers = l.IsAcceptingMembers,
-				MemberIds = l.Members.Select(m => m.Id).ToList()
+				MembershipIds = l.Memberships.Select(m => m.Id).ToList()
 			});
         }
 
@@ -47,7 +47,7 @@ namespace SportRankerMatchOn.Service.Controllers
 				IsEnabled = l.IsEnabled,
 				Season = l.Season,
 				IsAcceptingMembers = l.IsAcceptingMembers,
-				MemberIds = l.Members.Select(m => m.Id).ToList()
+				MembershipIds = l.Memberships.Select(m => m.Id).ToList()
 			}));
 		}
 

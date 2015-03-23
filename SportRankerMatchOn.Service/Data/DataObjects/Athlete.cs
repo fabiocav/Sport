@@ -8,10 +8,10 @@ namespace SportRankerMatchOn
 	{
 		public Athlete()
 		{
-			LeagueAssociations = new HashSet<Member>();
+			Memberships = new HashSet<Membership>();
 		}
 
-		public ICollection<Member> LeagueAssociations
+		public ICollection<Membership> Memberships
 		{
 			get;
 			set;

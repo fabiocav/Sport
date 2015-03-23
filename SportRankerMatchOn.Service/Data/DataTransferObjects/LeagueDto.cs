@@ -6,7 +6,7 @@ namespace SportRankerMatchOn
 {
 	public partial class LeagueDto : LeagueBase
 	{
-		public List<string> MemberIds
+		public List<string> MembershipIds
 		{
 			get;
 			set;

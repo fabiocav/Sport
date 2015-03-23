@@ -32,9 +32,9 @@ namespace SportRankerMatchOn.Service
 			};
 		}
 
-		public static Member ToMember(this MemberDto dto)
+		public static Membership ToMember(this MembershipDto dto)
 		{
-			return new Member
+			return new Membership
 			{
 				Id = dto.Id,
 				CurrentRank = dto.CurrentRank,
