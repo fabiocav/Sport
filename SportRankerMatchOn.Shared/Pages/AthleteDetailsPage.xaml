@@ -9,6 +9,11 @@
 			<Entry Text="{Binding Athlete.Email}" Placeholder="Athlete's email" />
 
 			<StackLayout Orientation="Horizontal">
+				<Label Text="Date registered:" HorizontalOptions="StartAndExpand" />
+				<Label Text="{Binding Athlete.DateCreated}" HorizontalOptions="End" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
 				<Label Text="Administrator" HorizontalOptions="StartAndExpand" />
 				<Switch IsToggled="{Binding Athlete.IsAdmin}" HorizontalOptions="End" />
 			</StackLayout>

@@ -68,21 +68,6 @@ namespace SportRankerMatchOn.Shared
 			}
 		}
 
-		DateTime _joinDate;
-		public const string JoinDatePropertyName = "JoinDate";
-
-		public DateTime JoinDate
-		{
-			get
-			{
-				return _joinDate;
-			}
-			set
-			{
-				SetProperty(ref _joinDate, value, JoinDatePropertyName);
-			}
-		}
-
 		int _currentRank;
 		public const string CurrentRankPropertyName = "CurrentRank";
 

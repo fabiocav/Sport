@@ -21,7 +21,7 @@
 
 			<StackLayout Orientation="Horizontal">
 				<Label Text="Date joined:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Membership.JoinDate}" FontSize="18" />
+				<Label Text="{Binding Membership.DateCreated}" FontSize="18" />
 			</StackLayout>
 
 			<StackLayout Orientation="Horizontal">

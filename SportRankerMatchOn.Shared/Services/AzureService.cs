@@ -165,6 +165,36 @@ namespace SportRankerMatchOn.Shared
 			return list;
 		}
 
+		async public Task<Athlete> GetAthleteByEmail(string email)
+		{
+			try
+			{
+				var list = await Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync();
+				return list.FirstOrDefault();
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+
+			return null;
+		}
+
+		async public Task<Athlete> GetAthleteByAuthUserId(string authUserid)
+		{
+			try
+			{
+				var list = await Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync();
+				return list.FirstOrDefault();
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+
+			return null;
+		}
+
 		async public Task<Athlete> GetAthleteById(string id)
 		{
 			try

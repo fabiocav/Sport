@@ -23,6 +23,21 @@ namespace SportRankerMatchOn.Shared
 			}
 		}
 
+		DateTime dateCreated;
+		public const string DateCreatedPropertyName = "DateCreated";
+
+		public DateTime DateCreated
+		{
+			get
+			{
+				return dateCreated;
+			}
+			set
+			{
+				SetProperty(ref dateCreated, value, DateCreatedPropertyName);
+			}
+		}
+
 		#region INotifyPropertyChanged implementation
 
 		public event PropertyChangedEventHandler PropertyChanged;

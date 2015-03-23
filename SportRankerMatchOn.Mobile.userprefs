@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="SportRankerMatchOn.iOS/SportRankerMatchOn.iOS.csproj">
+﻿<Properties StartupItem="SportRankerMatchOn.Android/SportRankerMatchOn.Android.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.8.2" />
   <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

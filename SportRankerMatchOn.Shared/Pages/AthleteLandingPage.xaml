@@ -4,22 +4,20 @@
 	x:Class="SportRankerMatchOn.Shared.AthleteLandingPage"
 	xmlns:local="clr-namespace:SportRankerMatchOn.Shared;assembly=SportRankerMatchOn">
 	<local:AthleteLandingXaml.Content>
-		<StackLayout Spacing="20" VerticalOptions="Center">
-			<ListView x:Name="list" ItemsSource="{Binding AllAthletes}" RefreshCommand="{Binding GetAllAthletesCommand}" IsRefreshing="{Binding IsBusy}">
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<ViewCell>
-							<ViewCell.View>
-							<StackLayout Padding="20,10,10,10" Spacing="0">
-								<Label Text="{Binding Name}" FontSize="13" />
-								<Label Text="{Binding Email}" FontSize="11" />
-							</StackLayout>
-							</ViewCell.View>
-						</ViewCell>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
-		</StackLayout>
+		<ListView x:Name="list" ItemsSource="{Binding AllAthletes}" RefreshCommand="{Binding GetAllAthletesCommand}" IsRefreshing="{Binding IsBusy}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ViewCell.View>
+						<StackLayout Padding="20,10,10,10" Spacing="0">
+							<Label Text="{Binding Name}" FontSize="13" />
+							<Label Text="{Binding Email}" FontSize="11" />
+						</StackLayout>
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
 	</local:AthleteLandingXaml.Content>
 
 <!--	<local:AthleteLandingXaml.ToolbarItems>

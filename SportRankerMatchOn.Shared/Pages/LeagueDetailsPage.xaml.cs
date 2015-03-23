@@ -55,7 +55,9 @@ namespace SportRankerMatchOn.Shared
 
 		protected override void OnAppearing()
 		{
-			name.Focus();
+			if(ViewModel.League.Id == null)
+				name.Focus();
+
 			base.OnAppearing();
 		}
 	}
