@@ -29,7 +29,7 @@ namespace SportRankerMatchOn.Service.Controllers
 				LeagueId = m.League.Id,
 				IsAdmin = m.IsAdmin,
 				CurrentRank = m.CurrentRank,
-				JoinDate = m.CreatedAt,
+				DateCreated = m.CreatedAt,
 			});
         }
 
@@ -43,7 +43,7 @@ namespace SportRankerMatchOn.Service.Controllers
 				LeagueId = m.League.Id,
 				IsAdmin = m.IsAdmin,
 				CurrentRank = m.CurrentRank,
-				JoinDate = m.CreatedAt,
+				DateCreated = m.CreatedAt,
 			}));
 		}
 

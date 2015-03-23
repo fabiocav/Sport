@@ -30,6 +30,7 @@ namespace SportRankerMatchOn.Service.Controllers
 				Name = l.Name,
 				Sport = l.Sport,
 				IsEnabled = l.IsEnabled,
+				DateCreated = l.CreatedAt,
 				Season = l.Season,
 				IsAcceptingMembers = l.IsAcceptingMembers,
 				MembershipIds = l.Memberships.Select(m => m.Id).ToList()
@@ -45,6 +46,7 @@ namespace SportRankerMatchOn.Service.Controllers
 				Name = l.Name,
 				Sport = l.Sport,
 				IsEnabled = l.IsEnabled,
+				DateCreated = l.CreatedAt,
 				Season = l.Season,
 				IsAcceptingMembers = l.IsAcceptingMembers,
 				MembershipIds = l.Memberships.Select(m => m.Id).ToList()

@@ -7,7 +7,7 @@ namespace SportRankerMatchOn
 {
 	public partial class MembershipDto : MembershipBase
 	{
-		public DateTimeOffset? JoinDate
+		public DateTimeOffset? DateCreated
 		{
 			get;
 			set;

@@ -22,28 +22,30 @@ namespace SportRankerMatchOn.Service.Controllers
         // GET tables/Athlete
         public IQueryable<AthleteDto> GetAllAthletes()
         {
-			return Query().Select(athlete => new AthleteDto
+			return Query().Select(a => new AthleteDto
 			{
-				Name = athlete.Name,
-				Id = athlete.Id,
-				Email = athlete.Email,
-				IsAdmin = athlete.IsAdmin,
-				AuthenticationId = athlete.AuthenticationId,
-				MembershipIds = athlete.Memberships.Select(la => la.Id).ToList()
+				Name = a.Name,
+				Id = a.Id,
+				Email = a.Email,
+				DateCreated = a.CreatedAt,
+				IsAdmin = a.IsAdmin,
+				AuthenticationId = a.AuthenticationId,
+				MembershipIds = a.Memberships.Select(la => la.Id).ToList()
 			});
         }
 
         // GET tables/Athlete/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public SingleResult<AthleteDto> GetAthlete(string id)
         {
-			return SingleResult<AthleteDto>.Create(Lookup(id).Queryable.Select(athlete => new AthleteDto
+			return SingleResult<AthleteDto>.Create(Lookup(id).Queryable.Select(a => new AthleteDto
 			{
-				Name = athlete.Name,
-				Id = athlete.Id,
-				Email = athlete.Email,
-				IsAdmin = athlete.IsAdmin,
-				AuthenticationId = athlete.AuthenticationId,
-				MembershipIds = athlete.Memberships.Select(la => la.Id).ToList()
+				Name = a.Name,
+				Id = a.Id,
+				DateCreated = a.CreatedAt,
+				Email = a.Email,
+				IsAdmin = a.IsAdmin,
+				AuthenticationId = a.AuthenticationId,
+				MembershipIds = a.Memberships.Select(la => la.Id).ToList()
 			}));
         }
 
