@@ -15,15 +15,16 @@ namespace SportChallengeMatchRank.Shared
 		{
 			return App.AuthUserProfile != null &&
 			App.AuthUserProfile.Email != null &&
-			App.AuthUserProfile.Email.EndsWith("@xamarin.com", StringComparison.OrdinalIgnoreCase) &&
+//			App.AuthUserProfile.Email.EndsWith("@xamarin.com", StringComparison.OrdinalIgnoreCase) &&
 			App.AuthUserProfile.EmailVerified;
 		}
 
 		public void LogOut()
 		{
-			AppSettings.AuthToken = null;
-			AppSettings.AuthUserID = null;
+			Settings.Instance.AuthToken = null;
+			Settings.Instance.AuthUserID = null;
 			App.AuthUserProfile = null;
+			Settings.Instance.Save();
 		}
 
 		async public Task<bool> EnsureAthleteRegistered(bool forceRefresh = false)
@@ -33,41 +34,47 @@ namespace SportChallengeMatchRank.Shared
 				if(App.CurrentAthlete != null && !forceRefresh)
 					return true;
 
-				App.CurrentAthlete = null;
+				Settings.Instance.AthleteId = null;
+				Athlete athlete = null;
 
 				//No AthleteId on record
-				if(!string.IsNullOrWhiteSpace(AppSettings.AthleteId))
+				if(!string.IsNullOrWhiteSpace(Settings.Instance.AthleteId))
 				{
-					App.CurrentAthlete = await AzureService.Instance.GetAthleteById(AppSettings.AthleteId);
+					athlete = await AzureService.Instance.GetAthleteById(Settings.Instance.AthleteId);
 				}
 
-				if(App.CurrentAthlete == null && !string.IsNullOrWhiteSpace(AppSettings.AuthUserID))
+				if(athlete == null && !string.IsNullOrWhiteSpace(Settings.Instance.AuthUserID))
 				{
-					App.CurrentAthlete = await AzureService.Instance.GetAthleteByAuthUserId(AppSettings.AuthUserID);
+					athlete = await AzureService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
 				}
 
-				if(App.CurrentAthlete == null && App.AuthUserProfile != null && !string.IsNullOrWhiteSpace(App.AuthUserProfile.Email))
+				if(athlete == null && App.AuthUserProfile != null && !string.IsNullOrWhiteSpace(App.AuthUserProfile.Email))
 				{
-					App.CurrentAthlete = await AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
+					athlete = await AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
 				}
 
 				//Unable to get athlete - add as new
-				if(App.CurrentAthlete == null)
+				if(athlete == null)
 				{
-					var athlete = new Athlete(App.AuthUserProfile);
+					athlete = new Athlete(App.AuthUserProfile);
 					await AzureService.Instance.SaveAthlete(athlete);
-					AppSettings.AthleteId = athlete.Id;
-					App.CurrentAthlete = athlete;
 				}
+
+				Settings.Instance.AthleteId = athlete != null ? athlete.Id : null;
+				Settings.Instance.Save();
 			}
 
-			AppSettings.AthleteId = App.CurrentAthlete != null ? App.CurrentAthlete.Id : null;
+			if(App.CurrentAthlete != null)
+			{
+				await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
+			}
+
 			return App.CurrentAthlete != null;
 		}
 
 		async public Task GetUserProfile(bool force = false)
 		{
-			if(!force && (App.AuthUserProfile != null || string.IsNullOrWhiteSpace(AppSettings.AuthToken) || string.IsNullOrWhiteSpace(AppSettings.AuthUserID)))
+			if(!force && (App.AuthUserProfile != null || string.IsNullOrWhiteSpace(Settings.Instance.AuthToken) || string.IsNullOrWhiteSpace(Settings.Instance.AuthUserID)))
 				return;
 
 			using(new Busy(this))
@@ -77,8 +84,8 @@ namespace SportChallengeMatchRank.Shared
 					string json = null;
 					using(var client = new HttpClient())
 					{
-						client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer {0}".Fmt(AppSettings.AuthToken));
-						var url = "https://{0}/api/users/{1}".Fmt(Constants.AuthDomain, AppSettings.AuthUserID);
+						client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer {0}".Fmt(Settings.Instance.AuthToken));
+						var url = "https://{0}/api/users/{1}".Fmt(Constants.AuthDomain, Settings.Instance.AuthUserID);
 						json = await client.GetStringAsync(url);
 					}
 

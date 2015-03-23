@@ -12,10 +12,14 @@
 						<StackLayout Padding="20,10,10,10" Spacing="5">
 							<StackLayout Orientation="Horizontal" Spacing="10">
 								<Label Text="{Binding League.Name}" FontSize="13" />
-								<Label Text="{Binding CurrentRank}" FontSize="11" />
+								<Label Text="Rank:" FontSize="13" />
+								<Label Text="{Binding CurrentRank}" FontSize="13" />
 								<Label Text="{Binding DateCreated}" FontSize="11" />
 							</StackLayout>
+							<StackLayout Orientation="Horizontal" Spacing="10">
 							<Label Text="{Binding Athlete.Name}" FontSize="11" />
+							<Label Text="{Binding Athlete.Email}" FontSize="11" />
+							</StackLayout>
 						</StackLayout>
 						</ViewCell.View>
 					</ViewCell>

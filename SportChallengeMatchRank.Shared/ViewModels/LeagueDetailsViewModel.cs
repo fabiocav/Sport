@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeagueDetailsViewModel))]
 
@@ -17,7 +18,6 @@ namespace SportChallengeMatchRank.Shared
 		public LeagueDetailsViewModel(League league = null)
 		{
 			League = league ?? new League();
-			JoinLeague = league.Id == null;
 		}
 
 		League _league;
@@ -32,6 +32,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _league, value, LeaguePropertyName);
+				JoinLeague = _league.Id == null;
 			}
 		}
 
@@ -65,16 +66,18 @@ namespace SportChallengeMatchRank.Shared
 			{
 				try
 				{
-					bool wasNew = League.Id == null;
 					await AzureService.Instance.SaveLeague(League);
 
 					if(JoinLeague)
 					{
-						await AzureService.Instance.SaveMembership(new Membership {
-								AthleteId = App.CurrentAthlete.Id,
-								LeagueId = League.Id,
-								CurrentRank = 0,
-							});
+						var membership = new Membership {
+							AthleteId = App.CurrentAthlete.Id,
+							LeagueId = League.Id,
+							CurrentRank = 0,
+						};
+
+						await AzureService.Instance.SaveMembership(membership);
+						App.CurrentAthlete.Memberships.Add(membership);
 					}
 				}
 				catch(Exception e)

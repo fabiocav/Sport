@@ -23,6 +23,9 @@ namespace SportChallengeMatchRank.Shared
 					
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
+				
+
+
 				await Navigation.PushModalAsync(new NavigationPage(new LeagueDetailsPage(league)));
 			};
 		}

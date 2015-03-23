@@ -1,27 +1,46 @@
 ﻿using System;
 using System.Threading;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
 	public static class Extensions
 	{
-		public static T Get<T>(this Dictionary<string, T> dict, string id) where T : BaseModel
+		public static void RemoveModel<T>(this ObservableCollection<T> items, string itemId) where T : BaseModel
 		{
+			items.Where(m => m.Id == itemId).ToList().ForEach(m => items.Remove(m));
+		}
+
+		public static void RemoveModel<T>(this ObservableCollection<T> items, T item) where T : BaseModel
+		{
+			items.RemoveModel(item.Id);
+		}
+
+		public static T Get<T>(this ConcurrentDictionary<string, T> dict, string id) where T : BaseModel
+		{
+			if(id == null)
+				return null;
+
 			T v = null;
 			dict.TryGetValue(id, out v);
 			return v;
 		}
 
-		public static void AddOrUpdate<T>(this Dictionary<string, T> dict, T model) where T : BaseModel
+		public static void AddOrUpdate<T>(this ConcurrentDictionary<string, T> dict, T model) where T : BaseModel
 		{
+			if(model == null)
+				return;
+			
 			if(dict.ContainsKey(model.Id))
 			{
 				dict[model.Id] = model;
 			}
 			else
 			{
-				dict.Add(model.Id, model);
+				dict.TryAdd(model.Id, model);
 			}
 		}
 

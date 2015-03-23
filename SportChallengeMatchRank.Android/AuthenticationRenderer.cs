@@ -23,8 +23,9 @@ namespace SportChallengeMatchRank.Android
 					user = await authClient.LoginAsync(this.Context, Constants.AuthType, true);
 					var profile = user.Profile.ToObject<UserProfile>();
 					App.AuthUserProfile = profile;
-					AppSettings.AuthUserID = profile.UserId;
-					AppSettings.AuthToken = user.IdToken;
+					Settings.Instance.AuthUserID = profile.UserId;
+					Settings.Instance.AuthToken = user.IdToken;
+					Settings.Instance.Save();
 				}
 				catch(Exception e)
 				{
@@ -38,7 +39,7 @@ namespace SportChallengeMatchRank.Android
 			MessagingCenter.Subscribe<AuthenticationPage>(this, "AuthenticateUser", async(sender) =>
 				{
 					await AuthenticateUser();
-					sender.UserAuthenticationUpdated();
+					await sender.UserAuthenticationUpdated();
 				});
 
 			base.OnAttachedToWindow();

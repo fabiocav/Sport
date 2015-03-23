@@ -17,7 +17,7 @@
 				<Switch IsToggled="{Binding League.IsAcceptingMembers}" HorizontalOptions="End" />
 			</StackLayout>
 
-			<StackLayout Orientation="Horizontal" >
+			<StackLayout x:Name="joinLeague" Orientation="Horizontal">
 				<Label Text="Join" HorizontalOptions="StartAndExpand" />
 				<Switch IsToggled="{Binding JoinLeague}" HorizontalOptions="End" />
 			</StackLayout>

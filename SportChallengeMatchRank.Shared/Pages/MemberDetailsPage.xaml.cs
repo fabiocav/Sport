@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 using System.Threading.Tasks;
+using System;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -8,23 +9,23 @@ namespace SportChallengeMatchRank.Shared
 		public MembershipDetailsPage(Membership member = null)
 		{
 			ViewModel.Membership = member ?? new Membership();
+			Initialize();
+		}
+
+		public Action OnDelete
+		{
+			get;
+			set;
+		}
+
+		void Initialize()
+		{
 			InitializeComponent();
 			Title = "Membership Details";
 
 			btnSaveMembership.Clicked += async(sender, e) =>
 			{
-				var isNew = ViewModel.Membership.Id == null;
-				await ViewModel.SaveMember();
-//				var landingVm = DependencyService.Get<MLandingViewModel>();
-//
-//				if(isNew)
-//				{
-//					landingVm.AllMemberships.Add(ViewModel.Member);
-//				}
-//				else
-//				{
-//				}
-
+				await ViewModel.SaveMembership();
 				await Navigation.PopModalAsync();
 			};
 
@@ -45,10 +46,12 @@ namespace SportChallengeMatchRank.Shared
 
 				if(accepted)
 				{
-//					await ViewModel.DeleteMember();
-//					var landingVm = DependencyService.Get<MemberLandingViewModel>();
-//					landingVm.AllMemberships.Remove(ViewModel.Member);
-//					await Navigation.PopModalAsync();
+					await ViewModel.DeleteMembership();
+					
+					if(OnDelete != null)
+						OnDelete();
+						
+					await Navigation.PopModalAsync();
 				}
 			};
 		}

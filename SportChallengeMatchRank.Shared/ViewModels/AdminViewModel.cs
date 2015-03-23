@@ -9,11 +9,5 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class AdminViewModel : BaseViewModel
 	{
-		public void LogOut()
-		{
-			AppSettings.AuthToken = null;
-			AppSettings.AuthUserID = null;
-			App.AuthUserProfile = null;
-		}
 	}
 }

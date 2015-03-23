@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -60,6 +61,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.League.Id == null)
 				name.Focus();
 
+			joinLeague.IsVisible = ViewModel.League.Id == null || App.CurrentAthlete.Memberships.All(m => m.LeagueId != ViewModel.League.Id);
 			base.OnAppearing();
 		}
 	}

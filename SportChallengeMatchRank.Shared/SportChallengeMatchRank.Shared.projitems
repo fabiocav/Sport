@@ -15,7 +15,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AppSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthenticationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
@@ -59,10 +58,12 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipDetailsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Membership.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipsLanding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\MembershipsLandingPage.xaml.cs">
       <DependentUpon>MembershipsLandingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipsLandingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AdminPage.xaml">

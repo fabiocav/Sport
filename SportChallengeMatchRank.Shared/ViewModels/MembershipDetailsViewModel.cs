@@ -39,11 +39,11 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				return new Command(async(param) =>
-					await SaveMember());
+					await SaveMembership());
 			}
 		}
 
-		async public Task SaveMember()
+		async public Task SaveMembership()
 		{
 			using(new Busy(this))
 			{
@@ -58,7 +58,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		async public Task DeleteMember()
+		async public Task DeleteMembership()
 		{
 			using(new Busy(this))
 			{

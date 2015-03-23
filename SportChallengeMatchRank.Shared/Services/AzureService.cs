@@ -71,10 +71,15 @@ namespace SportChallengeMatchRank.Shared
 		async public Task GetAllAthletesByLeague(League league)
 		{
 			var memberships = await Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync();
-			var memberIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.AthleteId)).Select(m => m.AthleteId).ToList();
-			var athletes = await Client.GetTable<Athlete>().Where(a => memberIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync();
+			var athleteIds = memberships.Where(m => !DataManager.Instance.Athletes.ContainsKey(m.AthleteId)).Select(m => m.AthleteId).ToList();
+
+			List<Athlete> athletes = new List<Athlete>();
+
+			if(athleteIds.Count > 0)
+				athletes = await Client.GetTable<Athlete>().Where(a => athleteIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync();
 
 			league.Memberships.Clear();
+
 			foreach(var m in memberships)
 			{
 				var athlete = athletes.SingleOrDefault(a => a.Id == m.AthleteId);
@@ -83,13 +88,18 @@ namespace SportChallengeMatchRank.Shared
 				if(athlete == null)
 				{
 					await DeleteMembership(m.Id);
+					continue;
 				}
 
 				league.Memberships.Add(m);
 				DataManager.Instance.Memberships.AddOrUpdate(m);
 				DataManager.Instance.Athletes.AddOrUpdate(athlete);
+
 				m.OnPropertyChanged("Athlete");
 			}
+
+			DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.ValidateMemberships());
+			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.ValidateMemberships());
 		}
 
 		async public Task<List<League>> GetAllEnabledLeagues()
@@ -138,18 +148,19 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task DeleteLeague(string id)
 		{
+			League l;
 			try
 			{
 				await Client.GetTable<League>().DeleteAsync(new League {
 						Id = id
 					});
-				DataManager.Instance.Leagues.Remove(id);
+				DataManager.Instance.Leagues.TryRemove(id, out l);
 			}
 			catch(HttpRequestException hre)
 			{
 				if(hre.Message.ContainsNoCase("not found"))
 				{
-					DataManager.Instance.Leagues.Remove(id);
+					DataManager.Instance.Leagues.TryRemove(id, out l);
 				}
 			}
 			catch(Exception e)
@@ -176,7 +187,10 @@ namespace SportChallengeMatchRank.Shared
 			{
 				var list = await Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync();
 				var athlete = list.FirstOrDefault();
-				DataManager.Instance.Athletes.AddOrUpdate(athlete);
+
+				if(athlete != null)
+					DataManager.Instance.Athletes.AddOrUpdate(athlete);
+
 				return athlete;
 			}
 			catch(Exception e)
@@ -193,7 +207,10 @@ namespace SportChallengeMatchRank.Shared
 			{
 				var list = await Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync();
 				var athlete = list.FirstOrDefault();
-				DataManager.Instance.Athletes.AddOrUpdate(athlete);
+
+				if(athlete != null)
+					DataManager.Instance.Athletes.AddOrUpdate(athlete);
+
 				return athlete;				
 			}
 			catch(Exception e)
@@ -211,7 +228,10 @@ namespace SportChallengeMatchRank.Shared
 				Athlete a;
 				DataManager.Instance.Athletes.TryGetValue(id, out a);
 				a = a ?? await Client.GetTable<Athlete>().LookupAsync(id);
-				DataManager.Instance.Athletes.AddOrUpdate(a);
+
+				if(a != null)
+					DataManager.Instance.Athletes.AddOrUpdate(a);
+	
 				return a;				
 			}
 			catch(Exception e)
@@ -261,18 +281,19 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task DeleteAthlete(string id)
 		{
+			Athlete a;
 			try
 			{
 				await Client.GetTable<Athlete>().DeleteAsync(new Athlete {
 						Id = id
 					});
-				DataManager.Instance.Athletes.Remove(id);
+				DataManager.Instance.Athletes.TryRemove(id, out a);
 			}
 			catch(HttpRequestException hre)
 			{
 				if(hre.Message.ContainsNoCase("not found"))
 				{
-					DataManager.Instance.Athletes.Remove(id);
+					DataManager.Instance.Athletes.TryRemove(id, out a);
 				}
 			}
 			catch(Exception e)
@@ -329,18 +350,19 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task DeleteMembership(string id)
 		{
+			Membership m;
 			try
 			{
 				await Client.GetTable<Membership>().DeleteAsync(new Membership {
 						Id = id
 					});
-				DataManager.Instance.Memberships.Remove(id);
+				DataManager.Instance.Memberships.TryRemove(id, out m);
 			}
 			catch(HttpRequestException hre)
 			{
 				if(hre.Message.ContainsNoCase("not found"))
 				{
-					DataManager.Instance.Memberships.Remove(id);
+					DataManager.Instance.Memberships.TryRemove(id, out m);
 				}
 			}
 			catch(Exception e)

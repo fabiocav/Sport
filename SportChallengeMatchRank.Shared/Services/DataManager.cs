@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Concurrent;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -8,9 +9,9 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public DataManager()
 		{
-			Leagues = new Dictionary<string, League>();
-			Athletes = new Dictionary<string, Athlete>();
-			Memberships = new Dictionary<string, Membership>();
+			Leagues = new ConcurrentDictionary<string, League>();
+			Athletes = new ConcurrentDictionary<string, Athlete>();
+			Memberships = new ConcurrentDictionary<string, Membership>();
 		}
 
 		static DataManager _instance;
@@ -26,19 +27,19 @@ namespace SportChallengeMatchRank.Shared
 			}			
 		}
 
-		public Dictionary<string, League> Leagues
+		public ConcurrentDictionary<string, League> Leagues
 		{
 			get;
 			set;
 		}
 
-		public Dictionary<string, Athlete> Athletes
+		public ConcurrentDictionary<string, Athlete> Athletes
 		{
 			get;
 			set;
 		}
 
-		public Dictionary<string, Membership> Memberships
+		public ConcurrentDictionary<string, Membership> Memberships
 		{
 			get;
 			set;

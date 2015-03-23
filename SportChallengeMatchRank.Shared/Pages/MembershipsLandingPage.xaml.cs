@@ -4,6 +4,8 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class MembershipsLandingPage : MembershipsLandingXaml
 	{
+		bool _dataLoaded;
+
 		public MembershipsLandingPage(Athlete athlete)
 		{
 			ViewModel.Athlete = athlete;
@@ -28,7 +30,26 @@ namespace SportChallengeMatchRank.Shared
 
 				var member = list.SelectedItem as Membership;
 				list.SelectedItem = null;
-				await Navigation.PushModalAsync(new NavigationPage(new MembershipDetailsPage(member)));
+
+				var detailsPage = new MembershipDetailsPage(member);
+				detailsPage.OnDelete = () =>
+				{
+					var athlete = DataManager.Instance.Athletes.Get(member.AthleteId);
+					if(athlete != null)
+					{
+						athlete.Memberships.RemoveModel(member);
+					}
+								
+					var league = DataManager.Instance.Leagues.Get(member.LeagueId);
+					if(league != null)
+					{
+						league.Memberships.RemoveModel(member);
+					}
+	
+					detailsPage.OnDelete = null;
+				};
+
+				await Navigation.PushModalAsync(new NavigationPage(detailsPage));
 			};
 		}
 
@@ -37,16 +58,38 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.Athlete != null)
 			{
 				await ViewModel.GetAllMembershipsByAthlete();
+				list.RefreshCommand = ViewModel.GetAllMembershipsByAthleteCommand;
 				list.SetBinding(ListView.ItemsSourceProperty, "Athlete.Memberships");
+				_dataLoaded = true;
 			}
 
 			if(ViewModel.League != null)
 			{
 				await ViewModel.GetAllMembershipsByLeague();
+				list.RefreshCommand = ViewModel.GetAllMembershipsByLeagueCommand;
 				list.SetBinding(ListView.ItemsSourceProperty, "League.Memberships");
+				_dataLoaded = true;
 			}
 
 			base.OnLoaded();
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			if(!_dataLoaded)
+				return;
+
+			list.ItemsSource = null;
+			if(ViewModel.Athlete != null)
+			{
+				list.SetBinding(ListView.ItemsSourceProperty, "Athlete.Memberships");
+			}
+
+			if(ViewModel.League != null)
+			{
+				list.SetBinding(ListView.ItemsSourceProperty, "League.Memberships");
+			}
 		}
 	}
 

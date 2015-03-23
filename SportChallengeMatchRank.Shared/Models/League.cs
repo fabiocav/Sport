@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -9,11 +10,21 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public League()
 		{
-			MembershipIds = new List<string>();
+			Initialize();
+		}
+
+		void Initialize()
+		{
 			Memberships = new ObservableCollection<Membership>();
 
 			IsAcceptingMembers = true;
 			IsEnabled = true;
+		}
+
+		public List<string> MembershipIds
+		{
+			get;
+			set;
 		}
 
 		string _name;
@@ -91,21 +102,6 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		List<string> _membershipIds;
-		public const string MembershipIdsPropertyName = "MembershipIds";
-
-		public List<string> MembershipIds
-		{
-			get
-			{
-				return _membershipIds;
-			}
-			set
-			{
-				SetProperty(ref _membershipIds, value, MembershipIdsPropertyName);
-			}
-		}
-
 		ObservableCollection<Membership> _memberships;
 		public const string MembershipsPropertyName = "Memberships";
 
@@ -118,6 +114,17 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _memberships, value, MembershipsPropertyName);
+			}
+		}
+
+		public void ValidateMemberships()
+		{
+			foreach(var m in Memberships.ToList())
+			{
+				if(m.Athlete == null || !m.Athlete.Memberships.Any(mm => mm.LeagueId == Id))
+				{
+					Memberships.Remove(m);
+				}
 			}
 		}
 	}

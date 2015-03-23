@@ -13,8 +13,10 @@ namespace SportChallengeMatchRank.Shared
 
 		public static Athlete CurrentAthlete
 		{
-			get;
-			set;
+			get
+			{
+				return Settings.Instance.AthleteId == null ? null : DataManager.Instance.Athletes.Get(Settings.Instance.AthleteId);
+			}
 		}
 
 		public static UserProfile AuthUserProfile

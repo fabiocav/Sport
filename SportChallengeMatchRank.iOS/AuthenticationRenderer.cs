@@ -24,9 +24,10 @@ namespace SportChallengeMatchRank.iOS
 					authClient.Logout();
 					user = await authClient.LoginAsync(this, Constants.AuthType, true);
 					var profile = user.Profile.ToObject<UserProfile>();
-					AppSettings.AuthToken = user.IdToken;
+					Settings.Instance.AuthToken = user.IdToken;
 					App.AuthUserProfile = profile;
-					AppSettings.AuthUserID = profile.UserId;
+					Settings.Instance.AuthUserID = profile.UserId;
+					Settings.Instance.Save();
 				}
 				catch(Exception e)
 				{
@@ -40,7 +41,7 @@ namespace SportChallengeMatchRank.iOS
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "AuthenticateUser", async(sender) =>
 				{
 					await AuthenticateUser();
-					_page.UserAuthenticationUpdated();
+					await _page.UserAuthenticationUpdated();
 				});
 			
 			base.ViewDidAppear(animated);

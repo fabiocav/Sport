@@ -56,7 +56,6 @@ namespace SportChallengeMatchRank.Shared
 			using(new Busy(this))
 			{
 				await AzureService.Instance.GetAllLeaguesByAthlete(Athlete);
-
 			}
 		}
 
@@ -76,7 +75,6 @@ namespace SportChallengeMatchRank.Shared
 			using(new Busy(this))
 			{
 				await AzureService.Instance.GetAllAthletesByLeague(League);
-
 			}
 		}
 	}
