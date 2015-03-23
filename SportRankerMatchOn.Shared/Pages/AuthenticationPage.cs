@@ -11,6 +11,7 @@ namespace SportRankerMatchOn.Shared
 		Label _statusLabel;
 		Button _loginButton;
 		Button _logoutButton;
+		Button _adminButton;
 		ActivityIndicator _activity;
 
 		public AuthenticationPage()
@@ -44,6 +45,12 @@ namespace SportRankerMatchOn.Shared
 		{
 			await AttemptToReauthenticateAthlete();
 			base.OnLoaded();
+		}
+
+		protected override void OnAppearing()
+		{
+			_adminButton.IsVisible = App.CurrentAthlete != null && App.CurrentAthlete.IsAdmin;
+			base.OnAppearing();
 		}
 
 		async public Task AttemptToReauthenticateAthlete()
@@ -83,16 +90,23 @@ namespace SportRankerMatchOn.Shared
 			_userLabel.FontSize = 18;
 			_userLabel.HorizontalOptions = LayoutOptions.Center;
 
+			_adminButton = new Button {
+				BackgroundColor = Color.Gray,
+				TextColor = Color.White,
+				IsVisible = false,
+				Text = "Go to Admin",
+			};
+
 			_loginButton = new Button {
 				BackgroundColor = Color.Gray,
-				TextColor = Color.Black,
+				TextColor = Color.White,
 				IsVisible = false,
 				Text = "Log In",
 			};
 
 			_logoutButton = new Button {
 				BackgroundColor = Color.Gray,
-				TextColor = Color.Black,
+				TextColor = Color.White,
 				IsVisible = false,
 				Text = "Log Out",
 			};
@@ -108,6 +122,11 @@ namespace SportRankerMatchOn.Shared
 				MessagingCenter.Send<AuthenticationPage>(this, "AuthenticateUser");
 			};
 
+			_adminButton.Clicked += (sender, e) =>
+			{
+				Navigation.PushAsync(new AdminPage());		
+			};
+
 			Content = new StackLayout {
 				Padding = 40,
 				Spacing = 20,
@@ -116,6 +135,7 @@ namespace SportRankerMatchOn.Shared
 					_activity,
 					_statusLabel,
 					_userLabel,
+						_adminButton,
 						_loginButton,
 						_logoutButton
 				}

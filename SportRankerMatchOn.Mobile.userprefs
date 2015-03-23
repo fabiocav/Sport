@@ -1,9 +1,24 @@
-﻿<Properties StartupItem="SportRankerMatchOn.Android/SportRankerMatchOn.Android.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.8.2" />
-  <MonoDevelop.Ide.Workbench />
+﻿<Properties StartupItem="SportRankerMatchOn.iOS/SportRankerMatchOn.iOS.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SportRankerMatchOn.Shared/Services/AzureService.cs">
+    <Files>
+      <File FileName="SportRankerMatchOn.Shared/ViewModels/MembershipsByAthleteViewModel.cs" Line="43" Column="47" />
+      <File FileName="SportRankerMatchOn.Shared/Services/AzureService.cs" Line="11" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>m</Value>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.iOS/AuthenticationRenderer.cs" line="26" column="1" />
+      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.Shared/Services/AzureService.cs" line="84" column="1" />
+      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.Shared/Models/Membership.cs" line="23" column="1" />
+      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.Shared/Models/Membership.cs" line="14" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

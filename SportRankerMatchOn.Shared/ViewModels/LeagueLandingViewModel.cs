@@ -15,10 +15,19 @@ namespace SportRankerMatchOn.Shared
 			AllLeagues = new ObservableCollection<League>();
 		}
 
+		ObservableCollection<League> _allLeagues;
+		public const string AllLeaguesPropertyName = "AllLeagues";
+
 		public ObservableCollection<League> AllLeagues
 		{
-			get;
-			set;
+			get
+			{
+				return _allLeagues;
+			}
+			set
+			{
+				SetProperty(ref _allLeagues, value, AllLeaguesPropertyName);
+			}
 		}
 
 		public ICommand GetAllLeaguesCommand

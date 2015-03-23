@@ -21,9 +21,6 @@ namespace SportRankerMatchOn.Shared
 				{
 					landingVm.AllLeagues.Add(ViewModel.League);
 				}
-				else
-				{
-				}
 
 				await Navigation.PopModalAsync();
 			};
@@ -50,6 +47,11 @@ namespace SportRankerMatchOn.Shared
 					landingVm.AllLeagues.Remove(ViewModel.League);
 					await Navigation.PopModalAsync();
 				}
+			};
+
+			btnMemberStatus.Clicked += async(sender, e) =>
+			{
+				await Navigation.PushAsync(new MembershipsLandingPage(ViewModel.League));	
 			};
 		}
 

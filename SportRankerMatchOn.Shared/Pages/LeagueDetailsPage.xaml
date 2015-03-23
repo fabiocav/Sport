@@ -17,11 +17,13 @@
 				<Switch IsToggled="{Binding League.IsAcceptingMembers}" HorizontalOptions="End" />
 			</StackLayout>
 
-<!--			<StackLayout Orientation="Horizontal" IsVisible="{Binding League.Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">-->
 			<StackLayout Orientation="Horizontal" >
 				<Label Text="Join" HorizontalOptions="StartAndExpand" />
 				<Switch IsToggled="{Binding JoinLeague}" HorizontalOptions="End" />
 			</StackLayout>
+
+			<Button x:Name="btnMemberStatus" Text="Membership Status" Style="{StaticResource buttonStyle}"
+				IsVisible="{Binding League.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
 
 			<Button x:Name="btnSaveLeague" Text="Save League" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />

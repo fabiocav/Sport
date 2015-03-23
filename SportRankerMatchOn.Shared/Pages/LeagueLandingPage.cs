@@ -4,6 +4,8 @@ namespace SportRankerMatchOn.Shared
 {
 	public partial class LeagueLandingPage : LeagueLandingXaml
 	{
+		bool _dataLoaded;
+
 		public LeagueLandingPage()
 		{
 			InitializeComponent();
@@ -28,13 +30,18 @@ namespace SportRankerMatchOn.Shared
 		async protected override void OnLoaded()
 		{
 			await ViewModel.GetAllLeagues();
+			_dataLoaded = true;
+
 			base.OnLoaded();
 		}
 
 		protected override void OnAppearing()
 		{
-			list.ItemsSource = null;
-			list.SetBinding(ListView.ItemsSourceProperty, "AllLeagues");
+			if(_dataLoaded)
+			{
+				list.ItemsSource = null;
+				list.SetBinding(ListView.ItemsSourceProperty, "AllLeagues");
+			}
 
 			base.OnAppearing();
 		}

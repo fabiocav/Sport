@@ -4,6 +4,8 @@ namespace SportRankerMatchOn.Shared
 {
 	public partial class AthleteLandingPage : AthleteLandingXaml
 	{
+		bool _dataLoaded;
+
 		public AthleteLandingPage()
 		{
 			InitializeComponent();
@@ -23,14 +25,18 @@ namespace SportRankerMatchOn.Shared
 		async protected override void OnLoaded()
 		{
 			await ViewModel.GetAllAthletes();
+			_dataLoaded = true;
 			base.OnLoaded();
 		}
 
 		protected override void OnAppearing()
 		{
-			list.ItemsSource = null;
-			list.SetBinding(ListView.ItemsSourceProperty, "AllAthletes");
-
+			if(_dataLoaded)
+			{
+				list.ItemsSource = null;
+				list.SetBinding(ListView.ItemsSourceProperty, "AllAthletes");
+			}
+		
 			base.OnAppearing();
 		}
 	}

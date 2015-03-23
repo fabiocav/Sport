@@ -57,12 +57,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\MemberDetailsPage.xaml.cs">
       <DependentUpon>MemberDetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\MembershipsByAthlete.xaml.cs">
-      <DependentUpon>MembershipsByAthlete.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipsByAthleteViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipDetailsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Membership.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipsLanding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MembershipsLandingPage.xaml.cs">
+      <DependentUpon>MembershipsLandingPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AdminPage.xaml">
@@ -86,7 +86,7 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MemberDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MembershipsByAthlete.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MembershipsLandingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

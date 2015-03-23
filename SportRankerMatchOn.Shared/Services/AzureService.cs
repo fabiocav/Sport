@@ -64,6 +64,7 @@ namespace SportRankerMatchOn.Shared
 		{
 			DataManager.Instance.Leagues.Clear();
 			var list = await Client.GetTable<League>().OrderBy(l => l.Name).ToListAsync();
+			list.ForEach(l => DataManager.Instance.Leagues.AddOrUpdate(l));
 			return list;
 		}
 
@@ -76,17 +77,18 @@ namespace SportRankerMatchOn.Shared
 			league.Memberships.Clear();
 			foreach(var m in memberships)
 			{
-				m.Athlete = athletes.SingleOrDefault(a => a.Id == m.AthleteId);
-				m.Athlete = m.Athlete ?? DataManager.Instance.Athletes[m.AthleteId];
+				var athlete = athletes.SingleOrDefault(a => a.Id == m.AthleteId);
+				athlete = athlete ?? DataManager.Instance.Athletes.Get(m.AthleteId);
 
-				if(m.Athlete == null)
+				if(athlete == null)
 				{
 					await DeleteMembership(m.Id);
 				}
 
 				league.Memberships.Add(m);
 				DataManager.Instance.Memberships.AddOrUpdate(m);
-				DataManager.Instance.Athletes.AddOrUpdate(m.Athlete);
+				DataManager.Instance.Athletes.AddOrUpdate(athlete);
+				m.OnPropertyChanged("Athlete");
 			}
 		}
 
@@ -102,7 +104,9 @@ namespace SportRankerMatchOn.Shared
 			{
 				League a;
 				DataManager.Instance.Leagues.TryGetValue(id, out a);
-				return a ?? await Client.GetTable<League>().LookupAsync(id);
+				a = a ?? await Client.GetTable<League>().LookupAsync(id);
+				DataManager.Instance.Leagues.AddOrUpdate(a);
+				return a;
 			}
 			catch(Exception e)
 			{
@@ -162,6 +166,7 @@ namespace SportRankerMatchOn.Shared
 		{
 			DataManager.Instance.Athletes.Clear();
 			var list = await Client.GetTable<Athlete>().OrderBy(a => a.Name).ToListAsync();
+			list.ForEach(a => DataManager.Instance.Athletes.AddOrUpdate(a));
 			return list;
 		}
 
@@ -170,7 +175,9 @@ namespace SportRankerMatchOn.Shared
 			try
 			{
 				var list = await Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync();
-				return list.FirstOrDefault();
+				var athlete = list.FirstOrDefault();
+				DataManager.Instance.Athletes.AddOrUpdate(athlete);
+				return athlete;
 			}
 			catch(Exception e)
 			{
@@ -185,7 +192,9 @@ namespace SportRankerMatchOn.Shared
 			try
 			{
 				var list = await Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync();
-				return list.FirstOrDefault();
+				var athlete = list.FirstOrDefault();
+				DataManager.Instance.Athletes.AddOrUpdate(athlete);
+				return athlete;				
 			}
 			catch(Exception e)
 			{
@@ -201,7 +210,9 @@ namespace SportRankerMatchOn.Shared
 			{
 				Athlete a;
 				DataManager.Instance.Athletes.TryGetValue(id, out a);
-				return a ?? await Client.GetTable<Athlete>().LookupAsync(id);
+				a = a ?? await Client.GetTable<Athlete>().LookupAsync(id);
+				DataManager.Instance.Athletes.AddOrUpdate(a);
+				return a;				
 			}
 			catch(Exception e)
 			{
@@ -220,17 +231,18 @@ namespace SportRankerMatchOn.Shared
 			athlete.Memberships.Clear();
 			foreach(var m in memberships)
 			{
-				m.League = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
-				m.League = m.League ?? DataManager.Instance.Leagues[m.LeagueId];
+				var league = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
+				league = league ?? DataManager.Instance.Leagues.Get(m.LeagueId);
 
-				if(m.League == null)
+				if(league == null)
 				{
 					await DeleteMembership(m.Id);
 				}
 				
 				athlete.Memberships.Add(m);
+				DataManager.Instance.Leagues.AddOrUpdate(league);
 				DataManager.Instance.Memberships.AddOrUpdate(m);
-				DataManager.Instance.Leagues.AddOrUpdate(m.League);
+				m.OnPropertyChanged("League");
 			}
 		}
 
@@ -340,4 +352,3 @@ namespace SportRankerMatchOn.Shared
 		#endregion
 	}
 }
-

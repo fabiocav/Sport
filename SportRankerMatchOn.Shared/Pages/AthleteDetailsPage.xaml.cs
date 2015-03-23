@@ -54,7 +54,7 @@ namespace SportRankerMatchOn.Shared
 
 			btnMemberStatus.Clicked += async(sender, e) =>
 			{
-				await Navigation.PushAsync(new MembershipsByAthletePage(ViewModel.Athlete));	
+				await Navigation.PushAsync(new MembershipsLandingPage(ViewModel.Athlete));	
 			};
 		}
 

@@ -18,7 +18,7 @@
 				<Switch IsToggled="{Binding Athlete.IsAdmin}" HorizontalOptions="End" />
 			</StackLayout>
 
-			<Button x:Name="btnMemberStatus" Text="Member Status" Style="{StaticResource buttonStyle}"
+			<Button x:Name="btnMemberStatus" Text="Membership Status" Style="{StaticResource buttonStyle}"
 				IsVisible="{Binding Athlete.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
 
 			<Button x:Name="btnSaveAthlete" Text="Save Athlete" Style="{StaticResource buttonStyle}"

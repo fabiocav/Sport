@@ -6,6 +6,24 @@ namespace SportRankerMatchOn.Shared
 {
 	public class Membership : BaseModel
 	{
+		[JsonIgnore]
+		public League League
+		{
+			get
+			{
+				return LeagueId == null ? null : DataManager.Instance.Leagues.Get(LeagueId);
+			}
+		}
+
+		[JsonIgnore]
+		public Athlete Athlete
+		{
+			get
+			{
+				return AthleteId == null ? null : DataManager.Instance.Athletes.Get(AthleteId);
+			}
+		}
+
 		string _athleteId;
 		public const string AthleteIdPropertyName = "AthleteId";
 
@@ -18,22 +36,7 @@ namespace SportRankerMatchOn.Shared
 			set
 			{
 				SetProperty(ref _athleteId, value, AthleteIdPropertyName);
-			}
-		}
-
-		Athlete _athlete;
-		public const string AthletePropertyName = "Athlete";
-
-		[JsonIgnore]
-		public Athlete Athlete
-		{
-			get
-			{
-				return _athlete;
-			}
-			set
-			{
-				SetProperty(ref _athlete, value, AthletePropertyName);
+				OnPropertyChanged("Athlete");
 			}
 		}
 
@@ -49,22 +52,7 @@ namespace SportRankerMatchOn.Shared
 			set
 			{
 				SetProperty(ref _leagueId, value, LeagueIdPropertyName);
-			}
-		}
-
-		League _league;
-		public const string LeaguePropertyName = "League";
-
-		[JsonIgnore]
-		public League League
-		{
-			get
-			{
-				return _league;
-			}
-			set
-			{
-				SetProperty(ref _league, value, LeaguePropertyName);
+				OnPropertyChanged("League");
 			}
 		}
 
