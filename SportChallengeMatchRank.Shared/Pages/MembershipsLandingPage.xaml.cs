@@ -80,6 +80,11 @@ namespace SportChallengeMatchRank.Shared
 			if(!_dataLoaded)
 				return;
 
+			UpdateBindings();
+		}
+
+		void UpdateBindings()
+		{
 			list.ItemsSource = null;
 			if(ViewModel.Athlete != null)
 			{

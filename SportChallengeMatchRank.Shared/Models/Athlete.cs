@@ -23,7 +23,6 @@ namespace SportChallengeMatchRank.Shared
 
 		void Initialize()
 		{
-			Memberships = new ObservableCollection<Membership>();
 		}
 
 		public List<string> MembershipIds
@@ -92,7 +91,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		ObservableCollection<Membership> _memberships;
+		ObservableCollection<Membership> _memberships = new ObservableCollection<Membership>();
 		public const string MembershipsPropertyName = "Memberships";
 
 		public ObservableCollection<Membership> Memberships
@@ -107,15 +106,10 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public void ValidateMemberships()
+		public void RefreshMemberships()
 		{
-			foreach(var m in Memberships.ToList())
-			{
-				if(m.League == null || !m.League.Memberships.Any(mm => mm.AthleteId == Id))
-				{
-					Memberships.Remove(m);
-				}
-			}
+			_memberships.Clear();
+			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).ToList().ForEach(_memberships.Add);
 		}
 	}
 }
