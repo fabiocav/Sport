@@ -11,6 +11,8 @@ namespace SportRankerMatchOn.Shared
 {
 	public class AzureService
 	{
+		#region Properties
+
 		static AzureService _instance;
 
 		public static AzureService Instance
@@ -35,7 +37,18 @@ namespace SportRankerMatchOn.Shared
 			{
 				if(_client == null)
 				{
-					_client = new MobileServiceClient(Constants.AzureDomain, Constants.AzureClientId);
+					HttpClientHandler handler = new HttpClientHandler();
+
+					#if __IOS__
+					handler = new HttpClientHandler {
+						Proxy = CoreFoundation.CFNetwork.GetDefaultProxy(),
+						UseProxy = true,
+					};
+					#endif
+
+					_client = new MobileServiceClient(Constants.AzureDomain, Constants.AzureClientId, new HttpMessageHandler[] {
+							handler
+						});
 					CurrentPlatform.Init();
 				}
 
@@ -43,42 +56,60 @@ namespace SportRankerMatchOn.Shared
 			}			
 		}
 
-		async public Task<Member> AddAthleteToLeague(string athleteId, string leagueId)
-		{
-			try
-			{
-				await _client.InvokeApiAsync<string[], object>("add_to_league", new[] {
-						athleteId,
-						leagueId,
-					});
-			}
-			catch(MobileServiceInvalidOperationException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch(HttpRequestException ex2)
-			{
-				Console.WriteLine(ex2.Message);
-			}
-
-			return new Member {
-				Athlete = App.CurrentAthlete,
-				LeagueId = leagueId,
-			};
-		}
+		#endregion
 
 		#region League
 
 		async public Task<List<League>> GetAllLeagues()
 		{
+			DataManager.Instance.Leagues.Clear();
 			var list = await Client.GetTable<League>().OrderBy(l => l.Name).ToListAsync();
 			return list;
+		}
+
+		async public Task GetAllAthletesByLeague(League league)
+		{
+			var memberships = await Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync();
+			var memberIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.AthleteId)).Select(m => m.AthleteId).ToList();
+			var athletes = await Client.GetTable<Athlete>().Where(a => memberIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync();
+
+			league.Memberships.Clear();
+			foreach(var m in memberships)
+			{
+				m.Athlete = athletes.SingleOrDefault(a => a.Id == m.AthleteId);
+				m.Athlete = m.Athlete ?? DataManager.Instance.Athletes[m.AthleteId];
+
+				if(m.Athlete == null)
+				{
+					await DeleteMembership(m.Id);
+				}
+
+				league.Memberships.Add(m);
+				DataManager.Instance.Memberships.AddOrUpdate(m);
+				DataManager.Instance.Athletes.AddOrUpdate(m.Athlete);
+			}
 		}
 
 		async public Task<List<League>> GetAllEnabledLeagues()
 		{
 			var list = await Client.GetTable<League>().Where(l => l.IsEnabled).OrderBy(l => l.Name).ToListAsync();
 			return list;
+		}
+
+		async public Task<League> GetLeagueById(string id)
+		{
+			try
+			{
+				League a;
+				DataManager.Instance.Leagues.TryGetValue(id, out a);
+				return a ?? await Client.GetTable<League>().LookupAsync(id);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+
+			return null;
 		}
 
 		async public Task<League> GetLeagueByName(string name)
@@ -98,6 +129,7 @@ namespace SportRankerMatchOn.Shared
 			{
 				await Client.GetTable<League>().UpdateAsync(league);
 			}
+			DataManager.Instance.Leagues.AddOrUpdate(league);
 		}
 
 		async public Task DeleteLeague(string id)
@@ -107,6 +139,14 @@ namespace SportRankerMatchOn.Shared
 				await Client.GetTable<League>().DeleteAsync(new League {
 						Id = id
 					});
+				DataManager.Instance.Leagues.Remove(id);
+			}
+			catch(HttpRequestException hre)
+			{
+				if(hre.Message.ContainsNoCase("not found"))
+				{
+					DataManager.Instance.Leagues.Remove(id);
+				}
 			}
 			catch(Exception e)
 			{
@@ -120,6 +160,7 @@ namespace SportRankerMatchOn.Shared
 
 		async public Task<List<Athlete>> GetAllAthletes()
 		{
+			DataManager.Instance.Athletes.Clear();
 			var list = await Client.GetTable<Athlete>().OrderBy(a => a.Name).ToListAsync();
 			return list;
 		}
@@ -128,7 +169,9 @@ namespace SportRankerMatchOn.Shared
 		{
 			try
 			{
-				return await Client.GetTable<Athlete>().LookupAsync(id);
+				Athlete a;
+				DataManager.Instance.Athletes.TryGetValue(id, out a);
+				return a ?? await Client.GetTable<Athlete>().LookupAsync(id);
 			}
 			catch(Exception e)
 			{
@@ -136,6 +179,29 @@ namespace SportRankerMatchOn.Shared
 			}
 
 			return null;
+		}
+
+		async public Task GetAllLeaguesByAthlete(Athlete athlete)
+		{
+			var memberships = await Client.GetTable<Membership>().Where(m => m.AthleteId == athlete.Id).OrderBy(m => m.CurrentRank).ToListAsync();
+			var memberIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.LeagueId)).Select(m => m.LeagueId).ToList();
+			var leagues = await Client.GetTable<League>().Where(l => memberIds.Contains(l.Id)).OrderBy(l => l.Name).ToListAsync();
+
+			athlete.Memberships.Clear();
+			foreach(var m in memberships)
+			{
+				m.League = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
+				m.League = m.League ?? DataManager.Instance.Leagues[m.LeagueId];
+
+				if(m.League == null)
+				{
+					await DeleteMembership(m.Id);
+				}
+				
+				athlete.Memberships.Add(m);
+				DataManager.Instance.Memberships.AddOrUpdate(m);
+				DataManager.Instance.Leagues.AddOrUpdate(m.League);
+			}
 		}
 
 		async public Task SaveAthlete(Athlete athlete)
@@ -148,6 +214,7 @@ namespace SportRankerMatchOn.Shared
 			{
 				await Client.GetTable<Athlete>().UpdateAsync(athlete);
 			}
+			DataManager.Instance.Athletes.AddOrUpdate(athlete);
 		}
 
 		async public Task DeleteAthlete(string id)
@@ -157,6 +224,14 @@ namespace SportRankerMatchOn.Shared
 				await Client.GetTable<Athlete>().DeleteAsync(new Athlete {
 						Id = id
 					});
+				DataManager.Instance.Athletes.Remove(id);
+			}
+			catch(HttpRequestException hre)
+			{
+				if(hre.Message.ContainsNoCase("not found"))
+				{
+					DataManager.Instance.Athletes.Remove(id);
+				}
 			}
 			catch(Exception e)
 			{
@@ -166,13 +241,27 @@ namespace SportRankerMatchOn.Shared
 
 		#endregion
 
-		#region Member
+		#region Membership
 
-		async public Task<Member> GetMemberById(string id)
+		async public Task GetMembershipsForLeague(League league)
+		{
+			var list = await Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync();
+
+			league.Memberships.Clear();
+			foreach(var m in list)
+			{
+				league.Memberships.Add(m);
+				DataManager.Instance.Memberships.AddOrUpdate(m);
+			}
+		}
+
+		async public Task<Membership> GetMembershipById(string id)
 		{
 			try
 			{
-				return await Client.GetTable<Member>().LookupAsync(id);
+				Membership a;
+				DataManager.Instance.Memberships.TryGetValue(id, out a);
+				return a ?? await Client.GetTable<Membership>().LookupAsync(id);
 			}
 			catch(Exception e)
 			{
@@ -182,25 +271,35 @@ namespace SportRankerMatchOn.Shared
 			return null;
 		}
 
-		async public Task SaveMember(Member member)
+		async public Task SaveMembership(Membership membership)
 		{
-			if(member.Id == null)
+			if(membership.Id == null)
 			{
-				await Client.GetTable<Member>().InsertAsync(member);
+				await Client.GetTable<Membership>().InsertAsync(membership);
 			}
 			else
 			{
-				await Client.GetTable<Member>().UpdateAsync(member);
+				await Client.GetTable<Membership>().UpdateAsync(membership);
 			}
+
+			DataManager.Instance.Memberships.AddOrUpdate(membership);
 		}
 
-		async public Task DeleteMember(string id)
+		async public Task DeleteMembership(string id)
 		{
 			try
 			{
-				await Client.GetTable<Member>().DeleteAsync(new Member {
+				await Client.GetTable<Membership>().DeleteAsync(new Membership {
 						Id = id
 					});
+				DataManager.Instance.Memberships.Remove(id);
+			}
+			catch(HttpRequestException hre)
+			{
+				if(hre.Message.ContainsNoCase("not found"))
+				{
+					DataManager.Instance.Memberships.Remove(id);
+				}
 			}
 			catch(Exception e)
 			{

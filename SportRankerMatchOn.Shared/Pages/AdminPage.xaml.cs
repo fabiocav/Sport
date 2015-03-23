@@ -22,6 +22,14 @@ namespace SportRankerMatchOn.Shared
 				await Navigation.PushAsync(new AthleteLandingPage());	
 			};
 		}
+
+		//		public ICommand OrgSettingsCommand
+		//		{
+		//			get
+		//			{
+		//				return new Command(() => Navigation.PushAsync(new AthleteLandingPage()));
+		//			}
+		//		}
 	}
 
 	public partial class AdminPageXaml : BaseContentPage<AdminViewModel>

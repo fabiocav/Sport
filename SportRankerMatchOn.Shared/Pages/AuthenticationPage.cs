@@ -23,16 +23,15 @@ namespace SportRankerMatchOn.Shared
 		{
 			if(!ViewModel.IsUserValid())
 			{
-				App.AuthUserProfile = null;
-				await DisplayAlert("Invalid Email", "This service is only available to Xamarin employees.", "OK");
+				if(App.AuthUserProfile != null)
+				{
+					App.AuthUserProfile = null;
+					await DisplayAlert("Invalid Organization", "This service is only available to the xamarin.com organization.", "OK");
+				}
 			}
 			else
 			{
-				if(App.AuthUserProfile != null)
-				{
-					await ViewModel.EnsureAthleteRegistered();
-				}
-
+				await ViewModel.EnsureAthleteRegistered();
 				await Navigation.PushAsync(new AdminPage());
 			}
 
@@ -58,9 +57,10 @@ namespace SportRankerMatchOn.Shared
 			}
 			else
 			{
-				MessagingCenter.Send<AuthenticationPage>(this, "AuthenticateUser");
+				MessagingCenter.Send<AuthenticationViewModel>(ViewModel, "AuthenticateUser");
 			}
 
+			_statusLabel.Text = string.Empty;
 			await UserAuthenticationUpdated();
 		}
 
@@ -113,11 +113,11 @@ namespace SportRankerMatchOn.Shared
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-						_activity,
-						_statusLabel,
-						_userLabel,
-					_loginButton,
-					_logoutButton
+					_activity,
+					_statusLabel,
+					_userLabel,
+						_loginButton,
+						_logoutButton
 				}
 			};
 		}

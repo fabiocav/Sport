@@ -4,27 +4,52 @@ using Newtonsoft.Json;
 
 namespace SportRankerMatchOn.Shared
 {
-	public class GameResult
+	public class GameResult : BaseModel
 	{
-		[JsonProperty("winning-score")]
+		int _winningScore;
+		public const string WinningScorePropertyName = "WinningScore";
+
 		public int WinningScore
 		{
-			get;
-			set;
+			get
+			{
+				return _winningScore;
+			}
+			set
+			{
+				SetProperty(ref _winningScore, value, WinningScorePropertyName);
+			}
 		}
 
-		[JsonProperty("losing-score")]
+		int _losingScore;
+		public const string LosingScorePropertyName = "LosingScore";
+
 		public int LosingScore
 		{
-			get;
-			set;
+			get
+			{
+				return _losingScore;
+			}
+			set
+			{
+				SetProperty(ref _losingScore, value, LosingScorePropertyName);
+			}
 		}
 
-		[JsonProperty("victorious-member-ids")]
+		List<string> _victoriousMemberIDs;
+		public const string VictoriousMemberIDsPropertyName = "VictoriousMemberIDs";
+
 		public List<string> VictoriousMemberIDs
 		{
-			get;
-			set;
+			get
+			{
+				return _victoriousMemberIDs;
+			}
+			set
+			{
+				SetProperty(ref _victoriousMemberIDs, value, VictoriousMemberIDsPropertyName);
+			}
 		}
+
 	}
 }

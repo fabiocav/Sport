@@ -37,7 +37,7 @@ namespace SportRankerMatchOn.iOS
 
 		public override void ViewDidAppear(bool animated)
 		{
-			MessagingCenter.Subscribe<BaseViewModel>(this, "AuthenticateUser", async(sender) =>
+			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "AuthenticateUser", async(sender) =>
 				{
 					await AuthenticateUser();
 					_page.UserAuthenticationUpdated();

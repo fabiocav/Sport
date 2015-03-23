@@ -6,46 +6,95 @@ namespace SportRankerMatchOn.Shared
 {
 	public class Match : BaseModel
 	{
-		[JsonProperty("member_ids")]
-		public List<string> MemberIds
+		List<string> _memberIds;
+		public const string MembershipIdsPropertyName = "MembershipIds";
+
+		public List<string> MembershipIds
 		{
-			get;
-			set;
+			get
+			{
+				return _memberIds;
+			}
+			set
+			{
+				SetProperty(ref _memberIds, value, MembershipIdsPropertyName);
+			}
 		}
 
-		[JsonIgnore]
-		public List<Member> Members
+		List<Membership> _members;
+		public const string MembersPropertyName = "Members";
+
+		public List<Membership> Members
 		{
-			get;
-			set;
+			get
+			{
+				return _members;
+			}
+			set
+			{
+				SetProperty(ref _members, value, MembersPropertyName);
+			}
 		}
 
-		[JsonProperty("start_date")]
+		DateTime _startDate;
+		public const string StartDatePropertyName = "StartDate";
+
 		public DateTime StartDate
 		{
-			get;
-			set;
+			get
+			{
+				return _startDate;
+			}
+			set
+			{
+				SetProperty(ref _startDate, value, StartDatePropertyName);
+			}
 		}
 
-		[JsonProperty("end_date")]
+		DateTime _endDate;
+		public const string EndDatePropertyName = "EndDate";
+
 		public DateTime EndDate
 		{
-			get;
-			set;
+			get
+			{
+				return _endDate;
+			}
+			set
+			{
+				SetProperty(ref _endDate, value, EndDatePropertyName);
+			}
 		}
 
-		[JsonProperty("game_results")]
+		List<GameResult> _gameResults;
+		public const string GameResultsPropertyName = "GameResults";
+
 		public List<GameResult> GameResults
 		{
-			get;
-			set;
+			get
+			{
+				return _gameResults;
+			}
+			set
+			{
+				SetProperty(ref _gameResults, value, GameResultsPropertyName);
+			}
 		}
 
-		[JsonProperty("league_id")]
+		string _leagueId;
+		public const string LeagueIdPropertyName = "LeagueId";
+
 		public string LeagueId
 		{
-			get;
-			set;
+			get
+			{
+				return _leagueId;
+			}
+			set
+			{
+				SetProperty(ref _leagueId, value, LeagueIdPropertyName);
+			}
 		}
+
 	}
 }

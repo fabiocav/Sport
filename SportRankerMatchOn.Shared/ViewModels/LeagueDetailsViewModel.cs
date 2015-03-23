@@ -68,9 +68,9 @@ namespace SportRankerMatchOn.Shared
 					bool wasNew = League.Id == null;
 					await AzureService.Instance.SaveLeague(League);
 
-					if(wasNew && JoinLeague)
+					if(JoinLeague)
 					{
-						await AzureService.Instance.SaveMember(new Member {
+						await AzureService.Instance.SaveMembership(new Membership {
 								AthleteId = App.CurrentAthlete.Id,
 								LeagueId = League.Id,
 								CurrentRank = 0,

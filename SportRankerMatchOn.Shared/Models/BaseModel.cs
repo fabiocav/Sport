@@ -7,11 +7,20 @@ namespace SportRankerMatchOn.Shared
 {
 	public class BaseModel
 	{
+		string _id;
+		public const string IdPropertyName = "Id";
+
 		[JsonProperty("id")]
 		public string Id
 		{
-			get;
-			set;
+			get
+			{
+				return _id;
+			}
+			set
+			{
+				SetProperty(ref _id, value, IdPropertyName);
+			}
 		}
 
 		#region INotifyPropertyChanged implementation

@@ -1,18 +1,9 @@
 ﻿<Properties StartupItem="SportRankerMatchOn.iOS/SportRankerMatchOn.iOS.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.8.2" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SportRankerMatchOn.Shared/ViewModels/AuthenticationViewModel.cs">
-    <Files>
-      <File FileName="SportRankerMatchOn.Shared/ViewModels/AuthenticationViewModel.cs" Line="32" Column="8" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Volumes/Documents/Rob/Projects/Github/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Pages/NewLeaguePage.xaml.cs" line="12" column="15" />
-      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.iOS/AuthenticationRenderer.cs" line="18" column="1" />
-      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/ViewModels/AuthenticationViewModel.cs" line="34" column="1" />
-      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.Shared.Mobile/Services/AzureService.cs" line="114" column="1" />
-      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.Shared/ViewModels/AuthenticationViewModel.cs" line="42" column="1" />
-      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.Shared/ViewModels/AuthenticationViewModel.cs" line="34" column="1" />
+      <Breakpoint file="/Users/Rob/Documents/Projects/GitHub/SportRankerMatchOn/SportRankerMatchOn.iOS/AuthenticationRenderer.cs" line="26" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

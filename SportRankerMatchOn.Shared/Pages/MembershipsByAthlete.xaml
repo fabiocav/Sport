@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:MembershipsByAthleteXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportRankerMatchOn.Shared.MembershipsByAthletePage"
+	xmlns:local="clr-namespace:SportRankerMatchOn.Shared;assembly=SportRankerMatchOn">
+	<local:MembershipsByAthleteXaml.Content>
+		<ListView x:Name="list" ItemsSource="{Binding Athlete.MembershipsByAthlete}" RowHeight="60"
+			RefreshCommand="{Binding GetAllMembershipsByAthleteCommand}" IsRefreshing="{Binding IsBusy}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ViewCell.View>
+						<StackLayout Padding="20,10,10,10" Spacing="0">
+							<Label Text="{Binding League.Name}" FontSize="13" />
+							<Label Text="{Binding CurrentRank}" FontSize="11" />
+							<Label Text="{Binding JoinDate}" FontSize="11" />
+						</StackLayout>
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</local:MembershipsByAthleteXaml.Content>
+
+</local:MembershipsByAthleteXaml>

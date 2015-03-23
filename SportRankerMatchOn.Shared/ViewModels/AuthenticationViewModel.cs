@@ -75,6 +75,13 @@ namespace SportRankerMatchOn.Shared
 						App.AuthUserProfile = JsonConvert.DeserializeObject<UserProfile>(json);
 					}
 				}
+				catch(HttpRequestException hre)
+				{
+					if(hre.Message.ContainsNoCase("unauthorized"))
+					{
+						LogOut();
+					}
+				}
 				catch(Exception e)
 				{
 					Console.WriteLine("Error getting user profile: {0}", e);

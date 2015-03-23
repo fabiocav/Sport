@@ -5,9 +5,9 @@ namespace SportRankerMatchOn.Shared
 {
 	public partial class AthleteDetailsPage : AthleteDetailsXaml
 	{
-		public AthleteDetailsPage(Athlete league = null)
+		public AthleteDetailsPage(Athlete member = null)
 		{
-			ViewModel.Athlete = league ?? new Athlete();
+			ViewModel.Athlete = member ?? new Athlete();
 			InitializeComponent();
 			Title = "Athlete Details";
 
@@ -41,7 +41,7 @@ namespace SportRankerMatchOn.Shared
 
 			btnDeleteAthlete.Clicked += async(sender, e) =>
 			{
-				var accepted = await DisplayAlert("Delete Athlete?", "Are you totes sure you want to delete this athlete?", "Yeah", "Nah");
+				var accepted = await DisplayAlert("Delete Athlete?", "Are you totes sure you want to delete this athlete?", "Yeah brah!", "Nah");
 
 				if(accepted)
 				{
@@ -54,7 +54,7 @@ namespace SportRankerMatchOn.Shared
 
 			btnMemberStatus.Clicked += async(sender, e) =>
 			{
-				await Navigation.PushAsync(new AthleteLeagueAssociationsPage());	
+				await Navigation.PushAsync(new MembershipsByAthletePage(ViewModel.Athlete));	
 			};
 		}
 

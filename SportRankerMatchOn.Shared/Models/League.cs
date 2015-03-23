@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace SportRankerMatchOn.Shared
 {
@@ -8,7 +9,9 @@ namespace SportRankerMatchOn.Shared
 	{
 		public League()
 		{
-			MemberIds = new List<string>();
+			MembershipIds = new List<string>();
+			Memberships = new ObservableCollection<Membership>();
+
 			IsAcceptingMembers = true;
 			IsEnabled = true;
 		}
@@ -88,18 +91,33 @@ namespace SportRankerMatchOn.Shared
 			}
 		}
 
-		List<string> _memberIds;
-		public const string MemberIdsPropertyName = "MemberIds";
+		List<string> _membershipIds;
+		public const string MembershipIdsPropertyName = "MembershipIds";
 
-		public List<string> MemberIds
+		public List<string> MembershipIds
 		{
 			get
 			{
-				return _memberIds;
+				return _membershipIds;
 			}
 			set
 			{
-				SetProperty(ref _memberIds, value, MemberIdsPropertyName);
+				SetProperty(ref _membershipIds, value, MembershipIdsPropertyName);
+			}
+		}
+
+		ObservableCollection<Membership> _memberships;
+		public const string MembershipsPropertyName = "Memberships";
+
+		public ObservableCollection<Membership> Memberships
+		{
+			get
+			{
+				return _memberships;
+			}
+			set
+			{
+				SetProperty(ref _memberships, value, MembershipsPropertyName);
 			}
 		}
 	}
