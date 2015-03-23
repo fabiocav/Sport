@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:AthleteLandingXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.AthleteLandingPage"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+	<local:AthleteLandingXaml.Content>
+		<ListView x:Name="list" ItemsSource="{Binding AllAthletes}" RefreshCommand="{Binding GetAllAthletesCommand}" IsRefreshing="{Binding IsBusy}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ViewCell.View>
+						<StackLayout Padding="20,10,10,10" Spacing="0">
+							<Label Text="{Binding Name}" FontSize="13" />
+							<Label Text="{Binding Email}" FontSize="11" />
+						</StackLayout>
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</local:AthleteLandingXaml.Content>
+
+<!--	<local:AthleteLandingXaml.ToolbarItems>
+		<ToolbarItem x:Name="btnAdd" Text="Add" />
+	</local:AthleteLandingXaml.ToolbarItems>
+-->
+</local:AthleteLandingXaml>
