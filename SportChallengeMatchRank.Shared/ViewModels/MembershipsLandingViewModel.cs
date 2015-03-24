@@ -67,6 +67,15 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public void LocalRefresh()
+		{
+			if(Athlete != null)
+				Athlete.RefreshMemberships();
+
+			if(League != null)
+				League.LocalRefreshMemberships();
+		}
+
 		async public Task GetAllMembershipsByLeague(bool forceRefresh = false)
 		{
 			if(!forceRefresh && League.Memberships != null && League.Memberships.Count > 0)
@@ -75,6 +84,7 @@ namespace SportChallengeMatchRank.Shared
 			using(new Busy(this))
 			{
 				await AzureService.Instance.GetAllAthletesByLeague(League);
+				LocalRefresh();
 			}
 		}
 	}

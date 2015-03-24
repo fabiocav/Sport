@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -9,21 +10,36 @@ namespace SportChallengeMatchRank.Shared
 		public LeagueDetailsPage(League league = null)
 		{
 			ViewModel.League = league ?? new League();
+			Initialize();
+		}
+
+		void Initialize()
+		{
 			InitializeComponent();
 			Title = "League Details";
 
 			btnSaveLeague.Clicked += async(sender, e) =>
 			{
-				var isNew = ViewModel.League.Id == null;
-				await ViewModel.SaveLeague();
-				var landingVm = DependencyService.Get<LeagueLandingViewModel>();
+				if(!ViewModel.IsValid())
+					return;
 
-				if(isNew)
+				var result = await ViewModel.SaveLeague();
+
+				if(result == SaveLeagueResult.OK)
 				{
-					landingVm.AllLeagues.Add(ViewModel.League);
-				}
+					DataManager.Instance.Leagues.AddOrUpdate(ViewModel.League);
 
-				await Navigation.PopModalAsync();
+					if(OnUpdate != null)
+						OnUpdate();
+
+					await Navigation.PopModalAsync();
+				}
+				else if(result == SaveLeagueResult.Conflict)
+				{
+					await DisplayAlert("Name in Use", "The league name '{0}' is already in use. Please choose another.".Fmt(ViewModel.League.Name), "OK");
+					ViewModel.League.Name = string.Empty;
+					name.Focus();
+				}
 			};
 
 			var btnCancel = new ToolbarItem {
@@ -39,13 +55,15 @@ namespace SportChallengeMatchRank.Shared
 
 			btnDeleteLeague.Clicked += async(sender, e) =>
 			{
-				var accepted = await DisplayAlert("Delete League?", "Are you totes sure you want to delete this league?", "Yeah", "Nah");
+				var accepted = await DisplayAlert("Delete League?", "Are you totes sure you want to delete this league?", "Yeah brah!", "Nah");
 
 				if(accepted)
 				{
 					await ViewModel.DeleteLeague();
-					var landingVm = DependencyService.Get<LeagueLandingViewModel>();
-					landingVm.AllLeagues.Remove(ViewModel.League);
+
+					if(OnUpdate != null)
+						OnUpdate();
+					
 					await Navigation.PopModalAsync();
 				}
 			};
@@ -54,6 +72,13 @@ namespace SportChallengeMatchRank.Shared
 			{
 				await Navigation.PushAsync(new MembershipsLandingPage(ViewModel.League));	
 			};
+			
+		}
+
+		public Action OnUpdate
+		{
+			get;
+			set;
 		}
 
 		protected override void OnAppearing()
@@ -61,7 +86,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.League.Id == null)
 				name.Focus();
 
-			joinLeague.IsVisible = ViewModel.League.Id == null || App.CurrentAthlete.Memberships.All(m => m.LeagueId != ViewModel.League.Id);
+			ViewModel.UpdateMembershipStatus();
 			base.OnAppearing();
 		}
 	}

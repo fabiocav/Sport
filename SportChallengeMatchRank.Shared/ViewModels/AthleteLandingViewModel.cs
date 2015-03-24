@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteLandingViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -29,6 +30,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public void LocalRefresh()
+		{
+			AllAthletes.Clear();
+			DataManager.Instance.Athletes.Values.ToList().ForEach(AllAthletes.Add);
+		}
+
 		async public Task GetAllAthletes(bool forceRefresh = false)
 		{
 			if(!forceRefresh && AllAthletes.Count > 0)
@@ -36,9 +43,8 @@ namespace SportChallengeMatchRank.Shared
 			
 			using(new Busy(this))
 			{
-				AllAthletes.Clear();
-				var list = await AzureService.Instance.GetAllAthletes();
-				list.ForEach(AllAthletes.Add);
+				await AzureService.Instance.GetAllAthletes();
+				LocalRefresh();
 			}
 		}
 	}

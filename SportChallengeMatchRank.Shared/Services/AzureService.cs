@@ -100,7 +100,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
+			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.LocalRefreshMemberships());
 		}
 
 		async public Task<List<League>> GetAllEnabledLeagues()
@@ -134,17 +134,31 @@ namespace SportChallengeMatchRank.Shared
 			return DefaultLeague;
 		}
 
-		async public Task SaveLeague(League league)
+		async public Task<SaveLeagueResult> SaveLeague(League league)
 		{
-			if(league.Id == null)
+			try
 			{
-				await Client.GetTable<League>().InsertAsync(league);
+				if(league.Id == null)
+				{
+					await Client.GetTable<League>().InsertAsync(league);
+				}
+				else
+				{
+					await Client.GetTable<League>().UpdateAsync(league);
+				}
+
+				DataManager.Instance.Leagues.AddOrUpdate(league);
+				return SaveLeagueResult.OK;
 			}
-			else
+			catch(MobileServiceConflictException)
 			{
-				await Client.GetTable<League>().UpdateAsync(league);
+				return SaveLeagueResult.Conflict;
 			}
-			DataManager.Instance.Leagues.AddOrUpdate(league);
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+				return SaveLeagueResult.Failed;
+			}
 		}
 
 		async public Task DeleteLeague(string id)
@@ -274,7 +288,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
+			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.LocalRefreshMemberships());
 		}
 
 		async public Task SaveAthlete(Athlete athlete)
@@ -383,5 +397,13 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		#endregion
+	}
+
+	public enum SaveLeagueResult
+	{
+		None,
+		OK,
+		Failed,
+		Conflict
 	}
 }

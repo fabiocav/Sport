@@ -4,8 +4,6 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class LeagueLandingPage : LeagueLandingXaml
 	{
-		bool _dataLoaded;
-
 		public LeagueLandingPage()
 		{
 			InitializeComponent();
@@ -13,7 +11,7 @@ namespace SportChallengeMatchRank.Shared
 
 			btnAdd.Clicked += async(sender, e) =>
 			{
-				await Navigation.PushModalAsync(new NavigationPage(new LeagueDetailsPage()));	
+				await Navigation.PushModalAsync(new NavigationPage(GetDetailsPage(null)));
 			};
 
 			list.ItemSelected += async(sender, e) =>
@@ -23,30 +21,26 @@ namespace SportChallengeMatchRank.Shared
 					
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
-				
-
-
-				await Navigation.PushModalAsync(new NavigationPage(new LeagueDetailsPage(league)));
+				await Navigation.PushModalAsync(new NavigationPage(GetDetailsPage(league)));
 			};
 		}
 
 		async protected override void OnLoaded()
 		{
 			await ViewModel.GetAllLeagues();
-			_dataLoaded = true;
-
 			base.OnLoaded();
 		}
 
-		protected override void OnAppearing()
+		LeagueDetailsPage GetDetailsPage(League league)
 		{
-			if(_dataLoaded)
+			var detailsPage = new LeagueDetailsPage(league);
+			detailsPage.OnUpdate = () =>
 			{
-				list.ItemsSource = null;
-				list.SetBinding(ListView.ItemsSourceProperty, "AllLeagues");
-			}
+				ViewModel.LocalRefresh();
+				detailsPage.OnUpdate = null;
+			};
 
-			base.OnAppearing();
+			return detailsPage;
 		}
 	}
 

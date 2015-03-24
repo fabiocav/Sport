@@ -49,7 +49,6 @@ namespace SportChallengeMatchRank.Shared
 			{
 				try
 				{
-					bool wasNew = Athlete.Id == null;
 					await AzureService.Instance.SaveAthlete(Athlete);
 				}
 				catch(Exception e)

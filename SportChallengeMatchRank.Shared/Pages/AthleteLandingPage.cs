@@ -4,8 +4,6 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AthleteLandingPage : AthleteLandingXaml
 	{
-		bool _dataLoaded;
-
 		public AthleteLandingPage()
 		{
 			InitializeComponent();
@@ -18,26 +16,22 @@ namespace SportChallengeMatchRank.Shared
 					
 				var league = list.SelectedItem as Athlete;
 				list.SelectedItem = null;
-				await Navigation.PushModalAsync(new NavigationPage(new AthleteDetailsPage(league)));
+
+				var detailsPage = new AthleteDetailsPage(league);
+				detailsPage.OnUpdate = () =>
+				{
+					ViewModel.LocalRefresh();
+					detailsPage.OnUpdate = null;
+				};
+
+				await Navigation.PushModalAsync(new NavigationPage(detailsPage));
 			};
 		}
 
 		async protected override void OnLoaded()
 		{
 			await ViewModel.GetAllAthletes();
-			_dataLoaded = true;
 			base.OnLoaded();
-		}
-
-		protected override void OnAppearing()
-		{
-			if(_dataLoaded)
-			{
-				list.ItemsSource = null;
-				list.SetBinding(ListView.ItemsSourceProperty, "AllAthletes");
-			}
-		
-			base.OnAppearing();
 		}
 	}
 

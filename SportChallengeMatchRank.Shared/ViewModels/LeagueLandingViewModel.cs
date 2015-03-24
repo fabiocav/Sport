@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeagueLandingViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -12,10 +13,10 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public LeagueLandingViewModel()
 		{
-			AllLeagues = new ObservableCollection<League>();
+			LocalRefresh();
 		}
 
-		ObservableCollection<League> _allLeagues;
+		ObservableCollection<League> _allLeagues = new ObservableCollection<League>();
 		public const string AllLeaguesPropertyName = "AllLeagues";
 
 		public ObservableCollection<League> AllLeagues
@@ -38,6 +39,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public void LocalRefresh()
+		{
+			AllLeagues.Clear();
+			DataManager.Instance.Leagues.Values.ToList().ForEach(AllLeagues.Add);
+		}
+
 		async public Task GetAllLeagues(bool forceRefresh = false)
 		{
 			if(!forceRefresh && AllLeagues.Count > 0)
@@ -45,11 +52,9 @@ namespace SportChallengeMatchRank.Shared
 			
 			using(new Busy(this))
 			{
-				AllLeagues.Clear();
-				var list = await AzureService.Instance.GetAllLeagues();
-				list.ForEach(AllLeagues.Add);
+				await AzureService.Instance.GetAllLeagues();
+				LocalRefresh();
 			}
 		}
 	}
 }
-

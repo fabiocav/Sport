@@ -117,7 +117,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public void RefreshMemberships()
+		public void LocalRefreshMemberships()
 		{
 			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).ToList().ForEach(_memberships.Add);

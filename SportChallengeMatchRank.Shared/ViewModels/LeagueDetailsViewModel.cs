@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Windows.Input;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using System.Text;
+using System.Collections.Generic;
 using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeagueDetailsViewModel))]
@@ -20,6 +21,23 @@ namespace SportChallengeMatchRank.Shared
 			League = league ?? new League();
 		}
 
+		#region Properties
+
+		string errorMessage;
+		public const string ErrorMessagePropertyName = "ErrorMessage";
+
+		public string ErrorMessage
+		{
+			get
+			{
+				return errorMessage;
+			}
+			set
+			{
+				SetProperty(ref errorMessage, value, ErrorMessagePropertyName);
+			}
+		}
+
 		League _league;
 		public const string LeaguePropertyName = "League";
 
@@ -32,7 +50,8 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _league, value, LeaguePropertyName);
-				JoinLeague = _league.Id == null;
+				ErrorMessage = null;
+				UpdateMembershipStatus();
 			}
 		}
 
@@ -51,24 +70,26 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public ICommand SaveLeagueCommand
+		#endregion
+
+		public void UpdateMembershipStatus()
 		{
-			get
-			{
-				return new Command(async(param) =>
-					await SaveLeague());
-			}
+			JoinLeague = League.Id == null || App.CurrentAthlete.Memberships.All(m => m.LeagueId != League.Id);
 		}
 
-		async public Task SaveLeague()
+		async public Task<SaveLeagueResult> SaveLeague()
 		{
 			using(new Busy(this))
 			{
+				SaveLeagueResult result = SaveLeagueResult.None;
 				try
 				{
-					await AzureService.Instance.SaveLeague(League);
+					League.Name = League.Name ?? League.Name.Trim();
+					League.Sport = League.Sport ?? League.Sport.Trim();
 
-					if(JoinLeague)
+					result = await AzureService.Instance.SaveLeague(League);
+
+					if(JoinLeague && result == SaveLeagueResult.OK)
 					{
 						var membership = new Membership {
 							AthleteId = App.CurrentAthlete.Id,
@@ -84,6 +105,8 @@ namespace SportChallengeMatchRank.Shared
 				{
 					Console.WriteLine(e);
 				}
+
+				return result;
 			}
 		}
 
@@ -100,6 +123,23 @@ namespace SportChallengeMatchRank.Shared
 					Console.WriteLine(e);
 				}
 			}
+		}
+
+		public bool IsValid()
+		{
+			var sb = new StringBuilder();
+			if(string.IsNullOrWhiteSpace(League.Name))
+			{
+				sb.AppendLine("enter a league name");
+			}
+
+			if(string.IsNullOrWhiteSpace(League.Sport))
+			{
+				sb.AppendLine("enter a sport");
+			}
+
+			ErrorMessage = sb.Length > 0 ? sb.ToString() : null;
+			return ErrorMessage == null;
 		}
 	}
 }

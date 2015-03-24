@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 using System.Threading.Tasks;
+using System;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -8,28 +9,21 @@ namespace SportChallengeMatchRank.Shared
 		public AthleteDetailsPage(Athlete member = null)
 		{
 			ViewModel.Athlete = member ?? new Athlete();
+			Initialize();
+		}
+
+		void Initialize()
+		{
 			InitializeComponent();
 			Title = "Athlete Details";
 
-			btnSaveAthlete.Clicked += async(sender, e) =>
-			{
-				var isNew = ViewModel.Athlete.Id == null;
-				await ViewModel.SaveAthlete();
-				var landingVm = DependencyService.Get<AthleteLandingViewModel>();
-
-				if(isNew)
-				{
-					landingVm.AllAthletes.Add(ViewModel.Athlete);
-				}
-				else
-				{
-				}
-
-				await Navigation.PopModalAsync();
+			var btnCancel = new ToolbarItem {
+				Text = "Cancel"
 			};
 
-			var btnCancel = new ToolbarItem {
-				Text = "Cancel"		
+			btnSaveAthlete.Clicked += async(sender, e) =>
+			{
+				await SaveAthlete();
 			};
 
 			btnCancel.Clicked += async(sender, e) =>
@@ -41,21 +35,44 @@ namespace SportChallengeMatchRank.Shared
 
 			btnDeleteAthlete.Clicked += async(sender, e) =>
 			{
-				var accepted = await DisplayAlert("Delete Athlete?", "Are you totes sure you want to delete this athlete?", "Yeah brah!", "Nah");
-
-				if(accepted)
-				{
-					await ViewModel.DeleteAthlete();
-					var landingVm = DependencyService.Get<AthleteLandingViewModel>();
-					landingVm.AllAthletes.Remove(ViewModel.Athlete);
-					await Navigation.PopModalAsync();
-				}
+				await DeleteAthlete();
 			};
 
 			btnMemberStatus.Clicked += async(sender, e) =>
 			{
 				await Navigation.PushAsync(new MembershipsLandingPage(ViewModel.Athlete));	
 			};
+		}
+
+		public Action OnUpdate
+		{
+			get;
+			set;
+		}
+
+		async Task SaveAthlete()
+		{
+			await ViewModel.SaveAthlete();
+
+			if(OnUpdate != null)
+				OnUpdate();
+
+			await Navigation.PopModalAsync();
+		}
+
+		async Task DeleteAthlete()
+		{
+			var accepted = await DisplayAlert("Delete Athlete?", "Are you totes sure you want to delete this athlete?", "Yeah brah!", "Nah");
+
+			if(accepted)
+			{
+				await ViewModel.DeleteAthlete();
+
+				if(OnUpdate != null)
+					OnUpdate();
+
+				await Navigation.PopModalAsync();
+			}
 		}
 
 		protected override void OnAppearing()
