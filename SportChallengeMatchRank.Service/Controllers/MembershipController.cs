@@ -56,7 +56,18 @@ namespace SportChallengeMatchRank.Service.Controllers
         // POST tables/Member
 		public async Task<IHttpActionResult> PostMember(MembershipDto item)
         {
-            Membership current = await InsertAsync(item.ToMember());
+			Membership current;
+			var exists = _context.Memberships.FirstOrDefault(m => m.AthleteId == item.AthleteId && m.LeagueId == item.LeagueId);
+			if(exists != null)
+			{
+				//Athlete is already a member of this league
+				current = exists;
+			}
+			else
+			{
+				current = await InsertAsync(item.ToMember());
+			}
+
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 

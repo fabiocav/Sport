@@ -58,6 +58,11 @@ namespace SportChallengeMatchRank.Service.Controllers
         // POST tables/Athlete
         public async Task<IHttpActionResult> PostAthlete(AthleteDto item)
         {
+			var exists = _context.Athletes.Any(l => l.Email.Equals(item.Email, System.StringComparison.InvariantCultureIgnoreCase));
+
+			if(exists)
+				return Conflict();
+
             Athlete current = await InsertAsync(item.ToAthlete());
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }

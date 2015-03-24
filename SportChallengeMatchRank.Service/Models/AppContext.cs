@@ -24,7 +24,7 @@ namespace SportChallengeMatchRank.Service.Models
 			set;
 		}
 
-		public DbSet<Membership> Members
+		public DbSet<Membership> Memberships
 		{
 			get;
 			set;

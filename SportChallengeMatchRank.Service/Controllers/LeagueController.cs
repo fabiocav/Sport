@@ -8,6 +8,7 @@ using SportChallengeMatchRank;
 using SportChallengeMatchRank.Service.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -62,6 +63,11 @@ namespace SportChallengeMatchRank.Service.Controllers
         // POST tables/League
         public async Task<IHttpActionResult> PostLeague(LeagueDto item)
         {
+			var exists = _context.Leagues.Any(l => l.Name.Equals(item.Name, System.StringComparison.InvariantCultureIgnoreCase));
+
+			if(exists)
+				return Conflict();
+
 			League current = await InsertAsync(item.ToLeague());
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
