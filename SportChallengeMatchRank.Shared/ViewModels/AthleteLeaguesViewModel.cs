@@ -6,12 +6,12 @@ using Xamarin.Forms;
 using System.Windows.Input;
 using System.Linq;
 
-[assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeagueLandingViewModel))]
+[assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteLeaguesViewModel))]
 namespace SportChallengeMatchRank.Shared
 {
-	public class LeagueLandingViewModel : BaseViewModel
+	public class AthleteLeaguesViewModel : BaseViewModel
 	{
-		public LeagueLandingViewModel()
+		public AthleteLeaguesViewModel()
 		{
 			LocalRefresh();
 		}
@@ -35,7 +35,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetAllLeagues(true));
+				return new Command(async() => await GetLeagues());
 			}
 		}
 
@@ -45,13 +45,12 @@ namespace SportChallengeMatchRank.Shared
 			DataManager.Instance.Leagues.Values.ToList().ForEach(AllLeagues.Add);
 		}
 
-		async public Task GetAllLeagues(bool forceRefresh = false)
+		async public Task GetLeagues()
 		{
-			if(!forceRefresh && AllLeagues.Count > 0)
-				return;
-			
+			AllLeagues.Clear();
 			using(new Busy(this))
 			{
+				await Task.Delay(1000);
 				await AzureService.Instance.GetAllLeagues();
 				LocalRefresh();
 			}

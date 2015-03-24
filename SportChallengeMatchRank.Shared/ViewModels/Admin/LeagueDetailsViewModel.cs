@@ -11,6 +11,8 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class LeagueDetailsViewModel : BaseViewModel
 	{
+		bool _wasMember;
+
 		public LeagueDetailsViewModel()
 		{
 			League = new League();
@@ -55,18 +57,18 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		bool _joinLeague;
-		public const string JoinLeaguePropertyName = "JoinLeague";
+		bool isMember;
+		public const string IsMemberPropertyName = "IsMember";
 
-		public bool JoinLeague
+		public bool IsMember
 		{
 			get
 			{
-				return _joinLeague;
+				return isMember;
 			}
 			set
 			{
-				SetProperty(ref _joinLeague, value, JoinLeaguePropertyName);
+				SetProperty(ref isMember, value, IsMemberPropertyName);
 			}
 		}
 
@@ -74,7 +76,8 @@ namespace SportChallengeMatchRank.Shared
 
 		public void UpdateMembershipStatus()
 		{
-			JoinLeague = League.Id == null || App.CurrentAthlete.Memberships.All(m => m.LeagueId != League.Id);
+			_wasMember = League.Id != null && App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id);
+			IsMember = _wasMember;
 		}
 
 		async public Task<SaveLeagueResult> SaveLeague()
@@ -89,7 +92,7 @@ namespace SportChallengeMatchRank.Shared
 
 					result = await AzureService.Instance.SaveLeague(League);
 
-					if(JoinLeague && result == SaveLeagueResult.OK)
+					if(!_wasMember && IsMember && result == SaveLeagueResult.OK)
 					{
 						var membership = new Membership {
 							AthleteId = App.CurrentAthlete.Id,

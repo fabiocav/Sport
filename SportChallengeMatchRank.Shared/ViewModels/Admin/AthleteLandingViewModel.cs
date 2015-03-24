@@ -26,7 +26,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetAllAthletes(true));
+				return new Command(async() => await GetAllAthletes());
 			}
 		}
 
@@ -36,13 +36,12 @@ namespace SportChallengeMatchRank.Shared
 			DataManager.Instance.Athletes.Values.ToList().ForEach(AllAthletes.Add);
 		}
 
-		async public Task GetAllAthletes(bool forceRefresh = false)
+		async public Task GetAllAthletes()
 		{
-			if(!forceRefresh && AllAthletes.Count > 0)
-				return;
-			
+			AllAthletes.Clear();
 			using(new Busy(this))
 			{
+				await Task.Delay(1000);
 				await AzureService.Instance.GetAllAthletes();
 				LocalRefresh();
 			}

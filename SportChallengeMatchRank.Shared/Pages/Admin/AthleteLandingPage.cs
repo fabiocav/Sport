@@ -6,6 +6,11 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public AthleteLandingPage()
 		{
+			Initialize();
+		}
+
+		async void Initialize()
+		{
 			InitializeComponent();
 			Title = "Athletes";
 
@@ -13,7 +18,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(list.SelectedItem == null)
 					return;
-					
+
 				var league = list.SelectedItem as Athlete;
 				list.SelectedItem = null;
 
@@ -26,12 +31,8 @@ namespace SportChallengeMatchRank.Shared
 
 				await Navigation.PushModalAsync(new NavigationPage(detailsPage));
 			};
-		}
 
-		async protected override void OnLoaded()
-		{
 			await ViewModel.GetAllAthletes();
-			base.OnLoaded();
 		}
 	}
 

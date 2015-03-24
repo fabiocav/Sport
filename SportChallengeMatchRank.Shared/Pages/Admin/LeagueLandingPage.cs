@@ -7,6 +7,11 @@ namespace SportChallengeMatchRank.Shared
 		public LeagueLandingPage()
 		{
 			InitializeComponent();
+			Initialize();
+		}
+
+		async void Initialize()
+		{
 			Title = "Leagues";
 
 			btnAdd.Clicked += async(sender, e) =>
@@ -18,17 +23,13 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(list.SelectedItem == null)
 					return;
-					
+
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
 				await Navigation.PushModalAsync(new NavigationPage(GetDetailsPage(league)));
 			};
-		}
 
-		async protected override void OnLoaded()
-		{
 			await ViewModel.GetAllLeagues();
-			base.OnLoaded();
 		}
 
 		LeagueDetailsPage GetDetailsPage(League league)
