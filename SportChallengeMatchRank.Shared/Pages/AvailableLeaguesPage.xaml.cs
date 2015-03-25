@@ -4,14 +4,9 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AvailableLeaguesPage : AvailableLeaguesXaml
 	{
-		public AvailableLeaguesPage()
+		async protected override void Initialize()
 		{
 			InitializeComponent();
-			Initialize();
-		}
-
-		async void Initialize()
-		{
 			Title = "Available Leagues";
 
 			list.ItemSelected += async(sender, e) =>
@@ -21,22 +16,10 @@ namespace SportChallengeMatchRank.Shared
 
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
-				await Navigation.PushModalAsync(new NavigationPage(GetDetailsPage(league)));
+				await Navigation.PushModalAsync(new NavigationPage(new LeagueDetailsPage(league)));
 			};
 
 			await ViewModel.GetAvailableLeagues();
-		}
-
-		LeagueDetailsPage GetDetailsPage(League league)
-		{
-			var detailsPage = new LeagueDetailsPage(league);
-			detailsPage.OnUpdate = () =>
-			{
-				ViewModel.LocalRefresh();
-				detailsPage.OnUpdate = null;
-			};
-
-			return detailsPage;
 		}
 	}
 

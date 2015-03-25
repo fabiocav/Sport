@@ -16,22 +16,22 @@ namespace SportChallengeMatchRank.Shared
 			LocalRefresh();
 		}
 
-		ObservableCollection<League> _allLeagues = new ObservableCollection<League>();
-		public const string AllLeaguesPropertyName = "AllLeagues";
+		ObservableCollection<League> _leagues = new ObservableCollection<League>();
+		public const string LeaguesPropertyName = "Leagues";
 
-		public ObservableCollection<League> AllLeagues
+		public ObservableCollection<League> Leagues
 		{
 			get
 			{
-				return _allLeagues;
+				return _leagues;
 			}
 			set
 			{
-				SetProperty(ref _allLeagues, value, AllLeaguesPropertyName);
+				SetProperty(ref _leagues, value, LeaguesPropertyName);
 			}
 		}
 
-		public ICommand GetAllLeaguesCommand
+		public ICommand GetLeaguesCommand
 		{
 			get
 			{
@@ -41,17 +41,16 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
-			AllLeagues.Clear();
-			DataManager.Instance.Leagues.Values.ToList().ForEach(AllLeagues.Add);
+			Leagues.Clear();
+			App.CurrentAthlete.Memberships.Select(m => m.League).ToList().ForEach(Leagues.Add);
 		}
 
 		async public Task GetLeagues()
 		{
-			AllLeagues.Clear();
+			Leagues.Clear();
 			using(new Busy(this))
 			{
-				await Task.Delay(1000);
-				await AzureService.Instance.GetAllLeagues();
+				await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
 				LocalRefresh();
 			}
 		}

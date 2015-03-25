@@ -6,10 +6,9 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public AthleteLandingPage()
 		{
-			Initialize();
 		}
 
-		async void Initialize()
+		async protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "Athletes";
@@ -22,7 +21,7 @@ namespace SportChallengeMatchRank.Shared
 				var league = list.SelectedItem as Athlete;
 				list.SelectedItem = null;
 
-				var detailsPage = new AthleteDetailsPage(league);
+				var detailsPage = new AthleteEditPage(league);
 				detailsPage.OnUpdate = () =>
 				{
 					ViewModel.LocalRefresh();

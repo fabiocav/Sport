@@ -9,16 +9,14 @@ namespace SportChallengeMatchRank.Shared
 		public MembershipsLandingPage(Athlete athlete)
 		{
 			ViewModel.Athlete = athlete;
-			Initialize();
 		}
 
 		public MembershipsLandingPage(League league)
 		{
 			ViewModel.League = league;
-			Initialize();
 		}
 
-		void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "Memberships";

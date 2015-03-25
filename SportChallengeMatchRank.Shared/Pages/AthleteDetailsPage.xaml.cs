@@ -6,13 +6,12 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AthleteDetailsPage : AthleteDetailsXaml
 	{
-		public AthleteDetailsPage(Athlete member = null)
+		public AthleteDetailsPage(Athlete member)
 		{
-			ViewModel.Athlete = member ?? new Athlete();
-			Initialize();
+			ViewModel.Athlete = member;
 		}
 
-		void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "Athlete Details";
@@ -79,7 +78,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			if(ViewModel.Athlete.Id == null)
 				name.Focus();
-
+		
 			base.OnAppearing();
 		}
 	}

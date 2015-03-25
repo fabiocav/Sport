@@ -5,18 +5,17 @@ using System;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public partial class LeagueDetailsPage : LeagueDetailsXaml
+	public partial class LeagueEditPage : LeagueEditXaml
 	{
-		public LeagueDetailsPage(League league = null)
+		public LeagueEditPage(League league = null)
 		{
 			ViewModel.League = league ?? new League();
-			Initialize();
 		}
 
-		void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "League Details";
+			Title = "Edit League";
 
 			btnSaveLeague.Clicked += async(sender, e) =>
 			{
@@ -39,6 +38,10 @@ namespace SportChallengeMatchRank.Shared
 					await DisplayAlert("Name in Use", "The league name '{0}' is already in use. Please choose another.".Fmt(ViewModel.League.Name), "OK");
 					ViewModel.League.Name = string.Empty;
 					name.Focus();
+				}
+				else if(result == SaveLeagueResult.Failed)
+				{
+					await DisplayAlert("Unable to Save League", "There was an error saving this league. Take the rest of the day off.", "OK");
 				}
 			};
 
@@ -91,7 +94,7 @@ namespace SportChallengeMatchRank.Shared
 		}
 	}
 
-	public partial class LeagueDetailsXaml : BaseContentPage<LeagueDetailsViewModel>
+	public partial class LeagueEditXaml : BaseContentPage<LeagueEditViewModel>
 	{
 	}
 }

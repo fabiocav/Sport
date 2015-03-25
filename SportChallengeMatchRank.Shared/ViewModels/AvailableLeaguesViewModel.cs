@@ -14,7 +14,7 @@ namespace SportChallengeMatchRank.Shared
 			LocalRefresh();
 		}
 
-		ObservableCollection<League> _leagues;
+		ObservableCollection<League> _leagues = new ObservableCollection<League>();
 		public const string LeaguesPropertyName = "Leagues";
 
 		public ObservableCollection<League> Leagues
@@ -40,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 		public void LocalRefresh()
 		{
 			Leagues.Clear();
-			DataManager.Instance.Leagues.Values.ToList().ForEach(Leagues.Add);
+			DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key)).Select(k => k.Value).ToList().ForEach(Leagues.Add);
 		}
 
 		async public Task GetAvailableLeagues()

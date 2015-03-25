@@ -9,6 +9,7 @@ namespace SportChallengeMatchRank.Shared
 		public BaseContentPage() : base()
 		{
 			BindingContext = ViewModel;
+			Initialize();
 		}
 
 		T _viewModel;
@@ -38,6 +39,10 @@ namespace SportChallengeMatchRank.Shared
 		protected virtual void OnLoaded()
 		{
 			
+		}
+
+		protected virtual void Initialize()
+		{
 		}
 
 		protected override void OnAppearing()

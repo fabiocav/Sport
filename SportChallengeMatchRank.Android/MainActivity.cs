@@ -2,6 +2,7 @@
 using Android.OS;
 using Xamarin.Forms.Platform.Android;
 using SportChallengeMatchRank.Shared;
+using Android.Views;
 
 namespace SportChallengeMatchRank.Android
 {
@@ -11,6 +12,7 @@ namespace SportChallengeMatchRank.Android
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
+			Window.SetSoftInputMode(SoftInput.AdjustPan);
 			Xamarin.Forms.Forms.Init(this, bundle);
 			LoadApplication(new App());
 		}

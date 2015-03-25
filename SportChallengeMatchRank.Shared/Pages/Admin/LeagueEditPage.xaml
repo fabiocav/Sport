@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<local:LeagueDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
-	<local:LeagueDetailsXaml.Content>
+<local:LeagueEditXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.LeagueEditPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+	<local:LeagueEditXaml.Content>
 
 		<Grid Padding="20">
 			<Grid.RowDefinitions>
@@ -30,6 +30,16 @@
 					<Switch IsToggled="{Binding League.IsAcceptingMembers}" HorizontalOptions="End" />
 				</StackLayout>
 
+				<StackLayout Orientation="Horizontal">
+					<Label Text="Start date" HorizontalOptions="StartAndExpand" />
+					<DatePicker Date="{Binding League.StartDate}" HorizontalOptions="End" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
+					<Label Text="End date" HorizontalOptions="StartAndExpand" />
+					<DatePicker Date="{Binding League.EndDate}" HorizontalOptions="End" />
+				</StackLayout>
+
 				<StackLayout x:Name="joinLeagueLayout" Orientation="Horizontal">
 					<Label Text="Is member" HorizontalOptions="StartAndExpand" />
 					<Switch IsToggled="{Binding IsMember}" HorizontalOptions="End" />
@@ -50,5 +60,5 @@
 			</StackLayout>
 		</Grid>
 
-	</local:LeagueDetailsXaml.Content>
-</local:LeagueDetailsXaml>
+	</local:LeagueEditXaml.Content>
+</local:LeagueEditXaml>

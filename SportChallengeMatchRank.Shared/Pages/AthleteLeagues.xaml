@@ -4,19 +4,11 @@
 	x:Class="SportChallengeMatchRank.Shared.AthleteLeaguesPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:AthleteLeaguesXaml.Content>
-		<ListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetAthleteLeaguesCommand}" IsRefreshing="{Binding IsBusy}">
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<ViewCell>
-						<ViewCell.View>
-						<StackLayout Padding="20,10,10,10" Spacing="0">
-							<Label Text="{Binding Name}" FontSize="13" />
-							<Label Text="{Binding Sport}" FontSize="11" />
-						</StackLayout>
-						</ViewCell.View>
-					</ViewCell>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+		<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetLeaguesCommand}" />
 	</local:AthleteLeaguesXaml.Content>
+
+	<local:AthleteLeaguesXaml.ToolbarItems>
+		<ToolbarItem x:Name="btnJoin" Text="Join" />
+	</local:AthleteLeaguesXaml.ToolbarItems>
+
 </local:AthleteLeaguesXaml>

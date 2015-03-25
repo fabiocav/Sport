@@ -15,10 +15,21 @@ namespace SportChallengeMatchRank.Shared
 
 		void Initialize()
 		{
+			StartDate = DateTime.Now.AddDays(7);
+			EndDate = DateTime.Now.AddMonths(6);
 			Memberships = new ObservableCollection<Membership>();
 
 			IsAcceptingMembers = true;
 			IsEnabled = true;
+		}
+
+		[JsonIgnore]
+		public Athlete CreatedByAthlete
+		{
+			get
+			{
+				return CreatedByAthleteId == null ? null : DataManager.Instance.Athletes.Get(CreatedByAthleteId);
+			}
 		}
 
 		public List<string> MembershipIds
@@ -121,6 +132,67 @@ namespace SportChallengeMatchRank.Shared
 		{
 			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).ToList().ForEach(_memberships.Add);
+		}
+
+		string imageUrl;
+		public const string ImageUrlPropertyName = "ImageUrl";
+
+		public string ImageUrl
+		{
+			get
+			{
+				return imageUrl;
+			}
+			set
+			{
+				SetProperty(ref imageUrl, value, ImageUrlPropertyName);
+			}
+		}
+
+		string createdByAthleteId;
+		public const string CreatedByAthleteIdPropertyName = "CreatedByAthleteId";
+
+		public string CreatedByAthleteId
+		{
+			get
+			{
+				return createdByAthleteId;
+			}
+			set
+			{
+				SetProperty(ref createdByAthleteId, value, CreatedByAthleteIdPropertyName);
+				OnPropertyChanged("CreatedByAthlete");
+			}
+		}
+
+		DateTime? _startDate;
+		public const string StartDatePropertyName = "StartDate";
+
+		public DateTime? StartDate
+		{
+			get
+			{
+				return _startDate;
+			}
+			set
+			{
+				SetProperty(ref _startDate, value, StartDatePropertyName);
+			}
+		}
+
+		DateTime? _endDate;
+		public const string EndDatePropertyName = "EndDate";
+
+		public DateTime? EndDate
+		{
+			get
+			{
+				return _endDate;
+			}
+			set
+			{
+				SetProperty(ref _endDate, value, EndDatePropertyName);
+			}
 		}
 	}
 

@@ -4,19 +4,7 @@
 	x:Class="SportChallengeMatchRank.Shared.AvailableLeaguesPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:AvailableLeaguesXaml.Content>
-		<ListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetAvailableLeaguesCommand}" IsRefreshing="{Binding IsBusy}">
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<ViewCell>
-						<ViewCell.View>
-						<StackLayout Padding="20,10,10,10" Spacing="0">
-							<Label Text="{Binding Name}" FontSize="13" />
-							<Label Text="{Binding Sport}" FontSize="11" />
-						</StackLayout>
-						</ViewCell.View>
-					</ViewCell>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+		<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetAvailableLeaguesCommand}" />
 	</local:AvailableLeaguesXaml.Content>
+
 </local:AvailableLeaguesXaml>

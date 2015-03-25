@@ -4,14 +4,9 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class LeagueLandingPage : LeagueLandingXaml
 	{
-		public LeagueLandingPage()
+		async protected override void Initialize()
 		{
 			InitializeComponent();
-			Initialize();
-		}
-
-		async void Initialize()
-		{
 			Title = "Leagues";
 
 			btnAdd.Clicked += async(sender, e) =>
@@ -32,9 +27,9 @@ namespace SportChallengeMatchRank.Shared
 			await ViewModel.GetAllLeagues();
 		}
 
-		LeagueDetailsPage GetDetailsPage(League league)
+		LeagueEditPage GetDetailsPage(League league)
 		{
-			var detailsPage = new LeagueDetailsPage(league);
+			var detailsPage = new LeagueEditPage(league);
 			detailsPage.OnUpdate = () =>
 			{
 				ViewModel.LocalRefresh();

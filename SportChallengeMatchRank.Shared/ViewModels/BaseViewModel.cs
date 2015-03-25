@@ -7,12 +7,9 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class BaseViewModel : INotifyPropertyChanged
 	{
-		private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
-		public event EventHandler IsBusyChanged;
-
 		bool _isBusy;
 		public const string IsBusyPropertyName = "IsBusy";
+		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
 		public bool IsBusy
 		{

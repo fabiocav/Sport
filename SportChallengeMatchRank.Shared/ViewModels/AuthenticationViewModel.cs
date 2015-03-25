@@ -15,7 +15,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			return App.AuthUserProfile != null &&
 			App.AuthUserProfile.Email != null &&
-//			App.AuthUserProfile.Email.EndsWith("@xamarin.com", StringComparison.OrdinalIgnoreCase) &&
+			App.AuthUserProfile.Email.EndsWith("@xamarin.com", StringComparison.OrdinalIgnoreCase) &&
 			App.AuthUserProfile.EmailVerified;
 		}
 
@@ -61,7 +61,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 
 				Settings.Instance.AthleteId = athlete != null ? athlete.Id : null;
-				Settings.Instance.Save();
+				await Settings.Instance.Save();
 			}
 
 			if(App.CurrentAthlete != null)

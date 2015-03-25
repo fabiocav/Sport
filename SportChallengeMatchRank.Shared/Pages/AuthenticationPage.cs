@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using SportChallengeMatchRank.Shared;
@@ -12,6 +13,7 @@ namespace SportChallengeMatchRank.Shared
 		Button _loginButton;
 		Button _logoutButton;
 		Button _adminButton;
+		Button _athleteLandingButton;
 		ActivityIndicator _activity;
 
 		public AuthenticationPage()
@@ -33,7 +35,7 @@ namespace SportChallengeMatchRank.Shared
 			else
 			{
 				await ViewModel.EnsureAthleteRegistered();
-				await Navigation.PushAsync(new AdminPage());
+				await Navigation.PushAsync(new AthleteLeaguesPage());
 			}
 
 			_userLabel.Text = App.AuthUserProfile == null ? "empty" : App.AuthUserProfile.Email;
@@ -50,6 +52,7 @@ namespace SportChallengeMatchRank.Shared
 		protected override void OnAppearing()
 		{
 			_adminButton.IsVisible = App.CurrentAthlete != null && App.CurrentAthlete.IsAdmin;
+			_athleteLandingButton.IsVisible = App.CurrentAthlete != null;
 			base.OnAppearing();
 		}
 
@@ -93,8 +96,14 @@ namespace SportChallengeMatchRank.Shared
 			_adminButton = new Button {
 				BackgroundColor = Color.Gray,
 				TextColor = Color.White,
-				IsVisible = false,
 				Text = "Go to Admin",
+			};
+
+			_athleteLandingButton = new Button {
+				BackgroundColor = Color.Gray,
+				TextColor = Color.White,
+				Text = "Go to Athlete Landing",
+				IsVisible = false,
 			};
 
 			_loginButton = new Button {
@@ -127,17 +136,23 @@ namespace SportChallengeMatchRank.Shared
 				Navigation.PushAsync(new AdminPage());		
 			};
 
+			_athleteLandingButton.Clicked += (sender, e) =>
+			{
+				Navigation.PushAsync(new NavigationPage(new AthleteLeaguesPage()));		
+			};
+			
 			Content = new StackLayout {
 				Padding = 40,
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-					_activity,
-					_statusLabel,
-					_userLabel,
-						_adminButton,
-						_loginButton,
-						_logoutButton
+						_activity,
+						_statusLabel,
+						_userLabel,
+						_athleteLandingButton,
+					_adminButton,
+					_loginButton,
+					_logoutButton
 				}
 			};
 		}

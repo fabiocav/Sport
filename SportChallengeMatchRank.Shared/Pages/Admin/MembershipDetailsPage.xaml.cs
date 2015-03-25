@@ -18,7 +18,7 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "Membership Details";

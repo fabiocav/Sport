@@ -2,23 +2,22 @@
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Text;
-using System.Collections.Generic;
 using System.Linq;
 
-[assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeagueDetailsViewModel))]
+[assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeagueEditViewModel))]
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class LeagueDetailsViewModel : BaseViewModel
+	public class LeagueEditViewModel : BaseViewModel
 	{
 		bool _wasMember;
 
-		public LeagueDetailsViewModel()
+		public LeagueEditViewModel()
 		{
 			League = new League();
 		}
 
-		public LeagueDetailsViewModel(League league = null)
+		public LeagueEditViewModel(League league = null)
 		{
 			League = league ?? new League();
 		}
@@ -84,11 +83,12 @@ namespace SportChallengeMatchRank.Shared
 		{
 			using(new Busy(this))
 			{
-				SaveLeagueResult result = SaveLeagueResult.None;
+				SaveLeagueResult result;
 				try
 				{
 					League.Name = League.Name ?? League.Name.Trim();
 					League.Sport = League.Sport ?? League.Sport.Trim();
+					League.CreatedByAthleteId = App.CurrentAthlete.Id;
 
 					result = await AzureService.Instance.SaveLeague(League);
 
@@ -106,6 +106,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 				catch(Exception e)
 				{
+					result = SaveLeagueResult.Failed;
 					Console.WriteLine(e);
 				}
 

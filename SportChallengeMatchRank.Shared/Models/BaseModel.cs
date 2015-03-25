@@ -26,6 +26,7 @@ namespace SportChallengeMatchRank.Shared
 		DateTime dateCreated;
 		public const string DateCreatedPropertyName = "DateCreated";
 
+		[JsonIgnore]
 		public DateTime DateCreated
 		{
 			get
