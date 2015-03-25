@@ -48,6 +48,9 @@ namespace SportChallengeMatchRank.Service.Models
 			modelBuilder.Entity<League>().ToTable("League");
 			modelBuilder.Entity<Membership>().ToTable("Membership");
 
+			modelBuilder.Entity<League>().HasOptional(a => a.CreatedByAthlete)
+				.WithMany().HasForeignKey(a => a.CreatedByAthleteId);
+
 			modelBuilder.Entity<Membership>().HasRequired(m => m.League)
 				.WithMany(l => l.Memberships)
 				.HasForeignKey(m => m.LeagueId);

@@ -32,7 +32,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Sport = l.Sport,
 				IsEnabled = l.IsEnabled,
 				DateCreated = l.CreatedAt,
+				CreatedByAthleteId = l.CreatedByAthlete.Id,
+				ImageUrl = l.ImageUrl,
 				Season = l.Season,
+				StartDate = l.StartDate,
+				EndDate = l.EndDate,
 				IsAcceptingMembers = l.IsAcceptingMembers,
 				MembershipIds = l.Memberships.Select(m => m.Id).ToList()
 			});
@@ -48,7 +52,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Sport = l.Sport,
 				IsEnabled = l.IsEnabled,
 				DateCreated = l.CreatedAt,
+				CreatedByAthleteId = l.CreatedByAthlete.Id,
+				ImageUrl = l.ImageUrl,
 				Season = l.Season,
+				StartDate = l.StartDate,
+				EndDate = l.EndDate,
 				IsAcceptingMembers = l.IsAcceptingMembers,
 				MembershipIds = l.Memberships.Select(m => m.Id).ToList()
 			}));

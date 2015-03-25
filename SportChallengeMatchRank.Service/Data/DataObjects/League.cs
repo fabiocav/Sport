@@ -16,5 +16,11 @@ namespace SportChallengeMatchRank
 			get;
 			set;
 		}
+
+		public Athlete CreatedByAthlete
+		{
+			get;
+			set;
+		}
 	}
 }
