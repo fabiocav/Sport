@@ -29,6 +29,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			{
 				Id = l.Id,
 				Name = l.Name,
+				Description = l.Description,
 				Sport = l.Sport,
 				IsEnabled = l.IsEnabled,
 				DateCreated = l.CreatedAt,
@@ -49,6 +50,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			{
 				Id = l.Id,
 				Name = l.Name,
+				Description = l.Description,
 				Sport = l.Sport,
 				IsEnabled = l.IsEnabled,
 				DateCreated = l.CreatedAt,

@@ -16,6 +16,7 @@ namespace SportChallengeMatchRank.Service
 				Name = dto.Name,
 				Id = dto.Id,
 				Email = dto.Email,
+				IsAdmin = dto.IsAdmin,
 				AuthenticationId = dto.AuthenticationId
 			};
 		}
@@ -24,11 +25,17 @@ namespace SportChallengeMatchRank.Service
 		{
 			return new League
 			{
-				Name = dto.Name,
 				Id = dto.Id,
+				Name = dto.Name,
+				Description = dto.Description,
 				Sport = dto.Sport,
 				IsEnabled = dto.IsEnabled,
-				IsAcceptingMembers = dto.IsAcceptingMembers,
+				StartDate = dto.StartDate,
+				EndDate = dto.EndDate,
+				Season = dto.Season,
+				ImageUrl = dto.ImageUrl,
+				CreatedByAthleteId = dto.CreatedByAthleteId,
+				IsAcceptingMembers = dto.IsAcceptingMembers
 			};
 		}
 
@@ -52,17 +59,6 @@ namespace SportChallengeMatchRank.Service
 				Email = athlete.Email,
 				AuthenticationId = athlete.AuthenticationId
 			};
-		}
-
-		public static void LoadAthleteIds(this League league)
-		{
-			if(league != null)
-			{
-				//if(!string.IsNullOrWhiteSpace(league.AthleteIdsString))
-				//{
-				//	league.AthleteIds = JsonConvert.DeserializeObject<List<string>>(league.AthleteIdsString);
-				//}
-			}
 		}
 	}
 }

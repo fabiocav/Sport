@@ -14,6 +14,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public string Description
+		{
+			get;
+			set;
+		}
+
 		public int Season
 		{
 			get;
@@ -38,13 +44,13 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
-		public DateTime? StartDate
+		public DateTimeOffset? StartDate
 		{
 			get;
 			set;
 		}
 
-		public DateTime? EndDate
+		public DateTimeOffset? EndDate
 		{
 			get;
 			set;
