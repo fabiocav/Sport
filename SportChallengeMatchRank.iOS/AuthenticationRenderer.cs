@@ -27,7 +27,7 @@ namespace SportChallengeMatchRank.iOS
 					Settings.Instance.AuthToken = user.IdToken;
 					App.AuthUserProfile = profile;
 					Settings.Instance.AuthUserID = profile.UserId;
-					Settings.Instance.Save();
+					await Settings.Instance.Save();
 				}
 				catch(Exception e)
 				{
@@ -53,7 +53,7 @@ namespace SportChallengeMatchRank.iOS
 			base.ViewDidDisappear(animated);
 		}
 
-		async protected override void OnElementChanged(VisualElementChangedEventArgs e)
+		protected override void OnElementChanged(VisualElementChangedEventArgs e)
 		{
 			_page = e.NewElement as AuthenticationPage;
 			base.OnElementChanged(e);

@@ -20,8 +20,17 @@ namespace SportChallengeMatchRank.Shared
 			btnSaveLeague.Clicked += async(sender, e) =>
 			{
 				if(!ViewModel.IsValid())
+				{
+					errorView.Opacity = 0.0;
+					errorView.IsVisible = true;
+					await errorView.FadeTo(1.0);
+					await Task.Delay(2000);
+					await errorView.FadeTo(0.0);
+					errorView.IsVisible = false;
 					return;
-
+				}
+				
+				ViewModel.League.ImageUrl = "https://dl.dropboxusercontent.com/u/54307520/ping-pong-page-banner.jpg";
 				var result = await ViewModel.SaveLeague();
 
 				if(result == SaveLeagueResult.OK)

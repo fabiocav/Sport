@@ -138,7 +138,7 @@ namespace SportChallengeMatchRank.Shared
 
 			_athleteLandingButton.Clicked += (sender, e) =>
 			{
-				Navigation.PushAsync(new NavigationPage(new AthleteLeaguesPage()));		
+				Navigation.PushAsync(new AthleteLeaguesPage());		
 			};
 			
 			Content = new StackLayout {
@@ -146,13 +146,13 @@ namespace SportChallengeMatchRank.Shared
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-						_activity,
-						_statusLabel,
-						_userLabel,
-						_athleteLandingButton,
-					_adminButton,
-					_loginButton,
-					_logoutButton
+					_activity,
+					_statusLabel,
+					_userLabel,
+					_athleteLandingButton,
+						_adminButton,
+						_loginButton,
+						_logoutButton
 				}
 			};
 		}

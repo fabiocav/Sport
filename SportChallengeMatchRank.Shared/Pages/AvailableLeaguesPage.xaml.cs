@@ -16,10 +16,21 @@ namespace SportChallengeMatchRank.Shared
 
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
-				await Navigation.PushModalAsync(new NavigationPage(new LeagueDetailsPage(league)));
+				await Navigation.PushAsync(new LeagueDetailsPage(league));
 			};
 
 			await ViewModel.GetAvailableLeagues();
+
+			var btnCancel = new ToolbarItem {
+				Text = "Cancel"		
+			};
+
+			btnCancel.Clicked += async(sender, e) =>
+			{
+				await Navigation.PopModalAsync();		
+			};
+
+			ToolbarItems.Add(btnCancel);
 		}
 	}
 

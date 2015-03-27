@@ -78,6 +78,12 @@ namespace SportChallengeMatchRank.Shared
 			if(!_dataLoaded)
 				return;
 
+			if(ViewModel.League != null)
+				ViewModel.League.RefreshMemberships();
+
+			if(ViewModel.Athlete != null)
+				ViewModel.Athlete.RefreshMemberships();
+
 			UpdateBindings();
 		}
 

@@ -73,7 +73,7 @@ namespace SportChallengeMatchRank.Shared
 				Athlete.RefreshMemberships();
 
 			if(League != null)
-				League.LocalRefreshMemberships();
+				League.RefreshMemberships();
 		}
 
 		async public Task GetAllMembershipsByLeague(bool forceRefresh = false)

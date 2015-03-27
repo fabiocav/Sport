@@ -3,22 +3,19 @@
 	x:Class="SportChallengeMatchRank.Shared.LeagueEditPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:LeagueEditXaml.Content>
 
-		<Grid Padding="20">
+	<ScrollView>
+		<Grid Padding="20,10,20,20">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="100" />
 			</Grid.RowDefinitions>
 
 			<StackLayout Grid.Row="0" Spacing="20" VerticalOptions="Center">
-				<Frame BackgroundColor="Transparent" Padding="20,0,10,-20" HasShadow="false"
-					IsVisible="{Binding ErrorMessage, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
-					<Label Text="{Binding ErrorMessage}" TextColor="Red" />
-				</Frame>
-
-				<ActivityIndicator IsRunning="{Binding IsBusy}" />
 
 				<Entry x:Name="name" Text="{Binding League.Name}" Placeholder="League name" HeightRequest="40" />
 				<Entry Text="{Binding League.Sport}" Placeholder="League sport" HeightRequest="40" />
+
+				<Editor Text="{Binding League.Description}" HeightRequest="80" BackgroundColor="#33000000" />
 
 				<StackLayout Orientation="Horizontal">
 					<Label Text="Enabled" HorizontalOptions="StartAndExpand" />
@@ -58,7 +55,13 @@
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End"
 						IsVisible="{Binding League.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
 			</StackLayout>
+
+			<Frame x:Name="errorView" VerticalOptions="Start" BackgroundColor="#99000000" Padding="30,30,30,20" HasShadow="false" IsVisible="false">
+				<Label Text="{Binding ErrorMessage}" TextColor="Red" Style="{StaticResource labelStyle}" />
+			</Frame>
+
 		</Grid>
+	</ScrollView>
 
 	</local:LeagueEditXaml.Content>
 </local:LeagueEditXaml>

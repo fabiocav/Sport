@@ -1,11 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace SportChallengeMatchRank.Shared
 {
 	public class Membership : BaseModel
 	{
+		ObservableCollection<Athlete> _athletes;
+		public const string AthletesPropertyName = "Athletes";
+
+		public ObservableCollection<Athlete> Athletes
+		{
+			get
+			{
+				return _athletes;
+			}
+			set
+			{
+				SetProperty(ref _athletes, value, AthletesPropertyName);
+			}
+		}
+
 		[JsonIgnore]
 		public League League
 		{

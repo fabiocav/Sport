@@ -1,39 +1,42 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<local:LeagueDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+<local:LeagueDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
+	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
 
-		<Grid Padding="20">
+	<ScrollView>
+		<Grid BackgroundColor="#607D8B">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
-				<RowDefinition Height="100" />
+				<RowDefinition Height="160" />
 			</Grid.RowDefinitions>
 
-			<StackLayout Grid.Row="0" Spacing="20" VerticalOptions="Center">
-				<ActivityIndicator IsRunning="{Binding IsBusy}" />
+			<Image x:Name="image" Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="StartAndExpand" VerticalOptions="Start">
+				<Image.HeightRequest>
+	        		<OnPlatform x:TypeArguments="x:Double">
+						<OnPlatform.iOS>420</OnPlatform.iOS>
+						<OnPlatform.Android>370</OnPlatform.Android>
+					</OnPlatform>
+				</Image.HeightRequest>
+			</Image>
 
-				<Label Text="{Binding League.Name}" FontSize="50" />
-				<Label Text="{Binding League.Sport}" FontSize="20" />
-
-				<StackLayout Orientation="Horizontal" Spacing="8">
-					<Label Text="Created on: " />
-					<Label Text="{Binding League.DateCreated}" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal" Spacing="8">
-					<Label Text="Created by: " />
-					<Label Text="{Binding League.CreatedBy}" />
-				</StackLayout>
-
+			<StackLayout Spacing="15" VerticalOptions="Start" Padding="20,20,20,20" BackgroundColor="#99000000"
+				HeightRequest="420">
 			</StackLayout>
 
-			<StackLayout Grid.Row="1" Spacing="10" VerticalOptions="End">
-				<Button x:Name="btnMemberStatus" Text="Current Members" Style="{StaticResource buttonStyle}" />
+			<StackLayout Grid.Row="1" Spacing="10" VerticalOptions="End" Padding="20">
+				<Button x:Name="btnMemberStatus" Text="View Current Members" Style="{StaticResource buttonStyle}" />
 
 				<Button x:Name="btnJoinLeague" Text="Join League" Style="{StaticResource buttonStyle}"
+						IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"
+						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
+
+				<Button x:Name="btnLeaveLeague" Text="Cowardly Abandon League" Style="{StaticResource buttonStyle}" IsVisible="{Binding IsMember}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
 			</StackLayout>
 		</Grid>
+	</ScrollView>
 
 	</local:LeagueDetailsXaml.Content>
 </local:LeagueDetailsXaml>

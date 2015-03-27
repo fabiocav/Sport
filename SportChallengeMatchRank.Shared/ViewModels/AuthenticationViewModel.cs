@@ -15,7 +15,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			return App.AuthUserProfile != null &&
 			App.AuthUserProfile.Email != null &&
-			App.AuthUserProfile.Email.EndsWith("@xamarin.com", StringComparison.OrdinalIgnoreCase) &&
+//			App.AuthUserProfile.Email.EndsWith("@xamarin.com", StringComparison.OrdinalIgnoreCase) &&
 			App.AuthUserProfile.EmailVerified;
 		}
 

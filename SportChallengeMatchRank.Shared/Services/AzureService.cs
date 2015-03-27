@@ -100,7 +100,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.LocalRefreshMemberships());
+			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
 		}
 
 		async public Task<List<League>> GetAllEnabledLeagues()
@@ -288,19 +288,23 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.LocalRefreshMemberships());
+			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
 		}
 
 		async public Task SaveAthlete(Athlete athlete)
 		{
 			if(athlete.Id == null)
 			{
+				if(athlete.Email == "rob.derosa@xamarin.com")
+					athlete.IsAdmin = true;
+
 				await Client.GetTable<Athlete>().InsertAsync(athlete);
 			}
 			else
 			{
 				await Client.GetTable<Athlete>().UpdateAsync(athlete);
 			}
+
 			DataManager.Instance.Athletes.AddOrUpdate(athlete);
 		}
 

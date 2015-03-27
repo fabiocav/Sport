@@ -10,6 +10,15 @@ namespace SportChallengeMatchRank.Shared
 		public LeagueDetailsPage(League league)
 		{
 			ViewModel.League = league;
+			LoadData();
+		}
+
+		async Task LoadData()
+		{
+			if(ViewModel.League != null && ViewModel.League.CreatedByAthleteId != null && ViewModel.League.CreatedByAthlete == null)
+			{
+				await ViewModel.LoadAthlete();
+			}
 		}
 
 		protected override void Initialize()
@@ -20,6 +29,26 @@ namespace SportChallengeMatchRank.Shared
 			btnMemberStatus.Clicked += async(sender, e) =>
 			{
 				await Navigation.PushAsync(new MembershipsLandingPage(ViewModel.League));	
+			};
+
+			btnJoinLeague.Clicked += async(sender, e) =>
+			{
+				var accepted = await DisplayAlert("Join League?", "Are you totes sure you want to join this league?", "Yeah brah!", "Nah");
+
+				if(accepted)
+				{
+					await ViewModel.JoinLeague();
+				}
+			};
+
+			btnLeaveLeague.Clicked += async(sender, e) =>
+			{
+				var accepted = await DisplayAlert("League League?", "Are you totes sure you want to abandon this league like a heaping pile of slime?", "Yeps", "Nah");
+
+				if(accepted)
+				{
+					await ViewModel.LeaveLeague();
+				}
 			};
 		}
 	}

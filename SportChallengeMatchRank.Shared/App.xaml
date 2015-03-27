@@ -4,12 +4,33 @@
     x:Class="SportChallengeMatchRank.Shared.App">
     <Application.Resources>
         <ResourceDictionary>
+            <Style x:Key="labelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="FontSize">
+                	<Setter.Value>
+                		<OnPlatform x:TypeArguments="x:Double">
+							<OnPlatform.iOS>14</OnPlatform.iOS>
+							<OnPlatform.Android>12</OnPlatform.Android>
+						</OnPlatform>
+                	</Setter.Value>
+                </Setter>
+                <Setter Property="FontFamily" Value="HelveticaNeue-Light" />
+            </Style>
             <Style x:Key="buttonStyle" TargetType="Button">
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="BackgroundColor" Value="Gray" />
+                <Setter Property="TextColor" Value="#212121" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="BackgroundColor" Value="#CFD8DC" />
+                <Setter Property="FontSize">
+                	<Setter.Value>
+                		<OnPlatform x:TypeArguments="x:Double">
+							<OnPlatform.iOS>14</OnPlatform.iOS>
+							<OnPlatform.Android>12</OnPlatform.Android>
+						</OnPlatform>
+                	</Setter.Value>
+                </Setter>
             </Style>
             <Style x:Key="deleteButtonStyle" TargetType="Button">
-                <Setter Property="TextColor" Value="White" />
+                <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="BackgroundColor" Value="Red" />
             </Style>
         </ResourceDictionary>

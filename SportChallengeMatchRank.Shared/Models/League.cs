@@ -98,6 +98,21 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		string description;
+		public const string DescriptionPropertyName = "Description";
+
+		public string Description
+		{
+			get
+			{
+				return description;
+			}
+			set
+			{
+				SetProperty(ref description, value, DescriptionPropertyName);
+			}
+		}
+
 		int _season;
 		public const string SeasonPropertyName = "Season";
 
@@ -128,7 +143,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public void LocalRefreshMemberships()
+		public void RefreshMemberships()
 		{
 			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).ToList().ForEach(_memberships.Add);
@@ -177,6 +192,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _startDate, value, StartDatePropertyName);
+				OnPropertyChanged("DateRange");
 			}
 		}
 
@@ -192,6 +208,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _endDate, value, EndDatePropertyName);
+				OnPropertyChanged("DateRange");
 			}
 		}
 	}
