@@ -106,7 +106,6 @@ namespace SportChallengeMatchRank.Shared
 					};
 
 					await AzureService.Instance.SaveMembership(membership);
-					App.CurrentAthlete.RefreshMemberships();
 					OnPropertyChanged("IsMember");
 				}
 				catch(Exception e)
@@ -124,7 +123,6 @@ namespace SportChallengeMatchRank.Shared
 				{
 					var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == League.Id);
 					await AzureService.Instance.DeleteMembership(membership.Id);
-					App.CurrentAthlete.RefreshMemberships();
 					OnPropertyChanged("IsMember");
 				}
 				catch(Exception e)

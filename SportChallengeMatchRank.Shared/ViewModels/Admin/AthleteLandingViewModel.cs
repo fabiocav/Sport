@@ -11,6 +11,8 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class AthleteLandingViewModel : BaseViewModel
 	{
+		bool _hasLoadedBefore;
+
 		public AthleteLandingViewModel()
 		{
 			AllAthletes = new ObservableCollection<Athlete>();
@@ -26,26 +28,29 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetAllAthletes());
+				return new Command(async() => await GetAllAthletes(true));
 			}
 		}
 
 		public void LocalRefresh()
 		{
 			AllAthletes.Clear();
-			DataManager.Instance.Athletes.Values.ToList().ForEach(AllAthletes.Add);
+			DataManager.Instance.Athletes.Values.OrderBy(a => a.Name).ToList().ForEach(AllAthletes.Add);
 		}
 
-		async public Task GetAllAthletes()
+		async public Task GetAllAthletes(bool forceRefresh = false)
 		{
+			if(_hasLoadedBefore && !forceRefresh)
+				return;
+			
 			AllAthletes.Clear();
 			using(new Busy(this))
 			{
 				await Task.Delay(1000);
 				await AzureService.Instance.GetAllAthletes();
+				_hasLoadedBefore = true;
 				LocalRefresh();
 			}
 		}
 	}
 }
-

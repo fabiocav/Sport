@@ -106,10 +106,53 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		string deviceToken;
+		public const string DeviceTokenPropertyName = "DeviceToken";
+
+		public string DeviceToken
+		{
+			get
+			{
+				return deviceToken;
+			}
+			set
+			{
+				SetProperty(ref deviceToken, value, DeviceTokenPropertyName);
+			}
+		}
+
+		string devicePlatform;
+		public const string DevicePlatformPropertyName = "DevicePlatform";
+
+		public string DevicePlatform
+		{
+			get
+			{
+				return devicePlatform;
+			}
+			set
+			{
+				SetProperty(ref devicePlatform, value, DevicePlatformPropertyName);
+			}
+		}
+
 		public void RefreshMemberships()
 		{
 			_memberships.Clear();
-			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).ToList().ForEach(_memberships.Add);
+			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).OrderBy(l => l.League.Name).ToList().ForEach(_memberships.Add);
+		}
+
+		[JsonIgnore]
+		public List<Challenge> Challenges
+		{
+			get;
+			private set;
+		}
+
+		public void RefreshChallenges()
+		{
+			Challenges = new List<Challenge>();
+			DataManager.Instance.Challenges.Values.Where(m => m.ChallengeeAthleteId == Id || m.ChallengerAthleteId == Id).ToList().ForEach(Challenges.Add);
 		}
 	}
 }

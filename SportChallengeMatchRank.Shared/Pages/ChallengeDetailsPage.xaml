@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:ChallengeDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.ChallengeDetailsPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+	<local:ChallengeDetailsXaml.Content>
+		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
+			<StackLayout Orientation="Horizontal">
+				<Label Text="League name:" HorizontalOptions="StartAndExpand" FontSize="18" />
+				<Label Text="{Binding Challenge.League.Name}" FontSize="18" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Challenger name:" HorizontalOptions="StartAndExpand" FontSize="18" />
+				<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="18" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Challengee name:" HorizontalOptions="StartAndExpand" FontSize="18" />
+				<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="18" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Date sent:" HorizontalOptions="StartAndExpand" FontSize="18" />
+				<Label Text="{Binding Challenge.DateCreated}" FontSize="18" />
+			</StackLayout>
+
+			<Button x:Name="btnAccept" Text="Accept Challenge" Style="{StaticResource buttonStyle}"
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+
+			<Button x:Name="btnDecline" Text="Decline Challenge" Style="{StaticResource buttonStyle}"
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+
+			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+		</StackLayout>
+	</local:ChallengeDetailsXaml.Content>
+</local:ChallengeDetailsXaml>

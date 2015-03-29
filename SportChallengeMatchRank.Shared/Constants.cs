@@ -9,12 +9,12 @@ namespace SportChallengeMatchRank.Shared
 		public static readonly string AuthDomain = "xsttla.auth0.com";
 
 		#if DEBUG
-		//		public static readonly string AzureDomain = "http://192.168.1.19:51541/";
-		public static readonly string AzureDomain = "http://10.0.0.217:51541/";
+		public static readonly string AzureDomain = "http://192.168.1.19:51541/";
+		//public static readonly string AzureDomain = "http://10.0.0.217:51541/";
 		#else
-		public static readonly string AzureDomain = "https://sportsranker-matchon.azure-mobile.net/";
+		public static readonly string AzureDomain = "https://sportchallengematchrank.azure-mobile.net/";
 		#endif
 
-		public static readonly string AzureClientId = "ECLOfrQpIrqSxhKseSPAUtXoEsKYfd70";
+		public static readonly string AzureClientId = "FSKOHcURfLmRDDKzUdZBuOxpmAlQyc62";
 	}
 }

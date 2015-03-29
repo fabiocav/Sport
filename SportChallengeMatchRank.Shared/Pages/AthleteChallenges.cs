@@ -2,21 +2,21 @@
 
 namespace SportChallengeMatchRank.Shared
 {
-	public partial class AvailableLeaguesPage : AvailableLeaguesXaml
+	public partial class AthleteChallengesPage : AthleteChallengesXaml
 	{
 		async protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Available Leagues";
+			Title = "Challenges";
 
 			list.ItemSelected += async(sender, e) =>
 			{
 				if(list.SelectedItem == null)
 					return;
 
-				var league = list.SelectedItem as League;
+				var challenge = list.SelectedItem as Challenge;
 				list.SelectedItem = null;
-				await Navigation.PushAsync(new LeagueDetailsPage(league));
+				await Navigation.PushAsync(new ChallengeDetailsPage(challenge));
 			};
 
 			var btnCancel = new ToolbarItem {
@@ -30,11 +30,11 @@ namespace SportChallengeMatchRank.Shared
 
 			ToolbarItems.Add(btnCancel);
 
-			await ViewModel.GetAvailableLeagues();
+			await ViewModel.GetChallenges();
 		}
 	}
 
-	public partial class AvailableLeaguesXaml : BaseContentPage<AvailableLeaguesViewModel>
+	public partial class AthleteChallengesXaml : BaseContentPage<AthleteChallengesViewModel>
 	{
 	}
 }

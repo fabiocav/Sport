@@ -17,6 +17,17 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 			Title = "Edit League";
 
+			btnStartLeague.Clicked += async(sender, e) =>
+			{
+				var startTime = await ViewModel.StartLeague();
+
+				if(startTime != null)
+				{
+					btnStartLeague.IsVisible = false;
+					DisplayAlert("League started!", "It's on like a prawn that yawns at dawn!", "Mkay");
+				}
+			};
+			
 			btnSaveLeague.Clicked += async(sender, e) =>
 			{
 				if(!ViewModel.IsValid())

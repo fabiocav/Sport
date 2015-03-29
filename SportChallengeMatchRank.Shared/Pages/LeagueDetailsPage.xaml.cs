@@ -28,7 +28,13 @@ namespace SportChallengeMatchRank.Shared
 
 			btnMemberStatus.Clicked += async(sender, e) =>
 			{
-				await Navigation.PushAsync(new MembershipsLandingPage(ViewModel.League));	
+				if(!ViewModel.League.HasStarted)
+				{
+					DisplayAlert("Still Recruiting, y'all", "This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?", "mkay thx");
+					return;
+				}
+
+				await Navigation.PushAsync(new MembershipsByLeaguePage(ViewModel.League));	
 			};
 
 			btnJoinLeague.Clicked += async(sender, e) =>

@@ -12,6 +12,7 @@ namespace SportChallengeMatchRank.Shared
 			Leagues = new ConcurrentDictionary<string, League>();
 			Athletes = new ConcurrentDictionary<string, Athlete>();
 			Memberships = new ConcurrentDictionary<string, Membership>();
+			Challenges = new ConcurrentDictionary<string, Challenge>();
 		}
 
 		static DataManager _instance;
@@ -40,6 +41,12 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		public ConcurrentDictionary<string, Membership> Memberships
+		{
+			get;
+			set;
+		}
+
+		public ConcurrentDictionary<string, Challenge> Challenges
 		{
 			get;
 			set;

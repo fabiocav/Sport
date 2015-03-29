@@ -22,11 +22,11 @@
 			</Image>
 
 			<StackLayout Spacing="15" VerticalOptions="Start" Padding="20,20,20,20" BackgroundColor="#99000000"
-				HeightRequest="420">
+				HeightRequest="380">
 			</StackLayout>
 
 			<StackLayout Grid.Row="1" Spacing="10" VerticalOptions="End" Padding="20">
-				<Button x:Name="btnMemberStatus" Text="View Current Members" Style="{StaticResource buttonStyle}" />
+				<Button x:Name="btnMemberStatus" Text="View Current Rankings" Style="{StaticResource buttonStyle}" />
 
 				<Button x:Name="btnJoinLeague" Text="Join League" Style="{StaticResource buttonStyle}"
 						IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"

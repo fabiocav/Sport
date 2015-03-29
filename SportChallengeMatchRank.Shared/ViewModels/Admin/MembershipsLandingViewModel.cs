@@ -10,6 +10,7 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class MembershipsLandingViewModel : BaseViewModel
 	{
+		bool _hasLoadedBefore;
 		Athlete _athlete;
 		public const string AthletePropertyName = "Athlete";
 
@@ -56,6 +57,7 @@ namespace SportChallengeMatchRank.Shared
 			using(new Busy(this))
 			{
 				await AzureService.Instance.GetAllLeaguesByAthlete(Athlete);
+				LocalRefresh();
 			}
 		}
 
@@ -78,12 +80,13 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetAllMembershipsByLeague(bool forceRefresh = false)
 		{
-			if(!forceRefresh && League.Memberships != null && League.Memberships.Count > 0)
+			if(!forceRefresh && _hasLoadedBefore)
 				return;
 
 			using(new Busy(this))
 			{
 				await AzureService.Instance.GetAllAthletesByLeague(League);
+				_hasLoadedBefore = true;
 				LocalRefresh();
 			}
 		}

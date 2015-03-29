@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -29,17 +30,6 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PopModalAsync();
 			};
 
-			var btnCancel = new ToolbarItem {
-				Text = "Cancel"		
-			};
-
-			btnCancel.Clicked += async(sender, e) =>
-			{
-				await Navigation.PopModalAsync();		
-			};
-
-			ToolbarItems.Add(btnCancel);
-
 			btnDeleteMembership.Clicked += async(sender, e) =>
 			{
 				var accepted = await DisplayAlert("Delete Membership?", "Are you totes sure you want to delete this membership?", "Yeah brah!", "Nah");
@@ -53,6 +43,12 @@ namespace SportChallengeMatchRank.Shared
 						
 					await Navigation.PopModalAsync();
 				}
+			};
+
+			btnChallenge.Clicked += async(sender, e) =>
+			{
+				var challenge = await ViewModel.ChallengeAthlete(ViewModel.Membership);
+				DisplayAlert("Challenge Sent!", "{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name), "OK");
 			};
 		}
 	}

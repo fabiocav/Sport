@@ -61,7 +61,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\AdminViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\AthleteLandingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\LeagueLandingViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\MembershipDetailsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\MembershipsLandingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteLeaguesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\LeagueListView.xaml.cs">
@@ -73,19 +72,29 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\AthleteEditPage.xaml.cs">
       <DependentUpon>AthleteEditPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteDetailsPage.xaml.cs">
-      <DependentUpon>AthleteDetailsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\LeagueDetailsPage.xaml.cs">
       <DependentUpon>LeagueDetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\MembershipDetailsPage.xaml.cs">
-      <DependentUpon>MembershipDetailsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\AthleteEditViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\LeagueEditViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteDetailsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LeagueDetailsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MembershipsByLeaguePage.xaml.cs">
+      <DependentUpon>MembershipsByLeaguePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MembershipDetailsPage.xaml.cs">
+      <DependentUpon>MembershipDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipDetailsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Challenge.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteChallenges.cs">
+      <DependentUpon>AthleteChallenges.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ChallengeDetailsPage.xaml.cs">
+      <DependentUpon>ChallengeDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeDetailsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteChallengesViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteTabbedPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -118,13 +127,19 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\AthleteEditPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AthleteDetailsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\LeagueDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\MembershipDetailsPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MembershipsByLeaguePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MembershipDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AthleteChallenges.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ChallengeDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

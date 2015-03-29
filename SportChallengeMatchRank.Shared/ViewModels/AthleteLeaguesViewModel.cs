@@ -11,6 +11,8 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class AthleteLeaguesViewModel : BaseViewModel
 	{
+		bool _hasLoadedBefore;
+
 		public AthleteLeaguesViewModel()
 		{
 			LocalRefresh();
@@ -35,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetLeagues());
+				return new Command(async() => await GetLeagues(true));
 			}
 		}
 
@@ -45,12 +47,19 @@ namespace SportChallengeMatchRank.Shared
 			App.CurrentAthlete.Memberships.Select(m => m.League).ToList().ForEach(Leagues.Add);
 		}
 
-		async public Task GetLeagues()
+		async public Task GetLeagues(bool forceRefresh = false)
 		{
+			if(!forceRefresh && _hasLoadedBefore)
+			{
+				LocalRefresh();
+				return;
+			}
+
 			Leagues.Clear();
 			using(new Busy(this))
 			{
 				await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
+				_hasLoadedBefore = true;
 				LocalRefresh();
 			}
 		}

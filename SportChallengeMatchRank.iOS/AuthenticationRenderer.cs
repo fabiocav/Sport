@@ -49,7 +49,7 @@ namespace SportChallengeMatchRank.iOS
 
 		public override void ViewDidDisappear(bool animated)
 		{
-			MessagingCenter.Unsubscribe<BaseViewModel>(this, "AuthenticateUser");
+			MessagingCenter.Unsubscribe<AuthenticationViewModel>(this, "AuthenticateUser");
 			base.ViewDidDisappear(animated);
 		}
 

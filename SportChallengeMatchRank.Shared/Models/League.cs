@@ -17,11 +17,14 @@ namespace SportChallengeMatchRank.Shared
 		{
 			StartDate = DateTime.Now.AddDays(7);
 			EndDate = DateTime.Now.AddMonths(6);
+			MaxChallengeRange = 2;
 			Memberships = new ObservableCollection<Membership>();
 
 			IsAcceptingMembers = true;
 			IsEnabled = true;
 		}
+
+		#region Properties
 
 		[JsonIgnore]
 		public Athlete CreatedByAthlete
@@ -36,6 +39,21 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get;
 			set;
+		}
+
+		bool hasStarted;
+		public const string HasStartedPropertyName = "HasStarted";
+
+		public bool HasStarted
+		{
+			get
+			{
+				return hasStarted;
+			}
+			set
+			{
+				SetProperty(ref hasStarted, value, HasStartedPropertyName);
+			}
 		}
 
 		string _name;
@@ -98,6 +116,21 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		int _maxChallengeRange;
+		public const string MaxChallengeRangePropertyName = "MaxChallengeRange";
+
+		public int MaxChallengeRange
+		{
+			get
+			{
+				return _maxChallengeRange;
+			}
+			set
+			{
+				SetProperty(ref _maxChallengeRange, value, MaxChallengeRangePropertyName);
+			}
+		}
+
 		string description;
 		public const string DescriptionPropertyName = "Description";
 
@@ -141,12 +174,6 @@ namespace SportChallengeMatchRank.Shared
 			{
 				SetProperty(ref _memberships, value, MembershipsPropertyName);
 			}
-		}
-
-		public void RefreshMemberships()
-		{
-			_memberships.Clear();
-			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).ToList().ForEach(_memberships.Add);
 		}
 
 		string imageUrl;
@@ -210,6 +237,14 @@ namespace SportChallengeMatchRank.Shared
 				SetProperty(ref _endDate, value, EndDatePropertyName);
 				OnPropertyChanged("DateRange");
 			}
+		}
+
+		#endregion
+
+		public void RefreshMemberships()
+		{
+			_memberships.Clear();
+			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).OrderByDescending(m => m.CurrentRank).ToList().ForEach(_memberships.Add);
 		}
 	}
 

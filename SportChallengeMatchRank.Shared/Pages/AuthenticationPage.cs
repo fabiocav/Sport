@@ -35,7 +35,7 @@ namespace SportChallengeMatchRank.Shared
 			else
 			{
 				await ViewModel.EnsureAthleteRegistered();
-				await Navigation.PushAsync(new AthleteLeaguesPage());
+				await Navigation.PushAsync(new AthleteTabbedPage());
 			}
 
 			_userLabel.Text = App.AuthUserProfile == null ? "empty" : App.AuthUserProfile.Email;
@@ -122,13 +122,13 @@ namespace SportChallengeMatchRank.Shared
 
 			_loginButton.Clicked += (sender, e) =>
 			{
-				MessagingCenter.Send<AuthenticationPage>(this, "AuthenticateUser");
+				MessagingCenter.Send<AuthenticationViewModel>(ViewModel, "AuthenticateUser");
 			};
 
 			_logoutButton.Clicked += (sender, e) =>
 			{
 				ViewModel.LogOut();
-				MessagingCenter.Send<AuthenticationPage>(this, "AuthenticateUser");
+				MessagingCenter.Send<AuthenticationViewModel>(ViewModel, "AuthenticateUser");
 			};
 
 			_adminButton.Clicked += (sender, e) =>
@@ -146,13 +146,13 @@ namespace SportChallengeMatchRank.Shared
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-					_activity,
-					_statusLabel,
-					_userLabel,
-					_athleteLandingButton,
-						_adminButton,
-						_loginButton,
-						_logoutButton
+						_activity,
+						_statusLabel,
+						_userLabel,
+						_athleteLandingButton,
+					_adminButton,
+					_loginButton,
+					_logoutButton
 				}
 			};
 		}

@@ -7,21 +7,6 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class Membership : BaseModel
 	{
-		ObservableCollection<Athlete> _athletes;
-		public const string AthletesPropertyName = "Athletes";
-
-		public ObservableCollection<Athlete> Athletes
-		{
-			get
-			{
-				return _athletes;
-			}
-			set
-			{
-				SetProperty(ref _athletes, value, AthletesPropertyName);
-			}
-		}
-
 		[JsonIgnore]
 		public League League
 		{
@@ -100,6 +85,15 @@ namespace SportChallengeMatchRank.Shared
 			{
 				SetProperty(ref _isAdmin, value, IsAdminPropertyName);
 			}
+		}
+
+		public void LocalRefresh()
+		{
+			if(Athlete != null)
+				Athlete.RefreshMemberships();
+
+			if(League != null)
+				League.RefreshMemberships();
 		}
 	}
 }

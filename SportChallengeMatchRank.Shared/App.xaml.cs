@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public partial class App
+	public partial class App : Application
 	{
 		public App()
 		{
@@ -17,6 +17,12 @@ namespace SportChallengeMatchRank.Shared
 			{
 				return Settings.Instance.AthleteId == null ? null : DataManager.Instance.Athletes.Get(Settings.Instance.AthleteId);
 			}
+		}
+
+		public static string DeviceToken
+		{
+			get;
+			set;
 		}
 
 		public static UserProfile AuthUserProfile

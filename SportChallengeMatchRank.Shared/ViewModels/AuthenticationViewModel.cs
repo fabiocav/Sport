@@ -67,6 +67,7 @@ namespace SportChallengeMatchRank.Shared
 			if(App.CurrentAthlete != null)
 			{
 				await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
+				await AzureService.Instance.UpdateAthleteRegistrationForPush();
 			}
 
 			return App.CurrentAthlete != null;

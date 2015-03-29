@@ -1,9 +1,7 @@
 ﻿using System;
-using Newtonsoft.Json;
 using System.Linq;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
-using System.Net;
 using System.Collections.Generic;
 using System.Net.Http;
 
@@ -54,6 +52,39 @@ namespace SportChallengeMatchRank.Shared
 
 				return _client;
 			}			
+		}
+
+		#endregion
+
+		#region Push Notifications
+
+		async public Task UpdateAthleteRegistrationForPush()
+		{
+			if(App.CurrentAthlete == null || App.CurrentAthlete.Id == null || App.DeviceToken == null)
+				return;
+
+			var tags = new List<string> {
+				App.CurrentAthlete.Id,
+				"All",
+			};
+
+			App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
+			tags.ForEach(Console.WriteLine);
+			var push = AzureService.Instance.Client.GetPush();
+			//push.RegisterTemplateAsync
+			await push.RegisterNativeAsync(App.DeviceToken, tags);
+
+			if(App.CurrentAthlete.Id != null)
+			{
+				App.CurrentAthlete.DeviceToken = App.DeviceToken;
+				await AzureService.Instance.SaveAthlete(App.CurrentAthlete);
+			}
+		}
+
+		async public Task UnregisterAthleteForPush()
+		{
+			var push = AzureService.Instance.Client.GetPush();
+			await push.UnregisterNativeAsync();
 		}
 
 		#endregion
@@ -298,6 +329,8 @@ namespace SportChallengeMatchRank.Shared
 				if(athlete.Email == "rob.derosa@xamarin.com")
 					athlete.IsAdmin = true;
 
+				//Stopped here - need to handle conflicts
+				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
 				await Client.GetTable<Athlete>().InsertAsync(athlete);
 			}
 			else
@@ -316,7 +349,9 @@ namespace SportChallengeMatchRank.Shared
 				await Client.GetTable<Athlete>().DeleteAsync(new Athlete {
 						Id = id
 					});
+
 				DataManager.Instance.Athletes.TryRemove(id, out a);
+				await AzureService.Instance.UnregisterAthleteForPush();
 			}
 			catch(HttpRequestException hre)
 			{
@@ -363,6 +398,23 @@ namespace SportChallengeMatchRank.Shared
 			return null;
 		}
 
+		async public Task<DateTime?> StartLeague(string id)
+		{
+			try
+			{
+				var qs = new Dictionary<string, string>();
+				qs.Add("id", id);
+				var dateTime = await Client.InvokeApiAsync("startLeague", null, HttpMethod.Post, qs);
+				return (DateTime)dateTime.Root;
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+
+			return null;
+		}
+
 		async public Task SaveMembership(Membership membership)
 		{
 			if(membership.Id == null)
@@ -375,6 +427,9 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			DataManager.Instance.Memberships.AddOrUpdate(membership);
+			membership.LocalRefresh();
+
+			await AzureService.Instance.UpdateAthleteRegistrationForPush();
 		}
 
 		async public Task DeleteMembership(string id)
@@ -385,7 +440,10 @@ namespace SportChallengeMatchRank.Shared
 				await Client.GetTable<Membership>().DeleteAsync(new Membership {
 						Id = id
 					});
+
 				DataManager.Instance.Memberships.TryRemove(id, out m);
+				m.LocalRefresh();
+				await AzureService.Instance.UpdateAthleteRegistrationForPush();
 			}
 			catch(HttpRequestException hre)
 			{
@@ -398,6 +456,61 @@ namespace SportChallengeMatchRank.Shared
 			{
 				Console.WriteLine(e);
 			}
+		}
+
+		#endregion
+
+		#region Challenge
+
+		async public Task SaveChallenge(Challenge challenge)
+		{
+			if(challenge.Id == null)
+			{
+				await Client.GetTable<Challenge>().InsertAsync(challenge);
+			}
+			else
+			{
+				await Client.GetTable<Challenge>().UpdateAsync(challenge);
+			}
+
+			DataManager.Instance.Challenges.AddOrUpdate(challenge);
+
+			if(challenge.ChallengeeAthlete != null)
+				challenge.ChallengeeAthlete.RefreshChallenges();
+
+			if(challenge.ChallengerAthlete != null)
+				challenge.ChallengerAthlete.RefreshChallenges();
+		}
+
+		async public Task DeleteChallenge(string id)
+		{
+			Challenge m;
+			try
+			{
+				await Client.GetTable<Challenge>().DeleteAsync(new Challenge {
+						Id = id
+					});
+
+				DataManager.Instance.Challenges.TryRemove(id, out m);
+			}
+			catch(HttpRequestException hre)
+			{
+				if(hre.Message.ContainsNoCase("not found"))
+				{
+					DataManager.Instance.Challenges.TryRemove(id, out m);
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
+		async public Task GetAllChallengesByAthlete(Athlete athlete)
+		{
+			var challenges = await Client.GetTable<Challenge>().Where(c => c.ChallengeeAthleteId == athlete.Id || c.ChallengerAthleteId == athlete.Id).OrderBy(c => c.DateCreated).ToListAsync();
+			challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
+			athlete.RefreshChallenges();
 		}
 
 		#endregion

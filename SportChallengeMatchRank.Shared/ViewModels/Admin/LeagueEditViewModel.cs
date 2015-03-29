@@ -24,6 +24,14 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Properties
 
+		public bool CanStartLeague
+		{
+			get
+			{
+				return League != null && League.Id != null && !League.HasStarted;
+			}
+		}
+
 		string errorMessage;
 		public const string ErrorMessagePropertyName = "ErrorMessage";
 
@@ -52,6 +60,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				SetProperty(ref _league, value, LeaguePropertyName);
 				ErrorMessage = null;
+				OnPropertyChanged("CanStartLeague");
 				UpdateMembershipStatus();
 			}
 		}
@@ -101,7 +110,6 @@ namespace SportChallengeMatchRank.Shared
 						};
 
 						await AzureService.Instance.SaveMembership(membership);
-						App.CurrentAthlete.Memberships.Add(membership);
 					}
 				}
 				catch(Exception e)
@@ -127,6 +135,26 @@ namespace SportChallengeMatchRank.Shared
 					Console.WriteLine(e);
 				}
 			}
+		}
+
+		async public Task<DateTime?> StartLeague()
+		{
+			using(new Busy(this))
+			{
+				try
+				{
+					var date = await AzureService.Instance.StartLeague(League.Id);
+					League.HasStarted = true;
+					OnPropertyChanged("CanStartLeague");
+					return date;
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e);
+				}
+			}
+
+			return null;
 		}
 
 		public bool IsValid()
