@@ -19,17 +19,6 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushAsync(new ChallengeDetailsPage(challenge));
 			};
 
-			var btnCancel = new ToolbarItem {
-				Text = "Cancel"		
-			};
-
-			btnCancel.Clicked += async(sender, e) =>
-			{
-				await Navigation.PopModalAsync();		
-			};
-
-			ToolbarItems.Add(btnCancel);
-
 			await ViewModel.GetChallenges();
 		}
 	}

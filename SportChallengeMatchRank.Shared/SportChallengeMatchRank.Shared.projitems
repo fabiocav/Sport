@@ -55,9 +55,6 @@
       <DependentUpon>AvailableLeaguesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AvailableLeaguesViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteLeagues.xaml.cs">
-      <DependentUpon>AthleteLeagues.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\AdminViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\AthleteLandingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\LeagueLandingViewModel.cs" />
@@ -95,6 +92,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeDetailsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteChallengesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteTabbedPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteLeaguesPage.xaml.cs">
+      <DependentUpon>AthleteLeaguesPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -113,9 +113,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AvailableLeaguesPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AthleteLeagues.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LeagueListView.xaml">
@@ -140,6 +137,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ChallengeDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AthleteLeaguesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

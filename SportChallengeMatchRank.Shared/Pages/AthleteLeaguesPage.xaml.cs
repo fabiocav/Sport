@@ -7,7 +7,7 @@ namespace SportChallengeMatchRank.Shared
 		async protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "My Leagues";
+			//Title = "My Leagues";
 
 			btnJoin.Clicked += async(sender, e) =>
 			{

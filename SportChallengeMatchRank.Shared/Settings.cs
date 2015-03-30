@@ -30,6 +30,12 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public string RefreshToken
+		{
+			get;
+			set;
+		}
+
 		public string AuthUserID
 		{
 			get;

@@ -23,6 +23,7 @@ namespace SportChallengeMatchRank.Shared
 
 		void Initialize()
 		{
+			RefreshChallenges();
 		}
 
 		public List<string> MembershipIds

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AuthenticationViewModel))]
+[assembly: Dependency(typeof(AuthenticationViewModel))]
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -99,7 +99,9 @@ namespace SportChallengeMatchRank.Shared
 				{
 					if(hre.Message.ContainsNoCase("unauthorized"))
 					{
-						LogOut();
+						//Attempt to renew token
+
+						//LogOut();
 					}
 				}
 				catch(Exception e)

@@ -324,21 +324,32 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task SaveAthlete(Athlete athlete)
 		{
-			if(athlete.Id == null)
+			try
 			{
-				if(athlete.Email == "rob.derosa@xamarin.com")
-					athlete.IsAdmin = true;
+				if(athlete.Id == null)
+				{
+					if(athlete.Email == "rob.derosa@xamarin.com")
+						athlete.IsAdmin = true;
 
-				//Stopped here - need to handle conflicts
-				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
-				await Client.GetTable<Athlete>().InsertAsync(athlete);
+					//Stopped here - need to handle conflicts
+					athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
+					await Client.GetTable<Athlete>().InsertAsync(athlete);
+				}
+				else
+				{
+					await Client.GetTable<Athlete>().UpdateAsync(athlete);
+				}
+
+				DataManager.Instance.Athletes.AddOrUpdate(athlete);
 			}
-			else
+			catch(MobileServiceConflictException conflict)
 			{
-				await Client.GetTable<Athlete>().UpdateAsync(athlete);
+				
 			}
-
-			DataManager.Instance.Athletes.AddOrUpdate(athlete);
+			catch(Exception e)
+			{
+					
+			}
 		}
 
 		async public Task DeleteAthlete(string id)

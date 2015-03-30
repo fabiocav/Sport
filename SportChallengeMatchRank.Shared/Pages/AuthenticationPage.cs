@@ -36,6 +36,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				await ViewModel.EnsureAthleteRegistered();
 				await Navigation.PushAsync(new AthleteTabbedPage());
+				Navigation.RemovePage(this);
 			}
 
 			_userLabel.Text = App.AuthUserProfile == null ? "empty" : App.AuthUserProfile.Email;
