@@ -14,17 +14,17 @@ namespace SportChallengeMatchRank.Shared
 		public bool IsUserValid()
 		{
 			return App.AuthUserProfile != null &&
-			App.AuthUserProfile.Email != null &&
+			App.AuthUserProfile.Email != null;
 //			App.AuthUserProfile.Email.EndsWith("@xamarin.com", StringComparison.OrdinalIgnoreCase) &&
-			App.AuthUserProfile.EmailVerified;
+			//App.AuthUserProfile.EmailVerified;
 		}
 
 		public void LogOut()
 		{
-			Settings.Instance.AuthToken = null;
-			Settings.Instance.AuthUserID = null;
-			App.AuthUserProfile = null;
-			Settings.Instance.Save();
+//			Settings.Instance.AuthToken = null;
+//			Settings.Instance.AuthUserID = null;
+//			App.AuthUserProfile = null;
+//			Settings.Instance.Save();
 		}
 
 		async public Task<bool> EnsureAthleteRegistered(bool forceRefresh = false)
@@ -86,7 +86,8 @@ namespace SportChallengeMatchRank.Shared
 					using(var client = new HttpClient())
 					{
 						client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer {0}".Fmt(Settings.Instance.AuthToken));
-						var url = "https://{0}/api/users/{1}".Fmt(Constants.AuthDomain, Settings.Instance.AuthUserID);
+						var url = "https://www.googleapis.com/oauth2/v2/userinfo/{0}?key={1}".Fmt(Settings.Instance.AuthUserID, Constants.GoogleApiClientId);
+						//var url = "https://www.googleapis.com/plus/v1/people/{0}?fields=emails&key={1}".Fmt(Settings.Instance.AuthUserID, Constants.GoogleApiClientId);
 						json = await client.GetStringAsync(url);
 					}
 
@@ -100,7 +101,6 @@ namespace SportChallengeMatchRank.Shared
 					if(hre.Message.ContainsNoCase("unauthorized"))
 					{
 						//Attempt to renew token
-
 						//LogOut();
 					}
 				}

@@ -32,39 +32,36 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref membership, value, MembershipPropertyName);
-				_canChallenge = null;
 				OnPropertyChanged("CanChallenge");
+				OnPropertyChanged("HasChallenged");
 			}
 		}
 
-		private bool? _canChallenge;
+		public bool HasChallenged
+		{
+			get
+			{
+				return Membership.HasExistingChallengeWithAthlete(App.CurrentAthlete);
+			}
+		}
 
 		public bool CanChallenge
 		{
 			get
 			{
-				if(!_canChallenge.HasValue)
-				{
-					_canChallenge = false;
-					var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == Membership.LeagueId);
-
-					if(membership != null)
-					{
-						var diff = Membership.CurrentRank - membership.CurrentRank;
-						_canChallenge = diff > 0 && diff <= Membership.League.MaxChallengeRange;
-					}
-
-					if(_canChallenge.Value)
-					{
-						var alreadyChallenged = App.CurrentAthlete.Challenges.Any(c => (c.ChallengeeAthleteId == App.CurrentAthlete.Id ||
-							                        c.ChallengerAthleteId == App.CurrentAthlete.Id) && c.LeagueId == Membership.LeagueId);
-
-						_canChallenge = !alreadyChallenged;
-					}
-				}
-
-				return _canChallenge.Value;
+				return Membership.CanChallengeAthlete(App.CurrentAthlete);
 			}
+		}
+
+		async public Task RevokeExistingChallenge(Membership membership)
+		{
+			var challenge = membership.GetExistingChallengeWithAthlete(App.CurrentAthlete);
+			await AzureService.Instance.DeleteChallenge(challenge.Id);
+			App.CurrentAthlete.RefreshChallenges();
+			Membership.Athlete.RefreshChallenges();
+
+			OnPropertyChanged("HasChallenged");
+			OnPropertyChanged("CanChallenge");
 		}
 
 		async public Task<Challenge> ChallengeAthlete(Membership membership)
@@ -79,6 +76,7 @@ namespace SportChallengeMatchRank.Shared
 			await AzureService.Instance.SaveChallenge(challenge);
 
 			OnPropertyChanged("CanChallenge");
+			OnPropertyChanged("HasChallenged");
 			return challenge;
 		}
 

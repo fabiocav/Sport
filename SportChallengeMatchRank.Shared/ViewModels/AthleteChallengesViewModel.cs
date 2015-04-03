@@ -11,11 +11,24 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class AthleteChallengesViewModel : BaseViewModel
 	{
-		bool _hasLoadedBefore;
-
 		public AthleteChallengesViewModel()
 		{
 			LocalRefresh();
+		}
+
+		bool _hasLoadedBefore;
+		public const string HasLoadedBeforePropertyName = "HasLoadedBefore";
+
+		public bool HasLoadedBefore
+		{
+			get
+			{
+				return _hasLoadedBefore;
+			}
+			set
+			{
+				SetProperty(ref _hasLoadedBefore, value, HasLoadedBeforePropertyName);
+			}
 		}
 
 		ObservableCollection<Challenge> _challenges = new ObservableCollection<Challenge>();
@@ -43,12 +56,18 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
+			if(App.CurrentAthlete == null)
+				return;
+
 			Challenges.Clear();
 			App.CurrentAthlete.Challenges.ForEach(Challenges.Add);
 		}
 
 		async public Task GetChallenges(bool forceRefresh = false)
 		{
+			if(App.CurrentAthlete == null)
+				return;
+
 			if(!forceRefresh && _hasLoadedBefore)
 			{
 				LocalRefresh();
@@ -58,10 +77,12 @@ namespace SportChallengeMatchRank.Shared
 			Challenges.Clear();
 			using(new Busy(this))
 			{
+				//	Console.WriteLine(IsBusy);
 				await AzureService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete);
 				_hasLoadedBefore = true;
 				LocalRefresh();
 			}
+			//Console.WriteLine(IsBusy);
 		}
 	}
 }

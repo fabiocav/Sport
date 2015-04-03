@@ -80,6 +80,21 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		DateTimeOffset? _dateAccepted;
+		public const string DateAcceptedPropertyName = "DateAccepted";
+
+		public DateTimeOffset? DateAccepted
+		{
+			get
+			{
+				return _dateAccepted;
+			}
+			set
+			{
+				SetProperty(ref _dateAccepted, value, DateAcceptedPropertyName);
+			}
+		}
+
 		DateTimeOffset _proposedTime;
 		public const string ProposedTimePropertyName = "ProposedTime";
 

@@ -8,7 +8,8 @@ namespace SportChallengeMatchRank.Shared
 		public App()
 		{
 			InitializeComponent();
-			MainPage = new NavigationPage(new AuthenticationPage());
+			//MainPage = new AthleteTabbedPage();
+			MainPage = new AuthenticationPage();
 		}
 
 		public static Athlete CurrentAthlete

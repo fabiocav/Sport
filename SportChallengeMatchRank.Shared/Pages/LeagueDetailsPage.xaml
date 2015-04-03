@@ -21,8 +21,19 @@
 				</Image.HeightRequest>
 			</Image>
 
-			<StackLayout Spacing="15" VerticalOptions="Start" Padding="20,20,20,20" BackgroundColor="#99000000"
-				HeightRequest="380">
+			<StackLayout Spacing="15" VerticalOptions="Start" Padding="20,20,20,20" BackgroundColor="#99000000" HeightRequest="380">
+				<Label Text="{Binding League.Name}" FontSize="50" TextColor="White" />
+				<Label Text="{Binding League.Sport}" FontSize="20" TextColor="White" />
+
+				<StackLayout Orientation="Horizontal" Spacing="8">
+					<Label Text="Created on: " TextColor="White" />
+					<Label Text="{Binding League.DateCreated}" TextColor="White" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal" Spacing="8">
+					<Label Text="Created by: " TextColor="White" />
+					<Label Text="{Binding League.CreatedByAthlete.Name}" TextColor="White" />
+				</StackLayout>
 			</StackLayout>
 
 			<StackLayout Grid.Row="1" Spacing="10" VerticalOptions="End" Padding="20">

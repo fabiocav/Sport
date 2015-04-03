@@ -43,25 +43,37 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
+			if(App.CurrentAthlete == null)
+				return;
+
 			Leagues.Clear();
 			App.CurrentAthlete.Memberships.Select(m => m.League).ToList().ForEach(Leagues.Add);
 		}
 
 		async public Task GetLeagues(bool forceRefresh = false)
 		{
+			if(App.CurrentAthlete == null)
+				return;
+
 			if(!forceRefresh && _hasLoadedBefore)
 			{
 				LocalRefresh();
 				return;
 			}
 
+			if(IsBusy)
+				return;
+
 			Leagues.Clear();
 			using(new Busy(this))
 			{
+				Console.WriteLine(IsBusy);
 				await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
 				_hasLoadedBefore = true;
 				LocalRefresh();
 			}
+
+			Console.WriteLine(IsBusy);
 		}
 	}
 }

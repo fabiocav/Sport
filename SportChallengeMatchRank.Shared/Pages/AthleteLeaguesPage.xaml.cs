@@ -4,10 +4,14 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AthleteLeaguesPage : AthleteLeaguesXaml
 	{
+		public AthleteLeaguesPage()
+		{
+			Title = "My Leagues";
+		}
+
 		async protected override void Initialize()
 		{
 			InitializeComponent();
-			//Title = "My Leagues";
 
 			btnJoin.Clicked += async(sender, e) =>
 			{

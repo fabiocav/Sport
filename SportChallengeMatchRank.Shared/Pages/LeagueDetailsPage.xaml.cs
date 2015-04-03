@@ -49,7 +49,7 @@ namespace SportChallengeMatchRank.Shared
 
 			btnLeaveLeague.Clicked += async(sender, e) =>
 			{
-				var accepted = await DisplayAlert("League League?", "Are you totes sure you want to abandon this league like a heaping pile of slime?", "Yeps", "Nah");
+				var accepted = await DisplayAlert("Abandon League?", "Are you totes sure you want to abandon this league like a heaping pile of slime?", "Yeps", "Nah");
 
 				if(accepted)
 				{

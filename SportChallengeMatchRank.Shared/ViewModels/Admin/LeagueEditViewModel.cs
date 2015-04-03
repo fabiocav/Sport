@@ -144,17 +144,16 @@ namespace SportChallengeMatchRank.Shared
 				try
 				{
 					var date = await AzureService.Instance.StartLeague(League.Id);
-					League.HasStarted = true;
+					League.HasStarted = date != null;
 					OnPropertyChanged("CanStartLeague");
 					return date;
 				}
 				catch(Exception e)
 				{
 					Console.WriteLine(e);
+					throw new Exception("League does not have the minimum amount of players (4) to begin");
 				}
 			}
-
-			return null;
 		}
 
 		public bool IsValid()

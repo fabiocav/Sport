@@ -19,12 +19,19 @@ namespace SportChallengeMatchRank.Shared
 
 			btnStartLeague.Clicked += async(sender, e) =>
 			{
-				var startTime = await ViewModel.StartLeague();
-
-				if(startTime != null)
+				try
 				{
-					btnStartLeague.IsVisible = false;
-					DisplayAlert("League started!", "It's on like a prawn that yawns at dawn!", "Mkay");
+					var startTime = await ViewModel.StartLeague();
+
+					if(startTime != null)
+					{
+						btnStartLeague.IsVisible = false;
+						await DisplayAlert("League started!", "It's on like a prawn that yawns at dawn!", "Mkay");
+					}
+				}
+				catch(Exception ex)
+				{
+					await DisplayAlert("Unable to start league", ex.Message, "Mkay");
 				}
 			};
 			

@@ -48,7 +48,16 @@ namespace SportChallengeMatchRank.Shared
 			btnChallenge.Clicked += async(sender, e) =>
 			{
 				var challenge = await ViewModel.ChallengeAthlete(ViewModel.Membership);
-				DisplayAlert("Challenge Sent!", "{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name), "OK");
+				if(challenge != null)
+				{
+					await DisplayAlert("Challenge Sent!", "{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name), "OK");
+				}
+			};
+
+			btnRevokeChallenge.Clicked += async(sender, e) =>
+			{
+				await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
+				await DisplayAlert("Challenge revoked", "{0} has been notified of your cowardly ways.".Fmt(ViewModel.Membership.Athlete.Name), "OK");
 			};
 		}
 	}

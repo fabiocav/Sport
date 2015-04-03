@@ -22,7 +22,7 @@ namespace SportChallengeMatchRank.Android
 				if(Settings.Instance.AuthToken != null && Settings.Instance.RefreshToken != null)
 				{
 					var vm = DependencyService.Get<AuthenticationViewModel>();
-					var result = authClient.GetDelegationToken("app", Settings.Instance.AuthToken, Settings.Instance.RefreshToken, Constants.AuthClientId);
+					var result = authClient.RenewIdToken();
 					await vm.GetUserProfile(true);
 				}
 

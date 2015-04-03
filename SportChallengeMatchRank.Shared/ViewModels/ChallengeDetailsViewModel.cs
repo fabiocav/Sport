@@ -41,7 +41,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				try
 				{
-					///await AzureService.Instance.AcceptChallenge(Challenge.Id);
+					await AzureService.Instance.AcceptChallenge(Challenge.Id);
 				}
 				catch(Exception e)
 				{
@@ -56,7 +56,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				try
 				{
-					//await AzureService.Instance.AcceptChallenge(Challenge.Id);
+					await AzureService.Instance.DeclineChallenge(Challenge.Id);
 				}
 				catch(Exception e)
 				{

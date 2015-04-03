@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using Xamarin.Forms;
-using System.Threading.Tasks;
+﻿using Xamarin.Forms;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AdminViewModel))]
 

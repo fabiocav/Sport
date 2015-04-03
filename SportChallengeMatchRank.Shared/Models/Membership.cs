@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -94,6 +95,57 @@ namespace SportChallengeMatchRank.Shared
 
 			if(League != null)
 				League.RefreshMemberships();
+		}
+
+		public Challenge GetExistingChallengeWithAthlete(Athlete athlete)
+		{
+			if(Athlete == null || athlete.Id == Athlete.Id)
+				return null;
+
+			//Check to see if they are part of the same league
+			var membership = athlete.Memberships.SingleOrDefault(m => m.LeagueId == LeagueId);
+
+			if(membership != null)
+			{
+				return athlete.Challenges.FirstOrDefault(c => (c.ChallengeeAthleteId == athlete.Id ||
+					c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId);
+			}
+
+			return null;
+		}
+
+		public bool HasExistingChallengeWithAthlete(Athlete athlete)
+		{
+			return GetExistingChallengeWithAthlete(athlete) != null;
+		}
+
+		public bool CanChallengeAthlete(Athlete athlete)
+		{
+			if(Athlete == null || athlete.Id == Athlete.Id)
+				return false;
+			
+			bool canChallenge = false;
+
+			//Check to see if they are part of the same league
+			var membership = athlete.Memberships.SingleOrDefault(m => m.LeagueId == LeagueId);
+
+			if(membership != null)
+			{
+				//Ensure they are within range and lower in rank than the challengee
+				var diff = CurrentRank - membership.CurrentRank;
+				canChallenge = diff > 0 && diff <= League.MaxChallengeRange;
+			}
+
+			if(canChallenge)
+			{
+				//Athlete is within range but let's make sure there aren't already challenges out there
+				var alreadyChallenged = athlete.Challenges.Any(c => (c.ChallengeeAthleteId == athlete.Id ||
+					                        c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId);
+
+				canChallenge = !alreadyChallenged;
+			}
+
+			return canChallenge;
 		}
 	}
 }

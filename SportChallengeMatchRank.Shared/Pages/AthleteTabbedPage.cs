@@ -8,11 +8,21 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public AthleteTabbedPage()
 		{
-			Children.Add(new AthleteLeaguesPage {
-					Title = "Leagues"
+			Children.Add(new NavigationPage(new AthleteLeaguesPage()) {
+					Title = "My Leagues"
 				});
-			Children.Add(new AthleteChallengesPage());
-			Children.Add(new AdminPage());
+			Children.Add(new NavigationPage(new AthleteChallengesPage()) {
+					Title = "My Challenges"
+				});
+			Children.Add(new NavigationPage(new AdminPage()) {
+					Title = "Admin"
+				});
+		}
+
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
 		}
 	}
 }

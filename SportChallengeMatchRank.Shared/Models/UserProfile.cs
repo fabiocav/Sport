@@ -4,15 +4,44 @@ using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class UserProfile
+	public class Name
 	{
-		[JsonProperty("_id")]
-		public string Id
+
+		[JsonProperty("familyName")]
+		public string FamilyName
 		{
 			get;
 			set;
 		}
 
+		[JsonProperty("givenName")]
+		public string GivenName
+		{
+			get;
+			set;
+		}
+	}
+
+	public class Image
+	{
+
+		[JsonProperty("url")]
+		public string Url
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("isDefault")]
+		public bool IsDefault
+		{
+			get;
+			set;
+		}
+	}
+
+	public class UserProfile
+	{
 		[JsonProperty("email")]
 		public string Email
 		{
@@ -20,36 +49,15 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		[JsonProperty("email_verified")]
-		public bool EmailVerified
+		[JsonProperty("kind")]
+		public string Kind
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("name")]
-		public string Name
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("given_name")]
-		public string GivenName
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("family_name")]
-		public string FamilyName
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("picture")]
-		public string Picture
+		[JsonProperty("etag")]
+		public string Etag
 		{
 			get;
 			set;
@@ -62,102 +70,64 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		[JsonProperty("locale")]
-		public string Locale
+		[JsonProperty("objectType")]
+		public string ObjectType
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("user_id")]
-		public string UserId
+		[JsonProperty("id")]
+		public string Id
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("lastLogin")]
-		public DateTime LastLogin
+		[JsonProperty("displayName")]
+		public string DisplayName
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("lastIP")]
-		public string LastIP
+		[JsonProperty("name")]
+		public Name Name
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("nickname")]
-		public string Nickname
+		[JsonProperty("url")]
+		public string Url
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("identities")]
-		public IList<Identity> Identities
+		[JsonProperty("image")]
+		public Image Image
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("created_at")]
-		public DateTime CreatedAt
+		[JsonProperty("isPlusUser")]
+		public bool IsPlusUser
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("loginsCount")]
-		public int LoginsCount
-		{
-			get;
-			set;
-		}
-	}
-
-	public class Identity
-	{
-		[JsonProperty("access_token")]
-		public string AccessToken
+		[JsonProperty("circledByCount")]
+		public int CircledByCount
 		{
 			get;
 			set;
 		}
 
-		[JsonProperty("provider")]
-		public string Provider
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("expires_in")]
-		public int ExpiresIn
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("user_id")]
-		public string UserId
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("connection")]
-		public string Connection
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("isSocial")]
-		public bool IsSocial
+		[JsonProperty("verified")]
+		public bool Verified
 		{
 			get;
 			set;

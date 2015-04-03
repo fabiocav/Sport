@@ -41,12 +41,18 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
+			if(App.CurrentAthlete == null)
+				return;
+
 			Leagues.Clear();
 			DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key)).Select(k => k.Value).ToList().ForEach(Leagues.Add);
 		}
 
 		async public Task GetAvailableLeagues(bool forceRefresh = false)
 		{
+			if(App.CurrentAthlete == null)
+				return;
+
 			if(!forceRefresh && _hasLoadedBefore)
 			{
 				LocalRefresh();

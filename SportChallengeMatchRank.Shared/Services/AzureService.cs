@@ -524,6 +524,34 @@ namespace SportChallengeMatchRank.Shared
 			athlete.RefreshChallenges();
 		}
 
+		async public Task AcceptChallenge(string challengeId)
+		{
+			try
+			{
+				var qs = new Dictionary<string, string>();
+				qs.Add("id", challengeId);
+				var dateTime = await Client.InvokeApiAsync("acceptChallenge", null, HttpMethod.Post, qs);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
+		async public Task DeclineChallenge(string challengeId)
+		{
+			try
+			{
+				var qs = new Dictionary<string, string>();
+				qs.Add("id", challengeId);
+				var dateTime = await Client.InvokeApiAsync("declineChallenge", null, HttpMethod.Post, qs);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
 		#endregion
 	}
 

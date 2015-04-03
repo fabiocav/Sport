@@ -244,7 +244,7 @@ namespace SportChallengeMatchRank.Shared
 		public void RefreshMemberships()
 		{
 			_memberships.Clear();
-			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).OrderByDescending(m => m.CurrentRank).ToList().ForEach(_memberships.Add);
+			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).OrderBy(m => m.CurrentRank).ToList().ForEach(_memberships.Add);
 		}
 	}
 

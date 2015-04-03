@@ -28,6 +28,10 @@
 			<Button x:Name="btnChallenge" Text="Challenge Athlete" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 				IsVisible="{Binding CanChallenge}" />
+
+			<Button x:Name="btnRevokeChallenge" Text="Revoke Challenge" Style="{StaticResource buttonStyle}"
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+				IsVisible="{Binding HasChallenged}" />
 			
 			<StackLayout IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}" Spacing="10">
 				<StackLayout Orientation="Horizontal">
