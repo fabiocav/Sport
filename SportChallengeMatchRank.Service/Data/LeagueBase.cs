@@ -26,6 +26,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public int MaxChallengeRange
+		{
+			get;
+			set;
+		}
+
 		public string Sport
 		{
 			get;
@@ -51,6 +57,12 @@ namespace SportChallengeMatchRank
 		}
 
 		public DateTimeOffset? EndDate
+		{
+			get;
+			set;
+		}
+
+		public bool HasStarted
 		{
 			get;
 			set;

@@ -4,6 +4,9 @@ using System.Linq;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Tables;
 using SportChallengeMatchRank;
+using System.Collections.Generic;
+using System;
+using Microsoft.WindowsAzure.Mobile.Service.Notifications;
 
 namespace SportChallengeMatchRank.Service.Models
 {
@@ -36,6 +39,12 @@ namespace SportChallengeMatchRank.Service.Models
 			set;
 		}
 
+		public DbSet<Challenge> Challenges
+		{
+			get;
+			set;
+		}
+
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			string schema = ServiceSettingsDictionary.GetSchemaName();
@@ -47,6 +56,16 @@ namespace SportChallengeMatchRank.Service.Models
 			modelBuilder.Entity<Athlete>().ToTable("Athlete");
 			modelBuilder.Entity<League>().ToTable("League");
 			modelBuilder.Entity<Membership>().ToTable("Membership");
+			modelBuilder.Entity<Challenge>().ToTable("Challenge");
+
+			modelBuilder.Entity<Challenge>().HasOptional(a => a.ChallengeeAthlete)
+				.WithMany().HasForeignKey(a => a.ChallengeeAthleteId);
+
+			modelBuilder.Entity<Challenge>().HasOptional(a => a.ChallengerAthlete)
+				.WithMany().HasForeignKey(a => a.ChallengerAthleteId);
+
+			modelBuilder.Entity<Challenge>().HasOptional(a => a.League)
+				.WithMany().HasForeignKey(a => a.LeagueId);
 
 			modelBuilder.Entity<League>().HasOptional(a => a.CreatedByAthlete)
 				.WithMany().HasForeignKey(a => a.CreatedByAthleteId);
@@ -62,6 +81,32 @@ namespace SportChallengeMatchRank.Service.Models
 			modelBuilder.Conventions.Add(
 				new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
 					"ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
+		}
+
+		public static IPushMessage GetPush(Athlete athlete, string message, Dictionary<string, object> payload)
+		{
+			switch(athlete.DevicePlatform)
+			{
+				case "iOS":
+
+					var apn = new ApplePushMessage(message, TimeSpan.FromHours(1));
+
+					foreach(var kvp in payload)
+						apn.Add(kvp.Key, kvp.Value);
+
+					return apn;
+				case "Android":
+
+					var dict = new Dictionary<string, string>();
+					dict.Add("message", message);
+
+					foreach(var kvp in payload)
+						dict.Add(kvp.Key, kvp.Value.ToString());
+
+					return new GooglePushMessage(dict, TimeSpan.FromHours(1));
+			}
+
+			return null;
 		}
 	}
 }

@@ -5,39 +5,45 @@ using System.Collections.Generic;
 
 namespace SportChallengeMatchRank
 {
-	public partial class AthleteBase : EntityData
+	public partial class ChallengeBase : EntityData
 	{
-		public string Name
+		public string LeagueId
 		{
 			get;
 			set;
 		}
 
-		public string AuthenticationId
+		public string ChallengerAthleteId
 		{
 			get;
 			set;
 		}
 
-		public string Email
+		public string ChallengeeAthleteId
 		{
 			get;
 			set;
 		}
 
-		public bool IsAdmin
+		public DateTimeOffset? ProposedTime
 		{
 			get;
 			set;
 		}
 
-		public string DeviceToken
+		public DateTimeOffset? DateAccepted
 		{
 			get;
 			set;
 		}
 
-		public string DevicePlatform
+		public bool IsAccepted
+		{
+			get;
+			set;
+		}
+
+		public string CustomMessage
 		{
 			get;
 			set;

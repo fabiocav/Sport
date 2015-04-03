@@ -6,10 +6,12 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using SportChallengeMatchRank;
 using SportChallengeMatchRank.Service.Models;
+using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
-    public class MembershipController : TableController<Membership>
+	//[AuthorizeLevel(AuthorizationLevel.User)]
+	public class MembershipController : TableController<Membership>
     {
 		AppDataContext _context = new AppDataContext();
 
@@ -48,13 +50,13 @@ namespace SportChallengeMatchRank.Service.Controllers
 		}
 
         // PATCH tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
-		public Task<Membership> PatchMember(string id, Delta<Membership> patch)
+		public Task<Membership> PatchMembership(string id, Delta<Membership> patch)
         {
             return UpdateAsync(id, patch);
         }
 
         // POST tables/Member
-		public async Task<IHttpActionResult> PostMember(MembershipDto item)
+		public async Task<IHttpActionResult> PostMembership(MembershipDto item)
         {
 			Membership current;
 			var exists = _context.Memberships.FirstOrDefault(m => m.AthleteId == item.AthleteId && m.LeagueId == item.LeagueId);
@@ -65,6 +67,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 			}
 			else
 			{
+				var prior = _context.Memberships.Where(m => m.LeagueId == item.LeagueId).OrderByDescending(m => m.CurrentRank).FirstOrDefault();
+
+				if(prior != null)
+					item.CurrentRank = prior.CurrentRank + 1;
+
 				current = await InsertAsync(item.ToMember());
 			}
 
@@ -72,7 +79,7 @@ namespace SportChallengeMatchRank.Service.Controllers
         }
 
         // DELETE tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task DeleteMember(string id)
+        public Task DeleteMembership(string id)
         {
             return DeleteAsync(id);
         }

@@ -185,13 +185,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ChallengeController.cs" />
     <Compile Include="Controllers\MembershipController.cs" />
     <Compile Include="Controllers\LeagueController.cs" />
     <Compile Include="Controllers\AthleteController.cs" />
+    <Compile Include="Data\ChallengeBase.cs" />
     <Compile Include="Data\AthleteBase.cs" />
+    <Compile Include="Data\DataObjects\Challenge.cs" />
     <Compile Include="Data\DataObjects\Membership.cs" />
     <Compile Include="Data\DataObjects\League.cs" />
     <Compile Include="Data\DataObjects\Athlete.cs" />
+    <Compile Include="Data\DataTransferObjects\ChallengeDto.cs" />
     <Compile Include="Data\DataTransferObjects\MembershipDto.cs" />
     <Compile Include="Data\DataTransferObjects\AthleteDto.cs" />
     <Compile Include="Data\DataTransferObjects\LeagueDto.cs" />

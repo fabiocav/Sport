@@ -5,6 +5,7 @@ using System.Web.Http;
 using Microsoft.WindowsAzure.Mobile.Service;
 using SportChallengeMatchRank;
 using SportChallengeMatchRank.Service.Models;
+using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
 
 namespace SportChallengeMatchRank.Service
 {
@@ -14,10 +15,12 @@ namespace SportChallengeMatchRank.Service
         {
             // Use this class to set configuration options for your mobile service
             ConfigOptions options = new ConfigOptions();
+			//options.LoginProviders.Remove(typeof(GoogleLoginAuthenticationProvider));
+			//options.LoginProviders.Add(typeof(GoogleLoginAuthenticationProvider));
 
             // Use this class to set WebAPI configuration options
             HttpConfiguration config = ServiceConfig.Initialize(new ConfigBuilder(options));
-
+			//config.SetIsHosted(true);
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
             // config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
