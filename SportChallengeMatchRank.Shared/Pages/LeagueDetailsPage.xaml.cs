@@ -39,7 +39,7 @@ namespace SportChallengeMatchRank.Shared
 
 			btnJoinLeague.Clicked += async(sender, e) =>
 			{
-				var accepted = await DisplayAlert("Join League?", "Are you totes sure you want to join this league?", "Yeah brah!", "Nah");
+				var accepted = await DisplayAlert("Join League?", "Are you totes sure you want to join this league?", "Yesh", "No");
 
 				if(accepted)
 				{

@@ -6,6 +6,7 @@ using SportChallengeMatchRank.Shared;
 using System.Collections.Generic;
 using Microsoft.WindowsAzure.MobileServices;
 using System;
+using Toasts.Forms.Plugin.iOS;
 
 namespace SportChallengeMatchRank.iOS
 {
@@ -15,6 +16,7 @@ namespace SportChallengeMatchRank.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			Forms.Init();
+			ToastNotificatorImplementation.Init();
 
 			//window.RootViewController = new OAuthViewController();
 			//window.MakeKeyAndVisible();

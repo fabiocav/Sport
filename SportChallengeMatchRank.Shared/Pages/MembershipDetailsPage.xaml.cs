@@ -32,7 +32,7 @@ namespace SportChallengeMatchRank.Shared
 
 			btnDeleteMembership.Clicked += async(sender, e) =>
 			{
-				var accepted = await DisplayAlert("Delete Membership?", "Are you totes sure you want to delete this membership?", "Yeah brah!", "Nah");
+				var accepted = await DisplayAlert("Delete Membership?", "Are you totes sure you want to delete this membership?", "Yes", "No");
 
 				if(accepted)
 				{
@@ -56,9 +56,21 @@ namespace SportChallengeMatchRank.Shared
 
 			btnRevokeChallenge.Clicked += async(sender, e) =>
 			{
+				var revoke = await DisplayAlert("Really?", "Are you sure you want to cowardly revoke this honorable duel?", "Sadly, yes", "No - good point");
+
+				if(!revoke)
+					return;
+					
 				await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
-				await DisplayAlert("Challenge revoked", "{0} has been notified of your cowardly ways.".Fmt(ViewModel.Membership.Athlete.Name), "OK");
+				await DisplayAlert("Challenge revoked", "{0} has been notified of your shameless ways.".Fmt(ViewModel.Membership.Athlete.Name), "OK");
 			};
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			ViewModel.Membership.LocalRefresh();
+			ViewModel.OnPropertyChanged("CanChallenge");
 		}
 	}
 

@@ -24,10 +24,16 @@
 			</StackLayout>
 
 			<Button x:Name="btnAccept" Text="Accept Challenge" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+				IsVisible="{Binding CanAccept}" />
 
 			<Button x:Name="btnDecline" Text="Decline Challenge" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+				IsVisible="{Binding CanDecline}" />
+
+			<Button x:Name="btnRevoke" Text="Revoke Challenge" Style="{StaticResource buttonStyle}"
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+				IsVisible="{Binding CanRevoke}" />
 
 			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 		</StackLayout>

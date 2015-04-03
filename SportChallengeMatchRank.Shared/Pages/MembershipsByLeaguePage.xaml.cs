@@ -37,19 +37,19 @@ namespace SportChallengeMatchRank.Shared
 				_dataLoaded = true;
 			}
 
+			if(ViewModel.League != null)
+				ViewModel.League.RefreshMemberships();
+			
 			base.OnLoaded();
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-
-			if(!_dataLoaded)
-				return;
-
-			if(ViewModel.League != null)
-				ViewModel.League.RefreshMemberships();
-		}
+		//		protected override void OnAppearing()
+		//		{
+		//			base.OnAppearing();
+		//
+		//			if(!_dataLoaded)
+		//				return;
+		//		}
 	}
 
 	public partial class MembershipsByLeagueXaml : BaseContentPage<MembershipsLandingViewModel>

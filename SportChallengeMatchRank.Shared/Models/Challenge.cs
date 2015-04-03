@@ -47,6 +47,8 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _leagueId, value, LeagueIdPropertyName);
+				OnPropertyChanged("League");
+				OnPropertyChanged("Summary");
 			}
 		}
 
@@ -62,6 +64,8 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _challengerAthleteId, value, ChallengerAthleteIdPropertyName);
+				OnPropertyChanged("ChallengerAthlete");
+				OnPropertyChanged("Summary");
 			}
 		}
 
@@ -77,6 +81,8 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _challengeeAthleteId, value, ChallengeeAthleteIdPropertyName);
+				OnPropertyChanged("ChallengeeAthlete");
+				OnPropertyChanged("Summary");
 			}
 		}
 
@@ -107,6 +113,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _proposedTime, value, ProposedTimePropertyName);
+				OnPropertyChanged("Summary");
 			}
 		}
 
@@ -137,6 +144,17 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _customMessage, value, CustomMessagePropertyName);
+			}
+		}
+
+		public string Summary
+		{
+			get
+			{
+				if(League == null || ChallengerAthlete == null || ChallengeeAthlete == null)
+					return null;
+
+				return "{0} presents {1} vs {2} on {3}".Fmt(League.Name, ChallengerAthlete.Name, ChallengeeAthlete.Name, ProposedTime.ToLocalTime().LocalDateTime.ToString("g"));
 			}
 		}
 	}

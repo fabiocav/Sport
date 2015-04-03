@@ -10,6 +10,14 @@ namespace SportChallengeMatchRank.Shared
 		{
 			BindingContext = ViewModel;
 			Initialize();
+
+			Application.Current.ModalPopped += async(sender, e) =>
+			{
+				if(e.Modal is AuthenticationPage && App.CurrentAthlete != null)
+				{
+					OnUserAuthenticated();
+				}
+			};
 		}
 
 		T _viewModel;
@@ -39,6 +47,11 @@ namespace SportChallengeMatchRank.Shared
 		protected virtual void OnLoaded()
 		{
 			
+		}
+
+		protected virtual void OnUserAuthenticated()
+		{
+
 		}
 
 		protected virtual void Initialize()

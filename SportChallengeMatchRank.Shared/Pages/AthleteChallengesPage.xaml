@@ -4,17 +4,15 @@
 	x:Class="SportChallengeMatchRank.Shared.AthleteChallengesPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:AthleteChallengesXaml.Content>
-		<ListView x:Name="list" ItemsSource="{Binding Challenges}" RefreshCommand="{Binding GetChallengesCommand}">
+		<ListView x:Name="list" ItemsSource="{Binding Challenges}" RefreshCommand="{Binding GetChallengesCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>
 						<ViewCell.View>
 							<StackLayout Orientation="Horizontal">
 								<StackLayout Padding="20,10,10,10" Spacing="0">
-									<Label Text="{Binding ChallengerAthlete.Name}" FontSize="13" />
-									<Label Text="{Binding ProposedTime}" FontSize="13" />
+									<Label Text="{Binding Summary}" FontSize="13" />
 								</StackLayout>
-								<Label Text="{Binding League.Name}" FontSize="13" />
 							</StackLayout>
 						</ViewCell.View>
 					</ViewCell>

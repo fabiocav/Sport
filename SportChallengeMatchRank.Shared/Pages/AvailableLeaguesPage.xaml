@@ -4,7 +4,7 @@
 	x:Class="SportChallengeMatchRank.Shared.AvailableLeaguesPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:AvailableLeaguesXaml.Content>
-		<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetAvailableLeaguesCommand}" />
+		<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetAvailableLeaguesCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}" />
 	</local:AvailableLeaguesXaml.Content>
 
 </local:AvailableLeaguesXaml>

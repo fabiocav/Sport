@@ -7,7 +7,7 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class BaseViewModel : INotifyPropertyChanged
 	{
-		bool _isBusy;
+		bool _isBusy = false;
 		public const string IsBusyPropertyName = "IsBusy";
 		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
@@ -83,17 +83,14 @@ namespace SportChallengeMatchRank.Shared
 
 		public Busy(BaseViewModel viewModel)
 		{
+			Console.WriteLine(viewModel.GetType().Name);
 			_viewModel = viewModel;
 			_viewModel.IsBusy = true;
 		}
-
-		#region IDisposable implementation
 
 		public void Dispose()
 		{
 			_viewModel.IsBusy = false;
 		}
-
-		#endregion
 	}
 }

@@ -132,7 +132,7 @@ namespace SportChallengeMatchRank.Shared
 			if(membership != null)
 			{
 				//Ensure they are within range and lower in rank than the challengee
-				var diff = CurrentRank - membership.CurrentRank;
+				var diff = membership.CurrentRank - CurrentRank;
 				canChallenge = diff > 0 && diff <= League.MaxChallengeRange;
 			}
 
@@ -145,6 +145,7 @@ namespace SportChallengeMatchRank.Shared
 				canChallenge = !alreadyChallenged;
 			}
 
+			Console.WriteLine("CanChallenge " + canChallenge);
 			return canChallenge;
 		}
 	}

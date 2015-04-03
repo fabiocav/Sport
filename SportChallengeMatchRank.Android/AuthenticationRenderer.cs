@@ -19,14 +19,6 @@ namespace SportChallengeMatchRank.Android
 			{
 				var authClient = new Auth0Client(Constants.AuthDomain, Constants.AuthClientId);
 					
-				if(Settings.Instance.AuthToken != null && Settings.Instance.RefreshToken != null)
-				{
-					var vm = DependencyService.Get<AuthenticationViewModel>();
-					var result = authClient.RenewIdToken();
-					await vm.GetUserProfile(true);
-				}
-
-
 				Auth0User user;
 				try
 				{

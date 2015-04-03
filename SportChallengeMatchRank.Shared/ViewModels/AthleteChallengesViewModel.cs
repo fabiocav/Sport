@@ -74,15 +74,30 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			}
 
+			if(IsBusy)
+				return;
+
 			Challenges.Clear();
 			using(new Busy(this))
 			{
-				//	Console.WriteLine(IsBusy);
 				await AzureService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete);
+
+				foreach(var c in DataManager.Instance.Challenges.Values)
+				{
+					if(c.ChallengeeAthlete == null)
+					{
+						await AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId);
+					}
+
+					if(c.ChallengerAthlete == null)
+					{
+						await AzureService.Instance.GetAthleteById(c.ChallengerAthleteId);
+					}
+				}
+
 				_hasLoadedBefore = true;
 				LocalRefresh();
 			}
-			//Console.WriteLine(IsBusy);
 		}
 	}
 }

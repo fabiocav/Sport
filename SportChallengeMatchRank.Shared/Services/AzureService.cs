@@ -4,6 +4,8 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.Http;
+using Xamarin.Forms;
+using Newtonsoft.Json;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -64,8 +66,8 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			var tags = new List<string> {
-				App.CurrentAthlete.Id,
-				"All",
+					App.CurrentAthlete.Id,
+					"All",
 			};
 
 			App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
@@ -105,8 +107,7 @@ namespace SportChallengeMatchRank.Shared
 			var athleteIds = memberships.Where(m => !DataManager.Instance.Athletes.ContainsKey(m.AthleteId)).Select(m => m.AthleteId).ToList();
 			var athletes = new List<Athlete>();
 
-			if(athleteIds.Count > 0)
-				athletes = await Client.GetTable<Athlete>().Where(a => athleteIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync();
+			athletes = await Client.GetTable<Athlete>().Where(a => athleteIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync();
 
 			foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == league.Id).ToList())
 			{
@@ -229,6 +230,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task<Athlete> GetAthleteByEmail(string email)
 		{
+			Console.WriteLine("Getting athlete by email" + email);
 			try
 			{
 				var list = await Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync();
@@ -239,16 +241,17 @@ namespace SportChallengeMatchRank.Shared
 
 				return athlete;
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
-				Console.WriteLine(e);
+				NotifyOfFailure("Unable to connect to service");
+				throw;
+				//Console.WriteLine(e);
 			}
-
-			return null;
 		}
 
 		async public Task<Athlete> GetAthleteByAuthUserId(string authUserid)
 		{
+			Console.WriteLine("Getting athlete by id" + authUserid);
 			try
 			{
 				var list = await Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync();
@@ -259,33 +262,24 @@ namespace SportChallengeMatchRank.Shared
 
 				return athlete;				
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
-				Console.WriteLine(e);
+				NotifyOfFailure("Unable to connect to service");
+				throw;
+				//Console.WriteLine(e);
 			}
-
-			return null;
 		}
 
 		async public Task<Athlete> GetAthleteById(string id)
 		{
-			try
-			{
-				Athlete a;
-				DataManager.Instance.Athletes.TryGetValue(id, out a);
-				a = a ?? await Client.GetTable<Athlete>().LookupAsync(id);
+			Athlete a;
+			DataManager.Instance.Athletes.TryGetValue(id, out a);
+			a = a ?? await Client.GetTable<Athlete>().LookupAsync(id);
 
-				if(a != null)
-					DataManager.Instance.Athletes.AddOrUpdate(a);
-	
-				return a;				
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+			if(a != null)
+				DataManager.Instance.Athletes.AddOrUpdate(a);
 
-			return null;
+			return a;				
 		}
 
 		async public Task GetAllLeaguesByAthlete(Athlete athlete)
@@ -294,8 +288,7 @@ namespace SportChallengeMatchRank.Shared
 			var leagueIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.LeagueId)).Select(m => m.LeagueId).ToList();
 			var leagues = new List<League>();
 
-			if(leagueIds.Count > 0)
-				leagues = await Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name).ToListAsync();
+			leagues = await Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name).ToListAsync();
 
 			foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == athlete.Id).ToList())
 			{
@@ -519,18 +512,25 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetAllChallengesByAthlete(Athlete athlete)
 		{
+			DataManager.Instance.Challenges.Clear();
 			var challenges = await Client.GetTable<Challenge>().Where(c => c.ChallengeeAthleteId == athlete.Id || c.ChallengerAthleteId == athlete.Id).OrderBy(c => c.DateCreated).ToListAsync();
 			challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
 			athlete.RefreshChallenges();
 		}
 
-		async public Task AcceptChallenge(string challengeId)
+		async public Task AcceptChallenge(Challenge challenge)
 		{
 			try
 			{
 				var qs = new Dictionary<string, string>();
-				qs.Add("id", challengeId);
-				var dateTime = await Client.InvokeApiAsync("acceptChallenge", null, HttpMethod.Post, qs);
+				qs.Add("challengeId", challenge.Id);
+				var token = await Client.InvokeApiAsync("acceptChallenge", null, HttpMethod.Post, qs);
+				var acceptedChallenge = JsonConvert.DeserializeObject<Challenge>(token.ToString());
+				if(acceptedChallenge != null)
+				{
+					challenge.IsAccepted = acceptedChallenge.IsAccepted;
+					challenge.DateAccepted = acceptedChallenge.DateAccepted;
+				}
 			}
 			catch(Exception e)
 			{
@@ -540,19 +540,16 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task DeclineChallenge(string challengeId)
 		{
-			try
-			{
-				var qs = new Dictionary<string, string>();
-				qs.Add("id", challengeId);
-				var dateTime = await Client.InvokeApiAsync("declineChallenge", null, HttpMethod.Post, qs);
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+			await DeleteChallenge(challengeId);
 		}
 
 		#endregion
+
+		void NotifyOfFailure(string message)
+		{
+			Console.WriteLine("Notification sent for ServiceCallFailed");
+			MessagingCenter.Send<AzureService, string>(this, "ServiceCallFailed", message);
+		}
 	}
 
 	public enum SaveLeagueResult

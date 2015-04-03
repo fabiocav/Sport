@@ -61,7 +61,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async Task DeleteAthlete()
 		{
-			var accepted = await DisplayAlert("Delete Athlete?", "Are you totes sure you want to delete this athlete?", "Yeah brah!", "Nah");
+			var accepted = await DisplayAlert("Delete Athlete?", "Are you totes sure you want to delete this athlete?", "Yes", "No");
 
 			if(accepted)
 			{

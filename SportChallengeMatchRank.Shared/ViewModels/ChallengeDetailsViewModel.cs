@@ -35,13 +35,40 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public bool CanAccept
+		{
+			get
+			{
+				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !challenge.IsAccepted;
+			}
+		}
+
+		public bool CanDecline
+		{
+			get
+			{
+				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id;
+			}
+		}
+
+		public bool CanRevoke
+		{
+			get
+			{
+				return Challenge.ChallengerAthleteId == App.CurrentAthlete.Id;
+			}
+		}
+
 		async public Task AcceptChallenge()
 		{
 			using(new Busy(this))
 			{
 				try
 				{
-					await AzureService.Instance.AcceptChallenge(Challenge.Id);
+					await AzureService.Instance.AcceptChallenge(Challenge);
+					OnPropertyChanged("CanAccept");
+					OnPropertyChanged("CanDecline");
+					OnPropertyChanged("CanRevoke");
 				}
 				catch(Exception e)
 				{
@@ -57,6 +84,9 @@ namespace SportChallengeMatchRank.Shared
 				try
 				{
 					await AzureService.Instance.DeclineChallenge(Challenge.Id);
+					OnPropertyChanged("CanAccept");
+					OnPropertyChanged("CanDecline");
+					OnPropertyChanged("CanRevoke");
 				}
 				catch(Exception e)
 				{

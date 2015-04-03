@@ -37,11 +37,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public bool HasChallenged
+		public bool CanRevokeChallenge
 		{
 			get
 			{
-				return Membership.HasExistingChallengeWithAthlete(App.CurrentAthlete);
+				var challenge = Membership.GetExistingChallengeWithAthlete(App.CurrentAthlete);
+				return challenge != null && challenge.ChallengerAthleteId == App.CurrentAthlete.Id;
 			}
 		}
 
@@ -74,9 +75,12 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			await AzureService.Instance.SaveChallenge(challenge);
+			App.CurrentAthlete.RefreshChallenges();
+			Membership.Athlete.RefreshChallenges();
 
 			OnPropertyChanged("CanChallenge");
 			OnPropertyChanged("HasChallenged");
+
 			return challenge;
 		}
 

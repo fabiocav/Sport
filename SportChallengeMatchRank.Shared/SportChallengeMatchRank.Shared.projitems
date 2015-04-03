@@ -83,9 +83,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipDetailsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Challenge.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteChallenges.cs">
-      <DependentUpon>AthleteChallenges.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ChallengeDetailsPage.xaml.cs">
       <DependentUpon>ChallengeDetailsPage.xaml</DependentUpon>
     </Compile>
@@ -94,6 +91,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteTabbedPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteLeaguesPage.xaml.cs">
       <DependentUpon>AthleteLeaguesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteChallengesPage.xaml.cs">
+      <DependentUpon>AthleteChallengesPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -133,13 +133,13 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MembershipDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AthleteChallenges.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ChallengeDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AthleteLeaguesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AthleteChallengesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

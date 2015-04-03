@@ -3,6 +3,7 @@ using Android.OS;
 using Xamarin.Forms.Platform.Android;
 using SportChallengeMatchRank.Shared;
 using Android.Views;
+using Toasts.Forms.Plugin.Droid;
 
 namespace SportChallengeMatchRank.Android
 {
@@ -14,6 +15,7 @@ namespace SportChallengeMatchRank.Android
 			base.OnCreate(bundle);
 			Window.SetSoftInputMode(SoftInput.AdjustPan);
 			Xamarin.Forms.Forms.Init(this, bundle);
+			ToastNotificatorImplementation.Init();
 			LoadApplication(new App());
 		}
 	}

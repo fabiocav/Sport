@@ -6,6 +6,8 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class AthleteTabbedPage : TabbedPage
 	{
+		bool _hasAttemptedAuthentication = false;
+
 		public AthleteTabbedPage()
 		{
 			Children.Add(new NavigationPage(new AthleteLeaguesPage()) {
@@ -19,10 +21,19 @@ namespace SportChallengeMatchRank.Shared
 				});
 		}
 
-
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+			EnsureAthleteAuthenticated();
+		}
+
+		async public void EnsureAthleteAuthenticated()
+		{
+			if(App.CurrentAthlete == null && !_hasAttemptedAuthentication)
+			{
+				_hasAttemptedAuthentication = true;
+				await Navigation.PushModalAsync(new AuthenticationPage());
+			}
 		}
 	}
 }

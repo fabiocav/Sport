@@ -31,7 +31,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public ICommand GetAllLeaguesCommand
+		public ICommand GetAvailableLeaguesCommand
 		{
 			get
 			{

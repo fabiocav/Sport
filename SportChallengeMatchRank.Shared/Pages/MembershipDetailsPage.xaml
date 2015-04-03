@@ -25,19 +25,20 @@
 
 			<Label Text="More data here like match results and match history, etc" HorizontalOptions="StartAndExpand" FontSize="18" />
 
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Administrator" HorizontalOptions="StartAndExpand" />
+				<Switch IsToggled="{Binding Membership.IsAdmin}" HorizontalOptions="End" />
+			</StackLayout>
+
 			<Button x:Name="btnChallenge" Text="Challenge Athlete" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 				IsVisible="{Binding CanChallenge}" />
 
 			<Button x:Name="btnRevokeChallenge" Text="Revoke Challenge" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-				IsVisible="{Binding HasChallenged}" />
-			
+				IsVisible="{Binding CanRevokeChallenge}" />
+		
 			<StackLayout IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}" Spacing="10">
-				<StackLayout Orientation="Horizontal">
-					<Label Text="Administrator" HorizontalOptions="StartAndExpand" />
-					<Switch IsToggled="{Binding Membership.IsAdmin}" HorizontalOptions="End" />
-				</StackLayout>
 
 				<Button x:Name="btnSaveMembership" Text="Save Membership" Style="{StaticResource buttonStyle}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />

@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using System;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -9,7 +10,7 @@ namespace SportChallengeMatchRank.Shared
 			Title = "My Leagues";
 		}
 
-		async protected override void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
 
@@ -27,7 +28,11 @@ namespace SportChallengeMatchRank.Shared
 				list.SelectedItem = null;
 				await Navigation.PushAsync(new LeagueDetailsPage(league));
 			};
+		}
 
+		async protected override void OnUserAuthenticated()
+		{
+			base.OnUserAuthenticated();
 			await ViewModel.GetLeagues();
 		}
 	}

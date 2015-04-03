@@ -27,6 +27,16 @@ namespace SportChallengeMatchRank.Android
 		public static void UpdateIdValues()
 		{
 			global::Auth0.SDK.Resource.String.library_name = global::SportChallengeMatchRank.Android.Resource.String.library_name;
+			global::Toasts.Forms.Plugin.Droid.Resource.Drawable.error = global::SportChallengeMatchRank.Android.Resource.Drawable.error;
+			global::Toasts.Forms.Plugin.Droid.Resource.Drawable.info = global::SportChallengeMatchRank.Android.Resource.Drawable.info;
+			global::Toasts.Forms.Plugin.Droid.Resource.Drawable.success = global::SportChallengeMatchRank.Android.Resource.Drawable.success;
+			global::Toasts.Forms.Plugin.Droid.Resource.Drawable.warning = global::SportChallengeMatchRank.Android.Resource.Drawable.warning;
+			global::Toasts.Forms.Plugin.Droid.Resource.Id.desc = global::SportChallengeMatchRank.Android.Resource.Id.desc;
+			global::Toasts.Forms.Plugin.Droid.Resource.Id.image = global::SportChallengeMatchRank.Android.Resource.Id.image;
+			global::Toasts.Forms.Plugin.Droid.Resource.Id.title = global::SportChallengeMatchRank.Android.Resource.Id.title;
+			global::Toasts.Forms.Plugin.Droid.Resource.Layout.crouton = global::SportChallengeMatchRank.Android.Resource.Layout.crouton;
+			global::Toasts.Forms.Plugin.Droid.Resource.String.ApplicationName = global::SportChallengeMatchRank.Android.Resource.String.ApplicationName;
+			global::Toasts.Forms.Plugin.Droid.Resource.String.Hello = global::SportChallengeMatchRank.Android.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -46,7 +56,19 @@ namespace SportChallengeMatchRank.Android
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int error = 2130837504;
+			
+			// aapt resource value: 0x7f020001
+			public const int Icon = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int info = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int success = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int warning = 2130837508;
 			
 			static Drawable()
 			{
@@ -61,8 +83,17 @@ namespace SportChallengeMatchRank.Android
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050002
+			public const int desc = 2131034114;
+			
 			// aapt resource value: 0x7f050000
-			public const int myButton = 2131034112;
+			public const int image = 2131034112;
+			
+			// aapt resource value: 0x7f050003
+			public const int myButton = 2131034115;
+			
+			// aapt resource value: 0x7f050001
+			public const int title = 2131034113;
 			
 			static Id()
 			{
@@ -78,7 +109,10 @@ namespace SportChallengeMatchRank.Android
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int crouton = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int Main = 2130903041;
 			
 			static Layout()
 			{
@@ -93,14 +127,20 @@ namespace SportChallengeMatchRank.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040002
-			public const int app_name = 2130968578;
-			
 			// aapt resource value: 0x7f040001
-			public const int hello = 2130968577;
+			public const int ApplicationName = 2130968577;
 			
 			// aapt resource value: 0x7f040000
-			public const int library_name = 2130968576;
+			public const int Hello = 2130968576;
+			
+			// aapt resource value: 0x7f040004
+			public const int app_name = 2130968580;
+			
+			// aapt resource value: 0x7f040003
+			public const int hello = 2130968579;
+			
+			// aapt resource value: 0x7f040002
+			public const int library_name = 2130968578;
 			
 			static String()
 			{

@@ -3,6 +3,7 @@ using System;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using SportChallengeMatchRank.Shared;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -34,9 +35,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			else
 			{
-//				await ViewModel.EnsureAthleteRegistered();
-//				await Navigation.PushAsync(new AthleteTabbedPage());
-//				Navigation.RemovePage(this);
+				if(App.CurrentAthlete != null)
+				{
+					await ViewModel.EnsureAthleteRegistered();
+				}
+
+				await Navigation.PopModalAsync();
 			}
 
 			_userLabel.Text = App.AuthUserProfile == null ? "empty" : App.AuthUserProfile.Email;
@@ -46,6 +50,13 @@ namespace SportChallengeMatchRank.Shared
 
 		async protected override void OnLoaded()
 		{
+			MessagingCenter.Subscribe<AzureService, string>(this, "ServiceCallFailed", async(sender, message) =>
+				{
+					Console.WriteLine("Notification received from ServiceCallFailed");
+					var notificator = DependencyService.Get<IToastNotificator>();
+					bool tapped = await notificator.Notify(ToastNotificationType.Error, "Error", message, TimeSpan.FromSeconds(2));
+				});
+			
 			await AttemptToReauthenticateAthlete();
 			base.OnLoaded();
 		}
@@ -64,7 +75,15 @@ namespace SportChallengeMatchRank.Shared
 			if(App.AuthUserProfile != null)
 			{
 				_statusLabel.Text = "Checking athlete registration...";
-				await ViewModel.EnsureAthleteRegistered();
+
+				try
+				{
+					await ViewModel.EnsureAthleteRegistered();
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e);
+				}
 			}
 			else
 			{

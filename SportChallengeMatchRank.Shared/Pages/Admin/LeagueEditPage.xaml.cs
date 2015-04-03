@@ -85,7 +85,7 @@ namespace SportChallengeMatchRank.Shared
 
 			btnDeleteLeague.Clicked += async(sender, e) =>
 			{
-				var accepted = await DisplayAlert("Delete League?", "Are you totes sure you want to delete this league?", "Yeah brah!", "Nah");
+				var accepted = await DisplayAlert("Delete League?", "Are you totes sure you want to delete this league?", "Yes", "No");
 
 				if(accepted)
 				{
