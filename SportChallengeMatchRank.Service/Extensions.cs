@@ -23,6 +23,34 @@ namespace SportChallengeMatchRank.Service
 			}
 		}
 
+		public static GameResult ToGameResult(this GameResultDto dto)
+		{
+			return new GameResult
+			{
+				Id = dto.Id,
+				ChallengeId = dto.ChallengeId,
+				ChallengeeScore = dto.ChallengeeScore,
+				ChallengerScore = dto.ChallengerScore,
+				Index = dto.Index
+			};
+		}
+
+		public static ChallengeDto ToChallengeDto(this Challenge c)
+		{
+			return new ChallengeDto
+			{
+				Id = c.Id,
+				ChallengerAthleteId = c.ChallengerAthleteId,
+				ChallengeeAthleteId = c.ChallengeeAthleteId,
+				LeagueId = c.LeagueId,
+				DateCreated = c.CreatedAt,
+				ProposedTime = c.ProposedTime,
+				DateAccepted = c.DateAccepted,
+				DateCompleted = c.DateCompleted,
+				CustomMessage = c.CustomMessage,
+			};
+		}
+
 		public static Challenge ToChallenge(this ChallengeDto dto)
 		{
 			return new Challenge
@@ -32,8 +60,8 @@ namespace SportChallengeMatchRank.Service
 				ChallengeeAthleteId = dto.ChallengeeAthleteId,
 				LeagueId = dto.LeagueId,
 				ProposedTime = dto.ProposedTime,
-				IsAccepted = dto.IsAccepted,
 				DateAccepted = dto.DateAccepted,
+				DateCompleted = dto.DateCompleted,
 				CustomMessage= dto.CustomMessage
 			};
 		}

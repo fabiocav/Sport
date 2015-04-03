@@ -5,15 +5,9 @@ using System.Collections.Generic;
 
 namespace SportChallengeMatchRank
 {
-	public partial class ChallengeDto : ChallengeBase
+	public partial class GameResultDto : GameResultBase
 	{
 		public DateTimeOffset? DateCreated
-		{
-			get;
-			set;
-		}
-
-		public List<GameResultDto> GameResults
 		{
 			get;
 			set;

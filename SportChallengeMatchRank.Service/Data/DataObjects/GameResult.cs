@@ -1,19 +1,12 @@
 ﻿using Microsoft.WindowsAzure.Mobile.Service;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 
 namespace SportChallengeMatchRank
 {
-	public partial class ChallengeDto : ChallengeBase
+	public partial class GameResult : GameResultBase
 	{
-		public DateTimeOffset? DateCreated
-		{
-			get;
-			set;
-		}
-
-		public List<GameResultDto> GameResults
+		public Challenge Challenge
 		{
 			get;
 			set;

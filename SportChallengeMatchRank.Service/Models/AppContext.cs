@@ -45,6 +45,12 @@ namespace SportChallengeMatchRank.Service.Models
 			set;
 		}
 
+		public DbSet<GameResult> GameResults
+		{
+			get;
+			set;
+		}
+
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			string schema = ServiceSettingsDictionary.GetSchemaName();
@@ -57,6 +63,10 @@ namespace SportChallengeMatchRank.Service.Models
 			modelBuilder.Entity<League>().ToTable("League");
 			modelBuilder.Entity<Membership>().ToTable("Membership");
 			modelBuilder.Entity<Challenge>().ToTable("Challenge");
+			modelBuilder.Entity<GameResult>().ToTable("GameResult");
+
+			modelBuilder.Entity<GameResult>().HasOptional(a => a.Challenge)
+				.WithMany().HasForeignKey(a => a.ChallengeId);
 
 			modelBuilder.Entity<Challenge>().HasOptional(a => a.ChallengeeAthlete)
 				.WithMany().HasForeignKey(a => a.ChallengeeAthleteId);

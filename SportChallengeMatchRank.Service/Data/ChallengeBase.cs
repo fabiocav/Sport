@@ -37,13 +37,13 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
-		public bool IsAccepted
+		public string CustomMessage
 		{
 			get;
 			set;
 		}
 
-		public string CustomMessage
+		public DateTimeOffset DateCompleted
 		{
 			get;
 			set;

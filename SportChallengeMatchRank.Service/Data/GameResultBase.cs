@@ -5,15 +5,27 @@ using System.Collections.Generic;
 
 namespace SportChallengeMatchRank
 {
-	public partial class ChallengeDto : ChallengeBase
+	public partial class GameResultBase : EntityData
 	{
-		public DateTimeOffset? DateCreated
+		public string ChallengeId
 		{
 			get;
 			set;
 		}
 
-		public List<GameResultDto> GameResults
+		public int Index
+		{
+			get;
+			set;
+		}
+
+		public int ChallengerScore
+		{
+			get;
+			set;
+		}
+
+		public int ChallengeeScore
 		{
 			get;
 			set;

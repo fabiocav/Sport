@@ -4,11 +4,8 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportChallengeMatchRank;
 using SportChallengeMatchRank.Service.Models;
 using System;
-using Microsoft.WindowsAzure.Mobile.Service.Security;
-using System.Net.Http;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {

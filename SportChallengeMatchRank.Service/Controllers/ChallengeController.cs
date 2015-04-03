@@ -4,14 +4,11 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportChallengeMatchRank;
 using SportChallengeMatchRank.Service.Models;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net;
 using System;
-using System.Data.Entity;
-using Microsoft.WindowsAzure.Mobile.Service.Security;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -38,7 +35,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DateCreated = dto.CreatedAt,
 				ProposedTime = dto.ProposedTime,
 				DateAccepted = dto.DateAccepted,
-				IsAccepted = dto.IsAccepted,
+				DateCompleted = dto.DateCompleted,
 				CustomMessage = dto.CustomMessage
 			});
         }
@@ -54,8 +51,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 				LeagueId = dto.LeagueId,
 				DateCreated = dto.CreatedAt,
 				ProposedTime = dto.ProposedTime,
-				IsAccepted = dto.IsAccepted,
 				DateAccepted = dto.DateAccepted,
+				DateCompleted = dto.DateCompleted,
 				CustomMessage = dto.CustomMessage
 			}));
 		}
@@ -110,25 +107,57 @@ namespace SportChallengeMatchRank.Service.Controllers
 		async public Task<ChallengeDto> AcceptChallenge(string challengeId)
 		{
 			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == challengeId);
-			challenge.IsAccepted = true;
 			challenge.DateAccepted = DateTime.UtcNow;
-
-			var dto = new ChallengeDto
-			{
-				Id = challenge.Id,
-				ChallengerAthleteId = challenge.ChallengerAthleteId,
-				ChallengeeAthleteId = challenge.ChallengeeAthleteId,
-				LeagueId = challenge.LeagueId,
-				DateCreated = challenge.CreatedAt,
-				ProposedTime = challenge.ProposedTime,
-				IsAccepted = challenge.IsAccepted,
-				DateAccepted = challenge.DateAccepted,
-				CustomMessage = challenge.CustomMessage
-			};
-
 			await _context.SaveChangesAsync();
-			return dto;
+			return challenge.ToChallengeDto();
 			//Send out push notifcations
 		}
-    }
+
+		[Route("api/postMatchResults")]
+		async public Task<ChallengeDto> PostMatchResults(List<GameResultDto> results)
+		{
+			if(results.Count < 1)
+			{
+				//BadRequest
+				return null;
+			}
+
+			var challengeId = results.First().ChallengeId;
+			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == challengeId);
+			challenge.DateCompleted = DateTime.UtcNow;
+
+			var dto = challenge.ToChallengeDto();
+			dto.GameResults = new List<GameResultDto>();
+
+			foreach(var result in results)
+			{
+				result.Id = Guid.NewGuid().ToString();
+				_context.GameResults.Add(result.ToGameResult());
+				dto.GameResults.Add(result);
+			}
+
+			try
+			{
+				_context.SaveChanges();
+			}
+			catch(DbEntityValidationException e)
+			{
+				foreach(var eve in e.EntityValidationErrors)
+				{
+					Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+						eve.Entry.Entity.GetType().Name, eve.Entry.State);
+					foreach(var ve in eve.ValidationErrors)
+					{
+						Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+							ve.PropertyName, ve.ErrorMessage);
+					}
+				}
+				throw;
+			}
+
+			//Send out push notifcations to entire league
+
+			return dto;
+		}
+	}
 }
