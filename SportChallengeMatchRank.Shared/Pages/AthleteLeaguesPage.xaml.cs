@@ -7,11 +7,12 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public AthleteLeaguesPage()
 		{
-			Title = "My Leagues";
+			Initialize();
 		}
 
 		protected override void Initialize()
 		{
+			Title = "My Leagues";
 			InitializeComponent();
 
 			btnJoin.Clicked += async(sender, e) =>

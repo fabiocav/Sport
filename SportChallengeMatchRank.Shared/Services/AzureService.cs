@@ -339,7 +339,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
 					
 			}
@@ -512,10 +512,32 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetAllChallengesByAthlete(Athlete athlete)
 		{
-			DataManager.Instance.Challenges.Clear();
+			//Remove all existing challenges so we can replace them
+			Challenge challenge;
+			var athleteChallenges = DataManager.Instance.Challenges.Values.Where(c => c.ChallengeeAthleteId == athlete.Id || c.ChallengerAthleteId == athlete.Id).ToList();
+			athleteChallenges.ForEach(ac => DataManager.Instance.Challenges.TryRemove(ac.Id, out challenge));
+
 			var challenges = await Client.GetTable<Challenge>().Where(c => c.ChallengeeAthleteId == athlete.Id || c.ChallengerAthleteId == athlete.Id).OrderBy(c => c.DateCreated).ToListAsync();
 			challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
 			athlete.RefreshChallenges();
+		}
+
+		async public Task PostMatchResults(Challenge challenge)
+		{
+			try
+			{
+				var completedChallenge = await Client.InvokeApiAsync<List<GameResult>, Challenge>("postMatchResults", challenge.GameResults);
+				if(completedChallenge != null)
+				{
+					challenge.DateCompleted = completedChallenge.DateCompleted;
+					challenge.GameResults = new List<GameResult>();
+					completedChallenge.GameResults.ForEach(challenge.GameResults.Add);
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
 		}
 
 		async public Task AcceptChallenge(Challenge challenge)
@@ -528,7 +550,6 @@ namespace SportChallengeMatchRank.Shared
 				var acceptedChallenge = JsonConvert.DeserializeObject<Challenge>(token.ToString());
 				if(acceptedChallenge != null)
 				{
-					challenge.IsAccepted = acceptedChallenge.IsAccepted;
 					challenge.DateAccepted = acceptedChallenge.DateAccepted;
 				}
 			}

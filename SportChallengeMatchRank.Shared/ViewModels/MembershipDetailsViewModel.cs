@@ -32,8 +32,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref membership, value, MembershipPropertyName);
-				OnPropertyChanged("CanChallenge");
-				OnPropertyChanged("HasChallenged");
+				NotifyPropertiesChanged();
 			}
 		}
 
@@ -61,8 +60,7 @@ namespace SportChallengeMatchRank.Shared
 			App.CurrentAthlete.RefreshChallenges();
 			Membership.Athlete.RefreshChallenges();
 
-			OnPropertyChanged("HasChallenged");
-			OnPropertyChanged("CanChallenge");
+			NotifyPropertiesChanged();
 		}
 
 		async public Task<Challenge> ChallengeAthlete(Membership membership)
@@ -77,11 +75,15 @@ namespace SportChallengeMatchRank.Shared
 			await AzureService.Instance.SaveChallenge(challenge);
 			App.CurrentAthlete.RefreshChallenges();
 			Membership.Athlete.RefreshChallenges();
-
-			OnPropertyChanged("CanChallenge");
-			OnPropertyChanged("HasChallenged");
+			NotifyPropertiesChanged();
 
 			return challenge;
+		}
+
+		void NotifyPropertiesChanged()
+		{
+			OnPropertyChanged("CanChallenge");
+			OnPropertyChanged("CanRevokeChallenge");
 		}
 
 		public ICommand SaveCommand

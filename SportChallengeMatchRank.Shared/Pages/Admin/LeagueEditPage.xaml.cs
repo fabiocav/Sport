@@ -10,6 +10,7 @@ namespace SportChallengeMatchRank.Shared
 		public LeagueEditPage(League league = null)
 		{
 			ViewModel.League = league ?? new League();
+			Initialize();
 		}
 
 		protected override void Initialize()

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Windows.Input;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.ChallengeDetailsViewModel))]
 
@@ -39,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !challenge.IsAccepted;
+				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !challenge.IsAccepted && !Challenge.IsCompleted;
 			}
 		}
 
@@ -47,7 +45,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id;
+				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted;
 			}
 		}
 
@@ -55,8 +53,28 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengerAthleteId == App.CurrentAthlete.Id;
+				return Challenge.ChallengerAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted;
 			}
+		}
+
+		public bool CanPostMatchResults
+		{
+			get
+			{
+				return Challenge.IsAccepted && !Challenge.IsCompleted;
+			}
+		}
+
+		async public Task GetMatchResults(bool forceRefresh = false)
+		{
+			if(!forceRefresh && Challenge.GameResults.Count > 0)
+				return;
+
+			var results = await AzureService.Instance.Client.GetTable<GameResult>().Where(r => r.ChallengeId == Challenge.Id).OrderBy(r => r.Index).ToListAsync();
+
+			Challenge.GameResults.Clear();
+			results.ForEach(Challenge.GameResults.Add);
+			OnPropertyChanged("Challenge");
 		}
 
 		async public Task AcceptChallenge()
@@ -66,9 +84,7 @@ namespace SportChallengeMatchRank.Shared
 				try
 				{
 					await AzureService.Instance.AcceptChallenge(Challenge);
-					OnPropertyChanged("CanAccept");
-					OnPropertyChanged("CanDecline");
-					OnPropertyChanged("CanRevoke");
+					NotifyPropertiesChanged();
 				}
 				catch(Exception e)
 				{
@@ -84,15 +100,22 @@ namespace SportChallengeMatchRank.Shared
 				try
 				{
 					await AzureService.Instance.DeclineChallenge(Challenge.Id);
-					OnPropertyChanged("CanAccept");
-					OnPropertyChanged("CanDecline");
-					OnPropertyChanged("CanRevoke");
+					NotifyPropertiesChanged();
 				}
 				catch(Exception e)
 				{
 					Console.WriteLine(e);
 				}
 			}
+		}
+
+		public void NotifyPropertiesChanged()
+		{
+			OnPropertyChanged("CanAccept");
+			OnPropertyChanged("CanDecline");
+			OnPropertyChanged("CanRevoke");
+			OnPropertyChanged("CanPostMatchResults");
+			OnPropertyChanged("Challenge");
 		}
 	}
 }

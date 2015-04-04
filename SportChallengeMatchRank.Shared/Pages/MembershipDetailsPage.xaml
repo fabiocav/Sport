@@ -25,7 +25,7 @@
 
 			<Label Text="More data here like match results and match history, etc" HorizontalOptions="StartAndExpand" FontSize="18" />
 
-			<StackLayout Orientation="Horizontal">
+			<StackLayout Orientation="Horizontal" IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}">
 				<Label Text="Administrator" HorizontalOptions="StartAndExpand" />
 				<Switch IsToggled="{Binding Membership.IsAdmin}" HorizontalOptions="End" />
 			</StackLayout>

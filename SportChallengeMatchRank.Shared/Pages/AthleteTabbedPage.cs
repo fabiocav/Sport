@@ -13,12 +13,20 @@ namespace SportChallengeMatchRank.Shared
 			Children.Add(new NavigationPage(new AthleteLeaguesPage()) {
 					Title = "My Leagues"
 				});
-			Children.Add(new NavigationPage(new AthleteChallengesPage()) {
+			Children.Add(new NavigationPage(new AthleteChallengesPage(App.CurrentAthlete)) {
 					Title = "My Challenges"
 				});
 			Children.Add(new NavigationPage(new AdminPage()) {
 					Title = "Admin"
 				});
+
+			Application.Current.ModalPopped += (sender, e) =>
+			{
+				if(e.Modal is AuthenticationPage && App.CurrentAthlete != null)
+				{
+					DependencyService.Get<AthleteChallengesViewModel>().Athlete = App.CurrentAthlete;
+				}
+			};
 		}
 
 		protected override void OnAppearing()

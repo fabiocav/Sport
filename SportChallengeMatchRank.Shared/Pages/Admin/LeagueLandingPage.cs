@@ -4,6 +4,11 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class LeagueLandingPage : LeagueLandingXaml
 	{
+		public LeagueLandingPage()
+		{
+			Initialize();
+		}
+
 		async protected override void Initialize()
 		{
 			InitializeComponent();

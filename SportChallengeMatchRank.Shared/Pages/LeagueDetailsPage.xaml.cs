@@ -10,18 +10,10 @@ namespace SportChallengeMatchRank.Shared
 		public LeagueDetailsPage(League league)
 		{
 			ViewModel.League = league;
-			LoadData();
+			Initialize();
 		}
 
-		async Task LoadData()
-		{
-			if(ViewModel.League != null && ViewModel.League.CreatedByAthleteId != null && ViewModel.League.CreatedByAthlete == null)
-			{
-				await ViewModel.LoadAthlete();
-			}
-		}
-
-		protected override void Initialize()
+		async protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "League Details";
@@ -30,7 +22,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(!ViewModel.League.HasStarted)
 				{
-					DisplayAlert("Still Recruiting, y'all", "This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?", "mkay thx");
+					await DisplayAlert("Still Recruiting, y'all", "This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?", "kay");
 					return;
 				}
 
@@ -53,9 +45,22 @@ namespace SportChallengeMatchRank.Shared
 
 				if(accepted)
 				{
-					await ViewModel.LeaveLeague();
+					if(App.CurrentAthlete.AllChallenges.Count > 0)
+					{
+						accepted = await DisplayAlert("Existing Challenges?", "You have ongoing challenges - still quit?", "Yeps", "Nah");
+					}
+
+					if(accepted)
+					{
+						await ViewModel.LeaveLeague();
+					}
 				}
 			};
+
+			if(ViewModel.League != null && ViewModel.League.CreatedByAthleteId != null && ViewModel.League.CreatedByAthlete == null)
+			{
+				await ViewModel.LoadAthlete();
+			}
 		}
 	}
 

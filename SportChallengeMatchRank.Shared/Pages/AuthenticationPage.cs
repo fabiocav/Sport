@@ -19,8 +19,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public AuthenticationPage()
 		{
-			Title = "Authentication";
-			InitializeInterface();
+			Initialize();
 		}
 
 		async public Task UserAuthenticationUpdated()
@@ -54,7 +53,7 @@ namespace SportChallengeMatchRank.Shared
 				{
 					Console.WriteLine("Notification received from ServiceCallFailed");
 					var notificator = DependencyService.Get<IToastNotificator>();
-					bool tapped = await notificator.Notify(ToastNotificationType.Error, "Error", message, TimeSpan.FromSeconds(2));
+					await notificator.Notify(ToastNotificationType.Error, "Error", message, TimeSpan.FromSeconds(2));
 				});
 			
 			await AttemptToReauthenticateAthlete();
@@ -94,8 +93,9 @@ namespace SportChallengeMatchRank.Shared
 			await UserAuthenticationUpdated();
 		}
 
-		void InitializeInterface()
+		protected override void Initialize()
 		{
+			Title = "Authentication";
 			BackgroundColor = Color.White;
 
 			_activity = new ActivityIndicator();

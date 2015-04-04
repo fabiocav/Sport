@@ -11,38 +11,21 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class AthleteChallengesViewModel : BaseViewModel
 	{
-		public AthleteChallengesViewModel()
-		{
-			LocalRefresh();
-		}
-
 		bool _hasLoadedBefore;
-		public const string HasLoadedBeforePropertyName = "HasLoadedBefore";
 
-		public bool HasLoadedBefore
+		Athlete _athlete;
+		public const string AthletePropertyName = "Athlete";
+
+		public Athlete Athlete
 		{
 			get
 			{
-				return _hasLoadedBefore;
+				return _athlete;
 			}
 			set
 			{
-				SetProperty(ref _hasLoadedBefore, value, HasLoadedBeforePropertyName);
-			}
-		}
-
-		ObservableCollection<Challenge> _challenges = new ObservableCollection<Challenge>();
-		public const string ChallengesPropertyName = "Challenges";
-
-		public ObservableCollection<Challenge> Challenges
-		{
-			get
-			{
-				return _challenges;
-			}
-			set
-			{
-				SetProperty(ref _challenges, value, ChallengesPropertyName);
+				SetProperty(ref _athlete, value, AthletePropertyName);
+				GetChallenges();
 			}
 		}
 
@@ -54,33 +37,25 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public void LocalRefresh()
-		{
-			if(App.CurrentAthlete == null)
-				return;
-
-			Challenges.Clear();
-			App.CurrentAthlete.Challenges.ForEach(Challenges.Add);
-		}
-
 		async public Task GetChallenges(bool forceRefresh = false)
 		{
-			if(App.CurrentAthlete == null)
+			if(Athlete == null)
 				return;
 
 			if(!forceRefresh && _hasLoadedBefore)
 			{
-				LocalRefresh();
+				Athlete.RefreshChallenges();
 				return;
 			}
 
 			if(IsBusy)
 				return;
 
-			Challenges.Clear();
+			Athlete.RefreshChallenges();
 			using(new Busy(this))
 			{
-				await AzureService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete);
+				//Load the opponents
+				await AzureService.Instance.GetAllChallengesByAthlete(Athlete);
 
 				foreach(var c in DataManager.Instance.Challenges.Values)
 				{
@@ -96,7 +71,8 @@ namespace SportChallengeMatchRank.Shared
 				}
 
 				_hasLoadedBefore = true;
-				LocalRefresh();
+				Athlete.RefreshChallenges();
+				OnPropertyChanged("Athlete");
 			}
 		}
 	}

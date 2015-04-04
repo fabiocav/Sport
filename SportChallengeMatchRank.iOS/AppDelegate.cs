@@ -34,7 +34,7 @@ namespace SportChallengeMatchRank.iOS
 			return base.FinishedLaunching(app, options);
 		}
 
-		async public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+		public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
 		{
 			App.DeviceToken = deviceToken.Description.Trim('<', '>').Replace(" ", "");
 		}

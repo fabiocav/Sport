@@ -6,50 +6,73 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class GameResult : BaseModel
 	{
-		int _winningScore;
-		public const string WinningScorePropertyName = "WinningScore";
-
-		public int WinningScore
+		[JsonIgnore]
+		public Challenge Challenge
 		{
 			get
 			{
-				return _winningScore;
-			}
-			set
-			{
-				SetProperty(ref _winningScore, value, WinningScorePropertyName);
+				return ChallengeId == null ? null : DataManager.Instance.Challenges.Get(ChallengeId);
 			}
 		}
 
-		int _losingScore;
-		public const string LosingScorePropertyName = "LosingScore";
+		string _challengeId;
+		public const string ChallengeIdPropertyName = "ChallengeId";
 
-		public int LosingScore
+		public string ChallengeId
 		{
 			get
 			{
-				return _losingScore;
+				return _challengeId;
 			}
 			set
 			{
-				SetProperty(ref _losingScore, value, LosingScorePropertyName);
+				SetProperty(ref _challengeId, value, ChallengeIdPropertyName);
 			}
 		}
 
-		List<string> _victoriousMemberIDs;
-		public const string VictoriousMemberIDsPropertyName = "VictoriousMemberIDs";
+		int challengerScore;
+		public const string ChallengerScorePropertyName = "ChallengerScore";
 
-		public List<string> VictoriousMemberIDs
+		public int ChallengerScore
 		{
 			get
 			{
-				return _victoriousMemberIDs;
+				return challengerScore;
 			}
 			set
 			{
-				SetProperty(ref _victoriousMemberIDs, value, VictoriousMemberIDsPropertyName);
+				SetProperty(ref challengerScore, value, ChallengerScorePropertyName);
 			}
 		}
 
+		int challengeeScore;
+		public const string ChallengeeScorePropertyName = "ChallengeeScore";
+
+		public int ChallengeeScore
+		{
+			get
+			{
+				return challengeeScore;
+			}
+			set
+			{
+				SetProperty(ref challengeeScore, value, ChallengeeScorePropertyName);
+			}
+		}
+
+		int? index;
+		public const string IndexPropertyName = "Index";
+
+		public int? Index
+		{
+			get
+			{
+				return index;
+			}
+			set
+			{
+				SetProperty(ref index, value, IndexPropertyName);
+			}
+		}
 	}
 }

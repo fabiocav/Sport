@@ -15,7 +15,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return League == null || League.CreatedByAthlete == null ? null : "created on {0} by {1}".Fmt(League.DateCreated.ToString("MMMM dd, yyyy"), League.CreatedByAthlete.Name);
+				return League == null || League.CreatedByAthlete == null ? null : "created on {0} by {1}".Fmt(League.DateCreated.Value.ToString("MMMM dd, yyyy"), League.CreatedByAthlete.Name);
 			}
 		}
 

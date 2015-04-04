@@ -23,10 +23,10 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		DateTime dateCreated;
+		DateTime? dateCreated;
 		public const string DateCreatedPropertyName = "DateCreated";
 
-		public DateTime DateCreated
+		public DateTime? DateCreated
 		{
 			get
 			{

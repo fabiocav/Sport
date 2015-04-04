@@ -5,11 +5,10 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class MembershipsByLeaguePage : MembershipsByLeagueXaml
 	{
-		bool _dataLoaded;
-
 		public MembershipsByLeaguePage(League league)
 		{
 			ViewModel.League = league;
+			Initialize();
 		}
 
 		protected override void Initialize()
@@ -34,7 +33,6 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.League != null)
 			{
 				await ViewModel.GetAllMembershipsByLeague();
-				_dataLoaded = true;
 			}
 
 			if(ViewModel.League != null)

@@ -7,16 +7,16 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class MembershipDetailsPage : MembershipDetailsXaml
 	{
-		public MembershipDetailsPage(Membership member = null)
-		{
-			ViewModel.Membership = member ?? new Membership();
-			Initialize();
-		}
-
 		public Action OnDelete
 		{
 			get;
 			set;
+		}
+
+		public MembershipDetailsPage(Membership member = null)
+		{
+			ViewModel.Membership = member ?? new Membership();
+			Initialize();
 		}
 
 		protected override void Initialize()

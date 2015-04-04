@@ -4,6 +4,11 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AvailableLeaguesPage : AvailableLeaguesXaml
 	{
+		public AvailableLeaguesPage()
+		{
+			Initialize();
+		}
+
 		async protected override void Initialize()
 		{
 			InitializeComponent();
@@ -20,7 +25,7 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			var btnCancel = new ToolbarItem {
-				Text = "Cancel"		
+				Text = "Cancel"
 			};
 
 			btnCancel.Clicked += async(sender, e) =>

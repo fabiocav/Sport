@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.GameResultFormView">
+	<Grid Padding="0,0,0,20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="100" />
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<Label Text="{Binding GameIndex}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Grid.ColumnSpan="2" TextColor="Gray" HeightRequest="30" />
+
+		<Label Text="{Binding Challenge.ChallengerAthlete.Email}" Grid.Row="1" HorizontalOptions="Center" FontSize="11" />
+		<Label Text="{Binding Challenge.ChallengeeAthlete.Email}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="11" />
+
+		<Entry Text="{Binding GameResult.ChallengerScore}" Grid.Row="2" HorizontalOptions="Center" WidthRequest="100" Keyboard="Numeric" />
+		<Entry Text="{Binding GameResult.ChallengeeScore}" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="100" Keyboard="Numeric" />
+	</Grid>
+</ContentView>

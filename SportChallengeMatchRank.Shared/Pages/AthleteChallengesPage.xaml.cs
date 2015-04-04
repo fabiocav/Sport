@@ -5,10 +5,16 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AthleteChallengesPage : AthleteChallengesXaml
 	{
+		public AthleteChallengesPage(Athlete athlete)
+		{
+			ViewModel.Athlete = athlete;
+			Initialize();
+		}
+
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Challenges";
+			Title = "My Challenges";
 
 			list.ItemSelected += async(sender, e) =>
 			{
@@ -21,25 +27,10 @@ namespace SportChallengeMatchRank.Shared
 				detailsPage.OnDelete = () =>
 				{
 					App.CurrentAthlete.RefreshChallenges();
-					ViewModel.LocalRefresh();
 				};
 
 				await Navigation.PushAsync(detailsPage);
 			};
-		}
-
-		async protected override void OnUserAuthenticated()
-		{
-			base.OnUserAuthenticated();
-			await ViewModel.GetChallenges();
-		}
-
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-
-			if(ViewModel.Challenges.Count != App.CurrentAthlete.Challenges.Count)
-				ViewModel.LocalRefresh();
 		}
 	}
 

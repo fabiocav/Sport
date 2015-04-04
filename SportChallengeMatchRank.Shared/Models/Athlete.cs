@@ -144,16 +144,43 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		[JsonIgnore]
-		public List<Challenge> Challenges
+		public List<Challenge> IncomingChallenges
 		{
 			get;
 			private set;
 		}
 
+		[JsonIgnore]
+		public List<Challenge> OutgoingChallenges
+		{
+			get;
+			private set;
+		}
+
+		[JsonIgnore]
+		public List<Challenge> AllChallenges
+		{
+			get
+			{
+				var list = new List<Challenge>(IncomingChallenges);
+				list.AddRange(OutgoingChallenges);
+				return list;
+			}
+		}
+
 		public void RefreshChallenges()
 		{
-			Challenges = new List<Challenge>();
-			DataManager.Instance.Challenges.Values.Where(m => m.ChallengeeAthleteId == Id || m.ChallengerAthleteId == Id).ToList().ForEach(Challenges.Add);
+			if(IncomingChallenges == null)
+				IncomingChallenges = new List<Challenge>();
+
+			if(OutgoingChallenges == null)
+				OutgoingChallenges = new List<Challenge>();
+
+			IncomingChallenges.Clear();
+			DataManager.Instance.Challenges.Values.Where(m => m.ChallengeeAthleteId == Id).ToList().ForEach(IncomingChallenges.Add);
+
+			OutgoingChallenges.Clear();
+			DataManager.Instance.Challenges.Values.Where(m => m.ChallengerAthleteId == Id).ToList().ForEach(OutgoingChallenges.Add);
 		}
 	}
 }

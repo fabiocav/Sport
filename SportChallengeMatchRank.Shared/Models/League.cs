@@ -131,6 +131,21 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		int _matchGameCount = 3;
+		public const string MatchGameCountPropertyName = "MatchGameCount";
+
+		public int MatchGameCount
+		{
+			get
+			{
+				return _matchGameCount;
+			}
+			set
+			{
+				SetProperty(ref _matchGameCount, value, MatchGameCountPropertyName);
+			}
+		}
+
 		string description;
 		public const string DescriptionPropertyName = "Description";
 

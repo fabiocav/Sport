@@ -107,7 +107,7 @@ namespace SportChallengeMatchRank.Shared
 
 			if(membership != null)
 			{
-				return athlete.Challenges.FirstOrDefault(c => (c.ChallengeeAthleteId == athlete.Id ||
+				return athlete.IncomingChallenges.FirstOrDefault(c => (c.ChallengeeAthleteId == athlete.Id ||
 					c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId);
 			}
 
@@ -139,7 +139,7 @@ namespace SportChallengeMatchRank.Shared
 			if(canChallenge)
 			{
 				//Athlete is within range but let's make sure there aren't already challenges out there
-				var alreadyChallenged = athlete.Challenges.Any(c => (c.ChallengeeAthleteId == athlete.Id ||
+				var alreadyChallenged = athlete.IncomingChallenges.Any(c => (c.ChallengeeAthleteId == athlete.Id ||
 					                        c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId);
 
 				canChallenge = !alreadyChallenged;

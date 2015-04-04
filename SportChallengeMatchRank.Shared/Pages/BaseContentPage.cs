@@ -6,12 +6,11 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
 	{
-		public BaseContentPage() : base()
+		public BaseContentPage()
 		{
 			BindingContext = ViewModel;
-			Initialize();
 
-			Application.Current.ModalPopped += async(sender, e) =>
+			Application.Current.ModalPopped += (sender, e) =>
 			{
 				if(e.Modal is AuthenticationPage && App.CurrentAthlete != null)
 				{

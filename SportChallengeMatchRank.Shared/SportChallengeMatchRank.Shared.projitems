@@ -95,6 +95,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteChallengesPage.xaml.cs">
       <DependentUpon>AthleteChallengesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\GameResultFormView.xaml.cs">
+      <DependentUpon>GameResultFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MatchResultsFormPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MatchResultsFormViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -140,6 +146,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AthleteChallengesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\GameResultFormView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

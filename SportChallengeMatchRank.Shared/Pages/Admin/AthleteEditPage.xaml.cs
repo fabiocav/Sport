@@ -9,12 +9,13 @@ namespace SportChallengeMatchRank.Shared
 		public AthleteEditPage(Athlete member = null)
 		{
 			ViewModel.Athlete = member ?? new Athlete();
+			Initialize();
 		}
 
 		protected override void Initialize()
 		{
-			InitializeComponent();
 			Title = "Edit Athlete";
+			InitializeComponent();
 
 			var btnCancel = new ToolbarItem {
 				Text = "Cancel"

@@ -28,6 +28,11 @@
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal">
+					<Label Text="Match game count" HorizontalOptions="StartAndExpand" />
+					<Entry Text="{Binding League.MatchGameCount}" WidthRequest="40" HeightRequest="40" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
 					<Label Text="Accept new members" HorizontalOptions="StartAndExpand" />
 					<Switch IsToggled="{Binding League.IsAcceptingMembers}" HorizontalOptions="End" />
 				</StackLayout>

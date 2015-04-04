@@ -2,40 +2,75 @@
 <local:ChallengeDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.ChallengeDetailsPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:ChallengeDetailsXaml.Content>
-		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
-			<StackLayout Orientation="Horizontal">
-				<Label Text="League name:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Challenge.League.Name}" FontSize="18" />
+		<ScrollView>
+			<StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
+				<StackLayout Spacing="12">
+					<Label Text="{Binding Challenge.League.Name, StringFormat='{0} presents...'}" FontSize="11" HorizontalOptions="Center" />
+					<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+					<Label Text="vs" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+					<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+				</StackLayout>
+
+				<StackLayout Padding="0,10,0,30" Spacing="8" Orientation="Horizontal">
+					<Label Text="{Binding Challenge.DateCreated, StringFormat='challenged {0:d}'}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+					<Label Text="{Binding Challenge.DateAccepted, StringFormat='accepted {0:d}'}" FontSize="10"
+						HorizontalOptions="CenterAndExpand" XAlign="Center" IsVisible="{Binding Challenge.IsAccepted}" />
+					<Label Text="{Binding Challenge.DateCompleted, StringFormat='completed {0:d}'}" FontSize="10"
+						HorizontalOptions="CenterAndExpand" XAlign="Center" IsVisible="{Binding Challenge.IsCompleted}" />
+				</StackLayout>
+
+				<BoxView HeightRequest="70" BackgroundColor="Transparent"
+					IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+
+				<StackLayout Padding="0,10,0,25" Spacing="8" IsVisible="{Binding Challenge.IsCompleted}">
+					<Label Text="AND THE VICTORY GOES TO..." FontSize="12" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+					<Label Text="{Binding Challenge.WinningAthlete.Name}" FontSize="40" HorizontalOptions="Center" />
+				</StackLayout>
+
+				<ListView ItemsSource="{Binding Challenge.GameResults}" Header="{Binding Challenge}" HeightRequest="170"
+					IsVisible="{Binding Challenge.GameResults, Converter={x:Static local:IsEmptyConverter.Instance}}">
+					<ListView.HeaderTemplate>
+						<DataTemplate>
+							<StackLayout Orientation="Horizontal" Spacing="20" Padding="11" BackgroundColor="Gray">
+								<Label Text="{Binding ChallengerAthlete.Email}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
+								<Label Text="{Binding ChallengeeAthlete.Email}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
+							</StackLayout>
+						</DataTemplate>
+					</ListView.HeaderTemplate>
+
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<ViewCell.View>
+									<StackLayout Orientation="Horizontal" Spacing="20" VerticalOptions="Center">
+										<Label Text="{Binding ChallengerScore}" FontSize="26" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+										<Label Text="  to  " FontSize="11" VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+										<Label Text="{Binding ChallengeeScore}" FontSize="26" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+									</StackLayout>
+								</ViewCell.View>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+
+				<Button x:Name="btnAccept" Text="Accept Challenge" Style="{StaticResource buttonStyle}"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					IsVisible="{Binding CanAccept}" />
+
+				<Button x:Name="btnPostResults" Text="Post Match Results" Style="{StaticResource buttonStyle}"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					IsVisible="{Binding CanPostMatchResults}" />
+
+				<Button x:Name="btnDecline" Text="Decline Challenge" Style="{StaticResource buttonStyle}"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					IsVisible="{Binding CanDecline}" />
+
+				<Button x:Name="btnRevoke" Text="Revoke Challenge" Style="{StaticResource buttonStyle}"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					IsVisible="{Binding CanRevoke}" />
+
+				<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 			</StackLayout>
-
-			<StackLayout Orientation="Horizontal">
-				<Label Text="Challenger name:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="18" />
-			</StackLayout>
-
-			<StackLayout Orientation="Horizontal">
-				<Label Text="Challengee name:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="18" />
-			</StackLayout>
-
-			<StackLayout Orientation="Horizontal">
-				<Label Text="Date sent:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Challenge.DateCreated}" FontSize="18" />
-			</StackLayout>
-
-			<Button x:Name="btnAccept" Text="Accept Challenge" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-				IsVisible="{Binding CanAccept}" />
-
-			<Button x:Name="btnDecline" Text="Decline Challenge" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-				IsVisible="{Binding CanDecline}" />
-
-			<Button x:Name="btnRevoke" Text="Revoke Challenge" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-				IsVisible="{Binding CanRevoke}" />
-
-			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-		</StackLayout>
+		</ScrollView>
 	</local:ChallengeDetailsXaml.Content>
 </local:ChallengeDetailsXaml>

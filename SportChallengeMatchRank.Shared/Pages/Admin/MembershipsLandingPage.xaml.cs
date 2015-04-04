@@ -4,16 +4,18 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class MembershipsLandingPage : MembershipsLandingXaml
 	{
-		bool _dataLoaded;
+		bool _hasLoadedBefore;
 
 		public MembershipsLandingPage(Athlete athlete)
 		{
 			ViewModel.Athlete = athlete;
+			Initialize();
 		}
 
 		public MembershipsLandingPage(League league)
 		{
 			ViewModel.League = league;
+			Initialize();
 		}
 
 		protected override void Initialize()
@@ -58,7 +60,7 @@ namespace SportChallengeMatchRank.Shared
 				await ViewModel.GetAllMembershipsByAthlete();
 				list.RefreshCommand = ViewModel.GetAllMembershipsByAthleteCommand;
 				list.SetBinding(ListView.ItemsSourceProperty, "Athlete.Memberships");
-				_dataLoaded = true;
+				_hasLoadedBefore = true;
 			}
 
 			if(ViewModel.League != null)
@@ -66,7 +68,7 @@ namespace SportChallengeMatchRank.Shared
 				await ViewModel.GetAllMembershipsByLeague();
 				list.RefreshCommand = ViewModel.GetAllMembershipsByLeagueCommand;
 				list.SetBinding(ListView.ItemsSourceProperty, "League.Memberships");
-				_dataLoaded = true;
+				_hasLoadedBefore = true;
 			}
 
 			base.OnLoaded();
@@ -75,7 +77,7 @@ namespace SportChallengeMatchRank.Shared
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			if(!_dataLoaded)
+			if(!_hasLoadedBefore)
 				return;
 
 			if(ViewModel.League != null)

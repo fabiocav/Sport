@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public static class Extensions
+	public static partial class Extensions
 	{
 		public static void RemoveModel<T>(this ObservableCollection<T> items, string itemId) where T : BaseModel
 		{

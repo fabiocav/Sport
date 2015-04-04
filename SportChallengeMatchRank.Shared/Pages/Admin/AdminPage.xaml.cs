@@ -9,8 +9,15 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public AdminPage()
 		{
-			InitializeComponent();
+			Initialize();
+		}
+
+		protected override void Initialize()
+		{
+			base.Initialize();
+
 			Title = "Admin";
+			InitializeComponent();
 
 			btnLeagues.Clicked += async(sender, e) =>
 			{

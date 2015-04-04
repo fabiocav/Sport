@@ -8,6 +8,11 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class Challenge : BaseModel
 	{
+		public Challenge()
+		{
+			GameResults = new List<GameResult>();
+		}
+
 		[JsonIgnore]
 		public Athlete ChallengeeAthlete
 		{
@@ -32,6 +37,23 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				return LeagueId == null ? null : DataManager.Instance.Leagues.Get(LeagueId);
+			}
+		}
+
+		public Athlete WinningAthlete
+		{
+			get
+			{
+				if(GameResults.Count != League.MatchGameCount)
+					return null;
+
+				int a = this.GetChallengerWinningGames().Length;
+				int b = this.GetChallengeeWinningGames().Length;
+
+				if(a > b)
+					return ChallengerAthlete;
+
+				return b > a ? ChallengeeAthlete : null;
 			}
 		}
 
@@ -86,6 +108,22 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		DateTimeOffset? _dateCompleted;
+		public const string DateCompletedPropertyName = "DateCompleted";
+
+		public DateTimeOffset? DateCompleted
+		{
+			get
+			{
+				return _dateCompleted;
+			}
+			set
+			{
+				SetProperty(ref _dateCompleted, value, DateCompletedPropertyName);
+				OnPropertyChanged("IsCompleted");
+			}
+		}
+
 		DateTimeOffset? _dateAccepted;
 		public const string DateAcceptedPropertyName = "DateAccepted";
 
@@ -98,6 +136,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _dateAccepted, value, DateAcceptedPropertyName);
+				OnPropertyChanged("IsAccepted");
 			}
 		}
 
@@ -117,18 +156,19 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		bool _isAccepted;
-		public const string IsAcceptedPropertyName = "IsAccepted";
-
 		public bool IsAccepted
 		{
 			get
 			{
-				return _isAccepted;
+				return DateAccepted.HasValue;
 			}
-			set
+		}
+
+		public bool IsCompleted
+		{
+			get
 			{
-				SetProperty(ref _isAccepted, value, IsAcceptedPropertyName);
+				return DateCompleted.HasValue;
 			}
 		}
 
@@ -155,6 +195,21 @@ namespace SportChallengeMatchRank.Shared
 					return null;
 
 				return "{0} presents {1} vs {2} on {3}".Fmt(League.Name, ChallengerAthlete.Name, ChallengeeAthlete.Name, ProposedTime.ToLocalTime().LocalDateTime.ToString("g"));
+			}
+		}
+
+		List<GameResult> gameResults;
+		public const string GameResultsPropertyName = "GameResults";
+
+		public List<GameResult> GameResults
+		{
+			get
+			{
+				return gameResults;
+			}
+			set
+			{
+				SetProperty(ref gameResults, value, GameResultsPropertyName);
 			}
 		}
 	}

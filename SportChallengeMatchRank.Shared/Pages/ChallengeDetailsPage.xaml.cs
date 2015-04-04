@@ -7,19 +7,19 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class ChallengeDetailsPage : ChallengeDetailsXaml
 	{
-		public ChallengeDetailsPage(Challenge member = null)
-		{
-			ViewModel.Challenge = member ?? new Challenge();
-			Initialize();
-		}
-
 		public Action OnDelete
 		{
 			get;
 			set;
 		}
 
-		protected override void Initialize()
+		public ChallengeDetailsPage(Challenge challenge = null)
+		{
+			ViewModel.Challenge = challenge ?? new Challenge();
+			Initialize();
+		}
+
+		async protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "Challenge Details";
@@ -27,6 +27,17 @@ namespace SportChallengeMatchRank.Shared
 			btnAccept.Clicked += async(sender, e) =>
 			{
 				await ViewModel.AcceptChallenge();
+			};
+
+			btnPostResults.Clicked += async(sender, e) =>
+			{
+				var page = new MatchResultsFormPage(ViewModel.Challenge);
+				page.OnMatchResultsPosted = () =>
+				{
+					ViewModel.NotifyPropertiesChanged();
+				};
+
+				await Navigation.PushModalAsync(new NavigationPage(page));
 			};
 
 			btnRevoke.Clicked += async(sender, e) =>
@@ -58,6 +69,8 @@ namespace SportChallengeMatchRank.Shared
 					
 				await Navigation.PopAsync();
 			};
+
+			await ViewModel.GetMatchResults();
 		}
 	}
 

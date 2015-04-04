@@ -6,6 +6,7 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public AthleteLandingPage()
 		{
+			Initialize();
 		}
 
 		async protected override void Initialize()
