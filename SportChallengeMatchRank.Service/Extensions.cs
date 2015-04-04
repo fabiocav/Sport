@@ -48,6 +48,15 @@ namespace SportChallengeMatchRank.Service
 				DateAccepted = c.DateAccepted,
 				DateCompleted = c.DateCompleted,
 				CustomMessage = c.CustomMessage,
+				GameResults = c.GameResults.Select(r => new GameResultDto
+				{
+					Id = r.Id,
+					DateCreated = r.CreatedAt,
+					ChallengeId = r.ChallengeId,
+					ChallengeeScore = r.ChallengeeScore,
+					ChallengerScore = r.ChallengerScore,
+					Index = r.Index
+				}).ToList()
 			};
 		}
 
@@ -76,7 +85,7 @@ namespace SportChallengeMatchRank.Service
 				IsAdmin = dto.IsAdmin,
 				DeviceToken = dto.DeviceToken,
 				DevicePlatform = dto.DevicePlatform,
-				AuthenticationId = dto.AuthenticationId
+				AuthenticationId = dto.AuthenticationId,
 			};
 		}
 
@@ -93,6 +102,7 @@ namespace SportChallengeMatchRank.Service
 				EndDate = dto.EndDate,
 				Season = dto.Season,
 				MaxChallengeRange = dto.MaxChallengeRange,
+				MatchGameCount = dto.MatchGameCount,
 				HasStarted = dto.HasStarted,
 				ImageUrl = dto.ImageUrl,
 				CreatedByAthleteId = dto.CreatedByAthleteId,
@@ -100,7 +110,7 @@ namespace SportChallengeMatchRank.Service
 			};
 		}
 
-		public static Membership ToMember(this MembershipDto dto)
+		public static Membership ToMembership(this MembershipDto dto)
 		{
 			return new Membership
 			{
@@ -117,8 +127,15 @@ namespace SportChallengeMatchRank.Service
 			{
 				Name = athlete.Name,
 				Id = athlete.Id,
+				DateCreated = athlete.CreatedAt,
 				Email = athlete.Email,
-				AuthenticationId = athlete.AuthenticationId
+				IsAdmin = athlete.IsAdmin,
+				DeviceToken = athlete.DeviceToken,
+				DevicePlatform = athlete.DevicePlatform,
+				AuthenticationId = athlete.AuthenticationId,
+				MembershipIds = athlete.Memberships.Select(la => la.Id).ToList(),
+				IncomingChallengeIds = athlete.IncomingChallenges.Select(la => la.Id).ToList(),
+				OutgoingChallengeIds = athlete.OutgoingChallenges.Select(la => la.Id).ToList(),
 			};
 		}
 

@@ -32,6 +32,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public int MatchGameCount
+		{
+			get;
+			set;
+		}
+
 		public string Sport
 		{
 			get;

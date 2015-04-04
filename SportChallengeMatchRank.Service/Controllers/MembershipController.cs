@@ -20,7 +20,7 @@ namespace SportChallengeMatchRank.Service.Controllers
         }
 
         // GET tables/Member
-		public IQueryable<MembershipDto> GetAllMembers()
+		public IQueryable<MembershipDto> GetAllMemberships()
         {
 			return Query().Select(m => new MembershipDto
 			{
@@ -34,7 +34,7 @@ namespace SportChallengeMatchRank.Service.Controllers
         }
 
         // GET tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
-		public SingleResult<MembershipDto> GetMember(string id)
+		public SingleResult<MembershipDto> GetMembership(string id)
         {
 			return SingleResult<MembershipDto>.Create(Lookup(id).Queryable.Select(m => new MembershipDto
 			{
@@ -70,7 +70,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				if(prior != null)
 					item.CurrentRank = prior.CurrentRank + 1;
 
-				current = await InsertAsync(item.ToMember());
+				current = await InsertAsync(item.ToMembership());
 			}
 
             return CreatedAtRoute("Tables", new { id = current.Id }, current);

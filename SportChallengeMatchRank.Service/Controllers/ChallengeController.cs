@@ -26,17 +26,26 @@ namespace SportChallengeMatchRank.Service.Controllers
         // GET tables/Challenge
         public IQueryable<ChallengeDto> GetAllChallenges()
         {
-			return Query().Select(dto => new ChallengeDto
+			return Query().Select(c => new ChallengeDto
 			{
-				Id = dto.Id,
-				ChallengerAthleteId = dto.ChallengerAthleteId,
-				ChallengeeAthleteId = dto.ChallengeeAthleteId,
-				LeagueId = dto.LeagueId,
-				DateCreated = dto.CreatedAt,
-				ProposedTime = dto.ProposedTime,
-				DateAccepted = dto.DateAccepted,
-				DateCompleted = dto.DateCompleted,
-				CustomMessage = dto.CustomMessage
+				Id = c.Id,
+				ChallengerAthleteId = c.ChallengerAthleteId,
+				ChallengeeAthleteId = c.ChallengeeAthleteId,
+				LeagueId = c.LeagueId,
+				DateCreated = c.CreatedAt,
+				ProposedTime = c.ProposedTime,
+				DateAccepted = c.DateAccepted,
+				DateCompleted = c.DateCompleted,
+				CustomMessage = c.CustomMessage,
+				GameResults = c.GameResults.Select(r => new GameResultDto
+				{
+					Id = r.Id,
+					DateCreated = r.CreatedAt,
+					ChallengeId = r.ChallengeId,
+					ChallengeeScore = r.ChallengeeScore,
+					ChallengerScore = r.ChallengerScore,
+					Index = r.Index
+				}).ToList()
 			});
         }
 
@@ -53,7 +62,16 @@ namespace SportChallengeMatchRank.Service.Controllers
 				ProposedTime = dto.ProposedTime,
 				DateAccepted = dto.DateAccepted,
 				DateCompleted = dto.DateCompleted,
-				CustomMessage = dto.CustomMessage
+				CustomMessage = dto.CustomMessage,
+				GameResults = dto.GameResults.Select(r => new GameResultDto
+				{
+					Id = r.Id,
+					DateCreated = r.CreatedAt,
+					ChallengeId = r.ChallengeId,
+					ChallengeeScore = r.ChallengeeScore,
+					ChallengerScore = r.ChallengerScore,
+					Index = r.Index
+				}).ToList()
 			}));
 		}
 
@@ -69,7 +87,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			//Check to see if there is already a challenge between the two athletes for this league
 			var exists = _context.Challenges.Any(c => ((c.ChallengeeAthleteId == item.ChallengeeAthleteId && c.ChallengerAthleteId == item.ChallengerAthleteId)
 				|| (c.ChallengeeAthleteId == item.ChallengerAthleteId && c.ChallengerAthleteId == item.ChallengeeAthleteId))
-				&& c.LeagueId == item.LeagueId);
+				&& c.LeagueId == item.LeagueId && c.DateCompleted == null);
 
 			if(exists)
 				return Conflict();
@@ -114,7 +132,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 		}
 
 		[Route("api/postMatchResults")]
-		async public Task<ChallengeDto> PostMatchResults(List<GameResultDto> results)
+		public Task<ChallengeDto> PostMatchResults(List<GameResultDto> results)
 		{
 			if(results.Count < 1)
 			{
@@ -124,8 +142,19 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			var challengeId = results.First().ChallengeId;
 			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == challengeId);
-			challenge.DateCompleted = DateTime.UtcNow;
 
+			if(challenge.DateCompleted != null)
+			{
+				//BadRequest
+				return null;
+			}
+
+			var league = _context.Leagues.SingleOrDefault(l => l.Id == challenge.LeagueId);
+
+			if(league == null || results.Count != league.MatchGameCount)
+				throw new Exception("Result count not equal league match game count");
+
+			challenge.DateCompleted = DateTime.UtcNow;
 			var dto = challenge.ToChallengeDto();
 			dto.GameResults = new List<GameResultDto>();
 
@@ -139,6 +168,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 			try
 			{
 				_context.SaveChanges();
+
+				//Rerank the leaderboard
+
 			}
 			catch(DbEntityValidationException e)
 			{

@@ -77,6 +77,10 @@ namespace SportChallengeMatchRank.Service.Models
 			modelBuilder.Entity<Challenge>().HasOptional(a => a.League)
 				.WithMany().HasForeignKey(a => a.LeagueId);
 
+			modelBuilder.Entity<GameResult>().HasRequired(g => g.Challenge)
+				.WithMany(c => c.GameResults)
+				.HasForeignKey(g => g.ChallengeId);
+
 			modelBuilder.Entity<League>().HasOptional(a => a.CreatedByAthlete)
 				.WithMany().HasForeignKey(a => a.CreatedByAthleteId);
 
@@ -87,6 +91,16 @@ namespace SportChallengeMatchRank.Service.Models
 			modelBuilder.Entity<Membership>().HasRequired(m => m.Athlete)
 				.WithMany(a => a.Memberships)
 				.HasForeignKey(m => m.AthleteId);
+
+			modelBuilder.Entity<Challenge>().HasRequired(c => c.ChallengeeAthlete)
+				.WithMany(a => a.IncomingChallenges)
+				.HasForeignKey(c => c.ChallengeeAthleteId)
+				.WillCascadeOnDelete(false);
+
+			modelBuilder.Entity<Challenge>().HasRequired(c => c.ChallengerAthlete)
+				.WithMany(a => a.OutgoingChallenges)
+				.HasForeignKey(c => c.ChallengerAthleteId)
+				.WillCascadeOnDelete(false);
 
 			modelBuilder.Conventions.Add(
 				new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(

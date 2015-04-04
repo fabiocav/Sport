@@ -33,7 +33,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DeviceToken = dto.DeviceToken,
 				DevicePlatform = dto.DevicePlatform,
 				AuthenticationId = dto.AuthenticationId,
-				MembershipIds = dto.Memberships.Select(la => la.Id).ToList()
+				MembershipIds = dto.Memberships.Select(la => la.Id).ToList(),
+				IncomingChallengeIds = dto.IncomingChallenges.Select(la => la.Id).ToList(),
+				OutgoingChallengeIds = dto.OutgoingChallenges.Select(la => la.Id).ToList(),
 			});
 		}
 
@@ -50,7 +52,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DeviceToken = dto.DeviceToken,
 				DevicePlatform = dto.DevicePlatform,
 				AuthenticationId = dto.AuthenticationId,
-				MembershipIds = dto.Memberships.Select(la => la.Id).ToList()
+				MembershipIds = dto.Memberships.Select(la => la.Id).ToList(),
+				IncomingChallengeIds = dto.IncomingChallenges.Select(la => la.Id).ToList(),
+				OutgoingChallengeIds = dto.OutgoingChallenges.Select(la => la.Id).ToList(),
 			}));
 		}
 

@@ -7,6 +7,11 @@ namespace SportChallengeMatchRank
 {
 	public partial class ChallengeDto : ChallengeBase
 	{
+		public ChallengeDto() : base()
+		{
+			GameResults = new List<GameResultDto>();
+		}
+
 		public DateTimeOffset? DateCreated
 		{
 			get;

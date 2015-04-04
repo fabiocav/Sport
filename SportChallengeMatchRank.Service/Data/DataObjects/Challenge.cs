@@ -6,6 +6,11 @@ namespace SportChallengeMatchRank
 {
 	public partial class Challenge : ChallengeBase
 	{
+		public Challenge() : base()
+		{
+			GameResults = new List<GameResult>();
+		}
+
 		public League League
 		{
 			get;
@@ -19,6 +24,12 @@ namespace SportChallengeMatchRank
 		}
 
 		public Athlete ChallengeeAthlete
+		{
+			get;
+			set;
+		}
+
+		public List<GameResult> GameResults
 		{
 			get;
 			set;

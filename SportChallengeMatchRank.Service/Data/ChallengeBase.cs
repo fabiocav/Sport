@@ -25,6 +25,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public string CustomMessage
+		{
+			get;
+			set;
+		}
+
 		public DateTimeOffset? ProposedTime
 		{
 			get;
@@ -37,13 +43,7 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
-		public string CustomMessage
-		{
-			get;
-			set;
-		}
-
-		public DateTimeOffset DateCompleted
+		public DateTimeOffset? DateCompleted
 		{
 			get;
 			set;
