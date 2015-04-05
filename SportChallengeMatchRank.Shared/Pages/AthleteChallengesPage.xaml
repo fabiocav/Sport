@@ -4,7 +4,8 @@
 	x:Class="SportChallengeMatchRank.Shared.AthleteChallengesPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:AthleteChallengesXaml.Content>
-		<ListView x:Name="list" ItemsSource="{Binding Athlete.AllChallenges}" RefreshCommand="{Binding GetChallengesCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+		<ListView x:Name="list" ItemsSource="{Binding ChallengeGroups}" RefreshCommand="{Binding GetChallengesCommand}" IsGroupingEnabled="true"
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" GroupDisplayBinding="{Binding Title}">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>

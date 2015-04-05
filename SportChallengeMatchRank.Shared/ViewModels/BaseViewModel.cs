@@ -83,7 +83,6 @@ namespace SportChallengeMatchRank.Shared
 
 		public Busy(BaseViewModel viewModel)
 		{
-			Console.WriteLine(viewModel.GetType().Name);
 			_viewModel = viewModel;
 			_viewModel.IsBusy = true;
 		}

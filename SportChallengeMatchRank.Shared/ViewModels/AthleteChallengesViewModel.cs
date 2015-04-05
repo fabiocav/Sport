@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteChallengesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -24,6 +26,24 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public ObservableCollection<ChallengeCollection> ChallengeGroups
+		{
+			get;
+			set;
+		}
+
+		public ChallengeCollection HistoricalChallenges
+		{
+			get;
+			set;
+		}
+
+		public ChallengeCollection UpcomingChallenges
+		{
+			get;
+			set;
+		}
+
 		public Athlete Athlete
 		{
 			get
@@ -38,6 +58,21 @@ namespace SportChallengeMatchRank.Shared
 			{
 				return new Command(async() => await GetChallenges(true));
 			}
+		}
+
+		public AthleteChallengesViewModel()
+		{
+			UpcomingChallenges = new ChallengeCollection {
+				Title = "Ongoing Challenges"
+			};
+
+			HistoricalChallenges = new ChallengeCollection {
+				Title = "Historical Challenges"
+			};
+
+			ChallengeGroups = new ObservableCollection<ChallengeCollection>();
+			ChallengeGroups.Add(UpcomingChallenges);
+			ChallengeGroups.Add(HistoricalChallenges);
 		}
 
 		async public Task GetChallenges(bool forceRefresh = false)
@@ -55,6 +90,9 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			Athlete.RefreshChallenges();
+			UpcomingChallenges.Clear();
+			HistoricalChallenges.Clear();
+
 			using(new Busy(this))
 			{
 				//Load the opponents
@@ -76,7 +114,19 @@ namespace SportChallengeMatchRank.Shared
 				_hasLoadedBefore = true;
 				Athlete.RefreshChallenges();
 				OnPropertyChanged("Athlete");
+
+				Athlete.AllChallenges.Where(c => c.IsCompleted).ToList().ForEach(HistoricalChallenges.Add);
+				Athlete.AllChallenges.Where(c => !c.IsCompleted).ToList().ForEach(UpcomingChallenges.Add);
 			}
+		}
+	}
+
+	public class ChallengeCollection : ObservableCollection<Challenge>
+	{
+		public string Title
+		{
+			get;
+			set;
 		}
 	}
 }

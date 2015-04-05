@@ -198,7 +198,7 @@ namespace SportChallengeMatchRank.Shared
 				if(League == null || ChallengerAthlete == null || ChallengeeAthlete == null)
 					return null;
 
-				return "{0} presents {1} vs {2} on {3}".Fmt(League.Name, ChallengerAthlete.Name, ChallengeeAthlete.Name, ProposedTime.ToLocalTime().LocalDateTime.ToString("g"));
+				return "{0} {1} vs {2} on {3}".Fmt(League.Name, ChallengerAthlete.Name, ChallengeeAthlete.Name, ProposedTime.ToLocalTime().LocalDateTime.ToString("d"));
 			}
 		}
 
