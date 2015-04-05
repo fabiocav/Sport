@@ -95,6 +95,8 @@ namespace SportChallengeMatchRank.Shared
 				SaveLeagueResult result;
 				try
 				{
+					await FlikrService.Instance.SearchPhotos(League.Sport);
+
 					League.Name = League.Name ?? League.Name.Trim();
 					League.Sport = League.Sport ?? League.Sport.Trim();
 					League.CreatedByAthleteId = App.CurrentAthlete.Id;

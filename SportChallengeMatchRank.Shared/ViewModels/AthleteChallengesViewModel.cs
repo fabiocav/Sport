@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+﻿using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Windows.Input;
-using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteChallengesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -12,20 +8,27 @@ namespace SportChallengeMatchRank.Shared
 	public class AthleteChallengesViewModel : BaseViewModel
 	{
 		bool _hasLoadedBefore;
+		string _athleteId;
 
-		Athlete _athlete;
-		public const string AthletePropertyName = "Athlete";
+		public string AthleteId
+		{
+			get
+			{
+				return _athleteId;
+			}
+			set
+			{
+				_athleteId = value;
+				OnPropertyChanged("Athlete");
+				GetChallenges();
+			}
+		}
 
 		public Athlete Athlete
 		{
 			get
 			{
-				return _athlete;
-			}
-			set
-			{
-				SetProperty(ref _athlete, value, AthletePropertyName);
-				GetChallenges();
+				return AthleteId == null ? null : DataManager.Instance.Athletes.Get(AthleteId);
 			}
 		}
 

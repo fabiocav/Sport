@@ -7,26 +7,43 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class LeagueDetailsPage : LeagueDetailsXaml
 	{
+		MembershipsByLeaguePage _membershipsPage;
+
 		public LeagueDetailsPage(League league)
 		{
 			ViewModel.League = league;
 			Initialize();
 		}
 
+		public Action<League> OnJoinedLeague
+		{
+			get;
+			set;
+		}
+
+		public Action<League> OnAbandondedLeague
+		{
+			get;
+			set;
+		}
+
 		async protected override void Initialize()
 		{
-			InitializeComponent();
 			Title = "League Details";
+			InitializeComponent();
 
 			btnMemberStatus.Clicked += async(sender, e) =>
 			{
 				if(!ViewModel.League.HasStarted)
 				{
-					await DisplayAlert("Still Recruiting, y'all", "This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?", "kay");
+					await DisplayAlert("Still Recruitin', y'all", "This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?", "kay");
 					return;
 				}
 
-				await Navigation.PushAsync(new MembershipsByLeaguePage(ViewModel.League));	
+				if(_membershipsPage == null)
+					_membershipsPage = new MembershipsByLeaguePage(ViewModel.League);
+
+				await Navigation.PushAsync(_membershipsPage);	
 			};
 
 			btnJoinLeague.Clicked += async(sender, e) =>
@@ -36,6 +53,10 @@ namespace SportChallengeMatchRank.Shared
 				if(accepted)
 				{
 					await ViewModel.JoinLeague();
+					if(OnJoinedLeague != null)
+					{
+						OnJoinedLeague(ViewModel.League);
+					}
 				}
 			};
 
@@ -45,7 +66,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(accepted)
 				{
-					if(App.CurrentAthlete.AllChallenges.Count > 0)
+					if(App.CurrentAthlete.AllChallenges.Any(c => c.LeagueId == ViewModel.League.Id))
 					{
 						accepted = await DisplayAlert("Existing Challenges?", "You have ongoing challenges - still quit?", "Yeps", "Nah");
 					}
@@ -53,6 +74,10 @@ namespace SportChallengeMatchRank.Shared
 					if(accepted)
 					{
 						await ViewModel.LeaveLeague();
+						if(OnAbandondedLeague != null)
+						{
+							OnAbandondedLeague(ViewModel.League);
+						}
 					}
 				}
 			};

@@ -1,7 +1,4 @@
-﻿using Xamarin.Forms;
-using System.Threading.Tasks;
-using System;
-using System.Linq;
+﻿using System;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -13,9 +10,9 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		public MembershipDetailsPage(Membership member = null)
+		public MembershipDetailsPage(string membershipId)
 		{
-			ViewModel.Membership = member ?? new Membership();
+			ViewModel.MembershipId = membershipId;
 			Initialize();
 		}
 
@@ -70,7 +67,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			base.OnAppearing();
 			ViewModel.Membership.LocalRefresh();
-			ViewModel.OnPropertyChanged("CanChallenge");
+			ViewModel.NotifyPropertiesChanged();
 		}
 	}
 

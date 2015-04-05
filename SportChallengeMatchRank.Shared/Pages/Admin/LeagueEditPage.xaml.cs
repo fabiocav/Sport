@@ -38,6 +38,9 @@ namespace SportChallengeMatchRank.Shared
 			
 			btnSaveLeague.Clicked += async(sender, e) =>
 			{
+//				await Navigation.PushAsync(new PhotoSelectionPage(ViewModel.League));
+//				return;
+
 				if(!ViewModel.IsValid())
 				{
 					errorView.Opacity = 0.0;

@@ -17,7 +17,13 @@ namespace SportChallengeMatchRank.Shared
 
 			btnJoin.Clicked += async(sender, e) =>
 			{
-				await Navigation.PushModalAsync(new NavigationPage(new AvailableLeaguesPage()));
+				var page = new AvailableLeaguesPage();
+				page.OnJoinedLeague = async(l) =>
+				{
+					ViewModel.OnPropertyChanged("Athlete");
+				};
+
+				await Navigation.PushModalAsync(new NavigationPage(page));
 			};
 			
 			list.ItemSelected += async(sender, e) =>
@@ -27,7 +33,14 @@ namespace SportChallengeMatchRank.Shared
 
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
-				await Navigation.PushAsync(new LeagueDetailsPage(league));
+
+				var page = new LeagueDetailsPage(league);
+				page.OnAbandondedLeague = async(l) =>
+				{
+					ViewModel.OnPropertyChanged("Athlete");
+				};
+					
+				await Navigation.PushAsync(page);
 			};
 		}
 

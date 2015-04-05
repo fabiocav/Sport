@@ -33,6 +33,11 @@
 				</StackLayout>
 
 				<StackLayout Orientation="Horizontal">
+					<Label Text="Min hours between challenges" HorizontalOptions="StartAndExpand" />
+					<Entry Text="{Binding League.MinHoursBetweenChallenge}" WidthRequest="40" HeightRequest="40" />
+				</StackLayout>
+
+				<StackLayout Orientation="Horizontal">
 					<Label Text="Accept new members" HorizontalOptions="StartAndExpand" />
 					<Switch IsToggled="{Binding League.IsAcceptingMembers}" HorizontalOptions="End" />
 				</StackLayout>

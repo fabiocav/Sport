@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
+﻿using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Windows.Input;
-using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteLeaguesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -12,24 +8,27 @@ namespace SportChallengeMatchRank.Shared
 	public class AthleteLeaguesViewModel : BaseViewModel
 	{
 		bool _hasLoadedBefore;
+		string _athleteId;
 
-		public AthleteLeaguesViewModel()
-		{
-			LocalRefresh();
-		}
-
-		ObservableCollection<League> _leagues = new ObservableCollection<League>();
-		public const string LeaguesPropertyName = "Leagues";
-
-		public ObservableCollection<League> Leagues
+		public string AthleteId
 		{
 			get
 			{
-				return _leagues;
+				return _athleteId;
 			}
 			set
 			{
-				SetProperty(ref _leagues, value, LeaguesPropertyName);
+				_athleteId = value;
+				OnPropertyChanged("Athlete");
+				GetLeagues();
+			}
+		}
+
+		public Athlete Athlete
+		{
+			get
+			{
+				return AthleteId == null ? null : DataManager.Instance.Athletes.Get(AthleteId);
 			}
 		}
 
@@ -41,39 +40,28 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public void LocalRefresh()
-		{
-			if(App.CurrentAthlete == null)
-				return;
-
-			Leagues.Clear();
-			App.CurrentAthlete.Memberships.Select(m => m.League).ToList().ForEach(Leagues.Add);
-		}
-
 		async public Task GetLeagues(bool forceRefresh = false)
 		{
-			if(App.CurrentAthlete == null)
+			if(Athlete == null)
 				return;
 
 			if(!forceRefresh && _hasLoadedBefore)
 			{
-				LocalRefresh();
+				Athlete.RefreshChallenges();
 				return;
 			}
 
 			if(IsBusy)
 				return;
 
-			Leagues.Clear();
+			Athlete.RefreshMemberships();
 			using(new Busy(this))
 			{
-				Console.WriteLine(IsBusy);
 				await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
 				_hasLoadedBefore = true;
-				LocalRefresh();
+				Athlete.RefreshMemberships();
+				OnPropertyChanged("Athlete");
 			}
-
-			Console.WriteLine(IsBusy);
 		}
 	}
 }

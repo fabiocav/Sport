@@ -32,6 +32,18 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public List<string> IncomingChallengeIds
+		{
+			get;
+			set;
+		}
+
+		public List<string> OutgoingChallengeIds
+		{
+			get;
+			set;
+		}
+
 		string _name;
 		public const string NamePropertyName = "Name";
 
@@ -104,6 +116,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetProperty(ref _memberships, value, MembershipsPropertyName);
+				OnPropertyChanged("Leagues");
 			}
 		}
 
@@ -142,6 +155,16 @@ namespace SportChallengeMatchRank.Shared
 			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).OrderBy(l => l.League.Name).ToList().ForEach(_memberships.Add);
 		}
+
+		[JsonIgnore]
+		public List<League> Leagues
+		{
+			get
+			{
+				return Memberships.Select(m => m.League).ToList();
+			}
+		}
+
 
 		[JsonIgnore]
 		public List<Challenge> IncomingChallenges

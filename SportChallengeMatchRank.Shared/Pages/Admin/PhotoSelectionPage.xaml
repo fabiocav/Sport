@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:PhotoSelectionXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.PhotoSelectionPage"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+	<local:PhotoSelectionXaml.Content>
+		<ListView x:Name="list" ItemsSource="{Binding Photos}" RefreshCommand="{Binding GetPhotos}" IsRefreshing="{Binding IsBusy}" RowHeight="300">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ViewCell.View>
+							<Image Source="{Binding .}" HeightRequest="300" WidthRequest="300" Aspect="AspectFill"
+									HorizontalOptions="Center" VerticalOptions="Center" /> 
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</local:PhotoSelectionXaml.Content>
+
+	<local:PhotoSelectionXaml.ToolbarItems>
+		<ToolbarItem x:Name="btnCancel" Text="Cancel" />
+	</local:PhotoSelectionXaml.ToolbarItems>
+
+</local:PhotoSelectionXaml>

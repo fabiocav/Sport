@@ -10,10 +10,11 @@ namespace SportChallengeMatchRank.Shared
 
 		public AthleteTabbedPage()
 		{
+			var id = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
 			Children.Add(new NavigationPage(new AthleteLeaguesPage()) {
 					Title = "My Leagues"
 				});
-			Children.Add(new NavigationPage(new AthleteChallengesPage(App.CurrentAthlete)) {
+			Children.Add(new NavigationPage(new AthleteChallengesPage(id)) {
 					Title = "My Challenges"
 				});
 			Children.Add(new NavigationPage(new AdminPage()) {
@@ -24,7 +25,8 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(e.Modal is AuthenticationPage && App.CurrentAthlete != null)
 				{
-					DependencyService.Get<AthleteChallengesViewModel>().Athlete = App.CurrentAthlete;
+					DependencyService.Get<AthleteChallengesViewModel>().AthleteId = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
+					DependencyService.Get<AthleteLeaguesViewModel>().AthleteId = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
 				}
 			};
 		}

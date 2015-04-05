@@ -6,9 +6,9 @@
 			<StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
 				<StackLayout Spacing="12">
 					<Label Text="{Binding Challenge.League.Name, StringFormat='{0} presents...'}" FontSize="11" HorizontalOptions="Center" />
-					<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+					<Label Text="{Binding Challenge.ChallengerAthlete.Email}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 					<Label Text="vs" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-					<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+					<Label Text="{Binding Challenge.ChallengeeAthlete.Email}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 				</StackLayout>
 
 				<StackLayout Padding="0,10,0,30" Spacing="8" Orientation="Horizontal">
@@ -24,7 +24,7 @@
 
 				<StackLayout Padding="0,10,0,25" Spacing="8" IsVisible="{Binding Challenge.IsCompleted}">
 					<Label Text="AND THE VICTORY GOES TO..." FontSize="12" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-					<Label Text="{Binding Challenge.WinningAthlete.Name}" FontSize="40" HorizontalOptions="Center" />
+					<Label Text="{Binding Challenge.WinningAthlete.Email}" FontSize="40" HorizontalOptions="Center" />
 				</StackLayout>
 
 				<ListView ItemsSource="{Binding Challenge.GameResults}" Header="{Binding Challenge}" HeightRequest="170"
@@ -43,9 +43,9 @@
 							<ViewCell>
 								<ViewCell.View>
 									<StackLayout Orientation="Horizontal" Spacing="20" VerticalOptions="Center">
-										<Label Text="{Binding ChallengerScore}" FontSize="26" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
-										<Label Text="  to  " FontSize="11" VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-										<Label Text="{Binding ChallengeeScore}" FontSize="26" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+										<Label Text="{Binding ChallengerScore}" FontSize="26" WidthRequest="120" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+										<Label Text="to" FontSize="11" VerticalOptions="Center" WidthRequest="40" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+										<Label Text="{Binding ChallengeeScore}" FontSize="26" WidthRequest="120" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
 									</StackLayout>
 								</ViewCell.View>
 							</ViewCell>

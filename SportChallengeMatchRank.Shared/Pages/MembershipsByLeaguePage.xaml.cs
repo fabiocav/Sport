@@ -23,7 +23,7 @@ namespace SportChallengeMatchRank.Shared
 
 				var membership = list.SelectedItem as Membership;
 				list.SelectedItem = null;
-				await Navigation.PushAsync(new MembershipDetailsPage(membership));
+				await Navigation.PushAsync(new MembershipDetailsPage(membership.Id));
 			};
 		}
 
@@ -40,17 +40,9 @@ namespace SportChallengeMatchRank.Shared
 			
 			base.OnLoaded();
 		}
-
-		//		protected override void OnAppearing()
-		//		{
-		//			base.OnAppearing();
-		//
-		//			if(!_dataLoaded)
-		//				return;
-		//		}
 	}
 
-	public partial class MembershipsByLeagueXaml : BaseContentPage<MembershipsLandingViewModel>
+	public partial class MembershipsByLeagueXaml : BaseContentPage<MembershipsByLeagueViewModel>
 	{
 	}
 }

@@ -17,8 +17,11 @@ namespace SportChallengeMatchRank.Shared
 		{
 			StartDate = DateTime.Now.AddDays(7);
 			EndDate = DateTime.Now.AddMonths(6);
-			MaxChallengeRange = 2;
 			Memberships = new ObservableCollection<Membership>();
+
+			MaxChallengeRange = 2;
+			MinHoursBetweenChallenge = 48;
+			MatchGameCount = 3;
 
 			IsAcceptingMembers = true;
 			IsEnabled = true;
@@ -131,7 +134,22 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		int _matchGameCount = 3;
+		int _minHoursBetweenChallenge;
+		public const string MinHoursBetweenChallengePropertyName = "MinHoursBetweenChallenge";
+
+		public int MinHoursBetweenChallenge
+		{
+			get
+			{
+				return _minHoursBetweenChallenge;
+			}
+			set
+			{
+				SetProperty(ref _minHoursBetweenChallenge, value, MinHoursBetweenChallengePropertyName);
+			}
+		}
+
+		int _matchGameCount;
 		public const string MatchGameCountPropertyName = "MatchGameCount";
 
 		public int MatchGameCount

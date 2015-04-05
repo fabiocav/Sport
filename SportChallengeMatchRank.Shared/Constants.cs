@@ -17,5 +17,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public static readonly string GoogleApiClientId = "AIzaSyC_7O_tpjYGywqB7pPDuzuyUZiYKGZADF4";
 		public static readonly string AzureClientId = "FSKOHcURfLmRDDKzUdZBuOxpmAlQyc62";
+
+		public static readonly string FlikrApiKey = "22a18bbd0b4f7c86975c81c8f3cb7719";
 	}
 }

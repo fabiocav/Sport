@@ -3,6 +3,7 @@
 	x:Class="SportChallengeMatchRank.Shared.MembershipDetailsPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:MembershipDetailsXaml.Content>
 		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
+			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 			<StackLayout Orientation="Horizontal">
 				<Label Text="League name:" HorizontalOptions="StartAndExpand" FontSize="18" />
 				<Label Text="{Binding Membership.League.Name}" FontSize="18" />
@@ -46,8 +47,6 @@
 				<Button x:Name="btnDeleteMembership" Text="Delete Membership" Style="{StaticResource deleteButtonStyle}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 					IsVisible="{Binding Membership.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
-
-				<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 			</StackLayout>
 		</StackLayout>
 	</local:MembershipDetailsXaml.Content>

@@ -5,10 +5,10 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Windows.Input;
 
-[assembly: Dependency(typeof(SportChallengeMatchRank.Shared.MembershipsLandingViewModel))]
+[assembly: Dependency(typeof(SportChallengeMatchRank.Shared.MembershipsByLeagueViewModel))]
 namespace SportChallengeMatchRank.Shared
 {
-	public class MembershipsLandingViewModel : BaseViewModel
+	public class MembershipsByLeagueViewModel : BaseViewModel
 	{
 		bool _hasLoadedBefore;
 		Athlete _athlete;

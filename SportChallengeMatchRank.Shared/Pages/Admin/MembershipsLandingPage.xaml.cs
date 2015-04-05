@@ -31,7 +31,7 @@ namespace SportChallengeMatchRank.Shared
 				var member = list.SelectedItem as Membership;
 				list.SelectedItem = null;
 
-				var detailsPage = new MembershipDetailsPage(member);
+				var detailsPage = new MembershipDetailsPage(member.Id);
 				detailsPage.OnDelete = () =>
 				{
 					var athlete = DataManager.Instance.Athletes.Get(member.AthleteId);
@@ -104,7 +104,7 @@ namespace SportChallengeMatchRank.Shared
 		}
 	}
 
-	public partial class MembershipsLandingXaml : BaseContentPage<MembershipsLandingViewModel>
+	public partial class MembershipsLandingXaml : BaseContentPage<MembershipsByLeagueViewModel>
 	{
 	}
 }

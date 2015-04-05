@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.MembershipDetailsViewModel))]
 
@@ -10,29 +9,26 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class MembershipDetailsViewModel : BaseViewModel
 	{
-		public MembershipDetailsViewModel()
-		{
-			Membership = new Membership();
-		}
+		string _membershipId;
 
-		public MembershipDetailsViewModel(Membership membership = null)
+		public string MembershipId
 		{
-			Membership = membership ?? new Membership();
+			get
+			{
+				return _membershipId;
+			}
+			set
+			{
+				_membershipId = value;
+				OnPropertyChanged("Membership");
+			}
 		}
-
-		Membership membership;
-		public const string MembershipPropertyName = "Membership";
 
 		public Membership Membership
 		{
 			get
 			{
-				return membership;
-			}
-			set
-			{
-				SetProperty(ref membership, value, MembershipPropertyName);
-				NotifyPropertiesChanged();
+				return MembershipId == null ? null : DataManager.Instance.Memberships.Get(MembershipId);
 			}
 		}
 
@@ -80,10 +76,11 @@ namespace SportChallengeMatchRank.Shared
 			return challenge;
 		}
 
-		void NotifyPropertiesChanged()
+		public void NotifyPropertiesChanged()
 		{
 			OnPropertyChanged("CanChallenge");
 			OnPropertyChanged("CanRevokeChallenge");
+			OnPropertyChanged("Membership");
 		}
 
 		public ICommand SaveCommand

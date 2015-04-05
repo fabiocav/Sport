@@ -5,9 +5,9 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AthleteChallengesPage : AthleteChallengesXaml
 	{
-		public AthleteChallengesPage(Athlete athlete)
+		public AthleteChallengesPage(string athleteId)
 		{
-			ViewModel.Athlete = athlete;
+			ViewModel.AthleteId = athleteId;
 			Initialize();
 		}
 
@@ -26,11 +26,21 @@ namespace SportChallengeMatchRank.Shared
 				var detailsPage = new ChallengeDetailsPage(challenge);
 				detailsPage.OnDelete = () =>
 				{
-					App.CurrentAthlete.RefreshChallenges();
+					Device.BeginInvokeOnMainThread(() =>
+						{
+							App.CurrentAthlete.RefreshChallenges();
+							ViewModel.OnPropertyChanged("Athlete");
+						});
 				};
 
 				await Navigation.PushAsync(detailsPage);
 			};
+		}
+
+		protected override void OnAppearing()
+		{
+			ViewModel.OnPropertyChanged("Athlete");
+			base.OnAppearing();
 		}
 	}
 

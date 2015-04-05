@@ -1,4 +1,6 @@
 ﻿using Xamarin.Forms;
+using System;
+using System.Threading.Tasks;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -7,6 +9,12 @@ namespace SportChallengeMatchRank.Shared
 		public AvailableLeaguesPage()
 		{
 			Initialize();
+		}
+
+		public Action<League> OnJoinedLeague
+		{
+			get;
+			set;
 		}
 
 		async protected override void Initialize()
@@ -21,7 +29,24 @@ namespace SportChallengeMatchRank.Shared
 
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
-				await Navigation.PushAsync(new LeagueDetailsPage(league));
+
+				var page = new LeagueDetailsPage(league);
+				page.OnJoinedLeague = async(l) =>
+				{
+					ViewModel.LocalRefresh();
+					if(OnJoinedLeague != null)
+					{
+						OnJoinedLeague(l);
+					}
+
+					await Task.Delay(1000);
+					if(ViewModel.Leagues.Count == 0)
+					{
+						await Navigation.PopModalAsync();
+					}
+				};
+
+				await Navigation.PushAsync(page);
 			};
 
 			var btnCancel = new ToolbarItem {
@@ -34,7 +59,6 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			ToolbarItems.Add(btnCancel);
-
 			await ViewModel.GetAvailableLeagues(true);
 		}
 	}

@@ -40,6 +40,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		[JsonIgnore]
 		public Athlete WinningAthlete
 		{
 			get
@@ -156,6 +157,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		[JsonIgnore]
 		public bool IsAccepted
 		{
 			get
@@ -164,6 +166,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		[JsonIgnore]
 		public bool IsCompleted
 		{
 			get
@@ -187,6 +190,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		[JsonIgnore]
 		public string Summary
 		{
 			get
