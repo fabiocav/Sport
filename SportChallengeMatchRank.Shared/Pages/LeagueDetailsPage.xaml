@@ -5,23 +5,29 @@
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
 
-	<ScrollView>
-		<Grid BackgroundColor="#607D8B">
+
+			<Grid BackgroundColor="#607D8B">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
-				<RowDefinition Height="160" />
 			</Grid.RowDefinitions>
 
-			<Image x:Name="image" Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="StartAndExpand" VerticalOptions="Start">
+
+	 <RelativeLayout VerticalOptions="Center">
+
+<!--			<Image x:Name="image" Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="StartAndExpand" VerticalOptions="Start">
 				<Image.HeightRequest>
 	        		<OnPlatform x:TypeArguments="x:Double">
 						<OnPlatform.iOS>420</OnPlatform.iOS>
-						<OnPlatform.Android>370</OnPlatform.Android>
+						<OnPlatform.Android>420</OnPlatform.Android>
 					</OnPlatform>
 				</Image.HeightRequest>
 			</Image>
+-->
+			<StackLayout Spacing="15" VerticalOptions="Start" BackgroundColor="Red"
+	             RelativeLayout.XConstraint="{ConstraintExpression Type=Constant, Constant=20}"
+	             RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=20}"
+	             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-40}">
 
-			<StackLayout Spacing="15" VerticalOptions="Start" Padding="20,20,20,20" BackgroundColor="#99000000" HeightRequest="380">
 				<Label Text="{Binding League.Name}" FontSize="50" TextColor="White" />
 				<Label Text="{Binding League.Sport}" FontSize="20" TextColor="White" />
 
@@ -36,7 +42,10 @@
 				</StackLayout>
 			</StackLayout>
 
-			<StackLayout Grid.Row="1" Spacing="10" VerticalOptions="End" Padding="20">
+			<StackLayout Spacing="10" VerticalOptions="End"
+				 RelativeLayout.XConstraint="{ConstraintExpression Type=Constant, Constant=20}"
+	             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-40}">
+
 				<Button x:Name="btnMemberStatus" Text="View Current Rankings" Style="{StaticResource buttonStyle}" />
 
 				<Button x:Name="btnJoinLeague" Text="Join League" Style="{StaticResource buttonStyle}"
@@ -45,9 +54,14 @@
 
 				<Button x:Name="btnLeaveLeague" Text="Cowardly Abandon League" Style="{StaticResource buttonStyle}" IsVisible="{Binding IsMember}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
+
+				<Button x:Name="btnEditLeague" Text="Edit League" Style="{StaticResource buttonStyle}" VerticalOptions="End"
+						IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
+						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>
-		</Grid>
-	</ScrollView>
+
+			</RelativeLayout>
+			</Grid>
 
 	</local:LeagueDetailsXaml.Content>
 </local:LeagueDetailsXaml>

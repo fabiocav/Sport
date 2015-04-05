@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using System;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -8,6 +9,12 @@ namespace SportChallengeMatchRank.Shared
 		{
 			ViewModel.League = league;
 			Initialize();
+		}
+
+		public Action OnImageSelected
+		{
+			get;
+			set;
 		}
 
 		async protected override void Initialize()
@@ -22,7 +29,10 @@ namespace SportChallengeMatchRank.Shared
 
 			list.ItemSelected += async(sender, e) =>
 			{
-				await Navigation.PopModalAsync();
+				ViewModel.League.ImageUrl = (string)e.SelectedItem;
+
+				if(OnImageSelected != null)
+					OnImageSelected();
 			};
 
 			await ViewModel.GetPhotos(ViewModel.League.Sport);

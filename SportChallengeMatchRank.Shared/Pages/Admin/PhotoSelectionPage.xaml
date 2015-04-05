@@ -4,13 +4,14 @@
 	x:Class="SportChallengeMatchRank.Shared.PhotoSelectionPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:PhotoSelectionXaml.Content>
-		<ListView x:Name="list" ItemsSource="{Binding Photos}" RefreshCommand="{Binding GetPhotos}" IsRefreshing="{Binding IsBusy}" RowHeight="300">
+		<ListView x:Name="list" ItemsSource="{Binding Photos}" RefreshCommand="{Binding GetPhotos}" IsRefreshing="{Binding IsBusy}" RowHeight="220">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>
 						<ViewCell.View>
-							<Image Source="{Binding .}" HeightRequest="300" WidthRequest="300" Aspect="AspectFill"
-									HorizontalOptions="Center" VerticalOptions="Center" /> 
+							<StackLayout Padding="0,0,0,10">
+								<Image Source="{Binding .}" Aspect="AspectFill" HeightRequest="220" /> 
+							</StackLayout>
 						</ViewCell.View>
 					</ViewCell>
 				</DataTemplate>
