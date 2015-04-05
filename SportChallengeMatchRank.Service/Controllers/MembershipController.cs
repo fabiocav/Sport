@@ -5,6 +5,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using SportChallengeMatchRank.Service.Models;
+using System.Data.Entity;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -79,6 +80,23 @@ namespace SportChallengeMatchRank.Service.Controllers
         // DELETE tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task DeleteMembership(string id)
         {
+			var membership = _context.Memberships.SingleOrDefault(m => m.Id == id);
+
+			//Need to remove all the existing challenges
+			var challenges = _context.Challenges.Where(c => c.LeagueId == membership.LeagueId
+				&& c.ChallengerAthleteId == membership.AthleteId
+				|| c.ChallengeeAthleteId == membership.AthleteId).ToList();
+
+			//Need to rerank the leaderboard
+			var membershipsToAlter = _context.Memberships.Where(m => m.CurrentRank > membership.CurrentRank
+				&& m.LeagueId == membership.LeagueId).ToList();
+			membershipsToAlter.ForEach(m => m.CurrentRank -= 1);
+
+			//TODO: send push notifications to opposing players letting them know challenge has been deleted
+
+			challenges.ForEach(c => _context.Entry(c).State = EntityState.Deleted);
+			_context.SaveChanges();
+
             return DeleteAsync(id);
         }
     }

@@ -32,6 +32,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public int MinHoursBetweenChallenge
+		{
+			get;
+			set;
+		}
+
 		public int MatchGameCount
 		{
 			get;

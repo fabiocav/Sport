@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using SportChallengeMatchRank.Shared;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -85,25 +86,34 @@ namespace SportChallengeMatchRank.Service.Controllers
         public async Task<IHttpActionResult> PostChallenge(ChallengeDto item)
         {
 			//Check to see if there is already a challenge between the two athletes for this league
-			var exists = _context.Challenges.Any(c => ((c.ChallengeeAthleteId == item.ChallengeeAthleteId && c.ChallengerAthleteId == item.ChallengerAthleteId)
+			var history = _context.Challenges.Where(c => ((c.ChallengeeAthleteId == item.ChallengeeAthleteId && c.ChallengerAthleteId == item.ChallengerAthleteId)
 				|| (c.ChallengeeAthleteId == item.ChallengerAthleteId && c.ChallengerAthleteId == item.ChallengeeAthleteId))
-				&& c.LeagueId == item.LeagueId && c.DateCompleted == null);
+				&& c.LeagueId == item.LeagueId).OrderByDescending(c => c.DateCompleted);
 
-			if(exists)
+			//Check for ongoing challenges scheduled
+			if(history.Any(c => c.DateCompleted == null))
 				return Conflict();
 
+			var league = _context.Leagues.SingleOrDefault(l => l.Id == item.LeagueId);
+			var lastChallenge = history.FirstOrDefault();
+			if(lastChallenge != null && lastChallenge.DateCompleted != null
+				&& DateTime.UtcNow.Subtract(lastChallenge.DateCompleted.Value.UtcDateTime).Hours < league.MinHoursBetweenChallenge)
+			{
+				return BadRequest(string.Format("Challenger must wait at least {0} hours before challenging again", league.MinHoursBetweenChallenge));
+			}
+
 			Challenge current = await InsertAsync(item.ToChallenge());
-            var result = CreatedAtRoute("Tables", new { id = current.Id }, current);
+            var result = CreatedAtRoute("Tables", new { id = current.Id }, current.ToChallengeDto());
 
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == current.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == current.ChallengeeAthleteId);
 
 			try
 			{
-				var payload = new Dictionary<string, object>{{"challengeId", current.Id}};
-				var message = AppDataContext.GetPush(challengee, "YOU HAVE BEEN CHALLENGED by {0}!".Fmt(challenger.Name), payload);
-				var pushResult = await Services.Push.SendAsync(message, current.ChallengeeAthleteId);
-				Services.Log.Info(pushResult.State.ToString());
+				//var payload = new Dictionary<string, object>{{"challengeId", current.Id}};
+				//var message = AppDataContext.GetPush(challengee, "YOU HAVE BEEN CHALLENGED by {0}!".Fmt(challenger.Name), payload);
+				//var pushResult = await Services.Push.SendAsync(message, current.ChallengeeAthleteId);
+				//Services.Log.Info(pushResult.State.ToString());
 			}
 			catch(System.Exception ex)
 			{
@@ -132,7 +142,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 		}
 
 		[Route("api/postMatchResults")]
-		public Task<ChallengeDto> PostMatchResults(List<GameResultDto> results)
+		async public Task<ChallengeDto> PostMatchResults(List<GameResultDto> results)
 		{
 			if(results.Count < 1)
 			{
@@ -169,11 +179,36 @@ namespace SportChallengeMatchRank.Service.Controllers
 			{
 				_context.SaveChanges();
 
-				//Rerank the leaderboard
+				var challengerWins = challenge.GetChallengerWinningGames();
+				var challengeeWins = challenge.GetChallengeeWinningGames();
+				Athlete winner = null;
+				Athlete loser = null;
+				if(challengerWins.Length > challengeeWins.Length)
+				{
+					winner = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+					loser = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+					var winnerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == winner.Id && m.LeagueId == challenge.LeagueId);
+					var loserMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == loser.Id && m.LeagueId == challenge.LeagueId);
+
+					var oldRank = winnerMembership.CurrentRank;
+					winnerMembership.CurrentRank = loserMembership.CurrentRank;
+					loserMembership.CurrentRank = oldRank;
+
+					_context.SaveChanges();
+				}
+
+				if(challengeeWins.Length > challengerWins.Length)
+				{
+					winner = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+					loser = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+				}
+
 
 			}
 			catch(DbEntityValidationException e)
 			{
+				#region Error Print
+
 				foreach(var eve in e.EntityValidationErrors)
 				{
 					Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
@@ -185,6 +220,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 					}
 				}
 				throw;
+
+				#endregion
 			}
 
 			//Send out push notifcations to entire league

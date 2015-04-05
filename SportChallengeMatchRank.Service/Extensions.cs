@@ -102,6 +102,7 @@ namespace SportChallengeMatchRank.Service
 				EndDate = dto.EndDate,
 				Season = dto.Season,
 				MaxChallengeRange = dto.MaxChallengeRange,
+				MinHoursBetweenChallenge = dto.MinHoursBetweenChallenge,
 				MatchGameCount = dto.MatchGameCount,
 				HasStarted = dto.HasStarted,
 				ImageUrl = dto.ImageUrl,

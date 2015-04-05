@@ -13,18 +13,21 @@ namespace SportChallengeMatchRank
 			OutgoingChallenges = new HashSet<Challenge>();
 		}
 
+		[JsonIgnore]
 		public ICollection<Challenge> IncomingChallenges
 		{
 			get;
 			set;
 		}
 
+		[JsonIgnore]
 		public ICollection<Challenge> OutgoingChallenges
 		{
 			get;
 			set;
 		}
 
+		[JsonIgnore]
 		public ICollection<Membership> Memberships
 		{
 			get;

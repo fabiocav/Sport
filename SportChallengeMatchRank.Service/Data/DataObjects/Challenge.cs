@@ -11,18 +11,21 @@ namespace SportChallengeMatchRank
 			GameResults = new List<GameResult>();
 		}
 
+		[JsonIgnore]
 		public League League
 		{
 			get;
 			set;
 		}
 
+		[JsonIgnore]
 		public Athlete ChallengerAthlete
 		{
 			get;
 			set;
 		}
 
+		[JsonIgnore]
 		public Athlete ChallengeeAthlete
 		{
 			get;
