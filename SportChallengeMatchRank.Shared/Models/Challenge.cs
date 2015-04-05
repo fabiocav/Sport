@@ -10,7 +10,7 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public Challenge()
 		{
-			GameResults = new List<GameResult>();
+			MatchResult = new List<GameResult>();
 		}
 
 		[JsonIgnore]
@@ -45,7 +45,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				if(GameResults.Count != League.MatchGameCount)
+				if(MatchResult.Count != League.MatchGameCount)
 					return null;
 
 				int a = this.GetChallengerWinningGames().Length;
@@ -202,18 +202,18 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		List<GameResult> gameResults;
-		public const string GameResultsPropertyName = "GameResults";
+		List<GameResult> _matchResult;
+		public const string MatchResultPropertyName = "MatchResult";
 
-		public List<GameResult> GameResults
+		public List<GameResult> MatchResult
 		{
 			get
 			{
-				return gameResults;
+				return _matchResult;
 			}
 			set
 			{
-				SetProperty(ref gameResults, value, GameResultsPropertyName);
+				SetProperty(ref _matchResult, value, MatchResultPropertyName);
 			}
 		}
 	}

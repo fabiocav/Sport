@@ -83,6 +83,7 @@ namespace SportChallengeMatchRank.Shared
 			if(!forceRefresh && _hasLoadedBefore)
 				return;
 
+			LocalRefresh();
 			using(new Busy(this))
 			{
 				await AzureService.Instance.GetAllAthletesByLeague(League);

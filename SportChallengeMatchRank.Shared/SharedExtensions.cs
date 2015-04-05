@@ -6,12 +6,12 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public static GameResult[] GetChallengerWinningGames(this Challenge challenge)
 		{
-			return challenge.GameResults.Where(gr => gr.ChallengerScore > gr.ChallengeeScore).ToArray();
+			return challenge.MatchResult.Where(gr => gr.ChallengerScore > gr.ChallengeeScore).ToArray();
 		}
 
 		public static GameResult[] GetChallengeeWinningGames(this Challenge challenge)
 		{
-			return challenge.GameResults.Where(gr => gr.ChallengeeScore > gr.ChallengerScore).ToArray();
+			return challenge.MatchResult.Where(gr => gr.ChallengeeScore > gr.ChallengerScore).ToArray();
 		}
 
 	}

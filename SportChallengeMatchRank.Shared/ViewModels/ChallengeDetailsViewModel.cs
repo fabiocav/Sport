@@ -67,13 +67,13 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetMatchResults(bool forceRefresh = false)
 		{
-			if(!forceRefresh && Challenge.GameResults.Count > 0)
+			if(!forceRefresh && Challenge.MatchResult.Count > 0)
 				return;
 
 			var results = await AzureService.Instance.Client.GetTable<GameResult>().Where(r => r.ChallengeId == Challenge.Id).OrderBy(r => r.Index).ToListAsync();
 
-			Challenge.GameResults.Clear();
-			results.ForEach(Challenge.GameResults.Add);
+			Challenge.MatchResult.Clear();
+			results.ForEach(Challenge.MatchResult.Add);
 			OnPropertyChanged("Challenge");
 		}
 

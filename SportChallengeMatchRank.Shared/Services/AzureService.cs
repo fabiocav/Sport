@@ -534,26 +534,36 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetAllChallengesByAthlete(Athlete athlete)
 		{
-			//Remove all existing challenges so we can replace them
-			Challenge challenge;
-			var athleteChallenges = DataManager.Instance.Challenges.Values.Where(c => c.ChallengeeAthleteId == athlete.Id || c.ChallengerAthleteId == athlete.Id).ToList();
-			athleteChallenges.ForEach(ac => DataManager.Instance.Challenges.TryRemove(ac.Id, out challenge));
-
-			var challenges = await Client.GetTable<Challenge>().Where(c => c.ChallengeeAthleteId == athlete.Id || c.ChallengerAthleteId == athlete.Id).OrderBy(c => c.DateCreated).ToListAsync();
-			challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
-			athlete.RefreshChallenges();
+			try
+			{
+				var qs = new Dictionary<string, string>();
+				qs.Add("athleteId", athlete.Id);
+				var challenges = await Client.InvokeApiAsync<string, List<Challenge>>("getChallengesForAthlete", null, HttpMethod.Get, qs);
+				if(challenges != null)
+				{
+					Challenge ch;
+					var toRemove = athlete.AllChallenges.ToList();
+					toRemove.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
+					challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
+					athlete.RefreshChallenges();
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
 		}
 
 		async public Task PostMatchResults(Challenge challenge)
 		{
 			try
 			{
-				var completedChallenge = await Client.InvokeApiAsync<List<GameResult>, Challenge>("postMatchResults", challenge.GameResults);
+				var completedChallenge = await Client.InvokeApiAsync<List<GameResult>, Challenge>("postMatchResults", challenge.MatchResult);
 				if(completedChallenge != null)
 				{
 					challenge.DateCompleted = completedChallenge.DateCompleted;
-					challenge.GameResults = new List<GameResult>();
-					completedChallenge.GameResults.ForEach(challenge.GameResults.Add);
+					challenge.MatchResult = new List<GameResult>();
+					completedChallenge.MatchResult.ForEach(challenge.MatchResult.Add);
 				}
 			}
 			catch(Exception e)

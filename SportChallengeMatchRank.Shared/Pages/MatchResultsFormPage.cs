@@ -4,7 +4,7 @@ using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class MatchResultsFormPage : BaseContentPage<MatchResultsFormViewModel>
+	public class MatchResultsFormPage : BaseContentPage<MatchResultFormViewModel>
 	{
 		public Action OnMatchResultsPosted
 		{
@@ -14,7 +14,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public MatchResultsFormPage(Challenge challenge)
 		{
-			ViewModel.Challenge = challenge;
+			ViewModel.ChallengeId = challenge.Id;
 			Initialize();
 		}
 
@@ -46,9 +46,12 @@ namespace SportChallengeMatchRank.Shared
 
 			for(int i = 0; i < ViewModel.Challenge.League.MatchGameCount; i++)
 			{
-				var gameResult = new GameResult();
-				gameResult.ChallengeId = ViewModel.Challenge.Id;
-				ViewModel.Challenge.GameResults.Add(gameResult);
+				var gameResult = new GameResult {
+					Index = i,
+					ChallengeId = ViewModel.Challenge.Id,
+				};
+
+				ViewModel.Challenge.MatchResult.Add(gameResult);
 
 				var form = new GameResultFormView(ViewModel.Challenge, gameResult, i);
 				stackLayout.Children.Add(form);
@@ -65,7 +68,7 @@ namespace SportChallengeMatchRank.Shared
 				if(submit)
 				{
 					await ViewModel.PostMatchResults();
-					Navigation.PopModalAsync();
+					await Navigation.PopModalAsync();
 
 					if(OnMatchResultsPosted != null)
 						OnMatchResultsPosted();

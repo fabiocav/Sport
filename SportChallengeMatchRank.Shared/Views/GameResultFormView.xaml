@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.GameResultFormView">
+	x:Class="SportChallengeMatchRank.Shared.GameResultFormView"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<Grid Padding="0,0,0,20">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40" />
@@ -19,7 +20,9 @@
 		<Label Text="{Binding Challenge.ChallengerAthlete.Email}" Grid.Row="1" HorizontalOptions="Center" FontSize="11" />
 		<Label Text="{Binding Challenge.ChallengeeAthlete.Email}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="11" />
 
-		<Entry Text="{Binding GameResult.ChallengerScore}" Grid.Row="2" HorizontalOptions="Center" WidthRequest="100" Keyboard="Numeric" />
-		<Entry Text="{Binding GameResult.ChallengeeScore}" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="100" Keyboard="Numeric" />
+		<Entry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullValueConverter.Instance}}"
+			Grid.Row="2" HorizontalOptions="Center" WidthRequest="100" Keyboard="Numeric" />
+		<Entry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullValueConverter.Instance}}"
+			Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="100" Keyboard="Numeric" />
 	</Grid>
 </ContentView>

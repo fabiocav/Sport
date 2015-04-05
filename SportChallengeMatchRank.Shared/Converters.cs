@@ -5,6 +5,28 @@ using System.Collections;
 
 namespace SportChallengeMatchRank.Shared
 {
+	public class NullValueConverter : IValueConverter
+	{
+		public static NullValueConverter Instance = new NullValueConverter();
+
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			return value == null ? string.Empty : value.ToString();
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			if(value == null || !(value is string))
+				return null;
+
+			int i;
+			if(int.TryParse((string)value, out i))
+				return i;
+
+			return null;
+		}
+	}
+
 	public class InverseBoolConverter : IValueConverter
 	{
 		public static InverseBoolConverter Instance = new InverseBoolConverter();

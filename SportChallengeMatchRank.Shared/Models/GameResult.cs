@@ -30,10 +30,10 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		int challengerScore;
+		int? challengerScore;
 		public const string ChallengerScorePropertyName = "ChallengerScore";
 
-		public int ChallengerScore
+		public int? ChallengerScore
 		{
 			get
 			{
@@ -45,10 +45,10 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		int challengeeScore;
+		int? challengeeScore;
 		public const string ChallengeeScorePropertyName = "ChallengeeScore";
 
-		public int ChallengeeScore
+		public int? ChallengeeScore
 		{
 			get
 			{

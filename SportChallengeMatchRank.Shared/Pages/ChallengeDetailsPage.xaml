@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<local:ChallengeDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.ChallengeDetailsPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+<local:ChallengeDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.ChallengeDetailsPage"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:ChallengeDetailsXaml.Content>
 		<ScrollView>
 			<StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
@@ -27,8 +29,7 @@
 					<Label Text="{Binding Challenge.WinningAthlete.Email}" FontSize="40" HorizontalOptions="Center" />
 				</StackLayout>
 
-				<ListView ItemsSource="{Binding Challenge.GameResults}" Header="{Binding Challenge}" HeightRequest="170"
-					IsVisible="{Binding Challenge.GameResults, Converter={x:Static local:IsEmptyConverter.Instance}}">
+				<ListView ItemsSource="{Binding Challenge.MatchResult}" Header="{Binding Challenge}" HeightRequest="170" IsVisible="{Binding Challenge.IsCompleted}">
 					<ListView.HeaderTemplate>
 						<DataTemplate>
 							<StackLayout Orientation="Horizontal" Spacing="20" Padding="11" BackgroundColor="Gray">
@@ -43,9 +44,14 @@
 							<ViewCell>
 								<ViewCell.View>
 									<StackLayout Orientation="Horizontal" Spacing="20" VerticalOptions="Center">
-										<Label Text="{Binding ChallengerScore}" FontSize="26" WidthRequest="120" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
-										<Label Text="to" FontSize="11" VerticalOptions="Center" WidthRequest="40" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-										<Label Text="{Binding ChallengeeScore}" FontSize="26" WidthRequest="120" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+										<Label Text="{Binding ChallengerScore}" FontSize="26" WidthRequest="120"
+											VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+
+										<Label Text="to" FontSize="11" VerticalOptions="Center" WidthRequest="40"
+											HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+
+										<Label Text="{Binding ChallengeeScore}"
+											FontSize="26" WidthRequest="120" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
 									</StackLayout>
 								</ViewCell.View>
 							</ViewCell>
