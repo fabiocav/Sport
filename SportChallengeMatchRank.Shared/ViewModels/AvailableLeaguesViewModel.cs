@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Linq;
+using System;
+using System.Threading;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AvailableLeaguesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -35,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetAvailableLeagues(true));
+				return new Command(async() => await RunSafe(() => GetAvailableLeagues(true)));
 			}
 		}
 
@@ -50,21 +52,23 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetAvailableLeagues(bool forceRefresh = false)
 		{
-			if(App.CurrentAthlete == null)
-				return;
-
-			if(!forceRefresh && _hasLoadedBefore)
-			{
-				LocalRefresh();
-				return;
-			}
-
-			Leagues.Clear();
 			using(new Busy(this))
 			{
+				if(App.CurrentAthlete == null)
+					return;
+
+				if(!forceRefresh && _hasLoadedBefore)
+				{
+					LocalRefresh();
+					return;
+				}
+
+				Leagues.Clear();
 				await AzureService.Instance.GetAllLeagues();
 				_hasLoadedBefore = true;
 				LocalRefresh();
+
+				return;
 			}
 		}
 	}

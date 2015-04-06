@@ -73,9 +73,7 @@ namespace SportChallengeMatchRank.Shared
 					if(OnMatchResultsPosted != null)
 						OnMatchResultsPosted();
 
-					var notificator = DependencyService.Get<IToastNotificator>();
-					var message = "Your match results have been submitted. Congrats to {0}".Fmt(ViewModel.Challenge.WinningAthlete.Email);
-					await notificator.Notify(ToastNotificationType.Success, "Submitted", message, TimeSpan.FromSeconds(2));
+					"Your match results have been submitted. Congrats to {0}".Fmt(ViewModel.Challenge.WinningAthlete.Email).ToToast(ToastNotificationType.Success);
 				}
 			};
 		}

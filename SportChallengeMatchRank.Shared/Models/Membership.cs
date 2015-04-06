@@ -139,8 +139,9 @@ namespace SportChallengeMatchRank.Shared
 			if(canChallenge)
 			{
 				//Athlete is within range but let's make sure there aren't already challenges out there
-				var alreadyChallenged = athlete.AllChallenges.Any(c => (c.ChallengeeAthleteId == athlete.Id ||
-					                        c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId);
+				var alreadyChallenged = athlete.AllChallenges.Any(c => ((c.ChallengeeAthleteId == athlete.Id ||
+					                        c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId) &&
+					                        !c.IsCompleted);
 
 				canChallenge = !alreadyChallenged;
 			}

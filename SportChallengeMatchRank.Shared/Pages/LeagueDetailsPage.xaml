@@ -4,29 +4,16 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
-
-
-			<Grid BackgroundColor="#607D8B">
+	<ScrollView>
+		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-
-	 <RelativeLayout VerticalOptions="Center">
-
-<!--			<Image x:Name="image" Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="StartAndExpand" VerticalOptions="Start">
-				<Image.HeightRequest>
-	        		<OnPlatform x:TypeArguments="x:Double">
-						<OnPlatform.iOS>420</OnPlatform.iOS>
-						<OnPlatform.Android>420</OnPlatform.Android>
-					</OnPlatform>
-				</Image.HeightRequest>
+			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 			</Image>
--->
-			<StackLayout Spacing="15" VerticalOptions="Start" BackgroundColor="Red"
-	             RelativeLayout.XConstraint="{ConstraintExpression Type=Constant, Constant=20}"
-	             RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=20}"
-	             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-40}">
+
+			<StackLayout Padding="20" Spacing="15" VerticalOptions="Start">
 
 				<Label Text="{Binding League.Name}" FontSize="50" TextColor="White" />
 				<Label Text="{Binding League.Sport}" FontSize="20" TextColor="White" />
@@ -42,9 +29,7 @@
 				</StackLayout>
 			</StackLayout>
 
-			<StackLayout Spacing="10" VerticalOptions="End"
-				 RelativeLayout.XConstraint="{ConstraintExpression Type=Constant, Constant=20}"
-	             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-40}">
+			<StackLayout Padding="20" Spacing="10" VerticalOptions="End">
 
 				<Button x:Name="btnMemberStatus" Text="View Current Rankings" Style="{StaticResource buttonStyle}" />
 
@@ -59,9 +44,8 @@
 						IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>
-
-			</RelativeLayout>
-			</Grid>
+		</Grid>
+	</ScrollView>
 
 	</local:LeagueDetailsXaml.Content>
 </local:LeagueDetailsXaml>

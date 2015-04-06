@@ -29,14 +29,14 @@ namespace SportChallengeMatchRank.Shared
 				if(App.AuthUserProfile != null)
 				{
 					App.AuthUserProfile = null;
-					await DisplayAlert("Invalid Organization", "This service is only available to the xamarin.com organization.", "OK");
+					"This service is only available to the xamarin.com organization.".ToToast(ToastNotificationType.Warning, "Invalid Organization");
 				}
 			}
 			else
 			{
 				if(App.CurrentAthlete != null)
 				{
-					await ViewModel.EnsureAthleteRegistered();
+					await ViewModel.RunSafe(() => ViewModel.EnsureAthleteRegistered());
 				}
 
 				await Navigation.PopModalAsync();
@@ -49,11 +49,10 @@ namespace SportChallengeMatchRank.Shared
 
 		async protected override void OnLoaded()
 		{
-			MessagingCenter.Subscribe<AzureService, string>(this, "ServiceCallFailed", async(sender, message) =>
+			MessagingCenter.Subscribe<AzureService, string>(this, "ServiceCallFailed", (sender, message) =>
 				{
 					Console.WriteLine("Notification received from ServiceCallFailed");
-					var notificator = DependencyService.Get<IToastNotificator>();
-					await notificator.Notify(ToastNotificationType.Error, "Error", message, TimeSpan.FromSeconds(2));
+					message.ToToast(ToastNotificationType.Error);
 				});
 			
 			await AttemptToReauthenticateAthlete();
@@ -77,7 +76,8 @@ namespace SportChallengeMatchRank.Shared
 
 				try
 				{
-					await ViewModel.EnsureAthleteRegistered();
+					var success = await ViewModel.RunSafe(() => ViewModel.EnsureAthleteRegistered());
+					Console.WriteLine(success);
 				}
 				catch(Exception e)
 				{

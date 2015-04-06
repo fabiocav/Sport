@@ -1,5 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
+using Connectivity.Plugin;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -8,7 +10,18 @@ namespace SportChallengeMatchRank.Shared
 		public App()
 		{
 			InitializeComponent();
+			IsNetworkRechable = true;
 			MainPage = new AthleteTabbedPage();
+
+			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
+			{
+				if(IsNetworkRechable == args.IsConnected)
+					return;
+					
+				IsNetworkRechable = args.IsConnected;
+				"Connectivity is now {0}connected".Fmt(!args.IsConnected ? "dis" : "")
+						.ToToast(args.IsConnected ? ToastNotificationType.Info : ToastNotificationType.Warning, "Connectivity changed");
+			};
 		}
 
 		public static Athlete CurrentAthlete
@@ -26,6 +39,12 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		public static UserProfile AuthUserProfile
+		{
+			get;
+			set;
+		}
+
+		public static bool IsNetworkRechable
 		{
 			get;
 			set;

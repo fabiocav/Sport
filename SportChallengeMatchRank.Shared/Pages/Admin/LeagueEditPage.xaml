@@ -57,6 +57,9 @@
 					<Switch IsToggled="{Binding IsMember}" HorizontalOptions="End" />
 				</StackLayout>
 
+				<Image Source="{Binding League.ImageUrl}" HeightRequest="50" WidthRequest="70" />
+				<Button Image="{Binding League.ImageUrl}" Clicked="OnSelectPhotoButtonClicked" />
+
 			</StackLayout>
 
 			<StackLayout Grid.Row="1" Spacing="10" VerticalOptions="End">

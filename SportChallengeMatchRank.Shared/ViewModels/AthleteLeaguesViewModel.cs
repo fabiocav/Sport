@@ -20,7 +20,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				_athleteId = value;
 				OnPropertyChanged("Athlete");
-				GetLeagues();
+				RunSafe(() => GetLeagues());
 			}
 		}
 
@@ -36,7 +36,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetLeagues(true));
+				return new Command(async() => await RunSafe(() => GetLeagues(true)));
 			}
 		}
 
@@ -55,13 +55,10 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			Athlete.RefreshMemberships();
-			using(new Busy(this))
-			{
-				await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
-				_hasLoadedBefore = true;
-				Athlete.RefreshMemberships();
-				OnPropertyChanged("Athlete");
-			}
+			await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
+			_hasLoadedBefore = true;
+			Athlete.RefreshMemberships();
+			OnPropertyChanged("Athlete");
 		}
 	}
 }

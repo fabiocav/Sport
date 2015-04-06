@@ -27,7 +27,7 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PopModalAsync();
 			};
 
-			list.ItemSelected += async(sender, e) =>
+			list.ItemSelected += (sender, e) =>
 			{
 				ViewModel.League.ImageUrl = (string)e.SelectedItem;
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -33,25 +34,18 @@ namespace SportChallengeMatchRank.Shared
 					if(startTime != null)
 					{
 						btnStartLeague.IsVisible = false;
-						await DisplayAlert("League started!", "It's on like a prawn that yawns at dawn!", "Mkay");
+						"It's on like a prawn that yawns at dawn!".ToToast(ToastNotificationType.Success, "League Started!");
 					}
 				}
 				catch(Exception ex)
 				{
-					await DisplayAlert("Unable to start league", ex.Message, "Mkay");
+					ex.Message.ToToast(ToastNotificationType.Error, "Unable to start league ");
 				}
 			};
 			
 			btnSaveLeague.Clicked += async(sender, e) =>
 			{
-				var photoPage = new PhotoSelectionPage(ViewModel.League);
-				photoPage.OnImageSelected = async() =>
-				{
-					await Navigation.PopAsync();
-					await SaveLeague();
-				};
-					
-				await Navigation.PushAsync(photoPage);
+				await SaveLeague();
 			};
 
 			var btnCancel = new ToolbarItem {
@@ -103,9 +97,7 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			}
 
-			ViewModel.League.ImageUrl = "https://dl.dropboxusercontent.com/u/54307520/ping-pong-page-banner.jpg";
 			var result = await ViewModel.SaveLeague();
-
 			if(result == SaveLeagueResult.OK)
 			{
 				DataManager.Instance.Leagues.AddOrUpdate(ViewModel.League);
@@ -117,14 +109,27 @@ namespace SportChallengeMatchRank.Shared
 			}
 			else if(result == SaveLeagueResult.Conflict)
 			{
-				await DisplayAlert("Name in Use", "The league name '{0}' is already in use. Please choose another.".Fmt(ViewModel.League.Name), "OK");
+				"The league name '{0}' is already in use. Please choose another.".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Warning, "League name in use");
 				ViewModel.League.Name = string.Empty;
 				name.Focus();
 			}
 			else if(result == SaveLeagueResult.Failed)
 			{
-				await DisplayAlert("Unable to Save League", "There was an error saving this league. Take the rest of the day off.", "OK");
+				"There was an error saving this league. Take the rest of the day off.".ToToast(ToastNotificationType.Error);
 			}
+		}
+
+		async public void OnSelectPhotoButtonClicked(object sender, EventArgs e)
+		{
+			var photoPage = new PhotoSelectionPage(ViewModel.League);
+			photoPage.OnImageSelected = async() =>
+			{
+				ViewModel.OnPropertyChanged("League");		
+				await Navigation.PopAsync();
+				photoPage.OnImageSelected = null;
+			};
+
+			await Navigation.PushAsync(photoPage);
 		}
 	}
 

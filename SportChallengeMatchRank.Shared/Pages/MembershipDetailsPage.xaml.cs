@@ -1,4 +1,5 @@
 ﻿using System;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -44,10 +45,17 @@ namespace SportChallengeMatchRank.Shared
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{
-				var challenge = await ViewModel.ChallengeAthlete(ViewModel.Membership);
-				if(challenge != null)
+				try
 				{
-					await DisplayAlert("Challenge Sent!", "{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name), "OK");
+					var outcome = await ViewModel.RunSafe(() => ViewModel.ChallengeAthlete(ViewModel.Membership));
+					Challenge challenge = outcome.Result.Result;
+					if(challenge != null && challenge.Id != null)
+					{
+						"{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
+					}
+				}
+				catch(Exception ex)
+				{
 				}
 			};
 
@@ -59,7 +67,7 @@ namespace SportChallengeMatchRank.Shared
 					return;
 					
 				await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
-				await DisplayAlert("Challenge revoked", "{0} has been notified of your shameless ways.".Fmt(ViewModel.Membership.Athlete.Name), "OK");
+				"{0} has been notified of your shameless ways.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Info);
 			};
 		}
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -36,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(!ViewModel.League.HasStarted)
 				{
-					await DisplayAlert("Still Recruitin', y'all", "This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?", "kay");
+					"This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?".ToToast(ToastNotificationType.Warning);
 					return;
 				}
 
@@ -53,6 +54,8 @@ namespace SportChallengeMatchRank.Shared
 				if(accepted)
 				{
 					await ViewModel.JoinLeague();
+					"Behold - you are now a member of {0}".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
+
 					if(OnJoinedLeague != null)
 					{
 						OnJoinedLeague(ViewModel.League);
@@ -74,6 +77,7 @@ namespace SportChallengeMatchRank.Shared
 					if(accepted)
 					{
 						await ViewModel.LeaveLeague();
+						"Unable to leave this league because you have been already been ejected, so there.".ToToast(ToastNotificationType.Info);
 						if(OnAbandondedLeague != null)
 						{
 							OnAbandondedLeague(ViewModel.League);
@@ -90,7 +94,7 @@ namespace SportChallengeMatchRank.Shared
 					ViewModel.OnPropertyChanged("League");
 				};
 
-				Navigation.PushModalAsync(new NavigationPage(detailsPage));
+				await Navigation.PushModalAsync(new NavigationPage(detailsPage));
 			};
 
 			if(ViewModel.League != null && ViewModel.League.CreatedByAthleteId != null && ViewModel.League.CreatedByAthlete == null)

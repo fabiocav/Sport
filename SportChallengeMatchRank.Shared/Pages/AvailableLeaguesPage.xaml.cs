@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using System;
 using System.Threading.Tasks;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -39,7 +40,6 @@ namespace SportChallengeMatchRank.Shared
 						OnJoinedLeague(l);
 					}
 
-					await Task.Delay(1000);
 					if(ViewModel.Leagues.Count == 0)
 					{
 						await Navigation.PopModalAsync();
@@ -59,7 +59,7 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			ToolbarItems.Add(btnCancel);
-			await ViewModel.GetAvailableLeagues(true);
+			await ViewModel.RunSafe(() => ViewModel.GetAvailableLeagues());
 		}
 	}
 

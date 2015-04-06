@@ -13,20 +13,6 @@ namespace SportChallengeMatchRank.Shared
 			Initialize();
 		}
 
-		void Initialize()
-		{
-			StartDate = DateTime.Now.AddDays(7);
-			EndDate = DateTime.Now.AddMonths(6);
-			Memberships = new ObservableCollection<Membership>();
-
-			MaxChallengeRange = 2;
-			MinHoursBetweenChallenge = 48;
-			MatchGameCount = 3;
-
-			IsAcceptingMembers = true;
-			IsEnabled = true;
-		}
-
 		#region Properties
 
 		[JsonIgnore]
@@ -273,6 +259,20 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		#endregion
+
+		void Initialize()
+		{
+			StartDate = DateTime.Now.AddDays(7);
+			EndDate = DateTime.Now.AddMonths(6);
+			Memberships = new ObservableCollection<Membership>();
+
+			MaxChallengeRange = 2;
+			MinHoursBetweenChallenge = 48;
+			MatchGameCount = 3;
+
+			IsAcceptingMembers = true;
+			IsEnabled = true;
+		}
 
 		public void RefreshMemberships()
 		{

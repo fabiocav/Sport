@@ -29,40 +29,37 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task<bool> EnsureAthleteRegistered(bool forceRefresh = false)
 		{
-			using(new Busy(this))
+			if(App.CurrentAthlete != null && !forceRefresh)
+				return true;
+
+			Settings.Instance.AthleteId = null;
+			Athlete athlete = null;
+
+			//No AthleteId on record
+			if(!string.IsNullOrWhiteSpace(Settings.Instance.AthleteId))
 			{
-				if(App.CurrentAthlete != null && !forceRefresh)
-					return true;
-
-				Settings.Instance.AthleteId = null;
-				Athlete athlete = null;
-
-				//No AthleteId on record
-				if(!string.IsNullOrWhiteSpace(Settings.Instance.AthleteId))
-				{
-					athlete = await AzureService.Instance.GetAthleteById(Settings.Instance.AthleteId);
-				}
-
-				if(athlete == null && !string.IsNullOrWhiteSpace(Settings.Instance.AuthUserID))
-				{
-					athlete = await AzureService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
-				}
-
-				if(athlete == null && App.AuthUserProfile != null && !string.IsNullOrWhiteSpace(App.AuthUserProfile.Email))
-				{
-					athlete = await AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
-				}
-
-				//Unable to get athlete - add as new
-				if(athlete == null)
-				{
-					athlete = new Athlete(App.AuthUserProfile);
-					await AzureService.Instance.SaveAthlete(athlete);
-				}
-
-				Settings.Instance.AthleteId = athlete != null ? athlete.Id : null;
-				await Settings.Instance.Save();
+				athlete = await AzureService.Instance.GetAthleteById(Settings.Instance.AthleteId);
 			}
+
+			if(athlete == null && !string.IsNullOrWhiteSpace(Settings.Instance.AuthUserID))
+			{
+				athlete = await AzureService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
+			}
+
+			if(athlete == null && App.AuthUserProfile != null && !string.IsNullOrWhiteSpace(App.AuthUserProfile.Email))
+			{
+				athlete = await AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
+			}
+
+			//Unable to get athlete - add as new
+			if(athlete == null)
+			{
+				athlete = new Athlete(App.AuthUserProfile);
+				await AzureService.Instance.SaveAthlete(athlete);
+			}
+
+			Settings.Instance.AthleteId = athlete != null ? athlete.Id : null;
+			await Settings.Instance.Save();
 
 			if(App.CurrentAthlete != null)
 			{

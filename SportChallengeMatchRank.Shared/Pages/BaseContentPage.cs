@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -16,6 +17,19 @@ namespace SportChallengeMatchRank.Shared
 				{
 					OnUserAuthenticated();
 				}
+			};
+
+			ViewModel.OnTaskException = (outcome) =>
+			{
+				if(!outcome.NotifyOnException)
+					return;
+
+				var msg = outcome.Exception.Message;
+
+				if(msg.Length > 300)
+					msg = msg.Substring(0, 300);
+
+				msg.ToToast(ToastNotificationType.Error, "Something bad happened");
 			};
 		}
 

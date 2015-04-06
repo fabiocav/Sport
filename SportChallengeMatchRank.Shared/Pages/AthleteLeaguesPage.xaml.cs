@@ -18,7 +18,7 @@ namespace SportChallengeMatchRank.Shared
 			btnJoin.Clicked += async(sender, e) =>
 			{
 				var page = new AvailableLeaguesPage();
-				page.OnJoinedLeague = async(l) =>
+				page.OnJoinedLeague = (l) =>
 				{
 					ViewModel.OnPropertyChanged("Athlete");
 				};
@@ -35,7 +35,7 @@ namespace SportChallengeMatchRank.Shared
 				list.SelectedItem = null;
 
 				var page = new LeagueDetailsPage(league);
-				page.OnAbandondedLeague = async(l) =>
+				page.OnAbandondedLeague = (l) =>
 				{
 					ViewModel.OnPropertyChanged("Athlete");
 				};
@@ -47,7 +47,7 @@ namespace SportChallengeMatchRank.Shared
 		async protected override void OnUserAuthenticated()
 		{
 			base.OnUserAuthenticated();
-			await ViewModel.GetLeagues();
+			await ViewModel.RunSafe(() => ViewModel.GetLeagues());
 		}
 	}
 

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Xamarin.Forms;
+using Toasts.Forms.Plugin.Abstractions;
+using System.Threading.Tasks;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -71,6 +74,12 @@ namespace SportChallengeMatchRank.Shared
 		public static string Fmt(this string s, params object[] args)
 		{
 			return string.Format(s, args);
+		}
+
+		public static void ToToast(this string message, ToastNotificationType type, string title = null)
+		{
+			var notificator = DependencyService.Get<IToastNotificator>();
+			notificator.Notify(type, title ?? string.Empty, message, TimeSpan.FromSeconds(4));
 		}
 	}
 }

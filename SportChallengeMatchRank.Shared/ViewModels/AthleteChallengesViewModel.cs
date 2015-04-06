@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using Xamarin.Forms;
-using System.Windows.Input;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteChallengesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -71,8 +71,6 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			ChallengeGroups = new ObservableCollection<ChallengeCollection>();
-			ChallengeGroups.Add(UpcomingChallenges);
-			ChallengeGroups.Add(HistoricalChallenges);
 		}
 
 		async public Task GetChallenges(bool forceRefresh = false)
@@ -95,6 +93,8 @@ namespace SportChallengeMatchRank.Shared
 
 			using(new Busy(this))
 			{
+				ChallengeGroups.Clear();
+
 				//Load the opponents
 				await AzureService.Instance.GetAllChallengesByAthlete(Athlete);
 
@@ -117,7 +117,13 @@ namespace SportChallengeMatchRank.Shared
 
 				Athlete.AllChallenges.Where(c => c.IsCompleted).ToList().ForEach(HistoricalChallenges.Add);
 				Athlete.AllChallenges.Where(c => !c.IsCompleted).ToList().ForEach(UpcomingChallenges.Add);
-			}
+
+				if(UpcomingChallenges.Count > 0)
+					ChallengeGroups.Add(UpcomingChallenges);
+
+				if(HistoricalChallenges.Count > 0)
+					ChallengeGroups.Add(HistoricalChallenges);
+			}					
 		}
 	}
 

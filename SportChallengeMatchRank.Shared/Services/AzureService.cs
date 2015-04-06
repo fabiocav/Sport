@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Xamarin.Forms;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -66,8 +67,8 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+				App.CurrentAthlete.Id,
+				"All",
 			};
 
 			App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
@@ -483,29 +484,22 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task SaveChallenge(Challenge challenge)
 		{
-			try
+			if(challenge.Id == null)
 			{
-				if(challenge.Id == null)
-				{
-					await Client.GetTable<Challenge>().InsertAsync(challenge);
-				}
-				else
-				{
-					await Client.GetTable<Challenge>().UpdateAsync(challenge);
-				}
-
-				DataManager.Instance.Challenges.AddOrUpdate(challenge);
-
-				if(challenge.ChallengeeAthlete != null)
-					challenge.ChallengeeAthlete.RefreshChallenges();
-
-				if(challenge.ChallengerAthlete != null)
-					challenge.ChallengerAthlete.RefreshChallenges();
+				await Client.GetTable<Challenge>().InsertAsync(challenge);
 			}
-			catch(Exception e)
+			else
 			{
-				NotifyOfFailure(e.Message);
+				await Client.GetTable<Challenge>().UpdateAsync(challenge);
 			}
+
+			DataManager.Instance.Challenges.AddOrUpdate(challenge);
+
+			if(challenge.ChallengeeAthlete != null)
+				challenge.ChallengeeAthlete.RefreshChallenges();
+
+			if(challenge.ChallengerAthlete != null)
+				challenge.ChallengerAthlete.RefreshChallenges();
 		}
 
 		async public Task DeleteChallenge(string id)
