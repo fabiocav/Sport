@@ -69,8 +69,8 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+						App.CurrentAthlete.Id,
+						"All",
 				};
 
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
@@ -427,7 +427,9 @@ namespace SportChallengeMatchRank.Shared
 				DataManager.Instance.Memberships.AddOrUpdate(membership);
 				membership.LocalRefresh();
 
-				AzureService.Instance.UpdateAthleteRegistrationForPush().Wait();
+				var task = AzureService.Instance.UpdateAthleteRegistrationForPush();
+				task.Start();
+				task.Wait();
 			});
 		}
 
@@ -455,7 +457,9 @@ namespace SportChallengeMatchRank.Shared
 					if(m.Athlete != null)
 						m.Athlete.RefreshChallenges();
 
-					AzureService.Instance.UpdateAthleteRegistrationForPush().Wait();
+					var task = AzureService.Instance.UpdateAthleteRegistrationForPush();
+					task.Start();
+					task.Wait();
 				}
 				catch(HttpRequestException hre)
 				{

@@ -17,9 +17,9 @@
                 <Setter Property="FontFamily" Value="HelveticaNeue-Light" />
             </Style>
             <Style x:Key="buttonStyle" TargetType="Button">
-                <Setter Property="TextColor" Value="#212121" />
+                <Setter Property="TextColor" Value="White" />
                 <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="BackgroundColor" Value="#CFD8DC" />
+                <Setter Property="BackgroundColor" Value="#99000000" />
                 <Setter Property="FontSize">
                 	<Setter.Value>
                 		<OnPlatform x:TypeArguments="x:Double">

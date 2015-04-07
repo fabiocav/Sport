@@ -54,7 +54,7 @@ namespace SportChallengeMatchRank.Shared
 				if(accepted)
 				{
 					await ViewModel.JoinLeague();
-					"Behold - you are now a member of {0}".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
+					"Behold! You are now a member of {0}".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
 
 					if(OnJoinedLeague != null)
 					{
