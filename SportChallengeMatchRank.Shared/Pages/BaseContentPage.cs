@@ -19,12 +19,9 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			ViewModel.OnTaskException = (outcome) =>
+			ViewModel.OnTaskException = (exception) =>
 			{
-				if(!outcome.NotifyOnException)
-					return;
-
-				var msg = outcome.Exception.Message;
+				var msg = exception.Message;
 
 				if(msg.Length > 300)
 					msg = msg.Substring(0, 300);

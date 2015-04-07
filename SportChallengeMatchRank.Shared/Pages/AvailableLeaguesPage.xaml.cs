@@ -59,7 +59,13 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			ToolbarItems.Add(btnCancel);
-			await ViewModel.RunSafe(() => ViewModel.GetAvailableLeagues());
+			await ViewModel.GetAvailableLeagues();
+		}
+
+		protected override void OnDisappearing()
+		{
+			ViewModel.CancelTasks();
+			base.OnDisappearing();
 		}
 	}
 

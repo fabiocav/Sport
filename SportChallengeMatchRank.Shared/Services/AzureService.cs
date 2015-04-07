@@ -94,12 +94,15 @@ namespace SportChallengeMatchRank.Shared
 
 		#region League
 
-		async public Task<List<League>> GetAllLeagues()
+		public Task<List<League>> GetAllLeagues()
 		{
-			DataManager.Instance.Leagues.Clear();
-			var list = await Client.GetTable<League>().OrderBy(l => l.Name).ToListAsync();
-			list.ForEach(l => DataManager.Instance.Leagues.AddOrUpdate(l));
-			return list;
+			return new Task<List<League>>(() =>
+				{
+					DataManager.Instance.Leagues.Clear();
+					var list = Client.GetTable<League>().OrderBy(l => l.Name).ToListAsync().Result;
+					list.ForEach(l => DataManager.Instance.Leagues.AddOrUpdate(l));
+					return list;
+				});
 		}
 
 		async public Task GetAllAthletesByLeague(League league)
@@ -225,99 +228,94 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Athlete
 
-		async public Task<List<Athlete>> GetAllAthletes()
+		public Task<List<Athlete>> GetAllAthletes()
 		{
-			DataManager.Instance.Athletes.Clear();
-			var list = await Client.GetTable<Athlete>().OrderBy(a => a.Name).ToListAsync();
-			list.ForEach(a => DataManager.Instance.Athletes.AddOrUpdate(a));
-			return list;
-		}
-
-		async public Task<Athlete> GetAthleteByEmail(string email)
-		{
-			Console.WriteLine("Getting athlete by email" + email);
-			try
-			{
-				var list = await Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync();
-				var athlete = list.FirstOrDefault();
-
-				if(athlete != null)
-					DataManager.Instance.Athletes.AddOrUpdate(athlete);
-
-				return athlete;
-			}
-			catch(Exception)
-			{
-				NotifyOfFailure("Unable to connect to service");
-				throw;
-				//Console.WriteLine(e);
-			}
-		}
-
-		async public Task<Athlete> GetAthleteByAuthUserId(string authUserid)
-		{
-			Console.WriteLine("Getting athlete by id" + authUserid);
-			try
-			{
-				var list = await Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync();
-				var athlete = list.FirstOrDefault();
-
-				if(athlete != null)
-					DataManager.Instance.Athletes.AddOrUpdate(athlete);
-
-				return athlete;				
-			}
-			catch(Exception)
-			{
-				NotifyOfFailure("Unable to connect to service");
-				throw;
-				//Console.WriteLine(e);
-			}
-		}
-
-		async public Task<Athlete> GetAthleteById(string id)
-		{
-			Athlete a;
-			DataManager.Instance.Athletes.TryGetValue(id, out a);
-			a = a ?? await Client.GetTable<Athlete>().LookupAsync(id);
-
-			if(a != null)
-				DataManager.Instance.Athletes.AddOrUpdate(a);
-
-			return a;				
-		}
-
-		async public Task GetAllLeaguesByAthlete(Athlete athlete)
-		{
-			var memberships = await Client.GetTable<Membership>().Where(m => m.AthleteId == athlete.Id).OrderBy(m => m.CurrentRank).ToListAsync();
-			var leagueIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.LeagueId)).Select(m => m.LeagueId).ToList();
-			List<League> leagues;
-
-			leagues = await Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name).ToListAsync();
-
-			foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == athlete.Id).ToList())
-			{
-				Membership mem;
-				DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
-			}
-
-			foreach(var m in memberships)
-			{
-				var league = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
-				league = league ?? DataManager.Instance.Leagues.Get(m.LeagueId);
-
-				if(league == null)
+			return new Task<List<Athlete>>(() =>
 				{
-					await DeleteMembership(m.Id);
-				}
-				
-				DataManager.Instance.Memberships.AddOrUpdate(m);
-				DataManager.Instance.Leagues.AddOrUpdate(league);
-				m.OnPropertyChanged("League");
-			}
+					DataManager.Instance.Athletes.Clear();
+					var list = Client.GetTable<Athlete>().OrderBy(a => a.Name).ToListAsync().Result;
+					list.ForEach(a => DataManager.Instance.Athletes.AddOrUpdate(a));
+					return list;
+				});
+		}
 
-			DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
+		public Task<Athlete> GetAthleteByEmail(string email)
+		{
+			return new Task<Athlete>(() =>
+				{
+					var list = Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync().Result;
+					var athlete = list.FirstOrDefault();
+
+					if(athlete != null)
+						DataManager.Instance.Athletes.AddOrUpdate(athlete);
+
+					return athlete;
+				});
+		}
+
+		public Task<Athlete> GetAthleteByAuthUserId(string authUserid)
+		{
+			return new Task<Athlete>(() =>
+				{
+					var list = Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync().Result;
+					var athlete = list.FirstOrDefault();
+
+					if(athlete != null)
+						DataManager.Instance.Athletes.AddOrUpdate(athlete);
+
+					return athlete;
+				});
+		}
+
+		public Task<Athlete> GetAthleteById(string id)
+		{
+			return new Task<Athlete>(() =>
+				{
+					Athlete a;
+					DataManager.Instance.Athletes.TryGetValue(id, out a);
+					a = a ?? Client.GetTable<Athlete>().LookupAsync(id).Result;
+
+					if(a != null)
+						DataManager.Instance.Athletes.AddOrUpdate(a);
+
+					return a;				
+				});
+		}
+
+		public Task GetAllLeaguesByAthlete(Athlete athlete)
+		{
+			return new Task(() =>
+				{
+					var memberships = Client.GetTable<Membership>().Where(m => m.AthleteId == athlete.Id).OrderBy(m => m.CurrentRank).ToListAsync().Result;
+					var leagueIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.LeagueId)).Select(m => m.LeagueId).ToList();
+					List<League> leagues;
+
+					leagues = Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name).ToListAsync().Result;
+
+					foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == athlete.Id).ToList())
+					{
+						Membership mem;
+						DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
+					}
+
+					foreach(var m in memberships)
+					{
+						var league = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
+						league = league ?? DataManager.Instance.Leagues.Get(m.LeagueId);
+
+						if(league == null)
+						{
+							DeleteMembership(m.Id).RunSynchronously();
+						}
+
+						DataManager.Instance.Memberships.AddOrUpdate(m);
+						DataManager.Instance.Leagues.AddOrUpdate(league);
+						m.OnPropertyChanged("League");
+					}
+
+					DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
+					DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());					
+				});
 		}
 
 		async public Task SaveAthlete(Athlete athlete)
@@ -526,26 +524,22 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		async public Task GetAllChallengesByAthlete(Athlete athlete)
+		public Task GetAllChallengesByAthlete(Athlete athlete)
 		{
-			try
-			{
-				var qs = new Dictionary<string, string>();
-				qs.Add("athleteId", athlete.Id);
-				var challenges = await Client.InvokeApiAsync<string, List<Challenge>>("getChallengesForAthlete", null, HttpMethod.Get, qs);
-				if(challenges != null)
+			return new Task(() =>
 				{
-					Challenge ch;
-					var toRemove = athlete.AllChallenges.ToList();
-					toRemove.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
-					challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
-					athlete.RefreshChallenges();
-				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+					var qs = new Dictionary<string, string>();
+					qs.Add("athleteId", athlete.Id);
+					var challenges = Client.InvokeApiAsync<string, List<Challenge>>("getChallengesForAthlete", null, HttpMethod.Get, qs).Result;
+					if(challenges != null)
+					{
+						Challenge ch;
+						var toRemove = athlete.AllChallenges.ToList();
+						toRemove.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
+						challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
+						athlete.RefreshChallenges();
+					}
+				});
 		}
 
 		async public Task PostMatchResults(Challenge challenge)
@@ -591,12 +585,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		#endregion
-
-		void NotifyOfFailure(string message)
-		{
-			Console.WriteLine("Notification sent for ServiceCallFailed");
-			MessagingCenter.Send<AzureService, string>(this, "ServiceCallFailed", message);
-		}
 	}
 
 	public enum SaveLeagueResult

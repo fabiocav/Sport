@@ -47,8 +47,8 @@ namespace SportChallengeMatchRank.Shared
 			{
 				try
 				{
-					var outcome = await ViewModel.RunSafe(() => ViewModel.ChallengeAthlete(ViewModel.Membership));
-					Challenge challenge = outcome.Result.Result;
+					var outcome = ViewModel.ChallengeAthlete(ViewModel.Membership);
+					Challenge challenge = outcome.Result;
 					if(challenge != null && challenge.Id != null)
 					{
 						"{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);

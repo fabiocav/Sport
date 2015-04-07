@@ -36,7 +36,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(App.CurrentAthlete != null)
 				{
-					await ViewModel.RunSafe(() => ViewModel.EnsureAthleteRegistered());
+					await ViewModel.EnsureAthleteRegistered();
 				}
 
 				await Navigation.PopModalAsync();
@@ -49,12 +49,6 @@ namespace SportChallengeMatchRank.Shared
 
 		async protected override void OnLoaded()
 		{
-			MessagingCenter.Subscribe<AzureService, string>(this, "ServiceCallFailed", (sender, message) =>
-				{
-					Console.WriteLine("Notification received from ServiceCallFailed");
-					message.ToToast(ToastNotificationType.Error);
-				});
-			
 			await AttemptToReauthenticateAthlete();
 			base.OnLoaded();
 		}
@@ -76,7 +70,7 @@ namespace SportChallengeMatchRank.Shared
 
 				try
 				{
-					var success = await ViewModel.RunSafe(() => ViewModel.EnsureAthleteRegistered());
+					var success = ViewModel.EnsureAthleteRegistered();
 					Console.WriteLine(success);
 				}
 				catch(Exception e)
@@ -166,13 +160,13 @@ namespace SportChallengeMatchRank.Shared
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-					_activity,
-					_statusLabel,
-					_userLabel,
-					_athleteLandingButton,
-						_adminButton,
-						_loginButton,
-						_logoutButton
+						_activity,
+						_statusLabel,
+						_userLabel,
+						_athleteLandingButton,
+					_adminButton,
+					_loginButton,
+					_logoutButton
 				}
 			};
 		}

@@ -37,7 +37,13 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await RunSafe(() => GetAvailableLeagues(true)));
+				return new Command(async() =>
+					{
+						var task = AzureService.Instance.GetAllLeagues();
+						await RunSafe(task);
+
+						Console.WriteLine(task.IsCanceled);
+					});
 			}
 		}
 
@@ -64,7 +70,8 @@ namespace SportChallengeMatchRank.Shared
 				}
 
 				Leagues.Clear();
-				await AzureService.Instance.GetAllLeagues();
+				var task = AzureService.Instance.GetAllLeagues();
+				await RunSafe(task);
 				_hasLoadedBefore = true;
 				LocalRefresh();
 

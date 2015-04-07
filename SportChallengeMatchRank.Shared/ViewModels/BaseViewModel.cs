@@ -3,6 +3,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -46,6 +47,86 @@ namespace SportChallengeMatchRank.Shared
 			OnPropertyChanged(propertyName);
 		}
 
+		#region INotifyPropertyChanged implementation
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void OnPropertyChanged(string propertyName)
+		{
+			if(PropertyChanged == null)
+				return;
+
+			PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		#endregion
+
+		#region Task Safety
+
+		public Action<Exception> OnTaskException
+		{
+			get;
+			set;
+		}
+
+		public async Task RunSafe(Task task)
+		{
+			if(!App.IsNetworkRechable)
+			{
+				if(OnTaskException != null)
+					OnTaskException(new WebException("Not connected to the Internet"));
+
+				return;
+			}
+
+			Exception exception = null;
+
+			using(new Busy(this))
+			{
+				try
+				{
+					if(!CancellationToken.IsCancellationRequested)
+					{
+						var task2 = Task.Factory.StartNew(() =>
+							{
+								task.Start();
+								task.Wait();
+								CancellationToken.ThrowIfCancellationRequested();
+							}, CancellationToken);
+
+						await task2;
+
+						Console.WriteLine(task2.IsCanceled);
+					}
+				}
+				catch(TaskCanceledException)
+				{
+					Console.WriteLine("Task Cancelled");
+				}
+				catch(AggregateException e)
+				{
+					var ex = e.InnerException;
+					while(ex.InnerException != null)
+						ex = ex.InnerException;
+
+					exception = ex;
+				}
+				catch(Exception e)
+				{
+					exception = e;
+				}
+			}
+
+			if(exception != null)
+			{
+				//TODO Log to Insights
+				Console.WriteLine(exception);
+
+				if(OnTaskException != null)
+					OnTaskException(exception);
+			}
+		}
+
 		public CancellationToken CancellationToken
 		{
 			get
@@ -63,182 +144,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		#region INotifyPropertyChanged implementation
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string propertyName)
-		{
-			if(PropertyChanged == null)
-				return;
-
-			PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		#endregion
-
-		#region Task Safety
-
-		public Action<TaskOutcomeBase> OnTaskException
-		{
-			get;
-			set;
-		}
-
-		async public Task<TaskOutcome<T>> RunSafe<T>(Func<T> func, bool notifyOnException = true)
-		{
-			var outcome = new TaskOutcome<T> {
-				Task = new Task<T>(func),
-				NotifyOnException = notifyOnException
-			};
-		
-			await RunSafeInternal(outcome.Task, outcome);
-			return outcome;
-		}
-
-		async public Task<TaskOutcome> RunSafe(Action action, bool notifyOnException = true)
-		{
-			var outcome = new TaskOutcome {
-				Task = new Task(action),
-				NotifyOnException = notifyOnException
-			};
-
-			await RunSafeInternal(outcome.Task, outcome);
-			return outcome;
-		}
-
-		async Task<TaskOutcome> RunSafe(Task task, bool notifyOnException = true)
-		{
-			var outcome = new TaskOutcome {
-				Task = task,
-				NotifyOnException = notifyOnException
-			};
-
-			await RunSafeInternal(task, outcome);
-			return outcome;
-		}
-
-		async public Task<TaskOutcome<T>> RunSafe<T>(Task<T> task, bool notifyOnException = true)
-		{
-			var outcome = new TaskOutcome<T> {
-				Task = task,
-				NotifyOnException = notifyOnException
-			};
-		
-			await RunSafeInternal(task, outcome);
-			return outcome;
-		}
-
-		async Task RunSafeInternal(Task task, TaskOutcomeBase outcome)
-		{
-			if(!App.IsNetworkRechable)
-			{
-				outcome.Condition = TaskResult.Failure;
-				outcome.Exception = new Exception("Not connected to network");
-
-				if(OnTaskException != null)
-					OnTaskException(outcome);
-
-				return;
-			}
-
-			using(new Busy(this))
-			{
-				try
-				{
-					task.Start();
-					task.Wait();
-
-					if(task.Exception != null)
-					{
-					}
-
-					outcome.Condition = TaskResult.Success;
-				}
-				catch(TaskCanceledException)
-				{
-					Console.WriteLine("Task Cancelled");
-					outcome.Condition = TaskResult.Cancelled;
-				}
-				catch(Exception e)
-				{
-					outcome.Condition = TaskResult.Failure;
-					outcome.Exception = e;
-					Console.WriteLine(e);
-
-					if(OnTaskException != null)
-						OnTaskException(outcome);
-				}
-			}
-		}
-
 		#endregion
 	}
 
 	#region Helper Classes
 
-	public class TaskOutcomeBase
-	{
-		public TaskOutcomeBase()
-		{
-			NotifyOnException = true;
-		}
-
-		public TaskResult Condition
-		{
-			get;
-			set;
-		}
-
-		public Exception Exception
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Set to false for background methods not necessarily invoked by the user
-		/// </summary>
-		public bool NotifyOnException
-		{
-			get;
-			set;
-		}
-	}
-
-	public class TaskOutcome : TaskOutcomeBase
-	{
-		public Task Task
-		{
-			get;
-			set;
-		}
-	}
-
-	public class TaskOutcome<T> : TaskOutcomeBase
-	{
-		public Task<T> Task
-		{
-			get;
-			set;
-		}
-
-		public T Result
-		{
-			get
-			{
-				return Condition == TaskResult.Success ? Task.Result : default(T);
-			}
-		}
-	}
-
-	public enum TaskResult
-	{
-		None,
-		Success,
-		Failure,
-		Cancelled,
-	}
 
 	public class Busy : IDisposable
 	{

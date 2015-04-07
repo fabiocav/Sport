@@ -21,10 +21,10 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LogOut()
 		{
-//			Settings.Instance.AuthToken = null;
-//			Settings.Instance.AuthUserID = null;
-//			App.AuthUserProfile = null;
-//			Settings.Instance.Save();
+			Settings.Instance.AuthToken = null;
+			Settings.Instance.AuthUserID = null;
+			App.AuthUserProfile = null;
+			Settings.Instance.Save();
 		}
 
 		async public Task<bool> EnsureAthleteRegistered(bool forceRefresh = false)
@@ -38,17 +38,29 @@ namespace SportChallengeMatchRank.Shared
 			//No AthleteId on record
 			if(!string.IsNullOrWhiteSpace(Settings.Instance.AthleteId))
 			{
-				athlete = await AzureService.Instance.GetAthleteById(Settings.Instance.AthleteId);
+				var task = AzureService.Instance.GetAthleteById(Settings.Instance.AthleteId);
+				await RunSafe(task);
+
+				if(task.IsCompleted)
+					athlete = task.Result;
 			}
 
 			if(athlete == null && !string.IsNullOrWhiteSpace(Settings.Instance.AuthUserID))
 			{
-				athlete = await AzureService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
+				var task = AzureService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
+				await RunSafe(task);
+
+				if(task.IsCompleted)
+					athlete = task.Result;
 			}
 
 			if(athlete == null && App.AuthUserProfile != null && !string.IsNullOrWhiteSpace(App.AuthUserProfile.Email))
 			{
-				athlete = await AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
+				var task = AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
+				await RunSafe(task);
+
+				if(task.IsCompleted)
+					athlete = task.Result;
 			}
 
 			//Unable to get athlete - add as new
@@ -80,7 +92,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				try
 				{
-					string json = null;
+					string json;
 					using(var client = new HttpClient())
 					{
 						client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer {0}".Fmt(Settings.Instance.AuthToken));
@@ -102,6 +114,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 				catch(Exception e)
 				{
+					OnTaskException(e);
 					Console.WriteLine("Error getting user profile: {0}", e);
 				}
 			}
