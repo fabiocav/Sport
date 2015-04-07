@@ -77,59 +77,29 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task LoadAthlete()
 		{
-			using(new Busy(this))
-			{
-				try
-				{
-					await AzureService.Instance.GetAthleteById(League.CreatedByAthleteId);
-					League.RefreshMemberships();
-					League.OnPropertyChanged("CreatedByAthlete");
-					OnPropertyChanged("CreatedBy");
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-				}
-			}
+			await RunSafe(AzureService.Instance.GetAthleteById(League.CreatedByAthleteId));
+			League.RefreshMemberships();
+			League.OnPropertyChanged("CreatedByAthlete");
+			OnPropertyChanged("CreatedBy");
 		}
 
 		async public Task JoinLeague()
 		{
-			using(new Busy(this))
-			{
-				try
-				{
-					var membership = new Membership {
-						AthleteId = App.CurrentAthlete.Id,
-						LeagueId = League.Id,
-						CurrentRank = 0,
-					};
+			var membership = new Membership {
+				AthleteId = App.CurrentAthlete.Id,
+				LeagueId = League.Id,
+				CurrentRank = 0,
+			};
 
-					await AzureService.Instance.SaveMembership(membership);
-					OnPropertyChanged("IsMember");
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-				}
-			}
+			await RunSafe(AzureService.Instance.SaveMembership(membership));
+			OnPropertyChanged("IsMember");
 		}
 
 		async public Task LeaveLeague()
 		{
-			using(new Busy(this))
-			{
-				try
-				{
-					var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == League.Id);
-					await AzureService.Instance.DeleteMembership(membership.Id);
-					OnPropertyChanged("IsMember");
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-				}
-			}
+			var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == League.Id);
+			await RunSafe(AzureService.Instance.DeleteMembership(membership.Id));
+			OnPropertyChanged("IsMember");
 		}
 	}
 }

@@ -88,72 +88,53 @@ namespace SportChallengeMatchRank.Shared
 			IsMember = _wasMember;
 		}
 
-		async public Task<SaveLeagueResult> SaveLeague()
+		async public Task<bool> SaveLeague()
 		{
-			using(new Busy(this))
+			League.Name = League.Name ?? League.Name.Trim();
+			League.Sport = League.Sport ?? League.Sport.Trim();
+			League.CreatedByAthleteId = App.CurrentAthlete.Id;
+
+			var task = AzureService.Instance.SaveLeague(League);
+			await RunSafe(task);
+
+			if(task.IsFaulted)
+				return false;
+
+			await RunSafe(AzureService.Instance.SaveLeague(League));
+
+			if(!_wasMember && IsMember)
 			{
-				SaveLeagueResult result;
-				try
-				{
-					League.Name = League.Name ?? League.Name.Trim();
-					League.Sport = League.Sport ?? League.Sport.Trim();
-					League.CreatedByAthleteId = App.CurrentAthlete.Id;
+				var membership = new Membership {
+					AthleteId = App.CurrentAthlete.Id,
+					LeagueId = League.Id,
+					CurrentRank = 0,
+				};
 
-					result = await AzureService.Instance.SaveLeague(League);
-
-					if(!_wasMember && IsMember && result == SaveLeagueResult.OK)
-					{
-						var membership = new Membership {
-							AthleteId = App.CurrentAthlete.Id,
-							LeagueId = League.Id,
-							CurrentRank = 0,
-						};
-
-						await AzureService.Instance.SaveMembership(membership);
-					}
-				}
-				catch(Exception e)
-				{
-					result = SaveLeagueResult.Failed;
-					Console.WriteLine(e);
-				}
-
-				return result;
+				task = AzureService.Instance.SaveMembership(membership);
+				await RunSafe(task);
+				return !task.IsFaulted;
 			}
+
+			return true;
 		}
 
 		async public Task DeleteLeague()
 		{
-			using(new Busy(this))
-			{
-				try
-				{
-					await AzureService.Instance.DeleteLeague(League.Id);
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-				}
-			}
+			await RunSafe(AzureService.Instance.DeleteLeague(League.Id));
 		}
 
 		async public Task<DateTime?> StartLeague()
 		{
-			using(new Busy(this))
-			{
-				try
-				{
-					var date = await AzureService.Instance.StartLeague(League.Id);
-					League.HasStarted = date != null;
-					OnPropertyChanged("CanStartLeague");
-					return date;
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-					throw new Exception("League does not have the minimum amount of players (4) to begin");
-				}
-			}
+			var task = AzureService.Instance.StartLeague(League.Id);
+			await task;
+
+			if(!task.IsCompleted)
+				return null;
+
+			var date = task.Result;
+			League.HasStarted = date != null;
+			OnPropertyChanged("CanStartLeague");
+			return date;
 		}
 
 		public bool IsValid()
@@ -169,7 +150,7 @@ namespace SportChallengeMatchRank.Shared
 				sb.AppendLine("enter a sport");
 			}
 
-			ErrorMessage = sb.Length > 0 ? sb.ToString() : null;
+			ErrorMessage = sb.Length > 0 ? sb.ToString().Trim() : null;
 			return ErrorMessage == null;
 		}
 	}

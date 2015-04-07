@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<local:LeagueEditXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.LeagueEditPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+<local:LeagueEditXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.LeagueEditPage"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:LeagueEditXaml.Content>
 
 	<ScrollView>
-		<Grid Padding="20,10,20,60">
+		<Grid Padding="20,10,20,0">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
-				<RowDefinition Height="100" />
+				<RowDefinition Height="150" />
 			</Grid.RowDefinitions>
 
 			<StackLayout Grid.Row="0" Spacing="10" VerticalOptions="Center">
@@ -58,7 +60,7 @@
 				</StackLayout>
 
 				<Image Source="{Binding League.ImageUrl}" HeightRequest="50" WidthRequest="70" />
-				<Button Image="{Binding League.ImageUrl}" Clicked="OnSelectPhotoButtonClicked" />
+				<Button Text="Select Image" Clicked="OnSelectPhotoButtonClicked" />
 
 			</StackLayout>
 
@@ -74,10 +76,6 @@
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End"
 						IsVisible="{Binding League.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
 			</StackLayout>
-
-			<Frame x:Name="errorView" VerticalOptions="Start" BackgroundColor="#AA000000" Padding="30,30,30,20" HasShadow="false" IsVisible="false">
-				<Label Text="{Binding ErrorMessage}" TextColor="Red" Style="{StaticResource labelStyle}" />
-			</Frame>
 
 		</Grid>
 	</ScrollView>

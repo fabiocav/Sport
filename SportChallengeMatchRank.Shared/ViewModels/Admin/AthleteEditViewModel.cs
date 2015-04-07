@@ -45,32 +45,12 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task SaveAthlete()
 		{
-			using(new Busy(this))
-			{
-				try
-				{
-					await AzureService.Instance.SaveAthlete(Athlete);
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-				}
-			}
+			await RunSafe(AzureService.Instance.SaveAthlete(Athlete));
 		}
 
 		async public Task DeleteAthlete()
 		{
-			using(new Busy(this))
-			{
-				try
-				{
-					await AzureService.Instance.DeleteAthlete(Athlete.Id);
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-				}
-			}
+			await RunSafe(AzureService.Instance.DeleteAthlete(Athlete.Id));
 		}
 	}
 }

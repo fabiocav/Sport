@@ -81,40 +81,32 @@ namespace SportChallengeMatchRank.Shared
 
 			Exception exception = null;
 
-			using(new Busy(this))
+			try
 			{
-				try
+				if(!CancellationToken.IsCancellationRequested)
 				{
-					if(!CancellationToken.IsCancellationRequested)
+					using(new Busy(this))
 					{
-						var task2 = Task.Factory.StartNew(() =>
-							{
-								task.Start();
-								task.Wait();
-								CancellationToken.ThrowIfCancellationRequested();
-							}, CancellationToken);
-
-						await task2;
-
-						Console.WriteLine(task2.IsCanceled);
+						task.Start();
+						task.Wait();
 					}
 				}
-				catch(TaskCanceledException)
-				{
-					Console.WriteLine("Task Cancelled");
-				}
-				catch(AggregateException e)
-				{
-					var ex = e.InnerException;
-					while(ex.InnerException != null)
-						ex = ex.InnerException;
+			}
+			catch(TaskCanceledException)
+			{
+				Console.WriteLine("Task Cancelled");
+			}
+			catch(AggregateException e)
+			{
+				var ex = e.InnerException;
+				while(ex.InnerException != null)
+					ex = ex.InnerException;
 
-					exception = ex;
-				}
-				catch(Exception e)
-				{
-					exception = e;
-				}
+				exception = ex;
+			}
+			catch(Exception e)
+			{
+				exception = e;
 			}
 
 			if(exception != null)

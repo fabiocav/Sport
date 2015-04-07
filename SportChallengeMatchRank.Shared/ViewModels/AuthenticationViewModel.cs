@@ -67,7 +67,7 @@ namespace SportChallengeMatchRank.Shared
 			if(athlete == null)
 			{
 				athlete = new Athlete(App.AuthUserProfile);
-				await AzureService.Instance.SaveAthlete(athlete);
+				await RunSafe(AzureService.Instance.SaveAthlete(athlete));
 			}
 
 			Settings.Instance.AthleteId = athlete != null ? athlete.Id : null;
@@ -75,9 +75,9 @@ namespace SportChallengeMatchRank.Shared
 
 			if(App.CurrentAthlete != null)
 			{
-				await AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
-				await AzureService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete);
-				await AzureService.Instance.UpdateAthleteRegistrationForPush();
+				await RunSafe(AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
+				await RunSafe(AzureService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete));
+				await RunSafe(AzureService.Instance.UpdateAthleteRegistrationForPush());
 			}
 
 			return App.CurrentAthlete != null;

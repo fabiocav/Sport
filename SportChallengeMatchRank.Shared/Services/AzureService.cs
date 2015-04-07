@@ -48,8 +48,8 @@ namespace SportChallengeMatchRank.Shared
 					#endif
 
 					_client = new MobileServiceClient(Constants.AzureDomain, Constants.AzureClientId, new HttpMessageHandler[] {
-							handler
-						});
+						handler
+					});
 					CurrentPlatform.Init();
 				}
 
@@ -61,33 +61,39 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Push Notifications
 
-		async public Task UpdateAthleteRegistrationForPush()
+		public Task UpdateAthleteRegistrationForPush()
 		{
-			if(App.CurrentAthlete == null || App.CurrentAthlete.Id == null || App.DeviceToken == null)
-				return;
-
-			var tags = new List<string> {
-				App.CurrentAthlete.Id,
-				"All",
-			};
-
-			App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
-			tags.ForEach(Console.WriteLine);
-			var push = AzureService.Instance.Client.GetPush();
-			//push.RegisterTemplateAsync
-			await push.RegisterNativeAsync(App.DeviceToken, tags);
-
-			if(App.CurrentAthlete.Id != null)
+			return new Task(() =>
 			{
-				App.CurrentAthlete.DeviceToken = App.DeviceToken;
-				await AzureService.Instance.SaveAthlete(App.CurrentAthlete);
-			}
+				if(App.CurrentAthlete == null || App.CurrentAthlete.Id == null || App.DeviceToken == null)
+					return;
+
+				var tags = new List<string> {
+					App.CurrentAthlete.Id,
+					"All",
+				};
+
+				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
+				tags.ForEach(Console.WriteLine);
+				var push = AzureService.Instance.Client.GetPush();
+				//push.RegisterTemplateAsync
+				push.RegisterNativeAsync(App.DeviceToken, tags).Wait();
+
+				if(App.CurrentAthlete.Id != null)
+				{
+					App.CurrentAthlete.DeviceToken = App.DeviceToken;
+					AzureService.Instance.SaveAthlete(App.CurrentAthlete).Wait();
+				}
+			});
 		}
 
-		async public Task UnregisterAthleteForPush()
+		public Task UnregisterAthleteForPush()
 		{
-			var push = AzureService.Instance.Client.GetPush();
-			await push.UnregisterNativeAsync();
+			return new Task(() =>
+			{
+				var push = AzureService.Instance.Client.GetPush();
+				push.UnregisterNativeAsync().Wait();
+			});
 		}
 
 		#endregion
@@ -97,131 +103,127 @@ namespace SportChallengeMatchRank.Shared
 		public Task<List<League>> GetAllLeagues()
 		{
 			return new Task<List<League>>(() =>
-				{
-					DataManager.Instance.Leagues.Clear();
-					var list = Client.GetTable<League>().OrderBy(l => l.Name).ToListAsync().Result;
-					list.ForEach(l => DataManager.Instance.Leagues.AddOrUpdate(l));
-					return list;
-				});
+			{
+				DataManager.Instance.Leagues.Clear();
+				var list = Client.GetTable<League>().OrderBy(l => l.Name).ToListAsync().Result;
+				list.ForEach(l => DataManager.Instance.Leagues.AddOrUpdate(l));
+				return list;
+			});
 		}
 
-		async public Task GetAllAthletesByLeague(League league)
+		public Task GetAllAthletesByLeague(League league)
 		{
-			var memberships = await Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync();
-			var athleteIds = memberships.Where(m => !DataManager.Instance.Athletes.ContainsKey(m.AthleteId)).Select(m => m.AthleteId).ToList();
-			var athletes = new List<Athlete>();
-
-			if(athleteIds != null && athleteIds.Count > 0)
+			return new Task(() =>
 			{
-				athleteIds.ForEach(Console.WriteLine);
-				athletes = await Client.GetTable<Athlete>().Where(a => athleteIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync();
-			}
+				var memberships = Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync().Result;
+				var athleteIds = memberships.Where(m => !DataManager.Instance.Athletes.ContainsKey(m.AthleteId)).Select(m => m.AthleteId).ToList();
+				var athletes = new List<Athlete>();
 
-			foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == league.Id).ToList())
-			{
-				Membership mem;
-				DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
-			}
-
-			foreach(var m in memberships)
-			{
-				var athlete = athletes.SingleOrDefault(a => a.Id == m.AthleteId);
-				athlete = athlete ?? DataManager.Instance.Athletes.Get(m.AthleteId);
-
-				if(athlete == null)
+				if(athleteIds != null && athleteIds.Count > 0)
 				{
-					await DeleteMembership(m.Id);
-					continue;
+					athleteIds.ForEach(Console.WriteLine);
+					athletes = Client.GetTable<Athlete>().Where(a => athleteIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync().Result;
 				}
 
-				DataManager.Instance.Memberships.AddOrUpdate(m);
-				DataManager.Instance.Athletes.AddOrUpdate(athlete);
-				m.OnPropertyChanged("Athlete");
-			}
+				foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == league.Id).ToList())
+				{
+					Membership mem;
+					DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
+				}
 
-			DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-			DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
+				foreach(var m in memberships)
+				{
+					var athlete = athletes.SingleOrDefault(a => a.Id == m.AthleteId);
+					athlete = athlete ?? DataManager.Instance.Athletes.Get(m.AthleteId);
+
+					if(athlete == null)
+					{
+						DeleteMembership(m.Id).Wait();
+						continue;
+					}
+
+					DataManager.Instance.Memberships.AddOrUpdate(m);
+					DataManager.Instance.Athletes.AddOrUpdate(athlete);
+					m.OnPropertyChanged("Athlete");
+				}
+
+				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
+				DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
+			});
 		}
 
-		async public Task<List<League>> GetAllEnabledLeagues()
+		public Task<List<League>> GetAllEnabledLeagues()
 		{
-			var list = await Client.GetTable<League>().Where(l => l.IsEnabled).OrderBy(l => l.Name).ToListAsync();
-			return list;
+			return new Task<List<League>>(() =>
+			{
+				var list = Client.GetTable<League>().Where(l => l.IsEnabled).OrderBy(l => l.Name).ToListAsync().Result;
+				return list;
+			});
 		}
 
-		async public Task<League> GetLeagueById(string id)
+		public Task<League> GetLeagueById(string id)
 		{
-			try
+			return new Task<League>(() =>
 			{
 				League a;
 				DataManager.Instance.Leagues.TryGetValue(id, out a);
-				a = a ?? await Client.GetTable<League>().LookupAsync(id);
+				a = a ?? Client.GetTable<League>().LookupAsync(id).Result;
 				DataManager.Instance.Leagues.AddOrUpdate(a);
 				return a;
-			}
-			catch(Exception e)
+			});
+		}
+
+		public Task<League> GetLeagueByName(string name)
+		{
+			return new Task<League>(() =>
 			{
-				Console.WriteLine(e);
-			}
-
-			return null;
+				var list = Client.GetTable<League>().Where(l => l.Name == name).Take(1).ToListAsync().Result;
+				DefaultLeague = list.FirstOrDefault();
+				return DefaultLeague;
+			});
 		}
 
-		async public Task<League> GetLeagueByName(string name)
+		public Task SaveLeague(League league)
 		{
-			var list = await Client.GetTable<League>().Where(l => l.Name == name).Take(1).ToListAsync();
-			DefaultLeague = list.FirstOrDefault();
-			return DefaultLeague;
-		}
-
-		async public Task<SaveLeagueResult> SaveLeague(League league)
-		{
-			try
+			return new Task(() =>
 			{
 				if(league.Id == null)
 				{
-					await Client.GetTable<League>().InsertAsync(league);
+					Client.GetTable<League>().InsertAsync(league).Wait();
 				}
 				else
 				{
-					await Client.GetTable<League>().UpdateAsync(league);
+					Client.GetTable<League>().UpdateAsync(league).Wait();
 				}
 
 				DataManager.Instance.Leagues.AddOrUpdate(league);
-				return SaveLeagueResult.OK;
-			}
-			catch(MobileServiceConflictException)
-			{
-				return SaveLeagueResult.Conflict;
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-				return SaveLeagueResult.Failed;
-			}
+			});
 		}
 
-		async public Task DeleteLeague(string id)
+		public Task DeleteLeague(string id)
 		{
-			League l;
-			try
+			return new Task(() =>
 			{
-				await Client.GetTable<League>().DeleteAsync(new League {
-						Id = id
-					});
-				DataManager.Instance.Leagues.TryRemove(id, out l);
-			}
-			catch(HttpRequestException hre)
-			{
-				if(hre.Message.ContainsNoCase("not found"))
+				League l;
+				try
 				{
+					Client.GetTable<League>().DeleteAsync(new League {
+						Id = id
+					}).Wait();
 					DataManager.Instance.Leagues.TryRemove(id, out l);
 				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+				catch(HttpRequestException hre)
+				{
+					if(hre.Message.ContainsNoCase("not found"))
+					{
+						DataManager.Instance.Leagues.TryRemove(id, out l);
+					}
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e);
+				}
+			});
 		}
 
 		#endregion
@@ -231,96 +233,96 @@ namespace SportChallengeMatchRank.Shared
 		public Task<List<Athlete>> GetAllAthletes()
 		{
 			return new Task<List<Athlete>>(() =>
-				{
-					DataManager.Instance.Athletes.Clear();
-					var list = Client.GetTable<Athlete>().OrderBy(a => a.Name).ToListAsync().Result;
-					list.ForEach(a => DataManager.Instance.Athletes.AddOrUpdate(a));
-					return list;
-				});
+			{
+				DataManager.Instance.Athletes.Clear();
+				var list = Client.GetTable<Athlete>().OrderBy(a => a.Name).ToListAsync().Result;
+				list.ForEach(a => DataManager.Instance.Athletes.AddOrUpdate(a));
+				return list;
+			});
 		}
 
 		public Task<Athlete> GetAthleteByEmail(string email)
 		{
 			return new Task<Athlete>(() =>
-				{
-					var list = Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync().Result;
-					var athlete = list.FirstOrDefault();
+			{
+				var list = Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync().Result;
+				var athlete = list.FirstOrDefault();
 
-					if(athlete != null)
-						DataManager.Instance.Athletes.AddOrUpdate(athlete);
+				if(athlete != null)
+					DataManager.Instance.Athletes.AddOrUpdate(athlete);
 
-					return athlete;
-				});
+				return athlete;
+			});
 		}
 
 		public Task<Athlete> GetAthleteByAuthUserId(string authUserid)
 		{
 			return new Task<Athlete>(() =>
-				{
-					var list = Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync().Result;
-					var athlete = list.FirstOrDefault();
+			{
+				var list = Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync().Result;
+				var athlete = list.FirstOrDefault();
 
-					if(athlete != null)
-						DataManager.Instance.Athletes.AddOrUpdate(athlete);
+				if(athlete != null)
+					DataManager.Instance.Athletes.AddOrUpdate(athlete);
 
-					return athlete;
-				});
+				return athlete;
+			});
 		}
 
 		public Task<Athlete> GetAthleteById(string id)
 		{
 			return new Task<Athlete>(() =>
-				{
-					Athlete a;
-					DataManager.Instance.Athletes.TryGetValue(id, out a);
-					a = a ?? Client.GetTable<Athlete>().LookupAsync(id).Result;
+			{
+				Athlete a;
+				DataManager.Instance.Athletes.TryGetValue(id, out a);
+				a = a ?? Client.GetTable<Athlete>().LookupAsync(id).Result;
 
-					if(a != null)
-						DataManager.Instance.Athletes.AddOrUpdate(a);
+				if(a != null)
+					DataManager.Instance.Athletes.AddOrUpdate(a);
 
-					return a;				
-				});
+				return a;				
+			});
 		}
 
 		public Task GetAllLeaguesByAthlete(Athlete athlete)
 		{
 			return new Task(() =>
+			{
+				var memberships = Client.GetTable<Membership>().Where(m => m.AthleteId == athlete.Id).OrderBy(m => m.CurrentRank).ToListAsync().Result;
+				var leagueIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.LeagueId)).Select(m => m.LeagueId).ToList();
+				List<League> leagues;
+
+				leagues = Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name).ToListAsync().Result;
+
+				foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == athlete.Id).ToList())
 				{
-					var memberships = Client.GetTable<Membership>().Where(m => m.AthleteId == athlete.Id).OrderBy(m => m.CurrentRank).ToListAsync().Result;
-					var leagueIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.LeagueId)).Select(m => m.LeagueId).ToList();
-					List<League> leagues;
+					Membership mem;
+					DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
+				}
 
-					leagues = Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name).ToListAsync().Result;
+				foreach(var m in memberships)
+				{
+					var league = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
+					league = league ?? DataManager.Instance.Leagues.Get(m.LeagueId);
 
-					foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == athlete.Id).ToList())
+					if(league == null)
 					{
-						Membership mem;
-						DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
+						DeleteMembership(m.Id).Wait();
 					}
 
-					foreach(var m in memberships)
-					{
-						var league = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
-						league = league ?? DataManager.Instance.Leagues.Get(m.LeagueId);
+					DataManager.Instance.Memberships.AddOrUpdate(m);
+					DataManager.Instance.Leagues.AddOrUpdate(league);
+					m.OnPropertyChanged("League");
+				}
 
-						if(league == null)
-						{
-							DeleteMembership(m.Id).RunSynchronously();
-						}
-
-						DataManager.Instance.Memberships.AddOrUpdate(m);
-						DataManager.Instance.Leagues.AddOrUpdate(league);
-						m.OnPropertyChanged("League");
-					}
-
-					DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-					DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());					
-				});
+				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
+				DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());					
+			});
 		}
 
-		async public Task SaveAthlete(Athlete athlete)
+		public Task SaveAthlete(Athlete athlete)
 		{
-			try
+			return new Task(() =>
 			{
 				if(athlete.Id == null)
 				{
@@ -329,259 +331,250 @@ namespace SportChallengeMatchRank.Shared
 
 					//Stopped here - need to handle conflicts
 					athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
-					await Client.GetTable<Athlete>().InsertAsync(athlete);
+					Client.GetTable<Athlete>().InsertAsync(athlete).Wait();
 				}
 				else
 				{
-					await Client.GetTable<Athlete>().UpdateAsync(athlete);
+					Client.GetTable<Athlete>().UpdateAsync(athlete).Wait();
 				}
 
 				DataManager.Instance.Athletes.AddOrUpdate(athlete);
-			}
-			catch(MobileServiceConflictException conflict)
-			{
-				
-			}
-			catch(Exception)
-			{
-					
-			}
+			});
 		}
 
-		async public Task DeleteAthlete(string id)
+		public Task DeleteAthlete(string id)
 		{
-			Athlete a;
-			try
+			return new Task(() =>
 			{
-				await Client.GetTable<Athlete>().DeleteAsync(new Athlete {
-						Id = id
-					});
-
-				DataManager.Instance.Athletes.TryRemove(id, out a);
-				await AzureService.Instance.UnregisterAthleteForPush();
-			}
-			catch(HttpRequestException hre)
-			{
-				if(hre.Message.ContainsNoCase("not found"))
+				Athlete a;
+				try
 				{
+					Client.GetTable<Athlete>().DeleteAsync(new Athlete {
+						Id = id
+					}).Wait();
+
 					DataManager.Instance.Athletes.TryRemove(id, out a);
+					AzureService.Instance.UnregisterAthleteForPush().Wait();
 				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+				catch(HttpRequestException hre)
+				{
+					if(hre.Message.ContainsNoCase("not found"))
+					{
+						DataManager.Instance.Athletes.TryRemove(id, out a);
+					}
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e);
+				}
+			});
 		}
 
 		#endregion
 
 		#region Membership
 
-		async public Task GetMembershipsForLeague(League league)
+		public Task GetMembershipsForLeague(League league)
 		{
-			var list = await Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync();
-
-			league.Memberships.Clear();
-			foreach(var m in list)
+			return new Task(() =>
 			{
-				league.Memberships.Add(m);
-				DataManager.Instance.Memberships.AddOrUpdate(m);
-			}
+				var list = Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync().Result;
+
+				league.Memberships.Clear();
+				foreach(var m in list)
+				{
+					league.Memberships.Add(m);
+					DataManager.Instance.Memberships.AddOrUpdate(m);
+				}
+			});
+
 		}
 
-		async public Task<Membership> GetMembershipById(string id)
+		public Task<Membership> GetMembershipById(string id)
 		{
-			try
+			return new Task<Membership>(() =>
 			{
 				Membership a;
 				DataManager.Instance.Memberships.TryGetValue(id, out a);
-				return a ?? await Client.GetTable<Membership>().LookupAsync(id);
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
-
-			return null;
+				return a ?? Client.GetTable<Membership>().LookupAsync(id).Result;
+			});
 		}
 
-		async public Task<DateTime?> StartLeague(string id)
+		public Task<DateTime?> StartLeague(string id)
 		{
-			try
+			return new Task<DateTime?>(() =>
 			{
 				var qs = new Dictionary<string, string>();
 				qs.Add("id", id);
-				var dateTime = await Client.InvokeApiAsync("startLeague", null, HttpMethod.Post, qs);
+				var dateTime = Client.InvokeApiAsync("startLeague", null, HttpMethod.Post, qs).Result;
 				return (DateTime)dateTime.Root;
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
-
-			return null;
+			});
 		}
 
-		async public Task SaveMembership(Membership membership)
+		public Task SaveMembership(Membership membership)
 		{
-			if(membership.Id == null)
+			return new Task(() =>
 			{
-				await Client.GetTable<Membership>().InsertAsync(membership);
-			}
-			else
-			{
-				await Client.GetTable<Membership>().UpdateAsync(membership);
-			}
+				if(membership.Id == null)
+				{
+					Client.GetTable<Membership>().InsertAsync(membership).Wait();
+				}
+				else
+				{
+					Client.GetTable<Membership>().UpdateAsync(membership).Wait();
+				}
 
-			DataManager.Instance.Memberships.AddOrUpdate(membership);
-			membership.LocalRefresh();
+				DataManager.Instance.Memberships.AddOrUpdate(membership);
+				membership.LocalRefresh();
 
-			await AzureService.Instance.UpdateAthleteRegistrationForPush();
+				AzureService.Instance.UpdateAthleteRegistrationForPush().Wait();
+			});
 		}
 
-		async public Task DeleteMembership(string id)
+		public Task DeleteMembership(string id)
 		{
-			Membership m;
-			try
+			return new Task(() =>
 			{
-				await Client.GetTable<Membership>().DeleteAsync(new Membership {
+				Membership m;
+				try
+				{
+					Client.GetTable<Membership>().DeleteAsync(new Membership {
 						Id = id
-					});
+					}).Wait();
 
-				DataManager.Instance.Memberships.TryRemove(id, out m);
-				m.LocalRefresh();
+					DataManager.Instance.Memberships.TryRemove(id, out m);
+					m.LocalRefresh();
 
-				var challenges = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == m.LeagueId
+					var challenges = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == m.LeagueId
 					                 && c.ChallengerAthleteId == m.AthleteId
 					                 || c.ChallengeeAthleteId == m.AthleteId).ToList();
 
-				Challenge ch;
-				challenges.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
+					Challenge ch;
+					challenges.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
 
-				if(m.Athlete != null)
-					m.Athlete.RefreshChallenges();
+					if(m.Athlete != null)
+						m.Athlete.RefreshChallenges();
 
-				await AzureService.Instance.UpdateAthleteRegistrationForPush();
-			}
-			catch(HttpRequestException hre)
-			{
-				if(hre.Message.ContainsNoCase("not found"))
-				{
-					DataManager.Instance.Memberships.TryRemove(id, out m);
+					AzureService.Instance.UpdateAthleteRegistrationForPush().Wait();
 				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+				catch(HttpRequestException hre)
+				{
+					if(hre.Message.ContainsNoCase("not found"))
+					{
+						DataManager.Instance.Memberships.TryRemove(id, out m);
+					}
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e);
+				}
+			});			
 		}
 
 		#endregion
 
 		#region Challenge
 
-		async public Task SaveChallenge(Challenge challenge)
+		public Task SaveChallenge(Challenge challenge)
 		{
-			if(challenge.Id == null)
+			return new Task(() =>
 			{
-				await Client.GetTable<Challenge>().InsertAsync(challenge);
-			}
-			else
-			{
-				await Client.GetTable<Challenge>().UpdateAsync(challenge);
-			}
+				if(challenge.Id == null)
+				{
+					Client.GetTable<Challenge>().InsertAsync(challenge).Wait();
+				}
+				else
+				{
+					Client.GetTable<Challenge>().UpdateAsync(challenge).Wait();
+				}
 
-			DataManager.Instance.Challenges.AddOrUpdate(challenge);
+				DataManager.Instance.Challenges.AddOrUpdate(challenge);
 
-			if(challenge.ChallengeeAthlete != null)
-				challenge.ChallengeeAthlete.RefreshChallenges();
+				if(challenge.ChallengeeAthlete != null)
+					challenge.ChallengeeAthlete.RefreshChallenges();
 
-			if(challenge.ChallengerAthlete != null)
-				challenge.ChallengerAthlete.RefreshChallenges();
+				if(challenge.ChallengerAthlete != null)
+					challenge.ChallengerAthlete.RefreshChallenges();
+			});
 		}
 
-		async public Task DeleteChallenge(string id)
+		public Task DeleteChallenge(string id)
 		{
-			Challenge m;
-			try
+			return new Task(() =>
 			{
-				await Client.GetTable<Challenge>().DeleteAsync(new Challenge {
-						Id = id
-					});
-
-				DataManager.Instance.Challenges.TryRemove(id, out m);
-			}
-			catch(HttpRequestException hre)
-			{
-				if(hre.Message.ContainsNoCase("not found"))
+				Challenge m;
+				try
 				{
+					Client.GetTable<Challenge>().DeleteAsync(new Challenge {
+						Id = id
+					}).Wait();
+
 					DataManager.Instance.Challenges.TryRemove(id, out m);
 				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+				catch(HttpRequestException hre)
+				{
+					if(hre.Message.ContainsNoCase("not found"))
+					{
+						DataManager.Instance.Challenges.TryRemove(id, out m);
+					}
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e);
+				}
+			});
 		}
 
 		public Task GetAllChallengesByAthlete(Athlete athlete)
 		{
 			return new Task(() =>
+			{
+				var qs = new Dictionary<string, string>();
+				qs.Add("athleteId", athlete.Id);
+				var challenges = Client.InvokeApiAsync<string, List<Challenge>>("getChallengesForAthlete", null, HttpMethod.Get, qs).Result;
+				if(challenges != null)
 				{
-					var qs = new Dictionary<string, string>();
-					qs.Add("athleteId", athlete.Id);
-					var challenges = Client.InvokeApiAsync<string, List<Challenge>>("getChallengesForAthlete", null, HttpMethod.Get, qs).Result;
-					if(challenges != null)
-					{
-						Challenge ch;
-						var toRemove = athlete.AllChallenges.ToList();
-						toRemove.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
-						challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
-						athlete.RefreshChallenges();
-					}
-				});
+					Challenge ch;
+					var toRemove = athlete.AllChallenges.ToList();
+					toRemove.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
+					challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
+					athlete.RefreshChallenges();
+				}
+			});
 		}
 
-		async public Task PostMatchResults(Challenge challenge)
+		public Task PostMatchResults(Challenge challenge)
 		{
-			try
+			return new Task(() =>
 			{
-				var completedChallenge = await Client.InvokeApiAsync<List<GameResult>, Challenge>("postMatchResults", challenge.MatchResult);
+				var completedChallenge = Client.InvokeApiAsync<List<GameResult>, Challenge>("postMatchResults", challenge.MatchResult).Result;
 				if(completedChallenge != null)
 				{
 					challenge.DateCompleted = completedChallenge.DateCompleted;
 					challenge.MatchResult = new List<GameResult>();
 					completedChallenge.MatchResult.ForEach(challenge.MatchResult.Add);
 				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+			});
 		}
 
-		async public Task AcceptChallenge(Challenge challenge)
+		public Task AcceptChallenge(Challenge challenge)
 		{
-			try
+			return new Task(() =>
 			{
 				var qs = new Dictionary<string, string>();
 				qs.Add("challengeId", challenge.Id);
-				var token = await Client.InvokeApiAsync("acceptChallenge", null, HttpMethod.Post, qs);
+				var token = Client.InvokeApiAsync("acceptChallenge", null, HttpMethod.Post, qs).Result;
 				var acceptedChallenge = JsonConvert.DeserializeObject<Challenge>(token.ToString());
 				if(acceptedChallenge != null)
 				{
 					challenge.DateAccepted = acceptedChallenge.DateAccepted;
 				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
+			});
 		}
 
-		async public Task DeclineChallenge(string challengeId)
+		public Task DeclineChallenge(string challengeId)
 		{
-			await DeleteChallenge(challengeId);
+			return DeleteChallenge(challengeId);
 		}
 
 		#endregion

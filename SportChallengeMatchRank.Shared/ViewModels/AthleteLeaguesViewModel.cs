@@ -55,9 +55,7 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			Athlete.RefreshMemberships();
-			var task = AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
-			await RunSafe(task);
-
+			await RunSafe(AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
 			_hasLoadedBefore = true;
 			Athlete.RefreshMemberships();
 			OnPropertyChanged("Athlete");

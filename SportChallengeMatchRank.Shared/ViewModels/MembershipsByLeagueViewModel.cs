@@ -54,11 +54,8 @@ namespace SportChallengeMatchRank.Shared
 			if(!forceRefresh && Athlete.Memberships != null && Athlete.Memberships.Count > 0)
 				return;
 			
-			using(new Busy(this))
-			{
-				await AzureService.Instance.GetAllLeaguesByAthlete(Athlete);
-				LocalRefresh();
-			}
+			await RunSafe(AzureService.Instance.GetAllLeaguesByAthlete(Athlete));
+			LocalRefresh();
 		}
 
 		public ICommand GetAllMembershipsByLeagueCommand
@@ -84,12 +81,9 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			LocalRefresh();
-			using(new Busy(this))
-			{
-				await AzureService.Instance.GetAllAthletesByLeague(League);
-				_hasLoadedBefore = true;
-				LocalRefresh();
-			}
+			await RunSafe(AzureService.Instance.GetAllAthletesByLeague(League));
+			_hasLoadedBefore = true;
+			LocalRefresh();
 		}
 	}
 }

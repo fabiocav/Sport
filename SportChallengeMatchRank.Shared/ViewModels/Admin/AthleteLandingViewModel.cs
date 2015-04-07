@@ -28,7 +28,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetAllAthletes(true));
+				return new Command(async() => await GetAllAthletes());
 			}
 		}
 
@@ -44,13 +44,9 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			
 			AllAthletes.Clear();
-			using(new Busy(this))
-			{
-				await Task.Delay(1000);
-				await AzureService.Instance.GetAllAthletes();
-				_hasLoadedBefore = true;
-				LocalRefresh();
-			}
+			await RunSafe(AzureService.Instance.GetAllAthletes());
+			_hasLoadedBefore = true;
+			LocalRefresh();
 		}
 	}
 }

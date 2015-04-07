@@ -12,21 +12,23 @@ namespace SportChallengeMatchRank.Shared
 		{
 			var id = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
 			Children.Add(new NavigationPage(new AthleteLeaguesPage()) {
-					Title = "My Leagues"
-				});
+				Title = "My Leagues"
+			});
 			Children.Add(new NavigationPage(new AthleteChallengesPage(id)) {
-					Title = "My Challenges"
-				});
+				Title = "My Challenges"
+			});
 			Children.Add(new NavigationPage(new AdminPage()) {
-					Title = "Admin"
-				});
+				Title = "Admin"
+			});
 
 			Application.Current.ModalPopped += (sender, e) =>
 			{
+				Console.WriteLine("A: " + App.CurrentAthlete);
 				if(e.Modal is AuthenticationPage && App.CurrentAthlete != null)
 				{
 					DependencyService.Get<AthleteChallengesViewModel>().AthleteId = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
 					DependencyService.Get<AthleteLeaguesViewModel>().AthleteId = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
+					Console.WriteLine("Authenticated!");
 				}
 			};
 		}

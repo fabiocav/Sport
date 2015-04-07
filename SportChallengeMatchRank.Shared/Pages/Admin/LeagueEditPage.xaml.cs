@@ -88,35 +88,20 @@ namespace SportChallengeMatchRank.Shared
 		{
 			if(!ViewModel.IsValid())
 			{
-				errorView.Opacity = 0.0;
-				errorView.IsVisible = true;
-				await errorView.FadeTo(1.0);
-				await Task.Delay(2000);
-				await errorView.FadeTo(0.0);
-				errorView.IsVisible = false;
+				ViewModel.ErrorMessage.ToToast(ToastNotificationType.Error, "Please fix these errors");
 				return;
 			}
 
-			var result = await ViewModel.SaveLeague();
-			if(result == SaveLeagueResult.OK)
-			{
-				DataManager.Instance.Leagues.AddOrUpdate(ViewModel.League);
+			var success = await ViewModel.SaveLeague();
+			if(!success)
+				return;
 
-				if(OnUpdate != null)
-					OnUpdate();
+			DataManager.Instance.Leagues.AddOrUpdate(ViewModel.League);
 
-				await Navigation.PopModalAsync();
-			}
-			else if(result == SaveLeagueResult.Conflict)
-			{
-				"The league name '{0}' is already in use. Please choose another.".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Warning, "League name in use");
-				ViewModel.League.Name = string.Empty;
-				name.Focus();
-			}
-			else if(result == SaveLeagueResult.Failed)
-			{
-				"There was an error saving this league. Take the rest of the day off.".ToToast(ToastNotificationType.Error);
-			}
+			if(OnUpdate != null)
+				OnUpdate();
+
+			await Navigation.PopModalAsync();
 		}
 
 		async public void OnSelectPhotoButtonClicked(object sender, EventArgs e)

@@ -96,21 +96,18 @@ namespace SportChallengeMatchRank.Shared
 				ChallengeGroups.Clear();
 
 				//Load the opponents
-				var task = AzureService.Instance.GetAllChallengesByAthlete(Athlete);
-				await RunSafe(task);
+				await RunSafe(AzureService.Instance.GetAllChallengesByAthlete(Athlete));
 
 				foreach(var c in DataManager.Instance.Challenges.Values)
 				{
 					if(c.ChallengeeAthlete == null)
 					{
-						var getAthlete = AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId);
-						await RunSafe(getAthlete);
+						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId));
 					}
 
 					if(c.ChallengerAthlete == null)
 					{
-						var getAthlete = AzureService.Instance.GetAthleteById(c.ChallengerAthleteId);
-						await RunSafe(getAthlete);
+						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengerAthleteId));
 					}
 				}
 

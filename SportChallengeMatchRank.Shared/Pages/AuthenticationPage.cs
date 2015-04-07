@@ -160,13 +160,13 @@ namespace SportChallengeMatchRank.Shared
 				Spacing = 20,
 				VerticalOptions = LayoutOptions.Center,
 				Children = {
-						_activity,
-						_statusLabel,
-						_userLabel,
-						_athleteLandingButton,
-					_adminButton,
-					_loginButton,
-					_logoutButton
+					_activity,
+					_statusLabel,
+					_userLabel,
+					_athleteLandingButton,
+						_adminButton,
+						_loginButton,
+						_logoutButton
 				}
 			};
 		}

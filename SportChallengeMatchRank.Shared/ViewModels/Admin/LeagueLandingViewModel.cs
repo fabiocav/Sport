@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using Xamarin.Forms;
-using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeagueLandingViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -53,13 +51,9 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			
 			AllLeagues.Clear();
-			using(new Busy(this))
-			{
-				await Task.Delay(1000);
-				await AzureService.Instance.GetAllLeagues();
-				_hasLoadedBefore = true;
-				LocalRefresh();
-			}
+			await RunSafe(AzureService.Instance.GetAllLeagues());
+			_hasLoadedBefore = true;
+			LocalRefresh();
 		}
 	}
 }
