@@ -38,7 +38,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DateAccepted = c.DateAccepted,
 				DateCompleted = c.DateCompleted,
 				CustomMessage = c.CustomMessage,
-				MatchResult = c.GameResults.Select(r => new GameResultDto
+				MatchResult = c.MatchResult.Select(r => new GameResultDto
 				{
 					Id = r.Id,
 					DateCreated = r.CreatedAt,
@@ -64,7 +64,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DateAccepted = dto.DateAccepted,
 				DateCompleted = dto.DateCompleted,
 				CustomMessage = dto.CustomMessage,
-				MatchResult = dto.GameResults.Select(r => new GameResultDto
+				MatchResult = dto.MatchResult.Select(r => new GameResultDto
 				{
 					Id = r.Id,
 					DateCreated = r.CreatedAt,
@@ -146,7 +146,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DateAccepted = c.DateAccepted,
 				DateCompleted = c.DateCompleted,
 				CustomMessage = c.CustomMessage,
-				MatchResult = c.GameResults.Select(r => new GameResultDto
+				MatchResult = c.MatchResult.Select(r => new GameResultDto
 				{
 					Id = r.Id,
 					DateCreated = r.CreatedAt,

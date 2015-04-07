@@ -78,7 +78,7 @@ namespace SportChallengeMatchRank.Service.Models
 				.WithMany().HasForeignKey(a => a.LeagueId);
 
 			modelBuilder.Entity<GameResult>().HasRequired(g => g.Challenge)
-				.WithMany(c => c.GameResults)
+				.WithMany(c => c.MatchResult)
 				.HasForeignKey(g => g.ChallengeId);
 
 			modelBuilder.Entity<League>().HasOptional(a => a.CreatedByAthlete)

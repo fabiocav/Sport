@@ -8,7 +8,7 @@ namespace SportChallengeMatchRank
 	{
 		public Challenge() : base()
 		{
-			GameResults = new List<GameResult>();
+			MatchResult = new List<GameResult>();
 		}
 
 		[JsonIgnore]
@@ -32,7 +32,7 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
-		public List<GameResult> GameResults
+		public List<GameResult> MatchResult
 		{
 			get;
 			set;
