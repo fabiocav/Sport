@@ -7,7 +7,7 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class ChallengeDetailsPage : ChallengeDetailsXaml
 	{
-		public Action OnDelete
+		public Action OnDecline
 		{
 			get;
 			set;
@@ -49,8 +49,8 @@ namespace SportChallengeMatchRank.Shared
 
 				await ViewModel.DeclineChallenge();
 
-				if(OnDelete != null)
-					OnDelete();
+				if(OnDecline != null)
+					OnDecline();
 
 				await Navigation.PopAsync();
 			};
@@ -64,8 +64,8 @@ namespace SportChallengeMatchRank.Shared
 					
 				await ViewModel.DeclineChallenge();
 
-				if(OnDelete != null)
-					OnDelete();
+				if(OnDecline != null)
+					OnDecline();
 					
 				await Navigation.PopAsync();
 			};

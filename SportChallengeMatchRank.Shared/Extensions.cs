@@ -79,7 +79,7 @@ namespace SportChallengeMatchRank.Shared
 		public static void ToToast(this string message, ToastNotificationType type, string title = null)
 		{
 			var notificator = DependencyService.Get<IToastNotificator>();
-			notificator.Notify(type, title ?? string.Empty, message, TimeSpan.FromSeconds(4));
+			notificator.Notify(type, title ?? type.ToString().ToUpper(), message, TimeSpan.FromSeconds(4));
 		}
 	}
 }

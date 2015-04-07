@@ -28,7 +28,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetAllAthletes());
+				return new Command(async() => await GetAllAthletes(true));
 			}
 		}
 

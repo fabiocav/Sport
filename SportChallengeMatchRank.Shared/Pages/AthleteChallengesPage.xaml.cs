@@ -24,13 +24,12 @@ namespace SportChallengeMatchRank.Shared
 				var challenge = list.SelectedItem as Challenge;
 				list.SelectedItem = null;
 				var detailsPage = new ChallengeDetailsPage(challenge);
-				detailsPage.OnDelete = () =>
+				detailsPage.OnDecline = () =>
 				{
 					Device.BeginInvokeOnMainThread(() =>
-						{
-							App.CurrentAthlete.RefreshChallenges();
-							ViewModel.OnPropertyChanged("Athlete");
-						});
+					{
+						ViewModel.LocalRefresh();
+					});
 				};
 
 				await Navigation.PushAsync(detailsPage);
@@ -39,7 +38,7 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override void OnAppearing()
 		{
-			ViewModel.OnPropertyChanged("Athlete");
+			ViewModel.OnPropertyChanged("ChallengeGroups");
 			base.OnAppearing();
 		}
 	}

@@ -71,6 +71,7 @@ namespace SportChallengeMatchRank.Shared
 						OnUpdate();
 					
 					await Navigation.PopModalAsync();
+					"The {0} league has been deleted.".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
 				}
 			};
 		}
@@ -88,11 +89,12 @@ namespace SportChallengeMatchRank.Shared
 		{
 			if(!ViewModel.IsValid())
 			{
-				ViewModel.ErrorMessage.ToToast(ToastNotificationType.Error, "Please fix these errors");
+				ViewModel.ErrorMessage.ToToast(ToastNotificationType.Warning, "Please fix these errors");
 				return;
 			}
 
 			var success = await ViewModel.SaveLeague();
+
 			if(!success)
 				return;
 
@@ -102,6 +104,7 @@ namespace SportChallengeMatchRank.Shared
 				OnUpdate();
 
 			await Navigation.PopModalAsync();
+			"The {0} league has been saved.".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
 		}
 
 		async public void OnSelectPhotoButtonClicked(object sender, EventArgs e)

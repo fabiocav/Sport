@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace SportChallengeMatchRank.Shared
 {

@@ -4,7 +4,7 @@
 	x:Class="SportChallengeMatchRank.Shared.PhotoSelectionPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:PhotoSelectionXaml.Content>
-		<ListView x:Name="list" ItemsSource="{Binding Photos}" RefreshCommand="{Binding GetPhotos}" IsRefreshing="{Binding IsBusy}" RowHeight="220">
+		<ListView x:Name="list" ItemsSource="{Binding Photos}" RefreshCommand="{Binding GetPhotos}" IsRefreshing="{Binding IsBusy, Mode=OneWay}" RowHeight="220">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>

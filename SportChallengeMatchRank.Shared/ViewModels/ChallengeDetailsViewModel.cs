@@ -89,6 +89,7 @@ namespace SportChallengeMatchRank.Shared
 		async public Task DeclineChallenge()
 		{
 			await RunSafe(AzureService.Instance.DeclineChallenge(Challenge.Id));
+			App.CurrentAthlete.RefreshChallenges();
 			NotifyPropertiesChanged();
 		}
 

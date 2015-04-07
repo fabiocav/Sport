@@ -91,39 +91,45 @@ namespace SportChallengeMatchRank.Shared
 			UpcomingChallenges.Clear();
 			HistoricalChallenges.Clear();
 
-			using(new Busy(this))
+			ChallengeGroups.Clear();
+
+			//Load the opponents
+			await RunSafe(AzureService.Instance.GetAllChallengesByAthlete(Athlete));
+
+			foreach(var c in DataManager.Instance.Challenges.Values)
 			{
-				ChallengeGroups.Clear();
-
-				//Load the opponents
-				await RunSafe(AzureService.Instance.GetAllChallengesByAthlete(Athlete));
-
-				foreach(var c in DataManager.Instance.Challenges.Values)
+				if(c.ChallengeeAthlete == null)
 				{
-					if(c.ChallengeeAthlete == null)
-					{
-						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId));
-					}
-
-					if(c.ChallengerAthlete == null)
-					{
-						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengerAthleteId));
-					}
+					await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId));
 				}
 
-				_hasLoadedBefore = true;
-				Athlete.RefreshChallenges();
-				OnPropertyChanged("Athlete");
+				if(c.ChallengerAthlete == null)
+				{
+					await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengerAthleteId));
+				}
+			}
 
-				Athlete.AllChallenges.Where(c => c.IsCompleted).ToList().ForEach(HistoricalChallenges.Add);
-				Athlete.AllChallenges.Where(c => !c.IsCompleted).ToList().ForEach(UpcomingChallenges.Add);
+			_hasLoadedBefore = true;
+			LocalRefresh();
+		}
 
-				if(UpcomingChallenges.Count > 0)
-					ChallengeGroups.Add(UpcomingChallenges);
+		public void LocalRefresh()
+		{
+			ChallengeGroups.Clear();
+			UpcomingChallenges.Clear();
+			HistoricalChallenges.Clear();
 
-				if(HistoricalChallenges.Count > 0)
-					ChallengeGroups.Add(HistoricalChallenges);
-			}					
+			Athlete.RefreshChallenges();
+			OnPropertyChanged("Athlete");
+
+			Athlete.AllChallenges.Where(c => c.IsCompleted).ToList().ForEach(HistoricalChallenges.Add);
+			Athlete.AllChallenges.Where(c => !c.IsCompleted).ToList().ForEach(UpcomingChallenges.Add);
+
+			if(UpcomingChallenges.Count > 0)
+				ChallengeGroups.Add(UpcomingChallenges);
+
+			if(HistoricalChallenges.Count > 0)
+				ChallengeGroups.Add(HistoricalChallenges);
 		}
 	}
 
