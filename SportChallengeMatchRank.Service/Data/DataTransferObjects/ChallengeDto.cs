@@ -9,7 +9,7 @@ namespace SportChallengeMatchRank
 	{
 		public ChallengeDto() : base()
 		{
-			GameResults = new List<GameResultDto>();
+			MatchResult = new List<GameResultDto>();
 		}
 
 		public DateTimeOffset? DateCreated
@@ -18,7 +18,7 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
-		public List<GameResultDto> GameResults
+		public List<GameResultDto> MatchResult
 		{
 			get;
 			set;

@@ -127,7 +127,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var exists = _context.Leagues.Any(l => l.Name.Equals(item.Name, System.StringComparison.InvariantCultureIgnoreCase));
 
 			if(exists)
-				return Conflict();
+				return BadRequest("The name of that league is already in use.");
 
 			League current = await InsertAsync(item.ToLeague());
             return CreatedAtRoute("Tables", new { id = current.Id }, current);

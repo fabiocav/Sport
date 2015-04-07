@@ -38,7 +38,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DateAccepted = c.DateAccepted,
 				DateCompleted = c.DateCompleted,
 				CustomMessage = c.CustomMessage,
-				GameResults = c.GameResults.Select(r => new GameResultDto
+				MatchResult = c.GameResults.Select(r => new GameResultDto
 				{
 					Id = r.Id,
 					DateCreated = r.CreatedAt,
@@ -64,7 +64,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DateAccepted = dto.DateAccepted,
 				DateCompleted = dto.DateCompleted,
 				CustomMessage = dto.CustomMessage,
-				GameResults = dto.GameResults.Select(r => new GameResultDto
+				MatchResult = dto.GameResults.Select(r => new GameResultDto
 				{
 					Id = r.Id,
 					DateCreated = r.CreatedAt,
@@ -131,6 +131,33 @@ namespace SportChallengeMatchRank.Service.Controllers
 			return task;
         }
 
+		[Route("api/getChallengesForAthlete")]
+		async public Task<List<ChallengeDto>> GetChallengesForAthlete(string athleteId)
+		{
+			return Query().Where(c => c.ChallengeeAthleteId == athleteId
+				|| c.ChallengerAthleteId == athleteId).Select(c => new ChallengeDto
+			{
+				Id = c.Id,
+				ChallengerAthleteId = c.ChallengerAthleteId,
+				ChallengeeAthleteId = c.ChallengeeAthleteId,
+				LeagueId = c.LeagueId,
+				DateCreated = c.CreatedAt,
+				ProposedTime = c.ProposedTime,
+				DateAccepted = c.DateAccepted,
+				DateCompleted = c.DateCompleted,
+				CustomMessage = c.CustomMessage,
+				MatchResult = c.GameResults.Select(r => new GameResultDto
+				{
+					Id = r.Id,
+					DateCreated = r.CreatedAt,
+					ChallengeId = r.ChallengeId,
+					ChallengeeScore = r.ChallengeeScore,
+					ChallengerScore = r.ChallengerScore,
+					Index = r.Index
+				}).ToList()
+			}).ToList();
+		}
+
 		[Route("api/acceptChallenge")]
 		async public Task<ChallengeDto> AcceptChallenge(string challengeId)
 		{
@@ -166,13 +193,13 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			challenge.DateCompleted = DateTime.UtcNow;
 			var dto = challenge.ToChallengeDto();
-			dto.GameResults = new List<GameResultDto>();
+			dto.MatchResult = new List<GameResultDto>();
 
 			foreach(var result in results)
 			{
 				result.Id = Guid.NewGuid().ToString();
 				_context.GameResults.Add(result.ToGameResult());
-				dto.GameResults.Add(result);
+				dto.MatchResult.Add(result);
 			}
 
 			try
@@ -202,8 +229,6 @@ namespace SportChallengeMatchRank.Service.Controllers
 					winner = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 					loser = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 				}
-
-
 			}
 			catch(DbEntityValidationException e)
 			{
