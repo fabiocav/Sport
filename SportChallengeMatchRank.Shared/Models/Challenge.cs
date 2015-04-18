@@ -1,8 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -59,7 +57,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		string _leagueId;
-		public const string LeagueIdPropertyName = "LeagueId";
 
 		public string LeagueId
 		{
@@ -69,14 +66,13 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _leagueId, value, LeagueIdPropertyName);
-				OnPropertyChanged("League");
-				OnPropertyChanged("Summary");
+				ProcPropertyChanged(ref _leagueId, value);
+				SetPropertyChanged("League");
+				SetPropertyChanged("Summary");
 			}
 		}
 
 		string _challengerAthleteId;
-		public const string ChallengerAthleteIdPropertyName = "ChallengerAthleteId";
 
 		public string ChallengerAthleteId
 		{
@@ -86,14 +82,13 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _challengerAthleteId, value, ChallengerAthleteIdPropertyName);
-				OnPropertyChanged("ChallengerAthlete");
-				OnPropertyChanged("Summary");
+				ProcPropertyChanged(ref _challengerAthleteId, value);
+				SetPropertyChanged("ChallengerAthlete");
+				SetPropertyChanged("Summary");
 			}
 		}
 
 		string _challengeeAthleteId;
-		public const string ChallengeeAthleteIdPropertyName = "ChallengeeAthleteId";
 
 		public string ChallengeeAthleteId
 		{
@@ -103,14 +98,13 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _challengeeAthleteId, value, ChallengeeAthleteIdPropertyName);
-				OnPropertyChanged("ChallengeeAthlete");
-				OnPropertyChanged("Summary");
+				ProcPropertyChanged(ref _challengeeAthleteId, value);
+				SetPropertyChanged("ChallengeeAthlete");
+				SetPropertyChanged("Summary");
 			}
 		}
 
 		DateTimeOffset? _dateCompleted;
-		public const string DateCompletedPropertyName = "DateCompleted";
 
 		public DateTimeOffset? DateCompleted
 		{
@@ -120,13 +114,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _dateCompleted, value, DateCompletedPropertyName);
-				OnPropertyChanged("IsCompleted");
+				ProcPropertyChanged(ref _dateCompleted, value);
+				SetPropertyChanged("IsCompleted");
 			}
 		}
 
 		DateTimeOffset? _dateAccepted;
-		public const string DateAcceptedPropertyName = "DateAccepted";
 
 		public DateTimeOffset? DateAccepted
 		{
@@ -136,13 +129,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _dateAccepted, value, DateAcceptedPropertyName);
-				OnPropertyChanged("IsAccepted");
+				ProcPropertyChanged(ref _dateAccepted, value);
+				SetPropertyChanged("IsAccepted");
 			}
 		}
 
 		DateTimeOffset _proposedTime;
-		public const string ProposedTimePropertyName = "ProposedTime";
 
 		public DateTimeOffset ProposedTime
 		{
@@ -152,8 +144,8 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _proposedTime, value, ProposedTimePropertyName);
-				OnPropertyChanged("Summary");
+				ProcPropertyChanged(ref _proposedTime, value);
+				SetPropertyChanged("Summary");
 			}
 		}
 
@@ -176,7 +168,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		string _customMessage;
-		public const string CustomMessagePropertyName = "CustomMessage";
 
 		public string CustomMessage
 		{
@@ -186,7 +177,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _customMessage, value, CustomMessagePropertyName);
+				ProcPropertyChanged(ref _customMessage, value);
 			}
 		}
 
@@ -203,7 +194,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		List<GameResult> _matchResult;
-		public const string MatchResultPropertyName = "MatchResult";
 
 		public List<GameResult> MatchResult
 		{
@@ -213,7 +203,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _matchResult, value, MatchResultPropertyName);
+				ProcPropertyChanged(ref _matchResult, value);
 			}
 		}
 	}

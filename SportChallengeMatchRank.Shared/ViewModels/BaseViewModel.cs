@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Threading;
-using System.ComponentModel;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
-using Microsoft.WindowsAzure.MobileServices;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class BaseViewModel : INotifyPropertyChanged
+	public class BaseViewModel : BaseModel
 	{
 		bool _isBusy = false;
-		public const string IsBusyPropertyName = "IsBusy";
 		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
 		public bool IsBusy
@@ -22,8 +18,8 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _isBusy, value, IsBusyPropertyName);
-				OnPropertyChanged("IsNotBusy");
+				ProcPropertyChanged(ref _isBusy, value);
+				SetPropertyChanged("IsNotBusy");
 			}
 		}
 
@@ -34,33 +30,6 @@ namespace SportChallengeMatchRank.Shared
 				return !IsBusy;
 			}
 		}
-
-		protected void SetProperty<T>(ref T backingStore, T value, string propertyName, Action onChanged = null)
-		{
-			if(EqualityComparer<T>.Default.Equals(backingStore, value))
-				return;
-
-			backingStore = value;
-
-			if(onChanged != null)
-				onChanged();
-
-			OnPropertyChanged(propertyName);
-		}
-
-		#region INotifyPropertyChanged implementation
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string propertyName)
-		{
-			if(PropertyChanged == null)
-				return;
-
-			PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		#endregion
 
 		#region Task Safety
 

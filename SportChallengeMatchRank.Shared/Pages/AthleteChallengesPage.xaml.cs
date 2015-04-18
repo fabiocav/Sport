@@ -38,7 +38,7 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override void OnAppearing()
 		{
-			ViewModel.OnPropertyChanged("ChallengeGroups");
+			ViewModel.SetPropertyChanged("ChallengeGroups");
 			base.OnAppearing();
 		}
 	}

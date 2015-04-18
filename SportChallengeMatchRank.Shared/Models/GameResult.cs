@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -16,7 +14,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		string _challengeId;
-		public const string ChallengeIdPropertyName = "ChallengeId";
 
 		public string ChallengeId
 		{
@@ -26,12 +23,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _challengeId, value, ChallengeIdPropertyName);
+				ProcPropertyChanged(ref _challengeId, value);
 			}
 		}
 
 		int? challengerScore;
-		public const string ChallengerScorePropertyName = "ChallengerScore";
 
 		public int? ChallengerScore
 		{
@@ -41,12 +37,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref challengerScore, value, ChallengerScorePropertyName);
+				ProcPropertyChanged(ref challengerScore, value);
 			}
 		}
 
 		int? challengeeScore;
-		public const string ChallengeeScorePropertyName = "ChallengeeScore";
 
 		public int? ChallengeeScore
 		{
@@ -56,12 +51,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref challengeeScore, value, ChallengeeScorePropertyName);
+				ProcPropertyChanged(ref challengeeScore, value);
 			}
 		}
 
 		int? index;
-		public const string IndexPropertyName = "Index";
 
 		public int? Index
 		{
@@ -71,7 +65,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref index, value, IndexPropertyName);
+				ProcPropertyChanged(ref index, value);
 			}
 		}
 	}

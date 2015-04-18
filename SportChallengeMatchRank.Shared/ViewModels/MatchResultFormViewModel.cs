@@ -19,7 +19,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				_challengeId = value;
-				OnPropertyChanged("Challenge");
+				SetPropertyChanged("Challenge");
 			}
 		}
 

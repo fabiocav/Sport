@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
@@ -27,7 +25,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		string _athleteId;
-		public const string AthleteIdPropertyName = "AthleteId";
 
 		public string AthleteId
 		{
@@ -37,13 +34,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _athleteId, value, AthleteIdPropertyName);
-				OnPropertyChanged("Athlete");
+				ProcPropertyChanged(ref _athleteId, value);
+				SetPropertyChanged("Athlete");
 			}
 		}
 
 		string _leagueId;
-		public const string LeagueIdPropertyName = "LeagueId";
 
 		public string LeagueId
 		{
@@ -53,13 +49,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _leagueId, value, LeagueIdPropertyName);
-				OnPropertyChanged("League");
+				ProcPropertyChanged(ref _leagueId, value);
+				SetPropertyChanged("League");
 			}
 		}
 
 		int _currentRank;
-		public const string CurrentRankPropertyName = "CurrentRank";
 
 		public int CurrentRank
 		{
@@ -69,12 +64,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _currentRank, value, CurrentRankPropertyName);
+				ProcPropertyChanged(ref _currentRank, value);
 			}
 		}
 
 		bool _isAdmin;
-		public const string IsAdminPropertyName = "IsAdmin";
 
 		public bool IsAdmin
 		{
@@ -84,7 +78,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _isAdmin, value, IsAdminPropertyName);
+				ProcPropertyChanged(ref _isAdmin, value);
 			}
 		}
 
@@ -108,7 +102,7 @@ namespace SportChallengeMatchRank.Shared
 			if(membership != null)
 			{
 				return athlete.AllChallenges.FirstOrDefault(c => (c.ChallengeeAthleteId == athlete.Id ||
-					c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId);
+				c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId);
 			}
 
 			return null;
@@ -140,8 +134,8 @@ namespace SportChallengeMatchRank.Shared
 			{
 				//Athlete is within range but let's make sure there aren't already challenges out there
 				var alreadyChallenged = athlete.AllChallenges.Any(c => ((c.ChallengeeAthleteId == athlete.Id ||
-					                        c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId) &&
-					                        !c.IsCompleted);
+				                        c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId) &&
+				                        !c.IsCompleted);
 
 				canChallenge = !alreadyChallenged;
 			}

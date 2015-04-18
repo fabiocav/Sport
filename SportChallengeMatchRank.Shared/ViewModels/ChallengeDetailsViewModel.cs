@@ -20,7 +20,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		Challenge challenge;
-		public const string ChallengePropertyName = "Challenge";
 
 		public Challenge Challenge
 		{
@@ -30,7 +29,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref challenge, value, ChallengePropertyName);
+				ProcPropertyChanged(ref challenge, value);
 			}
 		}
 
@@ -77,7 +76,7 @@ namespace SportChallengeMatchRank.Shared
 
 			Challenge.MatchResult.Clear();
 			results.ForEach(Challenge.MatchResult.Add);
-			OnPropertyChanged("Challenge");
+			SetPropertyChanged("Challenge");
 		}
 
 		async public Task AcceptChallenge()
@@ -95,11 +94,11 @@ namespace SportChallengeMatchRank.Shared
 
 		public void NotifyPropertiesChanged()
 		{
-			OnPropertyChanged("CanAccept");
-			OnPropertyChanged("CanDecline");
-			OnPropertyChanged("CanRevoke");
-			OnPropertyChanged("CanPostMatchResults");
-			OnPropertyChanged("Challenge");
+			SetPropertyChanged("CanAccept");
+			SetPropertyChanged("CanDecline");
+			SetPropertyChanged("CanRevoke");
+			SetPropertyChanged("CanPostMatchResults");
+			SetPropertyChanged("Challenge");
 		}
 	}
 }

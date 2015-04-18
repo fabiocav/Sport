@@ -20,7 +20,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		Athlete _athlete;
-		public const string AthletePropertyName = "Athlete";
 
 		public Athlete Athlete
 		{
@@ -30,7 +29,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _athlete, value, AthletePropertyName);
+				ProcPropertyChanged(ref _athlete, value);
 			}
 		}
 

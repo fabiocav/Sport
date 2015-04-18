@@ -36,7 +36,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		League _league;
-		public const string LeaguePropertyName = "League";
 
 		public string DateRange
 		{
@@ -65,11 +64,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _league, value, LeaguePropertyName);
-				OnPropertyChanged("SportDescription");
-				OnPropertyChanged("DateRange");
-				OnPropertyChanged("CreatedBy");
-				OnPropertyChanged("IsMember");
+				ProcPropertyChanged(ref _league, value);
+				SetPropertyChanged("SportDescription");
+				SetPropertyChanged("DateRange");
+				SetPropertyChanged("CreatedBy");
+				SetPropertyChanged("IsMember");
 			}
 		}
 
@@ -79,8 +78,8 @@ namespace SportChallengeMatchRank.Shared
 		{
 			await RunSafe(AzureService.Instance.GetAthleteById(League.CreatedByAthleteId));
 			League.RefreshMemberships();
-			League.OnPropertyChanged("CreatedByAthlete");
-			OnPropertyChanged("CreatedBy");
+			League.SetPropertyChanged("CreatedByAthlete");
+			SetPropertyChanged("CreatedBy");
 		}
 
 		async public Task JoinLeague()
@@ -92,14 +91,14 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			await RunSafe(AzureService.Instance.SaveMembership(membership));
-			OnPropertyChanged("IsMember");
+			SetPropertyChanged("IsMember");
 		}
 
 		async public Task LeaveLeague()
 		{
 			var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == League.Id);
 			await RunSafe(AzureService.Instance.DeleteMembership(membership.Id));
-			OnPropertyChanged("IsMember");
+			SetPropertyChanged("IsMember");
 		}
 	}
 }

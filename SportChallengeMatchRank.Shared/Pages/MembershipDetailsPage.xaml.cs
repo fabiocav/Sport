@@ -43,19 +43,13 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			btnChallenge.Clicked += async(sender, e) =>
+			btnChallenge.Clicked += (sender, e) =>
 			{
-				try
+				var outcome = ViewModel.ChallengeAthlete(ViewModel.Membership);
+				Challenge challenge = outcome.Result;
+				if(challenge != null && challenge.Id != null)
 				{
-					var outcome = ViewModel.ChallengeAthlete(ViewModel.Membership);
-					Challenge challenge = outcome.Result;
-					if(challenge != null && challenge.Id != null)
-					{
-						"{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
-					}
-				}
-				catch(Exception ex)
-				{
+					"{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
 				}
 			};
 

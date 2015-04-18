@@ -20,7 +20,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				_membershipId = value;
-				OnPropertyChanged("Membership");
+				SetPropertyChanged("Membership");
 			}
 		}
 
@@ -78,9 +78,9 @@ namespace SportChallengeMatchRank.Shared
 
 		public void NotifyPropertiesChanged()
 		{
-			OnPropertyChanged("CanChallenge");
-			OnPropertyChanged("CanRevokeChallenge");
-			OnPropertyChanged("Membership");
+			SetPropertyChanged("CanChallenge");
+			SetPropertyChanged("CanRevokeChallenge");
+			SetPropertyChanged("Membership");
 		}
 
 		public ICommand SaveCommand

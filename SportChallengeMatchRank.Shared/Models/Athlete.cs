@@ -45,7 +45,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		string _name;
-		public const string NamePropertyName = "Name";
 
 		public string Name
 		{
@@ -55,12 +54,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _name, value, NamePropertyName);
+				ProcPropertyChanged(ref _name, value);
 			}
 		}
 
 		string _email;
-		public const string EmailPropertyName = "Email";
 
 		public string Email
 		{
@@ -70,12 +68,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _email, value, EmailPropertyName);
+				ProcPropertyChanged(ref _email, value);
 			}
 		}
 
 		string _authenticationId;
-		public const string AuthenticationIdPropertyName = "AuthenticationId";
 
 		public string AuthenticationId
 		{
@@ -85,12 +82,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _authenticationId, value, AuthenticationIdPropertyName);
+				ProcPropertyChanged(ref _authenticationId, value);
 			}
 		}
 
 		bool _isAdmin;
-		public const string IsAdminPropertyName = "IsAdmin";
 
 		public bool IsAdmin
 		{
@@ -100,12 +96,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _isAdmin, value, IsAdminPropertyName);
+				ProcPropertyChanged(ref _isAdmin, value);
 			}
 		}
 
 		ObservableCollection<Membership> _memberships = new ObservableCollection<Membership>();
-		public const string MembershipsPropertyName = "Memberships";
 
 		public ObservableCollection<Membership> Memberships
 		{
@@ -115,13 +110,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _memberships, value, MembershipsPropertyName);
-				OnPropertyChanged("Leagues");
+				ProcPropertyChanged(ref _memberships, value);
+				SetPropertyChanged("Leagues");
 			}
 		}
 
 		string deviceToken;
-		public const string DeviceTokenPropertyName = "DeviceToken";
 
 		public string DeviceToken
 		{
@@ -131,12 +125,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref deviceToken, value, DeviceTokenPropertyName);
+				ProcPropertyChanged(ref deviceToken, value);
 			}
 		}
 
 		string devicePlatform;
-		public const string DevicePlatformPropertyName = "DevicePlatform";
 
 		public string DevicePlatform
 		{
@@ -146,7 +139,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref devicePlatform, value, DevicePlatformPropertyName);
+				ProcPropertyChanged(ref devicePlatform, value);
 			}
 		}
 

@@ -31,7 +31,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		bool hasStarted;
-		public const string HasStartedPropertyName = "HasStarted";
 
 		public bool HasStarted
 		{
@@ -41,12 +40,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref hasStarted, value, HasStartedPropertyName);
+				ProcPropertyChanged(ref hasStarted, value);
 			}
 		}
 
 		string _name;
-		public const string NamePropertyName = "Name";
 
 		public string Name
 		{
@@ -56,12 +54,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _name, value, NamePropertyName);
+				ProcPropertyChanged(ref _name, value);
 			}
 		}
 
 		string _sport;
-		public const string SportPropertyName = "Sport";
 
 		public string Sport
 		{
@@ -71,12 +68,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _sport, value, SportPropertyName);
+				ProcPropertyChanged(ref _sport, value);
 			}
 		}
 
 		bool _isEnabled;
-		public const string IsEnabledPropertyName = "IsEnabled";
 
 		public bool IsEnabled
 		{
@@ -86,12 +82,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _isEnabled, value, IsEnabledPropertyName);
+				ProcPropertyChanged(ref _isEnabled, value);
 			}
 		}
 
 		bool _isAcceptingMembers;
-		public const string IsAcceptingMembersPropertyName = "IsAcceptingMembers";
 
 		public bool IsAcceptingMembers
 		{
@@ -101,12 +96,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _isAcceptingMembers, value, IsAcceptingMembersPropertyName);
+				ProcPropertyChanged(ref _isAcceptingMembers, value);
 			}
 		}
 
 		int _maxChallengeRange;
-		public const string MaxChallengeRangePropertyName = "MaxChallengeRange";
 
 		public int MaxChallengeRange
 		{
@@ -116,12 +110,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _maxChallengeRange, value, MaxChallengeRangePropertyName);
+				ProcPropertyChanged(ref _maxChallengeRange, value);
 			}
 		}
 
 		int _minHoursBetweenChallenge;
-		public const string MinHoursBetweenChallengePropertyName = "MinHoursBetweenChallenge";
 
 		public int MinHoursBetweenChallenge
 		{
@@ -131,12 +124,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _minHoursBetweenChallenge, value, MinHoursBetweenChallengePropertyName);
+				ProcPropertyChanged(ref _minHoursBetweenChallenge, value);
 			}
 		}
 
 		int _matchGameCount;
-		public const string MatchGameCountPropertyName = "MatchGameCount";
 
 		public int MatchGameCount
 		{
@@ -146,12 +138,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _matchGameCount, value, MatchGameCountPropertyName);
+				ProcPropertyChanged(ref _matchGameCount, value);
 			}
 		}
 
 		string description;
-		public const string DescriptionPropertyName = "Description";
 
 		public string Description
 		{
@@ -161,12 +152,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref description, value, DescriptionPropertyName);
+				ProcPropertyChanged(ref description, value);
 			}
 		}
 
 		int _season;
-		public const string SeasonPropertyName = "Season";
 
 		public int Season
 		{
@@ -176,12 +166,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _season, value, SeasonPropertyName);
+				ProcPropertyChanged(ref _season, value);
 			}
 		}
 
 		ObservableCollection<Membership> _memberships = new ObservableCollection<Membership>();
-		public const string MembershipsPropertyName = "Memberships";
 
 		public ObservableCollection<Membership> Memberships
 		{
@@ -191,12 +180,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _memberships, value, MembershipsPropertyName);
+				ProcPropertyChanged(ref _memberships, value);
 			}
 		}
 
 		string imageUrl;
-		public const string ImageUrlPropertyName = "ImageUrl";
 
 		public string ImageUrl
 		{
@@ -206,12 +194,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref imageUrl, value, ImageUrlPropertyName);
+				ProcPropertyChanged(ref imageUrl, value);
 			}
 		}
 
 		string createdByAthleteId;
-		public const string CreatedByAthleteIdPropertyName = "CreatedByAthleteId";
 
 		public string CreatedByAthleteId
 		{
@@ -221,13 +208,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref createdByAthleteId, value, CreatedByAthleteIdPropertyName);
-				OnPropertyChanged("CreatedByAthlete");
+				ProcPropertyChanged(ref createdByAthleteId, value);
+				SetPropertyChanged("CreatedByAthlete");
 			}
 		}
 
 		DateTime? _startDate;
-		public const string StartDatePropertyName = "StartDate";
 
 		public DateTime? StartDate
 		{
@@ -237,13 +223,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _startDate, value, StartDatePropertyName);
-				OnPropertyChanged("DateRange");
+				ProcPropertyChanged(ref _startDate, value);
+				SetPropertyChanged("DateRange");
 			}
 		}
 
 		DateTime? _endDate;
-		public const string EndDatePropertyName = "EndDate";
 
 		public DateTime? EndDate
 		{
@@ -253,8 +238,8 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _endDate, value, EndDatePropertyName);
-				OnPropertyChanged("DateRange");
+				ProcPropertyChanged(ref _endDate, value);
+				SetPropertyChanged("DateRange");
 			}
 		}
 

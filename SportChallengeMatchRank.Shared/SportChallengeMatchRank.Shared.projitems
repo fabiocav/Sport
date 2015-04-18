@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\PhotoSelectionViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MatchResultFormViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BaseNotify.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

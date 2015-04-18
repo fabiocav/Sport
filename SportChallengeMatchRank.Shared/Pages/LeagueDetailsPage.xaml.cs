@@ -91,7 +91,7 @@ namespace SportChallengeMatchRank.Shared
 				var detailsPage = new LeagueEditPage(ViewModel.League);
 				detailsPage.OnUpdate = () =>
 				{
-					ViewModel.OnPropertyChanged("League");
+					ViewModel.SetPropertyChanged("League");
 				};
 
 				await Navigation.PushModalAsync(new NavigationPage(detailsPage));

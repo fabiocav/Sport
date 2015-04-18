@@ -20,7 +20,7 @@ namespace SportChallengeMatchRank.Shared
 				var page = new AvailableLeaguesPage();
 				page.OnJoinedLeague = (l) =>
 				{
-					ViewModel.OnPropertyChanged("Athlete");
+					ViewModel.SetPropertyChanged("Athlete");
 				};
 
 				await Navigation.PushModalAsync(new NavigationPage(page));
@@ -37,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 				var page = new LeagueDetailsPage(league);
 				page.OnAbandondedLeague = (l) =>
 				{
-					ViewModel.OnPropertyChanged("Athlete");
+					ViewModel.SetPropertyChanged("Athlete");
 				};
 					
 				await Navigation.PushAsync(page);

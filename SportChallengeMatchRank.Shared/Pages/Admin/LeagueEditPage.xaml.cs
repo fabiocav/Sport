@@ -112,7 +112,7 @@ namespace SportChallengeMatchRank.Shared
 			var photoPage = new PhotoSelectionPage(ViewModel.League);
 			photoPage.OnImageSelected = async() =>
 			{
-				ViewModel.OnPropertyChanged("League");		
+				ViewModel.SetPropertyChanged("League");		
 				await Navigation.PopAsync();
 				photoPage.OnImageSelected = null;
 			};

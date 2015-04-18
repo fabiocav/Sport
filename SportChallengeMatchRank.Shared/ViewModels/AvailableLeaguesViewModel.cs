@@ -19,7 +19,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		ObservableCollection<League> _leagues = new ObservableCollection<League>();
-		public const string LeaguesPropertyName = "Leagues";
 
 		public ObservableCollection<League> Leagues
 		{
@@ -29,7 +28,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetProperty(ref _leagues, value, LeaguesPropertyName);
+				ProcPropertyChanged(ref _leagues, value);
 			}
 		}
 

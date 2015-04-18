@@ -23,7 +23,7 @@ namespace SportChallengeMatchRank.Shared
 		async public Task GetPhotos(string keyword)
 		{
 			Photos = await FlikrService.Instance.SearchPhotos(keyword);
-			OnPropertyChanged("Photos");
+			SetPropertyChanged("Photos");
 		}
 	}
 }

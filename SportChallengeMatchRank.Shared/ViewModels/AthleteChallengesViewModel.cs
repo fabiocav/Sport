@@ -21,7 +21,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				_athleteId = value;
-				OnPropertyChanged("Athlete");
+				SetPropertyChanged("Athlete");
 				GetChallenges();
 			}
 		}
@@ -120,7 +120,7 @@ namespace SportChallengeMatchRank.Shared
 			HistoricalChallenges.Clear();
 
 			Athlete.RefreshChallenges();
-			OnPropertyChanged("Athlete");
+			SetPropertyChanged("Athlete");
 
 			Athlete.AllChallenges.Where(c => c.IsCompleted).ToList().ForEach(HistoricalChallenges.Add);
 			Athlete.AllChallenges.Where(c => !c.IsCompleted).ToList().ForEach(UpcomingChallenges.Add);

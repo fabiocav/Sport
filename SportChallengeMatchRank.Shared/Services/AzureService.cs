@@ -144,7 +144,7 @@ namespace SportChallengeMatchRank.Shared
 
 					DataManager.Instance.Memberships.AddOrUpdate(m);
 					DataManager.Instance.Athletes.AddOrUpdate(athlete);
-					m.OnPropertyChanged("Athlete");
+					m.SetPropertyChanged("Athlete");
 				}
 
 				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
@@ -312,7 +312,7 @@ namespace SportChallengeMatchRank.Shared
 
 					DataManager.Instance.Memberships.AddOrUpdate(m);
 					DataManager.Instance.Leagues.AddOrUpdate(league);
-					m.OnPropertyChanged("League");
+					m.SetPropertyChanged("League");
 				}
 
 				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());

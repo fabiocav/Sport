@@ -19,7 +19,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				_athleteId = value;
-				OnPropertyChanged("Athlete");
+				SetPropertyChanged("Athlete");
 				GetLeagues();
 			}
 		}
@@ -58,7 +58,7 @@ namespace SportChallengeMatchRank.Shared
 			await RunSafe(AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
 			_hasLoadedBefore = true;
 			Athlete.RefreshMemberships();
-			OnPropertyChanged("Athlete");
+			SetPropertyChanged("Athlete");
 		}
 	}
 }
