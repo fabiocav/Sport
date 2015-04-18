@@ -25,11 +25,14 @@ namespace SportChallengeMatchRank.iOS
 			LoadApplication(new App());
 
 			var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert
-				               | UIUserNotificationType.Badge
-				               | UIUserNotificationType.Sound, new NSSet());
+			               | UIUserNotificationType.Badge
+			               | UIUserNotificationType.Sound, new NSSet());
 
 			UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
 			UIApplication.SharedApplication.RegisterForRemoteNotifications();
+
+			UITabBar.Appearance.BarTintColor = UIColor.Red;
+			UITabBar.Appearance.TintColor = UIColor.Orange;
 
 			return base.FinishedLaunching(app, options);
 		}

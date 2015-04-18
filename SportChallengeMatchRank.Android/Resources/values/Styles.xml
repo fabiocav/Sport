@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<resources>
+
+	<style name="FindMyTrain.ActionBarTab">
+	    <item name="android:background">@drawable/tab_bar_background</item>
+	</style>
+
+		<style name="FindMyTrain" parent="Theme.Sherlock">
+	    <item name="android:actionBarTabStyle">@style/FindMyTrain.ActionBarTab</item>
+	    <item name="actionBarTabStyle">@style/FindMyTrain.ActionBarTab</item>
+	</style>
+	 
+</resources>

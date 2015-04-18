@@ -4,6 +4,7 @@ using Xamarin.Forms.Platform.Android;
 using SportChallengeMatchRank.Shared;
 using Android.Views;
 using Toasts.Forms.Plugin.Droid;
+using Xamarin.ActionbarSherlockBinding.App;
 
 namespace SportChallengeMatchRank.Android
 {

@@ -12,13 +12,17 @@ namespace SportChallengeMatchRank.Shared
 		{
 			var id = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
 			Children.Add(new NavigationPage(new AthleteLeaguesPage()) {
-				Title = "My Leagues"
+				Title = "My Leagues",
+				BarBackgroundColor = App.BlueColor
 			});
 			Children.Add(new NavigationPage(new AthleteChallengesPage(id)) {
-				Title = "My Challenges"
+				Title = "My Challenges",
+				BarBackgroundColor = App.BlueColor
 			});
+
 			Children.Add(new NavigationPage(new AdminPage()) {
-				Title = "Admin"
+				Title = "Admin",
+				BarBackgroundColor = App.BlueColor
 			});
 
 			Application.Current.ModalPopped += (sender, e) =>
@@ -31,6 +35,8 @@ namespace SportChallengeMatchRank.Shared
 					Console.WriteLine("Authenticated!");
 				}
 			};
+
+			BackgroundColor = App.GreenColor;
 		}
 
 		protected override void OnAppearing()

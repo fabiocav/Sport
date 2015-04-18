@@ -49,5 +49,8 @@ namespace SportChallengeMatchRank.Shared
 			get;
 			set;
 		}
+
+		public static Color GreenColor = Color.FromRgb(122, 207, 106);
+		public static Color BlueColor = Color.FromHex("#3498db");
 	}
 }
