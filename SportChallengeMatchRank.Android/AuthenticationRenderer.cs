@@ -41,10 +41,10 @@ namespace SportChallengeMatchRank.Android
 		protected override void OnAttachedToWindow()
 		{
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "AuthenticateUser", async(sender) =>
-				{
-					await AuthenticateUser();
-					await _page.UserAuthenticationUpdated();
-				});
+			{
+				await AuthenticateUser();
+				await _page.UserAuthenticationUpdated();
+			});
 
 			base.OnAttachedToWindow();
 		}

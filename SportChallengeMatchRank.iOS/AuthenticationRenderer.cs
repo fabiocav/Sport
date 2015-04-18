@@ -39,10 +39,11 @@ namespace SportChallengeMatchRank.iOS
 		public override void ViewDidAppear(bool animated)
 		{
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "AuthenticateUser", async(sender) =>
-				{
-					await AuthenticateUser();
-					await _page.UserAuthenticationUpdated();
-				});
+			{
+				await AuthenticateUser();
+
+				await _page.UserAuthenticationUpdated();
+			});
 
 			base.ViewDidAppear(animated);
 		}
