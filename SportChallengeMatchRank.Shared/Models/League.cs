@@ -40,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref hasStarted, value);
+				SetPropertyChanged(ref hasStarted, value);
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _name, value);
+				SetPropertyChanged(ref _name, value);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _sport, value);
+				SetPropertyChanged(ref _sport, value);
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _isEnabled, value);
+				SetPropertyChanged(ref _isEnabled, value);
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _isAcceptingMembers, value);
+				SetPropertyChanged(ref _isAcceptingMembers, value);
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _maxChallengeRange, value);
+				SetPropertyChanged(ref _maxChallengeRange, value);
 			}
 		}
 
@@ -124,7 +124,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _minHoursBetweenChallenge, value);
+				SetPropertyChanged(ref _minHoursBetweenChallenge, value);
 			}
 		}
 
@@ -138,7 +138,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _matchGameCount, value);
+				SetPropertyChanged(ref _matchGameCount, value);
 			}
 		}
 
@@ -152,7 +152,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref description, value);
+				SetPropertyChanged(ref description, value);
 			}
 		}
 
@@ -166,7 +166,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _season, value);
+				SetPropertyChanged(ref _season, value);
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _memberships, value);
+				SetPropertyChanged(ref _memberships, value);
 			}
 		}
 
@@ -194,7 +194,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref imageUrl, value);
+				SetPropertyChanged(ref imageUrl, value);
 			}
 		}
 
@@ -208,7 +208,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref createdByAthleteId, value);
+				SetPropertyChanged(ref createdByAthleteId, value);
 				SetPropertyChanged("CreatedByAthlete");
 			}
 		}
@@ -223,7 +223,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _startDate, value);
+				SetPropertyChanged(ref _startDate, value);
 				SetPropertyChanged("DateRange");
 			}
 		}
@@ -238,7 +238,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _endDate, value);
+				SetPropertyChanged(ref _endDate, value);
 				SetPropertyChanged("DateRange");
 			}
 		}

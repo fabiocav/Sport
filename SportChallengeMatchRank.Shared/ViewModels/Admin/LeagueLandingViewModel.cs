@@ -26,7 +26,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _allLeagues, value);
+				SetPropertyChanged(ref _allLeagues, value);
 			}
 		}
 

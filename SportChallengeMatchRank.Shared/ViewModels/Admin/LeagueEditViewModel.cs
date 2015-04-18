@@ -44,7 +44,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref errorMessage, value, ErrorMessagePropertyName);
+				SetPropertyChanged(ref errorMessage, value, ErrorMessagePropertyName);
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _league, value, LeaguePropertyName);
+				SetPropertyChanged(ref _league, value, LeaguePropertyName);
 				ErrorMessage = null;
 				SetPropertyChanged("CanStartLeague");
 				UpdateMembershipStatus();
@@ -77,7 +77,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref isMember, value, IsMemberPropertyName);
+				SetPropertyChanged(ref isMember, value, IsMemberPropertyName);
 			}
 		}
 

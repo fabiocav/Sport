@@ -5,7 +5,7 @@ using System.Net;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class BaseViewModel : BaseModel
+	public class BaseViewModel : BaseNotify
 	{
 		bool _isBusy = false;
 		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
@@ -18,7 +18,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _isBusy, value);
+				SetPropertyChanged(ref _isBusy, value);
 				SetPropertyChanged("IsNotBusy");
 			}
 		}

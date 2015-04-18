@@ -34,7 +34,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _athleteId, value);
+				SetPropertyChanged(ref _athleteId, value);
 				SetPropertyChanged("Athlete");
 			}
 		}
@@ -49,7 +49,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _leagueId, value);
+				SetPropertyChanged(ref _leagueId, value);
 				SetPropertyChanged("League");
 			}
 		}
@@ -64,7 +64,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _currentRank, value);
+				SetPropertyChanged(ref _currentRank, value);
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _isAdmin, value);
+				SetPropertyChanged(ref _isAdmin, value);
 			}
 		}
 

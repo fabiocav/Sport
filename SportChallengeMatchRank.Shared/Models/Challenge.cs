@@ -66,7 +66,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _leagueId, value);
+				SetPropertyChanged(ref _leagueId, value);
 				SetPropertyChanged("League");
 				SetPropertyChanged("Summary");
 			}
@@ -82,7 +82,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _challengerAthleteId, value);
+				SetPropertyChanged(ref _challengerAthleteId, value);
 				SetPropertyChanged("ChallengerAthlete");
 				SetPropertyChanged("Summary");
 			}
@@ -98,7 +98,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _challengeeAthleteId, value);
+				SetPropertyChanged(ref _challengeeAthleteId, value);
 				SetPropertyChanged("ChallengeeAthlete");
 				SetPropertyChanged("Summary");
 			}
@@ -114,7 +114,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _dateCompleted, value);
+				SetPropertyChanged(ref _dateCompleted, value);
 				SetPropertyChanged("IsCompleted");
 			}
 		}
@@ -129,7 +129,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _dateAccepted, value);
+				SetPropertyChanged(ref _dateAccepted, value);
 				SetPropertyChanged("IsAccepted");
 			}
 		}
@@ -144,7 +144,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _proposedTime, value);
+				SetPropertyChanged(ref _proposedTime, value);
 				SetPropertyChanged("Summary");
 			}
 		}
@@ -177,7 +177,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _customMessage, value);
+				SetPropertyChanged(ref _customMessage, value);
 			}
 		}
 
@@ -203,7 +203,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _matchResult, value);
+				SetPropertyChanged(ref _matchResult, value);
 			}
 		}
 	}

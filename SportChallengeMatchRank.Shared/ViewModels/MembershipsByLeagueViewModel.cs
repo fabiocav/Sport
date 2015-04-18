@@ -22,7 +22,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _athlete, value, AthletePropertyName);
+				SetPropertyChanged(ref _athlete, value, AthletePropertyName);
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _league, value, LeaguePropertyName);
+				SetPropertyChanged(ref _league, value, LeaguePropertyName);
 			}
 		}
 

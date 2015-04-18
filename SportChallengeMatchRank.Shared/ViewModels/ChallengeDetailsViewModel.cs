@@ -29,7 +29,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref challenge, value);
+				SetPropertyChanged(ref challenge, value);
 			}
 		}
 

@@ -54,7 +54,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _name, value);
+				SetPropertyChanged(ref _name, value);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _email, value);
+				SetPropertyChanged(ref _email, value);
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _authenticationId, value);
+				SetPropertyChanged(ref _authenticationId, value);
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _isAdmin, value);
+				SetPropertyChanged(ref _isAdmin, value);
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _memberships, value);
+				SetPropertyChanged(ref _memberships, value);
 				SetPropertyChanged("Leagues");
 			}
 		}
@@ -125,7 +125,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref deviceToken, value);
+				SetPropertyChanged(ref deviceToken, value);
 			}
 		}
 
@@ -139,7 +139,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref devicePlatform, value);
+				SetPropertyChanged(ref devicePlatform, value);
 			}
 		}
 

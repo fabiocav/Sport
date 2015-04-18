@@ -64,7 +64,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				ProcPropertyChanged(ref _league, value);
+				SetPropertyChanged(ref _league, value);
 				SetPropertyChanged("SportDescription");
 				SetPropertyChanged("DateRange");
 				SetPropertyChanged("CreatedBy");
