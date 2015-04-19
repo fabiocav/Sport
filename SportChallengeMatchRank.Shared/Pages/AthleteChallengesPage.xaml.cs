@@ -41,6 +41,13 @@ namespace SportChallengeMatchRank.Shared
 			ViewModel.SetPropertyChanged("ChallengeGroups");
 			base.OnAppearing();
 		}
+
+		protected async override void OnUserAuthenticated()
+		{
+			base.OnUserAuthenticated();
+			ViewModel.AthleteId = App.CurrentAthlete.Id;
+			await ViewModel.GetChallenges();
+		}
 	}
 
 	public partial class AthleteChallengesXaml : BaseContentPage<AthleteChallengesViewModel>

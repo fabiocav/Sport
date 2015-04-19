@@ -44,7 +44,7 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			
 			AllAthletes.Clear();
-			await RunSafe(AzureService.Instance.GetAllAthletes());
+			await RunSafe(InternetService.Instance.GetAllAthletes());
 			_hasLoadedBefore = true;
 			LocalRefresh();
 		}

@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gdrive", "gdrive.csproj", "{EA674B01-26EE-4677-B0FA-7B0F433A1451}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Debug|iPhone.Build.0 = Debug|iPhone
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Release|iPhone.ActiveCfg = Release|iPhone
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Release|iPhone.Build.0 = Release|iPhone
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{EA674B01-26EE-4677-B0FA-7B0F433A1451}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+EndGlobal

@@ -47,6 +47,7 @@ namespace SportChallengeMatchRank.Shared
 		async protected override void OnUserAuthenticated()
 		{
 			base.OnUserAuthenticated();
+			ViewModel.AthleteId = App.CurrentAthlete.Id;
 			await ViewModel.GetLeagues();
 		}
 	}

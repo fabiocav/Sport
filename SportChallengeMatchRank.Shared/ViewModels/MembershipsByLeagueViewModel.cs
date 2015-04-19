@@ -54,7 +54,7 @@ namespace SportChallengeMatchRank.Shared
 			if(!forceRefresh && Athlete.Memberships != null && Athlete.Memberships.Count > 0)
 				return;
 			
-			await RunSafe(AzureService.Instance.GetAllLeaguesByAthlete(Athlete));
+			await RunSafe(InternetService.Instance.GetAllLeaguesByAthlete(Athlete));
 			LocalRefresh();
 		}
 
@@ -81,7 +81,7 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			LocalRefresh();
-			await RunSafe(AzureService.Instance.GetAllAthletesByLeague(League));
+			await RunSafe(InternetService.Instance.GetAllAthletesByLeague(League));
 			_hasLoadedBefore = true;
 			LocalRefresh();
 		}

@@ -16,14 +16,13 @@
     <Folder Include="$(MSBuildThisFileDirectory)Pages\Admin\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Admin\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthenticationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\AuthenticationPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AzureService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\BaseContentPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModel.cs" />
@@ -107,6 +106,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\PhotoSelectionViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MatchResultFormViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BaseNotify.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\InternetService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHUDProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

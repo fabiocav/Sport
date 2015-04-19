@@ -22,7 +22,6 @@ namespace SportChallengeMatchRank.Shared
 			{
 				_athleteId = value;
 				SetPropertyChanged("Athlete");
-				GetChallenges();
 			}
 		}
 
@@ -94,18 +93,18 @@ namespace SportChallengeMatchRank.Shared
 			ChallengeGroups.Clear();
 
 			//Load the opponents
-			await RunSafe(AzureService.Instance.GetAllChallengesByAthlete(Athlete));
+			await RunSafe(InternetService.Instance.GetAllChallengesByAthlete(Athlete));
 
 			foreach(var c in DataManager.Instance.Challenges.Values)
 			{
 				if(c.ChallengeeAthlete == null)
 				{
-					await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId));
+					await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengeeAthleteId));
 				}
 
 				if(c.ChallengerAthlete == null)
 				{
-					await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengerAthleteId));
+					await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengerAthleteId));
 				}
 			}
 

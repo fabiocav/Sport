@@ -27,12 +27,13 @@ namespace SportChallengeMatchRank.iOS
 			var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert
 			               | UIUserNotificationType.Badge
 			               | UIUserNotificationType.Sound, new NSSet());
+			
+			//TODO Add UI to allow user to opt into remote notifications
+//			UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+//			UIApplication.SharedApplication.RegisterForRemoteNotifications();
 
-			UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
-			UIApplication.SharedApplication.RegisterForRemoteNotifications();
-
-			UITabBar.Appearance.BarTintColor = UIColor.Red;
-			UITabBar.Appearance.TintColor = UIColor.Orange;
+//			UITabBar.Appearance.BarTintColor = UIColor.Red;
+//			UITabBar.Appearance.TintColor = UIColor.Orange;
 
 			return base.FinishedLaunching(app, options);
 		}

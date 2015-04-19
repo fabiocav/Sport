@@ -6,7 +6,7 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class UserProfile
 	{
-		[JsonProperty("_id")]
+		[JsonProperty("id")]
 		public string Id
 		{
 			get;
@@ -20,8 +20,8 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		[JsonProperty("email_verified")]
-		public bool EmailVerified
+		[JsonProperty("verified_email")]
+		public bool VerifiedEmail
 		{
 			get;
 			set;
@@ -48,6 +48,13 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		[JsonProperty("link")]
+		public string Link
+		{
+			get;
+			set;
+		}
+
 		[JsonProperty("picture")]
 		public string Picture
 		{
@@ -69,50 +76,8 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		[JsonProperty("user_id")]
-		public string UserId
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("lastLogin")]
-		public DateTime LastLogin
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("lastIP")]
-		public string LastIP
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("nickname")]
-		public string Nickname
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("identities")]
-		public IList<Identity> Identities
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("created_at")]
-		public DateTime CreatedAt
-		{
-			get;
-			set;
-		}
-
-		[JsonProperty("loginsCount")]
-		public int LoginsCount
+		[JsonProperty("hd")]
+		public string Hd
 		{
 			get;
 			set;

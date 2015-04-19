@@ -109,6 +109,7 @@ namespace System.ComponentModel
 		{
 			if(EqualityComparer<T>.Default.Equals(currentValue, newValue))
 				return false;
+			
 			currentValue = newValue;
 
 			var dirty = sender as IDirty;

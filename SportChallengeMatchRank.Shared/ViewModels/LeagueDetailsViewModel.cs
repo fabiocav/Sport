@@ -76,7 +76,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task LoadAthlete()
 		{
-			await RunSafe(AzureService.Instance.GetAthleteById(League.CreatedByAthleteId));
+			await RunSafe(InternetService.Instance.GetAthleteById(League.CreatedByAthleteId));
 			League.RefreshMemberships();
 			League.SetPropertyChanged("CreatedByAthlete");
 			SetPropertyChanged("CreatedBy");
@@ -90,14 +90,14 @@ namespace SportChallengeMatchRank.Shared
 				CurrentRank = 0,
 			};
 
-			await RunSafe(AzureService.Instance.SaveMembership(membership));
+			await RunSafe(InternetService.Instance.SaveMembership(membership));
 			SetPropertyChanged("IsMember");
 		}
 
 		async public Task LeaveLeague()
 		{
 			var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == League.Id);
-			await RunSafe(AzureService.Instance.DeleteMembership(membership.Id));
+			await RunSafe(InternetService.Instance.DeleteMembership(membership.Id));
 			SetPropertyChanged("IsMember");
 		}
 	}

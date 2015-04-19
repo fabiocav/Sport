@@ -95,13 +95,13 @@ namespace SportChallengeMatchRank.Shared
 			League.Sport = League.Sport ?? League.Sport.Trim();
 			League.CreatedByAthleteId = App.CurrentAthlete.Id;
 
-			var task = AzureService.Instance.SaveLeague(League);
+			var task = InternetService.Instance.SaveLeague(League);
 			await RunSafe(task);
 
 			if(task.IsFaulted)
 				return false;
 
-			await RunSafe(AzureService.Instance.SaveLeague(League));
+			await RunSafe(InternetService.Instance.SaveLeague(League));
 
 			if(!_wasMember && IsMember)
 			{
@@ -111,7 +111,7 @@ namespace SportChallengeMatchRank.Shared
 					CurrentRank = 0,
 				};
 
-				task = AzureService.Instance.SaveMembership(membership);
+				task = InternetService.Instance.SaveMembership(membership);
 				await RunSafe(task);
 				return !task.IsFaulted;
 			}
@@ -121,12 +121,12 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task DeleteLeague()
 		{
-			await RunSafe(AzureService.Instance.DeleteLeague(League.Id));
+			await RunSafe(InternetService.Instance.DeleteLeague(League.Id));
 		}
 
 		async public Task<DateTime?> StartLeague()
 		{
-			var task = AzureService.Instance.StartLeague(League.Id);
+			var task = InternetService.Instance.StartLeague(League.Id);
 			await task;
 
 			if(!task.IsCompleted)

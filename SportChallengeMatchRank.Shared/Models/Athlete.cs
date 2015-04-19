@@ -17,7 +17,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			Name = profile.Name;
 			Email = profile.Email;
-			AuthenticationId = profile.UserId;
+			AuthenticationId = profile.Id;
 			Initialize();
 		}
 

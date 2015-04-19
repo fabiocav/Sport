@@ -33,7 +33,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task PostMatchResults()
 		{
-			await RunSafe(AzureService.Instance.PostMatchResults(Challenge));
+			await RunSafe(InternetService.Instance.PostMatchResults(Challenge));
 		}
 	}
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
-using System.Threading.Tasks;
 using Toasts.Forms.Plugin.Abstractions;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -15,13 +13,11 @@ namespace SportChallengeMatchRank.Shared
 		{
 			BindingContext = ViewModel;
 
-			Application.Current.ModalPopped += (sender, e) =>
+			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
 			{
-				if(e.Modal is AuthenticationPage && App.CurrentAthlete != null)
-				{
+				if(App.CurrentAthlete != null)
 					OnUserAuthenticated();
-				}
-			};
+			});
 
 			ViewModel.OnTaskException = async(exception) =>
 			{
@@ -56,14 +52,6 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				return _viewModel ?? (_viewModel = DependencyService.Get<T>());
-			}
-		}
-
-		public void EnsureUserAuthenticated()
-		{
-			if(App.AuthUserProfile == null)
-			{
-				MessagingCenter.Send<BaseContentPage<T>>(this, "AuthenticateUser");
 			}
 		}
 

@@ -2,7 +2,7 @@
 
 <resources>
 
-	<style name="FindMyTrain.ActionBarTab">
+<!--	<style name="FindMyTrain.ActionBarTab">
 	    <item name="android:background">@drawable/tab_bar_background</item>
 	</style>
 
@@ -10,5 +10,5 @@
 	    <item name="android:actionBarTabStyle">@style/FindMyTrain.ActionBarTab</item>
 	    <item name="actionBarTabStyle">@style/FindMyTrain.ActionBarTab</item>
 	</style>
-	 
+	 -->
 </resources>

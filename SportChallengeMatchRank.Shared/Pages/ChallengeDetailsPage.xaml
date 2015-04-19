@@ -8,9 +8,9 @@
 			<StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
 				<StackLayout Spacing="12">
 					<Label Text="{Binding Challenge.League.Name, StringFormat='{0} presents...'}" FontSize="11" HorizontalOptions="Center" />
-					<Label Text="{Binding Challenge.ChallengerAthlete.Email}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+					<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 					<Label Text="vs" FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-					<Label Text="{Binding Challenge.ChallengeeAthlete.Email}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+					<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="22" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 				</StackLayout>
 
 				<StackLayout Padding="0,10,0,30" Spacing="8" Orientation="Horizontal">
@@ -26,15 +26,15 @@
 
 				<StackLayout Padding="0,10,0,25" Spacing="8" IsVisible="{Binding Challenge.IsCompleted}">
 					<Label Text="AND THE VICTORY GOES TO..." FontSize="12" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-					<Label Text="{Binding Challenge.WinningAthlete.Email}" FontSize="40" HorizontalOptions="Center" />
+					<Label Text="{Binding Challenge.WinningAthlete.Name}" FontSize="40" HorizontalOptions="Center" />
 				</StackLayout>
 
 				<ListView ItemsSource="{Binding Challenge.MatchResult}" Header="{Binding Challenge}" HeightRequest="170" IsVisible="{Binding Challenge.IsCompleted}">
 					<ListView.HeaderTemplate>
 						<DataTemplate>
 							<StackLayout Orientation="Horizontal" Spacing="20" Padding="11" BackgroundColor="Gray">
-								<Label Text="{Binding ChallengerAthlete.Email}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
-								<Label Text="{Binding ChallengeeAthlete.Email}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
+								<Label Text="{Binding ChallengerAthlete.Name}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
+								<Label Text="{Binding ChallengeeAthlete.Name}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
 							</StackLayout>
 						</DataTemplate>
 					</ListView.HeaderTemplate>

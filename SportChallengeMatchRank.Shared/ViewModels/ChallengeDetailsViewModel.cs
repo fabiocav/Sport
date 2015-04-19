@@ -70,7 +70,7 @@ namespace SportChallengeMatchRank.Shared
 			if(!forceRefresh && Challenge.MatchResult.Count > 0)
 				return;
 
-			var task = new Task<List<GameResult>>(() => AzureService.Instance.Client.GetTable<GameResult>().Where(r => r.ChallengeId == Challenge.Id).OrderBy(r => r.Index).ToListAsync().Result);
+			var task = new Task<List<GameResult>>(() => InternetService.Instance.Client.GetTable<GameResult>().Where(r => r.ChallengeId == Challenge.Id).OrderBy(r => r.Index).ToListAsync().Result);
 			await RunSafe(task);
 			var results = task.Result;
 
@@ -81,13 +81,13 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task AcceptChallenge()
 		{
-			await RunSafe(AzureService.Instance.AcceptChallenge(Challenge));
+			await RunSafe(InternetService.Instance.AcceptChallenge(Challenge));
 			NotifyPropertiesChanged();
 		}
 
 		async public Task DeclineChallenge()
 		{
-			await RunSafe(AzureService.Instance.DeclineChallenge(Challenge.Id));
+			await RunSafe(InternetService.Instance.DeclineChallenge(Challenge.Id));
 			App.CurrentAthlete.RefreshChallenges();
 			NotifyPropertiesChanged();
 		}
