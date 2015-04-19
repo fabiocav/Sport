@@ -10,6 +10,9 @@
 			<Button x:Name="btnAthletes" Text="Athletes" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
+			<Button x:Name="btnLogOut" Text="Log Out" Style="{StaticResource buttonStyle}"
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+
 			<Button x:Name="btnSettings" Text="Org Settings" Style="{StaticResource buttonStyle}"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" IsVisible="false" />
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Xamarin.Forms;
-using System.Windows.Input;
-
+﻿
 namespace SportChallengeMatchRank.Shared
 {
 	public partial class AdminPage : AdminPageXaml
@@ -27,6 +23,14 @@ namespace SportChallengeMatchRank.Shared
 			btnAthletes.Clicked += async(sender, e) =>
 			{
 				await Navigation.PushAsync(new AthleteLandingPage());	
+			};
+
+			btnLogOut.Clicked += (sender, e) =>
+			{
+				Settings.Instance.AthleteId = null;
+				Settings.Instance.AuthToken = null;
+				Settings.Instance.RefreshToken = null;
+				Settings.Instance.Save();
 			};
 		}
 

@@ -53,6 +53,9 @@ namespace SportChallengeMatchRank.Shared
 
 		async public void EnsureAthleteAuthenticated()
 		{
+			if(App.CurrentAthlete != null)
+				return;
+
 			ViewModel.SubscribeToProperty("AuthenticationStatus", () =>
 			{
 				Console.WriteLine(ViewModel.AuthenticationStatus);
