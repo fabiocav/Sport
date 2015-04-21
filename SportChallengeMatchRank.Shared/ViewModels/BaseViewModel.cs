@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
+using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -45,8 +46,6 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(OnTaskException != null)
 					OnTaskException(new WebException("Not connected to the Internet"));
-
-				return;
 			}
 
 			Exception exception = null;
@@ -74,6 +73,10 @@ namespace SportChallengeMatchRank.Shared
 
 				exception = ex;
 			}
+			catch(WebException e)
+			{
+				exception = e;
+			}
 			catch(Exception e)
 			{
 				exception = e;
@@ -83,9 +86,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				//TODO Log to Insights
 				Console.WriteLine(exception);
-
-				if(OnTaskException != null)
-					OnTaskException(exception);
+				MessagingCenter.Send<BaseViewModel, Exception>(this, "ExceptionOccurred", exception);
 			}
 		}
 

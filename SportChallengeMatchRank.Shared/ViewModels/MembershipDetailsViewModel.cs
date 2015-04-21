@@ -37,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				var challenge = Membership.GetExistingChallengeWithAthlete(App.CurrentAthlete);
-				return challenge != null && challenge.ChallengerAthleteId == App.CurrentAthlete.Id;
+				return challenge != null && !challenge.IsCompleted && challenge.ChallengerAthleteId == App.CurrentAthlete.Id;
 			}
 		}
 

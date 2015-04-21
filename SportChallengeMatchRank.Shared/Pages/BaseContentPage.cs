@@ -1,9 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
-using Toasts.Forms.Plugin.Abstractions;
-using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -18,25 +13,6 @@ namespace SportChallengeMatchRank.Shared
 				if(App.CurrentAthlete != null)
 					OnUserAuthenticated();
 			});
-
-			ViewModel.OnTaskException = async(exception) =>
-			{
-				var msg = exception.Message;
-				var mse = exception as MobileServiceInvalidOperationException;
-				if(mse != null)
-				{
-					var body = await mse.Response.Content.ReadAsStringAsync();
-					var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
-					var error = dict["message"].ToString();
-					error.ToToast(ToastNotificationType.Warning, "Doh!");
-					return;
-				}
-
-				if(msg.Length > 300)
-					msg = msg.Substring(0, 300);
-
-				msg.ToToast(ToastNotificationType.Error, "Something bad happened");
-			};
 		}
 
 		T _viewModel;

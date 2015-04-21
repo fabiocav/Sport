@@ -17,10 +17,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				if(_instance == null)
-					Settings.Load();
-
-				return _instance;
+				return _instance ?? (_instance = Settings.Load());
 			}
 		}
 
@@ -51,23 +48,25 @@ namespace SportChallengeMatchRank.Shared
 		public Task Save()
 		{
 			return Task.Factory.StartNew(() =>
+			{
+				Debug.WriteLine(string.Format("Saving settings: {0}", _filePath));
+				var json = JsonConvert.SerializeObject(this);
+				using(var sw = new StreamWriter(_filePath, false))
 				{
-					Debug.WriteLine(string.Format("Saving settings: {0}", _filePath));
-					var json = JsonConvert.SerializeObject(this);
-					using(var sw = new StreamWriter(_filePath, false))
-					{
-						sw.Write(json);
-					}
-				});
+					sw.Write(json);
+				}
+			});
 		}
 
-		public static void Load()
+		public static Settings Load()
 		{
 			Debug.WriteLine(string.Format("Loading settings: {0}", _filePath));
-			_instance = Helpers.LoadFromFile<Settings>(_filePath);
+			var settings = Helpers.LoadFromFile<Settings>(_filePath);
 
-			if(_instance == null)
-				_instance = new Settings();
+			if(settings == null)
+				settings = new Settings();
+
+			return settings;
 		}
 	}
 }

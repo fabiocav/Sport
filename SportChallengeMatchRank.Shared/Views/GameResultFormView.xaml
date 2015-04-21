@@ -17,8 +17,8 @@
 
 		<Label Text="{Binding GameIndex}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Grid.ColumnSpan="2" TextColor="Gray" HeightRequest="30" />
 
-		<Label Text="{Binding Challenge.ChallengerAthlete.Email}" Grid.Row="1" HorizontalOptions="Center" FontSize="11" />
-		<Label Text="{Binding Challenge.ChallengeeAthlete.Email}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="11" />
+		<Label Text="{Binding Challenge.ChallengerAthlete.Name}" Grid.Row="1" HorizontalOptions="Center" FontSize="11" />
+		<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="11" />
 
 		<Entry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullValueConverter.Instance}}"
 			Grid.Row="2" HorizontalOptions="Center" WidthRequest="100" Keyboard="Numeric" />

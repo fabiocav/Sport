@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Text;
+using ModernHttpClient;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -38,18 +38,22 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(_client == null)
 				{
-					HttpClientHandler handler = new HttpClientHandler();
+					var handler = new HttpClientHandler();
 
 					#if __IOS__
-					handler = new HttpClientHandler {
+
+					//Use ModernHttpClient and allow traffic to be routed into Charles/Fiddler/etc
+					handler = new NativeMessageHandler() {
 						Proxy = CoreFoundation.CFNetwork.GetDefaultProxy(),
 						UseProxy = true,
 					};
+
 					#endif
 
 					_client = new MobileServiceClient(Constants.AzureDomain, Constants.AzureClientId, new HttpMessageHandler[] {
 						handler
 					});
+
 					CurrentPlatform.Init();
 				}
 
@@ -593,6 +597,7 @@ namespace SportChallengeMatchRank.Shared
 				const string url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
 				client.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
 				var json = client.GetStringAsync(url).Result;
+				Console.WriteLine(json);
 				var profile = JsonConvert.DeserializeObject<UserProfile>(json);
 				return profile;
 			});
@@ -617,8 +622,9 @@ namespace SportChallengeMatchRank.Shared
 					client.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
 					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 					var response = client.PostAsync(url, content).Result;
-					dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Content.ReadAsStringAsync().Result);
-
+					var body = response.Content.ReadAsStringAsync().Result;
+					Console.WriteLine(body);
+					dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(body);
 					var newAuthToken = "{0} {1}".Fmt(dict["token_type"], dict["access_token"]);
 					return newAuthToken;
 				}
@@ -626,13 +632,5 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		#endregion
-	}
-
-	public enum SaveLeagueResult
-	{
-		None,
-		OK,
-		Failed,
-		Conflict
 	}
 }

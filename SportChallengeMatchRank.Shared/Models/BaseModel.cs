@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -6,6 +7,7 @@ namespace SportChallengeMatchRank.Shared
 	{
 		string _id;
 
+		[JsonProperty("id")]
 		public string Id
 		{
 			get

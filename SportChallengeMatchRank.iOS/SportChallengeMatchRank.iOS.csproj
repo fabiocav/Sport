@@ -138,6 +138,9 @@
     <Reference Include="BTProgressHUD">
       <HintPath>..\packages\BTProgressHUD.1.0.0\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
     </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\packages\modernhttpclient.2.3.0\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -150,9 +153,6 @@
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
     <None Include="Properties\_SettingsStarted.txt" />
-    <None Include="client_secret.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />

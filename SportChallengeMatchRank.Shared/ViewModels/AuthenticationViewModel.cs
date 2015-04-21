@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
 using nsoftware.InGoogle;
+using System.Linq;
 
 [assembly: Dependency(typeof(AuthenticationViewModel))]
 
@@ -10,6 +11,7 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class AuthenticationViewModel : BaseViewModel
 	{
+		Oauth _authClient;
 		string _authenticationStatus;
 
 		public string AuthenticationStatus
@@ -38,10 +40,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public bool IsUserValid()
 		{
-			return App.AuthUserProfile != null &&
-			App.AuthUserProfile.Email != null;
-//			App.AuthUserProfile.Email.EndsWith("@xamarin.com", StringComparison.OrdinalIgnoreCase) &&
-			//App.AuthUserProfile.EmailVerified;
+			return App.AuthUserProfile != null && App.AuthUserProfile.Email != null;
 		}
 
 		public void LogOut()
@@ -54,34 +53,24 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task AuthenticateUser()
 		{
-			var auth = new Oauth();
-
-			auth.OnSSLServerAuthentication += (s, e) =>
-			{
-				e.Accept = true;
-				//auth.OnSSLServerAuthentication.GetInvocationList().ToList().ForEach(p => auth.OnSSLServerAuthentication -= p);
-			};
-
-			auth.OnLaunchBrowser += (sender, e) =>
-			{
-				OnDisplayAuthForm(e.URL);
-				//auth.OnLaunchBrowser.GetInvocationList().ToList().ForEach(p => auth.OnLaunchBrowser -= p);
-			};
+			_authClient = _authClient ?? new Oauth();
+			_authClient.OnSSLServerAuthentication += OnSSLServerAuthentication;
+			_authClient.OnLaunchBrowser += OnLaunchBrowser;
 
 			try
 			{
 				AuthenticationStatus = "Checking with Google Auth";
-				await Task.Delay(1000);
-				auth.ClientProfile = OauthClientProfiles.cfMobile;
-				auth.ClientId = Constants.GoogleApiClientId;
-				auth.ClientSecret = Constants.GoogleClientSecret;
-				auth.ServerAuthURL = "https://accounts.google.com/o/oauth2/auth";
-				auth.ServerTokenURL = "https://accounts.google.com/o/oauth2/token";
-				auth.AuthorizationScope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar";
-				var token = await auth.GetAuthorizationAsync();
+				await Task.Delay(500);
+				_authClient.ClientProfile = OauthClientProfiles.cfMobile;
+				_authClient.ClientId = Constants.GoogleApiClientId;
+				_authClient.ClientSecret = Constants.GoogleClientSecret;
+				_authClient.ServerAuthURL = "https://accounts.google.com/o/oauth2/auth";
+				_authClient.ServerTokenURL = "https://accounts.google.com/o/oauth2/token";
+				_authClient.AuthorizationScope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar";
+				var token = await _authClient.GetAuthorizationAsync();
 				OnHideAuthForm();
 
-				Settings.Instance.RefreshToken = auth.RefreshToken;
+				Settings.Instance.RefreshToken = _authClient.RefreshToken;
 				Settings.Instance.AuthToken = token;
 				await Settings.Instance.Save();
 			}
@@ -91,6 +80,16 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		void OnLaunchBrowser(object sender, OauthLaunchBrowserEventArgs e)
+		{
+			OnDisplayAuthForm(e.URL);
+		}
+
+		void OnSSLServerAuthentication(object sender, OauthSSLServerAuthenticationEventArgs e)
+		{
+			e.Accept = true;
+		}
+
 		async public Task<bool> EnsureAthleteRegistered(bool forceRefresh = false)
 		{
 			if(App.CurrentAthlete != null && !forceRefresh)
@@ -98,6 +97,8 @@ namespace SportChallengeMatchRank.Shared
 
 			Settings.Instance.AthleteId = null;
 			Athlete athlete = null;
+			AuthenticationStatus = "Getting Athlete's Profile";
+			await Task.Delay(500);
 
 			//No AthleteId on record
 			if(!string.IsNullOrWhiteSpace(Settings.Instance.AthleteId))
@@ -105,6 +106,9 @@ namespace SportChallengeMatchRank.Shared
 				var task = InternetService.Instance.GetAthleteById(Settings.Instance.AthleteId);
 				await RunSafe(task);
 
+				if(task.IsFaulted)
+					return false;
+				
 				if(task.IsCompleted)
 					athlete = task.Result;
 			}
@@ -113,6 +117,9 @@ namespace SportChallengeMatchRank.Shared
 			{
 				var task = InternetService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
 				await RunSafe(task);
+
+				if(task.IsFaulted)
+					return false;
 
 				if(task.IsCompleted)
 					athlete = task.Result;
@@ -123,6 +130,9 @@ namespace SportChallengeMatchRank.Shared
 				var task = InternetService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
 				await RunSafe(task);
 
+				if(task.IsFaulted)
+					return false;
+
 				if(task.IsCompleted)
 					athlete = task.Result;
 			}
@@ -130,6 +140,7 @@ namespace SportChallengeMatchRank.Shared
 			//Unable to get athlete - add as new
 			if(athlete == null)
 			{
+				AuthenticationStatus = "Registering Athlete";
 				athlete = new Athlete(App.AuthUserProfile);
 				await RunSafe(InternetService.Instance.SaveAthlete(athlete));
 			}
@@ -155,12 +166,12 @@ namespace SportChallengeMatchRank.Shared
 			if(Settings.Instance.AuthToken == null)
 			{
 				AuthenticationStatus = "Authenticating with Google";
-				await Task.Delay(1000);
+				await Task.Delay(500);
 				await AuthenticateUser();
 			}
 
 			AuthenticationStatus = "Getting user profile";
-			await Task.Delay(1000);
+			await Task.Delay(500);
 			var task = InternetService.Instance.GetUserProfile();
 			await RunSafe(task);
 
@@ -168,7 +179,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				//Likely our authtoken has expired
 				AuthenticationStatus = "Refreshing token";
-				await Task.Delay(1000);
+				await Task.Delay(500);
 
 				var refreshTask = InternetService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
 				await RunSafe(refreshTask);
@@ -190,14 +201,24 @@ namespace SportChallengeMatchRank.Shared
 			if(task.IsCompleted && !task.IsFaulted)
 			{
 				AuthenticationStatus = "Authentication complete";
-				await Task.Delay(1000);
+				await Task.Delay(500);
 				App.AuthUserProfile = task.Result;
+				Settings.Instance.AuthUserID = App.AuthUserProfile.Id;
+				Settings.Instance.Save();
 			}
 			else
 			{
 				AuthenticationStatus = "Unable to authenticate";
-				await Task.Delay(1000);
+				await Task.Delay(500);
 			}
+		}
+
+		public override void Dispose()
+		{
+			base.Dispose();
+
+			_authClient.OnSSLServerAuthentication -= OnSSLServerAuthentication;
+			_authClient.OnLaunchBrowser -= OnLaunchBrowser;
 		}
 	}
 }

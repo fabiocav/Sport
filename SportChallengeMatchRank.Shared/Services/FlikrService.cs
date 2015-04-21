@@ -8,10 +8,6 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class FlikrService
 	{
-		public FlikrService()
-		{
-		}
-
 		static FlikrService _instance;
 
 		public static FlikrService Instance

@@ -2,11 +2,32 @@
 using Xamarin.Forms;
 using Connectivity.Plugin;
 using Toasts.Forms.Plugin.Abstractions;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.Shared
 {
 	public partial class App : Application
 	{
+		public IHUDProvider _hud;
+
+		public IHUDProvider Hud
+		{
+			get
+			{
+				return _hud ?? (_hud = DependencyService.Get<IHUDProvider>());
+			}
+		}
+
+		public static App Current
+		{
+			get
+			{
+				return (App)Application.Current;
+			}
+		}
+
 		public App()
 		{
 			InitializeComponent();
@@ -22,6 +43,42 @@ namespace SportChallengeMatchRank.Shared
 				"Connectivity is now {0}connected".Fmt(!args.IsConnected ? "dis" : "")
 						.ToToast(args.IsConnected ? ToastNotificationType.Info : ToastNotificationType.Warning, "Connectivity changed");
 			};
+
+			MessagingCenter.Subscribe<BaseViewModel, Exception>(this, "ExceptionOccurred", (viewModel, exception) =>
+			{
+				Device.BeginInvokeOnMainThread(async() =>
+				{
+					try
+					{
+						if(_hud != null)
+						{
+							_hud.Dismiss();
+						}
+
+						var msg = exception.Message;
+						var mse = exception as MobileServiceInvalidOperationException;
+
+						if(mse != null)
+						{
+							var body = await mse.Response.Content.ReadAsStringAsync();
+							var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+							var error = dict["message"].ToString();
+							error.ToToast(ToastNotificationType.Warning, "Doh!");
+							return;
+						}
+
+						if(msg.Length > 300)
+							msg = msg.Substring(0, 300);
+
+						msg.ToToast(ToastNotificationType.Error, "Something bad happened");
+					}
+					catch(Exception e)
+					{
+						Console.WriteLine(e);
+					}
+				});
+			});
+
 		}
 
 		public static Athlete CurrentAthlete

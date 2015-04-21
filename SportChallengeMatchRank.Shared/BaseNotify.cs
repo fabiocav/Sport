@@ -17,7 +17,7 @@ namespace SportChallengeMatchRank.Shared
 			PropertyChanged += OnPropertyChanged;
 		}
 
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			ClearEvents();
 		}

@@ -75,7 +75,9 @@ namespace SportChallengeMatchRank.Shared
 		async public Task GetChallenges(bool forceRefresh = false)
 		{
 			if(Athlete == null)
+			{
 				return;
+			}
 
 			if(!forceRefresh && _hasLoadedBefore)
 			{
@@ -93,7 +95,11 @@ namespace SportChallengeMatchRank.Shared
 			ChallengeGroups.Clear();
 
 			//Load the opponents
-			await RunSafe(InternetService.Instance.GetAllChallengesByAthlete(Athlete));
+			var task = InternetService.Instance.GetAllChallengesByAthlete(Athlete);
+			await task;
+
+			if(task.IsFaulted)
+				return;
 
 			foreach(var c in DataManager.Instance.Challenges.Values)
 			{

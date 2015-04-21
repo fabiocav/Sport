@@ -8,7 +8,6 @@ namespace SportChallengeMatchRank.Shared
 	{
 		bool _hasAttemptedAuthentication = false;
 		AuthenticationViewModel _viewModel;
-		IHUDProvider _hud;
 
 		public AuthenticationViewModel ViewModel
 		{
@@ -23,7 +22,6 @@ namespace SportChallengeMatchRank.Shared
 
 		public AthleteTabbedPage()
 		{
-			_hud = DependencyService.Get<IHUDProvider>();
 			var id = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
 
 			Children.Add(new NavigationPage(new AthleteLeaguesPage()) {
@@ -39,8 +37,6 @@ namespace SportChallengeMatchRank.Shared
 				Title = "Admin",
 				//BarBackgroundColor = App.BlueColor
 			});
-
-			BackgroundColor = App.GreenColor;
 		}
 
 		protected override void OnAppearing()
@@ -59,21 +55,20 @@ namespace SportChallengeMatchRank.Shared
 			ViewModel.SubscribeToProperty("AuthenticationStatus", () =>
 			{
 				Console.WriteLine(ViewModel.AuthenticationStatus);
-				Device.BeginInvokeOnMainThread(async() =>
+				Device.BeginInvokeOnMainThread(() =>
 				{
-					_hud.DisplayProgress(ViewModel.AuthenticationStatus);
-					await Task.Delay(1000);
+					App.Current.Hud.DisplayProgress(ViewModel.AuthenticationStatus);
 				});
 			});
 
-			_hud.DisplayProgress("Authenticating");
-			await Task.Delay(200);
+			App.Current.Hud.DisplayProgress("Authenticating");
 
 			if(App.CurrentAthlete == null && !_hasAttemptedAuthentication)
 			{
 				_hasAttemptedAuthentication = true;
 				await AttemptToAuthenticateAthlete();
-				_hud.Dismiss();
+
+				App.Current.Hud.Dismiss();
 			}
 		}
 
@@ -81,7 +76,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			ViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
 			{
-				_hud.Dismiss();
+				App.Current.Hud.Dismiss();
 				var webView = new WebView();
 				webView.Source = url;
 				var page = new ContentPage();
