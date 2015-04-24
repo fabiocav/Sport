@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using System.Collections.ObjectModel;
-using Xamarin.Forms;
-using System.Windows.Input;
 using System.Linq;
-using System;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AvailableLeaguesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -65,7 +65,12 @@ namespace SportChallengeMatchRank.Shared
 			_hasLoadedBefore = true;
 			LocalRefresh();
 
-			return;
+			if(Leagues.Count == 0)
+			{
+				Leagues.Add(new League {
+					Name = "There are no joinable leagues",
+				});
+			}
 		}
 	}
 }

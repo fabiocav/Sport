@@ -32,7 +32,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			InitializeComponent();
 			IsNetworkRechable = true;
-			MainPage = new AthleteTabbedPage();
+			MainPage = new MasterDetailPage();
 
 			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
 			{

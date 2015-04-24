@@ -35,6 +35,7 @@ namespace SportChallengeMatchRank.Shared
 					{
 						btnStartLeague.IsVisible = false;
 						"It's on like a prawn that yawns at dawn!".ToToast(ToastNotificationType.Success, "League Started!");
+						await Navigation.PopModalAsync();
 					}
 				}
 				catch(Exception ex)
@@ -109,6 +110,12 @@ namespace SportChallengeMatchRank.Shared
 
 		async public void OnSelectPhotoButtonClicked(object sender, EventArgs e)
 		{
+			if(string.IsNullOrWhiteSpace(ViewModel.League.Sport))
+			{
+				"Please enter a sport first.".ToToast(ToastNotificationType.Warning);
+				return;				
+			}
+
 			var photoPage = new PhotoSelectionPage(ViewModel.League);
 			photoPage.OnImageSelected = async() =>
 			{

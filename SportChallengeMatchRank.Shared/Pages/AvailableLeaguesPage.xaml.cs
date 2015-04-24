@@ -31,6 +31,10 @@ namespace SportChallengeMatchRank.Shared
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
 
+				//Empty message?
+				if(league.Id == null)
+					return;
+
 				var page = new LeagueDetailsPage(league);
 				page.OnJoinedLeague = async(l) =>
 				{
@@ -38,11 +42,6 @@ namespace SportChallengeMatchRank.Shared
 					if(OnJoinedLeague != null)
 					{
 						OnJoinedLeague(l);
-					}
-
-					if(ViewModel.Leagues.Count == 0)
-					{
-						await Navigation.PopModalAsync();
 					}
 				};
 

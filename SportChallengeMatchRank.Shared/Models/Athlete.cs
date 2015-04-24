@@ -18,6 +18,7 @@ namespace SportChallengeMatchRank.Shared
 			Name = profile.Name;
 			Email = profile.Email;
 			AuthenticationId = profile.Id;
+			ProfileImageUrl = profile.Picture;
 			Initialize();
 		}
 
@@ -27,6 +28,12 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		public List<string> MembershipIds
+		{
+			get;
+			set;
+		}
+
+		public string Alias
 		{
 			get;
 			set;
@@ -115,37 +122,52 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		string deviceToken;
+		string _deviceToken;
 
 		public string DeviceToken
 		{
 			get
 			{
-				return deviceToken;
+				return _deviceToken;
 			}
 			set
 			{
-				SetPropertyChanged(ref deviceToken, value);
+				SetPropertyChanged(ref _deviceToken, value);
 			}
 		}
 
-		string devicePlatform;
+		string _devicePlatform;
 
 		public string DevicePlatform
 		{
 			get
 			{
-				return devicePlatform;
+				return _devicePlatform;
 			}
 			set
 			{
-				SetPropertyChanged(ref devicePlatform, value);
+				SetPropertyChanged(ref _devicePlatform, value);
+			}
+		}
+
+		string _profileImageUrl;
+
+		public string ProfileImageUrl
+		{
+			get
+			{
+				return _profileImageUrl;
+			}
+			set
+			{
+				SetPropertyChanged(ref _profileImageUrl, value);
 			}
 		}
 
 		public void RefreshMemberships()
 		{
 			_memberships.Clear();
+			//TODO Error here when deleting an existing league
 			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).OrderBy(l => l.League.Name).ToList().ForEach(_memberships.Add);
 		}
 
@@ -157,7 +179,6 @@ namespace SportChallengeMatchRank.Shared
 				return Memberships.Select(m => m.League).ToList();
 			}
 		}
-
 
 		[JsonIgnore]
 		public List<Challenge> IncomingChallenges

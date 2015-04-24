@@ -72,6 +72,10 @@ namespace SportChallengeMatchRank.Shared
 
 			var task = new Task<List<GameResult>>(() => InternetService.Instance.Client.GetTable<GameResult>().Where(r => r.ChallengeId == Challenge.Id).OrderBy(r => r.Index).ToListAsync().Result);
 			await RunSafe(task);
+
+			if(task.IsFaulted)
+				return;
+
 			var results = task.Result;
 
 			Challenge.MatchResult.Clear();
@@ -79,17 +83,21 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("Challenge");
 		}
 
-		async public Task AcceptChallenge()
+		async public Task<bool> AcceptChallenge()
 		{
-			await RunSafe(InternetService.Instance.AcceptChallenge(Challenge));
+			var task = InternetService.Instance.AcceptChallenge(Challenge);
+			await RunSafe(task);
 			NotifyPropertiesChanged();
+			return !task.IsFaulted;
 		}
 
-		async public Task DeclineChallenge()
+		async public Task<bool> DeclineChallenge()
 		{
-			await RunSafe(InternetService.Instance.DeclineChallenge(Challenge.Id));
+			var task = InternetService.Instance.DeclineChallenge(Challenge.Id);
+			await RunSafe(task);
 			App.CurrentAthlete.RefreshChallenges();
 			NotifyPropertiesChanged();
+			return !task.IsFaulted;
 		}
 
 		public void NotifyPropertiesChanged()

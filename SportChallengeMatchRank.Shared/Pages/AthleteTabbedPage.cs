@@ -42,7 +42,9 @@ namespace SportChallengeMatchRank.Shared
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			EnsureAthleteAuthenticated();
+
+			if(!_hasAttemptedAuthentication)
+				EnsureAthleteAuthenticated();
 		}
 
 		#region Authentication

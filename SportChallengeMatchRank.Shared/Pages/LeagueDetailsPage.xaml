@@ -5,28 +5,19 @@
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
 	<ScrollView>
-		<Grid>
+		<Grid BackgroundColor="Black">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-			</Image>
+			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".55" />
 
 			<StackLayout Padding="20" Spacing="15" VerticalOptions="Start">
-
 				<Label Text="{Binding League.Name}" FontSize="50" TextColor="White" />
-				<Label Text="{Binding League.Sport}" FontSize="20" TextColor="White" />
+				<Label Text="{Binding League.Sport, StringFormat='the noble sport of \{0\}'}" FontSize="20" TextColor="White" />
 
-				<StackLayout Orientation="Horizontal" Spacing="8">
-					<Label Text="Created on: " TextColor="White" />
-					<Label Text="{Binding League.DateCreated}" TextColor="White" />
-				</StackLayout>
-
-				<StackLayout Orientation="Horizontal" Spacing="8">
-					<Label Text="Created by: " TextColor="White" />
-					<Label Text="{Binding League.CreatedByAthlete.Name}" TextColor="White" />
-				</StackLayout>
+				<Label Text="{Binding League.DateCreated, StringFormat='established \{0:MMM dd yyyy\}'}" TextColor="White" />
+				<Label Text="{Binding League.CreatedByAthlete.Name, StringFormat='by \{0\}'}" TextColor="White" />
 			</StackLayout>
 
 			<StackLayout Padding="20" Spacing="10" VerticalOptions="End">

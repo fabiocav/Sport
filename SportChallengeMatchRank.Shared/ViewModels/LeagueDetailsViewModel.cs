@@ -82,7 +82,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("CreatedBy");
 		}
 
-		async public Task JoinLeague()
+		async public Task<bool> JoinLeague()
 		{
 			var membership = new Membership {
 				AthleteId = App.CurrentAthlete.Id,
@@ -90,8 +90,11 @@ namespace SportChallengeMatchRank.Shared
 				CurrentRank = 0,
 			};
 
-			await RunSafe(InternetService.Instance.SaveMembership(membership));
+			var task = InternetService.Instance.SaveMembership(membership);
+			await RunSafe(task);
+
 			SetPropertyChanged("IsMember");
+			return task.IsCompleted && !task.IsFaulted;
 		}
 
 		async public Task LeaveLeague()

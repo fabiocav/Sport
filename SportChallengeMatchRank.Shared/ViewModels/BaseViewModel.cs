@@ -40,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		public async Task RunSafe(Task task)
+		public async Task RunSafe(Task task, bool notifyOnError = true)
 		{
 			if(!App.IsNetworkRechable)
 			{
@@ -86,7 +86,11 @@ namespace SportChallengeMatchRank.Shared
 			{
 				//TODO Log to Insights
 				Console.WriteLine(exception);
-				MessagingCenter.Send<BaseViewModel, Exception>(this, "ExceptionOccurred", exception);
+
+				if(notifyOnError)
+				{
+					MessagingCenter.Send<BaseViewModel, Exception>(this, "ExceptionOccurred", exception);
+				}
 			}
 		}
 

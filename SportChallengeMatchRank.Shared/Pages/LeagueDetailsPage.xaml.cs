@@ -37,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(!ViewModel.League.HasStarted)
 				{
-					"This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?".ToToast(ToastNotificationType.Warning);
+					"This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?".ToToast(ToastNotificationType.Warning, "No can do");
 					return;
 				}
 
@@ -53,12 +53,16 @@ namespace SportChallengeMatchRank.Shared
 
 				if(accepted)
 				{
-					await ViewModel.JoinLeague();
-					"Behold! You are now a member of {0}".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
+					var success = await ViewModel.JoinLeague();
 
-					if(OnJoinedLeague != null)
+					if(success)
 					{
-						OnJoinedLeague(ViewModel.League);
+						"You are now a member of {0}".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success, "Behold!");
+
+						if(OnJoinedLeague != null)
+						{
+							OnJoinedLeague(ViewModel.League);
+						}
 					}
 				}
 			};
@@ -77,7 +81,7 @@ namespace SportChallengeMatchRank.Shared
 					if(accepted)
 					{
 						await ViewModel.LeaveLeague();
-						"Unable to leave this league because you have been already been ejected, so there :P".ToToast(ToastNotificationType.Info);
+						"Can't leave this league because you have been already been ejected, so there :P".ToToast(ToastNotificationType.Info, "No can do");
 						if(OnAbandondedLeague != null)
 						{
 							OnAbandondedLeague(ViewModel.League);

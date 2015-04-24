@@ -2,15 +2,22 @@
 <ListView xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.LeagueListView"
-	IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+	IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<ListView.ItemTemplate>
 		<DataTemplate>
 			<ViewCell>
 				<ViewCell.View>
-					<StackLayout Padding="20,10,10,10" Spacing="0">
-						<Label Text="{Binding Name}" FontSize="13" />
-						<Label Text="{Binding Sport}" FontSize="11" />
-					</StackLayout>
+					<Grid>
+						<StackLayout Padding="20,10,10,10" Orientation="Horizontal" Spacing="20"
+							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+							<Label Text="{Binding Name}" FontSize="13" />
+							<Label Text="{Binding Sport}" FontSize="11" />
+						</StackLayout>
+						<StackLayout Padding="60,10,10,10" IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+							<Label Text="{Binding Name}" FontSize="16" />
+						</StackLayout>
+					</Grid>
 				</ViewCell.View>
 			</ViewCell>
 		</DataTemplate>

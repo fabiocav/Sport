@@ -19,7 +19,7 @@
             <Style x:Key="buttonStyle" TargetType="Button">
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="HeightRequest" Value="40" />
-                <Setter Property="BackgroundColor" Value="#99000000" />
+                <Setter Property="BackgroundColor" Value="#88000000" />
                 <Setter Property="FontSize">
                 	<Setter.Value>
                 		<OnPlatform x:TypeArguments="x:Double">
@@ -28,6 +28,12 @@
 						</OnPlatform>
                 	</Setter.Value>
                 </Setter>
+            </Style>
+            <Style x:Key="purpleButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
+                <Setter Property="BackgroundColor" Value="#b455b6" />
+            </Style>
+            <Style x:Key="blueButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
+                <Setter Property="BackgroundColor" Value="#2c3e50" />
             </Style>
             <Style x:Key="deleteButtonStyle" TargetType="Button">
                 <Setter Property="TextColor" Value="#FFFFFF" />

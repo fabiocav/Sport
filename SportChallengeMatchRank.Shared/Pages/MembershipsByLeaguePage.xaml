@@ -2,25 +2,33 @@
 <local:MembershipsByLeagueXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.MembershipsByLeaguePage"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:MembershipsByLeagueXaml.Content>
-		<ListView x:Name="list" RowHeight="66" ItemsSource="{Binding League.Memberships}"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshCommand="{Binding GetAllMembershipsByLeagueCommand}">
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<ViewCell>
-						<ViewCell.View>
-							<StackLayout Padding="40,10,20,10" Spacing="20" Orientation="Horizontal">
-								<Label Text="{Binding CurrentRank}" FontSize="42" VerticalOptions="Center" />
-								<StackLayout Spacing="0">
-									<Label Text="{Binding Athlete.Name}" FontSize="20" VerticalOptions="Center" />
-									<Label Text="{Binding Athlete.Email}" FontSize="12" HorizontalOptions="End" VerticalOptions="Center" />
+		<Grid BackgroundColor="Black">
+
+			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".55" />
+
+			<ListView x:Name="list" RowHeight="66" ItemsSource="{Binding League.Memberships}" BackgroundColor="Transparent"
+				IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshCommand="{Binding GetAllMembershipsByLeagueCommand}">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<ViewCell.View>
+								<StackLayout Padding="40,10,20,10" Spacing="20" Orientation="Horizontal">
+									<Label Text="{Binding CurrentRank}" FontSize="42" VerticalOptions="Center" TextColor="White" />
+									<StackLayout Spacing="20" Orientation="Horizontal">
+										<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
+											HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="40" HeightRequest="40"  />
+										<Label Text="{Binding Athlete.Name}" FontSize="20" VerticalOptions="Center" TextColor="White" />
+										<Label Text="{Binding Athlete.Email}" FontSize="12" HorizontalOptions="End" TextColor="White" VerticalOptions="Center" />
+									</StackLayout>
 								</StackLayout>
-							</StackLayout>
-						</ViewCell.View>
-					</ViewCell>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+							</ViewCell.View>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</Grid>
 	</local:MembershipsByLeagueXaml.Content>
 </local:MembershipsByLeagueXaml>

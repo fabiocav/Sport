@@ -68,6 +68,20 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		DateTime? _lastRankChange;
+
+		public DateTime? LastRankChange
+		{
+			get
+			{
+				return _lastRankChange;
+			}
+			set
+			{
+				SetPropertyChanged(ref _lastRankChange, value);
+			}
+		}
+
 		bool _isAdmin;
 
 		public bool IsAdmin
@@ -82,6 +96,15 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		[JsonIgnore]
+		public DateTime LastRankChangeDate
+		{
+			get
+			{
+				return LastRankChange == null ? DateCreated.Value : LastRankChange.Value; 
+			}
+		}
+
 		public void LocalRefresh()
 		{
 			if(Athlete != null)
@@ -91,7 +114,7 @@ namespace SportChallengeMatchRank.Shared
 				League.RefreshMemberships();
 		}
 
-		public Challenge GetExistingChallengeWithAthlete(Athlete athlete)
+		public Challenge GetExistingOngoingChallengeWithAthlete(Athlete athlete)
 		{
 			if(Athlete == null || athlete.Id == Athlete.Id)
 				return null;
@@ -102,7 +125,7 @@ namespace SportChallengeMatchRank.Shared
 			if(membership != null)
 			{
 				return athlete.AllChallenges.FirstOrDefault(c => (c.ChallengeeAthleteId == athlete.Id ||
-				c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId);
+				c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId && !c.IsCompleted);
 			}
 
 			return null;
@@ -110,7 +133,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public bool HasExistingChallengeWithAthlete(Athlete athlete)
 		{
-			return GetExistingChallengeWithAthlete(athlete) != null;
+			return GetExistingOngoingChallengeWithAthlete(athlete) != null;
 		}
 
 		public bool CanChallengeAthlete(Athlete athlete)
@@ -140,7 +163,6 @@ namespace SportChallengeMatchRank.Shared
 				canChallenge = !alreadyChallenged;
 			}
 
-			Console.WriteLine("CanChallenge " + canChallenge);
 			return canChallenge;
 		}
 	}

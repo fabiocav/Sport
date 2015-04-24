@@ -96,7 +96,7 @@ namespace SportChallengeMatchRank.Shared
 
 			//Load the opponents
 			var task = InternetService.Instance.GetAllChallengesByAthlete(Athlete);
-			await task;
+			await RunSafe(task);
 
 			if(task.IsFaulted)
 				return;

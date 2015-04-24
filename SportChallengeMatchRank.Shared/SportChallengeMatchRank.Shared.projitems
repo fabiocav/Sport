@@ -108,6 +108,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)BaseNotify.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\InternetService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHUDProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MasterDetailPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -159,6 +163,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\PhotoSelectionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

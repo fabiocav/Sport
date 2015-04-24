@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class BaseModel : BaseNotify
+	public class BaseModel : BaseNotify, IDirty
 	{
 		string _id;
 
@@ -32,6 +32,12 @@ namespace SportChallengeMatchRank.Shared
 			{
 				SetPropertyChanged(ref _dateCreated, value);
 			}
+		}
+
+		public bool IsDirty
+		{
+			get;
+			set;
 		}
 	}
 }

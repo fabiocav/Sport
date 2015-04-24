@@ -73,6 +73,8 @@ namespace SportChallengeMatchRank.Android
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::SportChallengeMatchRank.Android.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::SportChallengeMatchRank.Android.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::SportChallengeMatchRank.Android.Resource.Styleable.ProgressWheel_ahTextSize;
+			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::SportChallengeMatchRank.Android.Resource.String.ApplicationName;
+			global::Xamarin.Forms.Platform.Resource.String.Hello = global::SportChallengeMatchRank.Android.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -421,23 +423,23 @@ namespace SportChallengeMatchRank.Android
 		public partial class Boolean
 		{
 			
-			// aapt resource value: 0x7f060000
-			public const int abs__action_bar_embed_tabs = 2131099648;
+			// aapt resource value: 0x7f050000
+			public const int abs__action_bar_embed_tabs = 2131034112;
 			
-			// aapt resource value: 0x7f060002
-			public const int abs__action_bar_expanded_action_views_exclusive = 2131099650;
+			// aapt resource value: 0x7f050002
+			public const int abs__action_bar_expanded_action_views_exclusive = 2131034114;
 			
-			// aapt resource value: 0x7f060004
-			public const int abs__config_actionMenuItemAllCaps = 2131099652;
+			// aapt resource value: 0x7f050004
+			public const int abs__config_actionMenuItemAllCaps = 2131034116;
 			
-			// aapt resource value: 0x7f060005
-			public const int abs__config_allowActionMenuItemTextWithIcon = 2131099653;
+			// aapt resource value: 0x7f050005
+			public const int abs__config_allowActionMenuItemTextWithIcon = 2131034117;
 			
-			// aapt resource value: 0x7f060003
-			public const int abs__config_showMenuShortcutsWhenKeyboardPresent = 2131099651;
+			// aapt resource value: 0x7f050003
+			public const int abs__config_showMenuShortcutsWhenKeyboardPresent = 2131034115;
 			
-			// aapt resource value: 0x7f060001
-			public const int abs__split_action_bar_is_narrow = 2131099649;
+			// aapt resource value: 0x7f050001
+			public const int abs__split_action_bar_is_narrow = 2131034113;
 			
 			static Boolean()
 			{
@@ -452,41 +454,41 @@ namespace SportChallengeMatchRank.Android
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040002
-			public const int abs__background_holo_dark = 2130968578;
+			// aapt resource value: 0x7f060000
+			public const int abs__background_holo_dark = 2131099648;
 			
-			// aapt resource value: 0x7f040003
-			public const int abs__background_holo_light = 2130968579;
+			// aapt resource value: 0x7f060001
+			public const int abs__background_holo_light = 2131099649;
 			
-			// aapt resource value: 0x7f040006
-			public const int abs__bright_foreground_disabled_holo_dark = 2130968582;
+			// aapt resource value: 0x7f060004
+			public const int abs__bright_foreground_disabled_holo_dark = 2131099652;
 			
-			// aapt resource value: 0x7f040007
-			public const int abs__bright_foreground_disabled_holo_light = 2130968583;
+			// aapt resource value: 0x7f060005
+			public const int abs__bright_foreground_disabled_holo_light = 2131099653;
 			
-			// aapt resource value: 0x7f040004
-			public const int abs__bright_foreground_holo_dark = 2130968580;
+			// aapt resource value: 0x7f060002
+			public const int abs__bright_foreground_holo_dark = 2131099650;
 			
-			// aapt resource value: 0x7f040005
-			public const int abs__bright_foreground_holo_light = 2130968581;
+			// aapt resource value: 0x7f060003
+			public const int abs__bright_foreground_holo_light = 2131099651;
 			
-			// aapt resource value: 0x7f040008
-			public const int abs__primary_text_disable_only_holo_dark = 2130968584;
+			// aapt resource value: 0x7f060008
+			public const int abs__primary_text_disable_only_holo_dark = 2131099656;
 			
-			// aapt resource value: 0x7f040009
-			public const int abs__primary_text_disable_only_holo_light = 2130968585;
+			// aapt resource value: 0x7f060009
+			public const int abs__primary_text_disable_only_holo_light = 2131099657;
 			
-			// aapt resource value: 0x7f04000a
-			public const int abs__primary_text_holo_dark = 2130968586;
+			// aapt resource value: 0x7f06000a
+			public const int abs__primary_text_holo_dark = 2131099658;
 			
-			// aapt resource value: 0x7f04000b
-			public const int abs__primary_text_holo_light = 2130968587;
+			// aapt resource value: 0x7f06000b
+			public const int abs__primary_text_holo_light = 2131099659;
 			
-			// aapt resource value: 0x7f040001
-			public const int tab_highlight = 2130968577;
+			// aapt resource value: 0x7f060007
+			public const int tab_highlight = 2131099655;
 			
-			// aapt resource value: 0x7f040000
-			public const int transparent = 2130968576;
+			// aapt resource value: 0x7f060006
+			public const int transparent = 2131099654;
 			
 			static Color()
 			{
@@ -1244,59 +1246,59 @@ namespace SportChallengeMatchRank.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f050011
-			public const int ApplicationName = 2131034129;
+			// aapt resource value: 0x7f040001
+			public const int ApplicationName = 2130968577;
 			
-			// aapt resource value: 0x7f050010
-			public const int Hello = 2131034128;
+			// aapt resource value: 0x7f040000
+			public const int Hello = 2130968576;
 			
-			// aapt resource value: 0x7f050003
-			public const int abs__action_bar_home_description = 2131034115;
+			// aapt resource value: 0x7f040003
+			public const int abs__action_bar_home_description = 2130968579;
 			
-			// aapt resource value: 0x7f050004
-			public const int abs__action_bar_up_description = 2131034116;
+			// aapt resource value: 0x7f040004
+			public const int abs__action_bar_up_description = 2130968580;
 			
-			// aapt resource value: 0x7f050005
-			public const int abs__action_menu_overflow_description = 2131034117;
+			// aapt resource value: 0x7f040005
+			public const int abs__action_menu_overflow_description = 2130968581;
 			
-			// aapt resource value: 0x7f050006
-			public const int abs__action_mode_done = 2131034118;
+			// aapt resource value: 0x7f040006
+			public const int abs__action_mode_done = 2130968582;
 			
-			// aapt resource value: 0x7f050007
-			public const int abs__activity_chooser_view_see_all = 2131034119;
+			// aapt resource value: 0x7f040007
+			public const int abs__activity_chooser_view_see_all = 2130968583;
 			
-			// aapt resource value: 0x7f050008
-			public const int abs__activitychooserview_choose_application = 2131034120;
+			// aapt resource value: 0x7f040008
+			public const int abs__activitychooserview_choose_application = 2130968584;
 			
-			// aapt resource value: 0x7f05000d
-			public const int abs__searchview_description_clear = 2131034125;
+			// aapt resource value: 0x7f04000d
+			public const int abs__searchview_description_clear = 2130968589;
 			
-			// aapt resource value: 0x7f05000c
-			public const int abs__searchview_description_query = 2131034124;
+			// aapt resource value: 0x7f04000c
+			public const int abs__searchview_description_query = 2130968588;
 			
-			// aapt resource value: 0x7f05000b
-			public const int abs__searchview_description_search = 2131034123;
+			// aapt resource value: 0x7f04000b
+			public const int abs__searchview_description_search = 2130968587;
 			
-			// aapt resource value: 0x7f05000e
-			public const int abs__searchview_description_submit = 2131034126;
+			// aapt resource value: 0x7f04000e
+			public const int abs__searchview_description_submit = 2130968590;
 			
-			// aapt resource value: 0x7f05000f
-			public const int abs__searchview_description_voice = 2131034127;
+			// aapt resource value: 0x7f04000f
+			public const int abs__searchview_description_voice = 2130968591;
 			
-			// aapt resource value: 0x7f050009
-			public const int abs__shareactionprovider_share_with = 2131034121;
+			// aapt resource value: 0x7f040009
+			public const int abs__shareactionprovider_share_with = 2130968585;
 			
-			// aapt resource value: 0x7f05000a
-			public const int abs__shareactionprovider_share_with_application = 2131034122;
+			// aapt resource value: 0x7f04000a
+			public const int abs__shareactionprovider_share_with_application = 2130968586;
 			
-			// aapt resource value: 0x7f050001
-			public const int app_name = 2131034113;
+			// aapt resource value: 0x7f040011
+			public const int app_name = 2130968593;
 			
-			// aapt resource value: 0x7f050000
-			public const int hello = 2131034112;
+			// aapt resource value: 0x7f040010
+			public const int hello = 2130968592;
 			
-			// aapt resource value: 0x7f050002
-			public const int library_name = 2131034114;
+			// aapt resource value: 0x7f040002
+			public const int library_name = 2130968578;
 			
 			static String()
 			{

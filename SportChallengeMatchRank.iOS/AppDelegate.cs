@@ -3,10 +3,9 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using SportChallengeMatchRank.Shared;
-using System.Collections.Generic;
-using Microsoft.WindowsAzure.MobileServices;
 using System;
 using Toasts.Forms.Plugin.iOS;
+using ImageCircle.Forms.Plugin.iOS;
 
 namespace SportChallengeMatchRank.iOS
 {
@@ -16,6 +15,7 @@ namespace SportChallengeMatchRank.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			Forms.Init();
+			ImageCircleRenderer.Init();
 			ToastNotificatorImplementation.Init();
 
 			//window.RootViewController = new OAuthViewController();

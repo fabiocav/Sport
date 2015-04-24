@@ -73,7 +73,8 @@ namespace SportChallengeMatchRank.Shared
 					if(OnMatchResultsPosted != null)
 						OnMatchResultsPosted();
 
-					"Your match results have been submitted. Congrats to {0}".Fmt(ViewModel.Challenge.WinningAthlete.Email).ToToast(ToastNotificationType.Success);
+					var title = App.CurrentAthlete.Id == ViewModel.Challenge.WinningAthlete.Id ? "Victory!" : "Bummer";
+					"Your match results have been submitted. Congrats to {0}".Fmt(ViewModel.Challenge.WinningAthlete.Name).ToToast(ToastNotificationType.Success, title);
 				}
 			};
 		}

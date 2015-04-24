@@ -1,7 +1,6 @@
-﻿using Xamarin.Forms;
-using System.Threading.Tasks;
-using System;
-using System.Linq;
+﻿using System;
+using Toasts.Forms.Plugin.Abstractions;
+using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -26,7 +25,10 @@ namespace SportChallengeMatchRank.Shared
 
 			btnAccept.Clicked += async(sender, e) =>
 			{
-				await ViewModel.AcceptChallenge();
+				var success = await ViewModel.AcceptChallenge();
+
+				if(success)
+					"It is sooooooo on like a prawn that yawns at dawn.".ToToast(ToastNotificationType.Success);
 			};
 
 			btnPostResults.Clicked += async(sender, e) =>
@@ -47,7 +49,10 @@ namespace SportChallengeMatchRank.Shared
 				if(!decline)
 					return;
 
-				await ViewModel.DeclineChallenge();
+				var success = await ViewModel.DeclineChallenge();
+
+				if(success)
+					"Unbelievable - how dare you!".ToToast(ToastNotificationType.Info, "Coward!");
 
 				if(OnDecline != null)
 					OnDecline();
@@ -62,8 +67,11 @@ namespace SportChallengeMatchRank.Shared
 				if(!decline)
 					return;
 					
-				await ViewModel.DeclineChallenge();
+				var success = await ViewModel.DeclineChallenge();
 
+				if(success)
+					"Unbelievable - how dare you!".ToToast(ToastNotificationType.Info, "Coward!");
+				
 				if(OnDecline != null)
 					OnDecline();
 					

@@ -1,5 +1,6 @@
 ﻿using System;
 using Toasts.Forms.Plugin.Abstractions;
+using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -43,10 +44,9 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			btnChallenge.Clicked += (sender, e) =>
+			btnChallenge.Clicked += async(sender, e) =>
 			{
-				var outcome = ViewModel.ChallengeAthlete(ViewModel.Membership);
-				Challenge challenge = outcome.Result;
+				var challenge = await ViewModel.ChallengeAthlete(ViewModel.Membership);
 				if(challenge != null && challenge.Id != null)
 				{
 					"{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
@@ -65,11 +65,25 @@ namespace SportChallengeMatchRank.Shared
 			};
 		}
 
+		protected override void OnParentSet()
+		{
+			base.OnParentSet();
+
+			if(ParentView == null)
+				return;
+
+			var width = ParentView.Bounds.Width / 3;
+
+			photoImage.WidthRequest = width;
+			photoImage.HeightRequest = width;
+		}
+
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+
 			ViewModel.Membership.LocalRefresh();
-			ViewModel.NotifyPropertiesChanged();
+			//ViewModel.NotifyPropertiesChanged();
 		}
 	}
 

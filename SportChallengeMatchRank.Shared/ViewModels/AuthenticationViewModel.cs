@@ -4,6 +4,7 @@ using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
 using nsoftware.InGoogle;
 using System.Linq;
+using Toasts.Forms.Plugin.Abstractions;
 
 [assembly: Dependency(typeof(AuthenticationViewModel))]
 
@@ -120,12 +121,11 @@ namespace SportChallengeMatchRank.Shared
 
 				if(task.IsFaulted)
 					return false;
-
 				if(task.IsCompleted)
 					athlete = task.Result;
 			}
 
-			if(athlete == null && App.AuthUserProfile != null && !string.IsNullOrWhiteSpace(App.AuthUserProfile.Email))
+			if(athlete == null && App.AuthUserProfile != null && !App.AuthUserProfile.Email.IsEmpty())
 			{
 				var task = InternetService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
 				await RunSafe(task);
@@ -137,12 +137,28 @@ namespace SportChallengeMatchRank.Shared
 					athlete = task.Result;
 			}
 
-			//Unable to get athlete - add as new
+			//Unable to get athlete - try registering as a new athlete
 			if(athlete == null)
 			{
 				AuthenticationStatus = "Registering Athlete";
 				athlete = new Athlete(App.AuthUserProfile);
-				await RunSafe(InternetService.Instance.SaveAthlete(athlete));
+				var task = InternetService.Instance.SaveAthlete(athlete);
+				await RunSafe(task);
+
+				if(task.IsCompleted && task.IsFaulted)
+					return false;
+
+				"You're now officially an athlete :)".ToToast(ToastNotificationType.Info, "Congrats!");
+			}
+			else
+			{
+				athlete.ProfileImageUrl = App.AuthUserProfile.Picture;
+
+				if(athlete.IsDirty)
+				{
+					var task = InternetService.Instance.SaveAthlete(athlete);
+					await RunSafe(task);
+				}
 			}
 
 			Settings.Instance.AthleteId = athlete != null ? athlete.Id : null;
@@ -173,7 +189,7 @@ namespace SportChallengeMatchRank.Shared
 			AuthenticationStatus = "Getting user profile";
 			await Task.Delay(500);
 			var task = InternetService.Instance.GetUserProfile();
-			await RunSafe(task);
+			await RunSafe(task, false);
 
 			if(task.IsFaulted && task.IsCompleted)
 			{

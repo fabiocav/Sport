@@ -1,53 +1,61 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<local:MembershipDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.MembershipDetailsPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+<local:MembershipDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.MembershipDetailsPage"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
 	<local:MembershipDetailsXaml.Content>
-		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
-			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-			<StackLayout Orientation="Horizontal">
-				<Label Text="League name:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Membership.League.Name}" FontSize="18" />
-			</StackLayout>
+		<AbsoluteLayout>
 
-			<StackLayout Orientation="Horizontal">
-				<Label Text="Athlete name:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Membership.Athlete.Name}" FontSize="18" />
-			</StackLayout>
+			<BoxView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,0.4" BackgroundColor="#77d065" />
+			<BoxView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,.6" BackgroundColor="#3498db" />
 
-			<StackLayout Orientation="Horizontal">
-				<Label Text="Current rank:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Membership.CurrentRank}" FontSize="18" />
-			</StackLayout>
+			<Grid AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="4*" />
+					<RowDefinition Height="6*" />
+				</Grid.RowDefinitions>
 
-			<StackLayout Orientation="Horizontal">
-				<Label Text="Date joined:" HorizontalOptions="StartAndExpand" FontSize="18" />
-				<Label Text="{Binding Membership.DateCreated}" FontSize="18" />
-			</StackLayout>
+				<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="30" Spacing="25">
+					<controls:CircleImage x:Name="photoImage" Source="{Binding Membership.Athlete.ProfileImageUrl}"
+						HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="140" HeightRequest="140"  />
 
-			<Label Text="More data here like match results and match history, etc" HorizontalOptions="StartAndExpand" FontSize="18" />
+					<StackLayout>
+						<Label Text="{Binding Membership.Athlete.Name}" FontSize="40" HorizontalOptions="StartAndExpand" Style="{StaticResource labelStyle}" />
+						<Label Text="{Binding Membership.Athlete.Email}" FontSize="14" HorizontalOptions="StartAndExpand" Style="{StaticResource labelStyle}" />
+					</StackLayout>
+				</StackLayout>
 
-			<StackLayout Orientation="Horizontal" IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}">
-				<Label Text="Administrator" HorizontalOptions="StartAndExpand" />
-				<Switch IsToggled="{Binding Membership.IsAdmin}" HorizontalOptions="End" />
-			</StackLayout>
+				<StackLayout Grid.Row="1" Padding="40,20,40,30" Spacing="20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+					<StackLayout>
+						<Label Text="{Binding RankDescription}" FontSize="20" Style="{StaticResource labelStyle}" />
+						<Label Text="{Binding JoinDescription}" FontSize="14" Style="{StaticResource labelStyle}" />
+					</StackLayout>
 
-			<Button x:Name="btnChallenge" Text="Challenge Athlete" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-				IsVisible="{Binding CanChallenge}" />
+<!--					<StackLayout Orientation="Horizontal" IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}">
+						<Label Text="Administrator" HorizontalOptions="StartAndExpand" />
+						<Switch IsToggled="{Binding Membership.IsAdmin}" HorizontalOptions="End" />
+					</StackLayout>-->
 
-			<Button x:Name="btnRevokeChallenge" Text="Revoke Challenge" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-				IsVisible="{Binding CanRevokeChallenge}" />
-		
-			<StackLayout IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}" Spacing="10">
+					<Button x:Name="btnChallenge" Text="{Binding Membership.Athlete.Name, StringFormat='Challenge \{0\}'}" Style="{StaticResource blueButtonStyle}"
+						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+						VerticalOptions="EndAndExpand" IsVisible="{Binding CanChallenge}" />
 
-				<Button x:Name="btnSaveMembership" Text="Save Membership" Style="{StaticResource buttonStyle}"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+					<Button x:Name="btnRevokeChallenge" Text="Revoke Challenge" Style="{StaticResource blueButtonStyle}"
+						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+						VerticalOptions="EndAndExpand" IsVisible="{Binding CanRevokeChallenge}" />
+				
+					<StackLayout IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}" Spacing="10">
+						<Button x:Name="btnSaveMembership" Text="Save Membership" Style="{StaticResource blueButtonStyle}"
+							IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
-				<Button x:Name="btnDeleteMembership" Text="Delete Membership" Style="{StaticResource deleteButtonStyle}"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-					IsVisible="{Binding Membership.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
-			</StackLayout>
-		</StackLayout>
+						<Button x:Name="btnDeleteMembership" Text="Delete Membership" Style="{StaticResource deleteButtonStyle}"
+							IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+							IsVisible="{Binding Membership.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
+					</StackLayout>
+				</StackLayout>
+			</Grid>
+
+		</AbsoluteLayout>
 	</local:MembershipDetailsXaml.Content>
 </local:MembershipDetailsXaml>

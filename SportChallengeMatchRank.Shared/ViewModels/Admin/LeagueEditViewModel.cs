@@ -127,7 +127,7 @@ namespace SportChallengeMatchRank.Shared
 		async public Task<DateTime?> StartLeague()
 		{
 			var task = InternetService.Instance.StartLeague(League.Id);
-			await task;
+			await RunSafe(task);
 
 			if(!task.IsCompleted)
 				return null;

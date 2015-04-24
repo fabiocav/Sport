@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using ModernHttpClient;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -43,7 +42,7 @@ namespace SportChallengeMatchRank.Shared
 					#if __IOS__
 
 					//Use ModernHttpClient and allow traffic to be routed into Charles/Fiddler/etc
-					handler = new NativeMessageHandler() {
+					handler = new ModernHttpClient.NativeMessageHandler() {
 						Proxy = CoreFoundation.CFNetwork.GetDefaultProxy(),
 						UseProxy = true,
 					};
@@ -249,7 +248,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			return new Task<Athlete>(() =>
 			{
-				var list = Client.GetTable<Athlete>().Where(a => a.Email == email).Take(1).ToListAsync().Result;
+				var list = Client.GetTable<Athlete>().Where(a => a.Email == email).ToListAsync().Result;
 				var athlete = list.FirstOrDefault();
 
 				if(athlete != null)
@@ -263,7 +262,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			return new Task<Athlete>(() =>
 			{
-				var list = Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).Take(1).ToListAsync().Result;
+				var list = Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).ToListAsync().Result;
 				var athlete = list.FirstOrDefault();
 
 				if(athlete != null)

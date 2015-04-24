@@ -36,8 +36,8 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				var challenge = Membership.GetExistingChallengeWithAthlete(App.CurrentAthlete);
-				return challenge != null && !challenge.IsCompleted && challenge.ChallengerAthleteId == App.CurrentAthlete.Id;
+				var challenge = Membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
+				return challenge != null && challenge.ChallengerAthleteId == App.CurrentAthlete.Id;
 			}
 		}
 
@@ -45,13 +45,31 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
+				Console.WriteLine("CanChallenge called");
 				return Membership.CanChallengeAthlete(App.CurrentAthlete);
+			}
+		}
+
+		public string JoinDescription
+		{
+			get
+			{
+				return "joined {0} on {1}".Fmt(Membership.League.Name, Membership.DateCreated.Value.ToString("M"));
+			}
+		}
+
+		public string RankDescription
+		{
+			get
+			{
+				var dayCount = Math.Round(DateTime.UtcNow.Subtract(Membership.LastRankChangeDate).TotalDays);
+				return "ranked {0} for {1} day{2}".Fmt(Membership.CurrentRank.ToOrdinal(), dayCount, dayCount == 1 ? "" : "s");
 			}
 		}
 
 		async public Task RevokeExistingChallenge(Membership membership)
 		{
-			var challenge = membership.GetExistingChallengeWithAthlete(App.CurrentAthlete);
+			var challenge = membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
 			await RunSafe(InternetService.Instance.DeleteChallenge(challenge.Id));
 			App.CurrentAthlete.RefreshChallenges();
 			Membership.Athlete.RefreshChallenges();
@@ -68,7 +86,12 @@ namespace SportChallengeMatchRank.Shared
 				LeagueId = membership.LeagueId,
 			};
 
-			await RunSafe(InternetService.Instance.SaveChallenge(challenge));
+			var task = InternetService.Instance.SaveChallenge(challenge);
+			await RunSafe(task);
+
+			if(task.IsFaulted)
+				return null;
+
 			App.CurrentAthlete.RefreshChallenges();
 			Membership.Athlete.RefreshChallenges();
 			NotifyPropertiesChanged();
