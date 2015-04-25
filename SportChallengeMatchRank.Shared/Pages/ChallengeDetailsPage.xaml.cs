@@ -59,26 +59,29 @@ namespace SportChallengeMatchRank.Shared
 
 				await Navigation.PopAsync();
 			};
-			
-			btnDecline.Clicked += async(sender, e) =>
-			{
-				var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly decline this honorable duel?", "Sadly, yes", "No - good point");
 
-				if(!decline)
-					return;
-					
-				var success = await ViewModel.DeclineChallenge();
-
-				if(success)
-					"Unbelievable - how dare you!".ToToast(ToastNotificationType.Info, "Coward!");
-				
-				if(OnDecline != null)
-					OnDecline();
-					
-				await Navigation.PopAsync();
-			};
+			btnDecline.Clicked += DeclineChallenge;
+			btnDeclineAfter.Clicked += DeclineChallenge;
 
 			await ViewModel.GetMatchResults();
+		}
+
+		async void DeclineChallenge(object sender, EventArgs e)
+		{
+			var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly decline this honorable duel?", "Sadly, yes", "No - good point");
+
+			if(!decline)
+				return;
+
+			var success = await ViewModel.DeclineChallenge();
+
+			if(success)
+				"Unbelievable - how dare you!".ToToast(ToastNotificationType.Info, "Coward!");
+
+			if(OnDecline != null)
+				OnDecline();
+
+			await Navigation.PopAsync();
 		}
 	}
 

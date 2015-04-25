@@ -109,6 +109,7 @@ namespace SportChallengeMatchRank.Shared
 
 		ObservableCollection<Membership> _memberships = new ObservableCollection<Membership>();
 
+		[JsonIgnore]
 		public ObservableCollection<Membership> Memberships
 		{
 			get

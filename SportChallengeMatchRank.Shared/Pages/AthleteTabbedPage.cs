@@ -33,6 +33,15 @@ namespace SportChallengeMatchRank.Shared
 				//BarBackgroundColor = App.BlueColor
 			});
 
+			ViewModel.SubscribeToProperty("AuthenticationStatus", () =>
+			{
+				Console.WriteLine(ViewModel.AuthenticationStatus);
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					App.Current.Hud.DisplayProgress(ViewModel.AuthenticationStatus);
+				});
+			});
+
 //			Children.Add(new NavigationPage(new AdminPage()) {
 //				Title = "Admin",
 //				//BarBackgroundColor = App.BlueColor
@@ -49,32 +58,20 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Authentication
 
-		async public void EnsureAthleteAuthenticated()
+		async public void EnsureAthleteAuthenticated(bool force = false)
 		{
-			if(App.CurrentAthlete != null)
+			if((App.CurrentAthlete != null || _hasAttemptedAuthentication) && !force)
 				return;
-
-			ViewModel.SubscribeToProperty("AuthenticationStatus", () =>
-			{
-				Console.WriteLine(ViewModel.AuthenticationStatus);
-				Device.BeginInvokeOnMainThread(() =>
-				{
-					App.Current.Hud.DisplayProgress(ViewModel.AuthenticationStatus);
-				});
-			});
 
 			App.Current.Hud.DisplayProgress("Authenticating");
 
-			if(App.CurrentAthlete == null && !_hasAttemptedAuthentication)
-			{
-				_hasAttemptedAuthentication = true;
-				await AttemptToAuthenticateAthlete();
+			_hasAttemptedAuthentication = true;
+			await AttemptToAuthenticateAthlete(force);
 
-				App.Current.Hud.Dismiss();
-			}
+			App.Current.Hud.Dismiss();
 		}
 
-		async public Task AttemptToAuthenticateAthlete()
+		async public Task AttemptToAuthenticateAthlete(bool force = false)
 		{
 			ViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
 			{
@@ -84,11 +81,16 @@ namespace SportChallengeMatchRank.Shared
 				var page = new ContentPage();
 				page.Content = webView;
 				Navigation.PushModalAsync(page);
+				Console.WriteLine("pushed");
 			});
 
-			ViewModel.OnHideAuthForm = async() => await Navigation.PopModalAsync();
+			ViewModel.OnHideAuthForm = async() =>
+			{
+				Console.WriteLine("popped");
+				await Navigation.PopModalAsync();
+			};
 
-			await ViewModel.GetUserProfile();
+			await ViewModel.GetUserProfile(force);
 			if(App.AuthUserProfile != null)
 			{
 				var success = await ViewModel.EnsureAthleteRegistered();

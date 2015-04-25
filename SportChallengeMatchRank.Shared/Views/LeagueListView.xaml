@@ -5,6 +5,20 @@
 	IsRefreshing="{Binding IsBusy, Mode=OneWay}"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" RowHeight="60">
+	<ListView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" BasedOn="{StaticResource labelStyle}">
+            	<Setter Property="TextColor">
+            		<Setter.Value>
+                		<OnPlatform x:TypeArguments="Color">
+	            			<OnPlatform.iOS>#000000</OnPlatform.iOS>
+	            			<OnPlatform.Android>#FFFFFF</OnPlatform.Android>
+                 		</OnPlatform>
+	           		</Setter.Value>
+            	</Setter>
+        	</Style>
+		</ResourceDictionary>
+	</ListView.Resources>
 	<ListView.ItemTemplate>
 		<DataTemplate>
 			<ViewCell>

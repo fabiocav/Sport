@@ -21,7 +21,7 @@ namespace SportChallengeMatchRank.Shared
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Membership Details";
+			Title = "Membership";
 
 			btnSaveMembership.Clicked += async(sender, e) =>
 			{

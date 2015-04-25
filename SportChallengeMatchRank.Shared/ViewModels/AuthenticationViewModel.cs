@@ -54,7 +54,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task AuthenticateUser()
 		{
-			_authClient = _authClient ?? new Oauth();
+			_authClient = new Oauth();
 			_authClient.OnSSLServerAuthentication += OnSSLServerAuthentication;
 			_authClient.OnLaunchBrowser += OnLaunchBrowser;
 
@@ -73,6 +73,10 @@ namespace SportChallengeMatchRank.Shared
 
 				Settings.Instance.RefreshToken = _authClient.RefreshToken;
 				Settings.Instance.AuthToken = token;
+
+				_authClient.OnLaunchBrowser -= OnLaunchBrowser;
+				_authClient.OnSSLServerAuthentication -= OnSSLServerAuthentication;
+
 				await Settings.Instance.Save();
 			}
 			catch(Exception e)
@@ -233,8 +237,8 @@ namespace SportChallengeMatchRank.Shared
 		{
 			base.Dispose();
 
-			_authClient.OnSSLServerAuthentication -= OnSSLServerAuthentication;
-			_authClient.OnLaunchBrowser -= OnLaunchBrowser;
+//			_authClient.OnSSLServerAuthentication -= OnSSLServerAuthentication;
+//			_authClient.OnLaunchBrowser -= OnLaunchBrowser;
 		}
 	}
 }

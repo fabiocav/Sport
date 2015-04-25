@@ -24,11 +24,6 @@ namespace SportChallengeMatchRank.Shared
 			{
 				await Navigation.PushAsync(new AthleteLandingPage());	
 			};
-
-			btnLogOut.Clicked += (sender, e) =>
-			{
-				ViewModel.LogOut();
-			};
 		}
 
 		//		public ICommand OrgSettingsCommand

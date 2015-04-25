@@ -4,6 +4,10 @@
     x:Class="SportChallengeMatchRank.Shared.App">
     <Application.Resources>
         <ResourceDictionary>
+        	<Color x:Key="xamarinBlue">#2c3e50</Color>
+        	<Color x:Key="xamarinLightBlue">#3498db</Color>
+        	<Color x:Key="xamarinPurple">#b455b6</Color>
+        	<Color x:Key="xamarinGreen">#77d065</Color>
             <Style x:Key="labelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="FontSize">
@@ -16,10 +20,12 @@
                 </Setter>
                 <Setter Property="FontFamily" Value="HelveticaNeue-Light" />
             </Style>
+            <Style TargetType="Label" BasedOn="{StaticResource labelStyle}" />
             <Style x:Key="buttonStyle" TargetType="Button">
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="HeightRequest" Value="40" />
                 <Setter Property="BackgroundColor" Value="#88000000" />
+                <Setter Property="FontFamily" Value="HelveticaNeue-Light" />
                 <Setter Property="FontSize">
                 	<Setter.Value>
                 		<OnPlatform x:TypeArguments="x:Double">
@@ -29,13 +35,14 @@
                 	</Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource buttonStyle}" />
             <Style x:Key="purpleButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
-                <Setter Property="BackgroundColor" Value="#b455b6" />
+                <Setter Property="BackgroundColor" Value="{StaticResource xamarinPurple}" />
             </Style>
             <Style x:Key="blueButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
-                <Setter Property="BackgroundColor" Value="#2c3e50" />
+                <Setter Property="BackgroundColor" Value="{StaticResource xamarinBlue}" />
             </Style>
-            <Style x:Key="deleteButtonStyle" TargetType="Button">
+            <Style x:Key="deleteButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
                 <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="BackgroundColor" Value="Red" />
             </Style>

@@ -10,18 +10,11 @@ namespace SportChallengeMatchRank.Shared
 		MenuPage _menu;
 		NavigationPage _adminPage;
 		AthleteTabbedPage _tabbedPage;
+		NavigationPage _profilePage;
 
 		public MasterDetailPage()
 		{
-			var options = new Dictionary<string, ICommand>();
-			options.Add("Leagues", new Command(() => DisplayLeaguesPage()));
-			options.Add("Profile", new Command(() => DisplayProfilePage()));
-			options.Add("Settings", new Command(() => DisplayProfilePage()));
-			options.Add("Admin", new Command(() => DisplayAdminPage()));
-			options.Add("Log Out", new Command(() => LogOutUser()));
-
 			_menu = new MenuPage();
-			_menu.Options = options;
 			_menu.ListView.ItemSelected += (sender, e) =>
 			{
 				if(e.SelectedItem == null)
@@ -36,17 +29,33 @@ namespace SportChallengeMatchRank.Shared
 
 			_tabbedPage = new AthleteTabbedPage();
 
+			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
+			{
+				var options = new Dictionary<string, ICommand>();
+				options.Add("Leagues & Challenges", new Command(() => DisplayLeaguesPage()));
+				options.Add("Profile", new Command(() => DisplayProfilePage()));
+				options.Add("Settings", new Command(() => DisplayProfilePage()));
+				options.Add("Log Out", new Command(() => LogOutUser()));
+
+				if(App.CurrentAthlete.IsAdmin)
+					options.Add("Admin", new Command(() => DisplayAdminPage()));
+
+				_menu.ListView.ItemsSource = options;
+			});
+
 			Master = _menu;
 			Detail = _tabbedPage;
 		}
 
 		public void DisplayProfilePage()
 		{
-			
+			_profilePage = _profilePage ?? new NavigationPage(new AthleteProfilePage(App.CurrentAthlete.Id));
+			Detail = _profilePage;
 		}
 
 		public void DisplayLeaguesPage()
 		{
+			
 			Detail = _tabbedPage;
 		}
 
@@ -57,7 +66,7 @@ namespace SportChallengeMatchRank.Shared
 			Settings.Instance.RefreshToken = null;
 			Settings.Instance.Save();
 
-
+			_tabbedPage.EnsureAthleteAuthenticated(true);
 		}
 
 		public void DisplayAdminPage()

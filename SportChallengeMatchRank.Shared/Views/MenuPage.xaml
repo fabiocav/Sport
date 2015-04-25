@@ -5,17 +5,23 @@
 			<StackLayout.Padding>
 				<OnPlatform x:TypeArguments="Thickness">
 					<OnPlatform.iOS>0, 100, 0, 0</OnPlatform.iOS>
-					<OnPlatform.Android>0, 0, 0, 0</OnPlatform.Android>
-					<OnPlatform.WinPhone>0, 0, 0, 0</OnPlatform.WinPhone>
+					<OnPlatform.Android>0, 50, 0, 0</OnPlatform.Android>
 				</OnPlatform>
 		    </StackLayout.Padding>
-			<ListView x:Name="listView" WidthRequest="150" HeightRequest="300" BackgroundColor="Transparent">
+			<ListView x:Name="listView" WidthRequest="150" RowHeight="80" HeightRequest="500" BackgroundColor="Transparent" SeparatorVisibility="None">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>
 							<ViewCell.View>
-								<StackLayout Padding="60,10,10,10">
-									<Label Text="{Binding Key}" TextColor="White" FontSize="16" />
+								<StackLayout Padding="60,20">
+									<Label Text="{Binding Key}">
+										<Label.FontSize>
+					                		<OnPlatform x:TypeArguments="x:Double">
+												<OnPlatform.iOS>18</OnPlatform.iOS>
+												<OnPlatform.Android>14</OnPlatform.Android>
+											</OnPlatform>
+										</Label.FontSize>
+									</Label>
 								</StackLayout>
 							</ViewCell.View>
 						</ViewCell>

@@ -15,7 +15,6 @@ namespace SportChallengeMatchRank.Shared
 		{
 			InitializeComponent();
 			Title = "My Challenges";
-
 			list.ItemSelected += async(sender, e) =>
 			{
 				if(list.SelectedItem == null)

@@ -22,16 +22,16 @@
 
 			<StackLayout Padding="20" Spacing="10" VerticalOptions="End">
 
-				<Button x:Name="btnMemberStatus" Text="View Current Rankings" Style="{StaticResource buttonStyle}" />
+				<Button x:Name="btnMemberStatus" Text="View Current Rankings" />
 
-				<Button x:Name="btnJoinLeague" Text="Join League" Style="{StaticResource buttonStyle}"
+				<Button x:Name="btnJoinLeague" Text="Join League"
 						IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
 
-				<Button x:Name="btnLeaveLeague" Text="Cowardly Abandon League" Style="{StaticResource buttonStyle}" IsVisible="{Binding IsMember}"
+				<Button x:Name="btnLeaveLeague" Text="Cowardly Abandon League" IsVisible="{Binding IsMember}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
 
-				<Button x:Name="btnEditLeague" Text="Edit League" Style="{StaticResource buttonStyle}" VerticalOptions="End"
+				<Button x:Name="btnEditLeague" Text="Edit League" VerticalOptions="End"
 						IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>

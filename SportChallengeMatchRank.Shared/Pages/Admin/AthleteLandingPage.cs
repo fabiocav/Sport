@@ -19,14 +19,14 @@ namespace SportChallengeMatchRank.Shared
 				if(list.SelectedItem == null)
 					return;
 
-				var league = list.SelectedItem as Athlete;
+				var athlete = list.SelectedItem as Athlete;
 				list.SelectedItem = null;
 
-				var detailsPage = new AthleteEditPage(league);
-				detailsPage.OnUpdate = () =>
+				var detailsPage = new AthleteProfilePage(athlete.Id);
+				detailsPage.OnSave = () =>
 				{
 					ViewModel.LocalRefresh();
-					detailsPage.OnUpdate = null;
+					detailsPage.OnSave = null;
 				};
 
 				await Navigation.PushModalAsync(new NavigationPage(detailsPage));

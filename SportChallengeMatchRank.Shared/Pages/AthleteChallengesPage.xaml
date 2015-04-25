@@ -4,9 +4,34 @@
 	x:Class="SportChallengeMatchRank.Shared.AthleteChallengesPage"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+	<local:AthleteChallengesXaml.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" BasedOn="{StaticResource labelStyle}">
+            	<Setter Property="TextColor">
+            		<Setter.Value>
+                		<OnPlatform x:TypeArguments="Color">
+	            			<OnPlatform.iOS>#000000</OnPlatform.iOS>
+	            			<OnPlatform.Android>#FFFFFF</OnPlatform.Android>
+                 		</OnPlatform>
+	           		</Setter.Value>
+            	</Setter>
+        	</Style>
+		</ResourceDictionary>
+	</local:AthleteChallengesXaml.Resources>
 	<local:AthleteChallengesXaml.Content>
 		<ListView x:Name="list" ItemsSource="{Binding ChallengeGroups}" RefreshCommand="{Binding GetChallengesCommand}" IsGroupingEnabled="true"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" GroupDisplayBinding="{Binding Title}" RowHeight="60">
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" RowHeight="60" HasUnevenRows="true">
+			<ListView.GroupHeaderTemplate>
+				<DataTemplate>
+					<ViewCell Height="40">
+						<ViewCell.View>
+							<StackLayout Orientation="Horizontal" Padding="30,10" BackgroundColor="{StaticResource xamarinBlue}">
+								<Label Text="{Binding Title}" VerticalOptions="Center" TextColor="White" />
+							</StackLayout>
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.GroupHeaderTemplate>
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>

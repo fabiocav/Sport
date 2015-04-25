@@ -45,6 +45,14 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
+				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted && !Challenge.IsAccepted;
+			}
+		}
+
+		public bool CanDeclineAfterAccept
+		{
+			get
+			{
 				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted;
 			}
 		}

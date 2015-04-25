@@ -4,54 +4,54 @@
 	x:Class="SportChallengeMatchRank.Shared.ChallengeDetailsPage"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
-    <local:ChallengeDetailsXaml.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Label">
-                <Setter Property="TextColor" Value="#FFFFFF" />
-                <Setter Property="FontSize">
-                	<Setter.Value>
-                		<OnPlatform x:TypeArguments="x:Double">
-							<OnPlatform.iOS>14</OnPlatform.iOS>
-							<OnPlatform.Android>12</OnPlatform.Android>
-						</OnPlatform>
-                	</Setter.Value>
-                </Setter>
-                <Setter Property="FontFamily" Value="HelveticaNeue-Light" />
-            </Style>
-        </ResourceDictionary>
-    </local:ChallengeDetailsXaml.Resources>
     <local:ChallengeDetailsXaml.Content>
-		<ScrollView>
-			<Grid BackgroundColor="Black">
+
+		<ScrollView BackgroundColor="Black">
+			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
 				<Image Aspect="AspectFill" Source="{Binding Challenge.League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".55" />
 
-				<StackLayout Padding="40" Spacing="16" VerticalOptions="Center">
+				<StackLayout Padding="40,40,40,30" Spacing="16" VerticalOptions="FillAndExpand">
 					<StackLayout Spacing="12">
-						<Label Text="{Binding Challenge.League.Name, StringFormat='{0} presents...'}" FontSize="11" HorizontalOptions="Center" />
+						<Label Text="{Binding Challenge.League.Name, StringFormat='{0} presents...'}" FontSize="13" HorizontalOptions="Center" />
 
-						<StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand">
+						<Grid HorizontalOptions="Center" Padding="0,20,0,0">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="60" />
+								<RowDefinition Height="30" />
+								<RowDefinition Height="60" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="60" />
+								<ColumnDefinition Width="150" />
+							</Grid.ColumnDefinitions>
+
 							<controls:CircleImage Source="{Binding Challenge.ChallengerAthlete.ProfileImageUrl}"
-								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="40" HeightRequest="40"  />
-							<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="20" HorizontalOptions="Center"
-								XAlign="Center" YAlign="Center" />
-						</StackLayout>
+								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="55" HeightRequest="55"  />
 
-						<Label Text="       vs" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"
-							XAlign="Center" YAlign="Center" />
+							<StackLayout Spacing="0" Grid.Column="1" VerticalOptions="Center">
+								<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" FontSize="20" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+								<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="12" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+							</StackLayout>
 
-						<StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand">
-							<controls:CircleImage Source="{Binding Challenge.ChallengeeAthlete.ProfileImageUrl}"
-								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="40" HeightRequest="40"  />
-							<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="20" HorizontalOptions="Center"
-								XAlign="Center" YAlign="Center" />
-						</StackLayout>
+							<Label Grid.Row="1" Grid.Column="1" Text="vs" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+
+							<controls:CircleImage Grid.Row="2" Source="{Binding Challenge.ChallengeeAthlete.ProfileImageUrl}"
+								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="55" HeightRequest="55"  />
+
+							<StackLayout Spacing="0" VerticalOptions="Center" Grid.Column="1" Grid.Row="2">
+								<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" FontSize="20" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+								<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="12" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+							</StackLayout>
+						</Grid>
 					</StackLayout>
 
-					<StackLayout Padding="0,10,0,30" Spacing="8" Orientation="Horizontal">
+					<BoxView HeightRequest="25" BackgroundColor="Transparent" />
+
+					<StackLayout Padding="0,10" Spacing="8" Orientation="Horizontal">
 						<Label Text="{Binding Challenge.DateCreated, StringFormat='challenged {0:d}'}" FontSize="10"
 							HorizontalOptions="CenterAndExpand" XAlign="Center" />
 						<Label Text="{Binding Challenge.DateAccepted, StringFormat='accepted {0:d}'}" FontSize="10"
@@ -60,28 +60,19 @@
 							HorizontalOptions="CenterAndExpand" XAlign="Center" IsVisible="{Binding Challenge.IsCompleted}" />
 					</StackLayout>
 
-					<BoxView HeightRequest="70" BackgroundColor="Transparent"
-						IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-
-					<StackLayout Padding="0,10,0,25" Spacing="8" IsVisible="{Binding Challenge.IsCompleted}">
-						<Label Text="AND THE VICTORY GOES TO..." FontSize="12" HorizontalOptions="Center"
-							XAlign="Center" YAlign="Center" />
-
-						<StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand">
-							<controls:CircleImage Source="{Binding Challenge.WinningAthlete.ProfileImageUrl}"
-								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="100" HeightRequest="100"  />
-							<Label Text="{Binding Challenge.WinningAthlete.Name}" FontSize="35" HorizontalOptions="Center"
-								XAlign="Center" YAlign="Center" />
-						</StackLayout>
-					</StackLayout>
-
 					<ListView ItemsSource="{Binding Challenge.MatchResult}" Header="{Binding Challenge}" HeightRequest="170"
 						IsVisible="{Binding Challenge.IsCompleted}" BackgroundColor="Transparent">
 						<ListView.HeaderTemplate>
 							<DataTemplate>
-								<StackLayout Orientation="Horizontal" Spacing="20" Padding="11" BackgroundColor="#AA000000">
-									<Label Text="{Binding ChallengerAthlete.Name}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
-									<Label Text="{Binding ChallengeeAthlete.Name}" FontSize="10" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
+								<StackLayout Orientation="Horizontal" Spacing="20" Padding="0,11" BackgroundColor="#AA000000">
+									<Label Text="{Binding ChallengerAthlete.Alias}" FontSize="10" WidthRequest="120"
+										VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+
+									<Label FontSize="10" VerticalOptions="Center" WidthRequest="20"
+										HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+
+									<Label Text="{Binding ChallengeeAthlete.Alias}" FontSize="10" WidthRequest="120"
+										VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
 								</StackLayout>
 							</DataTemplate>
 						</ListView.HeaderTemplate>
@@ -94,7 +85,7 @@
 											<Label Text="{Binding ChallengerScore}" FontSize="26" WidthRequest="120"
 												VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
 
-											<Label Text="to" FontSize="11" VerticalOptions="Center" WidthRequest="40"
+											<Label Text="to" FontSize="11" VerticalOptions="Center" WidthRequest="20"
 												HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 
 											<Label Text="{Binding ChallengeeScore}"
@@ -106,23 +97,44 @@
 						</ListView.ItemTemplate>
 					</ListView>
 
-					<Button x:Name="btnAccept" Text="Accept Challenge" Style="{StaticResource buttonStyle}"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-						IsVisible="{Binding CanAccept}" />
+					<StackLayout Padding="0,35,0,25" Spacing="8" IsVisible="{Binding Challenge.IsCompleted}">
+						<Label Text="AND THE VICTORY GOES TO..." FontSize="12" HorizontalOptions="Center"
+							XAlign="Center" YAlign="Center" />
 
-					<Button x:Name="btnPostResults" Text="Post Match Results" Style="{StaticResource buttonStyle}"
+						<StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand">
+							<controls:CircleImage Source="{Binding Challenge.WinningAthlete.ProfileImageUrl}"
+								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="100" HeightRequest="100"  />
+
+							<StackLayout>
+								<Label Text="{Binding Challenge.WinningAthlete.Alias}" FontSize="45" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+								<Label Text="{Binding Challenge.WinningAthlete.Name}" FontSize="16" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+							</StackLayout>
+						</StackLayout>
+					</StackLayout>
+
+					<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+					<StackLayout Orientation="Horizontal" Spacing="30" HorizontalOptions="Center">
+						<Button x:Name="btnAccept" Text="Accept" VerticalOptions="EndAndExpand" FontSize="24"
+							IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+							IsVisible="{Binding CanAccept}" HeightRequest="140" WidthRequest="140" />
+
+						<Button x:Name="btnDecline" Text="Decline" VerticalOptions="EndAndExpand" FontSize="24"
+							IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+							IsVisible="{Binding CanDecline}" HeightRequest="140" WidthRequest="140" />
+					</StackLayout>
+
+					<Button x:Name="btnPostResults" Text="Post Match Results" VerticalOptions="EndAndExpand"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 						IsVisible="{Binding CanPostMatchResults}" />
 
-					<Button x:Name="btnDecline" Text="Decline Challenge" Style="{StaticResource buttonStyle}"
+					<Button x:Name="btnDeclineAfter" Text="Cowardly Decline Challenge" VerticalOptions="EndAndExpand"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-						IsVisible="{Binding CanDecline}" />
+						IsVisible="{Binding CanDeclineAfterAccept}" />
 
-					<Button x:Name="btnRevoke" Text="Revoke Challenge" Style="{StaticResource buttonStyle}"
+					<Button x:Name="btnRevoke" Text="Revoke Challenge" VerticalOptions="EndAndExpand"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 						IsVisible="{Binding CanRevoke}" />
-
-					<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 				</StackLayout>
 			</Grid>
 		</ScrollView>

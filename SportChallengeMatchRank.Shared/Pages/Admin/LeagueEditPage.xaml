@@ -65,10 +65,10 @@
 			</StackLayout>
 
 			<StackLayout Grid.Row="1" Spacing="10" VerticalOptions="End">
-				<Button x:Name="btnSaveLeague" Text="Save League" Style="{StaticResource buttonStyle}" VerticalOptions="End"
+				<Button x:Name="btnSaveLeague" Text="Save League" VerticalOptions="End"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
-				<Button x:Name="btnStartLeague" Text="Start League" Style="{StaticResource buttonStyle}" VerticalOptions="End"
+				<Button x:Name="btnStartLeague" Text="Start League" VerticalOptions="End"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 						IsVisible="{Binding CanStartLeague}" />
 

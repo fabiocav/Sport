@@ -2,17 +2,11 @@
 <local:AdminPageXaml xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.AdminPage" xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:AdminPageXaml.Content>
-		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center">
 
-			<Button x:Name="btnLeagues" Text="Leagues" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-
-			<Button x:Name="btnAthletes" Text="Athletes" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-
-			<Button x:Name="btnLogOut" Text="Log Out" Style="{StaticResource buttonStyle}"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-
+		<StackLayout Padding="40" Spacing="20" VerticalOptions="Center" IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
+			<Button x:Name="btnLeagues" Text="Leagues" />
+			<Button x:Name="btnAthletes" Text="Athletes" />
 		</StackLayout>
+
 	</local:AdminPageXaml.Content>
 </local:AdminPageXaml>

@@ -199,7 +199,7 @@ namespace SportChallengeMatchRank.Shared
 				if(League == null || ChallengerAthlete == null || ChallengeeAthlete == null)
 					return null;
 
-				return "{0} vs {1}".Fmt(ChallengerAthlete.Name, ChallengeeAthlete.Name);
+				return "{0} vs {1}".Fmt(ChallengerAthlete.Alias, ChallengeeAthlete.Alias);
 			}
 		}
 
