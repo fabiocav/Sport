@@ -18,7 +18,7 @@
 										<Label.FontSize>
 					                		<OnPlatform x:TypeArguments="x:Double">
 												<OnPlatform.iOS>18</OnPlatform.iOS>
-												<OnPlatform.Android>14</OnPlatform.Android>
+												<OnPlatform.Android>16</OnPlatform.Android>
 											</OnPlatform>
 										</Label.FontSize>
 									</Label>

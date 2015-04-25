@@ -15,10 +15,13 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Label Text="{Binding GameIndex}" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Grid.ColumnSpan="2" TextColor="Gray" HeightRequest="30" />
+		<StackLayout BackgroundColor="#99000000">
+			<Label Text="{Binding GameIndex}" VerticalOptions="Center" HorizontalOptions="StartAndExpand"
+				Grid.ColumnSpan="2" TextColor="Gray" HeightRequest="30" FontSize="26" />
+		</StackLayout>
 
-		<Label Text="{Binding Challenge.ChallengerAthlete.Name}" Grid.Row="1" HorizontalOptions="Center" FontSize="11" />
-		<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="11" />
+		<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" Grid.Row="1" HorizontalOptions="Center" FontSize="11" />
+		<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" FontSize="11" />
 
 		<Entry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullValueConverter.Instance}}"
 			Grid.Row="2" HorizontalOptions="Center" WidthRequest="100" Keyboard="Numeric" />

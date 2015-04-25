@@ -21,6 +21,9 @@ namespace SportChallengeMatchRank.Shared
 		protected override void Initialize()
 		{
 			Title = "Post Match Results";
+
+
+
 			var scrollView = new ScrollView();
 
 			var stackLayout = new StackLayout {
