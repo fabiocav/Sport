@@ -33,10 +33,10 @@ namespace SportChallengeMatchRank.Shared
 				//BarBackgroundColor = App.BlueColor
 			});
 
-			Children.Add(new NavigationPage(new AdminPage()) {
-				Title = "Admin",
-				//BarBackgroundColor = App.BlueColor
-			});
+//			Children.Add(new NavigationPage(new AdminPage()) {
+//				Title = "Admin",
+//				//BarBackgroundColor = App.BlueColor
+//			});
 		}
 
 		protected override void OnAppearing()

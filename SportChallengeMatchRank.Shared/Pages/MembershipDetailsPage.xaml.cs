@@ -26,7 +26,7 @@ namespace SportChallengeMatchRank.Shared
 			btnSaveMembership.Clicked += async(sender, e) =>
 			{
 				await ViewModel.SaveMembership();
-				await Navigation.PopModalAsync();
+				"Membership saved!".ToToast(ToastNotificationType.Success);
 			};
 
 			btnDeleteMembership.Clicked += async(sender, e) =>
@@ -39,8 +39,9 @@ namespace SportChallengeMatchRank.Shared
 					
 					if(OnDelete != null)
 						OnDelete();
-						
-					await Navigation.PopModalAsync();
+
+					"Membership removed.".ToToast(ToastNotificationType.Success);
+					await Navigation.PopAsync();
 				}
 			};
 

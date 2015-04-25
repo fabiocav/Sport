@@ -24,6 +24,14 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public bool CanDeleteMembership
+		{
+			get
+			{
+				return App.CurrentAthlete.IsAdmin && Membership.Id != null;
+			}
+		}
+
 		public Membership Membership
 		{
 			get
@@ -104,6 +112,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("CanChallenge");
 			SetPropertyChanged("CanRevokeChallenge");
 			SetPropertyChanged("Membership");
+			SetPropertyChanged("CanDeleteMembership");
 		}
 
 		public ICommand SaveCommand

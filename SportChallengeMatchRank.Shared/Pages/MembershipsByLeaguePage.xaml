@@ -15,13 +15,22 @@
 					<DataTemplate>
 						<ViewCell>
 							<ViewCell.View>
-								<StackLayout Padding="40,10,20,10" Spacing="20" Orientation="Horizontal">
-									<Label Text="{Binding CurrentRank}" FontSize="42" VerticalOptions="Center" TextColor="White" />
+								<StackLayout Padding="40,10,10,10" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
+									<Label Text="{Binding CurrentRank}" VerticalOptions="Center" TextColor="White">
+										<Label.FontSize>
+					                		<OnPlatform x:TypeArguments="x:Double">
+												<OnPlatform.iOS>42</OnPlatform.iOS>
+												<OnPlatform.Android>32</OnPlatform.Android>
+											</OnPlatform>
+										</Label.FontSize>
+									</Label>
 									<StackLayout Spacing="20" Orientation="Horizontal">
+
 										<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
-											HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="40" HeightRequest="40"  />
+											HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="40" HeightRequest="40"  />
+
 										<Label Text="{Binding Athlete.Name}" FontSize="20" VerticalOptions="Center" TextColor="White" />
-										<Label Text="{Binding Athlete.Email}" FontSize="12" HorizontalOptions="End" TextColor="White" VerticalOptions="Center" />
+										<Label Text="{Binding Athlete.Alias}" FontSize="12" HorizontalOptions="End" TextColor="White" VerticalOptions="Center" />
 									</StackLayout>
 								</StackLayout>
 							</ViewCell.View>

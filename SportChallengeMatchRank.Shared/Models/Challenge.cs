@@ -182,6 +182,16 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		[JsonIgnore]
+		public string PreSummary
+		{
+			get
+			{
+				var date = ProposedTime.ToLocalTime().LocalDateTime;
+				return "on {0} at {1} sharp, {2} presents...".Fmt(date.ToString("M"), date.ToString("t"), League.Name);
+			}
+		}
+
+		[JsonIgnore]
 		public string Summary
 		{
 			get
@@ -189,7 +199,7 @@ namespace SportChallengeMatchRank.Shared
 				if(League == null || ChallengerAthlete == null || ChallengeeAthlete == null)
 					return null;
 
-				return "{0} {1} vs {2} on {3}".Fmt(League.Name, ChallengerAthlete.Name, ChallengeeAthlete.Name, ProposedTime.ToLocalTime().LocalDateTime.ToString("d"));
+				return "{0} vs {1}".Fmt(ChallengerAthlete.Name, ChallengeeAthlete.Name);
 			}
 		}
 

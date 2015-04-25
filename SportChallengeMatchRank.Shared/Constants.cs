@@ -8,6 +8,7 @@ namespace SportChallengeMatchRank.Shared
 		public static readonly string AuthClientId = "5Qf0iIssIZ7Km9Fiwd041uxbfVdtyAqP";
 		public static readonly string AuthDomain = "xsttla.auth0.com";
 
+		//public static readonly string AzureDomain = "http://10.0.0.224:51541/";
 		//public static readonly string AzureDomain = "http://10.0.0.184:51541/";
 		public static readonly string AzureDomain = "http://192.168.1.19:51541/";
 		//public static readonly string AzureDomain = "http://sportchallengematchrank.azure-mobile.net/";

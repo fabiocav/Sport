@@ -2,17 +2,24 @@
 <local:AthleteChallengesXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.AthleteChallengesPage"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:AthleteChallengesXaml.Content>
 		<ListView x:Name="list" ItemsSource="{Binding ChallengeGroups}" RefreshCommand="{Binding GetChallengesCommand}" IsGroupingEnabled="true"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" GroupDisplayBinding="{Binding Title}">
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" GroupDisplayBinding="{Binding Title}" RowHeight="60">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>
 						<ViewCell.View>
-							<StackLayout Orientation="Horizontal">
-								<StackLayout Padding="20,10,10,10" Spacing="0">
-									<Label Text="{Binding Summary}" FontSize="13" />
+							<StackLayout Padding="30,5,10,5" Orientation="Horizontal" Spacing="20"
+								IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+
+								<controls:CircleImage x:Name="photoImage" Source="{Binding League.ImageUrl}"
+									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="40" HeightRequest="40"  />
+
+								<StackLayout Spacing="1" VerticalOptions="Center">
+									<Label Text="{Binding PreSummary}" FontSize="10" VerticalOptions="Center" />
+									<Label Text="{Binding Summary}" FontSize="20" VerticalOptions="Center" />
 								</StackLayout>
 							</StackLayout>
 						</ViewCell.View>
