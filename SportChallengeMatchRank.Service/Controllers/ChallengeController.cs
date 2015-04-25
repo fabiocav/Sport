@@ -96,8 +96,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			var league = _context.Leagues.SingleOrDefault(l => l.Id == item.LeagueId);
 			var lastChallenge = history.FirstOrDefault();
+			
 			if(lastChallenge != null && lastChallenge.DateCompleted != null
-				&& DateTime.UtcNow.Subtract(lastChallenge.DateCompleted.Value.UtcDateTime).Hours < league.MinHoursBetweenChallenge)
+				&& lastChallenge.ChallengerAthleteId == item.ChallengerAthleteId //is it the same athlete challenging again
+				&& lastChallenge.GetChallengerWinningGames().Count() < lastChallenge.GetChallengeeWinningGames().Count() //did the challenger lose the previous match
+				&& DateTime.UtcNow.Subtract(lastChallenge.DateCompleted.Value.UtcDateTime).TotalHours < league.MinHoursBetweenChallenge) //has enough time passed
 			{
 				return BadRequest(string.Format("Challenger must wait at least {0} hours before challenging again", league.MinHoursBetweenChallenge));
 			}

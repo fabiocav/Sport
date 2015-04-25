@@ -25,6 +25,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public string Alias
+		{
+			get;
+			set;
+		}
+
 		public bool IsAdmin
 		{
 			get;
@@ -38,6 +44,12 @@ namespace SportChallengeMatchRank
 		}
 
 		public string DevicePlatform
+		{
+			get;
+			set;
+		}
+
+		public string ProfileImageUrl
 		{
 			get;
 			set;

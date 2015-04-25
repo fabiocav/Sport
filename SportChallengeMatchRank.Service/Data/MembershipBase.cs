@@ -30,5 +30,11 @@ namespace SportChallengeMatchRank
 			get;
 			set;
 		}
+
+		public DateTimeOffset? LastRankChange
+		{
+			get;
+			set;
+		}
 	}
 }

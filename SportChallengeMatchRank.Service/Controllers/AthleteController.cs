@@ -6,6 +6,7 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using SportChallengeMatchRank.Service.Models;
 using System;
+using System.Net;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -28,10 +29,12 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Name = dto.Name,
 				Id = dto.Id,
 				Email = dto.Email,
+				Alias = dto.Alias,
 				DateCreated = dto.CreatedAt,
 				IsAdmin = dto.IsAdmin,
 				DeviceToken = dto.DeviceToken,
 				DevicePlatform = dto.DevicePlatform,
+				ProfileImageUrl = dto.ProfileImageUrl,
 				AuthenticationId = dto.AuthenticationId,
 				MembershipIds = dto.Memberships.Select(la => la.Id).ToList(),
 				IncomingChallengeIds = dto.IncomingChallenges.Select(la => la.Id).ToList(),
@@ -49,8 +52,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DateCreated = dto.CreatedAt,
 				Email = dto.Email,
 				IsAdmin = dto.IsAdmin,
+				Alias = dto.Alias,
 				DeviceToken = dto.DeviceToken,
 				DevicePlatform = dto.DevicePlatform,
+				ProfileImageUrl = dto.ProfileImageUrl,
 				AuthenticationId = dto.AuthenticationId,
 				MembershipIds = dto.Memberships.Select(la => la.Id).ToList(),
 				IncomingChallengeIds = dto.IncomingChallenges.Select(la => la.Id).ToList(),
@@ -62,13 +67,21 @@ namespace SportChallengeMatchRank.Service.Controllers
 		async public Task<Athlete> PatchAthlete(string id, Delta<Athlete> patch)
 		{
 			var athlete = patch.GetEntity();
+
+			var exists = _context.Athletes.Any(l => l.Alias.Equals(athlete.Alias, StringComparison.InvariantCultureIgnoreCase)
+				&& l.Id != athlete.Id);
+
+			if(exists)
+				throw new Exception("The alias '{0}' is alread in use.".Fmt(athlete.Alias));
+			
 			return await UpdateAsync(id, patch);
 		}
 
 		// POST tables/Athlete
 		public async Task<IHttpActionResult> PostAthlete(AthleteDto item)
 		{
-			var exists = _context.Athletes.Any(l => l.Email.Equals(item.Email, System.StringComparison.InvariantCultureIgnoreCase));
+			var exists = _context.Athletes.Any(l => l.Email.Equals(item.Email, StringComparison.InvariantCultureIgnoreCase)
+				|| l.Alias.Equals(item.Alias, StringComparison.InvariantCultureIgnoreCase));
 
 			if(exists)
 				return Conflict();

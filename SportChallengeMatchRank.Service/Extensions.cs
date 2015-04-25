@@ -84,7 +84,9 @@ namespace SportChallengeMatchRank.Service
 				Email = dto.Email,
 				IsAdmin = dto.IsAdmin,
 				DeviceToken = dto.DeviceToken,
+				Alias = dto.Alias,
 				DevicePlatform = dto.DevicePlatform,
+				ProfileImageUrl = dto.ProfileImageUrl,
 				AuthenticationId = dto.AuthenticationId,
 			};
 		}
@@ -118,6 +120,9 @@ namespace SportChallengeMatchRank.Service
 				Id = dto.Id,
 				CurrentRank = dto.CurrentRank,
 				AthleteId = dto.AthleteId,
+				IsAdmin = dto.IsAdmin,
+				CreatedAt = dto.DateCreated,
+				LastRankChange = dto.LastRankChange,
 				LeagueId = dto.LeagueId,
 			};
 		}

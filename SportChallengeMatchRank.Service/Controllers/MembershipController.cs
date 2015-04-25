@@ -30,6 +30,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				LeagueId = m.League.Id,
 				IsAdmin = m.IsAdmin,
 				CurrentRank = m.CurrentRank,
+				LastRankChange = m.LastRankChange,
 				DateCreated = m.CreatedAt,
 			});
         }
@@ -44,6 +45,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				LeagueId = m.League.Id,
 				IsAdmin = m.IsAdmin,
 				CurrentRank = m.CurrentRank,
+				LastRankChange = m.LastRankChange,
 				DateCreated = m.CreatedAt,
 			}));
 		}
