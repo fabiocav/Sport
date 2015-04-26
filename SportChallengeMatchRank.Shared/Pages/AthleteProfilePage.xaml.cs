@@ -34,6 +34,25 @@ namespace SportChallengeMatchRank.Shared
 						OnSave();
 				}
 			};
+
+			btnDelete.Clicked += async(sender, e) =>
+			{
+				if(!App.CurrentAthlete.IsAdmin)
+					return;
+
+				var confirmed = await DisplayAlert("Delete {0}'s Profile?".Fmt(ViewModel.Athlete.Name), "Are you sure you want to remove this athlete?", "Yes", "No");
+
+				if(!confirmed)
+					return;
+
+				var success = await ViewModel.DeleteAthlete();
+
+				if(success)
+				{
+					"Profile deleted!".ToToast(ToastNotificationType.Success, "YES!");
+					await Navigation.PopAsync();
+				}
+			};
 		}
 
 		//		protected override void OnParentSet()

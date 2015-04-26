@@ -6,17 +6,8 @@
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" RowHeight="60">
 	<ListView.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Label" BasedOn="{StaticResource labelStyle}">
-            	<Setter Property="TextColor">
-            		<Setter.Value>
-                		<OnPlatform x:TypeArguments="Color">
-	            			<OnPlatform.iOS>#000000</OnPlatform.iOS>
-	            			<OnPlatform.Android>#FFFFFF</OnPlatform.Android>
-                 		</OnPlatform>
-	           		</Setter.Value>
-            	</Setter>
-        	</Style>
+		<ResourceDictionary>
+			<Style TargetType="Label" BasedOn="{StaticResource listLabelStyle}" />
 		</ResourceDictionary>
 	</ListView.Resources>
 	<ListView.ItemTemplate>
@@ -24,6 +15,10 @@
 			<ViewCell>
 				<ViewCell.View>
 					<Grid>
+						<StackLayout Padding="10" Orientation="Horizontal" Spacing="20" IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+							<Label Text="{Binding Name}" FontSize="20" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+						</StackLayout>
+
 						<StackLayout Padding="30,10,10,10" Orientation="Horizontal" Spacing="20"
 							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 

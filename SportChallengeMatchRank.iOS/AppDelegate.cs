@@ -1,11 +1,11 @@
-﻿using Foundation;
+﻿using System;
+using Foundation;
+using ImageCircle.Forms.Plugin.iOS;
+using SportChallengeMatchRank.Shared;
+using Toasts.Forms.Plugin.iOS;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using SportChallengeMatchRank.Shared;
-using System;
-using Toasts.Forms.Plugin.iOS;
-using ImageCircle.Forms.Plugin.iOS;
 
 namespace SportChallengeMatchRank.iOS
 {
@@ -18,10 +18,6 @@ namespace SportChallengeMatchRank.iOS
 			ImageCircleRenderer.Init();
 			ToastNotificatorImplementation.Init();
 
-			//window.RootViewController = new OAuthViewController();
-			//window.MakeKeyAndVisible();
-
-			//return true;
 			LoadApplication(new App());
 
 			var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert

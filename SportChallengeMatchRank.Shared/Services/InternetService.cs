@@ -366,10 +366,6 @@ namespace SportChallengeMatchRank.Shared
 						DataManager.Instance.Athletes.TryRemove(id, out a);
 					}
 				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-				}
 			});
 		}
 

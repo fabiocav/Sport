@@ -3,8 +3,13 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.LeagueEditPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
-	<local:LeagueEditXaml.Content>
+	<local:LeagueEditXaml.Resources>
+		<ResourceDictionary>
+			<Style TargetType="Label" BasedOn="{StaticResource listLabelStyle}" />
+		</ResourceDictionary>
+	</local:LeagueEditXaml.Resources>
 
+	<local:LeagueEditXaml.Content>
 	<ScrollView>
 		<Grid Padding="20,10,20,0">
 			<Grid.RowDefinitions>

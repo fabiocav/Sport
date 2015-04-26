@@ -70,18 +70,20 @@ namespace SportChallengeMatchRank.Shared
 		{
 			ViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
 			{
-				App.Current.Hud.Dismiss();
-				var webView = new WebView();
-				webView.Source = url;
-				var page = new ContentPage();
-				page.Content = webView;
+				App.Current.Hud.Dismiss();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+				var webView = new WebView {
+					Source = url			
+				};
+					
+				var page = new ContentPage {
+					Content = webView
+				};
+
 				Navigation.PushModalAsync(page);
-				Console.WriteLine("pushed");
 			});
 
 			ViewModel.OnHideAuthForm = async() =>
 			{
-				Console.WriteLine("popped");
 				await Navigation.PopModalAsync();
 			};
 

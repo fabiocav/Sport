@@ -47,5 +47,13 @@ namespace SportChallengeMatchRank.Shared
 			await RunSafe(task);
 			return !task.IsFaulted;
 		}
+
+
+		async public Task<bool> DeleteAthlete()
+		{
+			var task = InternetService.Instance.DeleteAthlete(Athlete.Id);
+			await RunSafe(task);
+			return !task.IsFaulted;
+		}
 	}
 }

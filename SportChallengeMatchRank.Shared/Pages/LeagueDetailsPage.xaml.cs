@@ -81,7 +81,7 @@ namespace SportChallengeMatchRank.Shared
 					if(accepted)
 					{
 						await ViewModel.LeaveLeague();
-						"Can't leave this league because you have been already been ejected, so there :P".ToToast(ToastNotificationType.Info, "No can do");
+						"Can't leave this league because you've been ejected, with prejudice :P".ToToast(ToastNotificationType.Info, "No can do");
 						if(OnAbandondedLeague != null)
 						{
 							OnAbandondedLeague(ViewModel.League);

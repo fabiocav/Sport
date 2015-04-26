@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -47,6 +45,13 @@ namespace SportChallengeMatchRank.Shared
 
 			Leagues.Clear();
 			DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key)).Select(k => k.Value).ToList().ForEach(Leagues.Add);
+
+			if(Leagues.Count == 0)
+			{
+				Leagues.Add(new League {
+					Name = "There are no joinable leagues",
+				});
+			}
 		}
 
 		async public Task GetAvailableLeagues(bool forceRefresh = false)
@@ -64,13 +69,6 @@ namespace SportChallengeMatchRank.Shared
 			await RunSafe(InternetService.Instance.GetAllLeagues());
 			_hasLoadedBefore = true;
 			LocalRefresh();
-
-			if(Leagues.Count == 0)
-			{
-				Leagues.Add(new League {
-					Name = "There are no joinable leagues",
-				});
-			}
 		}
 	}
 }

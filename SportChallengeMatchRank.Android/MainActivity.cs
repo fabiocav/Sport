@@ -1,16 +1,15 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.OS;
-using Xamarin.Forms.Platform.Android;
-using SportChallengeMatchRank.Shared;
 using Android.Views;
-using Toasts.Forms.Plugin.Droid;
-using Xamarin.ActionbarSherlockBinding.App;
 using ImageCircle.Forms.Plugin.Droid;
-using System;
+using SportChallengeMatchRank.Shared;
+using Toasts.Forms.Plugin.Droid;
+using Xamarin.Forms.Platform.Android;
 
 namespace SportChallengeMatchRank.Android
 {
-	[Activity(Label = "SportChallengeMatchRank.Android", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : FormsApplicationActivity
 	{
 		protected override void OnCreate(Bundle bundle)
@@ -20,10 +19,10 @@ namespace SportChallengeMatchRank.Android
 //				Console.WriteLine(e);
 //			};
 //
-//			AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-//			{
-//				Console.WriteLine(e);
-//			};
+			AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+			{
+				Console.WriteLine(e);
+			};
 
 			try
 			{

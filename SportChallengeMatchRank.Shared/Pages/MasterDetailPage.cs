@@ -14,6 +14,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public MasterDetailPage()
 		{
+			_tabbedPage = new AthleteTabbedPage();
 			_menu = new MenuPage();
 			_menu.ListView.ItemSelected += (sender, e) =>
 			{
@@ -27,14 +28,12 @@ namespace SportChallengeMatchRank.Shared
 				kvp.Value.Execute(null);
 			};
 
-			_tabbedPage = new AthleteTabbedPage();
-
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
 			{
 				var options = new Dictionary<string, ICommand>();
 				options.Add("Leagues & Challenges", new Command(() => DisplayLeaguesPage()));
 				options.Add("Profile", new Command(() => DisplayProfilePage()));
-				options.Add("Settings", new Command(() => DisplayProfilePage()));
+				//options.Add("Settings", new Command(() => DisplayProfilePage()));
 				options.Add("Log Out", new Command(() => LogOutUser()));
 
 				if(App.CurrentAthlete.IsAdmin)

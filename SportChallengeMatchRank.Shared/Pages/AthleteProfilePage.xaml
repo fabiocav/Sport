@@ -34,6 +34,9 @@
 
 					<StackLayout Grid.Row="1" Padding="40,20,40,30" Spacing="20" VerticalOptions="End" HorizontalOptions="FillAndExpand">
 						<Button x:Name="btnSave" Text="Save Profile" IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+						<Button x:Name="btnDelete" Text="Delete Profile" Style="{StaticResource deleteButtonStyle}"
+							IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
+							IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 					</StackLayout>
 				</Grid>
 

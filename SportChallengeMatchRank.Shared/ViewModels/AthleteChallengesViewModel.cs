@@ -135,6 +135,13 @@ namespace SportChallengeMatchRank.Shared
 
 			if(HistoricalChallenges.Count > 0)
 				ChallengeGroups.Add(HistoricalChallenges);
+
+			if(ChallengeGroups.Count == 0)
+			{
+				ChallengeGroups.Add(new ChallengeCollection {
+					Title = "You have no ongoing or past challenges",
+				});
+			}
 		}
 	}
 

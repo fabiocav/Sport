@@ -13,8 +13,8 @@
 					<DataTemplate>
 						<ViewCell>
 							<ViewCell.View>
-								<StackLayout Padding="60,20">
-									<Label Text="{Binding Key}">
+								<StackLayout Padding="60,20,20,20">
+									<Label Text="{Binding Key}" VerticalOptions="CenterAndExpand">
 										<Label.FontSize>
 					                		<OnPlatform x:TypeArguments="x:Double">
 												<OnPlatform.iOS>18</OnPlatform.iOS>

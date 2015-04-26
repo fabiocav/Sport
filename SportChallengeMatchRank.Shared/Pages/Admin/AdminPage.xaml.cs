@@ -22,7 +22,7 @@ namespace SportChallengeMatchRank.Shared
 
 			btnAthletes.Clicked += async(sender, e) =>
 			{
-				await Navigation.PushAsync(new AthleteLandingPage());	
+				await Navigation.PushAsync(new AthleteListPage());	
 			};
 		}
 
@@ -30,7 +30,7 @@ namespace SportChallengeMatchRank.Shared
 		//		{
 		//			get
 		//			{
-		//				return new Command(() => Navigation.PushAsync(new AthleteLandingPage()));
+		//				return new Command(() => Navigation.PushAsync(new AthleteListPagePage()));
 		//			}
 		//		}
 	}

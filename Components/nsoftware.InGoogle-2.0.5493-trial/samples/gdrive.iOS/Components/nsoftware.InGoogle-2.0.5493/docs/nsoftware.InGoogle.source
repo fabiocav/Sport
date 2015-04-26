@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<monodoc>
-  <node label="Xamarin Components" name="components" parent="libraries" />
-  <node label="Google Integrator V2 - Enterprise Edition" name="nsoftware.InGoogle" parent="components" />
-  <source provider="ecma" basefile="nsoftware.InGoogle" path="nsoftware.InGoogle" />
-</monodoc>
