@@ -32,7 +32,6 @@ namespace SportChallengeMatchRank.Shared
 		{
 			InitializeComponent();
 			IsNetworkRechable = true;
-			MainPage = new MasterDetailPage();
 
 			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
 			{
@@ -79,6 +78,14 @@ namespace SportChallengeMatchRank.Shared
 				});
 			});
 
+			//if(Settings.Instance.AuthToken != null)
+			{
+				//MainPage = new MasterDetailPage();
+			}
+			//else
+			{
+				MainPage = new NavigationPage(new WelcomeStartPage());
+			}
 		}
 
 		public static Athlete CurrentAthlete

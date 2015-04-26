@@ -160,6 +160,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Providers\HUDProvider.cs" />
+    <Compile Include="Providers\PushNotifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

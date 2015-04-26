@@ -1,9 +1,19 @@
 ﻿using Xamarin.Forms;
+using System.Threading.Tasks;
+using System;
 
 namespace SportChallengeMatchRank.Shared
 {
 	public class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
 	{
+		public AuthenticationViewModel AuthenticationViewModel
+		{
+			get
+			{
+				return DependencyService.Get<AuthenticationViewModel>();
+			}
+		}
+
 		public BaseContentPage()
 		{
 			BindingContext = ViewModel;
@@ -13,6 +23,16 @@ namespace SportChallengeMatchRank.Shared
 				if(App.CurrentAthlete != null)
 					OnUserAuthenticated();
 			});
+
+			AuthenticationViewModel.SubscribeToProperty("AuthenticationStatus", () =>
+			{
+				Console.WriteLine(AuthenticationViewModel.AuthenticationStatus);
+				Device.BeginInvokeOnMainThread(() =>
+				{
+//					App.Current.Hud.DisplayProgress(AuthenticationViewModel.AuthenticationStatus);
+				});
+			});
+
 		}
 
 		T _viewModel;
@@ -55,5 +75,57 @@ namespace SportChallengeMatchRank.Shared
 
 			base.OnAppearing();
 		}
+
+		#region Authentication
+
+		bool _hasAttemptedAuthentication;
+
+		async public Task EnsureAthleteAuthenticated(bool force = false)
+		{
+			if((App.CurrentAthlete != null || _hasAttemptedAuthentication) && !force)
+				return;
+
+			//App.Current.Hud.DisplayProgress("Authenticating");
+
+//			using(new Busy(AuthenticationViewModel))
+			{
+				AuthenticationViewModel.IsBusy = true;
+				_hasAttemptedAuthentication = true;
+				await AttemptToAuthenticateAthlete(force);
+				AuthenticationViewModel.IsBusy = false;
+			}
+
+			//App.Current.Hud.Dismiss();
+		}
+
+		async public Task AttemptToAuthenticateAthlete(bool force = false)
+		{
+			AuthenticationViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
+			{
+				App.Current.Hud.Dismiss();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+				var webView = new WebView {
+					Source = url			
+				};
+
+				var page = new ContentPage {
+					Content = webView
+				};
+
+				Navigation.PushModalAsync(page);
+			});
+
+			AuthenticationViewModel.OnHideAuthForm = async() =>
+			{
+				await Navigation.PopModalAsync();
+			};
+
+			await AuthenticationViewModel.GetUserProfile(force);
+			if(App.AuthUserProfile != null)
+			{
+				await AuthenticationViewModel.EnsureAthleteRegistered();
+			}
+		}
+
+		#endregion
 	}
 }

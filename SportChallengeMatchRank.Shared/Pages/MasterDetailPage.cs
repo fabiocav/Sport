@@ -65,7 +65,7 @@ namespace SportChallengeMatchRank.Shared
 			Settings.Instance.RefreshToken = null;
 			Settings.Instance.Save();
 
-			_tabbedPage.EnsureAthleteAuthenticated(true);
+			//_tabbedPage.EnsureAthleteAuthenticated(true);
 		}
 
 		public void DisplayAdminPage()

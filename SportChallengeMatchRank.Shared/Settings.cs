@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -61,11 +59,7 @@ namespace SportChallengeMatchRank.Shared
 		public static Settings Load()
 		{
 			Debug.WriteLine(string.Format("Loading settings: {0}", _filePath));
-			var settings = Helpers.LoadFromFile<Settings>(_filePath);
-
-			if(settings == null)
-				settings = new Settings();
-
+			var settings = Helpers.LoadFromFile<Settings>(_filePath) ?? new Settings();
 			return settings;
 		}
 	}

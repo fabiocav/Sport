@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:WelcomeStartPageXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.WelcomeStartPage"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
+    <local:WelcomeStartPageXaml.Content>
+
+    	<AbsoluteLayout BackgroundColor="{StaticResource xamarinGreen}">
+
+			<Label x:Name="label1" Text="It looks like this is your first time challenging sport and ranking match. Let's get you set up, athlete!"
+				FontSize="Large" XAlign="Center" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.1,.6,.3" Scale="0" />
+
+			<ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Color="White" HorizontalOptions="Center" />
+
+			<Label x:Name="label2" Grid.Row="1" Text="First thing's first, you must log into the mainframe." FontSize="Large"
+				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.55,.6,.2" XAlign="Center" Scale="0" />
+
+			<Label Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}" IsVisible="{Binding IsBusy}" FontSize="Large"
+				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.9,.8,.125" XAlign="Center" />
+
+			<Button x:Name="btnLogIn" Text="Authenticate with Google" BackgroundColor="#44000000" FontSize="Large"
+				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,.9,1,.125" TextColor="White" Scale="0"
+				IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" BorderRadius="0" />
+    	</AbsoluteLayout>
+
+	</local:WelcomeStartPageXaml.Content>
+</local:WelcomeStartPageXaml>

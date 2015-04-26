@@ -20,6 +20,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _isBusy, value);
+				Console.WriteLine("\n\nBUSY: {0}\n\n", value);
 				SetPropertyChanged("IsNotBusy");
 			}
 		}
@@ -45,7 +46,7 @@ namespace SportChallengeMatchRank.Shared
 			if(!App.IsNetworkRechable)
 			{
 				if(OnTaskException != null)
-					OnTaskException(new WebException("Not connected to the Internet"));
+					OnTaskException(new WebException("Not connected to the Information Super Highway"));
 			}
 
 			Exception exception = null;
@@ -54,7 +55,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(!CancellationToken.IsCancellationRequested)
 				{
-					using(new Busy(this))
+//					using(new Busy(this))
 					{
 						task.Start();
 						task.Wait();
@@ -116,7 +117,6 @@ namespace SportChallengeMatchRank.Shared
 
 	#region Helper Classes
 
-
 	public class Busy : IDisposable
 	{
 		readonly BaseViewModel _viewModel;
@@ -124,12 +124,18 @@ namespace SportChallengeMatchRank.Shared
 		public Busy(BaseViewModel viewModel)
 		{
 			_viewModel = viewModel;
-			_viewModel.IsBusy = true;
+			Device.BeginInvokeOnMainThread(() =>
+			{
+				_viewModel.IsBusy = true;
+			});
 		}
 
 		public void Dispose()
 		{
-			_viewModel.IsBusy = false;
+			Device.BeginInvokeOnMainThread(() =>
+			{
+				_viewModel.IsBusy = false;
+			});
 		}
 	}
 

@@ -167,12 +167,14 @@ namespace SportChallengeMatchRank.Shared
 
 			Settings.Instance.AthleteId = athlete != null ? athlete.Id : null;
 			await Settings.Instance.Save();
+			AuthenticationStatus = string.Empty;
 
 			if(App.CurrentAthlete != null)
 			{
 				await RunSafe(InternetService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
 				await RunSafe(InternetService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete));
 				await RunSafe(InternetService.Instance.UpdateAthleteRegistrationForPush());
+				MessagingCenter.Send<AuthenticationViewModel>(this, "UserAuthenticated");
 			}
 
 			return App.CurrentAthlete != null;

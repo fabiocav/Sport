@@ -1,25 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
-using System.Threading.Tasks;
 
 namespace SportChallengeMatchRank.Shared
 {
 	public class AthleteTabbedPage : TabbedPage
 	{
-		bool _hasAttemptedAuthentication = false;
-		AuthenticationViewModel _viewModel;
-
-		public AuthenticationViewModel ViewModel
-		{
-			get
-			{
-				if(_viewModel == null)
-					_viewModel = DependencyService.Get<AuthenticationViewModel>();
-
-				return _viewModel;
-			}
-		}
-
 		public AthleteTabbedPage()
 		{
 			var id = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
@@ -32,74 +17,6 @@ namespace SportChallengeMatchRank.Shared
 				Title = "My Challenges",
 				//BarBackgroundColor = App.BlueColor
 			});
-
-			ViewModel.SubscribeToProperty("AuthenticationStatus", () =>
-			{
-				Console.WriteLine(ViewModel.AuthenticationStatus);
-				Device.BeginInvokeOnMainThread(() =>
-				{
-					App.Current.Hud.DisplayProgress(ViewModel.AuthenticationStatus);
-				});
-			});
 		}
-
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-
-			if(!_hasAttemptedAuthentication)
-				EnsureAthleteAuthenticated();
-		}
-
-		#region Authentication
-
-		async public void EnsureAthleteAuthenticated(bool force = false)
-		{
-			if((App.CurrentAthlete != null || _hasAttemptedAuthentication) && !force)
-				return;
-
-			App.Current.Hud.DisplayProgress("Authenticating");
-
-			_hasAttemptedAuthentication = true;
-			await AttemptToAuthenticateAthlete(force);
-
-			App.Current.Hud.Dismiss();
-		}
-
-		async public Task AttemptToAuthenticateAthlete(bool force = false)
-		{
-			ViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
-			{
-				App.Current.Hud.Dismiss();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-				var webView = new WebView {
-					Source = url			
-				};
-					
-				var page = new ContentPage {
-					Content = webView
-				};
-
-				Navigation.PushModalAsync(page);
-			});
-
-			ViewModel.OnHideAuthForm = async() =>
-			{
-				await Navigation.PopModalAsync();
-			};
-
-			await ViewModel.GetUserProfile(force);
-			if(App.AuthUserProfile != null)
-			{
-				var success = await ViewModel.EnsureAthleteRegistered();
-				Console.WriteLine(success);
-			}
-
-			if(App.CurrentAthlete != null)
-			{
-				MessagingCenter.Send<AuthenticationViewModel>(this.ViewModel, "UserAuthenticated");
-			}
-		}
-
-		#endregion
 	}
 }

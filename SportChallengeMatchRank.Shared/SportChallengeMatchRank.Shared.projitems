@@ -17,6 +17,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Admin\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
     <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthenticationViewModel.cs" />
@@ -113,6 +114,10 @@
       <DependentUpon>AthleteListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\AthleteListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\WelcomeStartPage.xaml.cs">
+      <DependentUpon>WelcomeStartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPushNotifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -167,6 +172,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\AthleteListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\WelcomeStartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
