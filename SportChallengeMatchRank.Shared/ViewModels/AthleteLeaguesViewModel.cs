@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteLeaguesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -39,6 +42,17 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public ObservableCollection<League> Leagues
+		{
+			get;
+			set;
+		}
+
+		public AthleteLeaguesViewModel()
+		{
+			Leagues = new ObservableCollection<League>();	
+		}
+
 		async public Task GetLeagues(bool forceRefresh = false)
 		{
 			if(Athlete == null)
@@ -53,11 +67,28 @@ namespace SportChallengeMatchRank.Shared
 			if(IsBusy)
 				return;
 
+			IsBusy = true;
 			Athlete.RefreshMemberships();
 			await RunSafe(InternetService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
 			_hasLoadedBefore = true;
-			Athlete.RefreshMemberships();
+
+			LocalRefresh();
 			SetPropertyChanged("Athlete");
+			IsBusy = false;
+		}
+
+		public void LocalRefresh()
+		{
+			Leagues.Clear();
+			Athlete.RefreshMemberships();
+			Athlete.Leagues.ForEach(Leagues.Add);
+
+			if(Leagues.Count == 0)
+			{
+				Leagues.Add(new League {
+					Name = "You don't belong to any leagues yet.",
+				});
+			}
 		}
 	}
 }

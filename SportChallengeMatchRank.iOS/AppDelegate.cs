@@ -28,6 +28,7 @@ namespace SportChallengeMatchRank.iOS
 
 		public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
 		{
+			MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
 			App.DeviceToken = deviceToken.Description.Trim('<', '>').Replace(" ", "");
 		}
 
@@ -39,6 +40,7 @@ namespace SportChallengeMatchRank.iOS
 
 		public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)
 		{
+			MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
 			Console.WriteLine("DidRegisterUserNotificationSettings called");
 			Console.WriteLine(notificationSettings);
 		}

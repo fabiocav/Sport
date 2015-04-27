@@ -5,7 +5,11 @@ namespace SportChallengeMatchRank.Shared
 {
 	public interface IPushNotifications
 	{
-		Task<bool>  RegisterForPushNotifications();
+		bool IsRegistered
+		{
+			get;
+		}
+
+		Task RegisterForPushNotifications();
 	}
 }
-

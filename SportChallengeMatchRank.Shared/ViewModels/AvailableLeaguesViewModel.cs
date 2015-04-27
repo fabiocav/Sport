@@ -65,10 +65,12 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			}
 
+			IsBusy = true;
 			Leagues.Clear();
 			await RunSafe(InternetService.Instance.GetAllLeagues());
 			_hasLoadedBefore = true;
 			LocalRefresh();
+			IsBusy = false;
 		}
 	}
 }

@@ -5,13 +5,13 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AthleteChallengesPage : AthleteChallengesXaml
 	{
-		public AthleteChallengesPage(string athleteId)
+		public AthleteChallengesPage(string athleteId = null)
 		{
 			ViewModel.AthleteId = athleteId;
 			Initialize();
 		}
 
-		protected override void Initialize()
+		protected async override void Initialize()
 		{
 			InitializeComponent();
 			Title = "My Challenges";
@@ -33,6 +33,9 @@ namespace SportChallengeMatchRank.Shared
 
 				await Navigation.PushAsync(detailsPage);
 			};
+
+			if(App.CurrentAthlete != null)
+				await ViewModel.GetChallenges();
 		}
 
 		protected override void OnAppearing()

@@ -3,6 +3,7 @@ using SportChallengeMatchRank.Shared;
 using UIKit;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using System.Threading;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.iOS.PushNotifications))]
 
@@ -10,19 +11,29 @@ namespace SportChallengeMatchRank.iOS
 {
 	public class PushNotifications : IPushNotifications
 	{
-		public Task<bool> RegisterForPushNotifications()
+		public Task RegisterForPushNotifications()
 		{
-			return new Task<bool>(() =>
+			return new Task(() =>
 			{
-				var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert
-				               | UIUserNotificationType.Badge
-				               | UIUserNotificationType.Sound, new NSSet());
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert
+					               | UIUserNotificationType.Badge
+					               | UIUserNotificationType.Sound, new NSSet());
 
-				UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
-				UIApplication.SharedApplication.RegisterForRemoteNotifications();
 
-				return UIApplication.SharedApplication.IsRegisteredForRemoteNotifications;
+					UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+					UIApplication.SharedApplication.RegisterForRemoteNotifications();
+				});
 			});
+		}
+
+		public bool IsRegistered
+		{
+			get
+			{
+				return UIApplication.SharedApplication.IsRegisteredForRemoteNotifications;
+			}
 		}
 	}
 }

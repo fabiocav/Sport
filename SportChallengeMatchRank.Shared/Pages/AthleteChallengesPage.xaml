@@ -11,14 +11,30 @@
 	</local:AthleteChallengesXaml.Resources>
 	<local:AthleteChallengesXaml.Content>
 		<ListView x:Name="list" ItemsSource="{Binding ChallengeGroups}" RefreshCommand="{Binding GetChallengesCommand}" IsGroupingEnabled="true"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" RowHeight="60" HasUnevenRows="true">
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" HasUnevenRows="true">
+			<ListView.RowHeight>
+				<OnPlatform x:TypeArguments="x:Int32">
+					<OnPlatform.iOS>70</OnPlatform.iOS>
+					<OnPlatform.Android>90</OnPlatform.Android>
+				</OnPlatform>
+			</ListView.RowHeight>
 			<ListView.GroupHeaderTemplate>
 				<DataTemplate>
-					<ViewCell Height="40">
+					<ViewCell Height="45">
 						<ViewCell.View>
-							<StackLayout Orientation="Horizontal" Padding="30,10" BackgroundColor="{StaticResource xamarinBlue}">
-								<Label Text="{Binding Title}" VerticalOptions="Center" TextColor="White" />
-							</StackLayout>
+							<AbsoluteLayout>
+								<StackLayout Padding="10" Orientation="Horizontal" Spacing="20"
+									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+									IsVisible="{Binding Title, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+									<Label Text="You have no ongoing or past challenges." FontSize="20" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+								</StackLayout>
+
+								<StackLayout Orientation="Horizontal" Padding="30,10" BackgroundColor="{StaticResource xamarinBlue}"
+									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+									IsVisible="{Binding Title, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+									<Label Text="{Binding Title}" VerticalOptions="Center" TextColor="White" />
+								</StackLayout>
+							</AbsoluteLayout>
 						</ViewCell.View>
 					</ViewCell>
 				</DataTemplate>

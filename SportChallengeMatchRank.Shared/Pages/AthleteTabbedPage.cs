@@ -7,13 +7,11 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public AthleteTabbedPage()
 		{
-			var id = App.CurrentAthlete == null ? null : App.CurrentAthlete.Id;
-
-			Children.Add(new NavigationPage(new AthleteLeaguesPage()) {
+			Children.Add(new NavigationPage(new AthleteLeaguesPage(Settings.Instance.AthleteId)) {
 				Title = "My Leagues",
 				//BarBackgroundColor = App.BlueColor
 			});
-			Children.Add(new NavigationPage(new AthleteChallengesPage(id)) {
+			Children.Add(new NavigationPage(new AthleteChallengesPage(Settings.Instance.AthleteId)) {
 				Title = "My Challenges",
 				//BarBackgroundColor = App.BlueColor
 			});

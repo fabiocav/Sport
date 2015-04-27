@@ -22,7 +22,7 @@
 				<Entry x:Name="name" Text="{Binding League.Name}" Placeholder="League name" HeightRequest="40" />
 				<Entry Text="{Binding League.Sport}" Placeholder="League sport" HeightRequest="40" />
 
-				<Editor Text="{Binding League.Description}" HeightRequest="80" BackgroundColor="#33000000" />
+				<Editor Text="{Binding League.Description}" HeightRequest="80" BackgroundColor="Transparent" />
 
 				<StackLayout Orientation="Horizontal">
 					<Label Text="Enabled" HorizontalOptions="StartAndExpand" />

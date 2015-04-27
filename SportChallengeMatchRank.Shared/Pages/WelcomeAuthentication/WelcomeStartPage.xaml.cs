@@ -15,12 +15,12 @@ namespace SportChallengeMatchRank.Shared
 		{
 			InitializeComponent();
 			Title = "Welcome!";
-			btnLogIn.Clicked += async(sender, e) =>
+			btnAuthenticate.Clicked += async(sender, e) =>
 			{
 				await EnsureAthleteAuthenticated();
 				if(App.CurrentAthlete != null)
 				{
-					await Navigation.PushAsync(new AthleteProfilePage(App.CurrentAthlete.Id));
+					await Navigation.PushAsync(new SetAliasPage());
 				}
 			};
 		}
@@ -35,8 +35,8 @@ namespace SportChallengeMatchRank.Shared
 			await Task.Delay(250);
 			label2.ScaleTo(1, 500, Easing.SinIn);
 
-			await Task.Delay(250);
-			btnLogIn.ScaleTo(1, 500, Easing.SinIn);
+			await Task.Delay(450);
+			btnAuthenticate.ScaleTo(1, 500, Easing.SinIn);
 		}
 	}
 

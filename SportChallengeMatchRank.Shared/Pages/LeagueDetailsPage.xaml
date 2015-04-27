@@ -14,26 +14,25 @@
 
 			<StackLayout Padding="20" Spacing="15" VerticalOptions="Start">
 				<Label Text="{Binding League.Name}" FontSize="50" TextColor="White" />
-				<Label Text="{Binding League.Sport, StringFormat='the noble pastime of \{0\}'}" FontSize="20" TextColor="White" />
+				<Label Text="{Binding League.Sport, StringFormat='the honorable pastime of \{0\}'}" FontSize="20" TextColor="White" />
 
 				<Label Text="{Binding League.DateCreated, StringFormat='established \{0:MMM dd yyyy\}'}" TextColor="White" />
 				<Label Text="{Binding League.CreatedByAthlete.Name, StringFormat='by \{0\}'}" TextColor="White" />
 			</StackLayout>
 
-			<StackLayout Padding="20" Spacing="10" VerticalOptions="End">
-
-				<Button x:Name="btnMemberStatus" Text="View Current Rankings" />
+			<StackLayout Spacing="2" VerticalOptions="End">
+				<Button x:Name="btnMemberStatus" Text="View Current Rankings" VerticalOptions="EndAndExpand" />
 
 				<Button x:Name="btnJoinLeague" Text="Join League"
-						IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
+					IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="EndAndExpand" />
 
 				<Button x:Name="btnLeaveLeague" Text="Cowardly Abandon League" IsVisible="{Binding IsMember}"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="EndAndExpand" />
 
-				<Button x:Name="btnEditLeague" Text="Edit League" VerticalOptions="End"
-						IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+				<Button x:Name="btnEditLeague" Text="Edit League" VerticalOptions="EndAndExpand"
+					IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>
 		</Grid>
 	</ScrollView>

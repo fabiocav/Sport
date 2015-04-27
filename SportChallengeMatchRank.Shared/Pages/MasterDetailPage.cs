@@ -30,20 +30,27 @@ namespace SportChallengeMatchRank.Shared
 
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
 			{
-				var options = new Dictionary<string, ICommand>();
-				options.Add("Leagues & Challenges", new Command(() => DisplayLeaguesPage()));
-				options.Add("Profile", new Command(() => DisplayProfilePage()));
-				//options.Add("Settings", new Command(() => DisplayProfilePage()));
-				options.Add("Log Out", new Command(() => LogOutUser()));
-
-				if(App.CurrentAthlete.IsAdmin)
-					options.Add("Admin", new Command(() => DisplayAdminPage()));
-
-				_menu.ListView.ItemsSource = options;
+				AddMenuItems();
 			});
+
+			AddMenuItems();
 
 			Master = _menu;
 			Detail = _tabbedPage;
+		}
+
+		void AddMenuItems()
+		{
+			var options = new Dictionary<string, ICommand>();
+			options.Add("Leagues & Challenges", new Command(() => DisplayLeaguesPage()));
+			options.Add("Profile", new Command(() => DisplayProfilePage()));
+			//options.Add("Settings", new Command(() => DisplayProfilePage()));
+			options.Add("Log Out", new Command(() => LogOutUser()));
+
+			if(App.CurrentAthlete.IsAdmin)
+				options.Add("Admin", new Command(() => DisplayAdminPage()));
+
+			_menu.ListView.ItemsSource = options;
 		}
 
 		public void DisplayProfilePage()

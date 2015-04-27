@@ -226,7 +226,7 @@ namespace SportChallengeMatchRank.Shared
 				await Task.Delay(500);
 				App.AuthUserProfile = task.Result;
 				Settings.Instance.AuthUserID = App.AuthUserProfile.Id;
-				Settings.Instance.Save();
+				await Settings.Instance.Save();
 			}
 			else
 			{

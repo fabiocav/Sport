@@ -5,12 +5,13 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class AthleteLeaguesPage : AthleteLeaguesXaml
 	{
-		public AthleteLeaguesPage()
+		public AthleteLeaguesPage(string athleteId = null)
 		{
+			ViewModel.AthleteId = athleteId;
 			Initialize();
 		}
 
-		protected override void Initialize()
+		protected async override void Initialize()
 		{
 			Title = "My Leagues";
 			InitializeComponent();
@@ -25,7 +26,7 @@ namespace SportChallengeMatchRank.Shared
 
 				await Navigation.PushModalAsync(new NavigationPage(page));
 			};
-			
+
 			list.ItemSelected += async(sender, e) =>
 			{
 				if(list.SelectedItem == null)
@@ -33,6 +34,9 @@ namespace SportChallengeMatchRank.Shared
 
 				var league = list.SelectedItem as League;
 				list.SelectedItem = null;
+
+				if(league.Id == null)
+					return;
 
 				var page = new LeagueDetailsPage(league);
 				page.OnAbandondedLeague = (l) =>
@@ -42,13 +46,21 @@ namespace SportChallengeMatchRank.Shared
 					
 				await Navigation.PushAsync(page);
 			};
+
+			if(App.CurrentAthlete != null)
+				await ViewModel.GetLeagues();
 		}
 
-		async protected override void OnUserAuthenticated()
+		protected override void OnUserAuthenticated()
 		{
 			base.OnUserAuthenticated();
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
-			await ViewModel.GetLeagues();
+		}
+
+		protected override void OnAppearing()
+		{
+			ViewModel.LocalRefresh();
+			base.OnAppearing();
 		}
 	}
 

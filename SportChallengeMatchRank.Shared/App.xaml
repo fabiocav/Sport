@@ -33,17 +33,11 @@
             </Style>
             <Style x:Key="buttonStyle" TargetType="Button">
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="BorderRadius" Value="0" />
+                <Setter Property="HeightRequest" Value="70" />
                 <Setter Property="BackgroundColor" Value="#BB000000" />
                 <Setter Property="FontFamily" Value="HelveticaNeue-Light" />
-                <Setter Property="FontSize">
-                	<Setter.Value>
-                		<OnPlatform x:TypeArguments="x:Double">
-							<OnPlatform.iOS>14</OnPlatform.iOS>
-							<OnPlatform.Android>12</OnPlatform.Android>
-						</OnPlatform>
-                	</Setter.Value>
-                </Setter>
+                <Setter Property="FontSize" Value="Large" />
             </Style>
             <Style TargetType="Button" BasedOn="{StaticResource buttonStyle}" />
             <Style x:Key="purpleButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">

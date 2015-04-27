@@ -118,6 +118,12 @@
       <DependentUpon>WelcomeStartPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPushNotifications.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\SetAliasPage.xaml.cs">
+      <DependentUpon>SetAliasPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\ChooseLeaguesPage.xaml.cs">
+      <DependentUpon>ChooseLeaguesPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -175,6 +181,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\WelcomeStartPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\SetAliasPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\ChooseLeaguesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -88,6 +88,7 @@ namespace SportChallengeMatchRank.Shared
 			if(IsBusy)
 				return;
 
+			IsBusy = true;
 			Athlete.RefreshChallenges();
 			UpcomingChallenges.Clear();
 			HistoricalChallenges.Clear();
@@ -98,6 +99,7 @@ namespace SportChallengeMatchRank.Shared
 			var task = InternetService.Instance.GetAllChallengesByAthlete(Athlete);
 			await RunSafe(task);
 
+			IsBusy = false;
 			if(task.IsFaulted)
 				return;
 
@@ -138,9 +140,7 @@ namespace SportChallengeMatchRank.Shared
 
 			if(ChallengeGroups.Count == 0)
 			{
-				ChallengeGroups.Add(new ChallengeCollection {
-					Title = "You have no ongoing or past challenges",
-				});
+				ChallengeGroups.Add(new ChallengeCollection());
 			}
 		}
 	}

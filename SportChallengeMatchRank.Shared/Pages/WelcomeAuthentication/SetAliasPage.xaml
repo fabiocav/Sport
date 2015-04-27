@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:SetAliasPageXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.SetAliasPage"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
+    <local:SetAliasPageXaml.Content>
+
+		<ScrollView BackgroundColor="{StaticResource xamarinPurple}">
+
+			<StackLayout>
+				<StackLayout Padding="30">
+					<Label x:Name="label1" Text="Be cool and choose an alias/nickname. Your alias will show on the leaderboard and in challenges so make it count!"
+						FontSize="Large" XAlign="Center" Scale="0" />
+				</StackLayout>
+
+				<StackLayout x:Name="profileStack" Spacing="15" Scale="0" VerticalOptions="CenterAndExpand">
+					<StackLayout Orientation="Horizontal" Padding="30" Spacing="25">
+						<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
+							HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="120" HeightRequest="120" />
+
+						<StackLayout VerticalOptions="CenterAndExpand">
+							<Label Text="{Binding Athlete.Name}" FontSize="40" HorizontalOptions="StartAndExpand" />
+							<Label Text="{Binding Athlete.Email}" FontSize="14" HorizontalOptions="StartAndExpand" />
+						</StackLayout>
+					</StackLayout>
+					<StackLayout Padding="40, 0" VerticalOptions="Start">
+						<Entry x:Name="txtAlias" Grid.Row="1" Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="White"
+							HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" />
+					</StackLayout>
+				</StackLayout>
+
+				<StackLayout x:Name="buttonStack" Spacing="2" Scale="0" VerticalOptions="EndAndExpand">
+					<Button x:Name="btnSave" Text="Save Alias and Continue" VerticalOptions="EndAndExpand" BackgroundColor="#44000000"
+						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+				</StackLayout>
+
+			</StackLayout>
+		</ScrollView>
+	</local:SetAliasPageXaml.Content>
+</local:SetAliasPageXaml>

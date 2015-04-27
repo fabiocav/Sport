@@ -34,6 +34,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		[JsonIgnore]
 		public bool IsDirty
 		{
 			get;
