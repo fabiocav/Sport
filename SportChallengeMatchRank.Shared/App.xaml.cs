@@ -11,6 +11,7 @@ namespace SportChallengeMatchRank.Shared
 	public partial class App : Application
 	{
 		public IHUDProvider _hud;
+		public static int AnimationSpeed = 250;
 
 		public IHUDProvider Hud
 		{
@@ -78,11 +79,11 @@ namespace SportChallengeMatchRank.Shared
 				});
 			});
 
-			//if(Settings.Instance.AuthToken != null)
-			{
-				//MainPage = new MasterDetailPage();
-			}
-			//else
+//			if(Settings.Instance.AuthToken != null)
+//			{
+//				MainPage = new MasterDetailPage();
+//			}
+//			else
 			{
 				MainPage = new NavigationPage(new WelcomeStartPage());
 			}

@@ -10,7 +10,7 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".55" />
+			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".35" />
 
 			<StackLayout Padding="20" Spacing="15" VerticalOptions="Start">
 				<Label Text="{Binding League.Name}" FontSize="50" TextColor="White" />
@@ -30,9 +30,10 @@
 				<Button x:Name="btnLeaveLeague" Text="Cowardly Abandon League" IsVisible="{Binding IsMember}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="EndAndExpand" />
 
-				<Button x:Name="btnEditLeague" Text="Edit League" VerticalOptions="EndAndExpand"
+<!--				<Button x:Name="btnEditLeague" Text="Edit League" VerticalOptions="EndAndExpand"
 					IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+-->
 			</StackLayout>
 		</Grid>
 	</ScrollView>

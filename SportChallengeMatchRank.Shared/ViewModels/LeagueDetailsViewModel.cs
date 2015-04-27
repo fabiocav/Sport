@@ -76,7 +76,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task LoadAthlete()
 		{
-			await RunSafe(InternetService.Instance.GetAthleteById(League.CreatedByAthleteId));
+			await RunSafe(InternetService.Instance.GetAthleteById(League.CreatedByAthleteId, true));
 			League.RefreshMemberships();
 			League.SetPropertyChanged("CreatedByAthlete");
 			SetPropertyChanged("CreatedBy");

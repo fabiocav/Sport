@@ -7,15 +7,14 @@
     <local:SetAliasPageXaml.Content>
 
 		<ScrollView BackgroundColor="{StaticResource xamarinPurple}">
-
 			<StackLayout>
 				<StackLayout Padding="30">
 					<Label x:Name="label1" Text="Be cool and choose an alias/nickname. Your alias will show on the leaderboard and in challenges so make it count!"
 						FontSize="Large" XAlign="Center" Scale="0" />
 				</StackLayout>
 
-				<StackLayout x:Name="profileStack" Spacing="15" Scale="0" VerticalOptions="CenterAndExpand">
-					<StackLayout Orientation="Horizontal" Padding="30" Spacing="25">
+				<StackLayout x:Name="profileStack" Padding="20" Spacing="15" Scale="0" VerticalOptions="CenterAndExpand">
+					<StackLayout Orientation="Horizontal" Padding="10" Spacing="25">
 						<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
 							HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="120" HeightRequest="120" />
 
@@ -34,7 +33,6 @@
 					<Button x:Name="btnSave" Text="Save Alias and Continue" VerticalOptions="EndAndExpand" BackgroundColor="#44000000"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 				</StackLayout>
-
 			</StackLayout>
 		</ScrollView>
 	</local:SetAliasPageXaml.Content>

@@ -12,6 +12,18 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public Action OnAccept
+		{
+			get;
+			set;
+		}
+
+		public Action OnPostResults
+		{
+			get;
+			set;
+		}
+
 		public ChallengeDetailsPage(Challenge challenge = null)
 		{
 			ViewModel.Challenge = challenge ?? new Challenge();
@@ -23,12 +35,20 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 			Title = "Challenge Details";
 
+			list.ItemSelected += (sender, e) =>
+			{
+				list.SelectedItem = null;
+			};
+
 			btnAccept.Clicked += async(sender, e) =>
 			{
 				var success = await ViewModel.AcceptChallenge();
 
 				if(success)
 					"It is sooooooo on like a prawn that yawns at dawn.".ToToast(ToastNotificationType.Success);
+
+				if(OnAccept != null)
+					OnAccept();
 			};
 
 			btnPostResults.Clicked += async(sender, e) =>
@@ -37,6 +57,9 @@ namespace SportChallengeMatchRank.Shared
 				page.OnMatchResultsPosted = () =>
 				{
 					ViewModel.NotifyPropertiesChanged();
+
+					if(OnPostResults != null)
+						OnPostResults();
 				};
 
 				await Navigation.PushModalAsync(new NavigationPage(page));

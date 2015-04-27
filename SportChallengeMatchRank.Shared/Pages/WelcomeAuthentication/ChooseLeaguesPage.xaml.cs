@@ -85,13 +85,9 @@ namespace SportChallengeMatchRank.Shared
 		protected async override void OnLoaded()
 		{
 			base.OnLoaded();
-			label1.ScaleTo(1, 500, Easing.SinIn);
-
-			await Task.Delay(250);
-			leaguesStack.ScaleTo(1, 500, Easing.SinIn);
-
-			await Task.Delay(250);
-			buttonStack.ScaleTo(1, 500, Easing.SinIn);
+			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+			await leaguesStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 		}
 	}
 

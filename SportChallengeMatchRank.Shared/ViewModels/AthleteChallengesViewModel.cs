@@ -105,14 +105,14 @@ namespace SportChallengeMatchRank.Shared
 
 			foreach(var c in DataManager.Instance.Challenges.Values)
 			{
-				if(c.ChallengeeAthlete == null)
+				if(c.ChallengeeAthlete == null || forceRefresh)
 				{
-					await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengeeAthleteId));
+					await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengeeAthleteId, forceRefresh));
 				}
 
-				if(c.ChallengerAthlete == null)
+				if(c.ChallengerAthlete == null || forceRefresh)
 				{
-					await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengerAthleteId));
+					await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengerAthleteId, forceRefresh));
 				}
 			}
 

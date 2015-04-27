@@ -53,7 +53,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted;
+				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && Challenge.IsAccepted && !Challenge.IsCompleted;
 			}
 		}
 
@@ -112,6 +112,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			SetPropertyChanged("CanAccept");
 			SetPropertyChanged("CanDecline");
+			SetPropertyChanged("CanDeclineAfterAccept");
 			SetPropertyChanged("CanRevoke");
 			SetPropertyChanged("CanPostMatchResults");
 			SetPropertyChanged("Challenge");

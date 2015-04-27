@@ -272,12 +272,15 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
-		public Task<Athlete> GetAthleteById(string id)
+		public Task<Athlete> GetAthleteById(string id, bool force = false)
 		{
 			return new Task<Athlete>(() =>
 			{
-				Athlete a;
-				DataManager.Instance.Athletes.TryGetValue(id, out a);
+				Athlete a = null;
+
+				if(!force)
+					DataManager.Instance.Athletes.TryGetValue(id, out a);
+
 				a = a ?? Client.GetTable<Athlete>().LookupAsync(id).Result;
 
 				if(a != null)

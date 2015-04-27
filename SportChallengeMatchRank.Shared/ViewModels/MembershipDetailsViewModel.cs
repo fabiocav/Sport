@@ -45,7 +45,7 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				var challenge = Membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
-				return challenge != null && challenge.ChallengerAthleteId == App.CurrentAthlete.Id;
+				return challenge != null && challenge.ChallengerAthleteId == App.CurrentAthlete.Id && challenge.ChallengeeAthleteId == Membership.AthleteId;
 			}
 		}
 
@@ -53,7 +53,6 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				Console.WriteLine("CanChallenge called");
 				return Membership.CanChallengeAthlete(App.CurrentAthlete);
 			}
 		}
@@ -71,7 +70,7 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				var dayCount = Math.Round(DateTime.UtcNow.Subtract(Membership.LastRankChangeDate).TotalDays);
-				return "ranked {0} for {1} day{2}".Fmt(Membership.CurrentRank.ToOrdinal(), dayCount, dayCount == 1 ? "" : "s");
+				return "ranked {0} for {1} day{2}".Fmt(Membership.CurrentRankDisplay.ToOrdinal(), dayCount, dayCount == 1 ? "" : "s");
 			}
 		}
 

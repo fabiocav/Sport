@@ -29,14 +29,9 @@ namespace SportChallengeMatchRank.Shared
 		{
 			base.OnLoaded();
 
-			await Task.Delay(500);
-			label1.ScaleTo(1, 500, Easing.SinIn);
-
-			await Task.Delay(250);
-			label2.ScaleTo(1, 500, Easing.SinIn);
-
-			await Task.Delay(450);
-			btnAuthenticate.ScaleTo(1, 500, Easing.SinIn);
+			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+			await label2.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+			await btnAuthenticate.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 		}
 	}
 

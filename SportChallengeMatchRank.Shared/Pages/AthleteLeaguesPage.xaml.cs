@@ -21,6 +21,7 @@ namespace SportChallengeMatchRank.Shared
 				var page = new AvailableLeaguesPage();
 				page.OnJoinedLeague = (l) =>
 				{
+					ViewModel.LocalRefresh();
 					ViewModel.SetPropertyChanged("Athlete");
 				};
 
@@ -41,6 +42,7 @@ namespace SportChallengeMatchRank.Shared
 				var page = new LeagueDetailsPage(league);
 				page.OnAbandondedLeague = (l) =>
 				{
+					ViewModel.LocalRefresh();
 					ViewModel.SetPropertyChanged("Athlete");
 				};
 					
@@ -55,12 +57,6 @@ namespace SportChallengeMatchRank.Shared
 		{
 			base.OnUserAuthenticated();
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
-		}
-
-		protected override void OnAppearing()
-		{
-			ViewModel.LocalRefresh();
-			base.OnAppearing();
 		}
 	}
 

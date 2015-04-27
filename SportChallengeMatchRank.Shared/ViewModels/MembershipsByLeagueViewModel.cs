@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Linq;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.MembershipsByLeagueViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -41,6 +40,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public ObservableCollection<Membership> Memberships
+		{
+			get;
+			set;
+		}
+
 		public ICommand GetAllMembershipsByAthleteCommand
 		{
 			get
@@ -49,12 +54,18 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public MembershipsByLeagueViewModel()
+		{
+			Memberships = new ObservableCollection<Membership>();
+		}
+
 		async public Task GetAllMembershipsByAthlete(bool forceRefresh = false)
 		{
 			if(!forceRefresh && Athlete.Memberships != null && Athlete.Memberships.Count > 0)
 				return;
-			
-			await RunSafe(InternetService.Instance.GetAllLeaguesByAthlete(Athlete));
+
+			var task = InternetService.Instance.GetAllLeaguesByAthlete(Athlete);
+			await RunSafe(task);
 			LocalRefresh();
 		}
 
@@ -68,11 +79,19 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
+			Memberships.Clear();
+
 			if(Athlete != null)
+			{
 				Athlete.RefreshMemberships();
+				Athlete.Memberships.ToList().ForEach(Memberships.Add);
+			}
 
 			if(League != null)
+			{
 				League.RefreshMemberships();
+				League.Memberships.ToList().ForEach(Memberships.Add);
+			}
 		}
 
 		async public Task GetAllMembershipsByLeague(bool forceRefresh = false)
@@ -80,10 +99,15 @@ namespace SportChallengeMatchRank.Shared
 			if(!forceRefresh && _hasLoadedBefore)
 				return;
 
+			IsBusy = true;
 			LocalRefresh();
-			await RunSafe(InternetService.Instance.GetAllAthletesByLeague(League));
+
+			var task = InternetService.Instance.GetAllAthletesByLeague(League);
+			await RunSafe(task);
+
 			_hasLoadedBefore = true;
 			LocalRefresh();
+			IsBusy = false;
 		}
 	}
 }

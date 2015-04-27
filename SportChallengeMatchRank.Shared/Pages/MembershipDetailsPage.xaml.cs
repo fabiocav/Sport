@@ -18,7 +18,7 @@ namespace SportChallengeMatchRank.Shared
 			Initialize();
 		}
 
-		protected override void Initialize()
+		protected async override void Initialize()
 		{
 			InitializeComponent();
 			Title = "Membership";
@@ -64,6 +64,9 @@ namespace SportChallengeMatchRank.Shared
 				await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
 				"{0} has been notified of your shameless ways.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Info);
 			};
+
+			await ViewModel.RunSafe(InternetService.Instance.GetAllChallengesByAthlete(ViewModel.Membership.Athlete));
+			ViewModel.SetPropertyChanged("CanChallenge");
 		}
 
 		protected override void OnParentSet()
@@ -82,9 +85,7 @@ namespace SportChallengeMatchRank.Shared
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-
 			ViewModel.Membership.LocalRefresh();
-			//ViewModel.NotifyPropertiesChanged();
 		}
 	}
 

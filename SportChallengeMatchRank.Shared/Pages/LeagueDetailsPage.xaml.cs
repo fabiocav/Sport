@@ -90,16 +90,16 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			btnEditLeague.Clicked += async(sender, e) =>
-			{
-				var detailsPage = new LeagueEditPage(ViewModel.League);
-				detailsPage.OnUpdate = () =>
-				{
-					ViewModel.SetPropertyChanged("League");
-				};
-
-				await Navigation.PushModalAsync(new NavigationPage(detailsPage));
-			};
+//			btnEditLeague.Clicked += async(sender, e) =>
+//			{
+//				var detailsPage = new LeagueEditPage(ViewModel.League);
+//				detailsPage.OnUpdate = () =>
+//				{
+//					ViewModel.SetPropertyChanged("League");
+//				};
+//
+//				await Navigation.PushModalAsync(new NavigationPage(detailsPage));
+//			};
 
 			if(ViewModel.League != null && ViewModel.League.CreatedByAthleteId != null && ViewModel.League.CreatedByAthlete == null)
 			{

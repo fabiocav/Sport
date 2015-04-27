@@ -25,10 +25,17 @@ namespace SportChallengeMatchRank.Shared
 				var detailsPage = new ChallengeDetailsPage(challenge);
 				detailsPage.OnDecline = () =>
 				{
-					Device.BeginInvokeOnMainThread(() =>
-					{
-						ViewModel.LocalRefresh();
-					});
+					ViewModel.LocalRefresh();
+				};
+
+				detailsPage.OnAccept = () =>
+				{
+					ViewModel.LocalRefresh();
+				};
+
+				detailsPage.OnPostResults = () =>
+				{
+					ViewModel.LocalRefresh();
 				};
 
 				await Navigation.PushAsync(detailsPage);
@@ -40,6 +47,7 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override void OnAppearing()
 		{
+			ViewModel.LocalRefresh();
 			ViewModel.SetPropertyChanged("ChallengeGroups");
 			base.OnAppearing();
 		}

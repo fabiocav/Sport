@@ -54,7 +54,7 @@
 									<Label.FontSize>
 										<OnPlatform x:TypeArguments="x:Double">
 											<OnPlatform.iOS>20</OnPlatform.iOS>
-											<OnPlatform.Android>24</OnPlatform.Android>
+											<OnPlatform.Android>20</OnPlatform.Android>
 										</OnPlatform>
 									</Label.FontSize>
 								</Label>
@@ -62,7 +62,7 @@
 									<Label.FontSize>
 										<OnPlatform x:TypeArguments="x:Double">
 											<OnPlatform.iOS>14</OnPlatform.iOS>
-											<OnPlatform.Android>18</OnPlatform.Android>
+											<OnPlatform.Android>12</OnPlatform.Android>
 										</OnPlatform>
 									</Label.FontSize>
 								</Label>

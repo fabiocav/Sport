@@ -65,6 +65,15 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _currentRank, value);
+				SetPropertyChanged("CurrentRankDisplay");
+			}
+		}
+
+		public int CurrentRankDisplay
+		{
+			get
+			{
+				return CurrentRank + 1;
 			}
 		}
 
@@ -155,12 +164,11 @@ namespace SportChallengeMatchRank.Shared
 
 			if(canChallenge)
 			{
-				//Athlete is within range but let's make sure there aren't already challenges out there
-				var alreadyChallenged = athlete.AllChallenges.Any(c => ((c.ChallengeeAthleteId == athlete.Id ||
-				                        c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId) &&
-				                        !c.IsCompleted);
-
-				canChallenge = !alreadyChallenged;
+				//Athlete is within range but let's make sure there aren't already challenges out there 
+				var challengerAlreadyHasChallengesWithOthers = athlete.AllChallenges.Any(c => c.LeagueId == LeagueId && !c.IsCompleted);
+				var challengeeAlreadyHasChallengesWithOthers = Athlete.AllChallenges.Any(c => c.LeagueId == LeagueId && !c.IsCompleted);
+				
+				canChallenge = !challengerAlreadyHasChallengesWithOthers && !challengeeAlreadyHasChallengesWithOthers;
 			}
 
 			return canChallenge;

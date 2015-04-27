@@ -7,30 +7,50 @@
 	<local:MembershipsByLeagueXaml.Content>
 		<Grid BackgroundColor="Black">
 
-			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".55" />
+			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".35" />
 
-			<ListView x:Name="list" RowHeight="66" ItemsSource="{Binding League.Memberships}" BackgroundColor="Transparent"
+			<ListView x:Name="list" RowHeight="66" ItemsSource="{Binding Memberships}" BackgroundColor="Transparent"
 				IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshCommand="{Binding GetAllMembershipsByLeagueCommand}">
+				<ListView.RowHeight>
+					<OnPlatform x:TypeArguments="x:Int32">
+						<OnPlatform.iOS>70</OnPlatform.iOS>
+						<OnPlatform.Android>90</OnPlatform.Android>
+					</OnPlatform>
+				</ListView.RowHeight>
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>
 							<ViewCell.View>
 								<StackLayout Padding="40,10,10,10" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
-									<Label Text="{Binding CurrentRank}" VerticalOptions="Center" TextColor="White">
+									<Label Text="{Binding CurrentRankDisplay}" VerticalOptions="Center">
 										<Label.FontSize>
 					                		<OnPlatform x:TypeArguments="x:Double">
-												<OnPlatform.iOS>42</OnPlatform.iOS>
-												<OnPlatform.Android>32</OnPlatform.Android>
+												<OnPlatform.iOS>46</OnPlatform.iOS>
+												<OnPlatform.Android>60</OnPlatform.Android>
 											</OnPlatform>
 										</Label.FontSize>
 									</Label>
 									<StackLayout Spacing="20" Orientation="Horizontal">
-
 										<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
-											HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="40" HeightRequest="40"  />
+											HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill">
+											<controls:CircleImage.WidthRequest>
+												<OnPlatform x:TypeArguments="x:Double">
+													<OnPlatform.iOS>50</OnPlatform.iOS>
+													<OnPlatform.Android>70</OnPlatform.Android>
+												</OnPlatform>
+											</controls:CircleImage.WidthRequest>
+											<controls:CircleImage.HeightRequest>
+												<OnPlatform x:TypeArguments="x:Double">
+													<OnPlatform.iOS>50</OnPlatform.iOS>
+													<OnPlatform.Android>70</OnPlatform.Android>
+												</OnPlatform>
+											</controls:CircleImage.HeightRequest>
+										</controls:CircleImage>
 
-										<Label Text="{Binding Athlete.Name}" FontSize="20" VerticalOptions="Center" TextColor="White" />
-										<Label Text="{Binding Athlete.Alias}" FontSize="12" HorizontalOptions="End" TextColor="White" VerticalOptions="Center" />
+										<StackLayout Spacing="0" VerticalOptions="Center">
+											<Label Text="{Binding Athlete.Name}" FontSize="Large" />
+											<Label Text="{Binding Athlete.Alias}" FontSize="Small" />
+										</StackLayout>
 									</StackLayout>
 								</StackLayout>
 							</ViewCell.View>

@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -39,8 +40,24 @@ namespace SportChallengeMatchRank.Shared
 			Detail = _tabbedPage;
 		}
 
+		bool _hasInitialized;
+
+		protected async override void OnAppearing()
+		{
+			if(_hasInitialized)
+				return;
+
+			//await AuthenticationViewModel.RunSafe(EnsureAthleteAuthenticated());
+
+			_hasInitialized = true;
+			base.OnAppearing();
+		}
+
 		void AddMenuItems()
 		{
+			if(App.CurrentAthlete == null)
+				return;
+			
 			var options = new Dictionary<string, ICommand>();
 			options.Add("Leagues & Challenges", new Command(() => DisplayLeaguesPage()));
 			options.Add("Profile", new Command(() => DisplayProfilePage()));
@@ -61,7 +78,6 @@ namespace SportChallengeMatchRank.Shared
 
 		public void DisplayLeaguesPage()
 		{
-			
 			Detail = _tabbedPage;
 		}
 
@@ -80,5 +96,67 @@ namespace SportChallengeMatchRank.Shared
 			_adminPage = _adminPage ?? new NavigationPage(new AdminPage());
 			Detail = _adminPage;
 		}
+
+		#region Authentication
+
+		bool _hasAttemptedAuthentication;
+
+		public AuthenticationViewModel AuthenticationViewModel
+		{
+			get
+			{
+				return DependencyService.Get<AuthenticationViewModel>();
+			}
+		}
+
+		async public Task EnsureAthleteAuthenticated(bool force = false)
+		{
+			if((App.CurrentAthlete != null || _hasAttemptedAuthentication) && !force)
+				return;
+
+			App.Current.Hud.DisplayProgress("Authenticating");
+
+//			var cover = new AuthenticationView();
+
+			//using(new Busy(AuthenticationViewModel))
+			{
+				AuthenticationViewModel.IsBusy = true;
+				_hasAttemptedAuthentication = true;
+				await AttemptToAuthenticateAthlete(force);
+				AuthenticationViewModel.IsBusy = false;
+			}
+
+			App.Current.Hud.Dismiss();
+		}
+
+		async public Task AttemptToAuthenticateAthlete(bool force = false)
+		{
+			AuthenticationViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
+			{
+				App.Current.Hud.Dismiss();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+				var webView = new WebView {
+					Source = url			
+				};
+
+				var page = new ContentPage {
+					Content = webView
+				};
+
+				Navigation.PushModalAsync(page);
+			});
+
+			AuthenticationViewModel.OnHideAuthForm = async() =>
+			{
+				await Navigation.PopModalAsync();
+			};
+
+			await AuthenticationViewModel.GetUserProfile(force);
+			if(App.AuthUserProfile != null)
+			{
+				await AuthenticationViewModel.EnsureAthleteRegistered();
+			}
+		}
+
+		#endregion
 	}
 }

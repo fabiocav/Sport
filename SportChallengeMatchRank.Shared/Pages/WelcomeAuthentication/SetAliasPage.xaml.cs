@@ -47,16 +47,14 @@ namespace SportChallengeMatchRank.Shared
 		protected async override void OnLoaded()
 		{
 			base.OnLoaded();
-			label1.ScaleTo(1, 500, Easing.SinIn);
-
-			await Task.Delay(250);
-			profileStack.ScaleTo(1, 500, Easing.SinIn);
-
-			await Task.Delay(250);
-			buttonStack.ScaleTo(1, 500, Easing.SinIn);
+			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+			await profileStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 
 			await Task.Delay(2000);
-			txtAlias.Focus();
+
+			if(IsVisible && string.IsNullOrEmpty(ViewModel.Athlete.Alias))
+				txtAlias.Focus();
 		}
 
 		protected override void OnAppearing()
