@@ -2,6 +2,7 @@
 using Toasts.Forms.Plugin.Abstractions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using XLabs.Forms.Controls;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -23,6 +24,11 @@ namespace SportChallengeMatchRank.Shared
 		{
 			InitializeComponent();
 			Title = "Athlete Alias";
+
+//			txtAlias.Font = Font.SystemFontOfSize();
+//				FontFamily = "HelveticaNeue-Light",
+//				FontSize = "36"
+//			};
 
 			btnSave.Clicked += async(sender, e) =>
 			{

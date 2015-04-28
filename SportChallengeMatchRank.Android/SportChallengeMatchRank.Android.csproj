@@ -57,9 +57,6 @@
     <Reference Include="Xamarin.Forms.Platform">
       <HintPath>..\packages\Xamarin.Forms.1.4.2.6355\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\packages\Xamarin.Android.Support.v4.22.0.0.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
     <Reference Include="ImageCircle.Forms.Plugin.Android">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.0.10\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Android.dll</HintPath>
     </Reference>
@@ -99,6 +96,34 @@
     </Reference>
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Ioc">
+      <HintPath>..\packages\XLabs.IoC.2.0.5593\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Ioc.dll</HintPath>
+    </Reference>
+    <Reference Include="ExifLib">
+      <HintPath>..\packages\ExifLib.PCL.1.0.0\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Core">
+      <HintPath>..\packages\XLabs.Core.2.0.5593\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform.Droid">
+      <HintPath>..\packages\XLabs.Platform.2.0.5593\lib\MonoAndroid\XLabs.Platform.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Platform">
+      <HintPath>..\packages\XLabs.Platform.2.0.5593\lib\MonoAndroid\XLabs.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android.Export" />
+    <Reference Include="XLabs.Serialization">
+      <HintPath>..\packages\XLabs.Serialization.2.0.5593\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms.Droid">
+      <HintPath>..\packages\XLabs.Forms.2.0.5593\lib\MonoAndroid\XLabs.Forms.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="XLabs.Forms">
+      <HintPath>..\packages\XLabs.Forms.2.0.5593\lib\MonoAndroid\XLabs.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.22.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

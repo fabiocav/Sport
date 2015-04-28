@@ -3,11 +3,12 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.SetAliasPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
+	xmlns:labs="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
     <local:SetAliasPageXaml.Content>
 
 		<ScrollView BackgroundColor="{StaticResource xamarinPurple}">
-			<StackLayout>
+			<StackLayout x:Name="stack">
 				<StackLayout Padding="30">
 					<Label x:Name="label1" Text="Be cool and choose an alias/nickname. Your alias will show on the leaderboard and in challenges so make it count!"
 						FontSize="Large" XAlign="Center" Scale="0" />
@@ -23,9 +24,9 @@
 							<Label Text="{Binding Athlete.Email}" FontSize="14" HorizontalOptions="StartAndExpand" />
 						</StackLayout>
 					</StackLayout>
-					<StackLayout Padding="40, 0" VerticalOptions="Start">
-						<Entry x:Name="txtAlias" Grid.Row="1" Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="White"
-							HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" />
+					<StackLayout Padding="40,0" VerticalOptions="Start">
+						<labs:ExtendedEntry x:Name="txtAlias" Grid.Row="1" Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="White"
+							HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" HasBorder="false" Font="36" />
 					</StackLayout>
 				</StackLayout>
 

@@ -6,11 +6,12 @@ using Toasts.Forms.Plugin.iOS;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using XLabs.Forms;
 
 namespace SportChallengeMatchRank.iOS
 {
 	[Register("AppDelegate")]
-	public partial class AppDelegate : FormsApplicationDelegate
+	public partial class AppDelegate : XFormsApplicationDelegate
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{

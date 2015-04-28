@@ -10,9 +10,9 @@
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".35" />
+			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".55" />
 
-			<StackLayout Padding="20" Spacing="15" VerticalOptions="Start">
+			<StackLayout Padding="20" Spacing="15" VerticalOptions="Start" BackgroundColor="#66000000">
 				<Label Text="{Binding League.Name}" FontSize="50" TextColor="White" />
 				<Label Text="{Binding League.Sport, StringFormat='the honorable pastime of \{0\}'}" FontSize="20" TextColor="White" />
 

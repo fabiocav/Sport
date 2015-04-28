@@ -20,21 +20,20 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override void Initialize()
 		{
-			Title = "Post Match Results";
-
-
+			Title = "Post Match Result";
 
 			var scrollView = new ScrollView();
+			scrollView.BackgroundColor = (Color)App.Current.Resources["xamarinBlue"];
 
 			var stackLayout = new StackLayout {
 				Spacing = 10,
-				Padding = 10,
+				Padding = 0,
 			};
-
 
 			var btnSubmit = new Button {
 				Text = "Post Match Result",
 				Style = (Style)App.Current.Resources["buttonStyle"],
+				BackgroundColor = Color.FromHex("#44000000")
 			};
 
 			var btnCancel = new ToolbarItem {

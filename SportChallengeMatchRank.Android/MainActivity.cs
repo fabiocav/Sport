@@ -6,11 +6,12 @@ using ImageCircle.Forms.Plugin.Droid;
 using SportChallengeMatchRank.Shared;
 using Toasts.Forms.Plugin.Droid;
 using Xamarin.Forms.Platform.Android;
+using XLabs.Forms;
 
 namespace SportChallengeMatchRank.Android
 {
 	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@drawable/icon")]
-	public class MainActivity : FormsApplicationActivity
+	public class MainActivity : XFormsApplicationDroid
 	{
 		protected override void OnCreate(Bundle bundle)
 		{

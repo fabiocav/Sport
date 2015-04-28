@@ -24,9 +24,7 @@ namespace SportChallengeMatchRank.Shared
 
 			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", async(app) =>
 			{
-				btnPush.Text = "Thanks! We'll be in touch.";
-				await Task.Delay(1000);
-				await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), 350, Easing.SinIn);
+				//RegisteredForPushNotificationSuccess();
 			});
 
 			btnPush.Clicked += async(sender, e) =>
@@ -40,6 +38,9 @@ namespace SportChallengeMatchRank.Shared
 
 				var task = push.RegisterForPushNotifications();
 				await ViewModel.RunSafe(task);
+
+				await Task.Delay(500);
+				await RegisteredForPushNotificationSuccess();
 			};
 
 			btnContinue.Clicked += (sender, e) =>
@@ -88,6 +89,13 @@ namespace SportChallengeMatchRank.Shared
 			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await leaguesStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+		}
+
+		async Task RegisteredForPushNotificationSuccess()
+		{
+			btnPush.Text = "Thanks! We'll be in touch.";
+			await Task.Delay(1000);
+			await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), 350, Easing.SinIn);
 		}
 	}
 

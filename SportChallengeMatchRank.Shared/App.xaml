@@ -22,14 +22,14 @@
             </Style>
             <Style TargetType="Label" BasedOn="{StaticResource labelStyle}" />
             <Style x:Key="listLabelStyle" TargetType="Label" BasedOn="{StaticResource labelStyle}">
-            	<Setter Property="TextColor">
+<!--            	<Setter Property="TextColor">
             		<Setter.Value>
                 		<OnPlatform x:TypeArguments="Color">
 	            			<OnPlatform.iOS>#000000</OnPlatform.iOS>
 	            			<OnPlatform.Android>#FFFFFF</OnPlatform.Android>
                  		</OnPlatform>
 	           		</Setter.Value>
-            	</Setter>
+            	</Setter>-->
             </Style>
             <Style x:Key="buttonStyle" TargetType="Button">
                 <Setter Property="TextColor" Value="White" />

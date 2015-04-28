@@ -8,7 +8,7 @@
 
 		<ScrollView BackgroundColor="Black">
 			<Grid>
-				<Image Aspect="AspectFill" Source="{Binding Challenge.League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".35" />
+				<Image Aspect="AspectFill" Source="{Binding Challenge.League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".20" />
 
 				<StackLayout Spacing="16" VerticalOptions="FillAndExpand">
 						<StackLayout Padding="40,40,40,30">
@@ -112,7 +112,7 @@
 							<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 						</StackLayout>
 
-					<Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand">
+					<Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" ColumnSpacing="2">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="5*" />
 							<ColumnDefinition Width="5*" />
