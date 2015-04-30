@@ -20,7 +20,6 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _isBusy, value);
-				Console.WriteLine("\n\nBUSY: {0}\n\n", value);
 				SetPropertyChanged("IsNotBusy");
 			}
 		}
@@ -126,6 +125,7 @@ namespace SportChallengeMatchRank.Shared
 			_viewModel = viewModel;
 			Device.BeginInvokeOnMainThread(() =>
 			{
+				Console.WriteLine("Busy");
 				_viewModel.IsBusy = true;
 			});
 		}
@@ -134,6 +134,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			Device.BeginInvokeOnMainThread(() =>
 			{
+				Console.WriteLine("Not Busy");
 				_viewModel.IsBusy = false;
 			});
 		}

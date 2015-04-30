@@ -18,6 +18,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
     <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
     <Folder Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Renderers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthenticationViewModel.cs" />
@@ -127,6 +128,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\AuthenticationView.xaml.cs">
       <DependentUpon>AuthenticationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAppearance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ClearNavPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

@@ -25,7 +25,8 @@ namespace SportChallengeMatchRank.Shared
 					ViewModel.SetPropertyChanged("Athlete");
 				};
 
-				await Navigation.PushModalAsync(new NavigationPage(page));
+				await Navigation.PushModalAsync(new NavigationPage(page) {
+				});
 			};
 
 			list.ItemSelected += async(sender, e) =>
@@ -40,6 +41,7 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var page = new LeagueDetailsPage(league);
+
 				page.OnAbandondedLeague = (l) =>
 				{
 					ViewModel.LocalRefresh();

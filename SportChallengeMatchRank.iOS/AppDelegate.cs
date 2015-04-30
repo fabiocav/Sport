@@ -19,10 +19,15 @@ namespace SportChallengeMatchRank.iOS
 			ImageCircleRenderer.Init();
 			ToastNotificatorImplementation.Init();
 
+			UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
 			LoadApplication(new App());
 
-//			UITabBar.Appearance.BarTintColor = UIColor.Red;
-//			UITabBar.Appearance.TintColor = UIColor.Orange;
+			UITabBar.Appearance.BarTintColor = UIColor.FromRGB(44, 62, 80);
+			UITabBar.Appearance.TintColor = UIColor.White;
+
+//			UINavigationBar.Appearance.BackgroundColor = UIColor.Clear;
+//			UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
+//			UINavigationBar.Appearance.ShadowImage = new UIImage();
 
 			return base.FinishedLaunching(app, options);
 		}

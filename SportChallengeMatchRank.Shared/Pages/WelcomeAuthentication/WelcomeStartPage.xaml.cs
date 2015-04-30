@@ -15,6 +15,9 @@ namespace SportChallengeMatchRank.Shared
 		{
 			InitializeComponent();
 			Title = "Welcome!";
+
+			NavigationPage.SetHasNavigationBar(this, false);
+
 			btnAuthenticate.Clicked += async(sender, e) =>
 			{
 				await EnsureAthleteAuthenticated();
@@ -23,6 +26,12 @@ namespace SportChallengeMatchRank.Shared
 					await Navigation.PushAsync(new SetAliasPage());
 				}
 			};
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			//App.Current.WelcomeNav.BarBackgroundColor = Color.FromHex("#77d065");
 		}
 
 		protected async override void OnLoaded()

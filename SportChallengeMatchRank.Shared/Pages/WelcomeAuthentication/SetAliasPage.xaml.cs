@@ -16,7 +16,11 @@ namespace SportChallengeMatchRank.Shared
 
 		public SetAliasPage()
 		{
+			NavigationPage.SetHasNavigationBar(this, false);
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
+
+			ViewModel.Athlete.Alias = null;
+
 			Initialize();
 		}
 

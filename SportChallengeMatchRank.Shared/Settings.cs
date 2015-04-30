@@ -43,6 +43,23 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public static void FizzyBuzzy(int i)
+		{
+			bool five = i % 5 != 0;
+			bool three = i % 3 != 0;
+
+			if(!five)
+				Console.Write("fizz");
+
+			if(!three)
+				Console.Write("buzz");
+
+			if(five && three)
+				Console.Write(i);
+
+			Console.WriteLine();
+		}
+
 		public Task Save()
 		{
 			return Task.Factory.StartNew(() =>

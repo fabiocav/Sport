@@ -14,6 +14,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public ChooseLeaguesPage()
 		{
+			NavigationPage.SetHasNavigationBar(this, false);
 			Initialize();
 		}
 
@@ -81,6 +82,11 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			await ViewModel.GetAvailableLeagues();
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
 		}
 
 		protected async override void OnLoaded()

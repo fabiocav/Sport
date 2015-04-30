@@ -9,9 +9,9 @@
 		<ScrollView BackgroundColor="{StaticResource xamarinBlue}">
 			<AbsoluteLayout>
 				<Label x:Name="label1" Text="Time to join some sport leagues so you can finally rank match. Also, please enable push notifications."
-					FontSize="Large" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.1,.8,.2" XAlign="Center" Scale="0" />
+					FontSize="Large" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.2,.8,.2" XAlign="Center" Scale="0" />
 
-				<StackLayout x:Name="leaguesStack" Padding="20" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.575,1,.5" Scale="0">
+				<StackLayout x:Name="leaguesStack" Padding="20" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.675,1,.5" Scale="0">
 					<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" HeightRequest="200" BackgroundColor="Transparent"
 						RefreshCommand="{Binding GetAvailableLeaguesCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}"
 						SeparatorVisibility="None">

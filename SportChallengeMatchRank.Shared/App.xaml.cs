@@ -29,6 +29,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public NavigationPage WelcomeNav
+		{
+			get;
+			set;
+		}
+
 		public App()
 		{
 			InitializeComponent();
@@ -85,7 +91,10 @@ namespace SportChallengeMatchRank.Shared
 //			}
 //			else
 			{
-				MainPage = new NavigationPage(new WelcomeStartPage());
+				WelcomeNav = new ClearNavPage();
+				WelcomeNav.Navigation.PushAsync(new WelcomeStartPage());
+				WelcomeNav.BarTextColor = Color.FromHex("#FFFFFF");
+				MainPage = WelcomeNav;
 			}
 		}
 

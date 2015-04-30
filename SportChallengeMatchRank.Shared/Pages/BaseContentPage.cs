@@ -78,27 +78,27 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Authentication
 
-		bool _hasAttemptedAuthentication;
-
-		async public Task EnsureAthleteAuthenticated(bool force = false)
+		async public Task EnsureAthleteAuthenticated(bool showHud = false, bool force = false)
 		{
-			if((App.CurrentAthlete != null || _hasAttemptedAuthentication) && !force)
+			if((App.CurrentAthlete != null) && !force)
 				return;
 
-			//App.Current.Hud.DisplayProgress("Authenticating");
+			if(showHud)
+				App.Current.Hud.DisplayProgress("Authenticating");
 
-//			using(new Busy(AuthenticationViewModel))
+			using(new Busy(AuthenticationViewModel))
 			{
-				AuthenticationViewModel.IsBusy = true;
-				_hasAttemptedAuthentication = true;
+				//AuthenticationViewModel.IsBusy = true;
 				await AttemptToAuthenticateAthlete(force);
-				AuthenticationViewModel.IsBusy = false;
+
+				//AuthenticationViewModel.IsBusy = false;
 			}
 
-			//App.Current.Hud.Dismiss();
+			if(showHud)
+				App.Current.Hud.Dismiss();
 		}
 
-		async public Task AttemptToAuthenticateAthlete(bool force = false)
+		async public Task<bool> AttemptToAuthenticateAthlete(bool force = false)
 		{
 			AuthenticationViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
 			{
@@ -124,6 +124,8 @@ namespace SportChallengeMatchRank.Shared
 			{
 				await AuthenticationViewModel.EnsureAthleteRegistered();
 			}
+
+			return true;
 		}
 
 		#endregion

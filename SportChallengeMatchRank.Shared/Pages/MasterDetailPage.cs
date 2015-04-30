@@ -72,7 +72,9 @@ namespace SportChallengeMatchRank.Shared
 
 		public void DisplayProfilePage()
 		{
-			_profilePage = _profilePage ?? new NavigationPage(new AthleteProfilePage(App.CurrentAthlete.Id));
+			_profilePage = _profilePage ?? new NavigationPage(new AthleteProfilePage(App.CurrentAthlete.Id)) {
+				
+			};
 			Detail = _profilePage;
 		}
 

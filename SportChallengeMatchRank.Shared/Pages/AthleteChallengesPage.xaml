@@ -11,13 +11,13 @@
 	</local:AthleteChallengesXaml.Resources>
 	<local:AthleteChallengesXaml.Content>
 		<ListView x:Name="list" ItemsSource="{Binding ChallengeGroups}" RefreshCommand="{Binding GetChallengesCommand}" IsGroupingEnabled="true"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" HasUnevenRows="true" SeparatorVisibility="None" BackgroundColor="#AA2c3e50">
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" HasUnevenRows="true" SeparatorVisibility="None" BackgroundColor="#CC2c3e50">
 			<ListView.GroupHeaderTemplate>
 				<DataTemplate>
 					<ViewCell Height="45">
 						<ViewCell.View>
-							<AbsoluteLayout>
-								<StackLayout Orientation="Horizontal" Padding="30,10" BackgroundColor="{StaticResource xamarinBlue}"
+							<AbsoluteLayout BackgroundColor="Black">
+								<StackLayout Orientation="Horizontal" Padding="30,10" BackgroundColor="#CC2c3e50"
 									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
 									IsVisible="{Binding Title, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 									<Label Text="{Binding Title}" VerticalOptions="Center" TextColor="White" />
@@ -37,7 +37,7 @@
 							</OnPlatform>
 						</ViewCell.Height>
 						<ViewCell.View>
-							<StackLayout Padding="30,5,10,5" Orientation="Horizontal" Spacing="20"
+							<StackLayout Padding="30,5,10,5" Orientation="Horizontal" Spacing="20" BackgroundColor="Transparent"
 								IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
 								<controls:CircleImage x:Name="photoImage" Source="{Binding League.ImageUrl}"

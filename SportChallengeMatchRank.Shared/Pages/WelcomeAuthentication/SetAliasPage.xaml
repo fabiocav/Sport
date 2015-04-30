@@ -9,12 +9,12 @@
 
 		<ScrollView BackgroundColor="{StaticResource xamarinPurple}">
 			<StackLayout x:Name="stack">
-				<StackLayout Padding="30">
+				<StackLayout Padding="30,100,30,30">
 					<Label x:Name="label1" Text="Be cool and choose an alias/nickname. Your alias will show on the leaderboard and in challenges so make it count!"
 						FontSize="Large" XAlign="Center" Scale="0" />
 				</StackLayout>
 
-				<StackLayout x:Name="profileStack" Padding="20" Spacing="15" Scale="0" VerticalOptions="CenterAndExpand">
+				<StackLayout x:Name="profileStack" Padding="30,20" Spacing="15" Scale="0" VerticalOptions="CenterAndExpand">
 					<StackLayout Orientation="Horizontal" Padding="10" Spacing="25">
 						<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
 							HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="120" HeightRequest="120" />

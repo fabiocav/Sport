@@ -2,10 +2,10 @@
 <local:AthleteLeaguesXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.AthleteLeaguesPage"
-	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" BackgroundColor="White">
 	<local:AthleteLeaguesXaml.Content>
 		<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetLeaguesCommand}"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" BackgroundColor="{StaticResource xamarinBlue}" />
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" BackgroundColor="#CC2c3e50" />
 	</local:AthleteLeaguesXaml.Content>
 
 	<local:AthleteLeaguesXaml.ToolbarItems>
