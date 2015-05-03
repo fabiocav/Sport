@@ -28,12 +28,6 @@ namespace SportChallengeMatchRank.Shared
 			};
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			//App.Current.WelcomeNav.BarBackgroundColor = Color.FromHex("#77d065");
-		}
-
 		protected async override void OnLoaded()
 		{
 			base.OnLoaded();

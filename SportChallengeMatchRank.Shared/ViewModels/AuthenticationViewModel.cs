@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
 using nsoftware.InGoogle;
-using System.Linq;
 using Toasts.Forms.Plugin.Abstractions;
 
 [assembly: Dependency(typeof(AuthenticationViewModel))]
@@ -173,7 +172,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				await RunSafe(InternetService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
 				await RunSafe(InternetService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete));
-				await RunSafe(InternetService.Instance.UpdateAthleteRegistrationForPush());
+				await RunSafe(InternetService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
 				MessagingCenter.Send<AuthenticationViewModel>(this, "UserAuthenticated");
 			}
 
@@ -233,23 +232,6 @@ namespace SportChallengeMatchRank.Shared
 				AuthenticationStatus = "Unable to authenticate";
 				await Task.Delay(500);
 			}
-		}
-
-		public async void UpdatePushNotificationStatus()
-		{
-			Settings.NotificationRegId = registrationId;
-			try
-			{
-				var manager = new DeviceRegistrationManager();
-				await manager.RegisterAsync(Settings.NotificationRegId, new string[] {
-					"username:" + Settings.UserDeviceId
-				}, PlatformType.Android, null);
-			}
-			catch(Exception ex)
-			{
-				//App.Logger.Report (ex);
-			}
-
 		}
 
 		public override void Dispose()

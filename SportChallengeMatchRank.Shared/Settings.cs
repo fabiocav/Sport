@@ -43,33 +43,19 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		public string DeviceRegistrationId
+		public string DeviceToken
 		{
 			get;
 			set;
-		}
-
-		public static void FizzyBuzzy(int i)
-		{
-			bool five = i % 5 != 0;
-			bool three = i % 3 != 0;
-
-			if(!five)
-				Console.Write("fizz");
-
-			if(!three)
-				Console.Write("buzz");
-
-			if(five && three)
-				Console.Write(i);
-
-			Console.WriteLine();
 		}
 
 		public Task Save()
 		{
 			return Task.Factory.StartNew(() =>
 			{
+				if(App.CurrentAthlete != null)
+					DeviceToken = App.CurrentAthlete.DeviceToken;
+				
 				Debug.WriteLine(string.Format("Saving settings: {0}", _filePath));
 				var json = JsonConvert.SerializeObject(this);
 				using(var sw = new StreamWriter(_filePath, false))

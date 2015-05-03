@@ -23,7 +23,7 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 			Title = "Join a League";
 
-			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", async(app) =>
+			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", (app) =>
 			{
 				Device.BeginInvokeOnMainThread(() =>
 				{
@@ -84,11 +84,6 @@ namespace SportChallengeMatchRank.Shared
 			await ViewModel.GetAvailableLeagues();
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-		}
-
 		protected async override void OnLoaded()
 		{
 			base.OnLoaded();
@@ -99,6 +94,12 @@ namespace SportChallengeMatchRank.Shared
 
 		async Task RegisteredForPushNotificationSuccess()
 		{
+			var task = InternetService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete);
+			await ViewModel.RunSafe(task);
+
+			if(task.IsFaulted)
+				return;
+
 			btnPush.Text = "Thanks! We'll be in touch.";
 			await Task.Delay(1000);
 			await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), 350, Easing.SinIn);

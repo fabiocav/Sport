@@ -34,8 +34,8 @@ namespace SportChallengeMatchRank.iOS
 
 		public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
 		{
+			App.CurrentAthlete.DeviceToken = deviceToken.Description.Trim('<', '>').Replace(" ", "");
 			MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
-			App.DeviceToken = deviceToken.Description.Trim('<', '>').Replace(" ", "");
 		}
 
 		public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
@@ -46,7 +46,6 @@ namespace SportChallengeMatchRank.iOS
 
 		public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)
 		{
-			MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
 			Console.WriteLine("DidRegisterUserNotificationSettings called");
 			Console.WriteLine(notificationSettings);
 		}
@@ -59,14 +58,20 @@ namespace SportChallengeMatchRank.iOS
 		public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
 		{
 			Console.WriteLine(userInfo);
-			NSObject inAppMessage;
+			NSObject aps;
+			NSObject alert;
+			NSObject badge;
 
-			bool success = userInfo.TryGetValue(new NSString("inAppMessage"), out inAppMessage);
+			bool success = userInfo.TryGetValue(new NSString("aps"), out aps);
+			success = ((NSDictionary)aps).TryGetValue(new NSString("alert"), out alert);
+			var count = int.Parse(new NSString(((NSDictionary)aps).ObjectForKey(new NSString("badge")).ToString()));
+
+			UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
+
 
 			if(success)
 			{
-				var alert = new UIAlertView("Got push notification", inAppMessage.ToString(), null, "OK", null);
-				alert.Show();
+				new UIAlertView("Got push notification", alert.ToString(), null, "OK", null).Show();
 			}
 		}
 	}

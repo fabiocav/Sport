@@ -151,6 +151,20 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		string _notificationRegistrationId;
+
+		public string NotificationRegistrationId
+		{
+			get
+			{
+				return _notificationRegistrationId;
+			}
+			set
+			{
+				SetPropertyChanged(ref _notificationRegistrationId, value);
+			}
+		}
+
 		string _profileImageUrl;
 
 		public string ProfileImageUrl

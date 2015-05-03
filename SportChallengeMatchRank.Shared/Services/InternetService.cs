@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
-using Microsoft.WindowsAzure.MobileServices;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -64,38 +64,56 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Push Notifications
 
-		public Task UpdateAthleteRegistrationForPush()
+		public Task UpdateAthleteNotificationHubRegistration(Athlete athlete)
 		{
 			return new Task(() =>
 			{
-				if(App.CurrentAthlete == null || App.CurrentAthlete.Id == null || App.DeviceToken == null)
+				if(athlete == null)
+					throw new ArgumentNullException("athlete");
+
+				if(athlete.Id == null || athlete.DeviceToken == null)
 					return;
 
-//				var tags = new List<string> {
-//						App.CurrentAthlete.Id,
-//						"All",
-//				};
+				var tags = new List<string> {
+					App.CurrentAthlete.Id,
+					"All",
+				};
 
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
-				tags.ForEach(Console.WriteLine);
-				var push = InternetService.Instance.Client.GetPush();
-				//push.RegisterTemplateAsync
-				push.RegisterNativeAsync(App.DeviceToken, tags).Wait();
 
-				if(App.CurrentAthlete.Id != null)
+				var reg = new DeviceRegistration {
+					Handle = athlete.DeviceToken,
+					Platform = athlete.DevicePlatform,
+					Tags = tags.ToArray()
+				};
+
+				var registrationId = Client.InvokeApiAsync<DeviceRegistration, string>("registerWithHub", reg, HttpMethod.Put, null).Result;
+				athlete.NotificationRegistrationId = registrationId;
+
+				if(athlete.IsDirty)
 				{
-					App.CurrentAthlete.DeviceToken = App.DeviceToken;
-					InternetService.Instance.SaveAthlete(App.CurrentAthlete).Wait();
+					var task = SaveAthlete(athlete);
+					task.Start();
+					task.Wait();
 				}
+
+				Console.WriteLine(registrationId);
 			});
 		}
 
-		public Task UnregisterAthleteForPush()
+		public Task UnregisterAthleteForPush(Athlete athlete)
 		{
 			return new Task(() =>
 			{
-				var push = InternetService.Instance.Client.GetPush();
-				push.UnregisterNativeAsync().Wait();
+				if(athlete == null || athlete.NotificationRegistrationId == null)
+					return;
+
+				var values = new Dictionary<string, string> { {
+						"id",
+						athlete.NotificationRegistrationId
+					}
+				};
+				var registrationId = Client.InvokeApiAsync<string>("unregister", HttpMethod.Delete, values).Result;
 			});
 		}
 
@@ -360,7 +378,10 @@ namespace SportChallengeMatchRank.Shared
 					}).Wait();
 
 					DataManager.Instance.Athletes.TryRemove(id, out a);
-					InternetService.Instance.UnregisterAthleteForPush().Wait();
+
+					var task = InternetService.Instance.UnregisterAthleteForPush(a);
+					task.Start();
+					task.Wait();
 				}
 				catch(HttpRequestException hre)
 				{
@@ -429,7 +450,7 @@ namespace SportChallengeMatchRank.Shared
 				DataManager.Instance.Memberships.AddOrUpdate(membership);
 				membership.LocalRefresh();
 
-				var task = InternetService.Instance.UpdateAthleteRegistrationForPush();
+				var task = InternetService.Instance.UpdateAthleteNotificationHubRegistration(membership.Athlete);
 				task.Start();
 				task.Wait();
 			});
@@ -459,7 +480,7 @@ namespace SportChallengeMatchRank.Shared
 					if(m.Athlete != null)
 						m.Athlete.RefreshChallenges();
 
-					var task = InternetService.Instance.UpdateAthleteRegistrationForPush();
+					var task = InternetService.Instance.UpdateAthleteNotificationHubRegistration(m.Athlete);
 					task.Start();
 					task.Wait();
 				}

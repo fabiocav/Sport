@@ -8,6 +8,8 @@ using Gcm.Client;
 using Microsoft.WindowsAzure.MobileServices;
 using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
+using Android.OS;
+using Android.Widget;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
@@ -76,6 +78,35 @@ namespace SportChallengeMatchRank.Android
 		public static string[] SENDER_IDS = {
 			"236481934978"
 		};
+
+		public override void OnReceive(Context context, Intent intent)
+		{
+			PowerManager.WakeLock sWakeLock;
+			var pm = PowerManager.FromContext(context);
+			sWakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
+			sWakeLock.Acquire();
+
+			string message = string.Empty;
+
+			// Extract the push notification message from the intent.
+			if(intent.Extras.ContainsKey("msg"))
+			{
+				message = intent.Extras.Get("msg").ToString();
+				var n = new Notification.Builder(context);
+				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
+				n.SetContentTitle("title");
+				n.SetTicker(message);
+				n.SetContentText(message);
+
+				var toast = Toast.MakeText(context, message, ToastLength.Long);
+				toast.Show();
+				var nm = NotificationManager.FromContext(context);
+				nm.Notify(0, n.Build());
+			}
+
+			sWakeLock.Release();
+		}
+
 	}
 
 	[Service] //Must use the service tag
@@ -102,8 +133,7 @@ namespace SportChallengeMatchRank.Android
 				// to avoid threading errors.
 				((Activity)Forms.Context).RunOnUiThread(async () => await push.RegisterNativeAsync(registrationId, tags));
 				MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
-				Debug.WriteLine("The device has been registered with GCM.", registrationId);
-				App.DeviceToken = registrationId;
+				App.CurrentAthlete.DeviceToken = registrationId;
 			}
 			catch(Exception ex)
 			{
@@ -121,10 +151,10 @@ namespace SportChallengeMatchRank.Android
 			string message = string.Empty;
 
 			// Extract the push notification message from the intent.
-			if(intent.Extras.ContainsKey("message"))
+			if(intent.Extras.ContainsKey("msg"))
 			{
-				message = intent.Extras.Get("message").ToString();
-				var title = intent.Extras.Get("title").ToString();
+				message = intent.Extras.Get("msg").ToString();
+				//var title = intent.Extras.Get("title").ToString();
 
 				// Create a notification manager to send the notification.
 				//var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
@@ -134,10 +164,11 @@ namespace SportChallengeMatchRank.Android
 
 				var n = new Notification.Builder(context);
 				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
-				n.SetContentTitle(title);
+				n.SetContentTitle("title");
 				n.SetTicker(message);
 				n.SetContentText(message);
 
+				Toast.MakeText(context, message, ToastLength.Long);
 				var nm = NotificationManager.FromContext(context);
 				nm.Notify(0, n.Build());
 			}
@@ -155,5 +186,5 @@ namespace SportChallengeMatchRank.Android
 			//Some more serious error happened
 		}
 	}
-}
 
+}

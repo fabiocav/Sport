@@ -3,7 +3,6 @@ using SportChallengeMatchRank.Shared;
 using UIKit;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using System.Threading;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.iOS.PushNotifications))]
 
