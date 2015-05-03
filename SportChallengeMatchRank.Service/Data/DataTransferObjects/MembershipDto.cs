@@ -12,11 +12,5 @@ namespace SportChallengeMatchRank
 			get;
 			set;
 		}
-
-		public bool IsAdmin
-		{
-			get;
-			set;
-		}
 	}
 }

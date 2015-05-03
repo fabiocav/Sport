@@ -7,6 +7,10 @@ using Microsoft.WindowsAzure.Mobile.Service;
 using SportChallengeMatchRank.Service.Models;
 using System;
 using System.Net;
+using System.Net.Http;
+using Microsoft.ServiceBus.Notifications;
+using System.Collections.Generic;
+using Microsoft.ServiceBus.Messaging;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -14,10 +18,15 @@ namespace SportChallengeMatchRank.Service.Controllers
 	public class AthleteController : TableController<Athlete>
 	{
 		AppDataContext _context = new AppDataContext();
+		NotificationHubClient _hub;
 
 		protected override void Initialize(HttpControllerContext controllerContext)
 		{
 			base.Initialize(controllerContext);
+
+			var endpoint = "Endpoint=sb://sportchallengematchrank.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=88LThhq/TLE879EIHHOwVlq91AS3FRomlk+DRIPVgN4=";
+			_hub = NotificationHubClient.CreateClientFromConnectionString(endpoint, "sportchallengematchrank-hub");
+
 			DomainManager = new EntityDomainManager<Athlete>(_context, Request, Services);
 		}
 
@@ -72,7 +81,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 				&& l.Id != athlete.Id);
 
 			if(exists)
-				throw new Exception("The alias '{0}' is alread in use.".Fmt(athlete.Alias));
+			{
+				var response = Request.CreateBadRequestResponse("The alias '{0}' is alread in use.".Fmt(athlete.Alias));
+				throw new HttpResponseException(response);
+			}
 			
 			return await UpdateAsync(id, patch);
 		}

@@ -6,6 +6,8 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using SportChallengeMatchRank.Service.Models;
 using System.Data.Entity;
+using System.Collections.Generic;
+using System;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -76,7 +78,26 @@ namespace SportChallengeMatchRank.Service.Controllers
 				current = await InsertAsync(item.ToMembership());
 			}
 
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+            var membership = CreatedAtRoute("Tables", new { id = current.Id }, current);
+
+			try
+			{
+				var leagueName = _context.Leagues.Where(l => l.Id == current.LeagueId).Select(l => l.Name);
+				var data = new Dictionary<string, string>()
+				{
+					{ "title", "You just joined a league"},
+					{ "message", "You are now part of the {0} league".Fmt(leagueName.First())}
+				};
+				GooglePushMessage message = new GooglePushMessage(data, TimeSpan.FromHours(1));
+				var result = await Services.Push.SendAsync(message);
+				Services.Log.Info(result.State.ToString());
+			}
+			catch(System.Exception ex)
+			{
+				Services.Log.Error(ex.Message, null, "Push.SendAsync Error");
+			}
+
+			return membership;
         }
 
         // DELETE tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
