@@ -86,6 +86,7 @@ namespace SportChallengeMatchRank.Service
 				DeviceToken = dto.DeviceToken,
 				Alias = dto.Alias,
 				DevicePlatform = dto.DevicePlatform,
+				NotificationRegistrationId = dto.NotificationRegistrationId,
 				ProfileImageUrl = dto.ProfileImageUrl,
 				AuthenticationId = dto.AuthenticationId,
 			};

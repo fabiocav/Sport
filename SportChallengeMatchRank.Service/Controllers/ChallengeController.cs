@@ -16,6 +16,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 	//[AuthorizeLevel(AuthorizationLevel.User)]
 	public class ChallengeController : TableController<Challenge>
     {
+		NotificationController _notificationController = new NotificationController();
 		AppDataContext _context = new AppDataContext();
 
         protected override void Initialize(HttpControllerContext controllerContext)
@@ -111,17 +112,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == current.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == current.ChallengeeAthleteId);
 
-			try
-			{
-				//var payload = new Dictionary<string, object>{{"challengeId", current.Id}};
-				//var message = AppDataContext.GetPush(challengee, "YOU HAVE BEEN CHALLENGED by {0}!".Fmt(challenger.Name), payload);
-				//var pushResult = await Services.Push.SendAsync(message, current.ChallengeeAthleteId);
-				//Services.Log.Info(pushResult.State.ToString());
-			}
-			catch(System.Exception ex)
-			{
-				Services.Log.Error(ex.Message, null, "Push.SendAsync Error");
-			}
+			var message = "YOU HAVE BEEN CHALLENGED by {0}!".Fmt(challenger.Name);
+			_notificationController.NotifyByTag(message, current.ChallengeeAthleteId);
 
 			return result;
         }

@@ -8,29 +8,31 @@ using Microsoft.ServiceBus.Notifications;
 using System.Collections.Generic;
 using Microsoft.ServiceBus.Messaging;
 using SportChallengeMatchRank.Shared;
+using System;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
 	public class NotificationController : ApiController
 	{
 		AppDataContext _context = new AppDataContext();
-		NotificationHubClient _hub;
+		NotificationHubClient _hub = NotificationHubClient.CreateClientFromConnectionString(Constants.HubConnectionString, Constants.HubName);
 
 		protected override void Initialize(HttpControllerContext controllerContext)
 		{
-			_hub = NotificationHubClient.CreateClientFromConnectionString(Constants.HubConnectionString, Constants.HubName);
 			base.Initialize(controllerContext);
 		}
 
 		#region Notification
 
-		[HttpPost]
-		[Route("api/notifyByTags")]
-		public async Task<HttpResponseMessage> Post(string message, List<string> tags)
+		public async Task NotifyByTags(string message, List<string> tags)
 		{
 			var notification = new Dictionary<string, string> { { "message", message } };
 			await _hub.SendTemplateNotificationAsync(notification, tags);
-			return Request.CreateResponse(HttpStatusCode.OK);
+		}
+
+		public async Task NotifyByTag(string message, string tag)
+		{
+			await NotifyByTags(message, new List<string> { tag });
 		}
 
 		#endregion
@@ -68,24 +70,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			switch(deviceUpdate.Platform)
 			{
-				case "mpns":
-					var toastTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-						"<wp:Notification xmlns:wp=\"WPNotification\">" +
-						   "<wp:Toast>" +
-								"<wp:Text1>$(message)</wp:Text1>" +
-						   "</wp:Toast> " +
-						"</wp:Notification>";
-					registration = new MpnsTemplateRegistrationDescription(deviceUpdate.Handle, toastTemplate);
-					break;
-				case "wns":
-					toastTemplate = @"<toast><visual><binding template=""ToastText01""><text id=""1"">$(message)</text></binding></visual></toast>";
-					registration = new WindowsTemplateRegistrationDescription(deviceUpdate.Handle, toastTemplate);
-					break;
-				case "apns":
-					var alertTemplate = "{\"aps\":{\"alert\":\"$(message)\"}}";
+				case "iOS":
+					var alertTemplate = "{\"aps\":{\"alert\":\"$(message)\",\"badge\":\"$(badge)\"}}";
 					registration = new AppleTemplateRegistrationDescription(deviceUpdate.Handle, alertTemplate);
 					break;
-				case "gcm":
+				case "Android":
 					var messageTemplate = "{\"data\":{\"msg\":\"$(message)\"}}";
 					registration = new GcmTemplateRegistrationDescription(deviceUpdate.Handle, messageTemplate);
 					break;
@@ -103,10 +92,16 @@ namespace SportChallengeMatchRank.Service.Controllers
 			{
 				ReturnGoneIfHubResponseIsGone(e);
 			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
 
 			return newRegistrationId;
 		}
 
+		[HttpDelete]
+		[Route("api/unregister")]
 		public async Task<HttpResponseMessage> Delete(string id)
 		{
 			await _hub.DeleteRegistrationAsync(id);

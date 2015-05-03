@@ -14,6 +14,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 	//[AuthorizeLevel(AuthorizationLevel.User)]
 	public class MembershipController : TableController<Membership>
     {
+		NotificationController _notificationController = new NotificationController();
 		AppDataContext _context = new AppDataContext();
 
 		protected override void Initialize(HttpControllerContext controllerContext)
@@ -78,27 +79,20 @@ namespace SportChallengeMatchRank.Service.Controllers
 				current = await InsertAsync(item.ToMembership());
 			}
 
-            var membership = CreatedAtRoute("Tables", new { id = current.Id }, current);
-
 			try
 			{
-				var leagueName = _context.Leagues.Where(l => l.Id == current.LeagueId).Select(l => l.Name);
-				var data = new Dictionary<string, string>()
-				{
-					{ "title", "You just joined a league"},
-					{ "message", "You are now part of the {0} league".Fmt(leagueName.First())}
-				};
-				GooglePushMessage message = new GooglePushMessage(data, TimeSpan.FromHours(1));
-				var result = await Services.Push.SendAsync(message);
-				Services.Log.Info(result.State.ToString());
+				var leagueName = _context.Leagues.Where(l => l.Id == item.LeagueId).Select(l => l.Name).ToList().First();
+				var athleteName = _context.Athletes.Where(a => a.Id == item.AthleteId).Select(a => a.Name).ToList().First();
+				var message = "Hey Oh! Looks like {0} finally joined the {1} league...".Fmt(athleteName, leagueName);
+				await _notificationController.NotifyByTag(message, item.LeagueId);
 			}
-			catch(System.Exception ex)
+			catch(Exception e)
 			{
-				Services.Log.Error(ex.Message, null, "Push.SendAsync Error");
+				Console.WriteLine(e);
 			}
-
-			return membership;
-        }
+            
+			return CreatedAtRoute("Tables", new { id = current.Id }, current);
+		}
 
         // DELETE tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task DeleteMembership(string id)

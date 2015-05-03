@@ -49,6 +49,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public string NotificationRegistrationId
+		{
+			get;
+			set;
+		}
+
 		public string ProfileImageUrl
 		{
 			get;
