@@ -43,6 +43,12 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public string DeviceRegistrationId
+		{
+			get;
+			set;
+		}
+
 		public static void FizzyBuzzy(int i)
 		{
 			bool five = i % 5 != 0;

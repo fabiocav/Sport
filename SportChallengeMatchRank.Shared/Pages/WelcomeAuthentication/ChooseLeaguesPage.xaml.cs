@@ -25,7 +25,10 @@ namespace SportChallengeMatchRank.Shared
 
 			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", async(app) =>
 			{
-				//RegisteredForPushNotificationSuccess();
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					RegisteredForPushNotificationSuccess();
+				});
 			});
 
 			btnPush.Clicked += async(sender, e) =>
@@ -39,9 +42,6 @@ namespace SportChallengeMatchRank.Shared
 
 				var task = push.RegisterForPushNotifications();
 				await ViewModel.RunSafe(task);
-
-				await Task.Delay(500);
-				await RegisteredForPushNotificationSuccess();
 			};
 
 			btnContinue.Clicked += (sender, e) =>

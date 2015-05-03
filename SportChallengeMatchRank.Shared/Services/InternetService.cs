@@ -71,10 +71,10 @@ namespace SportChallengeMatchRank.Shared
 				if(App.CurrentAthlete == null || App.CurrentAthlete.Id == null || App.DeviceToken == null)
 					return;
 
-				var tags = new List<string> {
-						App.CurrentAthlete.Id,
-						"All",
-				};
+//				var tags = new List<string> {
+//						App.CurrentAthlete.Id,
+//						"All",
+//				};
 
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
 				tags.ForEach(Console.WriteLine);

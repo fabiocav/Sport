@@ -8,10 +8,6 @@ namespace SportChallengeMatchRank.iOS
 {
 	public class HUDProvider : IHUDProvider
 	{
-		public HUDProvider()
-		{
-		}
-
 		public void DisplayProgress(string message)
 		{
 			if(string.IsNullOrWhiteSpace(message))
@@ -40,4 +36,3 @@ namespace SportChallengeMatchRank.iOS
 		}
 	}
 }
-

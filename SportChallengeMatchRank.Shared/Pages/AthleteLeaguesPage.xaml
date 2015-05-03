@@ -5,7 +5,7 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" BackgroundColor="White">
 	<local:AthleteLeaguesXaml.Content>
 		<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetLeaguesCommand}"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" BackgroundColor="#CC2c3e50" />
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" BackgroundColor="{StaticResource xamarinBlue}" />
 	</local:AthleteLeaguesXaml.Content>
 
 	<local:AthleteLeaguesXaml.ToolbarItems>

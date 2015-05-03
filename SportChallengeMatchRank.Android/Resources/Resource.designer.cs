@@ -26,8 +26,6 @@ namespace SportChallengeMatchRank.Android
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::SportChallengeMatchRank.Android.Resource.String.ApplicationName;
-			global::Xamarin.Forms.Platform.Resource.String.Hello = global::SportChallengeMatchRank.Android.Resource.String.Hello;
 			global::Toasts.Forms.Plugin.Droid.Resource.Drawable.error = global::SportChallengeMatchRank.Android.Resource.Drawable.error;
 			global::Toasts.Forms.Plugin.Droid.Resource.Drawable.info = global::SportChallengeMatchRank.Android.Resource.Drawable.info;
 			global::Toasts.Forms.Plugin.Droid.Resource.Drawable.success = global::SportChallengeMatchRank.Android.Resource.Drawable.success;
@@ -117,6 +115,9 @@ namespace SportChallengeMatchRank.Android
 			global::XLabs.Forms.Resource.Style.CalendarCell_CalendarDate = global::SportChallengeMatchRank.Android.Resource.Style.CalendarCell_CalendarDate;
 			global::XLabs.Forms.Resource.Style.CalendarCell_DayHeader = global::SportChallengeMatchRank.Android.Resource.Style.CalendarCell_DayHeader;
 			global::XLabs.Forms.Resource.Style.CalendarTitle = global::SportChallengeMatchRank.Android.Resource.Style.CalendarTitle;
+			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::SportChallengeMatchRank.Android.Resource.String.ApplicationName;
+			global::Xamarin.Forms.Platform.Resource.String.Hello = global::SportChallengeMatchRank.Android.Resource.String.Hello;
+			global::Gcm.Client.Resource.String.library_name = global::SportChallengeMatchRank.Android.Resource.String.library_name;
 		}
 		
 		public partial class Attribute
@@ -386,32 +387,32 @@ namespace SportChallengeMatchRank.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f050008
-			public const int ApplicationName = 2131034120;
+			// aapt resource value: 0x7f050004
+			public const int ApplicationName = 2131034116;
 			
-			// aapt resource value: 0x7f050007
-			public const int Hello = 2131034119;
+			// aapt resource value: 0x7f050003
+			public const int Hello = 2131034115;
 			
 			// aapt resource value: 0x7f050001
 			public const int app_name = 2131034113;
 			
-			// aapt resource value: 0x7f050003
-			public const int day_name_format = 2131034115;
+			// aapt resource value: 0x7f050005
+			public const int day_name_format = 2131034117;
 			
-			// aapt resource value: 0x7f050006
-			public const int full_date_format = 2131034118;
+			// aapt resource value: 0x7f050008
+			public const int full_date_format = 2131034120;
 			
 			// aapt resource value: 0x7f050000
 			public const int hello = 2131034112;
 			
-			// aapt resource value: 0x7f050004
-			public const int invalid_date = 2131034116;
+			// aapt resource value: 0x7f050006
+			public const int invalid_date = 2131034118;
 			
 			// aapt resource value: 0x7f050002
 			public const int library_name = 2131034114;
 			
-			// aapt resource value: 0x7f050005
-			public const int month_name_format = 2131034117;
+			// aapt resource value: 0x7f050007
+			public const int month_name_format = 2131034119;
 			
 			static String()
 			{

@@ -235,6 +235,23 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public async void UpdatePushNotificationStatus()
+		{
+			Settings.NotificationRegId = registrationId;
+			try
+			{
+				var manager = new DeviceRegistrationManager();
+				await manager.RegisterAsync(Settings.NotificationRegId, new string[] {
+					"username:" + Settings.UserDeviceId
+				}, PlatformType.Android, null);
+			}
+			catch(Exception ex)
+			{
+				//App.Logger.Report (ex);
+			}
+
+		}
+
 		public override void Dispose()
 		{
 			base.Dispose();
