@@ -525,17 +525,51 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
-		public Task DeleteChallenge(string id)
+		public Task DeclineChallenge(string id)
 		{
 			return new Task(() =>
 			{
 				Challenge m;
 				try
 				{
-					Client.GetTable<Challenge>().DeleteAsync(new Challenge {
-						Id = id
-					}).Wait();
+					var qs = new Dictionary<string, string> {
+						{
+							"id",
+							id
+						}
+					};
 
+					var result = Client.InvokeApiAsync("declineChallenge", HttpMethod.Get, qs).Result;
+					DataManager.Instance.Challenges.TryRemove(id, out m);
+				}
+				catch(HttpRequestException hre)
+				{
+					if(hre.Message.ContainsNoCase("not found"))
+					{
+						DataManager.Instance.Challenges.TryRemove(id, out m);
+					}
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e);
+				}
+			});
+		}
+
+		public Task RevokeChallenge(string id)
+		{
+			return new Task(() =>
+			{
+				Challenge m;
+				try
+				{
+					var qs = new Dictionary<string, string> {
+						{
+							"id",
+							id
+						}
+					};
+					var result = Client.InvokeApiAsync("revokeChallenge", HttpMethod.Get, qs).Result;
 					DataManager.Instance.Challenges.TryRemove(id, out m);
 				}
 				catch(HttpRequestException hre)
@@ -597,11 +631,6 @@ namespace SportChallengeMatchRank.Shared
 					challenge.DateAccepted = acceptedChallenge.DateAccepted;
 				}
 			});
-		}
-
-		public Task DeclineChallenge(string challengeId)
-		{
-			return DeleteChallenge(challengeId);
 		}
 
 		#endregion

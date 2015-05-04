@@ -79,34 +79,33 @@ namespace SportChallengeMatchRank.Android
 			"236481934978"
 		};
 
-		public override void OnReceive(Context context, Intent intent)
-		{
-			PowerManager.WakeLock sWakeLock;
-			var pm = PowerManager.FromContext(context);
-			sWakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
-			sWakeLock.Acquire();
-
-			string message = string.Empty;
-
-			// Extract the push notification message from the intent.
-			if(intent.Extras.ContainsKey("msg"))
-			{
-				message = intent.Extras.Get("msg").ToString();
-				var n = new Notification.Builder(context);
-				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
-				n.SetContentTitle("title");
-				n.SetTicker(message);
-				n.SetContentText(message);
-
-				var toast = Toast.MakeText(context, message, ToastLength.Long);
-				toast.Show();
-				var nm = NotificationManager.FromContext(context);
-				nm.Notify(0, n.Build());
-			}
-
-			sWakeLock.Release();
-		}
-
+		//		public override void OnReceive(Context context, Intent intent)
+		//		{
+		//			PowerManager.WakeLock sWakeLock;
+		//			var pm = PowerManager.FromContext(context);
+		//			sWakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
+		//			sWakeLock.Acquire();
+		//
+		//			string message = string.Empty;
+		//
+		//			// Extract the push notification message from the intent.
+		//			if(intent.Extras.ContainsKey("msg"))
+		//			{
+		//				message = intent.Extras.Get("msg").ToString();
+		//				var n = new Notification.Builder(context);
+		//				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
+		//				n.SetContentTitle("title");
+		//				n.SetTicker(message);
+		//				n.SetContentText(message);
+		//
+		//				var toast = Toast.MakeText(context, message, ToastLength.Long);
+		//				toast.Show();
+		//				var nm = NotificationManager.FromContext(context);
+		//				nm.Notify(0, n.Build());
+		//			}
+		//
+		//			sWakeLock.Release();
+		//		}
 	}
 
 	[Service] //Must use the service tag
@@ -118,27 +117,8 @@ namespace SportChallengeMatchRank.Android
 
 		protected override void OnRegistered(Context context, string registrationId)
 		{
-			// Get the MobileServiceClient from the current activity instance.
-			MobileServiceClient client = PushNotifications.Client;           
-			var push = client.GetPush();
-
-			List<string> tags = null;
-
-			//// (Optional) Uncomment to add tags to the registration.
-			//var tags = new List<string>() { "myTag" }; // create tags if you want
-
-			try
-			{
-				// Make sure we run the registration on the same thread as the activity, 
-				// to avoid threading errors.
-				((Activity)Forms.Context).RunOnUiThread(async () => await push.RegisterNativeAsync(registrationId, tags));
-				MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
-				App.CurrentAthlete.DeviceToken = registrationId;
-			}
-			catch(Exception ex)
-			{
-				System.Diagnostics.Debug.WriteLine(string.Format("Error with Azure push registration: {0}", ex.Message));                
-			}
+			App.CurrentAthlete.DeviceToken = registrationId;
+			MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
 		}
 
 		protected override void OnUnRegistered(Context context, string registrationId)
@@ -168,7 +148,9 @@ namespace SportChallengeMatchRank.Android
 				n.SetTicker(message);
 				n.SetContentText(message);
 
-				Toast.MakeText(context, message, ToastLength.Long);
+				var toast = Toast.MakeText(context, message, ToastLength.Long);
+				toast.Show();
+
 				var nm = NotificationManager.FromContext(context);
 				nm.Notify(0, n.Build());
 			}
@@ -186,5 +168,4 @@ namespace SportChallengeMatchRank.Android
 			//Some more serious error happened
 		}
 	}
-
 }

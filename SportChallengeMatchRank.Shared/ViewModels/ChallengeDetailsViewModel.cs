@@ -101,7 +101,16 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task<bool> DeclineChallenge()
 		{
-			var task = InternetService.Instance.DeclineChallenge(Challenge.Id);
+			Task task = null;
+			if(App.CurrentAthlete.Id == Challenge.ChallengerAthleteId)
+			{
+				task = InternetService.Instance.RevokeChallenge(Challenge.Id);
+			}
+			else if(App.CurrentAthlete.Id == Challenge.ChallengeeAthleteId)
+			{
+				task = InternetService.Instance.DeclineChallenge(Challenge.Id);
+			}
+
 			await RunSafe(task);
 			App.CurrentAthlete.RefreshChallenges();
 			NotifyPropertiesChanged();

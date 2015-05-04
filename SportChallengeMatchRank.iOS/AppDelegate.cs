@@ -60,14 +60,20 @@ namespace SportChallengeMatchRank.iOS
 			Console.WriteLine(userInfo);
 			NSObject aps;
 			NSObject alert;
-			NSObject badge;
 
 			bool success = userInfo.TryGetValue(new NSString("aps"), out aps);
 			success = ((NSDictionary)aps).TryGetValue(new NSString("alert"), out alert);
-			var count = int.Parse(new NSString(((NSDictionary)aps).ObjectForKey(new NSString("badge")).ToString()));
 
-			UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
+			var badgeValue = ((NSDictionary)aps).ObjectForKey(new NSString("badge"));
 
+			if(badgeValue != null)
+			{
+				int count;
+				if(int.TryParse(new NSString(badgeValue.ToString()), out count))
+				{
+					UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
+				}
+			}
 
 			if(success)
 			{

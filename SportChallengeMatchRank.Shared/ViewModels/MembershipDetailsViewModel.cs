@@ -77,7 +77,7 @@ namespace SportChallengeMatchRank.Shared
 		async public Task RevokeExistingChallenge(Membership membership)
 		{
 			var challenge = membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
-			await RunSafe(InternetService.Instance.DeleteChallenge(challenge.Id));
+			await RunSafe(InternetService.Instance.RevokeChallenge(challenge.Id));
 			App.CurrentAthlete.RefreshChallenges();
 			Membership.Athlete.RefreshChallenges();
 
