@@ -83,7 +83,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 			{
 				var leagueName = _context.Leagues.Where(l => l.Id == item.LeagueId).Select(l => l.Name).ToList().First();
 				var athleteName = _context.Athletes.Where(a => a.Id == item.AthleteId).Select(a => a.Name).ToList().First();
-				var message = "Hey Oh! Looks like {0} finally joined the {1} league...".Fmt(athleteName, leagueName);
+				var athleteAlias = _context.Athletes.Where(a => a.Id == item.AthleteId).Select(a => a.Alias).ToList().First();
+				var message = "Hey Oh! Looks like {0} (AKA {1}) finally joined the {2} league...".Fmt(athleteName, athleteAlias, leagueName);
 				await _notificationController.NotifyByTag(message, item.LeagueId);
 			}
 			catch(Exception e)
@@ -105,7 +106,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				|| c.ChallengeeAthleteId == membership.AthleteId).ToList();
 
 			//Need to rerank the leaderboard
-			var membershipsToAlter = _context.Memberships.Where(m => m.CurrentRank > membership.CurrentRank
+			var membershipsToAlter = _context.Memberships.Where(m => m.CurrentRank >= membership.CurrentRank
 				&& m.LeagueId == membership.LeagueId).ToList();
 			membershipsToAlter.ForEach(m => m.CurrentRank -= 1);
 

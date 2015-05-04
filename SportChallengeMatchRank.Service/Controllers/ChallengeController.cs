@@ -113,18 +113,38 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == current.ChallengeeAthleteId);
 
 			var message = "YOU HAVE BEEN CHALLENGED by {0}!".Fmt(challenger.Name);
-			_notificationController.NotifyByTag(message, current.ChallengeeAthleteId);
+			await _notificationController.NotifyByTag(message, current.ChallengeeAthleteId);
 
 			return result;
         }
 
-        // DELETE tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task DeleteChallenge(string id)
+		[HttpGet]
+		[Route("api/revokeChallenge")]
+		public async Task RevokeChallenge(string id)
         {
-            var task = DeleteAsync(id);
-			//Send push notificaitons
-			return task;
+			var challenge = Lookup(id).Queryable.FirstOrDefault();
+			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+
+			var message = "Your challenge with {0} has been revoked.".Fmt(challenger.Name);
+			await _notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId);
+
+            DeleteAsync(id);
         }
+
+		[HttpGet]
+		[Route("api/declineChallenge")]
+		public async Task DeclineChallenge(string id)
+		{
+			var challenge = Lookup(id).Queryable.FirstOrDefault();
+			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+
+			var message = "Your challenge with {0} has been declined.".Fmt(challengee.Name);
+			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId);
+
+			DeleteAsync(id);
+		}
 
 		[Route("api/getChallengesForAthlete")]
 		async public Task<List<ChallengeDto>> GetChallengesForAthlete(string athleteId)
@@ -159,8 +179,12 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == challengeId);
 			challenge.DateAccepted = DateTime.UtcNow;
 			await _context.SaveChangesAsync();
+
+			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+			var message = "Your challenge with {0} has been accepted! MATCH ON!!".Fmt(challengee.Name);
+			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId);
+
 			return challenge.ToChallengeDto();
-			//Send out push notifcations
 		}
 
 		[Route("api/postMatchResults")]
@@ -203,27 +227,34 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 				var challengerWins = challenge.GetChallengerWinningGames();
 				var challengeeWins = challenge.GetChallengeeWinningGames();
-				Athlete winner = null;
-				Athlete loser = null;
+				var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+				var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+				var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challenger.Id && m.LeagueId == challenge.LeagueId);
+				var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.LeagueId == challenge.LeagueId);
+				var winningRank = challengeeMembership.CurrentRank;
+
 				if(challengerWins.Length > challengeeWins.Length)
 				{
-					winner = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
-					loser = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
-					var winnerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == winner.Id && m.LeagueId == challenge.LeagueId);
-					var loserMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == loser.Id && m.LeagueId == challenge.LeagueId);
+					challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+					challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
-					var oldRank = winnerMembership.CurrentRank;
-					winnerMembership.CurrentRank = loserMembership.CurrentRank;
-					loserMembership.CurrentRank = oldRank;
+					var oldRank = challengerMembership.CurrentRank;
+					challengerMembership.CurrentRank = challengeeMembership.CurrentRank;
+					challengeeMembership.CurrentRank = oldRank;
+					winningRank = challengerMembership.CurrentRank;
 
 					_context.SaveChanges();
 				}
 
 				if(challengeeWins.Length > challengerWins.Length)
 				{
-					winner = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
-					loser = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+					challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+					challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 				}
+
+				var maintain = challenge.ChallengerAthlete.Id == challenger.Id ? "bequeath" : "retain";
+				var message = "{0} victors over {1} to {2} the righteous rank of {3}".Fmt(challenger.Alias, challengee.Alias, maintain, winningRank);
+				await _notificationController.NotifyByTag(message, challenge.LeagueId);
 			}
 			catch(DbEntityValidationException e)
 			{
@@ -243,8 +274,6 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 				#endregion
 			}
-
-			//Send out push notifcations to entire league
 
 			return dto;
 		}
