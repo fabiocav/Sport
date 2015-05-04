@@ -79,7 +79,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 		{
 			var athlete = patch.GetEntity();
 
-			var exists = _context.Athletes.Any(l => l.Alias.Equals(athlete.Alias, StringComparison.InvariantCultureIgnoreCase)
+			var exists = _context.Athletes.Any(l => l.Alias != null && l.Alias.Equals(athlete.Alias, StringComparison.InvariantCultureIgnoreCase)
 				&& l.Id != athlete.Id);
 
 			if(exists)
@@ -95,27 +95,12 @@ namespace SportChallengeMatchRank.Service.Controllers
 		public async Task<IHttpActionResult> PostAthlete(AthleteDto item)
 		{
 			var exists = _context.Athletes.Any(l => l.Email.Equals(item.Email, StringComparison.InvariantCultureIgnoreCase)
-				|| l.Alias.Equals(item.Alias, StringComparison.InvariantCultureIgnoreCase));
+				|| (l.Alias != null && l.Alias.Equals(item.Alias, StringComparison.InvariantCultureIgnoreCase)));
 
 			if(exists)
 				return Conflict();
 
 			Athlete athlete = await InsertAsync(item.ToAthlete());
-			var message = new ApplePushMessage("Thanks for registering, {0}".Fmt(athlete.Name), TimeSpan.FromHours(1));
-
-			try
-			{
-				if(athlete.DeviceToken != null)
-				{
-					var result = await Services.Push.SendAsync(message, athlete.DeviceToken);
-					Services.Log.Info(result.State.ToString());
-				}
-			}
-			catch(System.Exception ex)
-			{
-				Services.Log.Error(ex.Message, null, "Push.SendAsync Error");
-			}
-
 			return CreatedAtRoute("Tables", new
 			{
 				id = athlete.Id

@@ -12,6 +12,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 	//[AuthorizeLevel(AuthorizationLevel.User)]
 	public class LeagueController : TableController<League>
     {
+		NotificationController _notificationController = new NotificationController();
 		AppDataContext _context = new AppDataContext();
 
         protected override void Initialize(HttpControllerContext controllerContext)
@@ -81,6 +82,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			if(memberships.Count < 2)
 			{
+				//TODO Enable this validation
 				//return Conflict("Must have at least 2 members before starting a league.");
 			}
 	
@@ -94,25 +96,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 				i++;
 			}
 			_context.SaveChanges();
-			KickoffStartLeagueNotifications(league.Name, league.Id);
+
+			var message = "The {0} league has officially started. It's on like a prawn that yawns at dawn!".Fmt(league.Name);
+			_notificationController.NotifyByTag(message, league.Id);
+
 			return league.StartDate.Value.UtcDateTime;
-		}
-
-		async Task KickoffStartLeagueNotifications(string leagueName, string leagueId)
-		{
-			try
-			{
-				//var dict = new Dictionary<string, object> { { "leagueId", leagueId } };
-
-				//var message = AppDataContext.GetPush("The {0} league has started! Challenge away :)".Fmt(leagueName), new { { "leagueId", leagueId } });
-				//message.Add();
-				//var pushResult = await Services.Push.SendAsync(message, leagueId);
-				//Services.Log.Info(pushResult.State.ToString());
-			}
-			catch(System.Exception ex)
-			{
-				Services.Log.Error(ex.Message, null, "Push.SendAsync Error");
-			}
 		}
 
         // PATCH tables/League/48D68C86-6EA6-4C25-AA33-223FC9A27959

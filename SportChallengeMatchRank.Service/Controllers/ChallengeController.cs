@@ -253,7 +253,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				}
 
 				var maintain = challenge.ChallengerAthlete.Id == challenger.Id ? "bequeath" : "retain";
-				var message = "{0} victors over {1} to {2} the righteous rank of {3}".Fmt(challenger.Alias, challengee.Alias, maintain, winningRank);
+				var message = "{0} victors over {1} to {2} the righteous rank of {3}".Fmt(challenger.Alias, challengee.Alias, maintain, winningRank + 1);
 				await _notificationController.NotifyByTag(message, challenge.LeagueId);
 			}
 			catch(DbEntityValidationException e)

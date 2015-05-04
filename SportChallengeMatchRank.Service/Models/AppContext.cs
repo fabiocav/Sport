@@ -106,31 +106,5 @@ namespace SportChallengeMatchRank.Service.Models
 				new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
 					"ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
 		}
-
-		public static IPushMessage GetPush(Athlete athlete, string message, Dictionary<string, object> payload)
-		{
-			switch(athlete.DevicePlatform)
-			{
-				case "iOS":
-
-					var apn = new ApplePushMessage(message, TimeSpan.FromHours(1));
-
-					foreach(var kvp in payload)
-						apn.Add(kvp.Key, kvp.Value);
-
-					return apn;
-				case "Android":
-
-					var dict = new Dictionary<string, string>();
-					dict.Add("message", message);
-
-					foreach(var kvp in payload)
-						dict.Add(kvp.Key, kvp.Value.ToString());
-
-					return new GooglePushMessage(dict, TimeSpan.FromHours(1));
-			}
-
-			return null;
-		}
 	}
 }
