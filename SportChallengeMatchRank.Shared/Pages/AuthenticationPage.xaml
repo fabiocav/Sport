@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:AuthenticationPageXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.AuthenticationPage"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" BackgroundColor="{StaticResource xamarinPurple}">
+    <local:AuthenticationPageXaml.Content>
+
+		<StackLayout Padding="40" Spacing="26" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+			<ActivityIndicator IsRunning="{Binding IsBusy}" Color="White" />
+			<Label FontSize="Large" Text="{Binding AuthenticationStatus}" XAlign="Center" YAlign="Center" />
+		</StackLayout>
+
+	</local:AuthenticationPageXaml.Content>
+</local:AuthenticationPageXaml>

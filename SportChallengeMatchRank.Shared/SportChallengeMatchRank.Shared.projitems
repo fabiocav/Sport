@@ -130,6 +130,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAppearance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ClearNavPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AuthenticationPage.xaml.cs">
+      <DependentUpon>AuthenticationPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -196,6 +199,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AuthenticationView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AuthenticationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

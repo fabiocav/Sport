@@ -75,8 +75,8 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+						App.CurrentAthlete.Id,
+						"All",
 				};
 
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
@@ -108,7 +108,8 @@ namespace SportChallengeMatchRank.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> { {
+				var values = new Dictionary<string, string> {
+					{
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -353,7 +354,6 @@ namespace SportChallengeMatchRank.Shared
 					if(athlete.Email == "rob.derosa@xamarin.com")
 						athlete.IsAdmin = true;
 
-					//Stopped here - need to handle conflicts
 					athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
 					Client.GetTable<Athlete>().InsertAsync(athlete).Wait();
 				}
@@ -532,8 +532,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -563,8 +562,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}

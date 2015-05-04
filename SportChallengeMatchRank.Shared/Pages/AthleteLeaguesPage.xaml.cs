@@ -55,10 +55,13 @@ namespace SportChallengeMatchRank.Shared
 				await ViewModel.GetLeagues();
 		}
 
-		protected override void OnUserAuthenticated()
+		protected override async void OnUserAuthenticated()
 		{
 			base.OnUserAuthenticated();
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
+
+			if(App.CurrentAthlete != null)
+				await ViewModel.GetLeagues();
 		}
 	}
 

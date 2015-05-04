@@ -10,6 +10,7 @@ using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
 using Android.OS;
 using Android.Widget;
+using Toasts.Forms.Plugin.Abstractions;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
@@ -148,8 +149,9 @@ namespace SportChallengeMatchRank.Android
 				n.SetTicker(message);
 				n.SetContentText(message);
 
-				var toast = Toast.MakeText(context, message, ToastLength.Long);
-				toast.Show();
+				message.ToToast(ToastNotificationType.Info, "Incoming notification");
+//				var toast = Toast.MakeText(context, message, ToastLength.Long);
+//				toast.Show();
 
 				var nm = NotificationManager.FromContext(context);
 				nm.Notify(0, n.Build());

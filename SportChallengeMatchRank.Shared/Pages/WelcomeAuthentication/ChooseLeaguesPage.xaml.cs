@@ -46,6 +46,8 @@ namespace SportChallengeMatchRank.Shared
 
 			btnContinue.Clicked += (sender, e) =>
 			{
+				Settings.Instance.RegistrationComplete = true;
+				Settings.Instance.Save();
 				App.Current.MainPage = new MasterDetailPage();
 			};
 

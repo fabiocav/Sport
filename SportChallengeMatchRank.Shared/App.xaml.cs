@@ -1,10 +1,10 @@
 ﻿using System;
-using Xamarin.Forms;
+using System.Collections.Generic;
 using Connectivity.Plugin;
-using Toasts.Forms.Plugin.Abstractions;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using Toasts.Forms.Plugin.Abstractions;
+using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -85,11 +85,11 @@ namespace SportChallengeMatchRank.Shared
 				});
 			});
 
-//			if(Settings.Instance.AuthToken != null)
-//			{
-//				MainPage = new MasterDetailPage();
-//			}
-//			else
+			if(Settings.Instance.AuthToken != null && Settings.Instance.RegistrationComplete)
+			{
+				MainPage = new MasterDetailPage();
+			}
+			else
 			{
 				WelcomeNav = new ClearNavPage();
 				WelcomeNav.Navigation.PushAsync(new WelcomeStartPage());

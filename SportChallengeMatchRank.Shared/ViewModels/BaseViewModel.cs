@@ -52,14 +52,14 @@ namespace SportChallengeMatchRank.Shared
 
 			try
 			{
-				if(!CancellationToken.IsCancellationRequested)
+				await Task.Run(() =>
 				{
-//					using(new Busy(this))
+					if(!CancellationToken.IsCancellationRequested)
 					{
 						task.Start();
 						task.Wait();
 					}
-				}
+				});
 			}
 			catch(TaskCanceledException)
 			{

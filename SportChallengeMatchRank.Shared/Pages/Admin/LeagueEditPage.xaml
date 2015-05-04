@@ -5,7 +5,7 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:LeagueEditXaml.Resources>
 		<ResourceDictionary>
-			<Style TargetType="Label" BasedOn="{StaticResource listLabelStyle}" />
+			<Style TargetType="Label" BasedOn="{StaticResource blackLabelStyle}" />
 		</ResourceDictionary>
 	</local:LeagueEditXaml.Resources>
 

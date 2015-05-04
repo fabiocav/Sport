@@ -48,11 +48,14 @@ namespace SportChallengeMatchRank.Shared
 		{
 			if(_hasLoadedBefore && !forceRefresh)
 				return;
-			
-			AllLeagues.Clear();
-			await RunSafe(InternetService.Instance.GetAllLeagues());
-			_hasLoadedBefore = true;
-			LocalRefresh();
+
+			using(new Busy(this))
+			{
+				AllLeagues.Clear();
+				await RunSafe(InternetService.Instance.GetAllLeagues());
+				_hasLoadedBefore = true;
+				LocalRefresh();
+			}
 		}
 	}
 }

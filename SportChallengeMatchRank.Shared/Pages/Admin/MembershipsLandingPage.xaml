@@ -3,6 +3,12 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.MembershipsLandingPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+	<local:MembershipsLandingXaml.Resources>
+		<ResourceDictionary>
+			<Style TargetType="Label" BasedOn="{StaticResource blackLabelStyle}" />
+		</ResourceDictionary>
+	</local:MembershipsLandingXaml.Resources>
+
 	<local:MembershipsLandingXaml.Content>
 		<ListView x:Name="list" RowHeight="60" IsRefreshing="{Binding IsBusy, Mode=OneWay}">
 			<ListView.ItemTemplate>

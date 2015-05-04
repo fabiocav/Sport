@@ -43,6 +43,12 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public bool RegistrationComplete
+		{
+			get;
+			set;
+		}
+
 		public string DeviceToken
 		{
 			get;

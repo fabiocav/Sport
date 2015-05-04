@@ -42,15 +42,15 @@ namespace SportChallengeMatchRank.Shared
 
 		bool _hasInitialized;
 
-		protected async override void OnAppearing()
+		protected override void OnAppearing()
 		{
 			if(_hasInitialized)
 				return;
 
-			//await AuthenticationViewModel.RunSafe(EnsureAthleteAuthenticated());
-
 			_hasInitialized = true;
 			base.OnAppearing();
+
+			EnsureUserAuthenticated();
 		}
 
 		void AddMenuItems()
@@ -85,12 +85,10 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LogOutUser()
 		{
-			Settings.Instance.AthleteId = null;
-			Settings.Instance.AuthToken = null;
-			Settings.Instance.RefreshToken = null;
-			Settings.Instance.Save();
+			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
+			authViewModel.LogOut();
 
-			//_tabbedPage.EnsureAthleteAuthenticated(true);
+			EnsureUserAuthenticated();
 		}
 
 		public void DisplayAdminPage()
@@ -99,66 +97,19 @@ namespace SportChallengeMatchRank.Shared
 			Detail = _adminPage;
 		}
 
-		#region Authentication
-
-		bool _hasAttemptedAuthentication;
-
-		public AuthenticationViewModel AuthenticationViewModel
+		public async Task EnsureUserAuthenticated()
 		{
-			get
+			if(App.CurrentAthlete == null)
 			{
-				return DependencyService.Get<AuthenticationViewModel>();
+				var authPage = new AuthenticationPage();
+				await Navigation.PushModalAsync(authPage);
+				await authPage.AttemptToAuthenticateAthlete();
+
+				if(App.CurrentAthlete != null)
+				{
+					await Navigation.PopModalAsync();
+				}
 			}
 		}
-
-		async public Task EnsureAthleteAuthenticated(bool force = false)
-		{
-			if((App.CurrentAthlete != null || _hasAttemptedAuthentication) && !force)
-				return;
-
-			App.Current.Hud.DisplayProgress("Authenticating");
-
-//			var cover = new AuthenticationView();
-
-			//using(new Busy(AuthenticationViewModel))
-			{
-				AuthenticationViewModel.IsBusy = true;
-				_hasAttemptedAuthentication = true;
-				await AttemptToAuthenticateAthlete(force);
-				AuthenticationViewModel.IsBusy = false;
-			}
-
-			App.Current.Hud.Dismiss();
-		}
-
-		async public Task AttemptToAuthenticateAthlete(bool force = false)
-		{
-			AuthenticationViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
-			{
-				App.Current.Hud.Dismiss();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-				var webView = new WebView {
-					Source = url			
-				};
-
-				var page = new ContentPage {
-					Content = webView
-				};
-
-				Navigation.PushModalAsync(page);
-			});
-
-			AuthenticationViewModel.OnHideAuthForm = async() =>
-			{
-				await Navigation.PopModalAsync();
-			};
-
-			await AuthenticationViewModel.GetUserProfile(force);
-			if(App.AuthUserProfile != null)
-			{
-				await AuthenticationViewModel.EnsureAthleteRegistered();
-			}
-		}
-
-		#endregion
 	}
 }

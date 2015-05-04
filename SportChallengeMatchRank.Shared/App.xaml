@@ -31,6 +31,16 @@
 	           		</Setter.Value>
             	</Setter>-->
             </Style>
+            <Style x:Key="blackLabelStyle" TargetType="Label" BasedOn="{StaticResource labelStyle}">
+          	<Setter Property="TextColor">
+            		<Setter.Value>
+                		<OnPlatform x:TypeArguments="Color">
+	            			<OnPlatform.iOS>#000000</OnPlatform.iOS>
+	            			<OnPlatform.Android>#FFFFFF</OnPlatform.Android>
+                 		</OnPlatform>
+	           		</Setter.Value>
+            	</Setter>
+            </Style>
             <Style x:Key="buttonStyle" TargetType="Button">
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="BorderRadius" Value="0" />

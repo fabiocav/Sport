@@ -1,12 +1,12 @@
 ﻿using System;
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
-using SportChallengeMatchRank.Shared;
 using Toasts.Forms.Plugin.iOS;
 using UIKit;
 using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
 using XLabs.Forms;
+using SportChallengeMatchRank.Shared;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.iOS
 {
@@ -24,6 +24,8 @@ namespace SportChallengeMatchRank.iOS
 
 			UITabBar.Appearance.BarTintColor = UIColor.FromRGB(44, 62, 80);
 			UITabBar.Appearance.TintColor = UIColor.White;
+
+			UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
 
 //			UINavigationBar.Appearance.BackgroundColor = UIColor.Clear;
 //			UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
@@ -71,13 +73,13 @@ namespace SportChallengeMatchRank.iOS
 				int count;
 				if(int.TryParse(new NSString(badgeValue.ToString()), out count))
 				{
-					UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
+					//UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
 				}
 			}
 
 			if(success)
 			{
-				new UIAlertView("Got push notification", alert.ToString(), null, "OK", null).Show();
+				alert.ToString().ToToast(ToastNotificationType.Info, "Incoming notification");
 			}
 		}
 	}
