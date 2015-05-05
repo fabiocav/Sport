@@ -119,4 +119,12 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 	}
+
+	public struct PushActions
+	{
+		public string ChallengePosted = "ChallengePosted";
+		public string ChallengeRevoked = "ChallengeRevoked";
+		public string ChallengeAccepted = "ChallengeAccepted";
+		public string ChallengeDecline = "ChallengeDeclined";
+	}
 }
