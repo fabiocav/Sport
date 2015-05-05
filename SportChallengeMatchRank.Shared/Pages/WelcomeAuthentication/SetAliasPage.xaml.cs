@@ -57,6 +57,8 @@ namespace SportChallengeMatchRank.Shared
 		protected async override void OnLoaded()
 		{
 			base.OnLoaded();
+
+			await Task.Delay(300);
 			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await profileStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);

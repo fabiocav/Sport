@@ -233,6 +233,7 @@ namespace SportChallengeMatchRank.Shared
 			Settings.Instance.AuthUserID = null;
 			Settings.Instance.AuthToken = null;
 			Settings.Instance.RefreshToken = null;
+			Settings.Instance.RegistrationComplete = false;
 			Settings.Instance.Save();
 			App.AuthUserProfile = null;
 		}

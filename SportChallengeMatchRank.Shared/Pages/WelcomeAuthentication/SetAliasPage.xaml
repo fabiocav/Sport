@@ -4,37 +4,43 @@
 	x:Class="SportChallengeMatchRank.Shared.SetAliasPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:labs="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
-	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+	BackgroundColor="{StaticResource xamarinPurple}">
     <local:SetAliasPageXaml.Content>
 
-		<ScrollView BackgroundColor="{StaticResource xamarinPurple}">
-			<StackLayout x:Name="stack">
-				<StackLayout Padding="30,100,30,30">
-					<Label x:Name="label1" Text="Be cool and choose an alias/nickname. Your alias will show on the leaderboard and in challenges so make it count!"
-						FontSize="Large" XAlign="Center" Scale="0" />
-				</StackLayout>
+		<Grid VerticalOptions="Fill" HorizontalOptions="Fill">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="3*" />
+				<RowDefinition Height="4*" />
+				<RowDefinition Height="3*" />
+			</Grid.RowDefinitions>
 
-				<StackLayout x:Name="profileStack" Padding="30,20" Spacing="15" Scale="0" VerticalOptions="CenterAndExpand">
-					<StackLayout Orientation="Horizontal" Padding="10" Spacing="25">
-						<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
-							HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="120" HeightRequest="120" />
+			<StackLayout x:Name="label1" Padding="30,0" Scale="0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+				<Label Text="Be cool and choose an alias/nickname. Your alias will show on the leaderboard and in challenges so make it count!"
+					FontSize="Large" XAlign="Center" />
+			</StackLayout>
 
-						<StackLayout VerticalOptions="CenterAndExpand">
-							<Label Text="{Binding Athlete.Name}" FontSize="40" HorizontalOptions="StartAndExpand" />
-							<Label Text="{Binding Athlete.Email}" FontSize="14" HorizontalOptions="StartAndExpand" />
-						</StackLayout>
+			<StackLayout x:Name="profileStack" Grid.Row="1" Padding="30,0" Spacing="15" Scale="0" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+				<StackLayout Orientation="Horizontal" Padding="10" Spacing="25">
+					<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
+						HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="120" HeightRequest="120" />
+
+					<StackLayout VerticalOptions="CenterAndExpand">
+						<Label Text="{Binding Athlete.Name}" FontSize="40" HorizontalOptions="StartAndExpand" />
+						<Label Text="{Binding Athlete.Email}" FontSize="14" HorizontalOptions="StartAndExpand" />
 					</StackLayout>
-					<StackLayout Padding="40,0" VerticalOptions="Start">
-						<labs:ExtendedEntry x:Name="txtAlias" Grid.Row="1" Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="White"
-							HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" HasBorder="false" Font="36" />
-					</StackLayout>
 				</StackLayout>
-
-				<StackLayout x:Name="buttonStack" Spacing="2" Scale="0" VerticalOptions="EndAndExpand">
-					<Button x:Name="btnSave" Text="Save Alias and Continue" VerticalOptions="EndAndExpand" BackgroundColor="#44000000"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+				<StackLayout Padding="40,0" VerticalOptions="Start">
+					<labs:ExtendedEntry x:Name="txtAlias" Grid.Row="1" Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="White"
+						HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" HasBorder="false" Font="36" />
 				</StackLayout>
 			</StackLayout>
-		</ScrollView>
+
+			<StackLayout x:Name="buttonStack" Grid.Row="2" Spacing="2" Scale="0" VerticalOptions="End">
+				<Button x:Name="btnSave" Text="Save Alias and Continue" VerticalOptions="End" BackgroundColor="#44000000"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+			</StackLayout>
+		</Grid>
+
 	</local:SetAliasPageXaml.Content>
 </local:SetAliasPageXaml>
