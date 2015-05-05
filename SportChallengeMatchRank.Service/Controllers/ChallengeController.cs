@@ -77,7 +77,34 @@ namespace SportChallengeMatchRank.Service.Controllers
 			}));
 		}
 
-        // PATCH tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
+		[Route("api/getChallengesForAthlete")]
+		async public Task<List<ChallengeDto>> GetChallengesForAthlete(string athleteId)
+		{
+			return Query().Where(c => c.ChallengeeAthleteId == athleteId
+				|| c.ChallengerAthleteId == athleteId).Select(c => new ChallengeDto
+				{
+					Id = c.Id,
+					ChallengerAthleteId = c.ChallengerAthleteId,
+					ChallengeeAthleteId = c.ChallengeeAthleteId,
+					LeagueId = c.LeagueId,
+					DateCreated = c.CreatedAt,
+					ProposedTime = c.ProposedTime,
+					DateAccepted = c.DateAccepted,
+					DateCompleted = c.DateCompleted,
+					CustomMessage = c.CustomMessage,
+					MatchResult = c.MatchResult.Select(r => new GameResultDto
+					{
+						Id = r.Id,
+						DateCreated = r.CreatedAt,
+						ChallengeId = r.ChallengeId,
+						ChallengeeScore = r.ChallengeeScore,
+						ChallengerScore = r.ChallengerScore,
+						Index = r.Index
+					}).ToList()
+				}).ToList();
+		}
+		
+		// PATCH tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task<Challenge> PatchChallenge(string id, Delta<Challenge> patch)
         {
             return UpdateAsync(id, patch);
@@ -133,7 +160,13 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
 			var message = "Your challenge with {0} has been revoked.".Fmt(challenger.Name);
-			await _notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId);
+			var payload = new NotificationPayload
+			{
+				Action = PushActions.ChallengeRevoked,
+				Payload = { { "challengeId", id } }
+			};
+
+			await _notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId, payload);
 
             DeleteAsync(id);
         }
@@ -147,48 +180,33 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
 			var message = "Your challenge with {0} has been declined.".Fmt(challengee.Name);
-			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId);
+			var payload = new NotificationPayload
+			{
+				Action = PushActions.ChallengeDeclined,
+				Payload = { { "challengeId", id } }
+			};
+
+			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
 
 			DeleteAsync(id);
 		}
 
-		[Route("api/getChallengesForAthlete")]
-		async public Task<List<ChallengeDto>> GetChallengesForAthlete(string athleteId)
-		{
-			return Query().Where(c => c.ChallengeeAthleteId == athleteId
-				|| c.ChallengerAthleteId == athleteId).Select(c => new ChallengeDto
-			{
-				Id = c.Id,
-				ChallengerAthleteId = c.ChallengerAthleteId,
-				ChallengeeAthleteId = c.ChallengeeAthleteId,
-				LeagueId = c.LeagueId,
-				DateCreated = c.CreatedAt,
-				ProposedTime = c.ProposedTime,
-				DateAccepted = c.DateAccepted,
-				DateCompleted = c.DateCompleted,
-				CustomMessage = c.CustomMessage,
-				MatchResult = c.MatchResult.Select(r => new GameResultDto
-				{
-					Id = r.Id,
-					DateCreated = r.CreatedAt,
-					ChallengeId = r.ChallengeId,
-					ChallengeeScore = r.ChallengeeScore,
-					ChallengerScore = r.ChallengerScore,
-					Index = r.Index
-				}).ToList()
-			}).ToList();
-		}
-
 		[Route("api/acceptChallenge")]
-		async public Task<ChallengeDto> AcceptChallenge(string challengeId)
+		async public Task<ChallengeDto> AcceptChallenge(string id)
 		{
-			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == challengeId);
+			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == id);
 			challenge.DateAccepted = DateTime.UtcNow;
 			await _context.SaveChangesAsync();
 
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 			var message = "Your challenge with {0} has been accepted! MATCH ON!!".Fmt(challengee.Name);
-			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId);
+			var payload = new NotificationPayload
+			{
+				Action = PushActions.ChallengeAccepted,
+				Payload = { { "challengeId", id } }
+			};
+
+			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
 
 			return challenge.ToChallengeDto();
 		}
@@ -260,7 +278,13 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 				var maintain = challenge.ChallengerAthlete.Id == challenger.Id ? "bequeath" : "retain";
 				var message = "{0} victors over {1} to {2} the righteous rank of {3}".Fmt(challenger.Alias, challengee.Alias, maintain, winningRank + 1);
-				await _notificationController.NotifyByTag(message, challenge.LeagueId);
+				var payload = new NotificationPayload
+				{
+					Action = PushActions.ChallengeDeclined,
+					Payload = { { "challengeId", challengeId } }
+				};
+
+				await _notificationController.NotifyByTag(message, challenge.LeagueId, payload);
 			}
 			catch(DbEntityValidationException e)
 			{

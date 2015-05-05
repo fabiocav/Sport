@@ -125,6 +125,7 @@ namespace SportChallengeMatchRank.Shared
 		public static string ChallengePosted = "ChallengePosted";
 		public static string ChallengeRevoked = "ChallengeRevoked";
 		public static string ChallengeAccepted = "ChallengeAccepted";
-		public static string ChallengeDecline = "ChallengeDeclined";
+		public static string ChallengeDeclined = "ChallengeDeclined";
+		public static string ChallengeCompleted = "ChallengeCompleted";
 	}
 }
