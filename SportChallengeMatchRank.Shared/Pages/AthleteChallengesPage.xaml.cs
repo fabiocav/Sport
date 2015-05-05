@@ -65,7 +65,8 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
-			if(payload.Action.StartsWith("Challenge"))
+			string challengeId = null;
+			if(payload.Payload.TryGetValue("challengeId", out challengeId))
 			{
 				await RemoteRefresh();
 			}

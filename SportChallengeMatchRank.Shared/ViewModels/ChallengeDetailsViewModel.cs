@@ -30,6 +30,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref challenge, value);
+				NotifyPropertiesChanged();
 			}
 		}
 
@@ -115,6 +116,20 @@ namespace SportChallengeMatchRank.Shared
 			App.CurrentAthlete.RefreshChallenges();
 			NotifyPropertiesChanged();
 			return !task.IsFaulted;
+		}
+
+		async public Task RefreshChallenge()
+		{
+			using(new Busy(this))
+			{
+				var task = InternetService.Instance.GetChallengeById(Challenge.Id, true);
+				await RunSafe(task);
+
+				if(task.IsFaulted)
+					return;
+
+				Challenge = task.Result;
+			}
 		}
 
 		public void NotifyPropertiesChanged()

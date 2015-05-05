@@ -106,6 +106,18 @@ namespace SportChallengeMatchRank.Shared
 
 			await Navigation.PopAsync();
 		}
+
+		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		{
+			string challengeId = null;
+			if(payload.Payload.TryGetValue("challengeId", out challengeId))
+			{
+				if(challengeId == ViewModel.Challenge.Id)
+				{
+					await ViewModel.RefreshChallenge();
+				}
+			}
+		}
 	}
 
 	public partial class ChallengeDetailsXaml : BaseContentPage<ChallengeDetailsViewModel>

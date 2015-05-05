@@ -108,12 +108,12 @@ namespace SportChallengeMatchRank.Shared
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
 			string leagueId = null;
-			if(payload.Action.StartsWith("League") && payload.Payload.TryGetValue("leagueId", out leagueId))
+			if(payload.Payload.TryGetValue("leagueId", out leagueId))
 			{
-//				if(leagueId == League.Id)
-//				{
-//					ViewModel.RefreshLeague();
-//				}
+				if(leagueId == ViewModel.League.Id)
+				{
+					await ViewModel.RefreshLeague();
+				}
 			}
 		}
 	}

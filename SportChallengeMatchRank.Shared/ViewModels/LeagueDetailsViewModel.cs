@@ -108,7 +108,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			using(new Busy(this))
 			{
-				var task = InternetService.Instance.GetLeagueById(League.Id);
+				var task = InternetService.Instance.GetLeagueById(League.Id, true);
 				await RunSafe(task);
 
 				if(task.IsFaulted)

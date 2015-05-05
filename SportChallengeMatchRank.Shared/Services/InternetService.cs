@@ -182,12 +182,15 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
-		public Task<League> GetLeagueById(string id)
+		public Task<League> GetLeagueById(string id, bool force = false)
 		{
 			return new Task<League>(() =>
 			{
-				League a;
-				DataManager.Instance.Leagues.TryGetValue(id, out a);
+				League a = null;
+
+				if(!force)
+					DataManager.Instance.Leagues.TryGetValue(id, out a);
+				
 				a = a ?? Client.GetTable<League>().LookupAsync(id).Result;
 				DataManager.Instance.Leagues.AddOrUpdate(a);
 				return a;
@@ -412,12 +415,15 @@ namespace SportChallengeMatchRank.Shared
 
 		}
 
-		public Task<Membership> GetMembershipById(string id)
+		public Task<Membership> GetMembershipById(string id, bool force = false)
 		{
 			return new Task<Membership>(() =>
 			{
-				Membership a;
-				DataManager.Instance.Memberships.TryGetValue(id, out a);
+				Membership a = null;
+
+				if(force)
+					DataManager.Instance.Memberships.TryGetValue(id, out a);
+
 				return a ?? Client.GetTable<Membership>().LookupAsync(id).Result;
 			});
 		}
@@ -631,6 +637,22 @@ namespace SportChallengeMatchRank.Shared
 				}
 			});
 		}
+
+		public Task<Challenge> GetChallengeById(string id, bool force = false)
+		{
+			return new Task<Challenge>(() =>
+			{
+				Challenge a = null;
+
+				if(!force)
+					DataManager.Instance.Challenges.TryGetValue(id, out a);
+
+				a = a ?? Client.GetTable<Challenge>().LookupAsync(id).Result;
+				DataManager.Instance.Challenges.AddOrUpdate(a);
+				return a;
+			});
+		}
+
 
 		#endregion
 

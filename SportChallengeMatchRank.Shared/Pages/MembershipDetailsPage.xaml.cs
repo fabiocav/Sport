@@ -1,6 +1,7 @@
 ﻿using System;
 using Toasts.Forms.Plugin.Abstractions;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -86,6 +87,31 @@ namespace SportChallengeMatchRank.Shared
 		{
 			base.OnAppearing();
 			ViewModel.Membership.LocalRefresh();
+		}
+
+		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		{
+			var reload = false;
+
+			string membershipId = null;
+			string winningAthleteId = null;
+			string losingAthleteId = null;
+			string challengeId = null;
+
+			if(payload.Payload.TryGetValue("membershipId", out membershipId) && membershipId == ViewModel.MembershipId)
+				reload = true;
+
+			if(payload.Payload.TryGetValue("winningAthleteId", out winningAthleteId) && payload.Payload.TryGetValue("losingAthleteId", out losingAthleteId))
+			{
+				reload |= winningAthleteId == ViewModel.Membership.AthleteId || losingAthleteId == ViewModel.Membership.AthleteId;
+			}
+
+			reload |= payload.Payload.TryGetValue("challengeId", out challengeId) && ViewModel.Membership.Athlete.AllChallenges.Any(c => c.Id == challengeId);
+
+			if(reload)
+			{
+				await ViewModel.RefreshMembership();
+			}
 		}
 	}
 

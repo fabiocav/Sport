@@ -40,6 +40,18 @@ namespace SportChallengeMatchRank.Shared
 			
 			base.OnLoaded();
 		}
+
+		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		{
+			string leagueId = null;
+			if(payload.Payload.TryGetValue("leagueId", out leagueId))
+			{
+				if(ViewModel.League != null && leagueId == ViewModel.League.Id)
+				{
+					await ViewModel.GetAllMembershipsByLeague(true);
+				}
+			}
+		}
 	}
 
 	public partial class MembershipsByLeagueXaml : BaseContentPage<MembershipsByLeagueViewModel>

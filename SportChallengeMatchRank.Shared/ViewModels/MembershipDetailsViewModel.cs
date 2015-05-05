@@ -114,6 +114,12 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("CanDeleteMembership");
 		}
 
+		public void LocalRefresh()
+		{
+			Membership.Athlete.RefreshChallenges();
+			Membership.Athlete.RefreshMemberships();
+		}
+
 		public ICommand SaveCommand
 		{
 			get
@@ -131,6 +137,19 @@ namespace SportChallengeMatchRank.Shared
 		async public Task DeleteMembership()
 		{
 			await RunSafe(InternetService.Instance.DeleteMembership(Membership.Id));
+		}
+
+		async public Task RefreshMembership()
+		{
+			using(new Busy(this))
+			{
+				var task = InternetService.Instance.GetMembershipById(MembershipId, true);
+				await RunSafe(task);
+
+				if(task.IsFaulted)
+					return;
+			}
+			NotifyPropertiesChanged();
 		}
 	}
 }

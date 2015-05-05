@@ -66,9 +66,10 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
-			if(payload.Action.StartsWith("League", StringComparison.Ordinal))
+			string leagueId = null;
+			if(payload.Payload.TryGetValue("leagueId", out leagueId))
 			{
-				await ViewModel.GetLeagues();
+				await ViewModel.GetLeagues(true);
 			}
 		}
 	}
