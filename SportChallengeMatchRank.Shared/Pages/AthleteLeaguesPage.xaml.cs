@@ -63,6 +63,14 @@ namespace SportChallengeMatchRank.Shared
 			if(App.CurrentAthlete != null)
 				await ViewModel.GetLeagues();
 		}
+
+		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		{
+			if(payload.Action.StartsWith("League", StringComparison.Ordinal))
+			{
+				await ViewModel.GetLeagues();
+			}
+		}
 	}
 
 	public partial class AthleteLeaguesXaml : BaseContentPage<AthleteLeaguesViewModel>

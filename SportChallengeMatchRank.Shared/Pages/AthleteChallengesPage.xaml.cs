@@ -63,15 +63,11 @@ namespace SportChallengeMatchRank.Shared
 			await RemoteRefresh();
 		}
 
-		protected override async void OnIncomingPayload(App app, Dictionary<string, object> payload)
+		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
-			object action;
-			if(payload.TryGetValue("action", out action))
+			if(payload.Action.StartsWith("Challenge"))
 			{
-				if(action.ToString() == "challengePosted")
-				{
-					await RemoteRefresh();
-				}
+				await RemoteRefresh();
 			}
 		}
 

@@ -35,8 +35,6 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		League _league;
-
 		public string DateRange
 		{
 			get
@@ -55,6 +53,8 @@ namespace SportChallengeMatchRank.Shared
 				return range;
 			}
 		}
+
+		League _league;
 
 		public League League
 		{
@@ -102,6 +102,20 @@ namespace SportChallengeMatchRank.Shared
 			var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == League.Id);
 			await RunSafe(InternetService.Instance.DeleteMembership(membership.Id));
 			SetPropertyChanged("IsMember");
+		}
+
+		async public Task RefreshLeague()
+		{
+			using(new Busy(this))
+			{
+				var task = InternetService.Instance.GetLeagueById(League.Id);
+				await RunSafe(task);
+
+				if(task.IsFaulted)
+					return;
+
+				League = task.Result;
+			}
 		}
 	}
 }

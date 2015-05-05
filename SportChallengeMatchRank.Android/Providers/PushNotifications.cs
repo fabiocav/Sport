@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Gcm.Client;
 using Microsoft.WindowsAzure.MobileServices;
-using SportChallengeMatchRank.Shared;
-using Xamarin.Forms;
-using Android.OS;
-using Android.Widget;
-using Toasts.Forms.Plugin.Abstractions;
 using Newtonsoft.Json;
+using SportChallengeMatchRank.Shared;
+using Toasts.Forms.Plugin.Abstractions;
+using Xamarin.Forms;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]

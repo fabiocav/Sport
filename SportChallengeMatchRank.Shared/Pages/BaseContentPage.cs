@@ -19,7 +19,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			BindingContext = ViewModel;
 
-			MessagingCenter.Subscribe<App, Dictionary<string, object>>(this, "IncomingPayloadReceived", OnIncomingPayload);
+			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
 			{
 				if(App.CurrentAthlete != null)
@@ -87,7 +87,7 @@ namespace SportChallengeMatchRank.Shared
 				App.Current.Hud.Dismiss();
 		}
 
-		async protected virtual void OnIncomingPayload(App app, Dictionary<string, object> payload)
+		async protected virtual void OnIncomingPayload(App app, NotificationPayload payload)
 		{
 		}
 
