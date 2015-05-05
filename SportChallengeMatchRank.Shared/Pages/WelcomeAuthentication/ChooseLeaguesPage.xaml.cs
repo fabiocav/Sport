@@ -28,6 +28,7 @@ namespace SportChallengeMatchRank.Shared
 				Device.BeginInvokeOnMainThread(() =>
 				{
 					RegisteredForPushNotificationSuccess();
+					MessagingCenter.Unsubscribe<App>(this, "RegisteredForRemoteNotifications");
 				});
 			});
 

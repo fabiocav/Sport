@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -18,6 +19,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			BindingContext = ViewModel;
 
+			MessagingCenter.Subscribe<App, Dictionary<string, object>>(this, "IncomingPayloadReceived", OnIncomingPayload);
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
 			{
 				if(App.CurrentAthlete != null)
@@ -78,14 +80,15 @@ namespace SportChallengeMatchRank.Shared
 
 			using(new Busy(AuthenticationViewModel))
 			{
-				//AuthenticationViewModel.IsBusy = true;
 				await AttemptToAuthenticateAthlete(force);
-
-				//AuthenticationViewModel.IsBusy = false;
 			}
 
 			if(showHud)
 				App.Current.Hud.Dismiss();
+		}
+
+		async protected virtual void OnIncomingPayload(App app, Dictionary<string, object> payload)
+		{
 		}
 
 		async public Task<bool> AttemptToAuthenticateAthlete(bool force = false)

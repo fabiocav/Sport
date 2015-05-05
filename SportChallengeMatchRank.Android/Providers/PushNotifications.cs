@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using Android.OS;
 using Android.Widget;
 using Toasts.Forms.Plugin.Abstractions;
+using Newtonsoft.Json;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
@@ -129,12 +130,14 @@ namespace SportChallengeMatchRank.Android
 
 		protected override void OnMessage(Context context, Intent intent)
 		{
-			string message = string.Empty;
+			string message = null;
+			string payload = null;
 
 			// Extract the push notification message from the intent.
-			if(intent.Extras.ContainsKey("msg"))
+			if(intent.Extras.ContainsKey("message"))
 			{
-				message = intent.Extras.Get("msg").ToString();
+				message = intent.Extras.Get("message").ToString();
+
 				//var title = intent.Extras.Get("title").ToString();
 
 				// Create a notification manager to send the notification.
@@ -149,12 +152,30 @@ namespace SportChallengeMatchRank.Android
 				n.SetTicker(message);
 				n.SetContentText(message);
 
-				message.ToToast(ToastNotificationType.Info, "Incoming notification");
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					message.ToToast(ToastNotificationType.Info, "Incoming notification");
+				});
+
 //				var toast = Toast.MakeText(context, message, ToastLength.Long);
 //				toast.Show();
 
 				var nm = NotificationManager.FromContext(context);
 				nm.Notify(0, n.Build());
+
+				if(intent.Extras.ContainsKey("payload"))
+				{
+					payload = intent.Extras.Get("payload").ToString();
+					var payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload);
+
+					if(payloadValue != null)
+					{
+						Device.BeginInvokeOnMainThread(() =>
+						{
+							MessagingCenter.Send<App, NotificationPayload>(App.Current, "IncomingPayloadReceived", payloadValue);
+						});
+					}
+				}
 			}
 		}
 

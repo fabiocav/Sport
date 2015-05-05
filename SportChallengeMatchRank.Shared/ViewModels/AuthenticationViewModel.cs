@@ -182,48 +182,51 @@ namespace SportChallengeMatchRank.Shared
 			if(!force && App.AuthUserProfile != null)
 				return;
 
-			if(Settings.Instance.AuthToken == null)
+			using(new Busy(this))
 			{
-				AuthenticationStatus = "Authenticating with Google";
-				await AuthenticateUser();
-			}
-
-			AuthenticationStatus = "Getting user profile";
-			var task = InternetService.Instance.GetUserProfile();
-			await RunSafe(task, false);
-
-			if(task.IsFaulted && task.IsCompleted)
-			{
-				//Likely our authtoken has expired
-				AuthenticationStatus = "Refreshing token";
-
-				var refreshTask = InternetService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
-				await RunSafe(refreshTask);
-
-				if(refreshTask.IsCompleted && !refreshTask.IsFaulted)
+				if(Settings.Instance.AuthToken == null)
 				{
-					//Succes in getting a new auth token - now lets attempt to get the profile again
-					if(!string.IsNullOrWhiteSpace(refreshTask.Result) && Settings.Instance.AuthToken != refreshTask.Result)
-					{
-						Settings.Instance.AuthToken = refreshTask.Result;
-						await Settings.Instance.Save();
-						await GetUserProfile();
-					}
+					AuthenticationStatus = "Authenticating with Google";
+					await AuthenticateUser();
 				}
 
-				return;
-			}
+				AuthenticationStatus = "Getting Google user profile";
+				var task = InternetService.Instance.GetUserProfile();
+				await RunSafe(task, false);
 
-			if(task.IsCompleted && !task.IsFaulted)
-			{
-				AuthenticationStatus = "Authentication complete";
-				App.AuthUserProfile = task.Result;
-				Settings.Instance.AuthUserID = App.AuthUserProfile.Id;
-				await Settings.Instance.Save();
-			}
-			else
-			{
-				AuthenticationStatus = "Unable to authenticate";
+				if(task.IsFaulted && task.IsCompleted)
+				{
+					//Likely our authtoken has expired
+					AuthenticationStatus = "Refreshing token";
+
+					var refreshTask = InternetService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
+					await RunSafe(refreshTask);
+
+					if(refreshTask.IsCompleted && !refreshTask.IsFaulted)
+					{
+						//Succes in getting a new auth token - now lets attempt to get the profile again
+						if(!string.IsNullOrWhiteSpace(refreshTask.Result) && Settings.Instance.AuthToken != refreshTask.Result)
+						{
+							Settings.Instance.AuthToken = refreshTask.Result;
+							await Settings.Instance.Save();
+							await GetUserProfile();
+						}
+					}
+
+					return;
+				}
+
+				if(task.IsCompleted && !task.IsFaulted)
+				{
+					AuthenticationStatus = "Authentication complete";
+					App.AuthUserProfile = task.Result;
+					Settings.Instance.AuthUserID = App.AuthUserProfile.Id;
+					await Settings.Instance.Save();
+				}
+				else
+				{
+					AuthenticationStatus = "Unable to authenticate";
+				}
 			}
 		}
 
@@ -236,14 +239,6 @@ namespace SportChallengeMatchRank.Shared
 			Settings.Instance.RegistrationComplete = false;
 			Settings.Instance.Save();
 			App.AuthUserProfile = null;
-		}
-
-		public override void Dispose()
-		{
-			base.Dispose();
-
-//			_authClient.OnSSLServerAuthentication -= OnSSLServerAuthentication;
-//			_authClient.OnLaunchBrowser -= OnLaunchBrowser;
 		}
 	}
 }

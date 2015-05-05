@@ -88,36 +88,37 @@ namespace SportChallengeMatchRank.Shared
 			if(IsBusy)
 				return;
 
-			IsBusy = true;
-			Athlete.RefreshChallenges();
-			UpcomingChallenges.Clear();
-			HistoricalChallenges.Clear();
-
-			ChallengeGroups.Clear();
-
-			//Load the opponents
-			var task = InternetService.Instance.GetAllChallengesByAthlete(Athlete);
-			await RunSafe(task);
-
-			IsBusy = false;
-			if(task.IsFaulted)
-				return;
-
-			foreach(var c in DataManager.Instance.Challenges.Values)
+			using(new Busy(this))
 			{
-				if(c.ChallengeeAthlete == null || forceRefresh)
+				Athlete.RefreshChallenges();
+				UpcomingChallenges.Clear();
+				HistoricalChallenges.Clear();
+
+				ChallengeGroups.Clear();
+
+				//Load the opponents
+				var task = InternetService.Instance.GetAllChallengesByAthlete(Athlete);
+				await RunSafe(task);
+
+				if(task.IsFaulted)
+					return;
+
+				foreach(var c in DataManager.Instance.Challenges.Values)
 				{
-					await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengeeAthleteId, forceRefresh));
+					if(c.ChallengeeAthlete == null || forceRefresh)
+					{
+						await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengeeAthleteId, forceRefresh));
+					}
+
+					if(c.ChallengerAthlete == null || forceRefresh)
+					{
+						await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengerAthleteId, forceRefresh));
+					}
 				}
 
-				if(c.ChallengerAthlete == null || forceRefresh)
-				{
-					await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengerAthleteId, forceRefresh));
-				}
+				_hasLoadedBefore = true;
+				LocalRefresh();
 			}
-
-			_hasLoadedBefore = true;
-			LocalRefresh();
 		}
 
 		public void LocalRefresh()

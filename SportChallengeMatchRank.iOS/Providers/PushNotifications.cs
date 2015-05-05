@@ -3,6 +3,7 @@ using SportChallengeMatchRank.Shared;
 using UIKit;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using System;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.iOS.PushNotifications))]
 
@@ -34,6 +35,8 @@ namespace SportChallengeMatchRank.iOS
 				return UIApplication.SharedApplication.IsRegisteredForRemoteNotifications;
 			}
 		}
+
+		//public event EventHandler<IncomingPushNotificationEventArgs> OnPushNotificationReceived;
 	}
 }
 

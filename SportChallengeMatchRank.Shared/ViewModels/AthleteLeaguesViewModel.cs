@@ -67,14 +67,15 @@ namespace SportChallengeMatchRank.Shared
 			if(IsBusy)
 				return;
 
-			IsBusy = true;
-			Athlete.RefreshMemberships();
-			await RunSafe(InternetService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
-			_hasLoadedBefore = true;
+			using(new Busy(this))
+			{
+				Athlete.RefreshMemberships();
+				await RunSafe(InternetService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
+				_hasLoadedBefore = true;
 
-			LocalRefresh();
-			SetPropertyChanged("Athlete");
-			IsBusy = false;
+				LocalRefresh();
+				SetPropertyChanged("Athlete");
+			}
 		}
 
 		public void LocalRefresh()

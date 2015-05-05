@@ -1,5 +1,7 @@
 ﻿using Xamarin.Forms;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -42,7 +44,9 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			if(App.CurrentAthlete != null)
-				await ViewModel.GetChallenges();
+			{
+				RemoteRefresh();
+			}
 		}
 
 		protected override void OnAppearing()
@@ -56,7 +60,26 @@ namespace SportChallengeMatchRank.Shared
 		{
 			base.OnUserAuthenticated();
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
-			await ViewModel.GetChallenges();
+			await RemoteRefresh();
+		}
+
+		protected override async void OnIncomingPayload(App app, Dictionary<string, object> payload)
+		{
+			object action;
+			if(payload.TryGetValue("action", out action))
+			{
+				if(action.ToString() == "challengePosted")
+				{
+					await RemoteRefresh();
+				}
+			}
+		}
+
+		async Task RemoteRefresh()
+		{
+			await ViewModel.GetChallenges(true);
+			ViewModel.LocalRefresh();
+			ViewModel.SetPropertyChanged("ChallengeGroups");
 		}
 	}
 

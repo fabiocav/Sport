@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -85,12 +86,34 @@ namespace SportChallengeMatchRank.Shared
 			get;
 			set;
 		}
+
 		public string Handle
 		{
 			get;
 			set;
 		}
+
 		public string[] Tags
+		{
+			get;
+			set;
+		}
+	}
+
+	public class NotificationPayload
+	{
+		public NotificationPayload()
+		{
+			Payload = new Dictionary<string, object>();
+		}
+
+		public string Action
+		{
+			get;
+			set;
+		}
+
+		public Dictionary<string, object> Payload
 		{
 			get;
 			set;

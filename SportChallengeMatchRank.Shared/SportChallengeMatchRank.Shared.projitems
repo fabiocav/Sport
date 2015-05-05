@@ -128,7 +128,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\AuthenticationView.xaml.cs">
       <DependentUpon>AuthenticationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAppearance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ClearNavPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AuthenticationPage.xaml.cs">
       <DependentUpon>AuthenticationPage.xaml</DependentUpon>

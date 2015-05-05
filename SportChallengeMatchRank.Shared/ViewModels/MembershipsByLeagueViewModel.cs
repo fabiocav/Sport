@@ -99,15 +99,16 @@ namespace SportChallengeMatchRank.Shared
 			if(!forceRefresh && _hasLoadedBefore)
 				return;
 
-			IsBusy = true;
-			LocalRefresh();
+			using(new Busy(this))
+			{
+				LocalRefresh();
 
-			var task = InternetService.Instance.GetAllAthletesByLeague(League);
-			await RunSafe(task);
+				var task = InternetService.Instance.GetAllAthletesByLeague(League);
+				await RunSafe(task);
 
-			_hasLoadedBefore = true;
-			LocalRefresh();
-			IsBusy = false;
+				_hasLoadedBefore = true;
+				LocalRefresh();
+			}
 		}
 	}
 }

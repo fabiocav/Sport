@@ -7,6 +7,8 @@ using Xamarin.Forms;
 using XLabs.Forms;
 using SportChallengeMatchRank.Shared;
 using Toasts.Forms.Plugin.Abstractions;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.iOS
 {
@@ -62,11 +64,24 @@ namespace SportChallengeMatchRank.iOS
 			Console.WriteLine(userInfo);
 			NSObject aps;
 			NSObject alert;
+			NSObject payload;
 
-			bool success = userInfo.TryGetValue(new NSString("aps"), out aps);
-			success = ((NSDictionary)aps).TryGetValue(new NSString("alert"), out alert);
+			if(!userInfo.TryGetValue(new NSString("aps"), out aps))
+				return;
+			
+			var apsHash = aps as NSDictionary;
 
-			var badgeValue = ((NSDictionary)aps).ObjectForKey(new NSString("badge"));
+			NotificationPayload payloadValue = null;
+			if(apsHash.TryGetValue(new NSString("payload"), out payload))
+			{
+				payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload.ToString());
+				if(payloadValue != null)
+				{
+					MessagingCenter.Send<App, NotificationPayload>(App.Current, "IncomingPayloadReceived", payloadValue);
+				}
+			}
+
+			var badgeValue = apsHash.ObjectForKey(new NSString("badge"));
 
 			if(badgeValue != null)
 			{
@@ -77,7 +92,7 @@ namespace SportChallengeMatchRank.iOS
 				}
 			}
 
-			if(success)
+			if(apsHash.TryGetValue(new NSString("alert"), out alert))
 			{
 				alert.ToString().ToToast(ToastNotificationType.Info, "Incoming notification");
 			}
