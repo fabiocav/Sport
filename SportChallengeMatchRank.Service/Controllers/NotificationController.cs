@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Microsoft.ServiceBus.Messaging;
 using SportChallengeMatchRank.Shared;
 using System;
+using Newtonsoft.Json;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -24,15 +25,27 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 		#region Notification
 
-		public async Task NotifyByTags(string message, List<string> tags)
+		public async Task NotifyByTags(string message, List<string> tags, NotificationPayload payload = null, int? badgeCount = null)
 		{
 			var notification = new Dictionary<string, string> { { "message", message } };
+
+			if(payload != null)
+			{
+				var json = JsonConvert.SerializeObject(payload);
+				notification.Add("payload", json);
+			}
+
+			if(badgeCount != null)
+			{
+				notification.Add("badge", badgeCount.Value.ToString());
+			}
+
 			await _hub.SendTemplateNotificationAsync(notification, tags);
 		}
 
-		public async Task NotifyByTag(string message, string tag)
+		public async Task NotifyByTag(string message, string tag, NotificationPayload payload = null, int? badgeCount = null)
 		{
-			await NotifyByTags(message, new List<string> { tag });
+			await NotifyByTags(message, new List<string> { tag }, payload, badgeCount);
 		}
 
 		#endregion
@@ -71,11 +84,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 			switch(deviceUpdate.Platform)
 			{
 				case "iOS":
-					var alertTemplate = "{\"aps\":{\"alert\":\"$(message)\",\"badge\":\"$(badge)\"}}";
+					var alertTemplate = "{\"aps\":{\"alert\":\"$(message)\",\"badge\":\"$(badge)\",\"payload\":\"$(payload)\"}}";
 					registration = new AppleTemplateRegistrationDescription(deviceUpdate.Handle, alertTemplate);
 					break;
 				case "Android":
-					var messageTemplate = "{\"data\":{\"msg\":\"$(message)\"}}";
+					var messageTemplate = "{\"data\":{\"message\":\"$(message)\",\"payload\":\"$(payload)\"}}";
 					registration = new GcmTemplateRegistrationDescription(deviceUpdate.Handle, messageTemplate);
 					break;
 				default:

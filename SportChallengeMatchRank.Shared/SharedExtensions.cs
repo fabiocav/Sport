@@ -122,9 +122,9 @@ namespace SportChallengeMatchRank.Shared
 
 	public struct PushActions
 	{
-		public string ChallengePosted = "ChallengePosted";
-		public string ChallengeRevoked = "ChallengeRevoked";
-		public string ChallengeAccepted = "ChallengeAccepted";
-		public string ChallengeDecline = "ChallengeDeclined";
+		public static string ChallengePosted = "ChallengePosted";
+		public static string ChallengeRevoked = "ChallengeRevoked";
+		public static string ChallengeAccepted = "ChallengeAccepted";
+		public static string ChallengeDecline = "ChallengeDeclined";
 	}
 }

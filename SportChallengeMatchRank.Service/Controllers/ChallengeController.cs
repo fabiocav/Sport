@@ -113,7 +113,13 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == current.ChallengeeAthleteId);
 
 			var message = "YOU HAVE BEEN CHALLENGED by {0}!".Fmt(challenger.Name);
-			await _notificationController.NotifyByTag(message, current.ChallengeeAthleteId);
+			var payload = new NotificationPayload
+			{
+				Action = PushActions.ChallengePosted,
+				Payload = { { "challengeId", current.Id } }
+			};
+
+			await _notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload);
 
 			return result;
         }
