@@ -7,6 +7,11 @@ namespace SportChallengeMatchRank.Shared
 {
 	public static partial class Extensions
 	{
+		public static string ToOrdinal(this DateTime date)
+		{
+			return "{0}, {1} {2}".Fmt(date.ToString("dddd"), date.ToString("MMM"), date.Day.ToOrdinal());
+		}
+
 		public static bool ContainsNoCase(this string s, string contains)
 		{
 			if(s == null || contains == null)
@@ -104,7 +109,7 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public NotificationPayload()
 		{
-			Payload = new Dictionary<string, object>();
+			Payload = new Dictionary<string, string>();
 		}
 
 		public string Action
@@ -113,7 +118,7 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		public Dictionary<string, object> Payload
+		public Dictionary<string, string> Payload
 		{
 			get;
 			set;
@@ -127,5 +132,8 @@ namespace SportChallengeMatchRank.Shared
 		public static string ChallengeAccepted = "ChallengeAccepted";
 		public static string ChallengeDeclined = "ChallengeDeclined";
 		public static string ChallengeCompleted = "ChallengeCompleted";
+		public static string LeagueStarted = "LeagueStarted";
+		public static string LeagueEnded = "LeagueEnded";
+		public static string LeagueEnrollmentStarted = "LeagueEnrollmentStarted";
 	}
 }

@@ -6,6 +6,7 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using SportChallengeMatchRank.Service.Models;
 using System;
+using SportChallengeMatchRank.Shared;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -98,7 +99,12 @@ namespace SportChallengeMatchRank.Service.Controllers
 			_context.SaveChanges();
 
 			var message = "The {0} league has officially started. It's on like a prawn that yawns at dawn!".Fmt(league.Name);
-			_notificationController.NotifyByTag(message, league.Id);
+			var payload = new NotificationPayload
+			{
+				Action = PushActions.LeagueStarted,
+				Payload = { { "leagueId", id } }
+			};
+			_notificationController.NotifyByTag(message, league.Id, payload);
 
 			return league.StartDate.Value.UtcDateTime;
 		}
@@ -106,8 +112,28 @@ namespace SportChallengeMatchRank.Service.Controllers
         // PATCH tables/League/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task<League> PatchLeague(string id, Delta<League> patch)
         {
+			var league = _context.Leagues.SingleOrDefault(l => l.Id == id);
+
+			var updated = patch.GetEntity();
+			if(!league.IsAcceptingMembers && updated.IsAcceptingMembers)
+			{
+				NotifyAboutNewLeagueOpenEnrollment(updated);
+			}
+
             return UpdateAsync(id, patch);
         }
+
+		void NotifyAboutNewLeagueOpenEnrollment(League league)
+		{
+			var date = league.StartDate.Value.DateTime.ToOrdinal();
+			var message = "The {0} league has been created and will begin on {1}.  Be cool for once and join!".Fmt(league.Name, date);
+			var payload = new NotificationPayload
+			{
+				Action = PushActions.LeagueStarted,
+				Payload = { { "leagueId", league.Id } }
+			};
+			_notificationController.NotifyByTag(message, "All", payload);
+		}
 
         // POST tables/League
         public async Task<IHttpActionResult> PostLeague(LeagueDto item)
@@ -117,13 +143,28 @@ namespace SportChallengeMatchRank.Service.Controllers
 			if(exists)
 				return BadRequest("The name of that league is already in use.");
 
-			League current = await InsertAsync(item.ToLeague());
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+			League league = await InsertAsync(item.ToLeague());
+
+			if(league.IsAcceptingMembers)
+			{
+				NotifyAboutNewLeagueOpenEnrollment(league);
+			}
+
+            return CreatedAtRoute("Tables", new { id = league.Id }, league);
         }
 
         // DELETE tables/League/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task DeleteLeague(string id)
         {
+			var league = _context.Leagues.SingleOrDefault(l => l.Id == id);
+			var message = "The {0} league has been removed.".Fmt(league.Name);
+			var payload = new NotificationPayload
+			{
+				Action = PushActions.LeagueEnded,
+				Payload = { { "leagueId", id } }
+			};
+			_notificationController.NotifyByTag(message, league.Id, payload);
+
             return DeleteAsync(id);
         }
     }
