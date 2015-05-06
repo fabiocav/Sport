@@ -45,7 +45,7 @@ namespace SportChallengeMatchRank.Shared
 			
 			AllAthletes.Clear();
 
-			var task = InternetService.Instance.GetAllAthletes();
+			var task = AzureService.Instance.GetAllAthletes();
 			await RunSafe(task);
 
 			if(task.IsFaulted)

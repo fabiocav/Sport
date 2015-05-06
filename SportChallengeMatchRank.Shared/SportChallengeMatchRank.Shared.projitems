@@ -101,7 +101,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\PhotoSelectionViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MatchResultFormViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BaseNotify.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\InternetService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHUDProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\MasterDetailPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MenuPage.xaml.cs">
@@ -132,6 +131,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AuthenticationPage.xaml.cs">
       <DependentUpon>AuthenticationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ChallengeDatePage.xaml.cs">
+      <DependentUpon>ChallengeDatePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeDateViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleApiService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AzureService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -201,6 +206,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AuthenticationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ChallengeDatePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -44,12 +44,12 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task SaveAthlete()
 		{
-			await RunSafe(InternetService.Instance.SaveAthlete(Athlete));
+			await RunSafe(AzureService.Instance.SaveAthlete(Athlete));
 		}
 
 		async public Task DeleteAthlete()
 		{
-			await RunSafe(InternetService.Instance.DeleteAthlete(Athlete.Id));
+			await RunSafe(AzureService.Instance.DeleteAthlete(Athlete.Id));
 		}
 	}
 }

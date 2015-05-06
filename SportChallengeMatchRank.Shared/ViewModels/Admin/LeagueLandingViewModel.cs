@@ -52,7 +52,7 @@ namespace SportChallengeMatchRank.Shared
 			using(new Busy(this))
 			{
 				AllLeagues.Clear();
-				await RunSafe(InternetService.Instance.GetAllLeagues());
+				await RunSafe(AzureService.Instance.GetAllLeagues());
 				_hasLoadedBefore = true;
 				LocalRefresh();
 			}

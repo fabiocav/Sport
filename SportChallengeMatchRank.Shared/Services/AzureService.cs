@@ -9,17 +9,17 @@ using Newtonsoft.Json;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class InternetService
+	public class AzureService
 	{
 		#region Properties
 
-		static InternetService _instance;
+		static AzureService _instance;
 
-		public static InternetService Instance
+		public static AzureService Instance
 		{
 			get
 			{
-				return _instance ?? (_instance = new InternetService());
+				return _instance ?? (_instance = new AzureService());
 			}
 		}
 
@@ -381,7 +381,7 @@ namespace SportChallengeMatchRank.Shared
 
 					DataManager.Instance.Athletes.TryRemove(id, out a);
 
-					var task = InternetService.Instance.UnregisterAthleteForPush(a);
+					var task = AzureService.Instance.UnregisterAthleteForPush(a);
 					task.Start();
 					task.Wait();
 				}
@@ -455,7 +455,7 @@ namespace SportChallengeMatchRank.Shared
 				DataManager.Instance.Memberships.AddOrUpdate(membership);
 				membership.LocalRefresh();
 
-				var task = InternetService.Instance.UpdateAthleteNotificationHubRegistration(membership.Athlete);
+				var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(membership.Athlete);
 				task.Start();
 				task.Wait();
 			});
@@ -485,7 +485,7 @@ namespace SportChallengeMatchRank.Shared
 					if(m.Athlete != null)
 						m.Athlete.RefreshChallenges();
 
-					var task = InternetService.Instance.UpdateAthleteNotificationHubRegistration(m.Athlete);
+					var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(m.Athlete);
 					task.Start();
 					task.Wait();
 				}
@@ -537,8 +537,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -568,8 +567,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -650,53 +648,6 @@ namespace SportChallengeMatchRank.Shared
 				a = a ?? Client.GetTable<Challenge>().LookupAsync(id).Result;
 				DataManager.Instance.Challenges.AddOrUpdate(a);
 				return a;
-			});
-		}
-
-
-		#endregion
-
-		#region Authentication
-
-		public Task<UserProfile> GetUserProfile()
-		{
-			return new Task<UserProfile>(() =>
-			{
-				var client = new HttpClient();
-				const string url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
-				client.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
-				var json = client.GetStringAsync(url).Result;
-				Console.WriteLine(json);
-				var profile = JsonConvert.DeserializeObject<UserProfile>(json);
-				return profile;
-			});
-		}
-
-		public Task<string> GetNewAuthToken(string refreshToken)
-		{
-			return new Task<string>(() =>
-			{
-				const string url = "https://www.googleapis.com/oauth2/v3/token";
-
-				using(var client = new HttpClient())
-				{
-					var dict = new Dictionary<string, string>();
-					dict.Add("grant_type", "refresh_token");
-					dict.Add("refresh_token", refreshToken);
-					dict.Add("client_id", Constants.GoogleApiClientId);
-					dict.Add("client_secret", Constants.GoogleClientSecret);
-
-					var content = new FormUrlEncodedContent(dict);
-
-					client.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
-					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
-					var response = client.PostAsync(url, content).Result;
-					var body = response.Content.ReadAsStringAsync().Result;
-					Console.WriteLine(body);
-					dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(body);
-					var newAuthToken = "{0} {1}".Fmt(dict["token_type"], dict["access_token"]);
-					return newAuthToken;
-				}
 			});
 		}
 

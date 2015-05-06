@@ -43,7 +43,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task<bool> SaveAthlete()
 		{
-			var task = InternetService.Instance.SaveAthlete(Athlete);
+			var task = AzureService.Instance.SaveAthlete(Athlete);
 			await RunSafe(task);
 			return !task.IsFaulted;
 		}
@@ -51,7 +51,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task<bool> DeleteAthlete()
 		{
-			var task = InternetService.Instance.DeleteAthlete(Athlete.Id);
+			var task = AzureService.Instance.DeleteAthlete(Athlete.Id);
 			await RunSafe(task);
 			return !task.IsFaulted;
 		}

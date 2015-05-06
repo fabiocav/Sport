@@ -42,7 +42,7 @@ namespace SportChallengeMatchRank.Android
 		{
 			return new Task(() =>
 			{
-				Client = InternetService.Instance.Client;
+				Client = AzureService.Instance.Client;
 				GcmClient.CheckDevice(Forms.Context);
 				GcmClient.CheckManifest(Forms.Context);
 

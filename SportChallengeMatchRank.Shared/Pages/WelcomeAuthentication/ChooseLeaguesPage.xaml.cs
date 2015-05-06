@@ -99,7 +99,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async Task RegisteredForPushNotificationSuccess()
 		{
-			var task = InternetService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete);
+			var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete);
 			await ViewModel.RunSafe(task);
 
 			if(task.IsFaulted)

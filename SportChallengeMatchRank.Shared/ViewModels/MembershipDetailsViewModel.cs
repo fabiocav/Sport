@@ -78,7 +78,7 @@ namespace SportChallengeMatchRank.Shared
 		async public Task RevokeExistingChallenge(Membership membership)
 		{
 			var challenge = membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
-			await RunSafe(InternetService.Instance.RevokeChallenge(challenge.Id));
+			await RunSafe(AzureService.Instance.RevokeChallenge(challenge.Id));
 			App.CurrentAthlete.RefreshChallenges();
 			Membership.Athlete.RefreshChallenges();
 
@@ -94,7 +94,7 @@ namespace SportChallengeMatchRank.Shared
 				LeagueId = membership.LeagueId,
 			};
 
-			var task = InternetService.Instance.SaveChallenge(challenge);
+			var task = AzureService.Instance.SaveChallenge(challenge);
 			await RunSafe(task);
 
 			if(task.IsFaulted)
@@ -134,19 +134,19 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task SaveMembership()
 		{
-			await RunSafe(InternetService.Instance.SaveMembership(Membership));
+			await RunSafe(AzureService.Instance.SaveMembership(Membership));
 		}
 
 		async public Task DeleteMembership()
 		{
-			await RunSafe(InternetService.Instance.DeleteMembership(Membership.Id));
+			await RunSafe(AzureService.Instance.DeleteMembership(Membership.Id));
 		}
 
 		async public Task RefreshMembership()
 		{
 			using(new Busy(this))
 			{
-				var task = InternetService.Instance.GetMembershipById(MembershipId, true);
+				var task = AzureService.Instance.GetMembershipById(MembershipId, true);
 				await RunSafe(task);
 
 				if(task.IsFaulted)

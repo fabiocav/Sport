@@ -37,9 +37,8 @@
 							</OnPlatform>
 						</ViewCell.Height>
 						<ViewCell.View>
-							<Grid>
-								<StackLayout x:Name="emptyStack" Padding="10" Orientation="Horizontal" Spacing="20"
-									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+							<Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+								<StackLayout x:Name="emptyStack" Padding="30,10" Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand" 
 									IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
 									<Label Text="{Binding Title}" FontSize="20" HorizontalOptions="CenterAndExpand"

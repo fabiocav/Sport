@@ -79,7 +79,7 @@ namespace SportChallengeMatchRank.Shared
 			if(!forceRefresh && Challenge.MatchResult.Count > 0)
 				return;
 
-			var task = new Task<List<GameResult>>(() => InternetService.Instance.Client.GetTable<GameResult>().Where(r => r.ChallengeId == Challenge.Id).OrderBy(r => r.Index).ToListAsync().Result);
+			var task = new Task<List<GameResult>>(() => AzureService.Instance.Client.GetTable<GameResult>().Where(r => r.ChallengeId == Challenge.Id).OrderBy(r => r.Index).ToListAsync().Result);
 			await RunSafe(task);
 
 			if(task.IsFaulted)
@@ -94,7 +94,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task<bool> AcceptChallenge()
 		{
-			var task = InternetService.Instance.AcceptChallenge(Challenge);
+			var task = AzureService.Instance.AcceptChallenge(Challenge);
 			await RunSafe(task);
 			NotifyPropertiesChanged();
 			return !task.IsFaulted;
@@ -105,16 +105,18 @@ namespace SportChallengeMatchRank.Shared
 			Task task = null;
 			if(App.CurrentAthlete.Id == Challenge.ChallengerAthleteId)
 			{
-				task = InternetService.Instance.RevokeChallenge(Challenge.Id);
+				task = AzureService.Instance.RevokeChallenge(Challenge.Id);
 			}
 			else if(App.CurrentAthlete.Id == Challenge.ChallengeeAthleteId)
 			{
-				task = InternetService.Instance.DeclineChallenge(Challenge.Id);
+				task = AzureService.Instance.DeclineChallenge(Challenge.Id);
 			}
 
 			await RunSafe(task);
-			App.CurrentAthlete.RefreshChallenges();
-			NotifyPropertiesChanged();
+
+			Challenge.ChallengeeAthlete.RefreshChallenges();
+			Challenge.ChallengerAthlete.RefreshChallenges();
+
 			return !task.IsFaulted;
 		}
 
@@ -122,7 +124,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			using(new Busy(this))
 			{
-				var task = InternetService.Instance.GetChallengeById(Challenge.Id, true);
+				var task = AzureService.Instance.GetChallengeById(Challenge.Id, true);
 				await RunSafe(task);
 
 				if(task.IsFaulted)

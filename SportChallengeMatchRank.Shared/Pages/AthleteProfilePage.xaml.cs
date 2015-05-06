@@ -55,19 +55,6 @@ namespace SportChallengeMatchRank.Shared
 			};
 		}
 
-		//		protected override void OnParentSet()
-		//		{
-		//			base.OnParentSet();
-		//
-		//			if(ParentView == null)
-		//				return;
-		//
-		//			var width = ParentView.Bounds.Width / 3;
-		//
-		//			photoImage.WidthRequest = 200;
-		//			photoImage.HeightRequest = width;
-		//		}
-
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();

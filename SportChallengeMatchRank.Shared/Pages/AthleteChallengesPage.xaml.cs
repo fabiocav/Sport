@@ -22,8 +22,12 @@ namespace SportChallengeMatchRank.Shared
 				if(list.SelectedItem == null)
 					return;
 
-				var challenge = list.SelectedItem as Challenge;
 				list.SelectedItem = null;
+
+				if(!(list.SelectedItem is Challenge))
+					return;
+
+				var challenge = list.SelectedItem as Challenge;
 				var detailsPage = new ChallengeDetailsPage(challenge);
 				detailsPage.OnDecline = () =>
 				{

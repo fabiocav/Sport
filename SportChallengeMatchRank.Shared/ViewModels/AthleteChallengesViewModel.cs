@@ -104,7 +104,7 @@ namespace SportChallengeMatchRank.Shared
 				ChallengeGroups.Clear();
 
 				//Load the opponents
-				var task = InternetService.Instance.GetAllChallengesByAthlete(Athlete);
+				var task = AzureService.Instance.GetAllChallengesByAthlete(Athlete);
 				await RunSafe(task);
 
 				if(task.IsFaulted)
@@ -114,12 +114,12 @@ namespace SportChallengeMatchRank.Shared
 				{
 					if(c.ChallengeeAthlete == null || forceRefresh)
 					{
-						await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengeeAthleteId, forceRefresh));
+						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId, forceRefresh));
 					}
 
 					if(c.ChallengerAthlete == null || forceRefresh)
 					{
-						await RunSafe(InternetService.Instance.GetAthleteById(c.ChallengerAthleteId, forceRefresh));
+						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengerAthleteId, forceRefresh));
 					}
 				}
 
@@ -152,7 +152,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ChallengeGroups.Count == 0)
 			{
 				ChallengeGroups.Add(new ChallengeCollection {
-					Title = "You have no ongoing or past challenges."
+					Title = "You have no ongoing or past challenges. Deal."
 				});
 			}
 		}

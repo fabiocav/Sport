@@ -48,11 +48,14 @@ namespace SportChallengeMatchRank.Shared
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{
-				var challenge = await ViewModel.ChallengeAthlete(ViewModel.Membership);
-				if(challenge != null && challenge.Id != null)
-				{
-					"{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
-				}
+				var datePage = new ChallengeDatePage(ViewModel.Membership.Athlete);
+				await Navigation.PushModalAsync(new NavigationPage(datePage));
+
+//				var challenge = await ViewModel.ChallengeAthlete(ViewModel.Membership);
+//				if(challenge != null && challenge.Id != null)
+//				{
+//					"{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
+//				}
 			};
 
 			btnRevokeChallenge.Clicked += async(sender, e) =>
@@ -66,7 +69,7 @@ namespace SportChallengeMatchRank.Shared
 				"{0} has been notified of your shameless ways.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Info);
 			};
 
-			await ViewModel.RunSafe(InternetService.Instance.GetAllChallengesByAthlete(ViewModel.Membership.Athlete));
+			await ViewModel.RunSafe(AzureService.Instance.GetAllChallengesByAthlete(ViewModel.Membership.Athlete));
 			ViewModel.SetPropertyChanged("CanChallenge");
 		}
 
@@ -87,6 +90,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			base.OnAppearing();
 			ViewModel.Membership.LocalRefresh();
+			ViewModel.NotifyPropertiesChanged();
 		}
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)

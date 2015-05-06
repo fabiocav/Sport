@@ -101,7 +101,7 @@ namespace SportChallengeMatchRank.Shared
 				//No AthleteId on record
 				if(!string.IsNullOrWhiteSpace(Settings.Instance.AthleteId))
 				{
-					var task = InternetService.Instance.GetAthleteById(Settings.Instance.AthleteId);
+					var task = AzureService.Instance.GetAthleteById(Settings.Instance.AthleteId);
 					await RunSafe(task);
 
 					if(task.IsFaulted)
@@ -113,7 +113,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(athlete == null && !string.IsNullOrWhiteSpace(Settings.Instance.AuthUserID))
 				{
-					var task = InternetService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
+					var task = AzureService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
 					await RunSafe(task);
 
 					if(task.IsFaulted)
@@ -125,7 +125,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(athlete == null && App.AuthUserProfile != null && !App.AuthUserProfile.Email.IsEmpty())
 				{
-					var task = InternetService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
+					var task = AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
 					await RunSafe(task);
 
 					if(task.IsFaulted)
@@ -140,7 +140,7 @@ namespace SportChallengeMatchRank.Shared
 				{
 					AuthenticationStatus = "Registering Athlete";
 					athlete = new Athlete(App.AuthUserProfile);
-					var task = InternetService.Instance.SaveAthlete(athlete);
+					var task = AzureService.Instance.SaveAthlete(athlete);
 					await RunSafe(task);
 
 					if(task.IsCompleted && task.IsFaulted)
@@ -154,7 +154,7 @@ namespace SportChallengeMatchRank.Shared
 
 					if(athlete.IsDirty)
 					{
-						var task = InternetService.Instance.SaveAthlete(athlete);
+						var task = AzureService.Instance.SaveAthlete(athlete);
 						await RunSafe(task);
 					}
 				}
@@ -165,10 +165,10 @@ namespace SportChallengeMatchRank.Shared
 				if(App.CurrentAthlete != null)
 				{
 					AuthenticationStatus = "Getting joined leagues";
-					await RunSafe(InternetService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
+					await RunSafe(AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
 					AuthenticationStatus = "Getting all challenges";
-					await RunSafe(InternetService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete));
-					await RunSafe(InternetService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
+					await RunSafe(AzureService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete));
+					await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
 					MessagingCenter.Send<AuthenticationViewModel>(this, "UserAuthenticated");
 				}
 
@@ -191,7 +191,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 
 				AuthenticationStatus = "Getting Google user profile";
-				var task = InternetService.Instance.GetUserProfile();
+				var task = GoogleApiService.Instance.GetUserProfile();
 				await RunSafe(task, false);
 
 				if(task.IsFaulted && task.IsCompleted)
@@ -199,7 +199,7 @@ namespace SportChallengeMatchRank.Shared
 					//Likely our authtoken has expired
 					AuthenticationStatus = "Refreshing token";
 
-					var refreshTask = InternetService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
+					var refreshTask = GoogleApiService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
 					await RunSafe(refreshTask);
 
 					if(refreshTask.IsCompleted && !refreshTask.IsFaulted)

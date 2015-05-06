@@ -64,7 +64,7 @@ namespace SportChallengeMatchRank.Shared
 			if(!forceRefresh && Athlete.Memberships != null && Athlete.Memberships.Count > 0)
 				return;
 
-			var task = InternetService.Instance.GetAllLeaguesByAthlete(Athlete);
+			var task = AzureService.Instance.GetAllLeaguesByAthlete(Athlete);
 			await RunSafe(task);
 			LocalRefresh();
 		}
@@ -103,7 +103,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				LocalRefresh();
 
-				var task = InternetService.Instance.GetAllAthletesByLeague(League);
+				var task = AzureService.Instance.GetAllAthletesByLeague(League);
 				await RunSafe(task);
 
 				_hasLoadedBefore = true;
