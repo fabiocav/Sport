@@ -45,7 +45,8 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				var challenge = Membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
-				return challenge != null && challenge.ChallengerAthleteId == App.CurrentAthlete.Id && challenge.ChallengeeAthleteId == Membership.AthleteId;
+				return challenge != null && challenge.ChallengerAthleteId == App.CurrentAthlete.Id && challenge.ChallengeeAthleteId == Membership.AthleteId
+				&& Membership.LeagueId == challenge.LeagueId;
 			}
 		}
 
@@ -112,6 +113,8 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("CanRevokeChallenge");
 			SetPropertyChanged("Membership");
 			SetPropertyChanged("CanDeleteMembership");
+			SetPropertyChanged("RankDescription");
+			SetPropertyChanged("JoinDescription");
 		}
 
 		public void LocalRefresh()

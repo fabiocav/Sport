@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteChallengesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -23,6 +24,12 @@ namespace SportChallengeMatchRank.Shared
 				_athleteId = value;
 				SetPropertyChanged("Athlete");
 			}
+		}
+
+		public Action OnLocalRefresh
+		{
+			get;
+			set;
 		}
 
 		public ObservableCollection<ChallengeCollection> ChallengeGroups
@@ -133,6 +140,9 @@ namespace SportChallengeMatchRank.Shared
 			Athlete.AllChallenges.Where(c => c.IsCompleted).ToList().ForEach(HistoricalChallenges.Add);
 			Athlete.AllChallenges.Where(c => !c.IsCompleted).ToList().ForEach(UpcomingChallenges.Add);
 
+			if(OnLocalRefresh != null)
+				OnLocalRefresh();
+			
 			if(UpcomingChallenges.Count > 0)
 				ChallengeGroups.Add(UpcomingChallenges);
 
@@ -151,6 +161,12 @@ namespace SportChallengeMatchRank.Shared
 	public class ChallengeCollection : ObservableCollection<Challenge>
 	{
 		public string Title
+		{
+			get;
+			set;
+		}
+
+		public string Id
 		{
 			get;
 			set;

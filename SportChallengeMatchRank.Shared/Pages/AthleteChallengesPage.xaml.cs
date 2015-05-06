@@ -13,7 +13,7 @@ namespace SportChallengeMatchRank.Shared
 			Initialize();
 		}
 
-		protected async override void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "My Challenges";
@@ -41,6 +41,11 @@ namespace SportChallengeMatchRank.Shared
 				};
 
 				await Navigation.PushAsync(detailsPage);
+			};
+
+			ViewModel.OnLocalRefresh = () =>
+			{
+				list.IsGroupingEnabled = ViewModel.Athlete.AllChallenges.Count > 0;
 			};
 
 			if(App.CurrentAthlete != null)

@@ -10,7 +10,7 @@
 		</ResourceDictionary>
 	</local:AthleteChallengesXaml.Resources>
 	<local:AthleteChallengesXaml.Content>
-		<ListView x:Name="list" ItemsSource="{Binding ChallengeGroups}" RefreshCommand="{Binding GetChallengesCommand}" IsGroupingEnabled="true"
+		<ListView x:Name="list" ItemsSource="{Binding ChallengeGroups}" RefreshCommand="{Binding GetChallengesCommand}"
 			IsRefreshing="{Binding IsBusy, Mode=OneWay}" HasUnevenRows="true" SeparatorVisibility="None" BackgroundColor="{StaticResource xamarinBlue}">
 			<ListView.GroupHeaderTemplate>
 				<DataTemplate>
@@ -37,30 +37,40 @@
 							</OnPlatform>
 						</ViewCell.Height>
 						<ViewCell.View>
-							<StackLayout Padding="30,5,10,5" Orientation="Horizontal" Spacing="20" BackgroundColor="Transparent"
-								IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+							<Grid>
+								<StackLayout x:Name="emptyStack" Padding="10" Orientation="Horizontal" Spacing="20"
+									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+									IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-								<controls:CircleImage x:Name="photoImage" Source="{Binding League.ImageUrl}"
-									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill">
-										<controls:CircleImage.WidthRequest>
-											<OnPlatform x:TypeArguments="x:Double">
-												<OnPlatform.iOS>50</OnPlatform.iOS>
-												<OnPlatform.Android>70</OnPlatform.Android>
-											</OnPlatform>
-										</controls:CircleImage.WidthRequest>
-										<controls:CircleImage.HeightRequest>
-											<OnPlatform x:TypeArguments="x:Double">
-												<OnPlatform.iOS>50</OnPlatform.iOS>
-												<OnPlatform.Android>70</OnPlatform.Android>
-											</OnPlatform>
-										</controls:CircleImage.HeightRequest>
-									</controls:CircleImage>
-
-								<StackLayout Spacing="1" VerticalOptions="Center">
-									<Label Text="{Binding PreSummary}" FontSize="10" VerticalOptions="Center" HorizontalOptions="Start" />
-									<Label Text="{Binding Summary}" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Start" />
+									<Label Text="{Binding Title}" FontSize="20" HorizontalOptions="CenterAndExpand"
+										XAlign="Center" YAlign="Center" VerticalOptions="Center"  />
 								</StackLayout>
-							</StackLayout>
+
+								<StackLayout Padding="30,5,10,5" Orientation="Horizontal" Spacing="20"
+									IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+
+									<controls:CircleImage x:Name="photoImage" Source="{Binding League.ImageUrl}"
+										HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill">
+											<controls:CircleImage.WidthRequest>
+												<OnPlatform x:TypeArguments="x:Double">
+													<OnPlatform.iOS>50</OnPlatform.iOS>
+													<OnPlatform.Android>70</OnPlatform.Android>
+												</OnPlatform>
+											</controls:CircleImage.WidthRequest>
+											<controls:CircleImage.HeightRequest>
+												<OnPlatform x:TypeArguments="x:Double">
+													<OnPlatform.iOS>50</OnPlatform.iOS>
+													<OnPlatform.Android>70</OnPlatform.Android>
+												</OnPlatform>
+											</controls:CircleImage.HeightRequest>
+										</controls:CircleImage>
+
+									<StackLayout Spacing="1" VerticalOptions="Center">
+										<Label Text="{Binding PreSummary}" FontSize="10" VerticalOptions="Center" HorizontalOptions="Start" />
+										<Label Text="{Binding Summary}" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="Start" />
+									</StackLayout>
+								</StackLayout>
+							</Grid>
 						</ViewCell.View>
 					</ViewCell>
 				</DataTemplate>
