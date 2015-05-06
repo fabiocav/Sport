@@ -6,8 +6,8 @@
     <local:AuthenticationPageXaml.Content>
 
 		<StackLayout Padding="40" Spacing="26" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
-			<ActivityIndicator IsRunning="{Binding IsBusy}" Color="White" />
-			<Label FontSize="Large" Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}" XAlign="Center" YAlign="Center" />
+			<ActivityIndicator StyleId="activity" IsRunning="{Binding IsBusy}" Color="White" />
+			<Label StyleId="status" FontSize="Large" Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}" XAlign="Center" YAlign="Center" />
 		</StackLayout>
 
 	</local:AuthenticationPageXaml.Content>

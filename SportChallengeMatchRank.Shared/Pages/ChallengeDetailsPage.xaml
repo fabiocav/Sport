@@ -46,14 +46,18 @@
 								</Grid>
 							</StackLayout>
 
-							<BoxView HeightRequest="25" BackgroundColor="Transparent" />
+							<StackLayout Padding="10" Spacing="3">
+								<Label Text="to be held on" FontSize="14" HorizontalOptions="Center" XAlign="Center" />
+								<Label Text="{Binding Challenge.ProposedTime, StringFormat='{0:f}'}" FontSize="20"
+									HorizontalOptions="CenterAndExpand" XAlign="Center" />
+							</StackLayout>
 
 							<StackLayout Padding="0,10" Spacing="8" Orientation="Horizontal">
-								<Label Text="{Binding Challenge.DateCreated, StringFormat='challenged {0:d}'}" FontSize="10"
+								<Label Text="{Binding Challenge.DateCreated, StringFormat='challenged {0:g}'}" FontSize="10"
 									HorizontalOptions="CenterAndExpand" XAlign="Center" />
-								<Label Text="{Binding Challenge.DateAccepted, StringFormat='accepted {0:d}'}" FontSize="10"
+								<Label Text="{Binding Challenge.DateAccepted, StringFormat='accepted {0:g}'}" FontSize="10"
 									HorizontalOptions="CenterAndExpand" XAlign="Center" IsVisible="{Binding Challenge.IsAccepted}" />
-								<Label Text="{Binding Challenge.DateCompleted, StringFormat='completed {0:d}'}" FontSize="10"
+								<Label Text="{Binding Challenge.DateCompleted, StringFormat='completed {0:g}'}" FontSize="10"
 									HorizontalOptions="CenterAndExpand" XAlign="Center" IsVisible="{Binding Challenge.IsCompleted}" />
 							</StackLayout>
 

@@ -78,33 +78,17 @@ namespace SportChallengeMatchRank.Shared
 		async public Task RevokeExistingChallenge(Membership membership)
 		{
 			var challenge = membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
-			await RunSafe(AzureService.Instance.RevokeChallenge(challenge.Id));
-			App.CurrentAthlete.RefreshChallenges();
-			Membership.Athlete.RefreshChallenges();
 
-			NotifyPropertiesChanged();
-		}
-
-		async public Task<Challenge> ChallengeAthlete(Membership membership)
-		{
-			var challenge = new Challenge {
-				ChallengerAthleteId = App.CurrentAthlete.Id,
-				ChallengeeAthleteId = membership.AthleteId,
-				ProposedTime = DateTime.Now.AddHours(3),
-				LeagueId = membership.LeagueId,
-			};
-
-			var task = AzureService.Instance.SaveChallenge(challenge);
+			var task = AzureService.Instance.RevokeChallenge(challenge.Id);
 			await RunSafe(task);
 
 			if(task.IsFaulted)
-				return null;
+				return;
 
 			App.CurrentAthlete.RefreshChallenges();
 			Membership.Athlete.RefreshChallenges();
-			NotifyPropertiesChanged();
 
-			return challenge;
+			NotifyPropertiesChanged();
 		}
 
 		public void NotifyPropertiesChanged()

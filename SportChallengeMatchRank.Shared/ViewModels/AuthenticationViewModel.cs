@@ -165,7 +165,10 @@ namespace SportChallengeMatchRank.Shared
 				if(App.CurrentAthlete != null)
 				{
 					AuthenticationStatus = "Getting joined leagues";
-					await RunSafe(AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
+
+					var task = AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
+					await RunSafe(task);
+
 					AuthenticationStatus = "Getting all challenges";
 					await RunSafe(AzureService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete));
 					await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));

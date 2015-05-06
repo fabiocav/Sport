@@ -17,6 +17,10 @@ namespace SportChallengeMatchRank.iOS
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+//			#if DEBUG
+			Xamarin.Calabash.Start();
+//			#endif
+
 			Forms.Init();
 			ImageCircleRenderer.Init();
 			ToastNotificatorImplementation.Init();

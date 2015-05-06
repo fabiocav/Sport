@@ -5,17 +5,24 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
 	<local:ChallengeDateXaml.Content>
-		<ScrollView BackgroundColor="{StaticResource xamarinBlue}">
-			<StackLayout Spacing="20">
+			<Grid VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="{StaticResource xamarinBlue}">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="7*" />
+					<RowDefinition Height="3*" />
+				</Grid.RowDefinitions>
 
 				<StackLayout Padding="40" Spacing="20">
-					<DatePicker x:Name="datePicker" />
 					<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-
+					<DatePicker x:Name="datePicker" Date="{Binding SelectedDate}" />
+					<TimePicker x:Name="timePicker" Time="{Binding SelectedTime}" />
 					<Label HeightRequest="200" HorizontalOptions="Fill" Text="{Binding TimeOptions}" />
 				</StackLayout>
 
-			</StackLayout>
-		</ScrollView>
+				<StackLayout Grid.Row="1" VerticalOptions="End">
+					<Button x:Name="btnChallenge" Text="Send Challenge Request"
+						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" BackgroundColor="#44000000"
+						VerticalOptions="End" />
+				</StackLayout>
+			</Grid>
 	</local:ChallengeDateXaml.Content>
 </local:ChallengeDateXaml>

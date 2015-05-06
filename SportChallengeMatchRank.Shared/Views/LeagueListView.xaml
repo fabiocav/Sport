@@ -21,11 +21,11 @@
 			<ViewCell>
 				<ViewCell.View>
 					<AbsoluteLayout>
-						<StackLayout Padding="10" Orientation="Horizontal" Spacing="20"
+						<StackLayout Padding="60,10" Orientation="Horizontal" Spacing="20"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
 							IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-							<Label Text="{Binding Name}" FontSize="20" HorizontalOptions="CenterAndExpand"
+							<Label StyleId="leagueLabel" Text="{Binding Name}" FontSize="20" HorizontalOptions="CenterAndExpand"
 								XAlign="Center" YAlign="Center" VerticalOptions="Center"  />
 						</StackLayout>
 

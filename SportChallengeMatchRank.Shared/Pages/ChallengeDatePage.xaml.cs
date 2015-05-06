@@ -1,20 +1,34 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
 	public partial class ChallengeDatePage : ChallengeDateXaml
 	{
+		public Action<Challenge> OnChallengeSent
+		{
+			get;
+			set;
+		}
+
 		public Athlete Challengee
 		{
 			get;
 			private set;
 		}
 
-		public ChallengeDatePage(Athlete challengee)
+		public League League
+		{
+			get;
+			private set;
+		}
+
+		public ChallengeDatePage(Athlete challengee, League league)
 		{
 			Challengee = challengee;
+			League = league;
 			Initialize();
 		}
 
@@ -25,8 +39,24 @@ namespace SportChallengeMatchRank.Shared
 
 			datePicker.DateSelected += async(sender, e) =>
 			{
-				Console.WriteLine(datePicker.Date);	
-				await ViewModel.CrossReferenceCalendars(App.CurrentAthlete, Challengee, datePicker.Date);
+				Console.WriteLine(datePicker.Date);
+				//await ViewModel.CrossReferenceCalendars(App.CurrentAthlete, Challengee, datePicker.Date);
+			};
+
+			btnChallenge.Clicked += async(sender, e) =>
+			{
+				var errors = ViewModel.Validate();
+
+				if(errors != null)
+				{
+					errors.ToToast(ToastNotificationType.Error, "Please fix this error");
+					return;
+				}
+
+				var challenge = await ViewModel.ChallengeAthlete(App.CurrentAthlete, Challengee, League);
+
+				if(OnChallengeSent != null && challenge != null && challenge.Id != null)
+					OnChallengeSent(challenge);
 			};
 
 			var btnCancel = new ToolbarItem {

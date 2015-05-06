@@ -87,7 +87,7 @@ namespace SportChallengeMatchRank.Shared
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new League {
-					Name = "You don't belong to any leagues yet.",
+					Name = "You don't belong to any leagues yet, n00b.",
 				});
 			}
 		}

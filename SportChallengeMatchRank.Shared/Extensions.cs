@@ -36,7 +36,21 @@ namespace SportChallengeMatchRank.Shared
 		{
 			if(model == null)
 				return;
-			
+
+			//TODO move to an IRefreshable interface
+			var athlete = model as Athlete;
+			if(athlete != null)
+			{
+				athlete.RefreshChallenges();
+				athlete.RefreshMemberships();
+			}
+
+			var league = model as League;
+			if(league != null)
+			{
+				league.RefreshMemberships();
+			}
+
 			if(dict.ContainsKey(model.Id))
 			{
 				dict[model.Id] = model;
