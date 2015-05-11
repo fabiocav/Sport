@@ -39,7 +39,7 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PopModalAsync();
 			};
 
-			await Task.Delay(10000);
+			//await Task.Delay(10000);
 			await AuthenticationViewModel.GetUserProfile(force);
 			if(App.AuthUserProfile != null)
 			{

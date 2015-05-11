@@ -32,7 +32,17 @@ namespace SportChallengeMatchRank.Android
 				Xamarin.Forms.Forms.Init(this, bundle);
 				ImageCircleRenderer.Init();
 				ToastNotificatorImplementation.Init();
+
+				Xamarin.Forms.Forms.ViewInitialized += (sender, e) =>
+				{
+					if(!string.IsNullOrWhiteSpace(e.View.StyleId))
+					{
+						e.NativeView.ContentDescription = e.View.StyleId;
+					}
+				};
+
 				LoadApplication(new App());
+
 			}
 			catch(Exception e)
 			{

@@ -41,8 +41,7 @@ namespace SportChallengeMatchRank.Shared
 					return;
 				#endif
 
-				var task = push.RegisterForPushNotifications();
-				await ViewModel.RunSafe(task);
+				push.RegisterForPushNotifications();
 			};
 
 			btnContinue.Clicked += (sender, e) =>

@@ -29,13 +29,7 @@
 			</ListView.GroupHeaderTemplate>
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<ViewCell>
-						<ViewCell.Height>
-							<OnPlatform x:TypeArguments="x:Double">
-								<OnPlatform.iOS>70</OnPlatform.iOS>
-								<OnPlatform.Android>90</OnPlatform.Android>
-							</OnPlatform>
-						</ViewCell.Height>
+					<ViewCell Height="66">
 						<ViewCell.View>
 							<Grid HorizontalOptions="Fill" VerticalOptions="Fill">
 								<StackLayout x:Name="emptyStack" Padding="30,10" Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand" 
@@ -45,7 +39,7 @@
 										XAlign="Center" YAlign="Center" VerticalOptions="Center"  />
 								</StackLayout>
 
-								<StackLayout Padding="30,5,10,5" Orientation="Horizontal" Spacing="20"
+								<StackLayout Padding="30,5,10,5" Orientation="Horizontal" Spacing="20" HeightRequest="{Binding Height}"
 									IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
 									<controls:CircleImage x:Name="photoImage" Source="{Binding League.ImageUrl}"

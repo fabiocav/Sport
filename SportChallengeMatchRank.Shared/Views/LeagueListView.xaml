@@ -18,8 +18,8 @@
 	</ListView.Resources>
 	<ListView.ItemTemplate>
 		<DataTemplate>
-			<ViewCell>
-				<ViewCell.View>
+			<local:CustomViewCell>
+				<local:CustomViewCell.View>
 					<AbsoluteLayout>
 						<StackLayout Padding="60,10" Orientation="Horizontal" Spacing="20"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -69,8 +69,8 @@
 							</StackLayout>
 						</StackLayout>
 					</AbsoluteLayout>
-				</ViewCell.View>
-			</ViewCell>
+				</local:CustomViewCell.View>
+			</local:CustomViewCell>
 		</DataTemplate>
 	</ListView.ItemTemplate>
 </ListView>

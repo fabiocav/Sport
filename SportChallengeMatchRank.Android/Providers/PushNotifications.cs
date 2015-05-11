@@ -38,17 +38,14 @@ namespace SportChallengeMatchRank.Android
 			private set;
 		}
 
-		public Task RegisterForPushNotifications()
+		public void RegisterForPushNotifications()
 		{
-			return new Task(() =>
-			{
-				Client = AzureService.Instance.Client;
-				GcmClient.CheckDevice(Forms.Context);
-				GcmClient.CheckManifest(Forms.Context);
+			Client = AzureService.Instance.Client;
+			GcmClient.CheckDevice(Forms.Context);
+			GcmClient.CheckManifest(Forms.Context);
 
-				//Call to Register the device for Push Notifications
-				GcmClient.Register(Forms.Context, GcmBroadcastReceiver.SENDER_IDS);
-			});
+			//Call to Register the device for Push Notifications
+			GcmClient.Register(Forms.Context, GcmBroadcastReceiver.SENDER_IDS);
 		}
 	}
 

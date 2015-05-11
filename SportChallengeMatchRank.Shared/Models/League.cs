@@ -30,6 +30,12 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public string Index
+		{
+			get;
+			set;
+		}
+
 		bool hasStarted;
 
 		public bool HasStarted

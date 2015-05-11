@@ -1,6 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Xamarin.Forms;
+using System.Windows.Input;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -101,6 +103,20 @@ namespace SportChallengeMatchRank.Shared
 				SetPropertyChanged(ref _challengeeAthleteId, value);
 				SetPropertyChanged("ChallengeeAthlete");
 				SetPropertyChanged("Summary");
+			}
+		}
+
+		int _height = 30;
+
+		public int Height
+		{
+			get
+			{
+				return _height;
+			}
+			set
+			{
+				SetPropertyChanged(ref _height, value);
 			}
 		}
 
@@ -214,6 +230,17 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _matchResult, value);
+			}
+		}
+
+		public ICommand ResizeCommand
+		{
+			get
+			{
+				return new Command(() =>
+				{
+					Height = 100;
+				});
 			}
 		}
 	}

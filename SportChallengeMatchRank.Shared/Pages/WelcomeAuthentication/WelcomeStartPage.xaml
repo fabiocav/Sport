@@ -30,7 +30,7 @@
 					XAlign="Center" YAlign="Center" VerticalOptions="EndAndExpand" HeightRequest="70" />
 
 				<Button x:Name="btnAuthenticate" Text="Authenticate with Google" Scale="0" BackgroundColor="#44000000" VerticalOptions="EndAndExpand"
-					IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+					IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" StyleId="authButton" />
 			</StackLayout>
 		</Grid>
 

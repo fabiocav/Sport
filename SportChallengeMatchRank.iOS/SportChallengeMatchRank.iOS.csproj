@@ -119,9 +119,6 @@
     <Reference Include="Calabash">
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.14.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
     </Reference>
-    <Reference Include="ModernHttpClient">
-      <HintPath>..\packages\modernhttpclient.2.4.0\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Forms.Platform.iOS">
       <HintPath>..\packages\Xamarin.Forms.1.4.2.6359\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
     </Reference>
@@ -135,25 +132,28 @@
       <HintPath>..\packages\Xamarin.Forms.1.4.2.6359\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Ioc">
-      <HintPath>..\packages\XLabs.IoC.2.0.5603\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Ioc.dll</HintPath>
+      <HintPath>..\packages\XLabs.IoC.2.0.5605\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Ioc.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Core">
-      <HintPath>..\packages\XLabs.Core.2.0.5603\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
+      <HintPath>..\packages\XLabs.Core.2.0.5605\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Platform.iOS">
-      <HintPath>..\packages\XLabs.Platform.2.0.5603\lib\Xamarin.iOS10\XLabs.Platform.iOS.dll</HintPath>
+      <HintPath>..\packages\XLabs.Platform.2.0.5605\lib\Xamarin.iOS10\XLabs.Platform.iOS.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Platform">
-      <HintPath>..\packages\XLabs.Platform.2.0.5603\lib\Xamarin.iOS10\XLabs.Platform.dll</HintPath>
+      <HintPath>..\packages\XLabs.Platform.2.0.5605\lib\Xamarin.iOS10\XLabs.Platform.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Serialization">
-      <HintPath>..\packages\XLabs.Serialization.2.0.5603\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
+      <HintPath>..\packages\XLabs.Serialization.2.0.5605\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Forms.iOS">
-      <HintPath>..\packages\XLabs.Forms.2.0.5603\lib\Xamarin.iOS10\XLabs.Forms.iOS.dll</HintPath>
+      <HintPath>..\packages\XLabs.Forms.2.0.5605\lib\Xamarin.iOS10\XLabs.Forms.iOS.dll</HintPath>
     </Reference>
     <Reference Include="XLabs.Forms">
-      <HintPath>..\packages\XLabs.Forms.2.0.5603\lib\Xamarin.iOS10\XLabs.Forms.dll</HintPath>
+      <HintPath>..\packages\XLabs.Forms.2.0.5605\lib\Xamarin.iOS10\XLabs.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\packages\modernhttpclient.2.4.1\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -13,8 +13,7 @@ namespace SportChallengeMatchRank.Shared
 			get;
 		}
 
-		Task RegisterForPushNotifications();
-
+		void RegisterForPushNotifications();
 	}
 
 	public class IncomingPushNotificationEventArgs : EventArgs

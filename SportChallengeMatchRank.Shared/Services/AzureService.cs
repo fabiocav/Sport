@@ -328,6 +328,7 @@ namespace SportChallengeMatchRank.Shared
 					DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
 				}
 
+				var index = 0;
 				foreach(var m in memberships)
 				{
 					var league = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
@@ -338,6 +339,8 @@ namespace SportChallengeMatchRank.Shared
 						DeleteMembership(m.Id).Wait();
 					}
 
+					league.Index = index.ToString();
+					index++;
 					DataManager.Instance.Memberships.AddOrUpdate(m);
 					DataManager.Instance.Leagues.AddOrUpdate(league);
 					m.SetPropertyChanged("League");

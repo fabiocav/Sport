@@ -11,21 +11,15 @@ namespace SportChallengeMatchRank.iOS
 {
 	public class PushNotifications : IPushNotifications
 	{
-		public Task RegisterForPushNotifications()
+		public void RegisterForPushNotifications()
 		{
-			return new Task(() =>
-			{
-				Device.BeginInvokeOnMainThread(() =>
-				{
-					var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert
-					               | UIUserNotificationType.Badge
-					               | UIUserNotificationType.Sound, new NSSet());
+			var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert
+			               | UIUserNotificationType.Badge
+			               | UIUserNotificationType.Sound, new NSSet());
 
 
-					UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
-					UIApplication.SharedApplication.RegisterForRemoteNotifications();
-				});
-			});
+			UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+			UIApplication.SharedApplication.RegisterForRemoteNotifications();
 		}
 
 		public bool IsRegistered

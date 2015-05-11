@@ -70,7 +70,10 @@ namespace SportChallengeMatchRank.Shared
 			using(new Busy(this))
 			{
 				Athlete.RefreshMemberships();
-				await RunSafe(AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete));
+
+				var task = AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
+				await RunSafe(task);
+
 				_hasLoadedBefore = true;
 
 				LocalRefresh();
