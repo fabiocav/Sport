@@ -93,7 +93,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var i = 0;
 			foreach(var m in memberships)
 			{
-				m.CurrentRank = i + 1;
+				m.CurrentRank = i;
 				i++;
 			}
 			_context.SaveChanges();

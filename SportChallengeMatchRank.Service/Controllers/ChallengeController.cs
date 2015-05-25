@@ -10,6 +10,7 @@ using System;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using SportChallengeMatchRank.Shared;
+using System.Net;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -92,7 +93,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 					DateAccepted = c.DateAccepted,
 					DateCompleted = c.DateCompleted,
 					CustomMessage = c.CustomMessage,
-					MatchResult = c.MatchResult.Select(r => new GameResultDto
+					MatchResult = c.MatchResult.Where(r => r.ChallengeeScore > 0 && r.ChallengerScore > 0)
+						.OrderBy(r => r.Index).Select(r => new GameResultDto
 					{
 						Id = r.Id,
 						DateCreated = r.CreatedAt,
@@ -113,14 +115,26 @@ namespace SportChallengeMatchRank.Service.Controllers
         // POST tables/Challenge
         public async Task<IHttpActionResult> PostChallenge(ChallengeDto item)
         {
+			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == item.ChallengerAthleteId);
+			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == item.ChallengeeAthleteId);
+
+			//Check to see if there are any ongoing challenges between either athlete
+			var challengeeOngoing = _context.Challenges.Where(c => (c.ChallengeeAthleteId == item.ChallengeeAthleteId || c.ChallengeeAthleteId == item.ChallengerAthleteId)
+				&& c.LeagueId == item.LeagueId && c.DateCompleted == null);
+
+			if(challengeeOngoing.Count() > 0)
+				return BadRequest(string.Format("{0} already has an existing challenge underway.", challengee.Alias));
+
+			var challengerOngoing = _context.Challenges.Where(c => (c.ChallengerAthleteId == item.ChallengeeAthleteId || c.ChallengerAthleteId == item.ChallengerAthleteId)
+				&& c.LeagueId == item.LeagueId && c.DateCompleted == null);
+
+			if(challengerOngoing.Count() > 0)
+				return BadRequest("You already have an existing challenge underway.");
+
 			//Check to see if there is already a challenge between the two athletes for this league
 			var history = _context.Challenges.Where(c => ((c.ChallengeeAthleteId == item.ChallengeeAthleteId && c.ChallengerAthleteId == item.ChallengerAthleteId)
 				|| (c.ChallengeeAthleteId == item.ChallengerAthleteId && c.ChallengerAthleteId == item.ChallengeeAthleteId))
 				&& c.LeagueId == item.LeagueId).OrderByDescending(c => c.DateCompleted);
-
-			//Check for ongoing challenges scheduled
-			if(history.Any(c => c.DateCompleted == null))
-				return Conflict();
 
 			var league = _context.Leagues.SingleOrDefault(l => l.Id == item.LeagueId);
 			var lastChallenge = history.FirstOrDefault();
@@ -130,16 +144,13 @@ namespace SportChallengeMatchRank.Service.Controllers
 				&& lastChallenge.GetChallengerWinningGames().Count() < lastChallenge.GetChallengeeWinningGames().Count() //did the challenger lose the previous match
 				&& DateTime.UtcNow.Subtract(lastChallenge.DateCompleted.Value.UtcDateTime).TotalHours < league.MinHoursBetweenChallenge) //has enough time passed
 			{
-				return BadRequest(string.Format("Challenger must wait at least {0} hours before challenging again", league.MinHoursBetweenChallenge));
+				return BadRequest(string.Format("You must wait at least {0} hours before challenging again", league.MinHoursBetweenChallenge));
 			}
 
 			Challenge current = await InsertAsync(item.ToChallenge());
             var result = CreatedAtRoute("Tables", new { id = current.Id }, current.ToChallengeDto());
 
-			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == current.ChallengerAthleteId);
-			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == current.ChallengeeAthleteId);
-
-			var message = "YOU HAVE BEEN CHALLENGED by {0}!".Fmt(challenger.Name);
+			var message = "{0}: YOU HAVE BEEN CHALLENGED by {1}!".Fmt(league.Name, challenger.Alias);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengePosted,
@@ -147,7 +158,6 @@ namespace SportChallengeMatchRank.Service.Controllers
 			};
 
 			await _notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload);
-
 			return result;
         }
 
@@ -159,6 +169,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
+			await DeleteAsync(id);
+
 			var message = "Your challenge with {0} has been revoked.".Fmt(challenger.Name);
 			var payload = new NotificationPayload
 			{
@@ -167,8 +179,6 @@ namespace SportChallengeMatchRank.Service.Controllers
 			};
 
 			await _notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId, payload);
-
-            DeleteAsync(id);
         }
 
 		[HttpGet]
@@ -187,7 +197,6 @@ namespace SportChallengeMatchRank.Service.Controllers
 			};
 
 			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
-
 			DeleteAsync(id);
 		}
 
@@ -198,8 +207,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 			challenge.DateAccepted = DateTime.UtcNow;
 			await _context.SaveChangesAsync();
 
+			var league = _context.Leagues.SingleOrDefault(l => l.Id == challenge.LeagueId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
-			var message = "Your challenge with {0} has been accepted! MATCH ON!!".Fmt(challengee.Name);
+			var message = "{0}: Your challenge with {1} has been accepted! MATCH ON!!".Fmt(league.Name, challengee.Name);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengeAccepted,
@@ -207,7 +217,6 @@ namespace SportChallengeMatchRank.Service.Controllers
 			};
 
 			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
-
 			return challenge.ToChallengeDto();
 		}
 
@@ -232,7 +241,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var league = _context.Leagues.SingleOrDefault(l => l.Id == challenge.LeagueId);
 
 			if(league == null || results.Count != league.MatchGameCount)
-				throw new Exception("Result count not equal league match game count");
+				throw new Exception("Game result count not equal league match game count");
 
 			challenge.DateCompleted = DateTime.UtcNow;
 			var dto = challenge.ToChallengeDto();
@@ -257,6 +266,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 				var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.LeagueId == challenge.LeagueId);
 				var winningRank = challengeeMembership.CurrentRank;
 
+				var winningAthleteId = challengee.Id;
+				var losingAthleteId = challenger.Id;
+
 				if(challengerWins.Length > challengeeWins.Length)
 				{
 					challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
@@ -266,6 +278,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 					challengerMembership.CurrentRank = challengeeMembership.CurrentRank;
 					challengeeMembership.CurrentRank = oldRank;
 					winningRank = challengerMembership.CurrentRank;
+					winningAthleteId = challenger.Id;
+					losingAthleteId = challengee.Id;
 
 					_context.SaveChanges();
 				}
@@ -277,11 +291,15 @@ namespace SportChallengeMatchRank.Service.Controllers
 				}
 
 				var maintain = challenge.ChallengerAthlete.Id == challenger.Id ? "bequeath" : "retain";
-				var message = "{0} victors over {1} to {2} the righteous rank of {3}".Fmt(challenger.Alias, challengee.Alias, maintain, winningRank + 1);
+				var newRank = winningRank + 1;
+				var message = "{0} victors over {1} to {2} the righteous rank of {3} place in {4}".Fmt(challenger.Alias, challengee.Alias, maintain, newRank.ToOrdinal(), league.Name);
 				var payload = new NotificationPayload
 				{
-					Action = PushActions.ChallengeDeclined,
-					Payload = { { "challengeId", challengeId } }
+					Action = PushActions.ChallengeCompleted,
+					Payload = { { "challengeId", challengeId },
+						{ "leagueId", league.Id },
+						{"winningAthleteId", winningAthleteId },
+						{"losingAthleteId", losingAthleteId} }
 				};
 
 				await _notificationController.NotifyByTag(message, challenge.LeagueId, payload);

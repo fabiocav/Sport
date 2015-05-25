@@ -126,6 +126,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var webex = e.InnerException as WebException;
 			if(webex == null || webex.Status != WebExceptionStatus.ProtocolError)
 				return;
+
 			var response = (HttpWebResponse)webex.Response;
 			if(response.StatusCode == HttpStatusCode.Gone)
 				throw new HttpRequestException(HttpStatusCode.Gone.ToString());
