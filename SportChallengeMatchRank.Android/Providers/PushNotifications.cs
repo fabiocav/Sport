@@ -40,12 +40,19 @@ namespace SportChallengeMatchRank.Android
 
 		public void RegisterForPushNotifications()
 		{
-			Client = AzureService.Instance.Client;
-			GcmClient.CheckDevice(Forms.Context);
-			GcmClient.CheckManifest(Forms.Context);
+			try
+			{
+				Client = AzureService.Instance.Client;
+				GcmClient.CheckDevice(Forms.Context);
+				GcmClient.CheckManifest(Forms.Context);
 
-			//Call to Register the device for Push Notifications
-			GcmClient.Register(Forms.Context, GcmBroadcastReceiver.SENDER_IDS);
+				//Call to Register the device for Push Notifications
+				GcmClient.Register(Forms.Context, GcmBroadcastReceiver.SENDER_IDS);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
 		}
 	}
 
@@ -112,8 +119,15 @@ namespace SportChallengeMatchRank.Android
 
 		protected override void OnRegistered(Context context, string registrationId)
 		{
-			App.CurrentAthlete.DeviceToken = registrationId;
-			MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
+			try
+			{
+				App.CurrentAthlete.DeviceToken = registrationId;
+				MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
 		}
 
 		protected override void OnUnRegistered(Context context, string registrationId)

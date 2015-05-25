@@ -27,8 +27,8 @@ namespace SportChallengeMatchRank.Shared
 			{
 				Device.BeginInvokeOnMainThread(() =>
 				{
-					RegisteredForPushNotificationSuccess();
 					MessagingCenter.Unsubscribe<App>(this, "RegisteredForRemoteNotifications");
+					RegisteredForPushNotificationSuccess();
 				});
 			});
 
@@ -42,6 +42,12 @@ namespace SportChallengeMatchRank.Shared
 				#endif
 
 				push.RegisterForPushNotifications();
+
+				await Task.Delay(1000);
+				btnPush.Text = "Thanks! We'll be in touch.";
+				await Task.Delay(1000);
+				await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), 350, Easing.SinIn);
+
 			};
 
 			btnContinue.Clicked += (sender, e) =>

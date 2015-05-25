@@ -45,9 +45,6 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				if(MatchResult.Count != League.MatchGameCount)
-					return null;
-
 				int a = this.GetChallengerWinningGames().Length;
 				int b = this.GetChallengeeWinningGames().Length;
 

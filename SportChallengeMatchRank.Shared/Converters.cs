@@ -5,9 +5,9 @@ using System.Collections;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class NullValueConverter : IValueConverter
+	public class NullIntValueConverter : IValueConverter
 	{
-		public static NullValueConverter Instance = new NullValueConverter();
+		public static NullIntValueConverter Instance = new NullIntValueConverter();
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{

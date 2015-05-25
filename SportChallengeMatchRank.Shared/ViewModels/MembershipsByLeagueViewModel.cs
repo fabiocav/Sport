@@ -66,6 +66,7 @@ namespace SportChallengeMatchRank.Shared
 
 			var task = AzureService.Instance.GetAllLeaguesByAthlete(Athlete);
 			await RunSafe(task);
+
 			LocalRefresh();
 		}
 

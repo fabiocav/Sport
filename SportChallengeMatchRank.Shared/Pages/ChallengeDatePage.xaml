@@ -11,10 +11,14 @@
 					<RowDefinition Height="3*" />
 				</Grid.RowDefinitions>
 
-				<StackLayout Padding="40" Spacing="20">
+				<StackLayout Padding="80" Spacing="40">
 					<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-					<DatePicker x:Name="datePicker" Date="{Binding SelectedDate}" />
-					<TimePicker x:Name="timePicker" Time="{Binding SelectedTime}" />
+					<local:ExtendedDatePicker x:Name="datePicker" Date="{Binding SelectedDate}" BackgroundColor="#22FFFFFF"
+						HasBorder="false" Font="40" XAlign="Center" TextColor="White" />
+
+					<local:ExtendedTimePicker x:Name="timePicker" Time="{Binding SelectedTime}" BackgroundColor="#22FFFFFF"
+						HasBorder="false" Font="40" XAlign="Center" TextColor="White" />
+
 					<Label HeightRequest="200" HorizontalOptions="Fill" Text="{Binding TimeOptions}" />
 				</StackLayout>
 

@@ -60,6 +60,8 @@ namespace SportChallengeMatchRank.Shared
 				_authClient.ServerTokenURL = "https://accounts.google.com/o/oauth2/token";
 				_authClient.AuthorizationScope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar";
 				var token = await _authClient.GetAuthorizationAsync();
+
+				//Gets hit when user is redirected to success URL
 				OnHideAuthForm();
 
 				Settings.Instance.RefreshToken = _authClient.RefreshToken;

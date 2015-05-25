@@ -30,10 +30,10 @@
 			</local:LeagueListView>
 
 			<StackLayout x:Name="buttonStack" Grid.Row="2" Spacing="2" Scale="0" VerticalOptions="End">
-				<Button x:Name="btnPush" Text="Enable Push Notifications" BackgroundColor="#22000000"
+				<Button x:Name="btnPush" StyleId="pushButton" Text="Enable Push Notifications" BackgroundColor="#22000000"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="EndAndExpand" />
 
-				<Button x:Name="btnContinue" Text="Continue" BackgroundColor="#66000000"
+				<Button x:Name="btnContinue" StyleId="continueButton" Text="Continue" BackgroundColor="#66000000"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
 			</StackLayout>
 		</Grid>

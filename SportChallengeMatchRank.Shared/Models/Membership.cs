@@ -145,12 +145,10 @@ namespace SportChallengeMatchRank.Shared
 			return GetExistingOngoingChallengeWithAthlete(athlete) != null;
 		}
 
-		public bool CanChallengeAthlete(Athlete athlete)
+		public string GetChallengeConflictReason(Athlete athlete)
 		{
 			if(Athlete == null || athlete.Id == Athlete.Id)
-				return false;
-			
-			bool canChallenge = false;
+				return "You cannot challenge yourself";
 
 			//Check to see if they are part of the same league
 			var membership = athlete.Memberships.SingleOrDefault(m => m.LeagueId == LeagueId);
@@ -159,19 +157,37 @@ namespace SportChallengeMatchRank.Shared
 			{
 				//Ensure they are within range and lower in rank than the challengee
 				var diff = membership.CurrentRank - CurrentRank;
-				canChallenge = diff > 0 && diff <= League.MaxChallengeRange;
+				if(diff <= 0 || diff > League.MaxChallengeRange)
+				{
+					return "{0} is not within a valid range of being challenged.".Fmt(Athlete.Alias);
+				}
 			}
-
-			if(canChallenge)
+			else
 			{
-				//Athlete is within range but let's make sure there aren't already challenges out there 
-				var challengerAlreadyHasChallengesWithOthers = athlete.AllChallenges.Any(c => c.LeagueId == LeagueId && !c.IsCompleted);
-				var challengeeAlreadyHasChallengesWithOthers = Athlete.AllChallenges.Any(c => c.LeagueId == LeagueId && !c.IsCompleted);
-				
-				canChallenge = !challengerAlreadyHasChallengesWithOthers && !challengeeAlreadyHasChallengesWithOthers;
+				return "{0} is not a member of the {1} league".Fmt(Athlete.Alias, League.Name);
 			}
 
-			return canChallenge;
+			var challenge = athlete.AllChallenges.FirstOrDefault(c => c.LeagueId == LeagueId && !c.IsCompleted);
+			if(challenge != null)
+			{
+				var other = challenge.ChallengeeAthleteId == athlete.Id ? challenge.ChallengerAthlete : challenge.ChallengeeAthlete;
+				return "You already have an ongoing challenge with {0}.".Fmt(other.Alias);
+			}
+
+			//Athlete is within range but let's make sure there aren't already challenges out there 
+			challenge = Athlete.AllChallenges.FirstOrDefault(c => c.LeagueId == LeagueId && !c.IsCompleted);
+			if(challenge != null)
+			{
+				var other = challenge.ChallengeeAthleteId == Athlete.Id ? challenge.ChallengerAthlete : challenge.ChallengeeAthlete;
+				return "{0} already has an ongoing challenge with {1}.".Fmt(Athlete.Alias, other.Alias);
+			}
+
+			return null;
+		}
+
+		public bool CanChallengeAthlete(Athlete athlete)
+		{
+			return GetChallengeConflictReason(athlete) == null;
 		}
 	}
 }

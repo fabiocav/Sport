@@ -33,7 +33,7 @@
 
 					<Button x:Name="btnChallenge" Text="{Binding Membership.Athlete.Name, StringFormat='Challenge \{0\}'}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" BackgroundColor="#44000000"
-						VerticalOptions="EndAndExpand" IsVisible="{Binding CanChallenge}" />
+						VerticalOptions="EndAndExpand" />
 
 					<Button x:Name="btnRevokeChallenge" Text="Revoke Challenge" Style="{StaticResource blueButtonStyle}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"

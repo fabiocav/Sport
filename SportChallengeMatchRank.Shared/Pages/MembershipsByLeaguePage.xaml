@@ -20,6 +20,11 @@
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>
+						<!-- Causes cell backgrounds to turn white -->
+<!--							<ViewCell.ContextActions>
+							    <MenuItem Clicked="OnChallengeClicked" Text="Challenge" />
+							</ViewCell.ContextActions>
+-->
 							<ViewCell.View>
 								<StackLayout Padding="40,10,10,10" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
 									<Label Text="{Binding CurrentRankDisplay}" VerticalOptions="Center" YAlign="Center">
@@ -48,8 +53,8 @@
 										</controls:CircleImage>
 
 										<StackLayout Spacing="0" VerticalOptions="Center">
-											<Label Text="{Binding Athlete.Name}" FontSize="Large" />
-											<Label Text="{Binding Athlete.Alias}" FontSize="Small" />
+											<Label Text="{Binding Athlete.Name}" FontSize="Large" LineBreakMode="TailTruncation" />
+											<Label Text="{Binding Athlete.Alias}" FontSize="Small" LineBreakMode="TailTruncation" />
 										</StackLayout>
 									</StackLayout>
 								</StackLayout>

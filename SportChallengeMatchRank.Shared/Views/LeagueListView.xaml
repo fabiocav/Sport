@@ -18,9 +18,9 @@
 	</ListView.Resources>
 	<ListView.ItemTemplate>
 		<DataTemplate>
-			<local:CustomViewCell>
-				<local:CustomViewCell.View>
-					<AbsoluteLayout>
+			<ViewCell>
+				<ViewCell.View>
+					<AbsoluteLayout StyleId="leagueRow">
 						<StackLayout Padding="60,10" Orientation="Horizontal" Spacing="20"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
 							IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
@@ -69,8 +69,8 @@
 							</StackLayout>
 						</StackLayout>
 					</AbsoluteLayout>
-				</local:CustomViewCell.View>
-			</local:CustomViewCell>
+				</ViewCell.View>
+			</ViewCell>
 		</DataTemplate>
 	</ListView.ItemTemplate>
 </ListView>

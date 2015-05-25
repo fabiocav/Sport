@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Toasts.Forms.Plugin.Abstractions;
+using XLabs.Forms.Controls;
 
 namespace SportChallengeMatchRank.Shared
 {

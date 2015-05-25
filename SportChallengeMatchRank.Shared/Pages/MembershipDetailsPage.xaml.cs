@@ -48,6 +48,13 @@ namespace SportChallengeMatchRank.Shared
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{
+				var conflict = ViewModel.Membership.GetChallengeConflictReason(App.CurrentAthlete);
+				if(conflict != null)
+				{
+					conflict.ToToast(ToastNotificationType.Error, "No can do");
+					return;
+				}
+
 				var datePage = new ChallengeDatePage(ViewModel.Membership.Athlete, ViewModel.Membership.League);
 
 				datePage.OnChallengeSent = async(challenge) =>
@@ -123,5 +130,6 @@ namespace SportChallengeMatchRank.Shared
 
 	public partial class MembershipDetailsXaml : BaseContentPage<MembershipDetailsViewModel>
 	{
+
 	}
 }

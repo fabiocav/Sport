@@ -46,6 +46,7 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PopModalAsync();		
 			};
 
+			ViewModel.Challenge.MatchResult.Clear();
 			for(int i = 0; i < ViewModel.Challenge.League.MatchGameCount; i++)
 			{
 				var gameResult = new GameResult {
@@ -65,6 +66,14 @@ namespace SportChallengeMatchRank.Shared
 
 			btnSubmit.Clicked += async(sender, e) =>
 			{
+				var errorMsg = ViewModel.ValidateMatchResults();
+
+				if(errorMsg != null)
+				{
+					errorMsg?.ToToast(ToastNotificationType.Error, "No can do");
+					return;
+				}
+
 				bool submit = await DisplayAlert("This will end the match", "Are you sure you want to submit these scores?", "Yes", "No");
 
 				if(submit)

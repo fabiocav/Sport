@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
 using Newtonsoft.Json;
@@ -39,7 +40,6 @@ namespace SportChallengeMatchRank.iOS
 			{
 				if(null != e.View.StyleId)
 				{
-					Console.WriteLine(e.View.StyleId);
 					e.NativeView.AccessibilityIdentifier = e.View.StyleId;
 				}
 			};

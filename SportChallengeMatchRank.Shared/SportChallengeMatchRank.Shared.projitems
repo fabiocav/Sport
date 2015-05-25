@@ -137,6 +137,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeDateViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleApiService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ExtendedDatePicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ExtendedTimePIcker.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

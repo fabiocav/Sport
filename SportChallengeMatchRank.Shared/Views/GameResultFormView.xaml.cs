@@ -41,5 +41,19 @@ namespace SportChallengeMatchRank.Shared
 
 			InitializeComponent();
 		}
+
+		void TextChanged(object sender, TextChangedEventArgs e)
+		{
+			if(string.IsNullOrEmpty(e.NewTextValue))
+				return;
+
+			int o;
+			if(!int.TryParse(e.NewTextValue, out o))
+			{
+				Console.WriteLine("Text changed: " + e.NewTextValue);
+				var entry = sender as Entry;
+				entry.Text = e.OldTextValue;
+			}
+		}
 	}
 }

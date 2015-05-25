@@ -28,6 +28,7 @@ namespace SportChallengeMatchRank.UITests
 		[Test]
 		public void WelcomeTextIsDisplayed()
 		{
+			app.Tap(e => e.Id("authButton"));
 			app.Repl();
 		}
 	}

@@ -27,7 +27,6 @@ namespace SportChallengeMatchRank.Shared
 			};
 		}
 
-
 		async protected override void OnLoaded()
 		{
 			if(ViewModel.League != null)
@@ -51,6 +50,11 @@ namespace SportChallengeMatchRank.Shared
 					await ViewModel.GetAllMembershipsByLeague(true);
 				}
 			}
+		}
+
+		public void OnChallengeClicked(object sender, EventArgs e)
+		{
+			var mi = ((MenuItem)sender);
 		}
 	}
 

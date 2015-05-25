@@ -25,11 +25,12 @@
 		<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" Grid.Row="1" Grid.Column="1" HorizontalOptions="FillAndExpand"
 			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="#44000000" XAlign="Center" YAlign="Center" />
 
-		<labs:ExtendedEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullValueConverter.Instance}}"
+		<labs:ExtendedEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
 			TextColor="White" VerticalOptions="Center" Grid.Row="2" HorizontalOptions="Center" WidthRequest="80" HeightRequest="80"
-			Keyboard="Numeric" BackgroundColor="#11FFFFFF" HasBorder="false" Font="46" XAlign="Center" />
-		<labs:ExtendedEntry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullValueConverter.Instance}}"
+			Keyboard="Numeric" BackgroundColor="#11FFFFFF" HasBorder="false" Font="46" XAlign="Center" TextChanged="TextChanged" />
+
+		<labs:ExtendedEntry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
 			TextColor="White" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="80"
-			HeightRequest="80" Keyboard="Numeric" BackgroundColor="#11FFFFFF" HasBorder="false" Font="46" XAlign="Center" />
+			HeightRequest="80" Keyboard="Numeric" BackgroundColor="#11FFFFFF" HasBorder="false" Font="46" XAlign="Center" TextChanged="TextChanged" />
 	</Grid>
 </ContentView>

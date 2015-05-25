@@ -32,10 +32,10 @@
 					<ViewCell Height="66">
 						<ViewCell.View>
 							<Grid HorizontalOptions="Fill" VerticalOptions="Fill">
-								<StackLayout x:Name="emptyStack" Padding="30,10" Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand" 
+								<StackLayout x:Name="emptyStack" Padding="20,10" Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand" 
 									IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-									<Label Text="{Binding Title}" FontSize="20" HorizontalOptions="CenterAndExpand"
+									<Label Text="{Binding Title}" FontSize="18" HorizontalOptions="CenterAndExpand"
 										XAlign="Center" YAlign="Center" VerticalOptions="Center"  />
 								</StackLayout>
 
