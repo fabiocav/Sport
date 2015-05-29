@@ -128,6 +128,9 @@
     <Reference Include="XLabs.Forms">
       <HintPath>..\packages\XLabs.Forms.2.0.5610.2\lib\MonoAndroid\XLabs.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Insights">
+      <HintPath>..\packages\Xamarin.Insights.1.10.2.110\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />

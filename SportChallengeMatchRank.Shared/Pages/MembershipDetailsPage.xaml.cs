@@ -74,7 +74,11 @@ namespace SportChallengeMatchRank.Shared
 				if(!revoke)
 					return;
 					
-				await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
+				using(new HUD("Revoking challenge..."))
+				{
+					await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
+				}
+
 				"{0} has been notified of your shameless ways.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Info);
 			};
 

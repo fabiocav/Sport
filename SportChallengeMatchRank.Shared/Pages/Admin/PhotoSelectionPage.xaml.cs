@@ -35,7 +35,10 @@ namespace SportChallengeMatchRank.Shared
 					OnImageSelected();
 			};
 
-			await ViewModel.GetPhotos(ViewModel.League.Sport);
+			using(new HUD("Getting photos..."))
+			{
+				await ViewModel.GetPhotos(ViewModel.League.Sport);
+			}
 		}
 	}
 

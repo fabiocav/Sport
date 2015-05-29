@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>SportChallengeMatchRank</string>
+	<string>Sport Challenge</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.xamarin.sportchallengematchrank</string>
 	<key>CFBundleShortVersionString</key>

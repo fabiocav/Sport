@@ -31,7 +31,10 @@ namespace SportChallengeMatchRank.Shared
 		{
 			if(ViewModel.League != null)
 			{
-				await ViewModel.GetAllMembershipsByLeague();
+				using(new HUD("Getting members..."))
+				{
+					await ViewModel.GetAllMembershipsByLeague();
+				}
 			}
 
 			if(ViewModel.League != null)
@@ -50,11 +53,6 @@ namespace SportChallengeMatchRank.Shared
 					await ViewModel.GetAllMembershipsByLeague(true);
 				}
 			}
-		}
-
-		public void OnChallengeClicked(object sender, EventArgs e)
-		{
-			var mi = ((MenuItem)sender);
 		}
 	}
 

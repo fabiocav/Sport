@@ -91,8 +91,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			else
 			{
-				WelcomeNav = new ClearNavPage();
-				WelcomeNav.Navigation.PushAsync(new WelcomeStartPage());
+				WelcomeNav = new NavigationPage(new WelcomeStartPage());
 				WelcomeNav.BarTextColor = Color.FromHex("#FFFFFF");
 				MainPage = WelcomeNav;
 			}

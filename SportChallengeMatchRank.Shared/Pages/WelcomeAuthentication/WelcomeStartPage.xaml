@@ -2,8 +2,7 @@
 <local:WelcomeStartPageXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.WelcomeStartPage"
-	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
-	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared"
 	BackgroundColor="{StaticResource xamarinGreen}">
     <local:WelcomeStartPageXaml.Content>
 
@@ -29,8 +28,9 @@
 				<Label Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}" IsVisible="{Binding IsBusy}" FontSize="Large"
 					XAlign="Center" YAlign="Center" VerticalOptions="EndAndExpand" HeightRequest="70" />
 
-				<Button x:Name="btnAuthenticate" StyleId="authButton" Text="Authenticate with Google" Scale="0" BackgroundColor="#44000000" VerticalOptions="EndAndExpand"
-					IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+			<Button x:Name="btnAuthenticate" StyleId="authButton" Text="Authenticate with Google" Scale="0" BackgroundColor="#44000000" VerticalOptions="EndAndExpand"
+				IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+
 			</StackLayout>
 		</Grid>
 

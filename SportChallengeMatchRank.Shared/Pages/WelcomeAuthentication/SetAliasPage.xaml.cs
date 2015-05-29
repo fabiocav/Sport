@@ -42,7 +42,11 @@ namespace SportChallengeMatchRank.Shared
 					return;
 				}
 
-				var success = await ViewModel.SaveAthlete();
+				bool success;
+				using(new HUD("Saving..."))
+				{
+					success = await ViewModel.SaveAthlete();
+				}
 
 				if(success)
 				{

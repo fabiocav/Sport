@@ -1,6 +1,7 @@
 ﻿using BigTed;
 using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
+using System;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.iOS.HUDProvider))]
 

@@ -51,7 +51,12 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			if(App.CurrentAthlete != null)
-				await ViewModel.GetLeagues();
+			{
+				using(new HUD("Getting leagues..."))
+				{
+					await ViewModel.GetLeagues();
+				}
+			}
 		}
 
 		protected override async void OnUserAuthenticated()
@@ -60,7 +65,12 @@ namespace SportChallengeMatchRank.Shared
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
 
 			if(App.CurrentAthlete != null)
-				await ViewModel.GetLeagues();
+			{
+				using(new HUD("Getting leagues..."))
+				{
+					await ViewModel.GetLeagues();
+				}
+			}
 		}
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)

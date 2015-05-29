@@ -9,6 +9,7 @@ using Toasts.Forms.Plugin.iOS;
 using UIKit;
 using Xamarin.Forms;
 using XLabs.Forms;
+using Xamarin;
 
 namespace SportChallengeMatchRank.iOS
 {
@@ -17,9 +18,11 @@ namespace SportChallengeMatchRank.iOS
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-//			#if DEBUG
+			Insights.Initialize("34553a125b7e69dcaa66abde0e4c851979252f20");
+
+			#if DEBUG
 			Xamarin.Calabash.Start();
-//			#endif
+			#endif
 
 			Forms.Init();
 			ImageCircleRenderer.Init();
@@ -30,7 +33,7 @@ namespace SportChallengeMatchRank.iOS
 			UITabBar.Appearance.BarTintColor = UIColor.FromRGB(44, 62, 80);
 			UITabBar.Appearance.TintColor = UIColor.White;
 
-			UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+			//UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
 
 //			UINavigationBar.Appearance.BackgroundColor = UIColor.Clear;
 //			UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);

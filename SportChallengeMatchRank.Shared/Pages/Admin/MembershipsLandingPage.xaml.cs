@@ -55,20 +55,23 @@ namespace SportChallengeMatchRank.Shared
 
 		async protected override void OnLoaded()
 		{
-			if(ViewModel.Athlete != null)
+			using(new HUD("Getting members..."))
 			{
-				await ViewModel.GetAllMembershipsByAthlete();
-				list.RefreshCommand = ViewModel.GetAllMembershipsByAthleteCommand;
-				list.SetBinding(ListView.ItemsSourceProperty, "Athlete.Memberships");
-				_hasLoadedBefore = true;
-			}
+				if(ViewModel.Athlete != null)
+				{
+					await ViewModel.GetAllMembershipsByAthlete();
+					list.RefreshCommand = ViewModel.GetAllMembershipsByAthleteCommand;
+					list.SetBinding(ListView.ItemsSourceProperty, "Athlete.Memberships");
+					_hasLoadedBefore = true;
+				}
 
-			if(ViewModel.League != null)
-			{
-				await ViewModel.GetAllMembershipsByLeague();
-				list.RefreshCommand = ViewModel.GetAllMembershipsByLeagueCommand;
-				list.SetBinding(ListView.ItemsSourceProperty, "League.Memberships");
-				_hasLoadedBefore = true;
+				if(ViewModel.League != null)
+				{
+					await ViewModel.GetAllMembershipsByLeague();
+					list.RefreshCommand = ViewModel.GetAllMembershipsByLeagueCommand;
+					list.SetBinding(ListView.ItemsSourceProperty, "League.Memberships");
+					_hasLoadedBefore = true;
+				}
 			}
 
 			base.OnLoaded();

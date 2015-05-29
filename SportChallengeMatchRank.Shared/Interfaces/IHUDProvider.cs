@@ -12,5 +12,18 @@ namespace SportChallengeMatchRank.Shared
 
 		void Dismiss();
 	}
+
+	public class HUD : IDisposable
+	{
+		public HUD(string message)
+		{
+			App.Current.Hud.DisplayProgress(message);	
+		}
+
+		public void Dispose()
+		{
+			App.Current.Hud.Dismiss();
+		}
+	}
 }
 

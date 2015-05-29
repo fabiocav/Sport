@@ -78,7 +78,11 @@ namespace SportChallengeMatchRank.Shared
 
 				if(submit)
 				{
-					await ViewModel.PostMatchResults();
+					using(new HUD("Posting results..."))
+					{
+						await ViewModel.PostMatchResults();
+					}
+
 					await Navigation.PopModalAsync();
 
 					if(OnMatchResultsPosted != null)

@@ -24,7 +24,11 @@ namespace SportChallengeMatchRank.Shared
 
 			btnSave.Clicked += async(sender, e) =>
 			{
-				var success = await ViewModel.SaveAthlete();
+				bool success;
+				using(new HUD("Saving..."))
+				{
+					success = await ViewModel.SaveAthlete();
+				}
 
 				if(success)
 				{
@@ -45,7 +49,11 @@ namespace SportChallengeMatchRank.Shared
 				if(!confirmed)
 					return;
 
-				var success = await ViewModel.DeleteAthlete();
+				bool success;
+				using(new HUD("Deleting..."))
+				{
+					success = await ViewModel.DeleteAthlete();
+				}
 
 				if(success)
 				{

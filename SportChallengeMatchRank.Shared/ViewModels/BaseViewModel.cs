@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 using Xamarin.Forms;
+using Xamarin;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -85,6 +86,7 @@ namespace SportChallengeMatchRank.Shared
 			if(exception != null)
 			{
 				//TODO Log to Insights
+				Insights.Report(exception);
 				Console.WriteLine(exception);
 
 				if(notifyOnError)

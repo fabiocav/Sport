@@ -42,7 +42,11 @@ namespace SportChallengeMatchRank.Shared
 
 			btnAccept.Clicked += async(sender, e) =>
 			{
-				var success = await ViewModel.AcceptChallenge();
+				bool success;
+				using(new HUD("Accepting challenge..."))
+				{
+					success = await ViewModel.AcceptChallenge();
+				}
 
 				if(success)
 					"It is sooooooo on like a prawn that yawns at dawn.".ToToast(ToastNotificationType.Success);
@@ -72,7 +76,11 @@ namespace SportChallengeMatchRank.Shared
 				if(!decline)
 					return;
 
-				var success = await ViewModel.DeclineChallenge();
+				bool success;
+				using(new HUD("Revoking challenge..."))
+				{
+					success = await ViewModel.DeclineChallenge();
+				}
 
 				if(success)
 					"Unbelievable - how dare you!".ToToast(ToastNotificationType.Info, "Coward!");
@@ -96,7 +104,11 @@ namespace SportChallengeMatchRank.Shared
 			if(!decline)
 				return;
 
-			var success = await ViewModel.DeclineChallenge();
+			bool success;
+			using(new HUD("Declining challenge..."))
+			{
+				success = await ViewModel.DeclineChallenge();
+			}
 
 			if(success)
 				"Unbelievable - how dare you!".ToToast(ToastNotificationType.Info, "Coward!");

@@ -32,7 +32,10 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushAsync(detailsPage);
 			};
 
-			await ViewModel.GetAllAthletes();
+			using(new HUD("Getting all athletes..."))
+			{
+				await ViewModel.GetAllAthletes();
+			}
 		}
 	}
 

@@ -51,7 +51,12 @@ namespace SportChallengeMatchRank.Shared
 
 				if(accepted)
 				{
-					var success = await ViewModel.JoinLeague();
+
+					bool success;
+					using(new HUD("Joining league..."))
+					{
+						success = await ViewModel.JoinLeague();
+					}
 
 					if(success)
 					{
@@ -78,8 +83,12 @@ namespace SportChallengeMatchRank.Shared
 
 					if(accepted)
 					{
-						await ViewModel.LeaveLeague();
-						"Can't leave this league because you've been ejected, with prejudice :P".ToToast(ToastNotificationType.Info, "No can do");
+						using(new HUD("Abandoning league..."))
+						{
+							await ViewModel.LeaveLeague();
+						}
+
+						"You have left the league".ToToast(ToastNotificationType.Info, "League Abandoned");
 						if(OnAbandondedLeague != null)
 						{
 							OnAbandondedLeague(ViewModel.League);
@@ -101,7 +110,10 @@ namespace SportChallengeMatchRank.Shared
 
 			if(ViewModel.League != null && ViewModel.League.CreatedByAthleteId != null && ViewModel.League.CreatedByAthlete == null)
 			{
-				await ViewModel.LoadAthlete();
+				using(new HUD("Getting info..."))
+				{
+					await ViewModel.LoadAthlete();
+				}
 			}
 		}
 

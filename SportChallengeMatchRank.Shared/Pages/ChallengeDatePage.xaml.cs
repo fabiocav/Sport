@@ -54,7 +54,11 @@ namespace SportChallengeMatchRank.Shared
 					return;
 				}
 
-				var challenge = await ViewModel.ChallengeAthlete(App.CurrentAthlete, Challengee, League);
+				Challenge challenge;
+				using(new HUD("Sending challenge..."))
+				{
+					challenge = await ViewModel.ChallengeAthlete(App.CurrentAthlete, Challengee, League);
+				}
 
 				if(OnChallengeSent != null && challenge != null && challenge.Id != null)
 					OnChallengeSent(challenge);

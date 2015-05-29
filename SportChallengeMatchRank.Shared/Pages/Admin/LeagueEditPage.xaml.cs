@@ -29,7 +29,11 @@ namespace SportChallengeMatchRank.Shared
 			{
 				try
 				{
-					var startTime = await ViewModel.StartLeague();
+					DateTime? startTime;
+					using(new HUD("Starting league..."))
+					{
+						startTime = await ViewModel.StartLeague();
+					}
 
 					if(startTime != null)
 					{
@@ -66,7 +70,10 @@ namespace SportChallengeMatchRank.Shared
 
 				if(accepted)
 				{
-					await ViewModel.DeleteLeague();
+					using(new HUD("Deleting league..."))
+					{
+						await ViewModel.DeleteLeague();
+					}
 
 					if(OnUpdate != null)
 						OnUpdate();
@@ -94,7 +101,11 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			}
 
-			var success = await ViewModel.SaveLeague();
+			bool success;
+			using(new HUD(""))
+			{
+				success = await ViewModel.SaveLeague();
+			}
 
 			if(!success)
 				return;

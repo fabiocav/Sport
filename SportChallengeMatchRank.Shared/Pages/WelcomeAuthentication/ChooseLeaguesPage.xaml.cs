@@ -37,11 +37,11 @@ namespace SportChallengeMatchRank.Shared
 				var push = DependencyService.Get<IPushNotifications>();
 
 				#if !DEBUG
-				if(push.IsRegistered)
-					return;
+				if(!push.IsRegistered)
+				{
+					push.RegisterForPushNotifications();
+				}
 				#endif
-
-				push.RegisterForPushNotifications();
 
 				await Task.Delay(1000);
 				btnPush.Text = "Thanks! We'll be in touch.";
