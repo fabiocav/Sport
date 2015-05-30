@@ -52,10 +52,10 @@ namespace SportChallengeMatchRank.Shared
 				list.IsGroupingEnabled = ViewModel.Athlete.AllChallenges.Count > 0;
 			};
 
-			if(App.CurrentAthlete != null)
-			{
-				RemoteRefresh();
-			}
+//			if(App.CurrentAthlete != null)
+//			{
+//				RemoteRefresh();
+//			}
 		}
 
 		protected override void OnAppearing()
@@ -83,10 +83,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async Task RemoteRefresh()
 		{
-			using(new HUD("Getting challenges..."))
-			{
-				await ViewModel.GetChallenges(true);
-			}
+			await ViewModel.GetChallenges(true);
 
 			ViewModel.LocalRefresh();
 			ViewModel.SetPropertyChanged("ChallengeGroups");

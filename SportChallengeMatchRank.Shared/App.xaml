@@ -4,10 +4,10 @@
     x:Class="SportChallengeMatchRank.Shared.App">
     <Application.Resources>
         <ResourceDictionary>
-        	<Color x:Key="xamarinBlue">#2c3e50</Color>
-        	<Color x:Key="xamarinLightBlue">#3498db</Color>
-        	<Color x:Key="xamarinPurple">#b455b6</Color>
-        	<Color x:Key="xamarinGreen">#77d065</Color>
+        	<Color x:Key="xamarinBlue">#4FCAE6</Color>
+        	<Color x:Key="xamarinLightBlue">#A3EBE1</Color>
+        	<Color x:Key="xamarinPurple">#CEC0EC</Color>
+        	<Color x:Key="xamarinGreen">#CFEFA7</Color>
             <Style x:Key="labelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="FontSize">

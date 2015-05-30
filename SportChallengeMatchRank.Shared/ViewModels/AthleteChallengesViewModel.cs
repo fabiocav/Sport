@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System;
+using System.Collections.Generic;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteChallengesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -110,18 +111,26 @@ namespace SportChallengeMatchRank.Shared
 				if(task.IsFaulted)
 					return;
 
-				foreach(var c in DataManager.Instance.Challenges.Values)
-				{
-					if(c.ChallengeeAthlete == null || forceRefresh)
-					{
-						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId, forceRefresh));
-					}
+//				var list = new List<string>();
+//				foreach(var c in DataManager.Instance.Challenges.Values)
+//				{
+//					if(!list.Contains(c.ChallengeeAthleteId))
+//						list.Add(c.ChallengeeAthleteId);
+//
+//					if(!list.Contains(c.ChallengerAthleteId))
+//						list.Add(c.ChallengerAthleteId);
+//					
+//					if(c.ChallengeeAthlete == null || forceRefresh)
+//					{
+//						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengeeAthleteId, forceRefresh));
+//					}
+//
+//					if(c.ChallengerAthlete == null || forceRefresh)
+//					{
+//						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengerAthleteId, forceRefresh));
+//					}
+//				}
 
-					if(c.ChallengerAthlete == null || forceRefresh)
-					{
-						await RunSafe(AzureService.Instance.GetAthleteById(c.ChallengerAthleteId, forceRefresh));
-					}
-				}
 
 				_hasLoadedBefore = true;
 				LocalRefresh();

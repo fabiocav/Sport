@@ -168,13 +168,10 @@ namespace SportChallengeMatchRank.Shared
 
 				if(App.CurrentAthlete != null)
 				{
-					AuthenticationStatus = "Getting joined leagues";
-
+					AuthenticationStatus = "Getting Athlete info";
 					var task = AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
 					await RunSafe(task);
 
-					AuthenticationStatus = "Getting all challenges";
-					await RunSafe(AzureService.Instance.GetAllChallengesByAthlete(App.CurrentAthlete));
 					await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
 					MessagingCenter.Send<AuthenticationViewModel>(this, "UserAuthenticated");
 				}
@@ -228,8 +225,7 @@ namespace SportChallengeMatchRank.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
-						{
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
 							"Name",
 							App.AuthUserProfile.Name
 						}

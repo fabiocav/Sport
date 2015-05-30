@@ -74,8 +74,8 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+						App.CurrentAthlete.Id,
+						"All",
 				};
 
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
@@ -107,7 +107,8 @@ namespace SportChallengeMatchRank.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> { {
+				var values = new Dictionary<string, string> {
+					{
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -539,7 +540,8 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -569,7 +571,8 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -600,6 +603,19 @@ namespace SportChallengeMatchRank.Shared
 				var challenges = Client.InvokeApiAsync<string, List<Challenge>>("getChallengesForAthlete", null, HttpMethod.Get, qs).Result;
 				if(challenges != null)
 				{
+					var list = new List<string>();
+					foreach(var c in challenges)
+					{
+						if(!list.Contains(c.ChallengeeAthleteId))
+							list.Add(c.ChallengeeAthleteId);
+
+						if(!list.Contains(c.ChallengerAthleteId))
+							list.Add(c.ChallengerAthleteId);
+					}
+
+					var athletes = Client.GetTable<Athlete>().Where(a => list.Contains(a.Id)).ToListAsync().Result;
+					athletes.ForEach(DataManager.Instance.Athletes.AddOrUpdate);
+
 					Challenge ch;
 					var toRemove = athlete.AllChallenges.ToList();
 					toRemove.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
