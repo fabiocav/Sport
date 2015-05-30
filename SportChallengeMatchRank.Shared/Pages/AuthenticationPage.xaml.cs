@@ -34,10 +34,7 @@ namespace SportChallengeMatchRank.Shared
 				Navigation.PushModalAsync(page);
 			});
 
-			AuthenticationViewModel.OnHideAuthForm = async() =>
-			{
-				await Navigation.PopModalAsync();
-			};
+			AuthenticationViewModel.OnHideAuthForm = async() => await Navigation.PopModalAsync();
 
 			//await Task.Delay(10000);
 			await AuthenticationViewModel.GetUserProfile(force);

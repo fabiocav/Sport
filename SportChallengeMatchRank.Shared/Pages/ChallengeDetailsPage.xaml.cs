@@ -124,7 +124,7 @@ namespace SportChallengeMatchRank.Shared
 			string challengeId = null;
 			if(payload.Payload.TryGetValue("challengeId", out challengeId))
 			{
-				if(challengeId == ViewModel.Challenge.Id)
+				if(challengeId == ViewModel.Challenge.Id && challengeId != null)
 				{
 					await ViewModel.RefreshChallenge();
 				}

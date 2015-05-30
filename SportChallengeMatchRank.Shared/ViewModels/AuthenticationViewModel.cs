@@ -4,6 +4,8 @@ using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
 using nsoftware.InGoogle;
 using Toasts.Forms.Plugin.Abstractions;
+using Xamarin;
+using System.Collections.Generic;
 
 [assembly: Dependency(typeof(AuthenticationViewModel))]
 
@@ -225,6 +227,14 @@ namespace SportChallengeMatchRank.Shared
 				{
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
+
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
+						{
+							"Name",
+							App.AuthUserProfile.Name
+						}
+					});
+
 					Settings.Instance.AuthUserID = App.AuthUserProfile.Id;
 					await Settings.Instance.Save();
 				}
