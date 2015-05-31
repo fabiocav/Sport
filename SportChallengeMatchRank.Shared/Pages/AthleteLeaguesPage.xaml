@@ -5,11 +5,11 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" BackgroundColor="White">
 	<local:AthleteLeaguesXaml.Content>
 		<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetLeaguesCommand}"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" BackgroundColor="{StaticResource xamarinBlue}" />
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" />
 	</local:AthleteLeaguesXaml.Content>
 
 	<local:AthleteLeaguesXaml.ToolbarItems>
-		<ToolbarItem x:Name="btnJoin" Text="Join" />
+		<ToolbarItem x:Name="btnJoin" Icon="ic_add_white" />
 	</local:AthleteLeaguesXaml.ToolbarItems>
 
 </local:AthleteLeaguesXaml>

@@ -23,7 +23,7 @@ namespace SportChallengeMatchRank.Shared
 			Title = "Post Match Result";
 
 			var scrollView = new ScrollView();
-			scrollView.BackgroundColor = (Color)App.Current.Resources["xamarinBlue"];
+			scrollView.BackgroundColor = (Color)App.Current.Resources["bluePrimary"];
 
 			var stackLayout = new StackLayout {
 				Spacing = 10,

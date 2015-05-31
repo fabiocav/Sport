@@ -13,7 +13,10 @@ namespace SportChallengeMatchRank.Shared
 
 		protected async override void Initialize()
 		{
-			Title = "My Leagues";
+			PrimaryColor = Color.FromHex("#B3E770");
+			PrimaryColorDark = Color.FromHex("#5A8622");
+
+			Title = "Leagues";
 			InitializeComponent();
 
 			btnJoin.Clicked += async(sender, e) =>
@@ -25,7 +28,10 @@ namespace SportChallengeMatchRank.Shared
 					ViewModel.SetPropertyChanged("Athlete");
 				};
 
-				await Navigation.PushModalAsync(new NavigationPage(page));
+				var nav = new NavigationPage(page);
+				nav.BarTextColor = Color.White;
+				nav.BarBackgroundColor = (Color)App.Current.Resources["bluePrimary"];
+				await Navigation.PushModalAsync(nav);
 			};
 
 			list.ItemSelected += async(sender, e) =>
@@ -52,7 +58,7 @@ namespace SportChallengeMatchRank.Shared
 
 			if(App.CurrentAthlete != null)
 			{
-				using(new HUD("Getting leagues..."))
+				//using(new HUD("Getting leagues..."))
 				{
 					await ViewModel.GetLeagues();
 				}
@@ -66,7 +72,7 @@ namespace SportChallengeMatchRank.Shared
 
 			if(App.CurrentAthlete != null)
 			{
-				using(new HUD("Getting leagues..."))
+				//using(new HUD("Getting leagues..."))
 				{
 					await ViewModel.GetLeagues();
 				}

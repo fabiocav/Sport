@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
 using Newtonsoft.Json;
@@ -7,9 +6,9 @@ using SportChallengeMatchRank.Shared;
 using Toasts.Forms.Plugin.Abstractions;
 using Toasts.Forms.Plugin.iOS;
 using UIKit;
+using Xamarin;
 using Xamarin.Forms;
 using XLabs.Forms;
-using Xamarin;
 
 namespace SportChallengeMatchRank.iOS
 {
@@ -28,16 +27,12 @@ namespace SportChallengeMatchRank.iOS
 			ImageCircleRenderer.Init();
 			ToastNotificatorImplementation.Init();
 
-			UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
+			//UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
 
 			UITabBar.Appearance.BarTintColor = UIColor.FromRGB(44, 62, 80);
 			UITabBar.Appearance.TintColor = UIColor.White;
 
 			//UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
-
-//			UINavigationBar.Appearance.BackgroundColor = UIColor.Clear;
-//			UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
-//			UINavigationBar.Appearance.ShadowImage = new UIImage();
 
 			Forms.ViewInitialized += (sender, e) =>
 			{

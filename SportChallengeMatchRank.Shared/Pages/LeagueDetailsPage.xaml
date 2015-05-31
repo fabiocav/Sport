@@ -5,38 +5,32 @@
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
 	<ScrollView>
-		<Grid BackgroundColor="Black">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-
-			<Image Aspect="AspectFill" Source="{Binding League.ImageUrl}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Opacity=".55" />
-
-			<StackLayout Padding="20" Spacing="15" VerticalOptions="Start" BackgroundColor="#66000000">
-				<Label Text="{Binding League.Name}" FontSize="50" TextColor="White" />
-				<Label Text="{Binding League.Sport, StringFormat='the honorable pastime of \{0\}'}" FontSize="20" TextColor="White" />
-
-				<Label Text="{Binding League.DateCreated, StringFormat='established \{0:MMM dd yyyy\}'}" TextColor="White" />
-				<Label Text="{Binding League.CreatedByAthlete.Name, StringFormat='by \{0\}'}" TextColor="White" />
+		<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="Fill">
+			<StackLayout Padding="14,10" Spacing="4">
+				<Label FontSize="Small" Text="{Binding League.Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="#9AA4AB" />
+				<Label Text="{Binding League.Name}" FontSize="Large" />
 			</StackLayout>
 
-			<StackLayout Spacing="2" VerticalOptions="End">
-				<Button x:Name="btnMemberStatus" Text="View Current Rankings" VerticalOptions="EndAndExpand" />
-
-				<Button x:Name="btnJoinLeague" Text="Join League"
-					IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="EndAndExpand" />
-
-				<Button x:Name="btnLeaveLeague" Text="Cowardly Abandon League" IsVisible="{Binding IsMember}"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="EndAndExpand" />
-
-<!--				<Button x:Name="btnEditLeague" Text="Edit League" VerticalOptions="EndAndExpand"
-					IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
--->
+			<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="Start" Padding="10,10">
+				<Button Text="RANKINGS" x:Name="btnRankings" />
+				<Button Text="CHALLENGES" x:Name="btnChallenges" />
 			</StackLayout>
-		</Grid>
+
+			<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="200"
+				VerticalOptions="Center" Aspect="AspectFill" />
+
+			<StackLayout Padding="24,20" Spacing="4">
+				<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
+					 VerticalOptions="Center" />
+			</StackLayout>
+
+		</StackLayout>
 	</ScrollView>
 
 	</local:LeagueDetailsXaml.Content>
+
+	<local:LeagueDetailsXaml.ToolbarItems>
+		<ToolbarItem x:Name="btnActionSheet" Icon="ic_more_vert_white" Clicked="OnMoreClicked" />
+	</local:LeagueDetailsXaml.ToolbarItems>
+
 </local:LeagueDetailsXaml>

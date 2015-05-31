@@ -2,12 +2,13 @@
 <local:AuthenticationPageXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.AuthenticationPage"
-	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" BackgroundColor="{StaticResource xamarinPurple}">
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" BackgroundColor="{StaticResource greenPrimary}">
     <local:AuthenticationPageXaml.Content>
 
 		<StackLayout Padding="40" Spacing="26" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
 			<ActivityIndicator StyleId="activity" IsRunning="{Binding IsBusy}" Color="White" />
-			<Label StyleId="status" FontSize="Large" Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}" XAlign="Center" YAlign="Center" />
+			<Label StyleId="status" TextColor="White" FontSize="Large" Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}"
+				IsVisible="{Binding AuthenticationStatus, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" XAlign="Center" YAlign="Center" />
 		</StackLayout>
 
 	</local:AuthenticationPageXaml.Content>

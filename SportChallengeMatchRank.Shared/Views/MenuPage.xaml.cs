@@ -31,7 +31,6 @@ namespace SportChallengeMatchRank.Shared
 
 		public MenuPage()
 		{
-			Title = "Menu";
 			InitializeComponent();
 			ListView = listView;
 		}

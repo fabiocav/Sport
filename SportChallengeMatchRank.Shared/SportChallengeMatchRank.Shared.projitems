@@ -80,7 +80,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeDetailsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteChallengesViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteTabbedPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteLeaguesPage.xaml.cs">
       <DependentUpon>AthleteLeaguesPage.xaml</DependentUpon>
     </Compile>

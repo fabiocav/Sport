@@ -36,6 +36,8 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var page = new LeagueDetailsPage(league);
+				page.ButtonStyle = (Style)App.Current.Resources["blueButtonStyle"];
+
 				page.OnJoinedLeague = async(l) =>
 				{
 					ViewModel.LocalRefresh();
@@ -49,7 +51,7 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			var btnCancel = new ToolbarItem {
-				Text = "Cancel"
+				Text = "Cancel",
 			};
 
 			btnCancel.Clicked += async(sender, e) =>

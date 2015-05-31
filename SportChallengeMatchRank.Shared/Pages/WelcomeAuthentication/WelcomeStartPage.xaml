@@ -3,9 +3,14 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.WelcomeStartPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared"
-	BackgroundColor="{StaticResource xamarinGreen}">
-    <local:WelcomeStartPageXaml.Content>
+	BackgroundColor="{StaticResource greenPrimary}">
+    <local:WelcomeStartPageXaml.Resources>
+		<ResourceDictionary>
+			<Style TargetType="Label" BasedOn="{StaticResource whiteLabelStyle}" />
+		</ResourceDictionary>
+    </local:WelcomeStartPageXaml.Resources>
 
+    <local:WelcomeStartPageXaml.Content>
 		<Grid VerticalOptions="Fill" HorizontalOptions="Fill">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="4*" />

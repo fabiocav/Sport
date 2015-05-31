@@ -6,7 +6,7 @@
 	xmlns:labs="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
     <local:AthleteProfilePageXaml.Content>
-		<ScrollView BackgroundColor="{StaticResource xamarinBlue}">
+		<ScrollView BackgroundColor="{StaticResource bluePrimary}">
 			<StackLayout>
 				<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Padding="20,40,20,20" Spacing="25">
 					<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"

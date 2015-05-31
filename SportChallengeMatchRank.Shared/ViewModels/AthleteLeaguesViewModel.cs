@@ -4,6 +4,8 @@ using System.Windows.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Collections;
+using System;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteLeaguesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -86,15 +88,33 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
-			Leagues.Clear();
 			Athlete.RefreshMemberships();
-			Athlete.Leagues.ForEach(Leagues.Add);
+
+			var comparer = new LeagueComparer();
+			var toRemove = Leagues.Except(Athlete.Leagues, comparer).ToList();
+			var toAdd = Athlete.Leagues.Except(Leagues, comparer).OrderBy(r => r.Name).ToList();
+
+			toRemove.ForEach(l => Leagues.Remove(l));
+			toAdd.ForEach(Leagues.Add);
 
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new League {
 					Name = "You don't belong to any leagues yet, n00b.",
 				});
+			}
+		}
+
+		public class LeagueComparer : IEqualityComparer<League>
+		{
+			public bool Equals(League x, League y)
+			{
+				return x?.Id == y?.Id;
+			}
+
+			public int GetHashCode(League obj)
+			{
+				return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
 			}
 		}
 	}

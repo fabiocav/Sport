@@ -2,11 +2,11 @@
 using System.ComponentModel;
 using CoreGraphics;
 using Foundation;
+using SportChallengeMatchRank.iOS;
+using SportChallengeMatchRank.Shared;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using SportChallengeMatchRank.Shared;
-using SportChallengeMatchRank.iOS;
 
 [assembly: ExportRenderer(typeof(SportChallengeMatchRank.Shared.ExtendedDatePicker), typeof(ExtendedDatePickerRenderer))]
 namespace SportChallengeMatchRank.iOS

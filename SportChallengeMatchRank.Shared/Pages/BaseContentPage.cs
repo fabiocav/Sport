@@ -15,6 +15,18 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public Color PrimaryColor
+		{
+			get;
+			set;
+		}
+
+		public Color PrimaryColorDark
+		{
+			get;
+			set;
+		}
+
 		public BaseContentPage()
 		{
 			BindingContext = ViewModel;

@@ -11,7 +11,7 @@
 	</local:AthleteChallengesXaml.Resources>
 	<local:AthleteChallengesXaml.Content>
 		<ListView x:Name="list" ItemsSource="{Binding ChallengeGroups}" RefreshCommand="{Binding GetChallengesCommand}"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" HasUnevenRows="true" SeparatorVisibility="None" BackgroundColor="{StaticResource xamarinBlue}">
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" HasUnevenRows="true" SeparatorVisibility="None" BackgroundColor="{StaticResource bluePrimary}">
 			<ListView.GroupHeaderTemplate>
 				<DataTemplate>
 					<ViewCell Height="45">

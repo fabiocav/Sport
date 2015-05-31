@@ -1,71 +1,31 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.LeagueListView"
+	x:Class="SportChallengeMatchRank.Shared.LeagueListView" x:Key="page" x:Name="page"
 	IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" SeparatorVisibility="None">
-	<ListView.RowHeight>
-		<OnPlatform x:TypeArguments="x:Int32">
-			<OnPlatform.iOS>70</OnPlatform.iOS>
-			<OnPlatform.Android>90</OnPlatform.Android>
-		</OnPlatform>
-	</ListView.RowHeight>
-	<ListView.Resources>
-		<ResourceDictionary>
-			<Style TargetType="Label" BasedOn="{StaticResource listLabelStyle}" />
-		</ResourceDictionary>
-	</ListView.Resources>
+	BackgroundColor="{StaticResource grayLight}" SeparatorVisibility="None" RowHeight="350"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<ListView.ItemTemplate>
 		<DataTemplate>
 			<ViewCell>
 				<ViewCell.View>
-					<AbsoluteLayout StyleId="leagueRow">
-						<StackLayout Padding="60,10" Orientation="Horizontal" Spacing="20"
-							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
-							IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
-
-							<Label StyleId="leagueLabel" Text="{Binding Name}" FontSize="20" HorizontalOptions="CenterAndExpand"
-								XAlign="Center" YAlign="Center" VerticalOptions="Center"  />
-						</StackLayout>
-
-						<StackLayout Padding="30,10,10,10" Orientation="Horizontal" Spacing="20"
+					<AbsoluteLayout StyleId="leagueRow" Padding="14,14,14,0">
+						<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="Fill"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
 							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
-							<controls:CircleImage x:Name="photoImage" Source="{Binding ImageUrl}"
-								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill">
-								<controls:CircleImage.WidthRequest>
-									<OnPlatform x:TypeArguments="x:Double">
-										<OnPlatform.iOS>50</OnPlatform.iOS>
-										<OnPlatform.Android>70</OnPlatform.Android>
-									</OnPlatform>
-								</controls:CircleImage.WidthRequest>
-								<controls:CircleImage.HeightRequest>
-									<OnPlatform x:TypeArguments="x:Double">
-										<OnPlatform.iOS>50</OnPlatform.iOS>
-										<OnPlatform.Android>70</OnPlatform.Android>
-									</OnPlatform>
-								</controls:CircleImage.HeightRequest>
-							</controls:CircleImage>
+							<Image x:Name="photoImage" Source="{Binding ImageUrl}" HorizontalOptions="Fill" HeightRequest="150"
+								VerticalOptions="Center" Aspect="AspectFill" />
 
-							<StackLayout Spacing="-1" VerticalOptions="Center">
-								<Label Text="{Binding Name}" FontSize="Medium" VerticalOptions="Center">
-									<Label.FontSize>
-										<OnPlatform x:TypeArguments="x:Double">
-											<OnPlatform.iOS>20</OnPlatform.iOS>
-											<OnPlatform.Android>20</OnPlatform.Android>
-										</OnPlatform>
-									</Label.FontSize>
-								</Label>
-								<Label Text="{Binding Sport, StringFormat='the honorable pastime of \{0\}'}" VerticalOptions="Center">
-									<Label.FontSize>
-										<OnPlatform x:TypeArguments="x:Double">
-											<OnPlatform.iOS>14</OnPlatform.iOS>
-											<OnPlatform.Android>12</OnPlatform.Android>
-										</OnPlatform>
-									</Label.FontSize>
-								</Label>
+							<StackLayout Padding="14,10" Spacing="4">
+								<Label FontSize="Small" Text="{Binding Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="#9AA4AB" />
+								<Label Text="{Binding Name}" FontSize="Large" />
+								<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
+									 VerticalOptions="Center" HeightRequest="70" LineBreakMode="WordWrap" />
+							</StackLayout>
+							<StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="End" Padding="10,10" VerticalOptions="EndAndExpand">
+								<Button Text="RANKINGS" Clicked="OnRankingsClicked"  />
+								<Button Text="CHALLENGES" IsVisible="{Binding ShowChallengesButton, Source={x:Reference page}}" />
 							</StackLayout>
 						</StackLayout>
 					</AbsoluteLayout>

@@ -10,5 +10,15 @@ namespace SportChallengeMatchRank.Shared
 		{
 			InitializeComponent();
 		}
+
+		public bool ShowChallengesButton
+		{
+			get;
+			set;
+		} = false;
+
+		void OnRankingsClicked(object sender, EventArgs e)
+		{
+		}
 	}
 }

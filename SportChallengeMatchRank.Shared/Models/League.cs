@@ -64,6 +64,20 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		string _rulesUrl;
+
+		public string RulesUrl
+		{
+			get
+			{
+				return _rulesUrl;
+			}
+			set
+			{
+				SetPropertyChanged(ref _rulesUrl, value);
+			}
+		}
+
 		string _sport;
 
 		public string Sport

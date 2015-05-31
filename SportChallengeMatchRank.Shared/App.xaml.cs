@@ -95,6 +95,18 @@ namespace SportChallengeMatchRank.Shared
 				WelcomeNav.BarTextColor = Color.FromHex("#FFFFFF");
 				MainPage = WelcomeNav;
 			}
+
+			#if __IOS__
+			object obj;
+			if(Resources.TryGetValue("buttonStyle", out obj))
+			{
+				var style = obj as Style;
+				if(style != null)
+				{
+					style.Setters.Add(VisualElement.WidthRequestProperty, 130);
+				}
+			}
+			#endif
 		}
 
 		public static Athlete CurrentAthlete

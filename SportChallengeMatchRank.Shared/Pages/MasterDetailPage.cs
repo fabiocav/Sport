@@ -10,13 +10,14 @@ namespace SportChallengeMatchRank.Shared
 	{
 		MenuPage _menu;
 		NavigationPage _adminPage;
-		AthleteTabbedPage _tabbedPage;
 		NavigationPage _profilePage;
+		NavigationPage _leaguesPage;
 
 		public MasterDetailPage()
 		{
-			_tabbedPage = new AthleteTabbedPage();
-			_menu = new MenuPage();
+			_menu = new MenuPage {
+				Title = "Menu"
+			};
 			_menu.ListView.ItemSelected += (sender, e) =>
 			{
 				if(e.SelectedItem == null)
@@ -36,8 +37,15 @@ namespace SportChallengeMatchRank.Shared
 
 			AddMenuItems();
 
+			_leaguesPage = new NavigationPage(new AthleteLeaguesPage(Settings.Instance.AthleteId)) {
+				Title = "Leagues"
+			};
+
+			_leaguesPage.BarBackgroundColor = Color.FromHex("#91CA47");
+			_leaguesPage.BarTextColor = Color.White;
+
 			Master = _menu;
-			Detail = _tabbedPage;
+			Detail = _leaguesPage;
 		}
 
 		bool _hasInitialized;
@@ -59,7 +67,7 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			
 			var options = new Dictionary<string, ICommand>();
-			options.Add("Leagues & Challenges", new Command(() => DisplayLeaguesPage()));
+			options.Add("Leagues", new Command(() => DisplayLeaguesPage()));
 			options.Add("Profile", new Command(() => DisplayProfilePage()));
 			//options.Add("Settings", new Command(() => DisplayProfilePage()));
 			options.Add("Log Out", new Command(() => LogOutUser()));
@@ -80,7 +88,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public void DisplayLeaguesPage()
 		{
-			Detail = _tabbedPage;
+			Detail = _leaguesPage;
 		}
 
 		public void LogOutUser()

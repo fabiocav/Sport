@@ -4,12 +4,20 @@
     x:Class="SportChallengeMatchRank.Shared.App">
     <Application.Resources>
         <ResourceDictionary>
-        	<Color x:Key="xamarinBlue">#4FCAE6</Color>
-        	<Color x:Key="xamarinLightBlue">#A3EBE1</Color>
-        	<Color x:Key="xamarinPurple">#CEC0EC</Color>
-        	<Color x:Key="xamarinGreen">#CFEFA7</Color>
+        	<Color x:Key="bluePrimary">#1FAECE</Color>
+        	<Color x:Key="blueLight">#91E2F4</Color>
+        	<Color x:Key="purplePrimary">#9378CD</Color>
+        	<Color x:Key="purpleLight">#CEC0EC</Color>
+        	<Color x:Key="greenPrimary">#B3E770</Color>
+        	<Color x:Key="greenLight">#CFEFA7</Color>
+        	<Color x:Key="greenDark">#5A8622</Color>
+
+        	<Color x:Key="grayPrimary">#ADB7BE</Color>
+        	<Color x:Key="grayLight">#ECF0F1</Color>
+        	<Color x:Key="grayDark">#76828A</Color>
+
             <Style x:Key="labelStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="TextColor" Value="#000000" />
                 <Setter Property="FontSize">
                 	<Setter.Value>
                 		<OnPlatform x:TypeArguments="x:Double">
@@ -21,47 +29,66 @@
                 <Setter Property="FontFamily" Value="HelveticaNeue-Light" />
             </Style>
             <Style TargetType="Label" BasedOn="{StaticResource labelStyle}" />
-            <Style x:Key="listLabelStyle" TargetType="Label" BasedOn="{StaticResource labelStyle}">
-<!--            	<Setter Property="TextColor">
-            		<Setter.Value>
-                		<OnPlatform x:TypeArguments="Color">
-	            			<OnPlatform.iOS>#000000</OnPlatform.iOS>
-	            			<OnPlatform.Android>#FFFFFF</OnPlatform.Android>
-                 		</OnPlatform>
-	           		</Setter.Value>
-            	</Setter>-->
-            </Style>
+            <Style x:Key="whiteLabelStyle" TargetType="Label" BasedOn="{StaticResource labelStyle}">
+          		<Setter Property="TextColor" Value="#FFFFFF" />
+          	</Style>
             <Style x:Key="blackLabelStyle" TargetType="Label" BasedOn="{StaticResource labelStyle}">
           	<Setter Property="TextColor">
             		<Setter.Value>
                 		<OnPlatform x:TypeArguments="Color">
 	            			<OnPlatform.iOS>#000000</OnPlatform.iOS>
-	            			<OnPlatform.Android>#FFFFFF</OnPlatform.Android>
+	            			<OnPlatform.Android>#000000</OnPlatform.Android>
                  		</OnPlatform>
 	           		</Setter.Value>
             	</Setter>
             </Style>
             <Style x:Key="buttonStyle" TargetType="Button">
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="BorderRadius" Value="0" />
-                <Setter Property="HeightRequest" Value="70" />
-                <Setter Property="BackgroundColor" Value="#BB000000" />
-                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="TextColor" Value="#5A8622" />
+                <Setter Property="BorderRadius" Value="2" />
+            	<Setter Property="FontSize">
+            		<Setter.Value>
+                		<OnPlatform x:TypeArguments="x:Double">
+	            			<OnPlatform.iOS>14</OnPlatform.iOS>
+	            			<OnPlatform.Android>12</OnPlatform.Android>
+                 		</OnPlatform>
+	           		</Setter.Value>
+            	</Setter>
+            	<Setter Property="HeightRequest">
+            		<Setter.Value>
+                		<OnPlatform x:TypeArguments="x:Double">
+	            			<OnPlatform.iOS>30</OnPlatform.iOS>
+	            			<OnPlatform.Android>40</OnPlatform.Android>
+                 		</OnPlatform>
+	           		</Setter.Value>
+            	</Setter>
+            	<Setter Property="BackgroundColor">
+            		<Setter.Value>
+                		<OnPlatform x:TypeArguments="Color">
+	            			<OnPlatform.iOS>#CFEFA7</OnPlatform.iOS>
+	            			<OnPlatform.Android>Transparent</OnPlatform.Android>
+                 		</OnPlatform>
+	           		</Setter.Value>
+            	</Setter>
             	<Setter Property="FontFamily">
             		<Setter.Value>
                 		<OnPlatform x:TypeArguments="x:String">
-	            			<OnPlatform.iOS>HelveticaNeue-Light</OnPlatform.iOS>
-	            			<OnPlatform.Android>RobotoThin</OnPlatform.Android>
+	            			<OnPlatform.iOS>HelveticaNeue-Regular</OnPlatform.iOS>
                  		</OnPlatform>
 	           		</Setter.Value>
             	</Setter>
             </Style>
+            <Style x:Key="blueButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
+                <Setter Property="TextColor" Value="{StaticResource bluePrimary}" />
+            	<Setter Property="BackgroundColor">
+            		<Setter.Value>
+                		<OnPlatform x:TypeArguments="Color" iOS="{StaticResource blueLight}" Android="Transparent" />
+	           		</Setter.Value>
+            	</Setter>
+            </Style>
+
             <Style TargetType="Button" BasedOn="{StaticResource buttonStyle}" />
             <Style x:Key="purpleButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
-                <Setter Property="BackgroundColor" Value="{StaticResource xamarinPurple}" />
-            </Style>
-            <Style x:Key="blueButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
-                <Setter Property="BackgroundColor" Value="{StaticResource xamarinBlue}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource greenPrimary}" />
             </Style>
             <Style x:Key="deleteButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
                 <Setter Property="TextColor" Value="#FFFFFF" />

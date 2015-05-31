@@ -5,7 +5,7 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
 	<local:ChallengeDateXaml.Content>
-			<Grid VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="{StaticResource xamarinBlue}">
+			<Grid VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="{StaticResource bluePrimary}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="7*" />
 					<RowDefinition Height="3*" />
