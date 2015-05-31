@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- Inherit from the light Material Theme -->
+    <style name="GreenTheme" parent="android:Theme.Material.Light">
+        <item name="android:colorPrimary">@color/greenPrimary</item>
+        <item name="android:statusBarColor">@color/greenDark</item>
+        <item name="android:colorAccent">@color/blueLight</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+    </style>
+
+    <style name="PurpleTheme" parent="android:Theme.Material.Light">
+        <item name="android:colorPrimary">@color/purplePrimary</item>
+        <item name="android:statusBarColor">@color/purpleDark</item>
+        <item name="android:colorAccent">@color/blueLight</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+    </style>
+</resources>
