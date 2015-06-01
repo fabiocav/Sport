@@ -45,9 +45,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\LeagueLandingPage.cs">
       <DependentUpon>LeagueLandingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\MembershipsLandingPage.xaml.cs">
-      <DependentUpon>MembershipsLandingPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AvailableLeaguesPage.xaml.cs">
       <DependentUpon>AvailableLeaguesPage.xaml</DependentUpon>
     </Compile>
@@ -67,9 +64,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\AthleteEditViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\LeagueEditViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LeagueDetailsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\MembershipsByLeaguePage.xaml.cs">
-      <DependentUpon>MembershipsByLeaguePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\MembershipDetailsPage.xaml.cs">
       <DependentUpon>MembershipDetailsPage.xaml</DependentUpon>
     </Compile>
@@ -91,7 +85,6 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\MatchResultsFormPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipsByLeagueViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FlikrService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FlikrResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\Admin\PhotoSelectionPage.xaml.cs">
@@ -144,6 +137,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LeagueViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\LeaderboardPage.xaml.cs">
+      <DependentUpon>LeaderboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LeaderboardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -153,9 +150,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\LeagueLandingPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Admin\MembershipsLandingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AvailableLeaguesPage.xaml">
@@ -168,9 +162,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\LeagueDetailsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MembershipsByLeaguePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MembershipDetailsPage.xaml">
@@ -219,6 +210,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ChallengeCardView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\LeaderboardPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

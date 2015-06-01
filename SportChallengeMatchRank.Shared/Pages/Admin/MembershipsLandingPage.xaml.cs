@@ -67,8 +67,8 @@ namespace SportChallengeMatchRank.Shared
 
 				if(ViewModel.League != null)
 				{
-					await ViewModel.GetAllMembershipsByLeague();
-					list.RefreshCommand = ViewModel.GetAllMembershipsByLeagueCommand;
+					await ViewModel.GetLeaderboard();
+					list.RefreshCommand = ViewModel.GetLeaderboardCommand;
 					list.SetBinding(ListView.ItemsSourceProperty, "League.Memberships");
 					_hasLoadedBefore = true;
 				}
@@ -107,7 +107,7 @@ namespace SportChallengeMatchRank.Shared
 		}
 	}
 
-	public partial class MembershipsLandingXaml : BaseContentPage<MembershipsByLeagueViewModel>
+	public partial class MembershipsLandingXaml : BaseContentPage<LeaderboardViewModel>
 	{
 	}
 }

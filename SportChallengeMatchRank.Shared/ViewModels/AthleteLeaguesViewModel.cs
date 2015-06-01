@@ -4,8 +4,6 @@ using System.Windows.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Collections;
-using System;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.AthleteLeaguesViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -48,7 +46,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return new Command(async() => await GetLeagues(true));
+				return new Command(async() => await RemoteRefresh());
 			}
 		}
 
@@ -71,8 +69,12 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			}
 
-			await AthleteViewModel.GetLeagues(forceRefresh |= !_hasLoadedChallengesBefore);
-			LocalRefresh();
+			using(new Busy(this))
+			{
+				await AthleteViewModel.GetLeagues(forceRefresh |= !_hasLoadedChallengesBefore);
+				LocalRefresh();
+			}
+
 			_hasLoadedLeaguesBefore = true;
 		}
 
@@ -87,6 +89,12 @@ namespace SportChallengeMatchRank.Shared
 			await AthleteViewModel.GetChallenges(forceRefresh |= !_hasLoadedChallengesBefore);
 			Athlete.RefreshChallenges();
 			_hasLoadedChallengesBefore = true;
+		}
+
+		public async Task RemoteRefresh()
+		{
+			await GetLeagues(true);
+			await GetChallenges(true);
 		}
 
 		public void LocalRefresh()

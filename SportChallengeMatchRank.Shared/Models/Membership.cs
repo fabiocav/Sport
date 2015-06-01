@@ -106,6 +106,15 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		[JsonIgnore]
+		public Challenge OngoingChallenge
+		{
+			get
+			{
+				return App.CurrentAthlete.AllChallenges.FirstOrDefault(c => c.LeagueId == LeagueId && !c.IsCompleted);
+			}
+		}
+
+		[JsonIgnore]
 		public DateTime LastRankChangeDate
 		{
 			get
@@ -121,6 +130,10 @@ namespace SportChallengeMatchRank.Shared
 
 			if(League != null)
 				League.RefreshMemberships();
+
+			SetPropertyChanged("OngoingChallenge");
+			SetPropertyChanged("LastRankChangeDate");
+			SetPropertyChanged("CurrentRank");
 		}
 
 		public Challenge GetExistingOngoingChallengeWithAthlete(Athlete athlete)

@@ -11,8 +11,10 @@
 
 		<StackLayout BackgroundColor="{StaticResource grayPrimary}" Orientation="Horizontal"
 			HorizontalOptions="FillAndExpand" Padding="14">
+
+			<Image Source="ic_fencing_white" />
 			<Label Text="Challenge" FontSize="Medium" TextColor="White" VerticalOptions="Center" />
-			<Label Text="{Binding Challenge.ProposedTimeString}" FontSize="Medium" TextColor="White" VerticalOptions="Center" />
+			<Label Text="{Binding Challenge.ProposedTimeString}" FontSize="Medium" TextColor="White" HorizontalOptions="EndAndExpand" VerticalOptions="Center" />
 		</StackLayout>
 
 		<StackLayout Orientation="Horizontal" Spacing="20" Padding="14">

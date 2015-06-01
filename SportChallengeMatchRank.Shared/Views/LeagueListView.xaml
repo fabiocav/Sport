@@ -32,7 +32,7 @@
 									 VerticalOptions="Center" HeightRequest="70" LineBreakMode="WordWrap" />
 							</StackLayout>
 							<StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="End" Padding="10,10" VerticalOptions="EndAndExpand">
-								<Button Text="RANKINGS" Clicked="OnRankingsClicked" />
+								<Button Text="RANKINGS" Clicked="OnRankingsClicked" CommandParameter="{Binding .}" />
 
 <!--								<Button Text="JOIN" Clicked="OnJoinClicked"  />
 								<Button Text="CHALLENGES" IsVisible="{Binding ShowChallengesButton}" BindingContext="{x:Reference Name=page}" />

@@ -25,6 +25,18 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public Action<League> OnRankings
+		{
+			get;
+			set;
+		}
+
+		public Action<League> OnJoin
+		{
+			get;
+			set;
+		}
+
 		public bool ShowJoinButton
 		{
 			get;
@@ -39,10 +51,14 @@ namespace SportChallengeMatchRank.Shared
 
 		void OnRankingsClicked(object sender, EventArgs e)
 		{
+			var league = ((Button)sender).CommandParameter as League;
+			OnRankings?.Invoke(league);
 		}
 
 		void OnJoinClicked(object sender, EventArgs e)
 		{
+			var league = ((Button)sender).CommandParameter as League;
+			OnJoin?.Invoke(league);
 		}
 	}
 }

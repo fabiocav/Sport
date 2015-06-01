@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
+using ModernHttpClient;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -36,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(_client == null)
 				{
-					var handler = new ModernHttpClient.NativeMessageHandler();
+					var handler = new NativeMessageHandler();
 
 					#if __IOS__
 
@@ -74,8 +75,8 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var tags = new List<string> {
-						App.CurrentAthlete.Id,
-						"All",
+					App.CurrentAthlete.Id,
+					"All",
 				};
 
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
@@ -107,8 +108,7 @@ namespace SportChallengeMatchRank.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> {
-					{
+				var values = new Dictionary<string, string> { {
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -541,8 +541,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -572,8 +571,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}

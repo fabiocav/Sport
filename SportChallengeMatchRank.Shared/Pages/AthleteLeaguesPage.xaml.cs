@@ -35,6 +35,18 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushModalAsync(nav);
 			};
 
+			list.OnRankings = async(league) =>
+			{
+				if(!league.HasStarted)
+				{
+					"This league hasn't started".ToToast(ToastNotificationType.Info);
+					return;
+				}
+
+				var membershipsPage = new LeaderboardPage(league);
+				await Navigation.PushAsync(membershipsPage);	
+			};
+
 			list.ItemSelected += async(sender, e) =>
 			{
 				if(list.SelectedItem == null)
@@ -61,8 +73,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				//using(new HUD("Getting leagues..."))
 				{
-					await ViewModel.GetLeagues();
-					await ViewModel.GetChallenges();
+					await ViewModel.RemoteRefresh();
 				}
 			}
 		}
@@ -76,8 +87,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				//using(new HUD("Getting leagues..."))
 				{
-					await ViewModel.GetLeagues();
-					await ViewModel.GetChallenges();
+					await ViewModel.RemoteRefresh();
 				}
 			}
 		}
@@ -87,8 +97,7 @@ namespace SportChallengeMatchRank.Shared
 			string leagueId = null;
 			if(payload.Payload.TryGetValue("leagueId", out leagueId))
 			{
-				await ViewModel.GetLeagues(true);
-				await ViewModel.GetChallenges();
+				await ViewModel.RemoteRefresh();
 			}
 		}
 	}

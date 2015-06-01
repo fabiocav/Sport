@@ -3,9 +3,9 @@ using System;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public partial class MembershipsByLeaguePage : MembershipsByLeagueXaml
+	public partial class LeaderboardPage : LeaderboardXaml
 	{
-		public MembershipsByLeaguePage(League league)
+		public LeaderboardPage(League league)
 		{
 			ViewModel.League = league;
 			Initialize();
@@ -14,7 +14,7 @@ namespace SportChallengeMatchRank.Shared
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Current Rankings";
+			Title = "Rankings";
 
 			list.ItemSelected += async(sender, e) =>
 			{
@@ -33,7 +33,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				using(new HUD("Getting members..."))
 				{
-					await ViewModel.GetAllMembershipsByLeague();
+					await ViewModel.GetLeaderboard();
 				}
 			}
 
@@ -43,6 +43,11 @@ namespace SportChallengeMatchRank.Shared
 			base.OnLoaded();
 		}
 
+		void OnChallengeClicked(object sender, EventArgs e)
+		{
+			
+		}
+
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
 			string leagueId = null;
@@ -50,13 +55,13 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(ViewModel.League != null && leagueId == ViewModel.League.Id)
 				{
-					await ViewModel.GetAllMembershipsByLeague(true);
+					await ViewModel.GetLeaderboard(true);
 				}
 			}
 		}
 	}
 
-	public partial class MembershipsByLeagueXaml : BaseContentPage<MembershipsByLeagueViewModel>
+	public partial class LeaderboardXaml : BaseContentPage<LeaderboardViewModel>
 	{
 	}
 }

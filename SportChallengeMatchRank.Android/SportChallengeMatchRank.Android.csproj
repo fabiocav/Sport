@@ -183,6 +183,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_thumb_down_white.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_thumb_down_white.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_thumb_down_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_fencing_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_fencing_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_fencing_white.png" />
   </ItemGroup>
   <Import Project="..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems" Label="Shared" Condition="Exists('..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

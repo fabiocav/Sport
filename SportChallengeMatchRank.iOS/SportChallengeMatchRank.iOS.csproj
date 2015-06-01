@@ -180,7 +180,6 @@
     <BundleResource Include="Resources\Icon-Small-40%402x.png" />
     <BundleResource Include="Resources\Icon-Small-40%403x.png" />
     <BundleResource Include="Resources\tennis%402x.png" />
-    <BundleResource Include="Resources\fencing%402x.png" />
     <BundleResource Include="Resources\ic_add_white%402x.png" />
     <BundleResource Include="Resources\ic_add_white%403x.png" />
     <BundleResource Include="Resources\ic_menu_white%402x.png" />
@@ -193,6 +192,8 @@
     <BundleResource Include="Resources\ic_thumb_down_white%403x.png" />
     <BundleResource Include="Resources\ic_thumb_up_white%402x.png" />
     <BundleResource Include="Resources\ic_thumb_up_white%403x.png" />
+    <BundleResource Include="Resources\ic_fencing_white%402x.png" />
+    <BundleResource Include="Resources\ic_fencing_white%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

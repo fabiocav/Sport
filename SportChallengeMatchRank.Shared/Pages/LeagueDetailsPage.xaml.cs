@@ -7,7 +7,7 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class LeagueDetailsPage : LeagueDetailsXaml
 	{
-		MembershipsByLeaguePage _membershipsPage;
+		LeaderboardPage _membershipsPage;
 
 		public LeagueDetailsPage(League league)
 		{
@@ -40,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 				if(value != _buttonStyle)
 				{
 					_buttonStyle = value;
-					btnRankings.Style = btnJoin.Style = _buttonStyle;
+					btnJoin.Style = _buttonStyle;
 				}
 			}
 		}
@@ -57,20 +57,6 @@ namespace SportChallengeMatchRank.Shared
 
 			if(GetMoreMenuOptions().Count > 0)
 				ToolbarItems.Add(moreButton);
-
-			btnRankings.Clicked += async(sender, e) =>
-			{
-				if(!ViewModel.League.HasStarted)
-				{
-					"This league hasn't started".ToToast(ToastNotificationType.Info);
-					return;
-				}
-
-				if(_membershipsPage == null)
-					_membershipsPage = new MembershipsByLeaguePage(ViewModel.League);
-
-				await Navigation.PushAsync(_membershipsPage);	
-			};
 
 			btnJoin.Clicked += async(sender, e) =>
 			{
@@ -107,7 +93,7 @@ namespace SportChallengeMatchRank.Shared
 
 			using(new Busy(ViewModel))
 			{
-				ViewModel.RefreshLeague();
+				await ViewModel.RefreshLeague();
 			}
 		}
 
@@ -126,10 +112,12 @@ namespace SportChallengeMatchRank.Shared
 		const string _leave = "Cowardly Abandon League";
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
+		const string _rankings = "Rankings";
 
 		List<string> GetMoreMenuOptions()
 		{
 			var list = new List<string>();
+			list.Add(_rankings);
 
 			if(ViewModel.CanGetRules)
 				list.Add(_rules);
@@ -156,10 +144,27 @@ namespace SportChallengeMatchRank.Shared
 
 			if(action == _pastChallenges)
 				DisplayPastChallenges();
+
+			if(action == _rankings)
+				OnRankingsClicked();
 		}
 
 		async void DisplayPastChallenges()
 		{
+		}
+
+		async void OnRankingsClicked()
+		{
+			if(!ViewModel.League.HasStarted)
+			{
+				"This league hasn't started".ToToast(ToastNotificationType.Info);
+				return;
+			}
+
+			if(_membershipsPage == null)
+				_membershipsPage = new LeaderboardPage(ViewModel.League);
+
+			await Navigation.PushAsync(_membershipsPage);	
 		}
 
 		async void OpenRules()

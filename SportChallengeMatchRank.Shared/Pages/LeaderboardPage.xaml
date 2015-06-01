@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:LeaderboardXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.LeaderboardPage"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+	<local:LeaderboardXaml.Content>
+		<ListView x:Name="list" ItemsSource="{Binding Memberships}" BackgroundColor="White"
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshCommand="{Binding GetLeaderboardCommand}">
+			<ListView.RowHeight>
+				<OnPlatform x:TypeArguments="x:Int32">
+					<OnPlatform.iOS>70</OnPlatform.iOS>
+					<OnPlatform.Android>90</OnPlatform.Android>
+				</OnPlatform>
+			</ListView.RowHeight>
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ViewCell.ContextActions>
+						    <MenuItem Clicked="OnChallengeClicked" Text="Challenge" />
+						</ViewCell.ContextActions>
+						<ViewCell.View>
+							<StackLayout Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
+								<Label Text="{Binding CurrentRankDisplay}" VerticalOptions="Center" FontSize="28" YAlign="Center" TextColor="{StaticResource grayDark}" />
+
+								<StackLayout Spacing="20" Orientation="Horizontal">
+									<controls:CircleImage x:Name="photoImage" WidthRequest="36" HeightRequest="36" Source="{Binding Athlete.ProfileImageUrl}"
+										HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" />
+
+									<StackLayout Spacing="0" VerticalOptions="Center">
+										<Label Text="{Binding Athlete.Alias}" FontSize="Medium" LineBreakMode="TailTruncation" />
+										<Label Text="{Binding Athlete.Name}" FontSize="Small" TextColor="{StaticResource grayPrimary}"  LineBreakMode="TailTruncation" />
+									</StackLayout>
+								</StackLayout>
+
+								<AbsoluteLayout IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" HorizontalOptions="EndAndExpand">
+									<Button BorderRadius="3" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="36" WidthRequest="36"
+										AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
+									<Image Source="ic_fencing_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+								</AbsoluteLayout>
+
+							</StackLayout>
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</local:LeaderboardXaml.Content>
+</local:LeaderboardXaml>
