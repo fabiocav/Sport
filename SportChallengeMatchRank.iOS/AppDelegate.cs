@@ -3,8 +3,6 @@ using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
 using Newtonsoft.Json;
 using SportChallengeMatchRank.Shared;
-using Toasts.Forms.Plugin.Abstractions;
-using Toasts.Forms.Plugin.iOS;
 using UIKit;
 using Xamarin;
 using Xamarin.Forms;
@@ -25,7 +23,7 @@ namespace SportChallengeMatchRank.iOS
 
 			Forms.Init();
 			ImageCircleRenderer.Init();
-			ToastNotificatorImplementation.Init();
+			ToastNotifier.Init();
 
 			//UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
 

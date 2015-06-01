@@ -36,7 +36,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(_client == null)
 				{
-					var handler = new HttpClientHandler();
+					var handler = new ModernHttpClient.NativeMessageHandler();
 
 					#if __IOS__
 
@@ -449,6 +449,7 @@ namespace SportChallengeMatchRank.Shared
 				if(membership.Id == null)
 				{
 					Client.GetTable<Membership>().InsertAsync(membership).Wait();
+					membership.DateCreated = DateTime.UtcNow;
 				}
 				else
 				{

@@ -70,8 +70,11 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
+				if(Membership == null)
+					return null;
+				
 				var dayCount = Math.Round(DateTime.UtcNow.Subtract(Membership.LastRankChangeDate).TotalDays);
-				return "ranked {0} for {1} day{2}".Fmt(Membership.CurrentRankDisplay.ToOrdinal(), dayCount, dayCount == 1 ? "" : "s");
+				return "{0} out of {1} for {2} day{3}".Fmt(Membership.CurrentRankDisplay.ToOrdinal(), Membership.League.Memberships.Count, dayCount, dayCount == 1 ? "" : "s");
 			}
 		}
 

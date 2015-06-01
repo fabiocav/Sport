@@ -24,9 +24,9 @@
 				</StackLayout>
 
 				<StackLayout VerticalOptions="End" HorizontalOptions="FillAndExpand" Spacing="2">
-					<Button x:Name="btnSave" Text="Save Profile" BackgroundColor="#44000000"
+					<Button x:Name="btnSave" Text="Save" BackgroundColor="#44000000"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-					<Button x:Name="btnDelete" Text="Delete Profile" BackgroundColor="#99FF0000"
+					<Button x:Name="btnDelete" Text="Delete" BackgroundColor="#99FF0000"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 				</StackLayout>
 			</StackLayout>

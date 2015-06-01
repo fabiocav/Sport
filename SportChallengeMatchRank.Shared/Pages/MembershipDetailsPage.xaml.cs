@@ -1,5 +1,4 @@
 ﻿using System;
-using Toasts.Forms.Plugin.Abstractions;
 using Xamarin.Forms;
 using System.Linq;
 
@@ -27,12 +26,12 @@ namespace SportChallengeMatchRank.Shared
 			btnSaveMembership.Clicked += async(sender, e) =>
 			{
 				await ViewModel.SaveMembership();
-				"Membership saved!".ToToast(ToastNotificationType.Success);
+				"Saved".ToToast(ToastNotificationType.Success);
 			};
 
 			btnDeleteMembership.Clicked += async(sender, e) =>
 			{
-				var accepted = await DisplayAlert("Delete Membership?", "Are you totes sure you want to delete this membership?", "Yes", "No");
+				var accepted = await DisplayAlert("Delete Membership?", "Are you sure you want to delete this membership?", "Yes", "No");
 
 				if(accepted)
 				{
@@ -41,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 					if(OnDelete != null)
 						OnDelete();
 
-					"Membership removed.".ToToast(ToastNotificationType.Success);
+					"Deleted.".ToToast(ToastNotificationType.Success);
 					await Navigation.PopAsync();
 				}
 			};
@@ -51,7 +50,7 @@ namespace SportChallengeMatchRank.Shared
 				var conflict = ViewModel.Membership.GetChallengeConflictReason(App.CurrentAthlete);
 				if(conflict != null)
 				{
-					conflict.ToToast(ToastNotificationType.Error, "No can do");
+					conflict.ToToast(ToastNotificationType.Error);
 					return;
 				}
 
@@ -69,17 +68,17 @@ namespace SportChallengeMatchRank.Shared
 
 			btnRevokeChallenge.Clicked += async(sender, e) =>
 			{
-				var revoke = await DisplayAlert("Really?", "Are you sure you want to cowardly revoke this honorable duel?", "Sadly, yes", "No - good point");
+				var revoke = await DisplayAlert("Really?", "Are you sure you want to revoke this challenge?", "Sadly", "No");
 
 				if(!revoke)
 					return;
 					
-				using(new HUD("Revoking challenge..."))
+				using(new HUD("Revoking..."))
 				{
 					await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
 				}
 
-				"{0} has been notified of your shameless ways.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Info);
+				"Revoked".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Info);
 			};
 
 			await ViewModel.RunSafe(AzureService.Instance.GetAllChallengesByAthlete(ViewModel.Membership.Athlete));
@@ -113,7 +112,6 @@ namespace SportChallengeMatchRank.Shared
 			string membershipId = null;
 			string winningAthleteId = null;
 			string losingAthleteId = null;
-			string challengeId = null;
 
 			if(payload.Payload.TryGetValue("membershipId", out membershipId) && membershipId == ViewModel.MembershipId)
 				reload = true;

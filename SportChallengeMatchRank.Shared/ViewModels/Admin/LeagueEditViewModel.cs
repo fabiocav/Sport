@@ -3,7 +3,6 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Text;
 using System.Linq;
-using Toasts.Forms.Plugin.Abstractions;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeagueEditViewModel))]
 

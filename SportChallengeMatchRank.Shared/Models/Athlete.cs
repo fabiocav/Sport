@@ -234,5 +234,10 @@ namespace SportChallengeMatchRank.Shared
 			OutgoingChallenges.Clear();
 			DataManager.Instance.Challenges.Values.Where(m => m.ChallengerAthleteId == Id).ToList().ForEach(OutgoingChallenges.Add);
 		}
+
+		public Challenge GetChallengeForLeague(League league)
+		{
+			return AllChallenges.FirstOrDefault(c => c.LeagueId == league.Id && !c.IsCompleted);
+		}
 	}
 }

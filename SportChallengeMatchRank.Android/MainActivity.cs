@@ -1,17 +1,16 @@
 ﻿using System;
 using Android.App;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Views;
 using ImageCircle.Forms.Plugin.Droid;
 using SportChallengeMatchRank.Shared;
-using Toasts.Forms.Plugin.Droid;
 using XLabs.Forms;
-using Android.Graphics.Drawables;
-using Android.Graphics;
 
 namespace SportChallengeMatchRank.Android
 {
-	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@android:color/transparent", Theme = "@style/GreenTheme")]
+	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GreenTheme")]
 	public class MainActivity : XFormsApplicationDroid
 	{
 		protected override void OnCreate(Bundle bundle)
@@ -25,7 +24,6 @@ namespace SportChallengeMatchRank.Android
 				Window.SetSoftInputMode(SoftInput.AdjustPan);
 				Xamarin.Forms.Forms.Init(this, bundle);
 				ImageCircleRenderer.Init();
-				ToastNotificatorImplementation.Init();
 
 				Xamarin.Forms.Forms.ViewInitialized += (sender, e) =>
 				{

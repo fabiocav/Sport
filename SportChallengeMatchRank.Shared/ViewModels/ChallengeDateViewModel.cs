@@ -62,9 +62,9 @@ namespace SportChallengeMatchRank.Shared
 		{
 			var sb = new StringBuilder();
 
-			if(SelectedDate.AddTicks(SelectedTime.Ticks) <= DateTime.Now.AddMinutes(30))
+			if(SelectedDate.AddTicks(SelectedTime.Ticks) <= DateTime.Now.AddMinutes(5))
 			{
-				sb.AppendLine("Please choose a date at least 30 minutes from now.");
+				sb.AppendLine("Please choose a date at least 5 minutes from now.");
 			}
 
 			return sb.Length == 0 ? null : sb.ToString();

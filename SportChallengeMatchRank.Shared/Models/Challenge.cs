@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using System.Windows.Input;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -195,12 +196,34 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		[JsonIgnore]
-		public string PreSummary
+		public string ProposedTimeString
 		{
 			get
 			{
 				var date = ProposedTime.ToLocalTime().LocalDateTime;
-				return "on {0} at {1} sharp, {2} presents...".Fmt(date.ToString("M"), date.ToString("t"), League.Name);
+				return "{0} at {1}".Fmt(date.ToString("dddd, M"), date.ToString("t"), League.Name);
+			}
+		}
+
+		[JsonIgnore]
+		public string BattleFor
+		{
+			get
+			{
+				if(League == null)
+					return null;
+				
+				var mem = League.Memberships.SingleOrDefault(m => m.AthleteId == ChallengeeAthleteId);
+				var desc = mem == null ? null : "an epic battle for {0} place".Fmt((mem.CurrentRank + 1).ToOrdinal());
+
+				if(mem == null)
+					return null;
+
+				if(ChallengerAthlete == null || ChallengeeAthlete == null)
+					return desc;
+
+				desc += " between {0} and {1}".Fmt(ChallengerAthlete.Alias, ChallengeeAthlete.Alias);
+				return desc;
 			}
 		}
 
@@ -239,6 +262,18 @@ namespace SportChallengeMatchRank.Shared
 					Height = 100;
 				});
 			}
+		}
+
+		public void NotifyPropertiesChanged()
+		{
+			SetPropertyChanged("League");
+			SetPropertyChanged("Summary");
+			SetPropertyChanged("ChallengeeAthlete");
+			SetPropertyChanged("ChallengerAthlete");
+			SetPropertyChanged("IsCompleted");
+			SetPropertyChanged("ProposedTimeString");
+			SetPropertyChanged("IsAccepted");
+			SetPropertyChanged("BattleFor");
 		}
 	}
 }

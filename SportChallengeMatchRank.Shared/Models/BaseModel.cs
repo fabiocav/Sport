@@ -20,6 +20,20 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		DateTime? _updatedAt;
+
+		public DateTime? UpdatedAt
+		{
+			get
+			{
+				return _updatedAt;
+			}
+			set
+			{
+				SetPropertyChanged(ref _updatedAt, value);
+			}
+		}
+
 		DateTime? _dateCreated;
 
 		public DateTime? DateCreated

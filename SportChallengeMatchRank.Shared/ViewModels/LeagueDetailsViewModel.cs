@@ -35,6 +35,43 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public Challenge OngoingChallenge
+		{
+			get
+			{
+				var challenge = App.CurrentAthlete?.GetChallengeForLeague(League);
+				return challenge;
+			}
+		}
+
+		public bool CanGetRules
+		{
+			get
+			{
+				return !string.IsNullOrWhiteSpace(League.RulesUrl);	
+			}
+		}
+
+		MembershipDetailsViewModel _membershipViewModel;
+
+		public MembershipDetailsViewModel MembershipViewModel
+		{
+			get
+			{
+				if(_membershipViewModel == null)
+				{
+					if(IsMember)
+					{
+						_membershipViewModel = new MembershipDetailsViewModel {
+							MembershipId = App.CurrentAthlete.Memberships.First(m => m.LeagueId == League.Id).Id
+						};
+					}
+				}
+
+				return _membershipViewModel;
+			}
+		}
+
 		public string DateRange
 		{
 			get
@@ -54,6 +91,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		LeagueViewModel LeagueViewModel
+		{
+			get;
+			set;
+		}
+
 		League _league;
 
 		public League League
@@ -65,10 +108,8 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _league, value);
-				SetPropertyChanged("SportDescription");
-				SetPropertyChanged("DateRange");
-				SetPropertyChanged("CreatedBy");
-				SetPropertyChanged("IsMember");
+				LeagueViewModel = new LeagueViewModel(_league);
+				NotifyPropertiesChanged();
 			}
 		}
 
@@ -76,10 +117,11 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task LoadAthlete()
 		{
-			await RunSafe(AzureService.Instance.GetAthleteById(League.CreatedByAthleteId, true));
+			await RunSafe(AzureService.Instance.GetAthleteById(League.CreatedByAthleteId));
 			League.RefreshMemberships();
+
 			League.SetPropertyChanged("CreatedByAthlete");
-			SetPropertyChanged("CreatedBy");
+			NotifyPropertiesChanged();
 		}
 
 		async public Task<bool> JoinLeague()
@@ -93,7 +135,7 @@ namespace SportChallengeMatchRank.Shared
 			var task = AzureService.Instance.SaveMembership(membership);
 			await RunSafe(task);
 
-			SetPropertyChanged("IsMember");
+			NotifyPropertiesChanged();
 			return task.IsCompleted && !task.IsFaulted;
 		}
 
@@ -101,7 +143,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == League.Id);
 			await RunSafe(AzureService.Instance.DeleteMembership(membership.Id));
-			SetPropertyChanged("IsMember");
+			NotifyPropertiesChanged();
 		}
 
 		async public Task RefreshLeague()
@@ -115,7 +157,21 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				League = task.Result;
+				await LeagueViewModel.GetAllMemberships(true);
+				NotifyPropertiesChanged();
 			}
+		}
+
+		void NotifyPropertiesChanged()
+		{
+			SetPropertyChanged("SportDescription");
+			SetPropertyChanged("DateRange");
+			SetPropertyChanged("CreatedBy");
+			SetPropertyChanged("IsMember");
+			SetPropertyChanged("OngoingChallenge");
+			SetPropertyChanged("MembershipViewModel");
+
+			OngoingChallenge?.NotifyPropertiesChanged();
 		}
 	}
 }

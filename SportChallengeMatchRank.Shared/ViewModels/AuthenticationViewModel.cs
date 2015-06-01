@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
 using nsoftware.InGoogle;
-using Toasts.Forms.Plugin.Abstractions;
 using Xamarin;
 using System.Collections.Generic;
 
@@ -150,7 +149,7 @@ namespace SportChallengeMatchRank.Shared
 					if(task.IsCompleted && task.IsFaulted)
 						return false;
 
-					"You're now officially an athlete :)".ToToast(ToastNotificationType.Info, "Congrats!");
+					"Registered".ToToast(ToastNotificationType.Info);
 				}
 				else
 				{
@@ -168,7 +167,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(App.CurrentAthlete != null)
 				{
-					AuthenticationStatus = "Getting Athlete info";
+					AuthenticationStatus = "Getting Athlete's info";
 					var task = AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
 					await RunSafe(task);
 

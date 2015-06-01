@@ -1,5 +1,4 @@
 ﻿using System;
-using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -32,7 +31,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(success)
 				{
-					"Profile saved!".ToToast(ToastNotificationType.Success, "YES!");
+					"Saved".ToToast(ToastNotificationType.Success);
 
 					if(OnSave != null)
 						OnSave();
@@ -57,7 +56,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(success)
 				{
-					"Profile deleted!".ToToast(ToastNotificationType.Success, "YES!");
+					"Deleted".ToToast(ToastNotificationType.Success);
 					await Navigation.PopAsync();
 				}
 			};

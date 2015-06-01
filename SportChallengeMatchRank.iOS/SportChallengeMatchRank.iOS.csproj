@@ -83,12 +83,6 @@
     <Reference Include="Microsoft.WindowsAzure.Mobile.Ext">
       <HintPath>..\packages\WindowsAzure.MobileServices.1.3.2\lib\Xamarin.iOS10\Microsoft.WindowsAzure.Mobile.Ext.dll</HintPath>
     </Reference>
-    <Reference Include="Toasts.Forms.Plugin.Abstractions">
-      <HintPath>..\packages\Toasts.Forms.Plugin.1.0.6.18\lib\Xamarin.iOS10\Toasts.Forms.Plugin.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Toasts.Forms.Plugin.iOS">
-      <HintPath>..\packages\Toasts.Forms.Plugin.1.0.6.18\lib\Xamarin.iOS10\Toasts.Forms.Plugin.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Connectivity.Plugin">
       <HintPath>..\packages\Xam.Plugin.Connectivity.1.0.2\lib\Xamarin.iOS10\Connectivity.Plugin.dll</HintPath>
     </Reference>
@@ -165,6 +159,9 @@
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\packages\Xamarin.Insights.1.10.2.110\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
     </Reference>
+    <Reference Include="MessageBarLib">
+      <HintPath>..\SupportingProjects\iOS\MessageBarLib\MessageBarLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default.png" />
@@ -190,6 +187,12 @@
     <BundleResource Include="Resources\ic_menu_white%403x.png" />
     <BundleResource Include="Resources\ic_more_vert_white%402x.png" />
     <BundleResource Include="Resources\ic_more_vert_white%403x.png" />
+    <BundleResource Include="Resources\ic_control_point_white%402x.png" />
+    <BundleResource Include="Resources\ic_control_point_white%403x.png" />
+    <BundleResource Include="Resources\ic_thumb_down_white%402x.png" />
+    <BundleResource Include="Resources\ic_thumb_down_white%403x.png" />
+    <BundleResource Include="Resources\ic_thumb_up_white%402x.png" />
+    <BundleResource Include="Resources\ic_thumb_up_white%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -207,6 +210,7 @@
     <Compile Include="ClearNavigationPage.cs" />
     <Compile Include="Providers\ExtendedDatePicker.cs" />
     <Compile Include="Providers\ExtendedTimePicker.cs" />
+    <Compile Include="Providers\ToastNotifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

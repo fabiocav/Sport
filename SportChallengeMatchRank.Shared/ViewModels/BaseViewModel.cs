@@ -120,6 +120,7 @@ namespace SportChallengeMatchRank.Shared
 
 	public class Busy : IDisposable
 	{
+		object _sync = new object();
 		readonly BaseViewModel _viewModel;
 
 		public Busy(BaseViewModel viewModel)
@@ -127,8 +128,11 @@ namespace SportChallengeMatchRank.Shared
 			_viewModel = viewModel;
 			Device.BeginInvokeOnMainThread(() =>
 			{
-				Console.WriteLine("Busy");
-				_viewModel.IsBusy = true;
+				lock(_sync)
+				{
+					Console.WriteLine("Busy");
+					_viewModel.IsBusy = true;
+				}
 			});
 		}
 
@@ -136,8 +140,11 @@ namespace SportChallengeMatchRank.Shared
 		{
 			Device.BeginInvokeOnMainThread(() =>
 			{
-				Console.WriteLine("Not Busy");
-				_viewModel.IsBusy = false;
+				lock(_sync)
+				{
+					_viewModel.IsBusy = false;
+					Console.WriteLine("Not Busy");
+				}
 			});
 		}
 	}

@@ -1,5 +1,4 @@
 ﻿using System;
-using Toasts.Forms.Plugin.Abstractions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using XLabs.Forms.Controls;

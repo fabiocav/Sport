@@ -49,7 +49,7 @@ namespace SportChallengeMatchRank.Shared
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new League {
-					Name = "There are no joinable leagues",
+					Name = "There are no leagues to join",
 				});
 			}
 		}

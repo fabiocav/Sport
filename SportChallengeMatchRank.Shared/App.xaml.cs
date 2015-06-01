@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Connectivity.Plugin;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
-using Toasts.Forms.Plugin.Abstractions;
 using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {

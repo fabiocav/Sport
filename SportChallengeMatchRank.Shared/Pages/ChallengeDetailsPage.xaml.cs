@@ -1,5 +1,4 @@
 ﻿using System;
-using Toasts.Forms.Plugin.Abstractions;
 using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
@@ -43,13 +42,13 @@ namespace SportChallengeMatchRank.Shared
 			btnAccept.Clicked += async(sender, e) =>
 			{
 				bool success;
-				using(new HUD("Accepting challenge..."))
+				using(new HUD("Accepting..."))
 				{
 					success = await ViewModel.AcceptChallenge();
 				}
 
 				if(success)
-					"It is sooooooo on like a prawn that yawns at dawn.".ToToast(ToastNotificationType.Success);
+					"Accepted".ToToast(ToastNotificationType.Success);
 
 				if(OnAccept != null)
 					OnAccept();
@@ -71,7 +70,7 @@ namespace SportChallengeMatchRank.Shared
 
 			btnRevoke.Clicked += async(sender, e) =>
 			{
-				var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly revoke this honorable duel?", "Sadly, yes", "No - good point");
+				var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly revoke this honorable duel?", "Yes", "No");
 
 				if(!decline)
 					return;
@@ -83,7 +82,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 
 				if(success)
-					"Unbelievable - how dare you!".ToToast(ToastNotificationType.Info, "Coward!");
+					"Revoked".ToToast(ToastNotificationType.Info);
 
 				if(OnDecline != null)
 					OnDecline();
@@ -99,19 +98,19 @@ namespace SportChallengeMatchRank.Shared
 
 		async void DeclineChallenge(object sender, EventArgs e)
 		{
-			var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly decline this honorable duel?", "Sadly, yes", "No - good point");
+			var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly decline this honorable duel?", "Yes", "No");
 
 			if(!decline)
 				return;
 
 			bool success;
-			using(new HUD("Declining challenge..."))
+			using(new HUD("Declining..."))
 			{
 				success = await ViewModel.DeclineChallenge();
 			}
 
 			if(success)
-				"Unbelievable - how dare you!".ToToast(ToastNotificationType.Info, "Coward!");
+				"Unbelievable!".ToToast(ToastNotificationType.Info);
 
 			if(OnDecline != null)
 				OnDecline();

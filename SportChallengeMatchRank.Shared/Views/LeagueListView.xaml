@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.LeagueListView" x:Key="page" x:Name="page"
+	x:Class="SportChallengeMatchRank.Shared.LeagueListView" x:Name="list"
 	IsRefreshing="{Binding IsBusy, Mode=OneWay}"
 	BackgroundColor="{StaticResource grayLight}" SeparatorVisibility="None" RowHeight="350"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
@@ -10,6 +10,14 @@
 			<ViewCell>
 				<ViewCell.View>
 					<AbsoluteLayout StyleId="leagueRow" Padding="14,14,14,0">
+
+						<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill"
+							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+							IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+
+							<Label Text="{Binding Name}" FontSize="Large" XAlign="Center" />
+						</StackLayout>
+
 						<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="Fill"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
 							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
@@ -24,8 +32,11 @@
 									 VerticalOptions="Center" HeightRequest="70" LineBreakMode="WordWrap" />
 							</StackLayout>
 							<StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="End" Padding="10,10" VerticalOptions="EndAndExpand">
-								<Button Text="RANKINGS" Clicked="OnRankingsClicked"  />
-								<Button Text="CHALLENGES" IsVisible="{Binding ShowChallengesButton, Source={x:Reference page}}" />
+								<Button Text="RANKINGS" Clicked="OnRankingsClicked" />
+
+<!--								<Button Text="JOIN" Clicked="OnJoinClicked"  />
+								<Button Text="CHALLENGES" IsVisible="{Binding ShowChallengesButton}" BindingContext="{x:Reference Name=page}" />
+-->
 							</StackLayout>
 						</StackLayout>
 					</AbsoluteLayout>

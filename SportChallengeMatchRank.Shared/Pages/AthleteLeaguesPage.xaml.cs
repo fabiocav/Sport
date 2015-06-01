@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 using System;
+using System.Threading.Tasks;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -61,6 +62,7 @@ namespace SportChallengeMatchRank.Shared
 				//using(new HUD("Getting leagues..."))
 				{
 					await ViewModel.GetLeagues();
+					await ViewModel.GetChallenges();
 				}
 			}
 		}
@@ -75,6 +77,7 @@ namespace SportChallengeMatchRank.Shared
 				//using(new HUD("Getting leagues..."))
 				{
 					await ViewModel.GetLeagues();
+					await ViewModel.GetChallenges();
 				}
 			}
 		}
@@ -85,6 +88,7 @@ namespace SportChallengeMatchRank.Shared
 			if(payload.Payload.TryGetValue("leagueId", out leagueId))
 			{
 				await ViewModel.GetLeagues(true);
+				await ViewModel.GetChallenges();
 			}
 		}
 	}

@@ -2,35 +2,56 @@
 <local:LeagueDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
+	BackgroundColor="{StaticResource grayLight}"
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
-	<ScrollView>
-		<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="Fill">
-			<StackLayout Padding="14,10" Spacing="4">
-				<Label FontSize="Small" Text="{Binding League.Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="#9AA4AB" />
+	<ScrollView x:Name="scrollView">
+		<StackLayout Orientation="Vertical" Spacing="20" VerticalOptions="Fill">
+			<StackLayout Padding="14,10,14,0" Spacing="4">
+				<Label FontSize="Small" Text="{Binding League.Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="{StaticResource grayPrimary}" />
 				<Label Text="{Binding League.Name}" FontSize="Large" />
 			</StackLayout>
 
-			<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="Start" Padding="10,10">
+			<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="Start" Padding="10,0,10,-10">
+				<Button Text="JOIN LEAGUE" x:Name="btnJoin" IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 				<Button Text="RANKINGS" x:Name="btnRankings" />
-				<Button Text="CHALLENGES" x:Name="btnChallenges" />
 			</StackLayout>
 
 			<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="200"
 				VerticalOptions="Center" Aspect="AspectFill" />
 
-			<StackLayout Padding="24,20" Spacing="4">
+<!--			<AbsoluteLayout Padding="0,-28,28,0" HorizontalOptions="EndAndExpand">
+				<Button BorderRadius="24" WidthRequest="48" HeightRequest="48" BackgroundColor="{StaticResource bluePrimary}" Image="ic_control_point_white"  />
+			</AbsoluteLayout>
+-->
+			<StackLayout Padding="24,0" Spacing="4">
 				<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
 					 VerticalOptions="Center" />
+			</StackLayout>
+
+			<StackLayout Padding="24,0" Spacing="8" IsVisible="{Binding IsMember}">
+				<Label FontSize="Medium" Text="YOUR STATS" TextColor="{StaticResource grayDark}" />
+				<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".35" HorizontalOptions="FillAndExpand" />
+				<StackLayout Orientation="Horizontal">
+					<Label FontSize="Small" Text="Rank" TextColor="{StaticResource grayDark}" />
+					<Label FontSize="Small" Text="{Binding MembershipViewModel.RankDescription}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
+				</StackLayout>
+				<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".35" HorizontalOptions="FillAndExpand" />
+				<StackLayout Orientation="Horizontal">
+					<Label FontSize="Small" Text="Stats" TextColor="{StaticResource grayDark}" />
+					<Label FontSize="Small" Text="W 14 L 7 ~ .5" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
+				</StackLayout>
+				<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".35" HorizontalOptions="FillAndExpand" />
+				
+				<StackLayout Padding="0,24">
+					<local:ChallengeCardView Challenge="{Binding OngoingChallenge}"
+						IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
+				</StackLayout>
+
 			</StackLayout>
 
 		</StackLayout>
 	</ScrollView>
 
 	</local:LeagueDetailsXaml.Content>
-
-	<local:LeagueDetailsXaml.ToolbarItems>
-		<ToolbarItem x:Name="btnActionSheet" Icon="ic_more_vert_white" Clicked="OnMoreClicked" />
-	</local:LeagueDetailsXaml.ToolbarItems>
-
 </local:LeagueDetailsXaml>

@@ -12,8 +12,15 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class AthleteLeaguesViewModel : BaseViewModel
 	{
-		bool _hasLoadedBefore;
+		bool _hasLoadedLeaguesBefore;
+		bool _hasLoadedChallengesBefore;
 		string _athleteId;
+
+		public AthleteViewModel AthleteViewModel
+		{
+			get;
+			set;
+		}
 
 		public string AthleteId
 		{
@@ -25,6 +32,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				_athleteId = value;
 				SetPropertyChanged("Athlete");
+				AthleteViewModel = new AthleteViewModel(Athlete);
 			}
 		}
 
@@ -57,39 +65,32 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetLeagues(bool forceRefresh = false)
 		{
-			if(Athlete == null)
-				return;
-
-			if(!forceRefresh && _hasLoadedBefore)
+			if(_hasLoadedLeaguesBefore)
 			{
 				Athlete.RefreshChallenges();
 				return;
 			}
 
-			if(IsBusy)
-				return;
+			await AthleteViewModel.GetLeagues(forceRefresh |= !_hasLoadedChallengesBefore);
+			LocalRefresh();
+			_hasLoadedLeaguesBefore = true;
+		}
 
-			using(new Busy(this))
+		async public Task GetChallenges(bool forceRefresh = false)
+		{
+			if(_hasLoadedChallengesBefore)
 			{
-				Athlete.RefreshMemberships();
-
-				var task = AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
-				await RunSafe(task);
-
-				if(task.IsFaulted)
-					return;
-
-				_hasLoadedBefore = true;
-
-				LocalRefresh();
-				SetPropertyChanged("Athlete");
+				Athlete.RefreshChallenges();
+				return;
 			}
+			
+			await AthleteViewModel.GetChallenges(forceRefresh |= !_hasLoadedChallengesBefore);
+			Athlete.RefreshChallenges();
+			_hasLoadedChallengesBefore = true;
 		}
 
 		public void LocalRefresh()
 		{
-			Athlete.RefreshMemberships();
-
 			var comparer = new LeagueComparer();
 			var toRemove = Leagues.Except(Athlete.Leagues, comparer).ToList();
 			var toAdd = Athlete.Leagues.Except(Leagues, comparer).OrderBy(r => r.Name).ToList();
@@ -100,7 +101,7 @@ namespace SportChallengeMatchRank.Shared
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new League {
-					Name = "You don't belong to any leagues yet, n00b.",
+					Name = "Join a league",
 				});
 			}
 		}
@@ -109,7 +110,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			public bool Equals(League x, League y)
 			{
-				return x?.Id == y?.Id;
+				return x?.Id == y?.Id && x.UpdatedAt == y.UpdatedAt;
 			}
 
 			public int GetHashCode(League obj)

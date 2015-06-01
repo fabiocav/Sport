@@ -138,6 +138,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ExtendedDatePicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ExtendedTimePIcker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IToastNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ChallengeCardView.xaml.cs">
+      <DependentUpon>ChallengeCardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LeagueViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -210,6 +216,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ChallengeDatePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ChallengeCardView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

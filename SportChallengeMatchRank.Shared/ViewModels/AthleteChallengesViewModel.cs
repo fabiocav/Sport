@@ -161,7 +161,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ChallengeGroups.Count == 0)
 			{
 				ChallengeGroups.Add(new ChallengeCollection {
-					Title = "You have no ongoing or past challenges. Deal."
+					Title = "You have no challenges"
 				});
 			}
 		}

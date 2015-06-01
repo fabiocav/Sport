@@ -6,11 +6,19 @@
         <ResourceDictionary>
         	<Color x:Key="bluePrimary">#1FAECE</Color>
         	<Color x:Key="blueLight">#91E2F4</Color>
+
         	<Color x:Key="purplePrimary">#9378CD</Color>
         	<Color x:Key="purpleLight">#CEC0EC</Color>
+
         	<Color x:Key="greenPrimary">#B3E770</Color>
         	<Color x:Key="greenLight">#CFEFA7</Color>
         	<Color x:Key="greenDark">#5A8622</Color>
+
+        	<Color x:Key="redLight">#F69781</Color>
+        	<Color x:Key="redPrimary">#F56D4F</Color>
+        	<Color x:Key="redDark">#BC3C26</Color>
+        	
+        	<Color x:Key="yellowLight">#F7E28B</Color>
 
         	<Color x:Key="grayPrimary">#ADB7BE</Color>
         	<Color x:Key="grayLight">#ECF0F1</Color>

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System;
-using Toasts.Forms.Plugin.Abstractions;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -40,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 				if(value != _buttonStyle)
 				{
 					_buttonStyle = value;
-					btnRankings.Style = btnChallenges.Style = _buttonStyle;
+					btnRankings.Style = btnJoin.Style = _buttonStyle;
 				}
 			}
 		}
@@ -50,61 +50,64 @@ namespace SportChallengeMatchRank.Shared
 			Title = "League Details";
 			InitializeComponent();
 
-//			btnMemberStatus.Clicked += async(sender, e) =>
-//			{
-//				if(!ViewModel.League.HasStarted)
-//				{
-//					"This league hasn't started yet so let's everyone just calm down and hold your horses, mkay?".ToToast(ToastNotificationType.Warning, "No can do");
-//					return;
-//				}
-//
-//				if(_membershipsPage == null)
-//					_membershipsPage = new MembershipsByLeaguePage(ViewModel.League);
-//
-//				await Navigation.PushAsync(_membershipsPage);	
-//			};
-//
-//			btnJoinLeague.Clicked += async(sender, e) =>
-//			{
-//				var accepted = await DisplayAlert("Join League?", "Are you totes sure you want to join this league?", "Yesh", "No");
-//
-//				if(accepted)
-//				{
-//
-//					bool success;
-//					using(new HUD("Joining league..."))
-//					{
-//						success = await ViewModel.JoinLeague();
-//					}
-//
-//					if(success)
-//					{
-//						"You are now a member of {0}".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success, "Behold!");
-//
-//						if(OnJoinedLeague != null)
-//						{
-//							OnJoinedLeague(ViewModel.League);
-//						}
-//					}
-//				}
-//			};
-//			btnEditLeague.Clicked += async(sender, e) =>
-//			{
-//				var detailsPage = new LeagueEditPage(ViewModel.League);
-//				detailsPage.OnUpdate = () =>
-//				{
-//					ViewModel.SetPropertyChanged("League");
-//				};
-//
-//				await Navigation.PushModalAsync(new NavigationPage(detailsPage));
-//			};
+			var moreButton = new ToolbarItem("More", "ic_more_vert_white", () =>
+			{
+				OnMoreClicked();
+			});
+
+			if(GetMoreMenuOptions().Count > 0)
+				ToolbarItems.Add(moreButton);
+
+			btnRankings.Clicked += async(sender, e) =>
+			{
+				if(!ViewModel.League.HasStarted)
+				{
+					"This league hasn't started".ToToast(ToastNotificationType.Info);
+					return;
+				}
+
+				if(_membershipsPage == null)
+					_membershipsPage = new MembershipsByLeaguePage(ViewModel.League);
+
+				await Navigation.PushAsync(_membershipsPage);	
+			};
+
+			btnJoin.Clicked += async(sender, e) =>
+			{
+				var accepted = await DisplayAlert("Join League?", "Are you sure you want to join this league?", "Yes", "No");
+
+				if(accepted)
+				{
+
+					bool success;
+					using(new HUD("Joining..."))
+					{
+						success = await ViewModel.JoinLeague();
+					}
+
+					if(success)
+					{
+						"Congrats!".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
+
+						if(OnJoinedLeague != null)
+						{
+							OnJoinedLeague(ViewModel.League);
+						}
+					}
+				}
+			};
 
 			if(ViewModel.League != null && ViewModel.League.CreatedByAthleteId != null && ViewModel.League.CreatedByAthlete == null)
 			{
-				using(new HUD("Getting info..."))
+				//using(new HUD("Getting info..."))
 				{
 					await ViewModel.LoadAthlete();
 				}
+			}
+
+			using(new Busy(ViewModel))
+			{
+				ViewModel.RefreshLeague();
 			}
 		}
 
@@ -120,34 +123,88 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		async void OnMoreClicked(object sender, EventArgs e)
-		{
-			var leave = "Cowardly Abandon League";
-			var action = await DisplayActionSheet("Additional actions", "Cancel", null, leave);
+		const string _leave = "Cowardly Abandon League";
+		const string _rules = "League Rules";
+		const string _pastChallenges = "Past Challenges";
 
-			if(action == leave)
+		List<string> GetMoreMenuOptions()
+		{
+			var list = new List<string>();
+
+			if(ViewModel.CanGetRules)
+				list.Add(_rules);
+
+			if(ViewModel.IsMember && App.CurrentAthlete.AllChallenges.Any(c => c.LeagueId == ViewModel.League.Id && c.IsCompleted))
+				list.Add(_pastChallenges);
+
+			if(ViewModel.IsMember)
+				list.Add(_leave);
+
+			return list;
+		}
+
+		async void OnMoreClicked()
+		{
+			var list = GetMoreMenuOptions();
+			var action = await DisplayActionSheet("Additional actions", "Cancel", null, list.ToArray());
+
+			if(action == _leave)
 				LeaveLeague();
+
+			if(action == _rules)
+				OpenRules();
+
+			if(action == _pastChallenges)
+				DisplayPastChallenges();
+		}
+
+		async void DisplayPastChallenges()
+		{
+		}
+
+		async void OpenRules()
+		{
+			var page = new ContentPage {
+				Title = "Rules",
+				Content = new WebView {
+					Source = ViewModel.League.RulesUrl,
+				}
+			};
+
+			var nav = new NavigationPage(page) {
+				BarTextColor = Color.White,
+				BarBackgroundColor = (Color)App.Current.Resources["greenPrimary"],
+			};
+
+			var cancel = new ToolbarItem("Cancel", null, () =>
+			{
+				Navigation.PopModalAsync();
+			});
+
+			nav.ToolbarItems.Add(cancel);
+			nav.Title = "Rules";
+			await Navigation.PushModalAsync(nav);
 		}
 
 		async void LeaveLeague()
 		{
-			var accepted = await DisplayAlert("Abandon League?", "Are you totes sure you want to abandon this league like a heaping pile of slime?", "Yeps", "Nah");
+			var accepted = await DisplayAlert("Abandon League?", "Are you sure you want to abandon this league?", "Yes", "No");
 
 			if(accepted)
 			{
 				if(App.CurrentAthlete.AllChallenges.Any(c => c.LeagueId == ViewModel.League.Id))
 				{
-					accepted = await DisplayAlert("Existing Challenges?", "You have ongoing challenges - still quit?", "Yeps", "Nah");
+					accepted = await DisplayAlert("Existing Challenges?", "You have ongoing challenges - still abandon?", "Yes", "No");
 				}
 
 				if(accepted)
 				{
-					using(new HUD("Abandoning league..."))
+					using(new HUD("Abandoning..."))
 					{
 						await ViewModel.LeaveLeague();
 					}
 
-					"You have left the league".ToToast(ToastNotificationType.Info, "League Abandoned");
+					"Sorry to see you go".ToToast(ToastNotificationType.Info);
 					if(OnAbandondedLeague != null)
 					{
 						OnAbandondedLeague(ViewModel.League);

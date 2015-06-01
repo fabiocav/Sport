@@ -6,7 +6,6 @@ using Gcm.Client;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using SportChallengeMatchRank.Shared;
-using Toasts.Forms.Plugin.Abstractions;
 using Xamarin.Forms;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]

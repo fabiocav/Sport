@@ -16,7 +16,7 @@ namespace SportChallengeMatchRank.Shared
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "My Challenges";
+			Title = "Challenges";
 			list.ItemSelected += async(sender, e) =>
 			{
 				if(list.SelectedItem == null)

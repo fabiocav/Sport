@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="SportChallengeMatchRank.Shared.ChallengeCardView"
+	BackgroundColor="White"
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
+
+	<StackLayout x:Name="root" Orientation="Vertical" Spacing="0" VerticalOptions="Fill"
+		AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Padding="0">
+
+		<StackLayout BackgroundColor="{StaticResource grayPrimary}" Orientation="Horizontal"
+			HorizontalOptions="FillAndExpand" Padding="14">
+			<Label Text="Challenge" FontSize="Medium" TextColor="White" VerticalOptions="Center" />
+			<Label Text="{Binding Challenge.ProposedTimeString}" FontSize="Medium" TextColor="White" VerticalOptions="Center" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal" Spacing="20" Padding="14">
+			<controls:CircleImage Source="{Binding Challenge.ChallengerAthlete.ProfileImageUrl}"
+				HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="60" HeightRequest="60" />
+
+			<Label FontSize="Small" Text="{Binding Challenge.BattleFor}" VerticalOptions="Center" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="EndAndExpand" Padding="14" VerticalOptions="Center">
+			<AbsoluteLayout HorizontalOptions="EndAndExpand">
+				<Button BorderRadius="3" BackgroundColor="{StaticResource greenPrimary}" HeightRequest="40" WidthRequest="110"
+					AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
+
+				<StackLayout Orientation="Horizontal" Spacing="6" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5">
+					<Image Source="ic_thumb_up_white" VerticalOptions="Center" />
+					<Label TextColor="White" Text="ACCEPT" FontSize="Small" VerticalOptions="Center" />
+				</StackLayout>
+			</AbsoluteLayout>
+
+			<AbsoluteLayout HorizontalOptions="EndAndExpand">
+				<Button BorderRadius="3" BackgroundColor="{StaticResource redPrimary}" HeightRequest="40" WidthRequest="110"
+					AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
+
+				<StackLayout Orientation="Horizontal" Spacing="6"
+					AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" >
+					<Image Source="ic_thumb_down_white" VerticalOptions="Center" />
+					<Label TextColor="White" Text="DECLINE" FontSize="Small" VerticalOptions="Center" />
+				</StackLayout>
+			</AbsoluteLayout>
+		</StackLayout>
+	</StackLayout>
+
+</ContentView>

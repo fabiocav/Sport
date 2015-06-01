@@ -1,6 +1,5 @@
 ﻿using System;
 using Xamarin.Forms;
-using Toasts.Forms.Plugin.Abstractions;
 
 namespace SportChallengeMatchRank.Shared
 {

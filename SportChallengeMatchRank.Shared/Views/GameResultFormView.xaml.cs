@@ -50,7 +50,6 @@ namespace SportChallengeMatchRank.Shared
 			int o;
 			if(!int.TryParse(e.NewTextValue, out o))
 			{
-				Console.WriteLine("Text changed: " + e.NewTextValue);
 				var entry = sender as Entry;
 				entry.Text = e.OldTextValue;
 			}
