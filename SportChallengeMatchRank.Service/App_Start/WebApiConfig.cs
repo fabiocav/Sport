@@ -6,6 +6,8 @@ using Microsoft.WindowsAzure.Mobile.Service;
 using SportChallengeMatchRank;
 using SportChallengeMatchRank.Service.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
+using System.Data.Entity.Migrations;
+using SportChallengeMatchRank.Service.Migrations;
 
 namespace SportChallengeMatchRank.Service
 {
@@ -25,8 +27,10 @@ namespace SportChallengeMatchRank.Service
             // line. Comment it out again when you deploy your service for production use.
             // config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             
-            Database.SetInitializer(new SportRanker_MatchOnInitializer());
-        }
+            //Database.SetInitializer(new SportRanker_MatchOnInitializer());
+			var migrator = new DbMigrator(new Configuration());
+			migrator.Update();
+		}
     }
 
     public class SportRanker_MatchOnInitializer : ClearDatabaseSchemaIfModelChanges<AppDataContext>

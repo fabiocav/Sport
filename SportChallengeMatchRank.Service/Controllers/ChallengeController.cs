@@ -11,6 +11,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using SportChallengeMatchRank.Shared;
 using System.Net;
+using System.Net.Http;
 
 namespace SportChallengeMatchRank.Service.Controllers
 {
@@ -36,6 +37,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				ChallengeeAthleteId = c.ChallengeeAthleteId,
 				LeagueId = c.LeagueId,
 				DateCreated = c.CreatedAt,
+				UpdatedAt = c.UpdatedAt,
 				ProposedTime = c.ProposedTime,
 				DateAccepted = c.DateAccepted,
 				DateCompleted = c.DateCompleted,
@@ -63,6 +65,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				LeagueId = dto.LeagueId,
 				DateCreated = dto.CreatedAt,
 				ProposedTime = dto.ProposedTime,
+				UpdatedAt = dto.UpdatedAt,
 				DateAccepted = dto.DateAccepted,
 				DateCompleted = dto.DateCompleted,
 				CustomMessage = dto.CustomMessage,
@@ -91,6 +94,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 					DateCreated = c.CreatedAt,
 					ProposedTime = c.ProposedTime,
 					DateAccepted = c.DateAccepted,
+					UpdatedAt = c.UpdatedAt,
 					DateCompleted = c.DateCompleted,
 					CustomMessage = c.CustomMessage,
 					MatchResult = c.MatchResult.Where(r => r.ChallengeeScore > 0 && r.ChallengerScore > 0)
@@ -123,13 +127,13 @@ namespace SportChallengeMatchRank.Service.Controllers
 				&& c.LeagueId == item.LeagueId && c.DateCompleted == null);
 
 			if(challengeeOngoing.Count() > 0)
-				return BadRequest(string.Format("{0} already has an existing challenge underway.", challengee.Alias));
+				throw "{0} already has an existing challenge underway.".Fmt(challengee.Alias).ToException(Request);
 
 			var challengerOngoing = _context.Challenges.Where(c => (c.ChallengerAthleteId == item.ChallengeeAthleteId || c.ChallengerAthleteId == item.ChallengerAthleteId)
 				&& c.LeagueId == item.LeagueId && c.DateCompleted == null);
 
 			if(challengerOngoing.Count() > 0)
-				return BadRequest("You already have an existing challenge underway.");
+				throw "You already have an existing challenge underway.".ToException(Request);
 
 			//Check to see if there is already a challenge between the two athletes for this league
 			var history = _context.Challenges.Where(c => ((c.ChallengeeAthleteId == item.ChallengeeAthleteId && c.ChallengerAthleteId == item.ChallengerAthleteId)
@@ -144,7 +148,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				&& lastChallenge.GetChallengerWinningGames().Count() < lastChallenge.GetChallengeeWinningGames().Count() //did the challenger lose the previous match
 				&& DateTime.UtcNow.Subtract(lastChallenge.DateCompleted.Value.UtcDateTime).TotalHours < league.MinHoursBetweenChallenge) //has enough time passed
 			{
-				return BadRequest(string.Format("You must wait at least {0} hours before challenging again", league.MinHoursBetweenChallenge));
+				throw "You must wait at least {0} hours before challenging again".Fmt(league.MinHoursBetweenChallenge).ToException(Request);
 			}
 
 			Challenge current = await InsertAsync(item.ToChallenge());
@@ -158,6 +162,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			};
 
 			await _notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload);
+
 			return result;
         }
 
@@ -241,7 +246,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var league = _context.Leagues.SingleOrDefault(l => l.Id == challenge.LeagueId);
 
 			if(league == null || results.Count != league.MatchGameCount)
-				throw new Exception("Game result count not equal league match game count");
+			{
+				throw "Game result count not equal league match game count".ToException(Request);
+			}
 
 			challenge.DateCompleted = DateTime.UtcNow;
 			var dto = challenge.ToChallengeDto();

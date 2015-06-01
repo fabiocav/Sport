@@ -3,12 +3,19 @@ using SportChallengeMatchRank;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
+using System.Web.Http;
 
 namespace SportChallengeMatchRank.Service
 {
 	public static class Extensions
 	{
+		public static HttpResponseException ToException(this string s, HttpRequestMessage msg)
+		{
+			return new HttpResponseException(msg.CreateBadRequestResponse(s));
+		}
+
 		public static void Shuffle<T>(this IList<T> list)
 		{
 			Random rng = new Random();
@@ -35,20 +42,21 @@ namespace SportChallengeMatchRank.Service
 			};
 		}
 
-		public static ChallengeDto ToChallengeDto(this Challenge c)
+		public static ChallengeDto ToChallengeDto(this Challenge dto)
 		{
 			return new ChallengeDto
 			{
-				Id = c.Id,
-				ChallengerAthleteId = c.ChallengerAthleteId,
-				ChallengeeAthleteId = c.ChallengeeAthleteId,
-				LeagueId = c.LeagueId,
-				DateCreated = c.CreatedAt,
-				ProposedTime = c.ProposedTime,
-				DateAccepted = c.DateAccepted,
-				DateCompleted = c.DateCompleted,
-				CustomMessage = c.CustomMessage,
-				MatchResult = c.MatchResult.Select(r => new GameResultDto
+				Id = dto.Id,
+				ChallengerAthleteId = dto.ChallengerAthleteId,
+				ChallengeeAthleteId = dto.ChallengeeAthleteId,
+				LeagueId = dto.LeagueId,
+				UpdatedAt = dto.UpdatedAt,
+				DateCreated = dto.CreatedAt,
+				ProposedTime = dto.ProposedTime,
+				DateAccepted = dto.DateAccepted,
+				DateCompleted = dto.DateCompleted,
+				CustomMessage = dto.CustomMessage,
+				MatchResult = dto.MatchResult.Select(r => new GameResultDto
 				{
 					Id = r.Id,
 					DateCreated = r.CreatedAt,
@@ -65,6 +73,7 @@ namespace SportChallengeMatchRank.Service
 			return new Challenge
 			{
 				Id = dto.Id,
+				UpdatedAt = dto.UpdatedAt,
 				ChallengerAthleteId = dto.ChallengerAthleteId,
 				ChallengeeAthleteId = dto.ChallengeeAthleteId,
 				LeagueId = dto.LeagueId,
@@ -81,6 +90,7 @@ namespace SportChallengeMatchRank.Service
 			{
 				Name = dto.Name,
 				Id = dto.Id,
+				UpdatedAt = dto.UpdatedAt,
 				Email = dto.Email,
 				IsAdmin = dto.IsAdmin,
 				DeviceToken = dto.DeviceToken,
@@ -103,7 +113,9 @@ namespace SportChallengeMatchRank.Service
 				IsEnabled = dto.IsEnabled,
 				StartDate = dto.StartDate,
 				EndDate = dto.EndDate,
+				UpdatedAt = dto.UpdatedAt,
 				Season = dto.Season,
+				RulesUrl = dto.RulesUrl,
 				MaxChallengeRange = dto.MaxChallengeRange,
 				MinHoursBetweenChallenge = dto.MinHoursBetweenChallenge,
 				MatchGameCount = dto.MatchGameCount,
@@ -119,6 +131,7 @@ namespace SportChallengeMatchRank.Service
 			return new Membership
 			{
 				Id = dto.Id,
+				UpdatedAt = dto.UpdatedAt,
 				CurrentRank = dto.CurrentRank,
 				AthleteId = dto.AthleteId,
 				IsAdmin = dto.IsAdmin,
@@ -128,21 +141,22 @@ namespace SportChallengeMatchRank.Service
 			};
 		}
 
-		public static AthleteDto ToAthleteDto(this Athlete athlete)
+		public static AthleteDto ToAthleteDto(this Athlete dto)
 		{
 			return new AthleteDto
 			{
-				Name = athlete.Name,
-				Id = athlete.Id,
-				DateCreated = athlete.CreatedAt,
-				Email = athlete.Email,
-				IsAdmin = athlete.IsAdmin,
-				DeviceToken = athlete.DeviceToken,
-				DevicePlatform = athlete.DevicePlatform,
-				AuthenticationId = athlete.AuthenticationId,
-				MembershipIds = athlete.Memberships.Select(la => la.Id).ToList(),
-				IncomingChallengeIds = athlete.IncomingChallenges.Select(la => la.Id).ToList(),
-				OutgoingChallengeIds = athlete.OutgoingChallenges.Select(la => la.Id).ToList(),
+				Name = dto.Name,
+				Id = dto.Id,
+				UpdatedAt = dto.UpdatedAt,
+				DateCreated = dto.CreatedAt,
+				Email = dto.Email,
+				IsAdmin = dto.IsAdmin,
+				DeviceToken = dto.DeviceToken,
+				DevicePlatform = dto.DevicePlatform,
+				AuthenticationId = dto.AuthenticationId,
+				MembershipIds = dto.Memberships.Select(la => la.Id).ToList(),
+				IncomingChallengeIds = dto.IncomingChallenges.Select(la => la.Id).ToList(),
+				OutgoingChallengeIds = dto.OutgoingChallenges.Select(la => la.Id).ToList(),
 			};
 		}
 

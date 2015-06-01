@@ -27,6 +27,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Id = dto.Id,
 				DateCreated = dto.CreatedAt,
 				ChallengeId = dto.ChallengeId,
+				UpdatedAt = dto.UpdatedAt,
 				ChallengeeScore = dto.ChallengeeScore,
 				ChallengerScore = dto.ChallengerScore,
 				Index = dto.Index
@@ -39,6 +40,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			return SingleResult<GameResultDto>.Create(Lookup(id).Queryable.Select(dto => new GameResultDto
 			{
 				Id = dto.Id,
+				UpdatedAt = dto.UpdatedAt,
 				ChallengeId = dto.ChallengeId,
 				ChallengeeScore = dto.ChallengeeScore,
 				ChallengerScore = dto.ChallengerScore,

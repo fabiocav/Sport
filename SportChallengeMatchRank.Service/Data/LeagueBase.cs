@@ -20,6 +20,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public string RulesUrl
+		{
+			get;
+			set;
+		}
+
 		public int Season
 		{
 			get;

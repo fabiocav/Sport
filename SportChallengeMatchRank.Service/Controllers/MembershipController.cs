@@ -29,6 +29,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			return Query().Select(m => new MembershipDto
 			{
 				Id = m.Id,
+				UpdatedAt = m.UpdatedAt,
 				AthleteId = m.Athlete.Id,
 				LeagueId = m.League.Id,
 				IsAdmin = m.IsAdmin,
@@ -50,6 +51,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				CurrentRank = m.CurrentRank,
 				LastRankChange = m.LastRankChange,
 				DateCreated = m.CreatedAt,
+				UpdatedAt = m.UpdatedAt,
 			}));
 		}
 

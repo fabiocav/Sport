@@ -40,7 +40,14 @@ namespace SportChallengeMatchRank.Service.Controllers
 				notification.Add("badge", badgeCount.Value.ToString());
 			}
 
-			await _hub.SendTemplateNotificationAsync(notification, tags);
+			try
+			{
+				await _hub.SendTemplateNotificationAsync(notification, tags);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
+			}
 		}
 
 		public async Task NotifyByTag(string message, string tag, NotificationPayload payload = null, int? badgeCount = null)

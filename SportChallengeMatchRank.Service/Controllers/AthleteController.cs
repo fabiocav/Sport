@@ -41,6 +41,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Alias = dto.Alias,
 				DateCreated = dto.CreatedAt,
 				IsAdmin = dto.IsAdmin,
+				UpdatedAt = dto.UpdatedAt,
 				DeviceToken = dto.DeviceToken,
 				DevicePlatform = dto.DevicePlatform,
 				NotificationRegistrationId = dto.NotificationRegistrationId,
@@ -62,6 +63,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				DateCreated = dto.CreatedAt,
 				Email = dto.Email,
 				IsAdmin = dto.IsAdmin,
+				UpdatedAt = dto.UpdatedAt,
 				Alias = dto.Alias,
 				DeviceToken = dto.DeviceToken,
 				DevicePlatform = dto.DevicePlatform,
@@ -84,8 +86,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			if(exists)
 			{
-				var response = Request.CreateBadRequestResponse("The alias '{0}' is alread in use.".Fmt(athlete.Alias));
-				throw new HttpResponseException(response);
+				throw "The alias '{0}' is alread in use.".Fmt(athlete.Alias).ToException(Request);
 			}
 			
 			return await UpdateAsync(id, patch);
