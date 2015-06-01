@@ -33,7 +33,7 @@ namespace SportChallengeMatchRank.Shared
 		async protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Challenge Details";
+			Title = "Challenge";
 
 			list.ItemSelected += (sender, e) =>
 			{
@@ -48,6 +48,7 @@ namespace SportChallengeMatchRank.Shared
 			if(GetMoreMenuOptions().Count > 0)
 				ToolbarItems.Add(moreButton);
 
+			list.HeightRequest = list.RowHeight * (ViewModel.Challenge.League.MatchGameCount + 1) + 3;
 			await ViewModel.GetMatchResults();
 		}
 
@@ -102,7 +103,7 @@ namespace SportChallengeMatchRank.Shared
 		async void OnAcceptChallenge()
 		{
 			bool success;
-			using(new HUD("Accepting..."))
+			using(new HUD("Accepting challenge..."))
 			{
 				success = await ViewModel.AcceptChallenge();
 			}
@@ -154,7 +155,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.CanRevoke)
 				list.Add(_revoke);
 
-			if(ViewModel.CanDecline)
+			if(ViewModel.CanDecline || ViewModel.CanDeclineAfterAccept)
 				list.Add(_decline);
 
 			return list;
@@ -176,9 +177,22 @@ namespace SportChallengeMatchRank.Shared
 
 			if(action == _decline)
 				OnDeclineChallenge();
-				
 		}
 
+		void HandleDeclined(object sender, EventArgs e)
+		{
+			OnRevokeChallenge();
+		}
+
+		void HandleAccepted(object sender, EventArgs e)
+		{
+			OnAcceptChallenge();
+		}
+
+		void HandlePostResults(object sender, EventArgs e)
+		{
+			OnPostChallengeResults();
+		}
 	}
 
 	public partial class ChallengeDetailsXaml : BaseContentPage<ChallengeDetailsViewModel>

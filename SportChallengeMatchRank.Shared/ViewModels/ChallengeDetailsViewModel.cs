@@ -19,6 +19,8 @@ namespace SportChallengeMatchRank.Shared
 			Challenge = challenge;
 		}
 
+		#region Properties
+
 		Challenge challenge;
 
 		public Challenge Challenge
@@ -74,6 +76,31 @@ namespace SportChallengeMatchRank.Shared
 				(Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id || Challenge.ChallengerAthleteId == App.CurrentAthlete.Id);
 			}
 		}
+
+		public string ChallengeStatus
+		{
+			get
+			{
+				string status = null;
+
+				if(CanAccept)
+					return "it's time to a make a decision... green pill or red pill?";
+
+				if(CanPostMatchResults)
+					return "this is where you'll reflect upon your victorious match result score... but you'll have to post some results first using this here button";
+
+				if(CanRevoke)
+					return "...just waiting for your opponent to accept your challenge or coward out like shameless slimeball";
+
+				if(!Challenge.IsCompleted)
+					return "the results of this might duel have not yet been posted... check back soon for some tasty scores!";
+				
+				return status;
+			}
+		}
+
+
+		#endregion
 
 		async public Task GetMatchResults(bool forceRefresh = false)
 		{
@@ -143,6 +170,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("CanRevoke");
 			SetPropertyChanged("CanPostMatchResults");
 			SetPropertyChanged("Challenge");
+			SetPropertyChanged("ChallengeStatus");
 		}
 	}
 }

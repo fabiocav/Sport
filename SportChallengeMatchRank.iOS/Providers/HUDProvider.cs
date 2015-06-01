@@ -2,6 +2,7 @@
 using SportChallengeMatchRank.Shared;
 using Xamarin.Forms;
 using System;
+using System.Threading.Tasks;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.iOS.HUDProvider))]
 
@@ -9,7 +10,7 @@ namespace SportChallengeMatchRank.iOS
 {
 	public class HUDProvider : IHUDProvider
 	{
-		public void DisplayProgress(string message)
+		public async void DisplayProgress(string message)
 		{
 			if(string.IsNullOrWhiteSpace(message))
 			{

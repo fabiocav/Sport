@@ -60,7 +60,7 @@ namespace SportChallengeMatchRank.Shared
 				{
 					ViewModel.NotifyPropertiesChanged();
 					await Navigation.PopModalAsync();
-					"{0} has been notified of this honorable duel.".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
+					"Challenge sent... I guess it's on".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
 				};
 
 				await Navigation.PushModalAsync(new NavigationPage(datePage));

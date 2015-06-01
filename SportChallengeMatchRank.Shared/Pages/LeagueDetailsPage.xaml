@@ -43,9 +43,8 @@
 				</StackLayout>
 				<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 				
-				<StackLayout Padding="0,40,0,20">
-					<local:ChallengeCardView x:Name="cardView" ViewModel="{Binding ChallengeViewModel}"
-						IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
+				<StackLayout Padding="0,40,0,20" IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+					<local:ChallengeCardView x:Name="cardView" ViewModel="{Binding ChallengeViewModel}" />
 				</StackLayout>
 
 			</StackLayout>

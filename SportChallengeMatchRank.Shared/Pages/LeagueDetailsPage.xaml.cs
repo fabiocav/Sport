@@ -7,8 +7,6 @@ namespace SportChallengeMatchRank.Shared
 {
 	public partial class LeagueDetailsPage : LeagueDetailsXaml
 	{
-		LeaderboardPage _membershipsPage;
-
 		public LeagueDetailsPage(League league)
 		{
 			ViewModel.League = league;
@@ -90,20 +88,35 @@ namespace SportChallengeMatchRank.Shared
 			cardView.OnClicked = async() =>
 			{
 				var details = new ChallengeDetailsPage(ViewModel.OngoingChallenge);
+				details.OnAccept = () =>
+				{
+					ViewModel.NotifyPropertiesChanged();
+				};
+
+				details.OnDecline = () =>
+				{
+					ViewModel.NotifyPropertiesChanged();
+				};
+
+				details.OnPostResults = () =>
+				{
+					ViewModel.NotifyPropertiesChanged();
+				};
+
 				await Navigation.PushAsync(details);
 			};
 
 			cardView.OnAccepted = async() =>
 			{
 				bool success;
-				using(new HUD("Accepting..."))
+				using(new HUD("Accepting challenge..."))
 				{
 					success = await ViewModel.ChallengeViewModel.AcceptChallenge();
 				}
 
 				if(success)
 				{
-					ViewModel.SetPropertyChanged("ChallengeViewModel");
+					ViewModel.NotifyPropertiesChanged();
 					"Accepted".ToToast();
 				}
 			};
@@ -123,7 +136,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(success)
 				{
-					ViewModel.SetPropertyChanged("ChallengeViewModel");
+					ViewModel.NotifyPropertiesChanged();
 					"Unbelievable!".ToToast();
 				}
 			};
@@ -207,10 +220,8 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			}
 
-			if(_membershipsPage == null)
-				_membershipsPage = new LeaderboardPage(ViewModel.League);
-
-			await Navigation.PushAsync(_membershipsPage);	
+			var leaderboard = new LeaderboardPage(ViewModel.League);
+			await Navigation.PushAsync(leaderboard);	
 		}
 
 		async void OpenRules()

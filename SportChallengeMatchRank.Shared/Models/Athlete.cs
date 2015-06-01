@@ -235,9 +235,9 @@ namespace SportChallengeMatchRank.Shared
 			DataManager.Instance.Challenges.Values.Where(m => m.ChallengerAthleteId == Id).ToList().ForEach(OutgoingChallenges.Add);
 		}
 
-		public Challenge GetChallengeForLeague(League league)
+		public Challenge GetOngoingChallengeForLeague(League league)
 		{
-			return AllChallenges.FirstOrDefault(c => c.LeagueId == league.Id && !c.IsCompleted);
+			return AllChallenges.FirstOrDefault(c => c.LeagueId == league.Id);
 		}
 	}
 }

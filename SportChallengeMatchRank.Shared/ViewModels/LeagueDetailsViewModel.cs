@@ -39,7 +39,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				var challenge = App.CurrentAthlete?.GetChallengeForLeague(League);
+				var challenge = App.CurrentAthlete?.GetOngoingChallengeForLeague(League);
 				return challenge;
 			}
 		}
@@ -172,7 +172,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		void NotifyPropertiesChanged()
+		public void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("SportDescription");
 			SetPropertyChanged("DateRange");
@@ -180,6 +180,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("IsMember");
 			SetPropertyChanged("OngoingChallenge");
 			SetPropertyChanged("MembershipViewModel");
+			SetPropertyChanged("ChallengeViewModel");
 
 			OngoingChallenge?.NotifyPropertiesChanged();
 		}

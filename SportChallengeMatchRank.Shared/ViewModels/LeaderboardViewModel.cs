@@ -77,7 +77,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			public bool Equals(Membership x, Membership y)
 			{
-				return x?.Id == y?.Id && x.UpdatedAt == y.UpdatedAt;
+				return x?.Id == y?.Id && x.UpdatedAt == y.UpdatedAt && x.CurrentRank == y.CurrentRank;
 			}
 
 			public int GetHashCode(Membership obj)

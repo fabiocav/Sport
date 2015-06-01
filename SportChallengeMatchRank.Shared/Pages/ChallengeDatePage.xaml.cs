@@ -74,8 +74,8 @@ namespace SportChallengeMatchRank.Shared
 
 			ToolbarItems.Add(btnCancel);
 
-			await Task.Delay(1000);
-			datePicker.Focus();
+//			await Task.Delay(1000);
+//			datePicker.Focus();
 		}
 	}
 

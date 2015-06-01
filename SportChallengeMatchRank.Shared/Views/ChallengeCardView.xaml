@@ -28,13 +28,17 @@
 			IsVisible="{Binding ViewModel.CanAccept}">
 			<AbsoluteLayout HorizontalOptions="EndAndExpand">
 				<Button BorderRadius="3" BackgroundColor="{StaticResource greenPrimary}" HeightRequest="40" WidthRequest="110"
-					AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White"
-					Clicked="HandleAccepted" />
+					AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White"/>
 
 				<StackLayout Orientation="Horizontal" Spacing="6" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5">
 					<Image Source="ic_thumb_up_white" VerticalOptions="Center" />
 					<Label TextColor="White" Text="ACCEPT" FontSize="Small" VerticalOptions="Center" />
 				</StackLayout>
+
+				<!--HACK-->
+				<Button BackgroundColor="Transparent" HeightRequest="40" WidthRequest="110"
+					AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"
+					Clicked="HandleAccepted" />
 			</AbsoluteLayout>
 
 			<AbsoluteLayout HorizontalOptions="EndAndExpand">
@@ -47,6 +51,11 @@
 					<Image Source="ic_thumb_down_white" VerticalOptions="Center" />
 					<Label TextColor="White" Text="DECLINE" FontSize="Small" VerticalOptions="Center" />
 				</StackLayout>
+
+				<!--HACK-->
+				<Button BackgroundColor="Transparent" HeightRequest="40" WidthRequest="110"
+					AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"
+					Clicked="HandleDeclined" />
 			</AbsoluteLayout>
 		</StackLayout>
 	</StackLayout>

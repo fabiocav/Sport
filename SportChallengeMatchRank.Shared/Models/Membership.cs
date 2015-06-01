@@ -110,7 +110,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return App.CurrentAthlete.AllChallenges.FirstOrDefault(c => c.LeagueId == LeagueId && !c.IsCompleted);
+				return Athlete?.AllChallenges.FirstOrDefault(c => c.LeagueId == LeagueId && !c.IsCompleted);
 			}
 		}
 

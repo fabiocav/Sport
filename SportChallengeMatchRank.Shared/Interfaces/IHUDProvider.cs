@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -15,13 +16,30 @@ namespace SportChallengeMatchRank.Shared
 
 	public class HUD : IDisposable
 	{
+		bool _cancel;
+
 		public HUD(string message)
 		{
+			StartHUD(message);
+		}
+
+		async void StartHUD(string message)
+		{
+			await Task.Delay(50);
+
+			if(_cancel)
+			{
+				_cancel = false;
+				return;
+			}
+
+			_cancel = false;
 			App.Current.Hud.DisplayProgress(message);	
 		}
 
 		public void Dispose()
 		{
+			_cancel = true;
 			App.Current.Hud.Dismiss();
 		}
 	}
