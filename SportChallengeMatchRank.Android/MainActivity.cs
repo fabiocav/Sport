@@ -7,10 +7,11 @@ using Android.Views;
 using ImageCircle.Forms.Plugin.Droid;
 using SportChallengeMatchRank.Shared;
 using XLabs.Forms;
+using Android.Content.PM;
 
 namespace SportChallengeMatchRank.Android
 {
-	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GreenTheme", ScreenOrientation = "portrait")]
+	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GreenTheme", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : XFormsApplicationDroid
 	{
 		protected override void OnCreate(Bundle bundle)
