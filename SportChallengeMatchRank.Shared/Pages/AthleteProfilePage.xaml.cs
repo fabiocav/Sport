@@ -1,4 +1,5 @@
 ﻿using System;
+using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -38,28 +39,16 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			btnDelete.Clicked += async(sender, e) =>
-			{
-				if(!App.CurrentAthlete.IsAdmin)
-					return;
-
-				var confirmed = await DisplayAlert("Delete {0}'s Profile?".Fmt(ViewModel.Athlete.Name), "Are you sure you want to remove this athlete?", "Yes", "No");
-
-				if(!confirmed)
-					return;
-
-				bool success;
-				using(new HUD("Deleting..."))
-				{
-					success = await ViewModel.DeleteAthlete();
-				}
-
-				if(success)
-				{
-					"Deleted".ToToast(ToastNotificationType.Success);
-					await Navigation.PopAsync();
-				}
+			var btnCancel = new ToolbarItem {
+				Text = "Done",
 			};
+
+			btnCancel.Clicked += async(sender, e) =>
+			{
+				await Navigation.PopModalAsync();		
+			};
+
+			ToolbarItems.Add(btnCancel);
 		}
 
 		protected override void OnAppearing()

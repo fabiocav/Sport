@@ -86,7 +86,11 @@ namespace SportChallengeMatchRank.Shared
 
 			if(Settings.Instance.AuthToken != null && Settings.Instance.RegistrationComplete)
 			{
-				MainPage = new MasterDetailPage();
+				MainPage = new NavigationPage(new AthleteLeaguesPage(Settings.Instance.AthleteId)) {
+					Title = "Leagues",
+					BarBackgroundColor = (Color)App.Current.Resources["greenPrimary"],
+					BarTextColor = Color.White,
+				};
 			}
 			else
 			{

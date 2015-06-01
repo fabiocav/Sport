@@ -50,7 +50,7 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			var btnCancel = new ToolbarItem {
-				Text = "Cancel",
+				Text = "Done",
 			};
 
 			btnCancel.Clicked += async(sender, e) =>

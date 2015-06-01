@@ -10,6 +10,7 @@
 
 	<local:AthleteLeaguesXaml.ToolbarItems>
 		<ToolbarItem x:Name="btnJoin" Icon="ic_add_white" />
+		<ToolbarItem Icon="ic_more_vert_white" Clicked="OnMoreClicked" />
 	</local:AthleteLeaguesXaml.ToolbarItems>
 
 </local:AthleteLeaguesXaml>

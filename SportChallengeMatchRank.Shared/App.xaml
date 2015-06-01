@@ -6,6 +6,7 @@
         <ResourceDictionary>
         	<Color x:Key="bluePrimary">#1FAECE</Color>
         	<Color x:Key="blueLight">#91E2F4</Color>
+        	<Color x:Key="blueDark">#2C7797</Color>
 
         	<Color x:Key="purplePrimary">#9378CD</Color>
         	<Color x:Key="purpleLight">#CEC0EC</Color>
@@ -28,10 +29,7 @@
                 <Setter Property="TextColor" Value="#000000" />
                 <Setter Property="FontSize">
                 	<Setter.Value>
-                		<OnPlatform x:TypeArguments="x:Double">
-							<OnPlatform.iOS>14</OnPlatform.iOS>
-							<OnPlatform.Android>12</OnPlatform.Android>
-						</OnPlatform>
+                		<OnPlatform x:TypeArguments="x:Double" iOS="14" Android="12" />
                 	</Setter.Value>
                 </Setter>
                 <Setter Property="FontFamily" Value="HelveticaNeue-Light" />
@@ -40,67 +38,42 @@
             <Style x:Key="whiteLabelStyle" TargetType="Label" BasedOn="{StaticResource labelStyle}">
           		<Setter Property="TextColor" Value="#FFFFFF" />
           	</Style>
-            <Style x:Key="blackLabelStyle" TargetType="Label" BasedOn="{StaticResource labelStyle}">
-          	<Setter Property="TextColor">
-            		<Setter.Value>
-                		<OnPlatform x:TypeArguments="Color">
-	            			<OnPlatform.iOS>#000000</OnPlatform.iOS>
-	            			<OnPlatform.Android>#000000</OnPlatform.Android>
-                 		</OnPlatform>
-	           		</Setter.Value>
-            	</Setter>
-            </Style>
             <Style x:Key="buttonStyle" TargetType="Button">
-                <Setter Property="TextColor" Value="#5A8622" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BorderRadius" Value="2" />
+            	<Setter Property="FontSize" Value="Medium" />
+                <Setter Property="BackgroundColor" Value="{StaticResource greenLight}" />
+            </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource buttonStyle}" />
+            <Style x:Key="actionButtonStyle" TargetType="Button">
+                <Setter Property="TextColor" Value="{StaticResource greenDark}" />
                 <Setter Property="BorderRadius" Value="2" />
             	<Setter Property="FontSize">
             		<Setter.Value>
-                		<OnPlatform x:TypeArguments="x:Double">
-	            			<OnPlatform.iOS>14</OnPlatform.iOS>
-	            			<OnPlatform.Android>12</OnPlatform.Android>
-                 		</OnPlatform>
+                		<OnPlatform x:TypeArguments="x:Double" iOS="14" Android="12" />
 	           		</Setter.Value>
             	</Setter>
             	<Setter Property="HeightRequest">
             		<Setter.Value>
-                		<OnPlatform x:TypeArguments="x:Double">
-	            			<OnPlatform.iOS>30</OnPlatform.iOS>
-	            			<OnPlatform.Android>40</OnPlatform.Android>
-                 		</OnPlatform>
+                		<OnPlatform x:TypeArguments="x:Double" iOS="30" Android="34" />
 	           		</Setter.Value>
             	</Setter>
             	<Setter Property="BackgroundColor">
             		<Setter.Value>
-                		<OnPlatform x:TypeArguments="Color">
-	            			<OnPlatform.iOS>#CFEFA7</OnPlatform.iOS>
-	            			<OnPlatform.Android>Transparent</OnPlatform.Android>
-                 		</OnPlatform>
+                		<OnPlatform x:TypeArguments="Color" iOS="{StaticResource greenLight}" Android="Transparent" />
 	           		</Setter.Value>
             	</Setter>
-            	<Setter Property="FontFamily">
-            		<Setter.Value>
-                		<OnPlatform x:TypeArguments="x:String">
-	            			<OnPlatform.iOS>HelveticaNeue-Regular</OnPlatform.iOS>
-                 		</OnPlatform>
-	           		</Setter.Value>
-            	</Setter>
+            </Style>
+            <Style x:Key="greenButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
+            	<Setter Property="BackgroundColor" Value="{StaticResource greenPrimary}" />
             </Style>
             <Style x:Key="blueButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
-                <Setter Property="TextColor" Value="{StaticResource bluePrimary}" />
-            	<Setter Property="BackgroundColor">
-            		<Setter.Value>
-                		<OnPlatform x:TypeArguments="Color" iOS="{StaticResource blueLight}" Android="Transparent" />
-	           		</Setter.Value>
-            	</Setter>
+            	<Setter Property="BackgroundColor" Value="{StaticResource bluePrimary}" />
             </Style>
 
-            <Style TargetType="Button" BasedOn="{StaticResource buttonStyle}" />
-            <Style x:Key="purpleButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
-                <Setter Property="BackgroundColor" Value="{StaticResource greenPrimary}" />
-            </Style>
             <Style x:Key="deleteButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
                 <Setter Property="TextColor" Value="#FFFFFF" />
-                <Setter Property="BackgroundColor" Value="#99FF0000" />
+                <Setter Property="BackgroundColor" Value="{StaticResource redLight}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

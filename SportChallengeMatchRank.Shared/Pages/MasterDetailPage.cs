@@ -101,7 +101,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public void DisplayAdminPage()
 		{
-			_adminPage = _adminPage ?? new NavigationPage(new AdminPage());
+			var admin = new NavigationPage(new AdminPage());
 			Detail = _adminPage;
 		}
 

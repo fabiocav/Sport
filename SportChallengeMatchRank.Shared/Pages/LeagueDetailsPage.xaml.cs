@@ -27,6 +27,23 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		Style _actionButtonStyle;
+
+		public Style ActionButtonStyle
+		{
+			get
+			{
+				return _actionButtonStyle;
+			}
+			set
+			{
+				if(value != _actionButtonStyle)
+				{
+					_actionButtonStyle = value;
+				}
+			}
+		}
+
 		Style _buttonStyle;
 
 		public Style ButtonStyle
@@ -40,7 +57,7 @@ namespace SportChallengeMatchRank.Shared
 				if(value != _buttonStyle)
 				{
 					_buttonStyle = value;
-					btnJoin.Style = _buttonStyle;
+					btnJoin.Style = btnRankings.Style = _buttonStyle;
 				}
 			}
 		}
@@ -68,7 +85,7 @@ namespace SportChallengeMatchRank.Shared
 				{
 
 					bool success;
-					using(new HUD("Applying for membership..."))
+					using(new HUD("Joining..."))
 					{
 						success = await ViewModel.JoinLeague();
 					}
@@ -170,12 +187,11 @@ namespace SportChallengeMatchRank.Shared
 		const string _leave = "Cowardly Abandon League";
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
-		const string _rankings = "Rankings";
+		//const string _rankings = "Rankings";
 
 		List<string> GetMoreMenuOptions()
 		{
 			var list = new List<string>();
-			list.Add(_rankings);
 
 			if(ViewModel.CanGetRules)
 				list.Add(_rules);
@@ -202,9 +218,6 @@ namespace SportChallengeMatchRank.Shared
 
 			if(action == _pastChallenges)
 				DisplayPastChallenges();
-
-			if(action == _rankings)
-				OnRankingsClicked();
 		}
 
 		void DisplayPastChallenges()
@@ -212,7 +225,7 @@ namespace SportChallengeMatchRank.Shared
 			"This feature hasn't been implemented".ToToast();
 		}
 
-		async void OnRankingsClicked()
+		async void OnRankingsClicked(object sender, EventArgs e)
 		{
 			if(!ViewModel.League.HasStarted)
 			{

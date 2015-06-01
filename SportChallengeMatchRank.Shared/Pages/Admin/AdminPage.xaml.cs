@@ -1,4 +1,6 @@
-﻿
+﻿using Xamarin.Forms;
+
+
 namespace SportChallengeMatchRank.Shared
 {
 	public partial class AdminPage : AdminPageXaml
@@ -24,6 +26,17 @@ namespace SportChallengeMatchRank.Shared
 			{
 				await Navigation.PushAsync(new AthleteListPage());	
 			};
+
+			var btnCancel = new ToolbarItem {
+				Text = "Cancel",
+			};
+
+			btnCancel.Clicked += async(sender, e) =>
+			{
+				await Navigation.PopModalAsync();		
+			};
+
+			ToolbarItems.Add(btnCancel);
 		}
 
 		//		public ICommand OrgSettingsCommand

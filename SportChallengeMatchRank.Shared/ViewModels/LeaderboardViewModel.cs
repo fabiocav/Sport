@@ -70,7 +70,17 @@ namespace SportChallengeMatchRank.Shared
 			var toAdd = League.Memberships.Except(Memberships, comparer).OrderBy(r => r.CurrentRank).ToList();
 
 			toRemove.ForEach(l => Memberships.Remove(l));
-			toAdd.ForEach(Memberships.Add);
+
+			foreach(var m in toAdd)
+			{
+				var prev = Memberships.SingleOrDefault(mem => mem.CurrentRank == m.CurrentRank - 1);
+				var index = 0;
+
+				if(prev != null)
+					index = Memberships.IndexOf(prev) + 1;
+				
+				Memberships.Insert(index, m);
+			}
 		}
 
 		public class MembershipComparer : IEqualityComparer<Membership>

@@ -48,7 +48,7 @@ namespace SportChallengeMatchRank.Shared
 			if(GetMoreMenuOptions().Count > 0)
 				ToolbarItems.Add(moreButton);
 
-			list.HeightRequest = list.RowHeight * (ViewModel.Challenge.League.MatchGameCount + 1) + 3;
+			list.HeightRequest = list.RowHeight * ViewModel.Challenge.League.MatchGameCount + 50;
 			await ViewModel.GetMatchResults();
 		}
 
