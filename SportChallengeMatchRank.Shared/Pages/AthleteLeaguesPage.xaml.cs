@@ -38,6 +38,7 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushModalAsync(nav);
 			};
 
+			list.ButtonStyle = (Style)App.Current.Resources["actionButtonStyle"];
 			list.OnRankings = async(league) =>
 			{
 				if(!league.HasStarted)
@@ -62,7 +63,6 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var page = new LeagueDetailsPage(league);
-				page.ButtonStyle = (Style)App.Current.Resources["greenButtonStyle"];
 
 				page.OnAbandondedLeague = async(l) =>
 				{

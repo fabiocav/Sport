@@ -21,7 +21,7 @@ namespace SportChallengeMatchRank.Shared
 		protected async override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Join a League";
+			Title = "Enable Push";
 
 			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", (app) =>
 			{
@@ -54,40 +54,40 @@ namespace SportChallengeMatchRank.Shared
 			{
 				Settings.Instance.RegistrationComplete = true;
 				Settings.Instance.Save();
-				App.Current.MainPage = new MasterDetailPage();
+				App.Current.MainPage = App.Current.GetAthleteLeaguesPage();
 			};
 
-			list.ItemSelected += async(sender, e) =>
-			{
-				if(list.SelectedItem == null)
-					return;
-				
-				var league = list.SelectedItem as League;
-				list.SelectedItem = null;
-
-				if(league.Id == null)
-					return;
-
-				var detailsPage = new LeagueDetailsPage(league);
-				var navPage = new NavigationPage(detailsPage);
-				var cancel = new ToolbarItem {
-					Text = "Cancel",
-				};
-
-				detailsPage.OnJoinedLeague = (l) =>
-				{
-					ViewModel.LocalRefresh();
-					Navigation.PopModalAsync();
-				};
-					
-				cancel.Clicked += (sender2, e2) =>
-				{
-					Navigation.PopModalAsync();
-				};
-
-				navPage.ToolbarItems.Add(cancel);
-				await Navigation.PushModalAsync(navPage);	
-			};
+//			list.ItemSelected += async(sender, e) =>
+//			{
+//				if(list.SelectedItem == null)
+//					return;
+//				
+//				var league = list.SelectedItem as League;
+//				list.SelectedItem = null;
+//
+//				if(league.Id == null)
+//					return;
+//
+//				var detailsPage = new LeagueDetailsPage(league);
+//				var navPage = new NavigationPage(detailsPage);
+//				var cancel = new ToolbarItem {
+//					Text = "Cancel",
+//				};
+//
+//				detailsPage.OnJoinedLeague = (l) =>
+//				{
+//					ViewModel.LocalRefresh();
+//					Navigation.PopModalAsync();
+//				};
+//					
+//				cancel.Clicked += (sender2, e2) =>
+//				{
+//					Navigation.PopModalAsync();
+//				};
+//
+//				navPage.ToolbarItems.Add(cancel);
+//				await Navigation.PushModalAsync(navPage);	
+//			};
 
 			await ViewModel.GetAvailableLeagues();
 		}
@@ -98,7 +98,7 @@ namespace SportChallengeMatchRank.Shared
 
 			await Task.Delay(300);
 			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
-			await list.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+			//await list.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 		}
 

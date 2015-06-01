@@ -36,22 +36,23 @@
 					<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 					<StackLayout Orientation="Horizontal">
 						<Label FontSize="Small" Text="Stats" TextColor="{StaticResource grayDark}" />
-						<Label FontSize="Small" Text="W 14 L 7 ~ .5" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
+						<Label FontSize="Small" Text="{Binding MembershipViewModel.Stats}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
 					</StackLayout>
 					<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 					
 					<StackLayout Padding="0,40,0,20" IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 						<local:ChallengeCardView x:Name="cardView" ViewModel="{Binding ChallengeViewModel}" />
 					</StackLayout>
-
 				</StackLayout>
 			</StackLayout>
 
 			<StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" Padding="28" Spacing="14">
 				<Button x:Name="btnRankings" Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="OnRankingsClicked"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					Style="{StaticResource grayButtonStyle}" />
 
 				<Button x:Name="btnJoin" Text="JOIN LEAGUE" HorizontalOptions="FillAndExpand"
+					Style="{StaticResource grayButtonStyle}"
 					IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>

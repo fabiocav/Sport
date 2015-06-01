@@ -10,7 +10,7 @@ using XLabs.Forms;
 
 namespace SportChallengeMatchRank.Android
 {
-	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GreenTheme")]
+	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GreenTheme", ScreenOrientation = "portrait")]
 	public class MainActivity : XFormsApplicationDroid
 	{
 		protected override void OnCreate(Bundle bundle)

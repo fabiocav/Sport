@@ -6,40 +6,51 @@
 	xmlns:labs="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
     <local:AthleteProfilePageXaml.Content>
-	<ScrollView Padding="14">
-		<Grid VerticalOptions="Fill" Padding="28,40,28,28">
+	<ScrollView>
+		<Grid VerticalOptions="Fill">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 		
 			<StackLayout>
-				<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Spacing="25">
-					<controls:CircleImage x:Name="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
-						HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="48" HeightRequest="48"  />
+				<StackLayout Spacing="12">
+					<Grid>
+						<BoxView BackgroundColor="{StaticResource grayLight}" HeightRequest="96" VerticalOptions="Start"/>
+						
+						<Grid HorizontalOptions="Fill" Padding="0,12,0,20">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="5*" />
+								<ColumnDefinition Width="5*" />
+							</Grid.ColumnDefinitions>
 
-					<StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-						<Label Text="{Binding Athlete.Name}" FontSize="Large" HorizontalOptions="StartAndExpand" />
-						<Label Text="{Binding Athlete.Email}" FontSize="Small" HorizontalOptions="StartAndExpand" />
-					</StackLayout>
+							<StackLayout Grid.Column="1" Padding="0,12,0,0" HorizontalOptions="Start" VerticalOptions="Start">
+								<Label Text="{Binding Athlete.Name}" FontSize="Large" HorizontalOptions="StartAndExpand" />
+								<Label Text="{Binding Athlete.Email}" FontSize="Micro" HorizontalOptions="StartAndExpand" />
+							</StackLayout>
+
+							<StackLayout Padding="48,12,36,0" HorizontalOptions="End">
+								<controls:CircleImage Source="{Binding Athlete.ProfileImageUrl}"
+									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
+							</StackLayout>
+						</Grid>
+					</Grid>
 				</StackLayout>
 
-				<StackLayout Spacing="20" Orientation="Horizontal" Padding="28,56" HorizontalOptions="FillAndExpand">
+				<StackLayout Spacing="20" Orientation="Horizontal" Padding="56" HorizontalOptions="FillAndExpand">
 					<Label Text="Alias" FontSize="Large" VerticalOptions="Center" />
 					<StackLayout HorizontalOptions="FillAndExpand" Spacing="0" Padding="0,2">
 						<labs:ExtendedEntry x:Name="txtAlias" Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="{StaticResource blueDark}"
-							HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" HasBorder="false" Font="Large" />
-
-						<StackLayout Padding="0">
-							<BoxView BackgroundColor="{StaticResource blueDark}" HeightRequest=".5" />
-						</StackLayout>
+							HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource blueLight}" HasBorder="false" Font="Large" />
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>
 
-			<Button x:Name="btnSave" Grid.Row="1" Text="SAVE" VerticalOptions="EndAndExpand"
-				BackgroundColor="{StaticResource blueLight}" HorizontalOptions="FillAndExpand"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+			<StackLayout Padding="24">
+				<Button x:Name="btnSave" Grid.Row="1" Text="SAVE" VerticalOptions="EndAndExpand"
+					Style="{StaticResource blueButtonStyle}" HorizontalOptions="FillAndExpand"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+			</StackLayout>
 		</Grid>
 	</ScrollView>
 	</local:AthleteProfilePageXaml.Content>

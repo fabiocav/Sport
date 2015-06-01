@@ -5,28 +5,28 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
 	<local:ChallengeDateXaml.Content>
-			<Grid VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="{StaticResource bluePrimary}">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="7*" />
-					<RowDefinition Height="3*" />
-				</Grid.RowDefinitions>
+		<Grid VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="White">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 
-				<StackLayout Padding="80" Spacing="40">
-					<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-					<local:ExtendedDatePicker x:Name="datePicker" Date="{Binding SelectedDate}" BackgroundColor="#22FFFFFF"
-						HasBorder="false" Font="40" XAlign="Center" TextColor="White" />
+			<StackLayout Padding="80" Spacing="40">
+				<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+				<local:ExtendedDatePicker x:Name="datePicker" Date="{Binding SelectedDate}" BackgroundColor="{StaticResource greenLight}"
+					HasBorder="false" Font="40" XAlign="Center" TextColor="White" />
 
-					<local:ExtendedTimePicker x:Name="timePicker" Time="{Binding SelectedTime}" BackgroundColor="#22FFFFFF"
-						HasBorder="false" Font="40" XAlign="Center" TextColor="White" />
+				<local:ExtendedTimePicker x:Name="timePicker" Time="{Binding SelectedTime}" BackgroundColor="{StaticResource greenLight}"
+					HasBorder="false" Font="40" XAlign="Center" TextColor="White" />
 
-					<Label HeightRequest="200" HorizontalOptions="Fill" Text="{Binding TimeOptions}" />
-				</StackLayout>
+				<Label HeightRequest="200" HorizontalOptions="Fill" Text="{Binding TimeOptions}" />
+			</StackLayout>
 
-				<StackLayout Grid.Row="1" VerticalOptions="End">
-					<Button x:Name="btnChallenge" Text="Send Challenge Request"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" BackgroundColor="#44000000"
-						VerticalOptions="End" />
-				</StackLayout>
-			</Grid>
+			<StackLayout Grid.Row="1" VerticalOptions="End" Padding="24">
+				<Button x:Name="btnChallenge" Text="SEND CHALLENGE" Style="{StaticResource greenButtonStyle}"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					VerticalOptions="End" />
+			</StackLayout>
+		</Grid>
 	</local:ChallengeDateXaml.Content>
 </local:ChallengeDateXaml>

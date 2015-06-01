@@ -19,10 +19,11 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override void Initialize()
 		{
-			Title = "Post Match Result";
+			Title = "Match Score";
 
-			var scrollView = new ScrollView();
-			scrollView.BackgroundColor = (Color)App.Current.Resources["bluePrimary"];
+			var scrollView = new ScrollView {
+				BackgroundColor = Color.White,
+			};
 
 			var stackLayout = new StackLayout {
 				Spacing = 10,
@@ -30,9 +31,8 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			var btnSubmit = new Button {
-				Text = "Post Match Result",
-				Style = (Style)App.Current.Resources["buttonStyle"],
-				BackgroundColor = Color.FromHex("#44000000")
+				Text = "Post Match Score",
+				Style = (Style)App.Current.Resources["purpleButtonStyle"],
 			};
 
 			var btnCancel = new ToolbarItem {
@@ -60,7 +60,11 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			scrollView.Content = stackLayout;
-			stackLayout.Children.Add(btnSubmit);
+			stackLayout.Children.Add(new StackLayout {
+				Padding = 28,
+				Children = {
+					btnSubmit },
+			});
 			Content = scrollView;
 
 			btnSubmit.Clicked += async(sender, e) =>

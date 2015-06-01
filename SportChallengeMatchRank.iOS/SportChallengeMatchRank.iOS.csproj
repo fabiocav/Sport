@@ -200,6 +200,7 @@
     <BundleResource Include="Resources\ic_send_white%403x.png" />
     <BundleResource Include="Resources\ic_time_gray%402x.png" />
     <BundleResource Include="Resources\ic_time_gray%403x.png" />
+    <BundleResource Include="Resources\ic_trophy_gray%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

@@ -5,49 +5,57 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
 	<local:MembershipDetailsXaml.Content>
-		<ScrollView BackgroundColor="{StaticResource bluePrimary}">
-			<StackLayout Spacing="20">
-				<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="30,50,30,30" Spacing="25">
-					<controls:CircleImage x:Name="photoImage" Source="{Binding Membership.Athlete.ProfileImageUrl}"
-						HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="140" HeightRequest="140"  />
+		<ScrollView BackgroundColor="White">
+			<Grid VerticalOptions="Fill">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+			
+				<StackLayout>
+					<Grid>
+						<BoxView BackgroundColor="{StaticResource grayLight}" HeightRequest="96" VerticalOptions="Start"/>
+						
+						<Grid HorizontalOptions="Fill" Padding="0,12,0,20">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="5*" />
+								<ColumnDefinition Width="5*" />
+							</Grid.ColumnDefinitions>
 
-					<StackLayout>
-						<Label Text="{Binding Membership.Athlete.Name}" FontSize="40" HorizontalOptions="StartAndExpand" />
-						<Label Text="{Binding Membership.Athlete.Email}" FontSize="14" HorizontalOptions="StartAndExpand" />
-						<Label Text="{Binding Membership.Athlete.Alias, StringFormat='AKA \{0\}'}" FontSize="26" HorizontalOptions="StartAndExpand" />
+							<StackLayout Grid.Column="1" Padding="0,12,0,0" HorizontalOptions="Start" VerticalOptions="Start">
+								<Label Text="{Binding Membership.Athlete.Name}" FontSize="Large" HorizontalOptions="StartAndExpand" />
+								<Label Text="{Binding Membership.Athlete.Email}" FontSize="Micro" HorizontalOptions="StartAndExpand" />
+							</StackLayout>
+
+							<StackLayout Padding="48,12,36,0" HorizontalOptions="End">
+								<controls:CircleImage Source="{Binding Membership.Athlete.ProfileImageUrl}"
+									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
+							</StackLayout>
+						</Grid>
+					</Grid>
+
+					<StackLayout Padding="24,72" Spacing="8">
+						<Label FontSize="Medium" Text="ATHLETE STATS" TextColor="{StaticResource grayDark}" />
+						<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
+						<StackLayout Orientation="Horizontal">
+							<Label FontSize="Small" Text="Rank" TextColor="{StaticResource grayDark}" />
+							<Label FontSize="Small" Text="{Binding RankDescription}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
+						</StackLayout>
+						<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
+						<StackLayout Orientation="Horizontal">
+							<Label FontSize="Small" Text="Stats" TextColor="{StaticResource grayDark}" />
+							<Label FontSize="Small" Text="{Binding Stats}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
+						</StackLayout>
+						<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 					</StackLayout>
 				</StackLayout>
-
-				<StackLayout Padding="40,20,40,40" Spacing="20" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
-					<StackLayout>
-						<Label Text="{Binding RankDescription}" FontSize="20" />
-						<Label Text="{Binding JoinDescription}" FontSize="14" />
-					</StackLayout>
-				</StackLayout>
-
-				<StackLayout HorizontalOptions="FillAndExpand" Spacing="2" VerticalOptions="EndAndExpand">
-					<StackLayout Orientation="Horizontal" Padding="40" IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}">
-						<Label Text="Administrator" HorizontalOptions="StartAndExpand" FontSize="Medium" />
-						<Switch IsToggled="{Binding Membership.IsAdmin}" HorizontalOptions="End" />
-					</StackLayout>
-
-					<Button x:Name="btnChallenge" Text="{Binding Membership.Athlete.Name, StringFormat='Challenge \{0\}'}"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" BackgroundColor="#44000000"
-						VerticalOptions="EndAndExpand" />
-
-					<Button x:Name="btnRevokeChallenge" Text="Revoke Challenge" Style="{StaticResource blueButtonStyle}"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-						VerticalOptions="EndAndExpand" IsVisible="{Binding CanRevokeChallenge}" BackgroundColor="#44000000" />
-
-					<Button x:Name="btnSaveMembership" Text="Save Membership" BackgroundColor="#44000000"
-						IsVisible="{Binding IsAdmin, Source={x:Static local:App.CurrentAthlete}}"
+			
+				<StackLayout Grid.Row="1" Padding="24" VerticalOptions="EndAndExpand">
+					<Button x:Name="btnChallenge" Text="CHALLENGE"
+						Style="{StaticResource greenButtonStyle}" HorizontalOptions="FillAndExpand"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-
-					<Button x:Name="btnDeleteMembership" Text="Revoke Membership" Style="{StaticResource deleteButtonStyle}"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-						IsVisible="{Binding CanDeleteMembership}" />
 				</StackLayout>
-			</StackLayout>
+			</Grid>
 		</ScrollView>
 	</local:MembershipDetailsXaml.Content>
 </local:MembershipDetailsXaml>

@@ -16,21 +16,23 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<StackLayout BackgroundColor="#99000000" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.ColumnSpan="2" Padding="10">
-			<Label Text="{Binding GameIndex}" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="30" FontSize="Large" />
+		<StackLayout BackgroundColor="{StaticResource purpleLight}" HorizontalOptions="FillAndExpand"
+			VerticalOptions="FillAndExpand" Grid.ColumnSpan="2" Padding="10">
+			<Label Text="{Binding GameIndex}" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="30" FontSize="Large"
+				TextColor="{StaticResource purpleDark}" />
 		</StackLayout>
 
 		<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" Grid.Row="1" HorizontalOptions="FillAndExpand"
-			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="#44000000" XAlign="Center" YAlign="Center" />
+			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource grayLight}" XAlign="Center" YAlign="Center" />
 		<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" Grid.Row="1" Grid.Column="1" HorizontalOptions="FillAndExpand"
-			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="#44000000" XAlign="Center" YAlign="Center" />
+			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource grayLight}" XAlign="Center" YAlign="Center" />
 
 		<labs:ExtendedEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
 			TextColor="White" VerticalOptions="Center" Grid.Row="2" HorizontalOptions="Center" WidthRequest="80" HeightRequest="80"
-			Keyboard="Numeric" BackgroundColor="#11FFFFFF" HasBorder="false" Font="46" XAlign="Center" TextChanged="TextChanged" />
+			Keyboard="Numeric" BackgroundColor="{StaticResource grayPrimary}" HasBorder="false" Font="46" XAlign="Center" TextChanged="TextChanged" Placeholder="0" />
 
 		<labs:ExtendedEntry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
-			TextColor="White" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="80"
-			HeightRequest="80" Keyboard="Numeric" BackgroundColor="#11FFFFFF" HasBorder="false" Font="46" XAlign="Center" TextChanged="TextChanged" />
+			TextColor="White" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="80" Placeholder="0"
+			HeightRequest="80" Keyboard="Numeric" BackgroundColor="{StaticResource grayPrimary}" HasBorder="false" Font="46" XAlign="Center" TextChanged="TextChanged" />
 	</Grid>
 </ContentView>

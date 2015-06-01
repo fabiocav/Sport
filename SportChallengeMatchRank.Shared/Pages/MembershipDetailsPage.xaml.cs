@@ -23,34 +23,12 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 			Title = "Membership";
 
-			btnSaveMembership.Clicked += async(sender, e) =>
-			{
-				await ViewModel.SaveMembership();
-				"Saved".ToToast(ToastNotificationType.Success);
-			};
-
-			btnDeleteMembership.Clicked += async(sender, e) =>
-			{
-				var accepted = await DisplayAlert("Delete Membership?", "Are you sure you want to delete this membership?", "Yes", "No");
-
-				if(accepted)
-				{
-					await ViewModel.DeleteMembership();
-					
-					if(OnDelete != null)
-						OnDelete();
-
-					"Deleted.".ToToast(ToastNotificationType.Success);
-					await Navigation.PopAsync();
-				}
-			};
-
 			btnChallenge.Clicked += async(sender, e) =>
 			{
 				var conflict = ViewModel.Membership.GetChallengeConflictReason(App.CurrentAthlete);
 				if(conflict != null)
 				{
-					conflict.ToToast(ToastNotificationType.Error);
+					conflict.ToToast();
 					return;
 				}
 
@@ -66,20 +44,20 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushModalAsync(new NavigationPage(datePage));
 			};
 
-			btnRevokeChallenge.Clicked += async(sender, e) =>
-			{
-				var revoke = await DisplayAlert("Really?", "Are you sure you want to revoke this challenge?", "Sadly", "No");
-
-				if(!revoke)
-					return;
-					
-				using(new HUD("Revoking..."))
-				{
-					await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
-				}
-
-				"Revoked".Fmt(ViewModel.Membership.Athlete.Name).ToToast();
-			};
+//			btnRevokeChallenge.Clicked += async(sender, e) =>
+//			{
+//				var revoke = await DisplayAlert("Really?", "Are you sure you want to revoke this challenge?", "Sadly", "No");
+//
+//				if(!revoke)
+//					return;
+//					
+//				using(new HUD("Revoking..."))
+//				{
+//					await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
+//				}
+//
+//				"Revoked".Fmt(ViewModel.Membership.Athlete.Name).ToToast();
+//			};
 
 			await ViewModel.RunSafe(AzureService.Instance.GetAllChallengesByAthlete(ViewModel.Membership.Athlete));
 			ViewModel.SetPropertyChanged("CanChallenge");
@@ -93,9 +71,6 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			var width = ParentView.Bounds.Width / 3;
-
-			photoImage.WidthRequest = width;
-			photoImage.HeightRequest = width;
 		}
 
 		protected override void OnAppearing()

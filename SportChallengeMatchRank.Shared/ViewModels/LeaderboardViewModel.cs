@@ -22,6 +22,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
+				if(value != _league)
+				{
+					_hasLoadedBefore = false;
+					Memberships.Clear();
+				}
+
 				SetPropertyChanged(ref _league, value);
 			}
 		}

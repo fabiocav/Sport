@@ -183,6 +183,8 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("ChallengeViewModel");
 
 			OngoingChallenge?.NotifyPropertiesChanged();
+			MembershipViewModel?.NotifyPropertiesChanged();
+			ChallengeViewModel?.NotifyPropertiesChanged();
 		}
 	}
 }

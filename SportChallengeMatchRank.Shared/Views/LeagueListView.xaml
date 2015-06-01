@@ -17,25 +17,27 @@
 							<Label Text="{Binding Name}" FontSize="Large" XAlign="Center" />
 						</StackLayout>
 
-						<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="Fill"
-							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
-								IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+						<StackLayout Padding="1" BackgroundColor="{StaticResource grayPrimary}"
+							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
 
-							<Image x:Name="photoImage" Source="{Binding ImageUrl}" HorizontalOptions="Fill" HeightRequest="150"
-								VerticalOptions="Center" Aspect="AspectFill" />
+							<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
+								<Image x:Name="photoImage" Source="{Binding ImageUrl}" HorizontalOptions="Fill" HeightRequest="150"
+									VerticalOptions="Center" Aspect="AspectFill" />
 
-							<StackLayout Padding="24,10" Spacing="4">
-								<Label FontSize="Small" Text="{Binding Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="{StaticResource grayDark}" />
-								<Label Text="{Binding Name}" FontSize="Large" />
-								<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
-									 VerticalOptions="Center" HeightRequest="70" LineBreakMode="WordWrap" />
+								<StackLayout Padding="24,10" Spacing="4">
+									<Label FontSize="Small" Text="{Binding Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="{StaticResource grayDark}" />
+									<Label Text="{Binding Name}" FontSize="Large" />
+									<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
+										 VerticalOptions="Center" HeightRequest="70" LineBreakMode="WordWrap" />
+								</StackLayout>
 							</StackLayout>
 						</StackLayout>
 
 						<StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="End" Padding="10" VerticalOptions="EndAndExpand"
+							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}"
 							AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,1">
 							<Button Text="LEADERBOARD" Clicked="OnRankingsClicked" CommandParameter="{Binding .}"
-								Style="{StaticResource actionButtonStyle}" WidthRequest="130" BackgroundColor="{StaticResource greenLight}" />
+								Style="{StaticResource grayButtonStyle}" WidthRequest="130" />
 						</StackLayout>
 					</AbsoluteLayout>
 				</ViewCell.View>

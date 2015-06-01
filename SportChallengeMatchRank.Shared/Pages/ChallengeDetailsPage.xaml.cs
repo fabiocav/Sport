@@ -75,7 +75,10 @@ namespace SportChallengeMatchRank.Shared
 					OnPostResults();
 			};
 
-			await Navigation.PushModalAsync(new NavigationPage(page));
+			await Navigation.PushModalAsync(new NavigationPage(page) {
+				BarBackgroundColor = (Color)App.Current.Resources["purplePrimary"],
+				BarTextColor = Color.White,
+			});
 		}
 
 		async void OnRevokeChallenge()

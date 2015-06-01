@@ -22,6 +22,7 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 			Title = "Available Leagues";
 
+			list.ButtonStyle = (Style)App.Current.Resources["blueActionButtonStyle"];
 			list.ItemSelected += async(sender, e) =>
 			{
 				if(list.SelectedItem == null)
@@ -35,7 +36,6 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var page = new LeagueDetailsPage(league);
-				page.ButtonStyle = (Style)App.Current.Resources["blueButtonStyle"];
 
 				page.OnJoinedLeague = async(l) =>
 				{

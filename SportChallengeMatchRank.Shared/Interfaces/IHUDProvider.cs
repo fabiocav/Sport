@@ -25,7 +25,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async void StartHUD(string message)
 		{
-			await Task.Delay(50);
+			await Task.Delay(100);
 
 			if(_cancel)
 			{

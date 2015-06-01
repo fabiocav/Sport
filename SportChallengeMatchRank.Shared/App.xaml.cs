@@ -86,16 +86,12 @@ namespace SportChallengeMatchRank.Shared
 
 			if(Settings.Instance.AuthToken != null && Settings.Instance.RegistrationComplete)
 			{
-				MainPage = new NavigationPage(new AthleteLeaguesPage(Settings.Instance.AthleteId)) {
-					Title = "Leagues",
-					BarBackgroundColor = (Color)App.Current.Resources["greenPrimary"],
-					BarTextColor = Color.White,
-				};
+				MainPage = GetAthleteLeaguesPage();
 			}
 			else
 			{
 				WelcomeNav = new NavigationPage(new WelcomeStartPage());
-				WelcomeNav.BarTextColor = Color.FromHex("#FFFFFF");
+				WelcomeNav.BarTextColor = Color.White;
 				MainPage = WelcomeNav;
 			}
 
@@ -136,6 +132,15 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get;
 			set;
+		}
+
+		public NavigationPage GetAthleteLeaguesPage()
+		{
+			return new NavigationPage(new AthleteLeaguesPage(Settings.Instance.AthleteId)) {
+				Title = "Leagues",
+				BarBackgroundColor = (Color)App.Current.Resources["greenPrimary"],
+				BarTextColor = Color.White,
+			};
 		}
 	}
 }

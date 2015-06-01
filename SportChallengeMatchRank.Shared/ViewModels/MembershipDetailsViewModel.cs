@@ -78,6 +78,14 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public string Stats
+		{
+			get
+			{
+				return "W 14 L 7 ~ .5";
+			}
+		}
+
 		async public Task RevokeExistingChallenge(Membership membership)
 		{
 			var challenge = membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
@@ -101,6 +109,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("Membership");
 			SetPropertyChanged("CanDeleteMembership");
 			SetPropertyChanged("RankDescription");
+			SetPropertyChanged("Stats");
 			SetPropertyChanged("JoinDescription");
 		}
 

@@ -4,27 +4,25 @@
 	x:Class="SportChallengeMatchRank.Shared.ChooseLeaguesPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-	BackgroundColor="{StaticResource bluePrimary}">
+	BackgroundColor="{StaticResource purplePrimary}">
     <local:ChooseLeaguesPageXaml.Resources>
 		<ResourceDictionary>
 			<Style TargetType="Label" BasedOn="{StaticResource whiteLabelStyle}" />
 		</ResourceDictionary>
     </local:ChooseLeaguesPageXaml.Resources>
     <local:ChooseLeaguesPageXaml.Content>
-
-		<Grid VerticalOptions="Fill" HorizontalOptions="Fill">
+		<Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="2.5*" />
-				<RowDefinition Height="4*" />
-				<RowDefinition Height="2.5*" />
+				<RowDefinition Height="5*" />
+				<RowDefinition Height="5*" />
 			</Grid.RowDefinitions>
 
 			<StackLayout x:Name="label1" Padding="30" Scale="0" VerticalOptions="Center" HorizontalOptions="Center">
-				<Label Text="Time to join some sport leagues so you can finally rank match. Also, please be cool and enable push notifications."
+				<Label Text="Be cool and enable push notifications."
 					FontSize="Large" XAlign="Center" />
 			</StackLayout>
 
-			<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" BackgroundColor="Transparent" WidthRequest="400" HorizontalOptions="Center"
+<!--			<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" BackgroundColor="Transparent" WidthRequest="400" HorizontalOptions="Center"
 				Grid.Row="1" VerticalOptions="Fill" Scale="0" RefreshCommand="{Binding GetAvailableLeaguesCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}" 
 				SeparatorVisibility="None">
 				<local:LeagueListView.Resources>
@@ -33,12 +31,14 @@
 					</ResourceDictionary>
 				</local:LeagueListView.Resources>
 			</local:LeagueListView>
+-->
+			<StackLayout x:Name="buttonStack" Grid.Row="1" Spacing="14" Scale="0" VerticalOptions="End">
+				<Button x:Name="btnPush" StyleId="pushButton" Text="ALLOW PUSH NOTIFICATIONS" BackgroundColor="{StaticResource purpleDark}"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					TextColor="White" VerticalOptions="EndAndExpand" />
 
-			<StackLayout x:Name="buttonStack" Grid.Row="2" Spacing="2" Scale="0" VerticalOptions="End">
-				<Button x:Name="btnPush" StyleId="pushButton" Text="Enable Push Notifications" BackgroundColor="#22000000"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="EndAndExpand" />
-
-				<Button x:Name="btnContinue" StyleId="continueButton" Text="Continue" BackgroundColor="#66000000"
+				<Button x:Name="btnContinue" StyleId="continueButton" Text="CONTINUE"
+					BackgroundColor="{StaticResource purpleLight}" TextColor="White"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
 			</StackLayout>
 		</Grid>
