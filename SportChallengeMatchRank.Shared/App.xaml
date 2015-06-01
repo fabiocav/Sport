@@ -85,7 +85,7 @@
             	<Setter Property="BackgroundColor" Value="{StaticResource purplePrimary}" />
             </Style>
             <Style x:Key="grayButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
-            	<Setter Property="BackgroundColor" Value="{StaticResource grayLight}" />
+            	<Setter Property="BackgroundColor" Value="{StaticResource grayPrimary}" />
             </Style>
 
             <Style x:Key="deleteButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">

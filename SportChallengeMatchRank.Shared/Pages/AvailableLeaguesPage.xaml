@@ -4,8 +4,10 @@
 	x:Class="SportChallengeMatchRank.Shared.AvailableLeaguesPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<local:AvailableLeaguesXaml.Content>
-		<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetAvailableLeaguesCommand}"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}" />
+		<Grid Padding="0,0,0,14" BackgroundColor="{StaticResource grayLight}">
+			<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetAvailableLeaguesCommand}"
+				IsRefreshing="{Binding IsBusy, Mode=OneWay}" />
+		</Grid>
 	</local:AvailableLeaguesXaml.Content>
 
 </local:AvailableLeaguesXaml>
