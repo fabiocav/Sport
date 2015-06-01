@@ -38,7 +38,7 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushModalAsync(nav);
 			};
 
-			list.ButtonStyle = (Style)App.Current.Resources["actionButtonStyle"];
+			//list.ButtonStyle = (Style)App.Current.Resources["actionButtonStyle"];
 			list.OnRankings = async(league) =>
 			{
 				if(!league.HasStarted)

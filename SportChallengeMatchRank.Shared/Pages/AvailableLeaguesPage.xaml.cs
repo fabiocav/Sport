@@ -22,7 +22,7 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 			Title = "Available Leagues";
 
-			list.ButtonStyle = (Style)App.Current.Resources["blueActionButtonStyle"];
+			//list.ButtonStyle = (Style)App.Current.Resources["blueActionButtonStyle"];
 			list.ItemSelected += async(sender, e) =>
 			{
 				if(list.SelectedItem == null)

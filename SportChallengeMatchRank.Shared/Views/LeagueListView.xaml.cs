@@ -11,24 +11,6 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 		}
 
-		public static Style ActiveButtonStyle
-		{
-			get;
-			set;
-		}
-
-		public Style ButtonStyle
-		{
-			get
-			{
-				return ActiveButtonStyle;
-			}
-			set
-			{
-				ActiveButtonStyle = value;
-			}
-		}
-
 		public bool ShowChallengesButton
 		{
 			get

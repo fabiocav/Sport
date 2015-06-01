@@ -37,7 +37,7 @@
 							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}"
 							AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,1">
 							<Button Text="LEADERBOARD" Clicked="OnRankingsClicked" CommandParameter="{Binding .}"
-								Style="{StaticResource grayButtonStyle}" WidthRequest="130" />
+								Style="{StaticResource grayActionButtonStyle}" WidthRequest="130" />
 						</StackLayout>
 					</AbsoluteLayout>
 				</ViewCell.View>
