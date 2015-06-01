@@ -91,7 +91,13 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		LeagueViewModel LeagueViewModel
+		public LeagueViewModel LeagueViewModel
+		{
+			get;
+			set;
+		}
+
+		public ChallengeDetailsViewModel ChallengeViewModel
 		{
 			get;
 			set;
@@ -109,6 +115,10 @@ namespace SportChallengeMatchRank.Shared
 			{
 				SetPropertyChanged(ref _league, value);
 				LeagueViewModel = new LeagueViewModel(_league);
+
+				if(OngoingChallenge != null)
+					ChallengeViewModel = new ChallengeDetailsViewModel(OngoingChallenge);
+				
 				NotifyPropertiesChanged();
 			}
 		}

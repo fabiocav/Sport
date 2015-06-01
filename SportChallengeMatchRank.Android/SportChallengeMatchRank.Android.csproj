@@ -186,6 +186,18 @@
     <AndroidResource Include="Resources\drawable-hdpi\ic_fencing_white.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_fencing_white.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_fencing_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_people_gray.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_send_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_time_gray.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_trophy_gray.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_people_gray.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_send_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_time_gray.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_trophy_gray.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_people_gray.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_send_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_time_gray.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_trophy_gray.png" />
   </ItemGroup>
   <Import Project="..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems" Label="Shared" Condition="Exists('..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

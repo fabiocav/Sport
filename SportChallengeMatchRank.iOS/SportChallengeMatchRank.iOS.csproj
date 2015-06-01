@@ -179,7 +179,6 @@
     <BundleResource Include="Resources\Icon-Small-40.png" />
     <BundleResource Include="Resources\Icon-Small-40%402x.png" />
     <BundleResource Include="Resources\Icon-Small-40%403x.png" />
-    <BundleResource Include="Resources\tennis%402x.png" />
     <BundleResource Include="Resources\ic_add_white%402x.png" />
     <BundleResource Include="Resources\ic_add_white%403x.png" />
     <BundleResource Include="Resources\ic_menu_white%402x.png" />
@@ -194,6 +193,13 @@
     <BundleResource Include="Resources\ic_thumb_up_white%403x.png" />
     <BundleResource Include="Resources\ic_fencing_white%402x.png" />
     <BundleResource Include="Resources\ic_fencing_white%403x.png" />
+    <BundleResource Include="Resources\ic_trophy_gray%402x.png" />
+    <BundleResource Include="Resources\ic_people_gray%402x.png" />
+    <BundleResource Include="Resources\ic_people_gray%403x.png" />
+    <BundleResource Include="Resources\ic_send_white%402x.png" />
+    <BundleResource Include="Resources\ic_send_white%403x.png" />
+    <BundleResource Include="Resources\ic_time_gray%402x.png" />
+    <BundleResource Include="Resources\ic_time_gray%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

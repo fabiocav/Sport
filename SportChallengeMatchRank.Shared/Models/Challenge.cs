@@ -206,7 +206,16 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		[JsonIgnore]
-		public string BattleFor
+		public string BattleForPlaceBetween
+		{
+			get
+			{
+				return "{0} {1}".Fmt(BattleForPlace, BattleBetween).Trim();
+			}
+		}
+
+		[JsonIgnore]
+		public string BattleForPlace
 		{
 			get
 			{
@@ -214,16 +223,22 @@ namespace SportChallengeMatchRank.Shared
 					return null;
 				
 				var mem = League.Memberships.SingleOrDefault(m => m.AthleteId == ChallengeeAthleteId);
-				var desc = mem == null ? null : "an epic battle for {0} place".Fmt((mem.CurrentRank + 1).ToOrdinal());
+				return mem == null ? null : "an epic battle for {0} place".Fmt((mem.CurrentRank + 1).ToOrdinal());
+			}
+		}
 
-				if(mem == null)
+		[JsonIgnore]
+		public string BattleBetween
+		{
+			get
+			{
+				if(League == null)
 					return null;
 
 				if(ChallengerAthlete == null || ChallengeeAthlete == null)
-					return desc;
+					return null;
 
-				desc += " between {0} and {1}".Fmt(ChallengerAthlete.Alias, ChallengeeAthlete.Alias);
-				return desc;
+				return "between {0} and {1}".Fmt(ChallengerAthlete.Alias, ChallengeeAthlete.Alias);
 			}
 		}
 
@@ -273,7 +288,9 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("IsCompleted");
 			SetPropertyChanged("ProposedTimeString");
 			SetPropertyChanged("IsAccepted");
-			SetPropertyChanged("BattleFor");
+			SetPropertyChanged("BattleForPlace");
+			SetPropertyChanged("BattleBetween");
+			SetPropertyChanged("BattleForPlaceBetween");
 		}
 	}
 }

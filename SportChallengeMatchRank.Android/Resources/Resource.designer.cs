@@ -1812,28 +1812,40 @@ namespace SportChallengeMatchRank.Android
 			public const int ic_more_vert_white = 2130837570;
 			
 			// aapt resource value: 0x7f020043
-			public const int ic_successstatus = 2130837571;
+			public const int ic_people_gray = 2130837571;
 			
 			// aapt resource value: 0x7f020044
-			public const int ic_thumb_down_white = 2130837572;
+			public const int ic_send_white = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int ic_thumb_up_white = 2130837573;
+			public const int ic_successstatus = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int icon = 2130837574;
-			
-			// aapt resource value: 0x7f02004a
-			public const int notification_template_icon_bg = 2130837578;
+			public const int ic_thumb_down_white = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int roundedbg = 2130837575;
+			public const int ic_thumb_up_white = 2130837575;
 			
 			// aapt resource value: 0x7f020048
-			public const int roundedbgdark = 2130837576;
+			public const int ic_time_gray = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int snackbar_background = 2130837577;
+			public const int ic_trophy_gray = 2130837577;
+			
+			// aapt resource value: 0x7f02004a
+			public const int icon = 2130837578;
+			
+			// aapt resource value: 0x7f02004e
+			public const int notification_template_icon_bg = 2130837582;
+			
+			// aapt resource value: 0x7f02004b
+			public const int roundedbg = 2130837579;
+			
+			// aapt resource value: 0x7f02004c
+			public const int roundedbgdark = 2130837580;
+			
+			// aapt resource value: 0x7f02004d
+			public const int snackbar_background = 2130837581;
 			
 			static Drawable()
 			{

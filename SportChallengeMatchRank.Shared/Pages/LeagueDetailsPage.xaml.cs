@@ -15,6 +15,8 @@ namespace SportChallengeMatchRank.Shared
 			Initialize();
 		}
 
+		#region Properties
+
 		public Action<League> OnJoinedLeague
 		{
 			get;
@@ -45,6 +47,8 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		#endregion
+
 		async protected override void Initialize()
 		{
 			Title = "League Details";
@@ -66,20 +70,61 @@ namespace SportChallengeMatchRank.Shared
 				{
 
 					bool success;
-					using(new HUD("Joining..."))
+					using(new HUD("Applying for membership..."))
 					{
 						success = await ViewModel.JoinLeague();
 					}
 
 					if(success)
 					{
-						"Congrats!".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
+						"Membership accepted!".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
 
 						if(OnJoinedLeague != null)
 						{
 							OnJoinedLeague(ViewModel.League);
 						}
 					}
+				}
+			};
+
+			cardView.OnClicked = async() =>
+			{
+				var details = new ChallengeDetailsPage(ViewModel.OngoingChallenge);
+				await Navigation.PushAsync(details);
+			};
+
+			cardView.OnAccepted = async() =>
+			{
+				bool success;
+				using(new HUD("Accepting..."))
+				{
+					success = await ViewModel.ChallengeViewModel.AcceptChallenge();
+				}
+
+				if(success)
+				{
+					ViewModel.SetPropertyChanged("ChallengeViewModel");
+					"Accepted".ToToast();
+				}
+			};
+
+			cardView.OnDeclined = async() =>
+			{
+				var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly decline this honorable duel?", "Yes", "No");
+
+				if(!decline)
+					return;
+
+				bool success;
+				using(new HUD("Declining..."))
+				{
+					success = await ViewModel.ChallengeViewModel.DeclineChallenge();
+				}
+
+				if(success)
+				{
+					ViewModel.SetPropertyChanged("ChallengeViewModel");
+					"Unbelievable!".ToToast();
 				}
 			};
 
@@ -149,15 +194,16 @@ namespace SportChallengeMatchRank.Shared
 				OnRankingsClicked();
 		}
 
-		async void DisplayPastChallenges()
+		void DisplayPastChallenges()
 		{
+			"This feature hasn't been implemented".ToToast();
 		}
 
 		async void OnRankingsClicked()
 		{
 			if(!ViewModel.League.HasStarted)
 			{
-				"This league hasn't started".ToToast(ToastNotificationType.Info);
+				"This league hasn't started".ToToast();
 				return;
 			}
 
@@ -209,7 +255,7 @@ namespace SportChallengeMatchRank.Shared
 						await ViewModel.LeaveLeague();
 					}
 
-					"Sorry to see you go".ToToast(ToastNotificationType.Info);
+					"Sorry to see you go".ToToast();
 					if(OnAbandondedLeague != null)
 					{
 						OnAbandondedLeague(ViewModel.League);

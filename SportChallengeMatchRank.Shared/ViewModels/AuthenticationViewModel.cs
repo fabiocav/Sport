@@ -149,7 +149,7 @@ namespace SportChallengeMatchRank.Shared
 					if(task.IsCompleted && task.IsFaulted)
 						return false;
 
-					"Registered".ToToast(ToastNotificationType.Info);
+					"Registered".ToToast();
 				}
 				else
 				{

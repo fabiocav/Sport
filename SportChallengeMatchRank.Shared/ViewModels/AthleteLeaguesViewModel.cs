@@ -63,7 +63,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetLeagues(bool forceRefresh = false)
 		{
-			if(_hasLoadedLeaguesBefore)
+			if(_hasLoadedLeaguesBefore && !forceRefresh)
 			{
 				Athlete.RefreshChallenges();
 				return;
@@ -80,7 +80,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task GetChallenges(bool forceRefresh = false)
 		{
-			if(_hasLoadedChallengesBefore)
+			if(_hasLoadedChallengesBefore && !forceRefresh)
 			{
 				Athlete.RefreshChallenges();
 				return;

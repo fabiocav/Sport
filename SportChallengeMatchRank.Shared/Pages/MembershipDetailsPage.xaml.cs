@@ -78,7 +78,7 @@ namespace SportChallengeMatchRank.Shared
 					await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
 				}
 
-				"Revoked".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Info);
+				"Revoked".Fmt(ViewModel.Membership.Athlete.Name).ToToast();
 			};
 
 			await ViewModel.RunSafe(AzureService.Instance.GetAllChallengesByAthlete(ViewModel.Membership.Athlete));

@@ -70,7 +70,8 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.IsAccepted && !Challenge.IsCompleted;
+				return Challenge.IsAccepted && !Challenge.IsCompleted &&
+				(Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id || Challenge.ChallengerAthleteId == App.CurrentAthlete.Id);
 			}
 		}
 

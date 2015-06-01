@@ -26,7 +26,7 @@
 								VerticalOptions="Center" Aspect="AspectFill" />
 
 							<StackLayout Padding="14,10" Spacing="4">
-								<Label FontSize="Small" Text="{Binding Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="#9AA4AB" />
+								<Label FontSize="Small" Text="{Binding Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="{StaticResource grayDark}" />
 								<Label Text="{Binding Name}" FontSize="Large" />
 								<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
 									 VerticalOptions="Center" HeightRequest="70" LineBreakMode="WordWrap" />

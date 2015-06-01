@@ -39,7 +39,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(!league.HasStarted)
 				{
-					"This league hasn't started".ToToast(ToastNotificationType.Info);
+					"This league hasn't started".ToToast();
 					return;
 				}
 

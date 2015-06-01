@@ -5,7 +5,7 @@
 	BackgroundColor="{StaticResource grayLight}"
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
-	<ScrollView x:Name="scrollView">
+	<ScrollView>
 		<StackLayout Orientation="Vertical" Spacing="20" VerticalOptions="Fill">
 			<StackLayout Padding="14,10,14,0" Spacing="4">
 				<Label FontSize="Small" Text="{Binding League.Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="{StaticResource grayPrimary}" />
@@ -24,12 +24,12 @@
 				<Button BorderRadius="24" WidthRequest="48" HeightRequest="48" BackgroundColor="{StaticResource bluePrimary}" Image="ic_control_point_white"  />
 			</AbsoluteLayout>
 -->
-			<StackLayout Padding="24,0" Spacing="4">
+			<StackLayout Padding="24,0,24,14" Spacing="4">
 				<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
 					 VerticalOptions="Center" />
 			</StackLayout>
 
-			<StackLayout Padding="24,0" Spacing="8" IsVisible="{Binding IsMember}">
+			<StackLayout Padding="24,0,24,14" Spacing="8" IsVisible="{Binding IsMember}">
 				<Label FontSize="Medium" Text="YOUR STATS" TextColor="{StaticResource grayDark}" />
 				<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 				<StackLayout Orientation="Horizontal">
@@ -43,8 +43,8 @@
 				</StackLayout>
 				<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 				
-				<StackLayout Padding="0,24">
-					<local:ChallengeCardView Challenge="{Binding OngoingChallenge}"
+				<StackLayout Padding="0,40,0,20">
+					<local:ChallengeCardView x:Name="cardView" ViewModel="{Binding ChallengeViewModel}"
 						IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
 				</StackLayout>
 
