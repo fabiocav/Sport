@@ -12,13 +12,14 @@
 					<AbsoluteLayout StyleId="leagueRow" Padding="14,14,14,0">
 						<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
-								IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+							IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
 							<Label Text="{Binding Name}" FontSize="Large" XAlign="Center" />
 						</StackLayout>
 
 						<StackLayout Padding="1" BackgroundColor="{StaticResource grayPrimary}"
-							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
 							<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
 								<Image x:Name="photoImage" Source="{Binding ImageUrl}" HorizontalOptions="Fill" HeightRequest="150"

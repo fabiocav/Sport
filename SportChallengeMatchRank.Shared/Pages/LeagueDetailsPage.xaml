@@ -52,7 +52,7 @@
 					Style="{StaticResource grayButtonStyle}" />
 
 				<Button x:Name="btnJoin" Text="JOIN LEAGUE" HorizontalOptions="FillAndExpand"
-					Style="{StaticResource grayButtonStyle}"
+					Style="{StaticResource blueButtonStyle}"
 					IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>

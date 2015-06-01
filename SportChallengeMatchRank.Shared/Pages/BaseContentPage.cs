@@ -30,7 +30,7 @@ namespace SportChallengeMatchRank.Shared
 		public BaseContentPage()
 		{
 			BindingContext = ViewModel;
-
+			BackgroundColor = Color.White;
 			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
 			{

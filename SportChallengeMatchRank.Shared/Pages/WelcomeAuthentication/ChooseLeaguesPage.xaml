@@ -18,7 +18,7 @@
 			</Grid.RowDefinitions>
 
 			<StackLayout x:Name="label1" Padding="30" Scale="0" VerticalOptions="Center" HorizontalOptions="Center">
-				<Label Text="Be cool and enable push notifications."
+				<Label Text="Much obliged if you'd kinldy enable push notifications."
 					FontSize="Large" XAlign="Center" />
 			</StackLayout>
 

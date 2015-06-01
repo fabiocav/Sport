@@ -63,7 +63,8 @@ namespace SportChallengeMatchRank.Shared
 			stackLayout.Children.Add(new StackLayout {
 				Padding = 28,
 				Children = {
-					btnSubmit },
+					btnSubmit
+				},
 			});
 			Content = scrollView;
 
@@ -92,7 +93,7 @@ namespace SportChallengeMatchRank.Shared
 						OnMatchResultsPosted();
 
 					var title = App.CurrentAthlete.Id == ViewModel.Challenge.WinningAthlete.Id ? "Victory!" : "Bummer";
-					"Your match results have been submitted. Congrats to {0}".Fmt(ViewModel.Challenge.WinningAthlete.Name).ToToast(ToastNotificationType.Success, title);
+					"Results submitted - congrats to {0}!".Fmt(ViewModel.Challenge.WinningAthlete.Name).ToToast(ToastNotificationType.Success, title);
 				}
 			};
 		}

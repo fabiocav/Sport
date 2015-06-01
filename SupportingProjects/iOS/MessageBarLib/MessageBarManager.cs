@@ -181,7 +181,7 @@ namespace MessageBar
 				if(ShowAtTheBottom)
 				{
 					initialPosition = MessageWindowView.Bounds.Height + messageView.Height;
-					showPosition = MessageWindowView.Bounds.Height - messageView.Height - messageView.Padding;
+					showPosition = MessageWindowView.Bounds.Height - messageView.Height - messageView.Margin;
 				}
 				else
 				{
@@ -189,7 +189,7 @@ namespace MessageBar
 					showPosition = MessageWindowView.Bounds.Y;
 				}
 
-				messageView.Frame = new CGRect(messageView.Padding, initialPosition, messageView.Width, messageView.Height);
+				messageView.Frame = new CGRect(messageView.Margin, initialPosition, messageView.Width, messageView.Height);
 				messageView.Hidden = false;
 				messageView.SetNeedsDisplay();
 
@@ -284,7 +284,7 @@ namespace MessageBar
 			if(messageView != null && !messageView.Hit)
 			{
 				messageView.Hit = true;
-				UIView.Animate(AnimationDuration, 0, UIViewAnimationOptions.CurveEaseOut, () =>
+				UIView.Animate(AnimationDuration + .1, 0, UIViewAnimationOptions.CurveEaseOut, () =>
 				{
 					//messageView.Alpha = 0f;
 					messageView.Frame = new CGRect(messageView.Frame.X, initialPosition, messageView.Frame.Width, messageView.Frame.Height);

@@ -40,8 +40,8 @@
 				<StackLayout Spacing="20" Orientation="Horizontal" Padding="56" HorizontalOptions="FillAndExpand">
 					<Label Text="Alias" FontSize="Large" VerticalOptions="Center" />
 					<StackLayout HorizontalOptions="FillAndExpand" Spacing="0" Padding="0,2">
-						<labs:ExtendedEntry x:Name="txtAlias" Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="{StaticResource blueDark}"
-							HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource blueLight}" HasBorder="false" Font="Large" />
+						<labs:ExtendedEntry Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="{StaticResource blueDark}"
+							HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource blueLight}" HasBorder="false"  />
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>

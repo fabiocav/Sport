@@ -22,9 +22,9 @@
 				TextColor="{StaticResource purpleDark}" />
 		</StackLayout>
 
-		<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" Grid.Row="1" HorizontalOptions="FillAndExpand"
+		<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" Grid.Row="1" HorizontalOptions="FillAndExpand"  TextColor="{StaticResource grayDark}"
 			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource grayLight}" XAlign="Center" YAlign="Center" />
-		<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" Grid.Row="1" Grid.Column="1" HorizontalOptions="FillAndExpand"
+		<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" Grid.Row="1" Grid.Column="1" HorizontalOptions="FillAndExpand" TextColor="{StaticResource grayDark}"
 			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource grayLight}" XAlign="Center" YAlign="Center" />
 
 		<labs:ExtendedEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"

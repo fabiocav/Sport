@@ -21,6 +21,12 @@ namespace MessageBar
 			set;
 		}
 
+		public nfloat Margin
+		{
+			get;
+			set;
+		} = 4f;
+
 		public nfloat Padding
 		{
 			get;
@@ -68,8 +74,8 @@ namespace MessageBar
 			UserInteractionEnabled = true;
 			Description = description;
 			MessageType = type;
-			Width = GetStatusBarFrame().Width - Padding * 2;
-			Height = 40f;
+			Width = GetStatusBarFrame().Width - Margin * 2;
+			Height = 60f;
 
 			Layer.CornerRadius = 2f;
 			Layer.MasksToBounds = true;
@@ -85,7 +91,7 @@ namespace MessageBar
 				_label.AdjustsFontSizeToFitWidth = true;
 				_label.Lines = 2;
 				_label.LineBreakMode = UILineBreakMode.TailTruncation;
-				_label.Font = UIFont.FromName("HelveticaNeue", 12f);
+				_label.Font = UIFont.FromName("HelveticaNeue", 16f);
 
 				if(MessageType == MessageType.Error)
 				{

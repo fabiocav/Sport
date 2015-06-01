@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -17,7 +18,7 @@ namespace SportChallengeMatchRank.Shared
 			Initialize();
 		}
 
-		protected override void Initialize()
+		async protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "Profile";
@@ -32,7 +33,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(success)
 				{
-					"Saved".ToToast(ToastNotificationType.Success);
+					"Profile saved".ToToast(ToastNotificationType.Success);
 
 					if(OnSave != null)
 						OnSave();
