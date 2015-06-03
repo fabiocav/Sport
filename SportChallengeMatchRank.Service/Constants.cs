@@ -8,7 +8,7 @@ namespace SportChallengeMatchRank.Service
 {
 	internal class Constants
 	{
-		internal static readonly string HubConnectionString = "Endpoint=sb://sportchallengematchrank.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=88LThhq/TLE879EIHHOwVlq91AS3FRomlk+DRIPVgN4=";
-		internal static readonly string HubName = "sportchallengematchrank-hub";
+		internal static readonly string HubConnectionString = "Endpoint=sb://sportchallengematchrank.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=COuEk5dgadpaYranvlOFgz1B103SHaO68lGfoVh+a74=";
+		internal static readonly string HubName = "defaultnotificationhub";
 	}
 }

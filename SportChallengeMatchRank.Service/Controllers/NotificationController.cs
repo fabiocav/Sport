@@ -64,48 +64,47 @@ namespace SportChallengeMatchRank.Service.Controllers
 		public async Task<string> RegisterWithHub(DeviceRegistration deviceUpdate)
 		{
 			string newRegistrationId = null;
-
-			// make sure there are no existing registrations for this push handle (used for iOS and Android)
-			if(deviceUpdate.Handle != null)
-			{
-				var registrations = await _hub.GetRegistrationsByChannelAsync(deviceUpdate.Handle, 100);
-
-				foreach(var reg in registrations)
-				{
-					if(newRegistrationId == null)
-					{
-						newRegistrationId = reg.RegistrationId;
-					}
-					else
-					{
-						await _hub.DeleteRegistrationAsync(reg);
-					}
-				}
-			}
-
-			if(newRegistrationId == null)
-				newRegistrationId = await _hub.CreateRegistrationIdAsync();
-
-			RegistrationDescription registration = null;
-
-			switch(deviceUpdate.Platform)
-			{
-				case "iOS":
-					var alertTemplate = "{\"aps\":{\"alert\":\"$(message)\",\"badge\":\"$(badge)\",\"payload\":\"$(payload)\"}}";
-					registration = new AppleTemplateRegistrationDescription(deviceUpdate.Handle, alertTemplate);
-					break;
-				case "Android":
-					var messageTemplate = "{\"data\":{\"message\":\"$(message)\",\"payload\":\"$(payload)\"}}";
-					registration = new GcmTemplateRegistrationDescription(deviceUpdate.Handle, messageTemplate);
-					break;
-				default:
-					throw new HttpResponseException(HttpStatusCode.BadRequest);
-			}
-
-			registration.RegistrationId = newRegistrationId;
-			registration.Tags = new HashSet<string>(deviceUpdate.Tags);
 			try
 			{
+				// make sure there are no existing registrations for this push handle (used for iOS and Android)
+				if(deviceUpdate.Handle != null)
+				{
+					var registrations = await _hub.GetRegistrationsByChannelAsync(deviceUpdate.Handle, 100);
+
+					foreach(var reg in registrations)
+					{
+						if(newRegistrationId == null)
+						{
+							newRegistrationId = reg.RegistrationId;
+						}
+						else
+						{
+							await _hub.DeleteRegistrationAsync(reg);
+						}
+					}
+				}
+
+				if(newRegistrationId == null)
+					newRegistrationId = await _hub.CreateRegistrationIdAsync();
+
+				RegistrationDescription registration = null;
+
+				switch(deviceUpdate.Platform)
+				{
+					case "iOS":
+						var alertTemplate = "{\"aps\":{\"alert\":\"$(message)\",\"badge\":\"$(badge)\",\"payload\":\"$(payload)\"}}";
+						registration = new AppleTemplateRegistrationDescription(deviceUpdate.Handle, alertTemplate);
+						break;
+					case "Android":
+						var messageTemplate = "{\"data\":{\"message\":\"$(message)\",\"payload\":\"$(payload)\"}}";
+						registration = new GcmTemplateRegistrationDescription(deviceUpdate.Handle, messageTemplate);
+						break;
+					default:
+						throw new HttpResponseException(HttpStatusCode.BadRequest);
+				}
+
+				registration.RegistrationId = newRegistrationId;
+				registration.Tags = new HashSet<string>(deviceUpdate.Tags);
 				await _hub.CreateOrUpdateRegistrationAsync(registration);
 			}
 			catch(MessagingException e)
