@@ -45,6 +45,13 @@ namespace SportChallengeMatchRank.Shared
 
 				ignoreClicks = true;
 
+
+				var push = DependencyService.Get<IPushNotifications>();
+				//if(!push.IsRegistered)
+				{
+					push.RegisterForPushNotifications();
+				}
+
 				#if !DEBUG
 				var push = DependencyService.Get<IPushNotifications>();
 				if(!push.IsRegistered)
@@ -52,9 +59,9 @@ namespace SportChallengeMatchRank.Shared
 					push.RegisterForPushNotifications();
 				}
 				#else
-				await Task.Delay(1000);
-				btnPush.Text = "Thanks! We'll be in touch";
-				await Task.Delay(1000);
+//				await Task.Delay(1000);
+//				btnPush.Text = "Thanks! We'll be in touch";
+//				await Task.Delay(1000);
 
 				await profileStack.LayoutTo(new Rectangle(0, Content.Width * -1, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 				await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);

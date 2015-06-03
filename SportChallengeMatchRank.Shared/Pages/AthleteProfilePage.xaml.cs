@@ -49,6 +49,24 @@ namespace SportChallengeMatchRank.Shared
 			ViewModel.Athlete.RefreshChallenges();
 			ViewModel.Athlete.RefreshMemberships();
 		}
+
+		//		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		//		{
+		//			string leagueId;
+		//			if(payload.Payload.TryGetValue("leagueId", out leagueId))
+		//			{
+		//				if(leagueId == ViewModel.League.Id)
+		//				{
+		//					await ViewModel.RefreshLeague();
+		//				}
+		//			}
+		//
+		//			string challengeId;
+		//			if(payload.Payload.TryGetValue("challengeId", out challengeId))
+		//			{
+		//				await ViewModel.RefreshLeague();
+		//			}
+		//		}
 	}
 
 	public partial class AthleteProfilePageXaml : BaseContentPage<AthleteProfileViewModel>

@@ -172,6 +172,12 @@ namespace SportChallengeMatchRank.Shared
 					await ViewModel.RefreshLeague();
 				}
 			}
+
+			string challengeId;
+			if(payload.Payload.TryGetValue("challengeId", out challengeId))
+			{
+				await ViewModel.RefreshLeague();
+			}
 		}
 
 		const string _leave = "Cowardly Abandon League";
