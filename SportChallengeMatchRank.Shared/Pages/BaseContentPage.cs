@@ -5,7 +5,25 @@ using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class BaseContentPage<T> : ContentPage where T : BaseViewModel, new()
+	public class BaseContentPage<T> : SuperBaseContentPage where T : BaseViewModel, new()
+	{
+		T _viewModel;
+
+		public T ViewModel
+		{
+			get
+			{
+				return _viewModel ?? (_viewModel = DependencyService.Get<T>());
+			}
+		}
+
+		public BaseContentPage()
+		{
+			BindingContext = ViewModel;
+		}
+	}
+
+	public class SuperBaseContentPage : ContentPage
 	{
 		public AuthenticationViewModel AuthenticationViewModel
 		{
@@ -27,12 +45,11 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		public BaseContentPage()
+		public SuperBaseContentPage()
 		{
 			BarBackgroundColor = (Color)App.Current.Resources["grayPrimary"];
 			BarTextColor = Color.White;
 
-			BindingContext = ViewModel;
 			BackgroundColor = Color.White;
 			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
@@ -42,20 +59,11 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
-		T _viewModel;
 
 		public bool HasInitialized
 		{
 			get;
 			private set;
-		}
-
-		public T ViewModel
-		{
-			get
-			{
-				return _viewModel ?? (_viewModel = DependencyService.Get<T>());
-			}
 		}
 
 		protected virtual void OnLoaded()
@@ -77,8 +85,8 @@ namespace SportChallengeMatchRank.Shared
 			var nav = this.Parent as NavigationPage;
 			if(nav != null)
 			{
-				nav.BarBackgroundColor = BarBackgroundColor;
-				nav.BarTextColor = BarTextColor;
+//				nav.BarBackgroundColor = BarBackgroundColor;
+//				nav.BarTextColor = BarTextColor;
 			}
 
 			if(!HasInitialized)
@@ -92,18 +100,18 @@ namespace SportChallengeMatchRank.Shared
 
 		public NavigationPage GetNavigationPage()
 		{
-			var nav = new NavigationPage(this);
+			var nav = new ClearNavigationPage(this);
 			this.ApplyTheme(nav);
 			return nav;
 		}
 
 		public void ApplyTheme(NavigationPage nav)
 		{
-			nav.BarBackgroundColor = BarBackgroundColor;
-			nav.BarTextColor = BarTextColor;
+//			nav.BarBackgroundColor = BarBackgroundColor;
+//			nav.BarTextColor = BarTextColor;
 		}
 
-		protected void AddDoneButton()
+		public void AddDoneButton()
 		{
 			var btnDone = new ToolbarItem {
 				Text = "Done",

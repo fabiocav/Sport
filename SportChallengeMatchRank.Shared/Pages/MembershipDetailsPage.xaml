@@ -56,7 +56,8 @@
 			
 				<StackLayout Grid.Row="1" Padding="24" VerticalOptions="EndAndExpand">
 					<Button x:Name="btnChallenge" Text="CHALLENGE"
-						BackgroundColor="{Binding Membership.League.Theme.Primary}" HorizontalOptions="FillAndExpand"
+						BackgroundColor="{Binding Membership.League.Theme.Dark}" HorizontalOptions="FillAndExpand"
+						IsVisible="{Binding IsCurrentAthlete, Converter={x:Static local:InverseBoolConverter.Instance}}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 				</StackLayout>
 			</Grid>

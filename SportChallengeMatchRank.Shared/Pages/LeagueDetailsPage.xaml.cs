@@ -237,26 +237,18 @@ namespace SportChallengeMatchRank.Shared
 
 		async void OnOpenRules()
 		{
-			var page = new ContentPage {
+			var page = new BaseContentPage<BaseViewModel> {
 				Title = "Rules",
+				BarBackgroundColor = BarBackgroundColor,
+				BarTextColor = BarTextColor,
 				Content = new WebView {
 					Source = ViewModel.League.RulesUrl,
 				}
 			};
 
-			var nav = new NavigationPage(page) {
-				BarBackgroundColor = ViewModel.League.Theme.Light,
-				BarTextColor = ViewModel.League.Theme.Dark,
-			};
-
-			var cancel = new ToolbarItem("Done", null, () =>
-			{
-				Navigation.PopModalAsync();
-			});
-
-			nav.ToolbarItems.Add(cancel);
-			nav.Title = "Rules";
-			await Navigation.PushModalAsync(nav);
+			page.GetNavigationPage();
+			page.AddDoneButton();
+			await Navigation.PushModalAsync(page);
 		}
 
 		async void OnJoinLeague()

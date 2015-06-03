@@ -4,9 +4,13 @@ using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class ClearNavPage : NavigationPage
+	public class ClearNavigationPage : NavigationPage
 	{
-		public ClearNavPage()
+		public ClearNavigationPage()
+		{
+		}
+
+		public ClearNavigationPage(ContentPage root) : base(root)
 		{
 		}
 	}

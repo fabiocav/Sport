@@ -18,7 +18,7 @@ namespace SportChallengeMatchRank.Shared
 			Initialize();
 		}
 
-		async protected override void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = "Profile";

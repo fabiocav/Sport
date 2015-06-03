@@ -46,6 +46,7 @@ namespace SportChallengeMatchRank.iOS
 			var barButtonAtts = new UITextAttributes {
 				Font = UIFont.FromName("SegoeUI", 16),
 			};
+
 			UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonAtts, UIControlState.Normal);
 			UIBarButtonItem.Appearance.SetBackButtonTitlePositionAdjustment(new UIOffset(0, -100), UIBarMetrics.Default);
 

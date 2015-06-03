@@ -30,14 +30,14 @@
 
 		<ContentView Padding="0,10,0,0" Grid.Row="2" HorizontalOptions="Center">
 			<labs:ExtendedEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
-				TextColor="White" VerticalOptions="Center" WidthRequest="60" HeightRequest="60" MaxLength="2"
-				Keyboard="Numeric" BackgroundColor="{Binding Challenge.League.Theme.Light}" HasBorder="false" Font="36" XAlign="Center" TextChanged="TextChanged" Placeholder="0" />
+				TextColor="White" VerticalOptions="Center" WidthRequest="60" HeightRequest="60" MaxLength="2" Keyboard="Numeric" Placeholder="0"
+				BackgroundColor="{Binding Challenge.League.Theme.Light}" HasBorder="false" Font="36" XAlign="Center" TextChanged="TextChanged"  />
 		</ContentView>
 
-		<ContentView Padding="0,10,0,0" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center">
+		<ContentView Padding="0,10,0,0" Grid.Column="1" Grid.Row="2" HorizontalOptions="Center">
 			<labs:ExtendedEntry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
-				TextColor="White" HorizontalOptions="Center" WidthRequest="60" Placeholder="0" MaxLength="2"
-				HeightRequest="60" Keyboard="Numeric" BackgroundColor="{Binding Challenge.League.Theme.Light}" HasBorder="false" Font="36" XAlign="Center" TextChanged="TextChanged" />
+				TextColor="White" VerticalOptions="Center" WidthRequest="60" HeightRequest="60" MaxLength="2" Keyboard="Numeric" Placeholder="0"
+				BackgroundColor="{Binding Challenge.League.Theme.Light}" HasBorder="false" Font="36" XAlign="Center" TextChanged="TextChanged"  />
 		</ContentView>
 	</Grid>
 </ContentView>

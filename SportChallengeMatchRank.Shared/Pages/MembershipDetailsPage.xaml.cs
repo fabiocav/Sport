@@ -21,7 +21,7 @@ namespace SportChallengeMatchRank.Shared
 		protected async override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Membership";
+			Title = ViewModel.Membership.Athlete.Name;
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{
@@ -38,7 +38,9 @@ namespace SportChallengeMatchRank.Shared
 				{
 					ViewModel.NotifyPropertiesChanged();
 					await Navigation.PopModalAsync();
-					"Challenge sent... I guess it's on".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
+					await Navigation.PopAsync();
+
+					"Challenge sent - it's soooo on!".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
 				};
 
 				await Navigation.PushModalAsync(new NavigationPage(datePage));
@@ -61,16 +63,6 @@ namespace SportChallengeMatchRank.Shared
 
 			await ViewModel.RunSafe(AzureService.Instance.GetAllChallengesByAthlete(ViewModel.Membership.Athlete));
 			ViewModel.SetPropertyChanged("CanChallenge");
-		}
-
-		protected override void OnParentSet()
-		{
-			base.OnParentSet();
-
-			if(ParentView == null)
-				return;
-
-			var width = ParentView.Bounds.Width / 3;
 		}
 
 		protected override void OnAppearing()

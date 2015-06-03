@@ -247,6 +247,7 @@
     <Compile Include="Providers\ExtendedDatePicker.cs" />
     <Compile Include="Providers\ExtendedTimePicker.cs" />
     <Compile Include="Providers\ToastNotifier.cs" />
+    <Compile Include="Providers\ClearNavigationPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

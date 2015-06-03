@@ -59,14 +59,13 @@
 
 			<StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" Padding="28" Spacing="14"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
-				<Button Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked"
-					BackgroundColor="{Binding League.Theme.Primary}" />
+				<Button Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
 
 				<Button Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
-					IsVisible="{Binding CanGetRules}" BackgroundColor="{Binding League.Theme.Primary}" />
+					IsVisible="{Binding CanGetRules}" />
 
 				<Button Text="JOIN LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
-					BackgroundColor="{Binding League.Theme.Primary}"
+					BackgroundColor="{Binding League.Theme.Dark}"
 					IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
 				<Button Text="COWARDLY ABANDON LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"

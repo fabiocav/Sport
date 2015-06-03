@@ -21,6 +21,15 @@ namespace SportChallengeMatchRank.Shared
 			{
 				_membershipId = value;
 				SetPropertyChanged("Membership");
+				SetPropertyChanged("IsCurrentAthlete");
+			}
+		}
+
+		public bool IsCurrentAthlete
+		{
+			get
+			{
+				return Membership.AthleteId == App.CurrentAthlete.Id;
 			}
 		}
 
@@ -99,6 +108,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("RankDescription");
 			SetPropertyChanged("Stats");
 			SetPropertyChanged("JoinDescription");
+			SetPropertyChanged("IsCurrentAthlete");
 		}
 
 		public void LocalRefresh()

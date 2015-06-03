@@ -17,7 +17,7 @@ namespace SportChallengeMatchRank.Shared
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Rankings";
+			Title = "Leaderboard";
 
 			list.ItemSelected += async(sender, e) =>
 			{
@@ -48,7 +48,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.League != null)
 				ViewModel.League.RefreshMemberships();
 			
-			AddDoneButton();
+			//AddDoneButton();
 			base.OnLoaded();
 		}
 

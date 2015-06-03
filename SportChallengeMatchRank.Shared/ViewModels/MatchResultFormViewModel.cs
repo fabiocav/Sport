@@ -32,15 +32,21 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		async public Task PostMatchResults()
+		async public Task<bool> PostMatchResults()
 		{
-			foreach(var gr in Challenge.MatchResult.ToList())
+			using(new Busy(this))
 			{
-				if(gr.ChallengeeScore == null || gr.ChallengerScore == null)
-					Challenge.MatchResult.Remove(gr);
-			}
+				foreach(var gr in Challenge.MatchResult.ToList())
+				{
+					if(gr.ChallengeeScore == null || gr.ChallengerScore == null)
+						Challenge.MatchResult.Remove(gr);
+				}
 
-			await RunSafe(AzureService.Instance.PostMatchResults(Challenge));
+				var task = AzureService.Instance.PostMatchResults(Challenge);
+				await RunSafe(task);
+
+				return !task.IsFaulted;
+			}
 		}
 	}
 }

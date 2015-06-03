@@ -167,19 +167,14 @@ namespace SportChallengeMatchRank.Shared
 
 		async void OnProfileSelected()
 		{
-			var page = new AthleteProfilePage(App.CurrentAthlete.Id);
+			var page = new AthleteProfilePage(App.CurrentAthlete.Id) {
+			};
 			page.OnSave = async() =>
-			{
-				await Navigation.PopModalAsync();				
-			};
+			await Navigation.PopModalAsync();
 
-			var profile = new NavigationPage(page) {
-				Title = "Profile",
-				BarBackgroundColor = (Color)App.Current.Resources["bluePrimary"],
-				BarTextColor = Color.White,
-			};
 
-			await Navigation.PushModalAsync(profile);
+
+			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
 
 		async void OnAdminSelected()
