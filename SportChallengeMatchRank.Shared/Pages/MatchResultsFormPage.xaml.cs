@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public class MatchResultsFormPage : BaseContentPage<MatchResultFormViewModel>
+	public partial class MatchResultsFormPage : MatchResultsFormXaml
 	{
 		public Action OnMatchResultsPosted
 		{
@@ -13,27 +13,17 @@ namespace SportChallengeMatchRank.Shared
 
 		public MatchResultsFormPage(Challenge challenge)
 		{
+			Title = "Match Score";
+			BarBackgroundColor = challenge.League.Theme.Light;
+			BarTextColor = challenge.League.Theme.Dark;
+
 			ViewModel.ChallengeId = challenge.Id;
 			Initialize();
 		}
 
 		protected override void Initialize()
 		{
-			Title = "Match Score";
-
-			var scrollView = new ScrollView {
-				BackgroundColor = Color.White,
-			};
-
-			var stackLayout = new StackLayout {
-				Spacing = 10,
-				Padding = 0,
-			};
-
-			var btnSubmit = new Button {
-				Text = "Post Match Score",
-				Style = (Style)App.Current.Resources["purpleButtonStyle"],
-			};
+			InitializeComponent();
 
 			var btnCancel = new ToolbarItem {
 				Text = "Cancel"
@@ -56,21 +46,12 @@ namespace SportChallengeMatchRank.Shared
 				ViewModel.Challenge.MatchResult.Add(gameResult);
 
 				var form = new GameResultFormView(ViewModel.Challenge, gameResult, i);
-				stackLayout.Children.Add(form);
+				games.Children.Add(form);
 			}
-
-			scrollView.Content = stackLayout;
-			stackLayout.Children.Add(new StackLayout {
-				Padding = 28,
-				Children = {
-					btnSubmit
-				},
-			});
-			Content = scrollView;
 
 			btnSubmit.Clicked += async(sender, e) =>
 			{
-				var errorMsg = ViewModel.ValidateMatchResults();
+				var errorMsg = ViewModel.Challenge.ValidateMatchResults();
 
 				if(errorMsg != null)
 				{
@@ -97,5 +78,9 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 		}
+	}
+
+	public partial class MatchResultsFormXaml : BaseContentPage<MatchResultFormViewModel>
+	{
 	}
 }

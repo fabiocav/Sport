@@ -25,7 +25,7 @@
 							</Grid.ColumnDefinitions>
 
 							<StackLayout Grid.Column="1" Padding="0,12,0,0" HorizontalOptions="Start" VerticalOptions="Start">
-								<Label Text="{Binding Athlete.Name}" FontSize="Large" HorizontalOptions="StartAndExpand" />
+								<Label Text="{Binding Athlete.Name}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="StartAndExpand" />
 								<Label Text="{Binding Athlete.Email}" FontSize="Micro" HorizontalOptions="StartAndExpand" />
 							</StackLayout>
 
@@ -38,17 +38,16 @@
 				</StackLayout>
 
 				<StackLayout Spacing="20" Orientation="Horizontal" Padding="56" HorizontalOptions="FillAndExpand">
-					<Label Text="Alias" FontSize="Large" VerticalOptions="Center" />
+					<Label Text="Alias" FontSize="Large" Style="{StaticResource header}" VerticalOptions="Center" />
 					<StackLayout HorizontalOptions="FillAndExpand" Spacing="0" Padding="0,2">
-						<labs:ExtendedEntry Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="{StaticResource blueDark}"
-							HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource blueLight}" HasBorder="false"  />
+						<labs:ExtendedEntry Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="{StaticResource asphaltPrimary}"
+							HorizontalOptions="FillAndExpand" HasBorder="false"  />
 					</StackLayout>
 				</StackLayout>
 			</StackLayout>
 
 			<StackLayout Padding="24">
-				<Button x:Name="btnSave" Grid.Row="1" Text="SAVE" VerticalOptions="EndAndExpand"
-					Style="{StaticResource blueButtonStyle}" HorizontalOptions="FillAndExpand"
+				<Button x:Name="btnSave" Grid.Row="1" Text="SAVE" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>
 		</Grid>

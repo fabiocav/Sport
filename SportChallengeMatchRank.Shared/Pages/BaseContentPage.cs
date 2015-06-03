@@ -15,13 +15,13 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public Color PrimaryColor
+		public Color BarTextColor
 		{
 			get;
 			set;
 		}
 
-		public Color PrimaryColorDark
+		public Color BarBackgroundColor
 		{
 			get;
 			set;
@@ -29,6 +29,9 @@ namespace SportChallengeMatchRank.Shared
 
 		public BaseContentPage()
 		{
+			BarBackgroundColor = (Color)App.Current.Resources["grayPrimary"];
+			BarTextColor = Color.White;
+
 			BindingContext = ViewModel;
 			BackgroundColor = Color.White;
 			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
@@ -71,6 +74,13 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override void OnAppearing()
 		{
+			var nav = this.Parent as NavigationPage;
+			if(nav != null)
+			{
+				nav.BarBackgroundColor = BarBackgroundColor;
+				nav.BarTextColor = BarTextColor;
+			}
+
 			if(!HasInitialized)
 			{
 				HasInitialized = true;
@@ -78,6 +88,33 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			base.OnAppearing();
+		}
+
+		public NavigationPage GetNavigationPage()
+		{
+			var nav = new NavigationPage(this);
+			this.ApplyTheme(nav);
+			return nav;
+		}
+
+		public void ApplyTheme(NavigationPage nav)
+		{
+			nav.BarBackgroundColor = BarBackgroundColor;
+			nav.BarTextColor = BarTextColor;
+		}
+
+		protected void AddDoneButton()
+		{
+			var btnDone = new ToolbarItem {
+				Text = "Done",
+			};
+
+			btnDone.Clicked += async(sender, e) =>
+			{
+				await Navigation.PopModalAsync();		
+			};
+
+			ToolbarItems.Add(btnDone);			
 		}
 
 		#region Authentication

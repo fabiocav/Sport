@@ -7,7 +7,7 @@
 
 	<StackLayout Padding="40" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
 		<ActivityIndicator IsRunning="{Binding IsBusy}" />
-		<Label FontSize="Large" Text="{Binding AuthenticationStatus" />
+		<Label FontSize="Large" Style="{StaticResource header}" Text="{Binding AuthenticationStatus" />
 	</StackLayout>
 
 </ContentView>

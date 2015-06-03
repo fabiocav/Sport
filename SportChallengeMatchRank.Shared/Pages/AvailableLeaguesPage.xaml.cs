@@ -22,7 +22,6 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 			Title = "Available Leagues";
 
-			//list.ButtonStyle = (Style)App.Current.Resources["blueActionButtonStyle"];
 			list.ItemSelected += async(sender, e) =>
 			{
 				if(list.SelectedItem == null)
@@ -49,17 +48,12 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushAsync(page);
 			};
 
-			var btnCancel = new ToolbarItem {
-				Text = "Done",
-			};
+			AddDoneButton();
 
-			btnCancel.Clicked += async(sender, e) =>
+			using(new HUD("Getting leagues..."))
 			{
-				await Navigation.PopModalAsync();		
-			};
-
-			ToolbarItems.Add(btnCancel);
-			await ViewModel.GetAvailableLeagues(true);
+				await ViewModel.GetAvailableLeagues(true);
+			}
 		}
 
 		protected override void OnDisappearing()

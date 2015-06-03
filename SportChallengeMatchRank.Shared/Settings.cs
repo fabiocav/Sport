@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -48,6 +49,12 @@ namespace SportChallengeMatchRank.Shared
 			get;
 			set;
 		}
+
+		public Dictionary<string, string> LeagueColors
+		{
+			get;
+			set;
+		} = new Dictionary<string, string>();
 
 		public string DeviceToken
 		{

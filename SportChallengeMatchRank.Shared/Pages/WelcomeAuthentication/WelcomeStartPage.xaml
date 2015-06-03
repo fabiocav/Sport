@@ -19,7 +19,8 @@
 			</Grid.RowDefinitions>
 
 			<StackLayout x:Name="label1" Padding="50,0" Scale="0" VerticalOptions="Center">
-				<Label StyleId="label1" Text="It looks like this is your first time challenging sport and ranking match. Let's get you set up, athlete!"	FontSize="Large" XAlign="Center" />
+				<Label StyleId="label1" Text="It looks like this is your first time challenging sport and ranking match. Let's get you set up, athlete!"
+					FontSize="Large" XAlign="Center" />
 			</StackLayout>
 
 			<StackLayout x:Name="label2" Grid.Row="1" Padding="50,0" Scale="0" VerticalOptions="Center">

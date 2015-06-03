@@ -16,36 +16,37 @@
 
 				<StackLayout Spacing="16">
 					<StackLayout Spacing="10">
-						<StackLayout Padding="14" Spacing="12" BackgroundColor="{StaticResource grayLight}">
+						<StackLayout Padding="14,0,14,0" Spacing="12" BackgroundColor="{StaticResource grayLight}">
 							<Grid HorizontalOptions="Center" Padding="0,20,0,20">
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition Height="20" />
+									<RowDefinition />
+								</Grid.RowDefinitions>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="5*" />
-									<ColumnDefinition Width=".5*" />
-									<ColumnDefinition Width="5*" />
+									<ColumnDefinition Width="4*" />
+									<ColumnDefinition Width="6*" />
 								</Grid.ColumnDefinitions>
 
-								<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-									<controls:CircleImage Source="{Binding Challenge.ChallengerAthlete.ProfileImageUrl}"
-										HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="48" HeightRequest="48" />
+								<controls:CircleImage Source="{Binding Challenge.ChallengerAthlete.ProfileImageUrl}"
+									HorizontalOptions="End" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="42" HeightRequest="42" />
 
-									<StackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
-										<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" FontSize="Large" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-										<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="Micro" TextColor="{StaticResource grayDark}"
-											HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-									</StackLayout>
+								<controls:CircleImage Grid.Row="2" Source="{Binding Challenge.ChallengeeAthlete.ProfileImageUrl}"
+									HorizontalOptions="End" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="42" HeightRequest="42" />
+
+								<StackLayout Grid.Column="1" Spacing="0" Padding="20,0" VerticalOptions="Center" HorizontalOptions="Start">
+									<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+									<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="Micro" TextColor="{StaticResource grayDark}"
+										HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 								</StackLayout>
 
-								<Label Grid.Column="1" Text="vs" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-
-								<StackLayout Grid.Column="2" Orientation="Horizontal" HorizontalOptions="Center">
-									<controls:CircleImage Grid.Column="3" Source="{Binding Challenge.ChallengeeAthlete.ProfileImageUrl}"
-										HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="48" HeightRequest="48" />
-
-									<StackLayout Grid.Column="4" Spacing="0" VerticalOptions="Center">
-										<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" FontSize="Large" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-										<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="Micro" TextColor="{StaticResource grayDark}"
-											HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-									</StackLayout>
+<!--								<Label Grid.Column="1" Text="vs" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Center"
+									TextColor="{StaticResource grayDark}" XAlign="Center" YAlign="Center" />
+-->
+								<StackLayout Grid.Row="2" Grid.Column="1" Spacing="0" Padding="20,0" HorizontalOptions="Start" VerticalOptions="Center">
+									<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+									<Label Text="{Binding Challenge.ChallengeeAthlete.Name}" FontSize="Micro" TextColor="{StaticResource grayDark}"
+										HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 								</StackLayout>
 							</Grid>
 						</StackLayout>
@@ -74,14 +75,13 @@
 								<Label Grid.Row="2" Grid.Column="1" Text="{Binding Challenge.ProposedTimeString}"
 									 TextColor="{StaticResource grayDark}" FontSize="Small" VerticalOptions="Center" />
 							</Grid>
-
 						</StackLayout>
 
 						<StackLayout Padding="40,14" Spacing="28" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
-							<Label Text="{Binding ChallengeStatus}" TextColor="{StaticResource greenDark}" FontSize="Medium" XAlign="Center" />
+							<Label Text="{Binding ChallengeStatus}" TextColor="{Binding Challenge.League.Theme.Dark}" FontSize="Medium" XAlign="Center" />
 
 							<AbsoluteLayout HorizontalOptions="Center" IsVisible="{Binding CanPostMatchResults}">
-								<Button BorderRadius="3" BackgroundColor="{StaticResource greenPrimary}" HeightRequest="40" WidthRequest="200"
+								<Button BorderRadius="3" BackgroundColor="{Binding Challenge.League.Theme.Primary}" HeightRequest="40" WidthRequest="200"
 									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
 
 								<StackLayout Orientation="Horizontal" Spacing="8"
@@ -135,16 +135,15 @@
 								IsVisible="{Binding Challenge.IsCompleted}" RowHeight="40" BackgroundColor="Transparent">
 								<ListView.HeaderTemplate>
 									<DataTemplate>
-										<StackLayout Orientation="Horizontal" Spacing="20" Padding="0,12" BackgroundColor="{StaticResource grayPrimary}">
-											<Label Text="{Binding ChallengerAthlete.Alias}" FontSize="Medium" WidthRequest="120" LineBreakMode="TailTruncation"
-												VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
+										<AbsoluteLayout VerticalOptions="Center" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="44">
+											<Label Text="{Binding ChallengerAthlete.Alias}" FontSize="Medium" WidthRequest="100" LineBreakMode="TailTruncation"
+												VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" TextColor="White" YAlign="Center"
+												AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,.5,.5,1" />
 
-											<Label FontSize="10" VerticalOptions="Center" WidthRequest="20"
-												HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
-
-											<Label Text="{Binding ChallengeeAthlete.Alias}" FontSize="Medium" WidthRequest="120" LineBreakMode="TailTruncation"
-												VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" TextColor="White" />
-										</StackLayout>
+											<Label Text="{Binding ChallengeeAthlete.Alias}" FontSize="Medium" WidthRequest="100" LineBreakMode="TailTruncation"
+												VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" TextColor="White" YAlign="Center"
+												AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="1,.5,.5,1" />
+										</AbsoluteLayout>
 									</DataTemplate>
 								</ListView.HeaderTemplate>
 
@@ -152,16 +151,19 @@
 									<DataTemplate>
 										<ViewCell>
 											<ViewCell.View>
-												<StackLayout Orientation="Horizontal" Spacing="20" VerticalOptions="Center" BackgroundColor="{StaticResource grayLight}">
-													<Label Text="{Binding ChallengerScore}" FontSize="Medium" WidthRequest="120" TextColor="{StaticResource grayDark}"
-														VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
+												<AbsoluteLayout VerticalOptions="Center" BackgroundColor="{StaticResource grayLight}">
+													<Label Text="{Binding ChallengerScore}" FontSize="Medium" WidthRequest="100" TextColor="{StaticResource grayDark}"
+														VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center" YAlign="Center"
+														AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,.5,.5,1" />
 
 													<Label Text="to" FontSize="11" VerticalOptions="Center" WidthRequest="20" TextColor="{StaticResource grayDark}"
-														HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+														HorizontalOptions="Center" XAlign="Center" YAlign="Center"
+														AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,.1,1" />
 
-													<Label Text="{Binding ChallengeeScore}" TextColor="{StaticResource grayDark}"
-														FontSize="Medium" WidthRequest="120" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" XAlign="Center" />
-												</StackLayout>
+													<Label Text="{Binding ChallengeeScore}" TextColor="{StaticResource grayDark}" YAlign="Center"
+														FontSize="Medium" WidthRequest="100" VerticalOptions="Center" HorizontalOptions="Center" XAlign="Center"
+														AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="1,.5,.5,1" />
+												</AbsoluteLayout>
 											</ViewCell.View>
 										</ViewCell>
 									</DataTemplate>
@@ -173,10 +175,10 @@
 				</StackLayout>
 
 				<StackLayout Grid.Row="1" Padding="0,24,0,24" IsVisible="{Binding Challenge.IsCompleted}" VerticalOptions="End"
-					BackgroundColor="{StaticResource greenLight}">
+					BackgroundColor="{Binding Challenge.League.Theme.Light}">
 					<StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand">
-						<Label Text="{Binding Challenge.WinningAthlete.Alias, StringFormat='this one\'s gonna go to \{0\}'}" FontSize="Medium"
-							VerticalOptions="Center" TextColor="{StaticResource greenDark}" />
+						<Label Text="{Binding Challenge.WinningAthlete.Alias, StringFormat='this one goes to \{0\}'}" FontSize="Medium"
+							VerticalOptions="Center" TextColor="{Binding Challenge.League.Theme.Dark}" />
 
 						<controls:CircleImage Source="{Binding Challenge.WinningAthlete.ProfileImageUrl}"
 							HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="36" HeightRequest="36"  />

@@ -4,6 +4,7 @@ using Connectivity.Plugin;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -36,6 +37,14 @@ namespace SportChallengeMatchRank.Shared
 
 		public App()
 		{
+			Colors = new List<string> {
+					"green",
+					"blue",
+					"red",
+					"yellow",
+					"asphalt",
+					"purple"
+			};
 			InitializeComponent();
 			IsNetworkRechable = true;
 
@@ -86,7 +95,7 @@ namespace SportChallengeMatchRank.Shared
 
 			if(Settings.Instance.AuthToken != null && Settings.Instance.RegistrationComplete)
 			{
-				MainPage = GetAthleteLeaguesPage();
+				MainPage = new AthleteLeaguesPage().GetNavigationPage();
 			}
 			else
 			{
@@ -134,13 +143,74 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		public NavigationPage GetAthleteLeaguesPage()
+		static List<string> Colors
 		{
-			return new NavigationPage(new AthleteLeaguesPage(Settings.Instance.AthleteId)) {
-				Title = "Leagues",
-				BarBackgroundColor = (Color)App.Current.Resources["greenPrimary"],
-				BarTextColor = Color.White,
+			get;
+			set;
+		}
+
+		public void GetTheme(League league)
+		{
+			if(league.Theme != null)
+				return;
+			
+			var remaining = App.Colors.Except(Settings.Instance.LeagueColors.Values).ToList();
+			if(remaining.Count == 0)
+				remaining.AddRange(App.Colors);
+
+			var color = remaining[new Random().Next(0, remaining.Count)];
+			if(Settings.Instance.LeagueColors.ContainsKey(league.Id))
+			{
+				color = Settings.Instance.LeagueColors[league.Id];
+			}
+			else
+			{
+				Settings.Instance.LeagueColors.Add(league.Id, color);
+			}
+
+			var theme = new LeagueTheme {
+				Primary = (Color)App.Current.Resources["{0}Primary".Fmt(color)],
+				Light = (Color)App.Current.Resources["{0}Light".Fmt(color)],
+				Dark = (Color)App.Current.Resources["{0}Dark".Fmt(color)],
 			};
+
+			if(App.Current.Resources.ContainsKey("{0}Medium".Fmt(color)))
+				theme.Medium = (Color)App.Current.Resources["{0}Medium".Fmt(color)];
+
+			league.Theme = theme;
+		}
+	}
+
+	public class LeagueTheme
+	{
+		public Color Primary
+		{
+			get;
+			set;
+		}
+
+		public Color Light
+		{
+			get;
+			set;
+		}
+
+		public Color Dark
+		{
+			get;
+			set;
+		}
+
+		public Color Medium
+		{
+			get;
+			set;
+		}
+
+		public Color PrimaryText
+		{
+			get;
+			set;
 		}
 	}
 }

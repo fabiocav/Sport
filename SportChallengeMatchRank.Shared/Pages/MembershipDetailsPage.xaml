@@ -5,7 +5,7 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
 	<local:MembershipDetailsXaml.Content>
-		<ScrollView BackgroundColor="White">
+		<ScrollView>
 			<Grid VerticalOptions="Fill">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
@@ -23,13 +23,17 @@
 							</Grid.ColumnDefinitions>
 
 							<StackLayout Grid.Column="1" Padding="0,12,0,0" HorizontalOptions="Start" VerticalOptions="Start">
-								<Label Text="{Binding Membership.Athlete.Name}" FontSize="Large" HorizontalOptions="StartAndExpand" />
+								<Label Text="{Binding Membership.Athlete.Name}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="StartAndExpand" />
 								<Label Text="{Binding Membership.Athlete.Email}" FontSize="Micro" HorizontalOptions="StartAndExpand" />
 							</StackLayout>
 
 							<StackLayout Padding="48,12,36,0" HorizontalOptions="End">
 								<controls:CircleImage Source="{Binding Membership.Athlete.ProfileImageUrl}"
 									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
+							</StackLayout>
+
+							<StackLayout Grid.Column="1" Padding="0,92,0,0">
+								<Label Text="{Binding Membership.Athlete.Alias, StringFormat='AKA \{0\}'}" FontSize="Small" TextColor="{StaticResource grayPrimary}" HorizontalOptions="StartAndExpand" />
 							</StackLayout>
 						</Grid>
 					</Grid>
@@ -39,7 +43,7 @@
 						<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 						<StackLayout Orientation="Horizontal">
 							<Label FontSize="Small" Text="Rank" TextColor="{StaticResource grayDark}" />
-							<Label FontSize="Small" Text="{Binding RankDescription}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
+							<Label FontSize="Small" Text="{Binding Membership.RankDescription}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
 						</StackLayout>
 						<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 						<StackLayout Orientation="Horizontal">
@@ -52,7 +56,7 @@
 			
 				<StackLayout Grid.Row="1" Padding="24" VerticalOptions="EndAndExpand">
 					<Button x:Name="btnChallenge" Text="CHALLENGE"
-						Style="{StaticResource greenButtonStyle}" HorizontalOptions="FillAndExpand"
+						BackgroundColor="{Binding Membership.League.Theme.Primary}" HorizontalOptions="FillAndExpand"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 				</StackLayout>
 			</Grid>

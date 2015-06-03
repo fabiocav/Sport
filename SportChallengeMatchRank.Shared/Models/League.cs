@@ -15,6 +15,21 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Properties
 
+		LeagueTheme _theme;
+
+		[JsonIgnore]
+		public LeagueTheme Theme
+		{
+			get
+			{
+				return _theme;
+			}
+			set
+			{
+				SetPropertyChanged(ref _theme, value);
+			}
+		}
+
 		[JsonIgnore]
 		public Athlete CreatedByAthlete
 		{
@@ -36,17 +51,17 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		bool hasStarted;
+		bool _hasStarted;
 
 		public bool HasStarted
 		{
 			get
 			{
-				return hasStarted;
+				return _hasStarted;
 			}
 			set
 			{
-				SetPropertyChanged(ref hasStarted, value);
+				SetPropertyChanged(ref _hasStarted, value);
 			}
 		}
 
@@ -264,6 +279,18 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		#endregion
+
+		public string LeaderRankDescription
+		{
+			get
+			{
+				if(!HasStarted || Memberships.Count == 0)
+					return null;
+
+				var m = Memberships.First();
+				return "{0} ranked {1}".Fmt(m.Athlete.Name, m.RankDescription);
+			}
+		}
 
 		void Initialize()
 		{

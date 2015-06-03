@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace SportChallengeMatchRank.Shared
 {
-	public partial class ChooseLeaguesPage : ChooseLeaguesPageXaml
+	public partial class EnablePushPage : EnablePushPageXaml
 	{
 		public Action OnSave
 		{
@@ -12,7 +12,7 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		public ChooseLeaguesPage()
+		public EnablePushPage()
 		{
 			NavigationPage.SetHasNavigationBar(this, false);
 			Initialize();
@@ -54,7 +54,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				Settings.Instance.RegistrationComplete = true;
 				Settings.Instance.Save();
-				App.Current.MainPage = App.Current.GetAthleteLeaguesPage();
+				App.Current.MainPage = new AthleteLeaguesPage().GetNavigationPage();
 			};
 
 //			list.ItemSelected += async(sender, e) =>
@@ -116,7 +116,7 @@ namespace SportChallengeMatchRank.Shared
 		}
 	}
 
-	public partial class ChooseLeaguesPageXaml : BaseContentPage<AvailableLeaguesViewModel>
+	public partial class EnablePushPageXaml : BaseContentPage<AvailableLeaguesViewModel>
 	{
 	}
 }

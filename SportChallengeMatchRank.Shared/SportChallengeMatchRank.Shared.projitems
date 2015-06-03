@@ -83,7 +83,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\GameResultFormView.xaml.cs">
       <DependentUpon>GameResultFormView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\MatchResultsFormPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FlikrService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FlikrResult.cs" />
@@ -108,9 +107,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPushNotifications.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\SetAliasPage.xaml.cs">
       <DependentUpon>SetAliasPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\ChooseLeaguesPage.xaml.cs">
-      <DependentUpon>ChooseLeaguesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\AuthenticationView.xaml.cs">
       <DependentUpon>AuthenticationView.xaml</DependentUpon>
@@ -137,6 +133,15 @@
       <DependentUpon>LeaderboardPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LeaderboardViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\EnablePushPage.xaml.cs">
+      <DependentUpon>EnablePushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CardView.xaml.cs">
+      <DependentUpon>CardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MatchResultsFormPage.xaml.cs">
+      <DependentUpon>MatchResultsFormPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -190,9 +195,6 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\SetAliasPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\ChooseLeaguesPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AuthenticationView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -206,6 +208,15 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\LeaderboardPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\WelcomeAuthentication\EnablePushPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\CardView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MatchResultsFormPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

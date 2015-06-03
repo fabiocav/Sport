@@ -480,8 +480,7 @@ namespace SportChallengeMatchRank.Shared
 					m.LocalRefresh();
 
 					var challenges = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == m.LeagueId
-					                 && c.ChallengerAthleteId == m.AthleteId
-					                 || c.ChallengeeAthleteId == m.AthleteId).ToList();
+					                 && (c.ChallengerAthleteId == m.AthleteId || c.ChallengeeAthleteId == m.AthleteId)).ToList();
 
 					Challenge ch;
 					challenges.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));

@@ -201,6 +201,34 @@
     <BundleResource Include="Resources\ic_time_gray%402x.png" />
     <BundleResource Include="Resources\ic_time_gray%403x.png" />
     <BundleResource Include="Resources\ic_trophy_gray%403x.png" />
+    <BundleResource Include="Resources\segoeuil.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\segoeuib.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\segoeuii.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\segoeuisb.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\segoeuisl.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\segoeuiz.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\seguisb.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Resources\segoeui.ttf" />
+    <BundleResource Include="Resources\transparent%402x.png" />
+    <BundleResource Include="Resources\transparent%403x.png" />
+    <BundleResource Include="Resources\ic_trending_up_white%402x.png" />
+    <BundleResource Include="Resources\ic_trending_up_white%403x.png" />
+    <BundleResource Include="Resources\ic_person_add_white%402x.png" />
+    <BundleResource Include="Resources\ic_person_add_white%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

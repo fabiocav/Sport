@@ -25,8 +25,6 @@ namespace SportChallengeMatchRank.iOS
 			ImageCircleRenderer.Init();
 			ToastNotifier.Init();
 
-			//UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
-
 			UITabBar.Appearance.BarTintColor = UIColor.FromRGB(44, 62, 80);
 			UITabBar.Appearance.TintColor = UIColor.White;
 
@@ -39,6 +37,17 @@ namespace SportChallengeMatchRank.iOS
 					e.NativeView.AccessibilityIdentifier = e.View.StyleId;
 				}
 			};
+
+			var atts = new UITextAttributes {
+				Font = UIFont.FromName("SegoeUI", 22),
+			};
+			UINavigationBar.Appearance.SetTitleTextAttributes(atts);
+
+			var barButtonAtts = new UITextAttributes {
+				Font = UIFont.FromName("SegoeUI", 16),
+			};
+			UIBarButtonItem.Appearance.SetTitleTextAttributes(barButtonAtts, UIControlState.Normal);
+			UIBarButtonItem.Appearance.SetBackButtonTitlePositionAdjustment(new UIOffset(0, -100), UIBarMetrics.Default);
 
 			LoadApplication(new App());
 			return base.FinishedLaunching(app, options);

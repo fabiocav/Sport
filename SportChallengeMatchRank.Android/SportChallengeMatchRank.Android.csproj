@@ -158,6 +158,7 @@
     <Folder Include="Resources\values\" />
     <Folder Include="Providers\" />
     <Folder Include="Resources\values-v21\" />
+    <Folder Include="Assets\Fonts\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -198,6 +199,12 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_send_white.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_time_gray.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_trophy_gray.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_trending_up_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_trending_up_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_trending_up_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_person_add_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_person_add_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_add_white.png" />
   </ItemGroup>
   <Import Project="..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems" Label="Shared" Condition="Exists('..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -212,5 +219,8 @@
       <Version>21.0.3.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Fonts\segoeui.ttf" />
   </ItemGroup>
 </Project>

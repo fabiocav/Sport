@@ -5,11 +5,16 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" BackgroundColor="{StaticResource redLight}">
     <local:AuthenticationPageXaml.Content>
 
-		<StackLayout Padding="40" Spacing="26" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
-			<ActivityIndicator StyleId="activity" IsRunning="{Binding IsBusy}" Color="White" />
-			<Label StyleId="status" TextColor="White" FontSize="Large" Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}"
-				IsVisible="{Binding AuthenticationStatus, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" XAlign="Center" YAlign="Center" />
-		</StackLayout>
+    	<Grid>
+    		<Grid.RowDefinitions>
+    			<RowDefinition Height="5*" />
+    			<RowDefinition Height="5*" />
+    		</Grid.RowDefinitions>
+
+			<ActivityIndicator StyleId="activity" IsRunning="{Binding IsBusy}" Color="White" VerticalOptions="End" />
+			<Label Grid.Row="1" StyleId="status" TextColor="White" FontSize="Large" Style="{StaticResource header}" Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}"
+				IsVisible="{Binding AuthenticationStatus, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" XAlign="Center" YAlign="Center" VerticalOptions="Start" />
+    	</Grid>
 
 	</local:AuthenticationPageXaml.Content>
 </local:AuthenticationPageXaml>

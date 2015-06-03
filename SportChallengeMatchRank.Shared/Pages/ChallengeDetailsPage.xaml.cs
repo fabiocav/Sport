@@ -26,6 +26,9 @@ namespace SportChallengeMatchRank.Shared
 
 		public ChallengeDetailsPage(Challenge challenge = null)
 		{
+			BarBackgroundColor = challenge.League.Theme.Light;
+			BarTextColor = challenge.League.Theme.Dark;
+
 			ViewModel.Challenge = challenge ?? new Challenge();
 			Initialize();
 		}
@@ -75,10 +78,7 @@ namespace SportChallengeMatchRank.Shared
 					OnPostResults();
 			};
 
-			await Navigation.PushModalAsync(new NavigationPage(page) {
-				BarBackgroundColor = (Color)App.Current.Resources["purplePrimary"],
-				BarTextColor = Color.White,
-			});
+			await Navigation.PushModalAsync(page);
 		}
 
 		async void OnRevokeChallenge()
@@ -149,11 +149,11 @@ namespace SportChallengeMatchRank.Shared
 		{
 			var list = new List<string>();
 
-			if(ViewModel.CanPostMatchResults)
-				list.Add(_post);
-
-			if(ViewModel.CanAccept)
-				list.Add(_accept);
+//			if(ViewModel.CanPostMatchResults)
+//				list.Add(_post);
+//
+//			if(ViewModel.CanAccept)
+//				list.Add(_accept);
 
 			if(ViewModel.CanRevoke)
 				list.Add(_revoke);

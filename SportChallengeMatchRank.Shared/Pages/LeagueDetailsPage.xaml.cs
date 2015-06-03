@@ -10,6 +10,11 @@ namespace SportChallengeMatchRank.Shared
 		public LeagueDetailsPage(League league)
 		{
 			ViewModel.League = league;
+
+			if(league.Theme == null)
+				App.Current.GetTheme(league);
+
+			Title = ViewModel.League?.Name;
 			Initialize();
 		}
 
@@ -57,7 +62,6 @@ namespace SportChallengeMatchRank.Shared
 				if(value != _buttonStyle)
 				{
 					_buttonStyle = value;
-					btnJoin.Style = btnRankings.Style = _buttonStyle;
 				}
 			}
 		}
@@ -66,37 +70,26 @@ namespace SportChallengeMatchRank.Shared
 
 		async protected override void Initialize()
 		{
-			Title = "League Details";
+			BarBackgroundColor = ViewModel.League.Theme.Light;
+			BarTextColor = ViewModel.League.Theme.Dark;
+
 			InitializeComponent();
 
-			var moreButton = new ToolbarItem("More", "ic_more_vert_white", () =>
+//			var moreButton = new ToolbarItem("More", "ic_more_vert_white", () =>
+//			{
+//				OnMoreClicked();
+//			});
+
+//			if(GetMoreMenuOptions().Count > 0)
+//				ToolbarItems.Add(moreButton);
+
+			previousCard.OnClicked = async() =>
 			{
-				OnMoreClicked();
-			});
-
-			if(GetMoreMenuOptions().Count > 0)
-				ToolbarItems.Add(moreButton);
-
-			btnJoin.Clicked += async(sender, e) =>
-			{
-				bool success;
-				using(new HUD("Joining..."))
-				{
-					success = await ViewModel.JoinLeague();
-				}
-
-				if(success)
-				{
-					"Membership accepted!".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
-
-					if(OnJoinedLeague != null)
-					{
-						OnJoinedLeague(ViewModel.League);
-					}
-				}
+				var details = new ChallengeDetailsPage(ViewModel.PreviousChallenge);
+				await Navigation.PushAsync(details);
 			};
-
-			cardView.OnClicked = async() =>
+				
+			ongoingCard.OnClicked = async() =>
 			{
 				var details = new ChallengeDetailsPage(ViewModel.OngoingChallenge);
 				details.OnAccept = () =>
@@ -117,12 +110,23 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushAsync(details);
 			};
 
-			cardView.OnAccepted = async() =>
+			ongoingCard.OnPostResults = async() =>
+			{
+				var page = new MatchResultsFormPage(ViewModel.OngoingChallenge);
+				page.OnMatchResultsPosted = () =>
+				{
+					ViewModel.NotifyPropertiesChanged();
+				};
+
+				await Navigation.PushModalAsync(page.GetNavigationPage());
+			};
+
+			ongoingCard.OnAccepted = async() =>
 			{
 				bool success;
 				using(new HUD("Accepting challenge..."))
 				{
-					success = await ViewModel.ChallengeViewModel.AcceptChallenge();
+					success = await ViewModel.OngoingChallengeViewModel.AcceptChallenge();
 				}
 
 				if(success)
@@ -132,7 +136,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			cardView.OnDeclined = async() =>
+			ongoingCard.OnDeclined = async() =>
 			{
 				var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly decline this honorable duel?", "Yes", "No");
 
@@ -142,7 +146,7 @@ namespace SportChallengeMatchRank.Shared
 				bool success;
 				using(new HUD("Declining..."))
 				{
-					success = await ViewModel.ChallengeViewModel.DeclineChallenge();
+					success = await ViewModel.OngoingChallengeViewModel.DeclineChallenge();
 				}
 
 				if(success)
@@ -205,10 +209,10 @@ namespace SportChallengeMatchRank.Shared
 			var action = await DisplayActionSheet("Additional actions", "Cancel", null, list.ToArray());
 
 			if(action == _leave)
-				LeaveLeague();
+				OnLeaveLeague();
 
 			if(action == _rules)
-				OpenRules();
+				OnOpenRules();
 
 			if(action == _pastChallenges)
 				DisplayPastChallenges();
@@ -219,7 +223,7 @@ namespace SportChallengeMatchRank.Shared
 			"This feature hasn't been implemented".ToToast();
 		}
 
-		async void OnRankingsClicked(object sender, EventArgs e)
+		async void OnRankings()
 		{
 			if(!ViewModel.League.HasStarted)
 			{
@@ -228,10 +232,10 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			var leaderboard = new LeaderboardPage(ViewModel.League);
-			await Navigation.PushAsync(leaderboard);	
+			await Navigation.PushAsync(leaderboard);
 		}
 
-		async void OpenRules()
+		async void OnOpenRules()
 		{
 			var page = new ContentPage {
 				Title = "Rules",
@@ -241,11 +245,11 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			var nav = new NavigationPage(page) {
-				BarTextColor = Color.White,
-				BarBackgroundColor = (Color)App.Current.Resources["greenPrimary"],
+				BarBackgroundColor = ViewModel.League.Theme.Light,
+				BarTextColor = ViewModel.League.Theme.Dark,
 			};
 
-			var cancel = new ToolbarItem("Cancel", null, () =>
+			var cancel = new ToolbarItem("Done", null, () =>
 			{
 				Navigation.PopModalAsync();
 			});
@@ -255,7 +259,26 @@ namespace SportChallengeMatchRank.Shared
 			await Navigation.PushModalAsync(nav);
 		}
 
-		async void LeaveLeague()
+		async void OnJoinLeague()
+		{
+			bool success;
+			using(new HUD("Joining..."))
+			{
+				success = await ViewModel.JoinLeague();
+			}
+
+			if(success)
+			{
+				"Membership accepted!".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
+
+				if(OnJoinedLeague != null)
+				{
+					OnJoinedLeague(ViewModel.League);
+				}
+			}
+		}
+
+		async void OnLeaveLeague()
 		{
 			var accepted = await DisplayAlert("Abandon League?", "Are you sure you want to abandon this league?", "Yes", "No");
 
@@ -280,6 +303,26 @@ namespace SportChallengeMatchRank.Shared
 					}
 				}
 			}
+		}
+
+		void HandleRulesClicked(object sender, EventArgs e)
+		{
+			OnOpenRules();
+		}
+
+		void HandleLeaveClicked(object sender, EventArgs e)
+		{
+			OnLeaveLeague();
+		}
+
+		void HandleRankingsClicked(object sender, EventArgs e)
+		{
+			OnRankings();
+		}
+
+		void HandleJoinClicked(object sender, EventArgs e)
+		{
+			OnJoinLeague();
 		}
 	}
 

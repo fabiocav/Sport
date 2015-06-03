@@ -27,6 +27,12 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public Action OnPostResults
+		{
+			get;
+			set;
+		}
+
 		public Action OnAccepted
 		{
 			get;
@@ -48,6 +54,11 @@ namespace SportChallengeMatchRank.Shared
 			{
 				OnClicked?.Invoke();
 			}));
+		}
+
+		void HandlePostResults(object sender, EventArgs e)
+		{
+			OnPostResults?.Invoke();
 		}
 
 		void HandleDeclined(object sender, EventArgs e)

@@ -66,18 +66,6 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public string RankDescription
-		{
-			get
-			{
-				if(Membership == null)
-					return null;
-				
-				var dayCount = Math.Round(DateTime.UtcNow.Subtract(Membership.LastRankChangeDate).TotalDays);
-				return "{0} out of {1} for {2} day{3}".Fmt(Membership.CurrentRankDisplay.ToOrdinal(), Membership.League.Memberships.Count, dayCount, dayCount == 1 ? "" : "s");
-			}
-		}
-
 		public string Stats
 		{
 			get

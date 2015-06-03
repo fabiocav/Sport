@@ -13,48 +13,64 @@
 			</Grid.RowDefinitions>
 
 			<StackLayout Orientation="Vertical" Spacing="20" VerticalOptions="Fill">
-				<StackLayout Padding="24,24,24,0" Spacing="4">
-					<Label FontSize="Small" Text="{Binding League.Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="{StaticResource grayPrimary}" />
-					<Label Text="{Binding League.Name}" FontSize="Large" />
-				</StackLayout>
-
 				<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="200"
 					VerticalOptions="Center" Aspect="AspectFill" />
 
-				<StackLayout Padding="24,0,24,14" Spacing="4">
-					<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
-						 VerticalOptions="Center" />
+				<StackLayout Padding="24,0,24,14" Spacing="4" IsVisible="{Binding League.HasStarted}">
+					<Label Text="{Binding League.LeaderRankDescription}" Style="{StaticResource sub}" />
+					<Label Text="Next challenge between RDR &amp; Robb" Style="{StaticResource sub}" />
+					<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You are ranked \{0\}'}" Style="{StaticResource sub}" IsVisible="true" />
 				</StackLayout>
 
-				<StackLayout Padding="24,0,24,14" Spacing="8" IsVisible="{Binding IsMember}">
-					<Label FontSize="Medium" Text="YOUR STATS" TextColor="{StaticResource grayDark}" />
-					<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
-					<StackLayout Orientation="Horizontal">
-						<Label FontSize="Small" Text="Rank" TextColor="{StaticResource grayDark}" />
-						<Label FontSize="Small" Text="{Binding MembershipViewModel.RankDescription}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
-					</StackLayout>
-					<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
-					<StackLayout Orientation="Horizontal">
-						<Label FontSize="Small" Text="Stats" TextColor="{StaticResource grayDark}" />
-						<Label FontSize="Small" Text="{Binding MembershipViewModel.Stats}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
-					</StackLayout>
-					<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
-					
-					<StackLayout Padding="0,40,0,20" IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
-						<local:ChallengeCardView x:Name="cardView" ViewModel="{Binding ChallengeViewModel}" />
-					</StackLayout>
+				<StackLayout Padding="24,0,24,14" Spacing="20" IsVisible="{Binding IsMember}">
+				<!---
+					<ContentView Padding="0,0,.5,.5" BackgroundColor="{StaticResource grayMedium}">
+						<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill" BackgroundColor="White"
+							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Padding="0">
+
+							<StackLayout BackgroundColor="{StaticResource grayPrimary}" Orientation="Horizontal"
+								HorizontalOptions="FillAndExpand" Padding="14">
+								<Image Source="ic_trending_up_white" />
+								<Label Text="Your Stats" FontSize="Medium" TextColor="White" VerticalOptions="Center" LineBreakMode="NoWrap" />
+							</StackLayout>
+
+							<StackLayout Padding="14">
+								<StackLayout Orientation="Horizontal">
+									<Label FontSize="Small" Text="Rank" TextColor="{StaticResource grayDark}" />
+									<Label FontSize="Small" Text="{Binding MembershipViewModel.RankDescription}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
+								</StackLayout>
+								<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
+								<StackLayout Orientation="Horizontal">
+									<Label FontSize="Small" Text="Stats" TextColor="{StaticResource grayDark}" />
+									<Label FontSize="Small" Text="{Binding MembershipViewModel.Stats}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
+								</StackLayout>
+							</StackLayout>
+						</StackLayout>
+					</ContentView>
+					-->
+					<ContentView Padding="0,0,0,20" IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+						<local:ChallengeCardView x:Name="ongoingCard" ViewModel="{Binding OngoingChallengeViewModel}" />
+					</ContentView>
+					<ContentView Padding="0,0,0,20" IsVisible="{Binding PreviousChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+						<local:ChallengeCardView x:Name="previousCard" ViewModel="{Binding PreviousChallengeViewModel}" />
+					</ContentView>
 				</StackLayout>
 			</StackLayout>
 
-			<StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" Padding="28" Spacing="14">
-				<Button x:Name="btnRankings" Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="OnRankingsClicked"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-					Style="{StaticResource grayButtonStyle}" />
+			<StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" Padding="28" Spacing="14"
+				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
+				<Button Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked"
+					BackgroundColor="{Binding League.Theme.Primary}" />
 
-				<Button x:Name="btnJoin" Text="JOIN LEAGUE" HorizontalOptions="FillAndExpand"
-					Style="{StaticResource blueButtonStyle}"
-					IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+				<Button Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
+					IsVisible="{Binding CanGetRules}" BackgroundColor="{Binding League.Theme.Primary}" />
+
+				<Button Text="JOIN LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
+					BackgroundColor="{Binding League.Theme.Primary}"
+					IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+
+				<Button Text="COWARDLY ABANDON LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"
+					IsVisible="{Binding IsMember}" Style="{StaticResource deleteButtonStyle}" />
 			</StackLayout>
 
 		</Grid>

@@ -60,6 +60,9 @@ namespace SportChallengeMatchRank.iOS
 			if(e.PropertyName == ExtendedDatePicker.TextColorProperty.PropertyName)
 				SetTextColor(view);
 
+			if(e.PropertyName == ExtendedDatePicker.FontFamilyProperty.PropertyName)
+				SetFontFamily(view);
+			
 			ResizeHeight();
 		}
 
@@ -94,6 +97,17 @@ namespace SportChallengeMatchRank.iOS
 				Control.Font = uiFont;
 			else if(view.Font == Font.Default)
 				Control.Font = UIFont.SystemFontOfSize(17f);
+		}
+
+		private void SetFontFamily(ExtendedDatePicker view)
+		{
+			UIFont uiFont;
+
+			if(!string.IsNullOrWhiteSpace(view.FontFamily) && (uiFont = view.Font.ToUIFont()) != null)
+			{
+				var ui = UIFont.FromName(view.FontFamily, (nfloat)(view.Font != null ? view.Font.FontSize : 17f));
+				Control.Font = uiFont;
+			}
 		}
 
 		/// <summary>

@@ -27,21 +27,19 @@ namespace SportChallengeMatchRank.Shared
 
 		public ChallengeDatePage(Athlete challengee, League league)
 		{
+			BarBackgroundColor = league.Theme.Light;
+			BarTextColor = league.Theme.Dark;
+
+			ViewModel.CreateChallenge(App.CurrentAthlete, challengee, league);
 			Challengee = challengee;
 			League = league;
 			Initialize();
 		}
 
-		protected async override void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Set Date and Time";
-
-			datePicker.DateSelected += async(sender, e) =>
-			{
-				Console.WriteLine(datePicker.Date);
-				//await ViewModel.CrossReferenceCalendars(App.CurrentAthlete, Challengee, datePicker.Date);
-			};
+			Title = "Date and Time";
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{
@@ -49,14 +47,14 @@ namespace SportChallengeMatchRank.Shared
 
 				if(errors != null)
 				{
-					errors.ToToast(ToastNotificationType.Error, "Please fix this error");
+					errors.ToToast(ToastNotificationType.Error);
 					return;
 				}
 
 				Challenge challenge;
 				using(new HUD("Sending challenge..."))
 				{
-					challenge = await ViewModel.ChallengeAthlete(App.CurrentAthlete, Challengee, League);
+					challenge = await ViewModel.PostChallenge();
 				}
 
 				if(OnChallengeSent != null && challenge != null && challenge.Id != null)
@@ -73,9 +71,6 @@ namespace SportChallengeMatchRank.Shared
 			};
 
 			ToolbarItems.Add(btnCancel);
-
-//			await Task.Delay(1000);
-//			datePicker.Focus();
 		}
 	}
 

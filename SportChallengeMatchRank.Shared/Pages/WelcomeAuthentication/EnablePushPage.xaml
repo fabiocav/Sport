@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<local:ChooseLeaguesPageXaml xmlns="http://xamarin.com/schemas/2014/forms"
+<local:EnablePushPageXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	x:Class="SportChallengeMatchRank.Shared.ChooseLeaguesPage"
+	x:Class="SportChallengeMatchRank.Shared.EnablePushPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
 	BackgroundColor="{StaticResource purplePrimary}">
-    <local:ChooseLeaguesPageXaml.Resources>
+    <local:EnablePushPageXaml.Resources>
 		<ResourceDictionary>
 			<Style TargetType="Label" BasedOn="{StaticResource whiteLabelStyle}" />
 		</ResourceDictionary>
-    </local:ChooseLeaguesPageXaml.Resources>
-    <local:ChooseLeaguesPageXaml.Content>
+    </local:EnablePushPageXaml.Resources>
+    <local:EnablePushPageXaml.Content>
 		<Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="5*" />
@@ -38,9 +38,9 @@
 					TextColor="White" VerticalOptions="EndAndExpand" />
 
 				<Button x:Name="btnContinue" StyleId="continueButton" Text="CONTINUE"
-					BackgroundColor="{StaticResource purpleLight}" TextColor="White"
+					BackgroundColor="{StaticResource purpleLight}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
 			</StackLayout>
 		</Grid>
-	</local:ChooseLeaguesPageXaml.Content>
-</local:ChooseLeaguesPageXaml>
+	</local:EnablePushPageXaml.Content>
+</local:EnablePushPageXaml>

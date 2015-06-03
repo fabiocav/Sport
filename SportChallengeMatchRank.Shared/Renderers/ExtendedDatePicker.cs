@@ -111,5 +111,24 @@ namespace SportChallengeMatchRank.Shared
 				SetValue(TextColorProperty, value);
 			}
 		}
+
+		public static readonly BindableProperty FontFamilyProperty =
+			BindableProperty.Create("FontFamily", typeof(string), typeof(ExtendedDatePicker), null);
+
+		/// <summary>
+		/// Gets or sets the MaxLength
+		/// </summary>
+		public string FontFamily
+		{
+			get
+			{
+				return (string)this.GetValue(FontFamilyProperty);
+			}
+			set
+			{
+				this.SetValue(FontFamilyProperty, value);
+			}
+		}
+
 	}
 }

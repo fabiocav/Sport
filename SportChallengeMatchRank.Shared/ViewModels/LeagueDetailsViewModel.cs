@@ -19,14 +19,6 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public string SportDescription
-		{
-			get
-			{
-				return League == null ? null : "the honorable pastime of {0}".Fmt(League.Sport);
-			}
-		}
-
 		public bool IsMember
 		{
 			get
@@ -35,12 +27,30 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public Membership CurrentMembership
+		{
+			get
+			{
+				if(!IsMember)
+					return null;
+
+				return App.CurrentAthlete.Memberships.FirstOrDefault(l => l.LeagueId == League.Id);
+			}
+		}
+
 		public Challenge OngoingChallenge
 		{
 			get
 			{
-				var challenge = App.CurrentAthlete?.GetOngoingChallengeForLeague(League);
-				return challenge;
+				return App.CurrentAthlete?.GetOngoingChallengeForLeague(League);
+			}
+		}
+
+		public Challenge PreviousChallenge
+		{
+			get
+			{
+				return App.CurrentAthlete?.GetPreviousChallengeForLeague(League);
 			}
 		}
 
@@ -97,7 +107,13 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
-		public ChallengeDetailsViewModel ChallengeViewModel
+		public ChallengeDetailsViewModel OngoingChallengeViewModel
+		{
+			get;
+			set;
+		}
+
+		public ChallengeDetailsViewModel PreviousChallengeViewModel
 		{
 			get;
 			set;
@@ -117,7 +133,13 @@ namespace SportChallengeMatchRank.Shared
 				LeagueViewModel = new LeagueViewModel(_league);
 
 				if(OngoingChallenge != null)
-					ChallengeViewModel = new ChallengeDetailsViewModel(OngoingChallenge);
+					OngoingChallengeViewModel = new ChallengeDetailsViewModel(OngoingChallenge);
+
+				if(PreviousChallenge != null)
+					PreviousChallengeViewModel = new ChallengeDetailsViewModel(PreviousChallenge);
+
+				if(_league != null)
+					App.Current.GetTheme(_league);
 				
 				NotifyPropertiesChanged();
 			}
@@ -174,17 +196,27 @@ namespace SportChallengeMatchRank.Shared
 
 		public void NotifyPropertiesChanged()
 		{
-			SetPropertyChanged("SportDescription");
+			if(OngoingChallenge == null)
+				OngoingChallengeViewModel = null;
+
+			if(PreviousChallenge == null)
+				PreviousChallengeViewModel = null;
+			
 			SetPropertyChanged("DateRange");
 			SetPropertyChanged("CreatedBy");
 			SetPropertyChanged("IsMember");
 			SetPropertyChanged("OngoingChallenge");
+			SetPropertyChanged("PreviousChallenge");
 			SetPropertyChanged("MembershipViewModel");
-			SetPropertyChanged("ChallengeViewModel");
+			SetPropertyChanged("CurrentMembership");
+			SetPropertyChanged("OngoingChallengeViewModel");
+			SetPropertyChanged("PreviousChallengeViewModel");
 
 			OngoingChallenge?.NotifyPropertiesChanged();
+			PreviousChallenge?.NotifyPropertiesChanged();
 			MembershipViewModel?.NotifyPropertiesChanged();
-			ChallengeViewModel?.NotifyPropertiesChanged();
+			OngoingChallengeViewModel?.NotifyPropertiesChanged();
+			PreviousChallengeViewModel?.NotifyPropertiesChanged();
 		}
 	}
 }

@@ -3,7 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.LeagueListView" x:Name="list"
 	IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-	BackgroundColor="{StaticResource grayLight}" SeparatorVisibility="None" RowHeight="350"
+	BackgroundColor="{StaticResource grayLight}" SeparatorVisibility="None" RowHeight="286"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<ListView.ItemTemplate>
 		<DataTemplate>
@@ -14,31 +14,29 @@
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
 							IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-							<Label Text="{Binding Name}" FontSize="Large" XAlign="Center" />
+							<Label Text="{Binding Name}" FontSize="Large" Style="{StaticResource header}" XAlign="Center" />
 						</StackLayout>
 
-						<StackLayout Padding="1" BackgroundColor="{StaticResource grayPrimary}"
+						<StackLayout Padding="0,0,.5,.5" BackgroundColor="{StaticResource grayPrimary}"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
-							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+								IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
 							<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
-								<Image x:Name="photoImage" Source="{Binding ImageUrl}" HorizontalOptions="Fill" HeightRequest="150"
-									VerticalOptions="Center" Aspect="AspectFill" />
+								<AbsoluteLayout HeightRequest="150">
+									<Image x:Name="photoImage" Source="{Binding ImageUrl}" Aspect="AspectFill"
+										AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
 
-								<StackLayout Padding="24,10" Spacing="4">
-									<Label FontSize="Small" Text="{Binding Sport, StringFormat='the honorable pastime of \{0\}'}" TextColor="{StaticResource grayDark}" />
-									<Label Text="{Binding Name}" FontSize="Large" />
-									<Label FontSize="Small" Text="This league was created on Monday, August 12, 2015 and has 15 members. Joseph Sylvester, AKA 'The Hound' is currently holding the number one spot."
-										 VerticalOptions="Center" HeightRequest="70" LineBreakMode="WordWrap" />
+									<ContentView BackgroundColor="{Binding Theme.Light}" Opacity=".05"
+										 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,1" />
+								</AbsoluteLayout>
+
+								<StackLayout Padding="16,10" Spacing="4">
+									<Label Text="{Binding Name}" FontSize="Large" Style="{StaticResource header}" TextColor="{Binding Theme.Dark}" />
+									<Label Text="Karl Krukow in 1st place for 2 days" Style="{StaticResource sub}" />
+									<Label Text="The next challenge is between RDR &amp; Robb" Style="{StaticResource sub}" />
+									<Label Text="You have ranked 2nd for 4 days" Style="{StaticResource sub}" />
 								</StackLayout>
 							</StackLayout>
-						</StackLayout>
-
-						<StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="End" Padding="10" VerticalOptions="EndAndExpand"
-							IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}"
-							AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,1">
-							<Button Text="LEADERBOARD" Clicked="OnRankingsClicked" CommandParameter="{Binding .}"
-								Style="{StaticResource grayActionButtonStyle}" WidthRequest="130" />
 						</StackLayout>
 					</AbsoluteLayout>
 				</ViewCell.View>

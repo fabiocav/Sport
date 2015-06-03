@@ -7,6 +7,9 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public LeaderboardPage(League league)
 		{
+			BarBackgroundColor = league.Theme.Light;
+			BarTextColor = league.Theme.Dark;
+
 			ViewModel.League = league;
 			Initialize();
 		}
@@ -23,7 +26,12 @@ namespace SportChallengeMatchRank.Shared
 
 				var membership = list.SelectedItem as Membership;
 				list.SelectedItem = null;
-				await Navigation.PushAsync(new MembershipDetailsPage(membership.Id));
+				var page = new MembershipDetailsPage(membership.Id) {
+					BarBackgroundColor = ViewModel.League.Theme.Light,
+					BarTextColor = ViewModel.League.Theme.Dark,
+				};
+					
+				await Navigation.PushAsync(page);
 			};
 		}
 
@@ -40,6 +48,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.League != null)
 				ViewModel.League.RefreshMemberships();
 			
+			AddDoneButton();
 			base.OnLoaded();
 		}
 

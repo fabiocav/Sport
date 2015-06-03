@@ -13,8 +13,6 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override void Initialize()
 		{
-			PrimaryColor = Color.FromHex("#614CA0");
-			PrimaryColorDark = Color.FromHex("#B5A1E0");
 			InitializeComponent();
 			Title = "Authenticating...";
 		}

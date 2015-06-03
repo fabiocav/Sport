@@ -40,16 +40,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			var btnCancel = new ToolbarItem {
-				Text = "Done",
-			};
-
-			btnCancel.Clicked += async(sender, e) =>
-			{
-				await Navigation.PopModalAsync();		
-			};
-
-			ToolbarItems.Add(btnCancel);
+			AddDoneButton();
 		}
 
 		protected override void OnAppearing()

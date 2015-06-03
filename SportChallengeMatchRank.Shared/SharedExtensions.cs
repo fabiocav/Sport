@@ -51,6 +51,40 @@ namespace SportChallengeMatchRank.Shared
 			return challenge.MatchResult.Where(gr => gr.ChallengeeScore > gr.ChallengerScore).ToArray();
 		}
 
+		public static string ValidateMatchResults(this Challenge challenge)
+		{
+			var challengeeWins = 0;
+			var challengerWins = 0;
+			foreach(var g in challenge.MatchResult)
+			{
+				if(!g.ChallengeeScore.HasValue && !g.ChallengerScore.HasValue)
+					continue;
+
+				if((g.ChallengeeScore.HasValue && !g.ChallengerScore.HasValue) || (!g.ChallengeeScore.HasValue && g.ChallengerScore.HasValue))
+					return "Please ensure both players have valid scores.";
+
+				if(g.ChallengeeScore > g.ChallengerScore)
+				{
+					challengeeWins++;
+				}
+				else if(g.ChallengerScore > g.ChallengeeScore)
+				{
+					challengerWins++;
+				}
+				else
+				{
+					return "Please ensure there are no tie scores.";
+				}
+			}
+
+			var minWins = Math.Ceiling(challenge.League.MatchGameCount / 2f);
+
+			if(challengeeWins == challengerWins || (challengeeWins < minWins && challengerWins < minWins))
+				return "Please ensure there is a clear victor.";
+
+			return null;
+		}
+
 		public static bool IsEmpty(this string s)
 		{
 			return string.IsNullOrWhiteSpace(s);

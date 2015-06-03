@@ -6,9 +6,9 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<Grid RowSpacing="0" ColumnSpacing="0">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="50" />
-			<RowDefinition Height="40" />
-			<RowDefinition Height="120" />
+			<RowDefinition Height="46" />
+			<RowDefinition Height="38" />
+			<RowDefinition Height="80" />
 		</Grid.RowDefinitions>
 
 		<Grid.ColumnDefinitions>
@@ -16,10 +16,11 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<StackLayout BackgroundColor="{StaticResource purpleLight}" HorizontalOptions="FillAndExpand"
-			VerticalOptions="FillAndExpand" Grid.ColumnSpan="2" Padding="10">
-			<Label Text="{Binding GameIndex}" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="30" FontSize="Large"
-				TextColor="{StaticResource purpleDark}" />
+		<StackLayout BackgroundColor="{StaticResource grayPrimary}" HorizontalOptions="FillAndExpand"
+			VerticalOptions="FillAndExpand" Grid.ColumnSpan="2" Padding="8">
+
+			<Label Text="{Binding GameIndex}" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="30" FontSize="Large" Style="{StaticResource header}"
+				TextColor="White" />
 		</StackLayout>
 
 		<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" Grid.Row="1" HorizontalOptions="FillAndExpand"  TextColor="{StaticResource grayDark}"
@@ -27,12 +28,16 @@
 		<Label Text="{Binding Challenge.ChallengeeAthlete.Alias}" Grid.Row="1" Grid.Column="1" HorizontalOptions="FillAndExpand" TextColor="{StaticResource grayDark}"
 			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource grayLight}" XAlign="Center" YAlign="Center" />
 
-		<labs:ExtendedEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
-			TextColor="White" VerticalOptions="Center" Grid.Row="2" HorizontalOptions="Center" WidthRequest="80" HeightRequest="80"
-			Keyboard="Numeric" BackgroundColor="{StaticResource grayPrimary}" HasBorder="false" Font="46" XAlign="Center" TextChanged="TextChanged" Placeholder="0" />
+		<ContentView Padding="0,10,0,0" Grid.Row="2" HorizontalOptions="Center">
+			<labs:ExtendedEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
+				TextColor="White" VerticalOptions="Center" WidthRequest="60" HeightRequest="60" MaxLength="2"
+				Keyboard="Numeric" BackgroundColor="{Binding Challenge.League.Theme.Light}" HasBorder="false" Font="36" XAlign="Center" TextChanged="TextChanged" Placeholder="0" />
+		</ContentView>
 
-		<labs:ExtendedEntry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
-			TextColor="White" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" WidthRequest="80" Placeholder="0"
-			HeightRequest="80" Keyboard="Numeric" BackgroundColor="{StaticResource grayPrimary}" HasBorder="false" Font="46" XAlign="Center" TextChanged="TextChanged" />
+		<ContentView Padding="0,10,0,0" Grid.Row="2" Grid.Column="1" HorizontalOptions="Center">
+			<labs:ExtendedEntry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
+				TextColor="White" HorizontalOptions="Center" WidthRequest="60" Placeholder="0" MaxLength="2"
+				HeightRequest="60" Keyboard="Numeric" BackgroundColor="{Binding Challenge.League.Theme.Light}" HasBorder="false" Font="36" XAlign="Center" TextChanged="TextChanged" />
+		</ContentView>
 	</Grid>
 </ContentView>

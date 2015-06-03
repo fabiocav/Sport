@@ -10,6 +10,28 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class ChallengeDateViewModel : BaseViewModel
 	{
+		Challenge _challenge;
+
+		public Challenge Challenge
+		{
+			get
+			{
+				return _challenge;
+			}
+			set
+			{
+				SetPropertyChanged(ref _challenge, value);
+			}
+		}
+
+		public DateTime SelectedDateTime
+		{
+			get
+			{
+				return SelectedDate.Add(SelectedTime);
+			}
+		}
+
 		DateTime _selectedDate = DateTime.Today;
 
 		public DateTime SelectedDate
@@ -21,10 +43,11 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _selectedDate, value);
+				SetPropertyChanged("SelectedDateTime");
 			}
 		}
 
-		TimeSpan _selectedTime = TimeSpan.FromHours(DateTime.UtcNow.ToLocalTime().Hour + 3);
+		TimeSpan _selectedTime;
 
 		public TimeSpan SelectedTime
 		{
@@ -35,27 +58,37 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _selectedTime, value);
+				SetPropertyChanged("SelectedDateTime");
 			}
 		}
 
-		async public Task<Challenge> ChallengeAthlete(Athlete challenger, Athlete challengee, League league)
+		async public Task<Challenge> PostChallenge()
 		{
-			var challenge = new Challenge {
-				ChallengerAthleteId = challenger.Id,
-				ChallengeeAthleteId = challengee.Id,
-				ProposedTime = SelectedDate.AddTicks(SelectedTime.Ticks),
-				LeagueId = league.Id,
-			};
-
-			var task = AzureService.Instance.SaveChallenge(challenge);
+			Challenge.ProposedTime = SelectedDateTime.ToUniversalTime();				
+			var task = AzureService.Instance.SaveChallenge(Challenge);
 			await RunSafe(task);
 
 			if(task.IsFaulted)
 				return null;
 
-			challenger.RefreshChallenges();
-			challenger.RefreshChallenges();
-			return challenge;
+			Challenge.ChallengerAthlete.RefreshChallenges();
+			Challenge.ChallengerAthlete.RefreshChallenges();
+			return Challenge;
+		}
+
+		public void CreateChallenge(Athlete challenger, Athlete challengee, League league)
+		{
+			SelectedTime = TimeSpan.FromTicks(DateTime.Now.AddMinutes(60).Subtract(DateTime.Today).Ticks);
+
+			if(SelectedTime.Ticks > TimeSpan.TicksPerDay)
+				SelectedTime = SelectedTime.Subtract(TimeSpan.FromTicks(TimeSpan.TicksPerDay));
+
+			Challenge = new Challenge {
+				ChallengerAthleteId = challenger.Id,
+				ChallengeeAthleteId = challengee.Id,
+				ProposedTime = SelectedDateTime,
+				LeagueId = league.Id,
+			};
 		}
 
 		public string Validate()

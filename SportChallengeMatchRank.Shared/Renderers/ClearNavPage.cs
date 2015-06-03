@@ -6,7 +6,9 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class ClearNavPage : NavigationPage
 	{
-
+		public ClearNavPage()
+		{
+		}
 	}
 }
 

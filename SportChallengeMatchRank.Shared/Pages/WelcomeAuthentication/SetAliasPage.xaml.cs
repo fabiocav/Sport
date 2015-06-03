@@ -52,7 +52,7 @@ namespace SportChallengeMatchRank.Shared
 					if(OnSave != null)
 						OnSave();
 
-					await Navigation.PushAsync(new ChooseLeaguesPage());
+					await Navigation.PushAsync(new EnablePushPage());
 				}
 			};
 		}

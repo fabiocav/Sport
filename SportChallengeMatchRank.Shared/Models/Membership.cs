@@ -106,20 +106,20 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		[JsonIgnore]
-		public Challenge OngoingChallenge
-		{
-			get
-			{
-				return Athlete?.AllChallenges.FirstOrDefault(c => c.LeagueId == LeagueId && !c.IsCompleted);
-			}
-		}
-
-		[JsonIgnore]
 		public DateTime LastRankChangeDate
 		{
 			get
 			{
 				return LastRankChange == null ? DateCreated.Value : LastRankChange.Value; 
+			}
+		}
+
+		public string RankDescription
+		{
+			get
+			{
+				var dayCount = Math.Round(DateTime.UtcNow.Subtract(LastRankChangeDate).TotalDays);
+				return "{0} out of {1} for {2} day{3}".Fmt(CurrentRankDisplay.ToOrdinal(), League.Memberships.Count, dayCount, dayCount == 1 ? "" : "s");
 			}
 		}
 
