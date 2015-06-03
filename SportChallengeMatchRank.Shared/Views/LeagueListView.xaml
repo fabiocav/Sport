@@ -30,11 +30,17 @@
 										 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,1" />
 								</AbsoluteLayout>
 
-								<StackLayout Padding="16,10" Spacing="4">
-									<Label Text="{Binding Name}" FontSize="Large" Style="{StaticResource header}" TextColor="{Binding Theme.Dark}" />
-									<Label Text="Karl Krukow in 1st place for 2 days" Style="{StaticResource sub}" />
-									<Label Text="The next challenge is between RDR &amp; Robb" Style="{StaticResource sub}" />
-									<Label Text="You have ranked 2nd for 4 days" Style="{StaticResource sub}" />
+								<StackLayout Padding="16,10" Spacing="4"
+									IsVisible="{Binding HasStarted, Converter={x:Static local:InverseBoolConverter.Instance}}">
+									<Label Text="{Binding StartDate, StringFormat='This league is slated to begin on \{0:D\}'}" Style="{StaticResource sub}" />
+									<Label Text="{Binding Memberships.Count, StringFormat='and has \{0\} members'}" Style="{StaticResource sub}" />
+								</StackLayout>
+
+								<StackLayout Padding="16,10" Spacing="4" IsVisible="{Binding HasStarted}">
+									<Label Text="{Binding LeaderRankDescription}" Style="{StaticResource sub}" />
+									<Label Text="Next challenge between RDR &amp; Robb" Style="{StaticResource sub}" />
+									<Label Text="Your rank will show here if you're part of the league" Style="{StaticResource sub}" />
+									<!---<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You are ranked \{0\}'}" Style="{StaticResource sub}" IsVisible="true" />-->
 								</StackLayout>
 							</StackLayout>
 						</StackLayout>

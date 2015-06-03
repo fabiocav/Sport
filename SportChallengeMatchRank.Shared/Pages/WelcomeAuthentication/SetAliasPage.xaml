@@ -21,7 +21,7 @@
 			</Grid.RowDefinitions>
 		
 			<StackLayout>
-				<Grid x:Name="profileStack" Scale="1" >
+				<Grid x:Name="profileStack" Scale="1">
 					<BoxView BackgroundColor="{StaticResource redLight}" HeightRequest="100" VerticalOptions="Start"/>
 					
 					<Grid HorizontalOptions="Fill" Padding="0,22,0,20">

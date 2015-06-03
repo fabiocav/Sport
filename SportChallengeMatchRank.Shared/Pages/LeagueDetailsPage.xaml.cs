@@ -75,14 +75,6 @@ namespace SportChallengeMatchRank.Shared
 
 			InitializeComponent();
 
-//			var moreButton = new ToolbarItem("More", "ic_more_vert_white", () =>
-//			{
-//				OnMoreClicked();
-//			});
-
-//			if(GetMoreMenuOptions().Count > 0)
-//				ToolbarItems.Add(moreButton);
-
 			previousCard.OnClicked = async() =>
 			{
 				var details = new ChallengeDetailsPage(ViewModel.PreviousChallenge);

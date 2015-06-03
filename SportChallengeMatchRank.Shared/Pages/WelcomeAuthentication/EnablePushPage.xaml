@@ -17,23 +17,23 @@
 			</Grid.RowDefinitions>
 
 			<StackLayout>
-				<Grid x:Name="profileStack" Scale="1" Padding="0,0,0,40" VerticalOptions="Start">
-					<BoxView BackgroundColor="{StaticResource purpleLight}" HeightRequest="146" VerticalOptions="Start"/>
+				<Grid x:Name="profileStack" Scale="1">
+					<BoxView BackgroundColor="{StaticResource purpleLight}" HeightRequest="100" VerticalOptions="Start"/>
 					
-					<Grid HorizontalOptions="Fill" Padding="0,62,0,20">
+					<Grid HorizontalOptions="Fill" Padding="0,22,0,20">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="5*" />
-							<ColumnDefinition Width="5*" />
+							<ColumnDefinition Width="4*" />
+							<ColumnDefinition Width="6*" />
 						</Grid.ColumnDefinitions>
 
-						<StackLayout Grid.Column="1" Padding="0,50,0,0" Spacing="10" HorizontalOptions="Start" VerticalOptions="Start">
+						<StackLayout Grid.Column="1" Padding="0,40,0,0" Spacing="20" HorizontalOptions="Start" VerticalOptions="Start">
 							<Label Text="{Binding Athlete.Name}" FontSize="Large" Style="{StaticResource header}"
 								TextColor="{StaticResource purpleDark}" HorizontalOptions="StartAndExpand" />
-							<Label Text="{Binding Athlete.Email}" FontSize="Micro" HorizontalOptions="StartAndExpand"
-								TextColor="{StaticResource purpleLight}" />
+							<Label Text="{Binding Athlete.Email}" FontSize="Small" HorizontalOptions="StartAndExpand"
+								TextColor="{StaticResource purpleDark}" />
 						</StackLayout>
 
-						<StackLayout Padding="48,12,36,0" HorizontalOptions="End">
+						<StackLayout Padding="0,12,20,0" HorizontalOptions="End">
 							<controls:CircleImage Source="{Binding Athlete.ProfileImageUrl}"
 								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
 						</StackLayout>

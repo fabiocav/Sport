@@ -159,6 +159,11 @@ namespace SportChallengeMatchRank.Shared
 
 		async void OnLogoutSelected()
 		{
+			var decline = await DisplayAlert("Really?", "Are you sure you want to log out?", "Yes", "No");
+
+			if(!decline)
+				return;
+
 			_hasAuthenticated = false;
 			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
 			authViewModel.LogOut();
@@ -168,13 +173,8 @@ namespace SportChallengeMatchRank.Shared
 
 		async void OnProfileSelected()
 		{
-			var page = new AthleteProfilePage(App.CurrentAthlete.Id) {
-			};
-			page.OnSave = async() =>
-			await Navigation.PopModalAsync();
-
-
-
+			var page = new AthleteProfilePage(App.CurrentAthlete.Id);
+			page.OnSave = async() => await Navigation.PopModalAsync();
 			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
 

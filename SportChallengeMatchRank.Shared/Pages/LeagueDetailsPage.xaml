@@ -2,7 +2,6 @@
 <local:LeagueDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
-	BackgroundColor="{StaticResource grayLight}"
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
 	<ScrollView>
@@ -19,7 +18,12 @@
 				<StackLayout Padding="24,0,24,14" Spacing="4" IsVisible="{Binding League.HasStarted}">
 					<Label Text="{Binding League.LeaderRankDescription}" Style="{StaticResource sub}" />
 					<Label Text="Next challenge between RDR &amp; Robb" Style="{StaticResource sub}" />
-					<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You are ranked \{0\}'}" Style="{StaticResource sub}" IsVisible="true" />
+					<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You are ranked \{0\}'}" Style="{StaticResource sub}" />
+				</StackLayout>
+
+				<StackLayout Padding="24,0,24,14" Spacing="4" IsVisible="{Binding League.HasStarted, Converter={x:Static local:InverseBoolConverter.Instance}}">
+					<Label Text="{Binding League.StartDate, StringFormat='This league is slated to begin on \{0:D\}'}" Style="{StaticResource sub}" />
+					<Label Text="{Binding League.Memberships.Count, StringFormat='and has \{0\} members'}" Style="{StaticResource sub}" />
 				</StackLayout>
 
 				<StackLayout Padding="24,0,24,14" Spacing="20" IsVisible="{Binding IsMember}">

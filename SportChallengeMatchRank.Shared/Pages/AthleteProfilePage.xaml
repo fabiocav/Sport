@@ -44,7 +44,7 @@
 					<StackLayout Orientation="Horizontal" Spacing="20" Padding="48,0" HeightRequest="56">
 						<Label Text="Alias:" TextColor="{StaticResource asphaltLight}" VerticalOptions="Center" FontSize="Large" />
 						<ContentView Padding="0,3,0,0">
-							<labs:ExtendedEntry x:Name="txtAlias" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource redDark}"
+							<labs:ExtendedEntry x:Name="txtAlias" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource asphaltDark}"
 								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" />
 						</ContentView>
 					</StackLayout>
@@ -54,7 +54,8 @@
 
 			<ContentView Padding="24" Grid.Row="1">
 				<Button x:Name="btnSave" Text="SAVE" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
+					BackgroundColor="{StaticResource asphaltDark}"/>
 			</ContentView>
 		</Grid>
 	</ScrollView>
