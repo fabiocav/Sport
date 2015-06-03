@@ -38,10 +38,11 @@ namespace SportChallengeMatchRank.iOS
 				}
 			};
 
-			var atts = new UITextAttributes {
-				Font = UIFont.FromName("SegoeUI", 22),
-			};
-			UINavigationBar.Appearance.SetTitleTextAttributes(atts);
+//			var atts = new UITextAttributes {
+//				Font = UIFont.FromName("SegoeUI", 22),
+//				TextColor = basePage.BarTextColor.ToUIColor(),
+//			};
+//			UINavigationBar.Appearance.SetTitleTextAttributes(atts);
 
 			var barButtonAtts = new UITextAttributes {
 				Font = UIFont.FromName("SegoeUI", 16),

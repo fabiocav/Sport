@@ -99,6 +99,9 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
+			if(Athlete == null)
+				return;
+			
 			var comparer = new LeagueComparer();
 			var toRemove = Leagues.Except(Athlete.Leagues, comparer).ToList();
 			var toAdd = Athlete.Leagues.Except(Leagues, comparer).OrderBy(r => r.Name).ToList();

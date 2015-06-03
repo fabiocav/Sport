@@ -43,8 +43,10 @@
 					<ContentView BackgroundColor="{StaticResource asphaltPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
 					<StackLayout Orientation="Horizontal" Spacing="20" Padding="48,0" HeightRequest="56">
 						<Label Text="Alias:" TextColor="{StaticResource asphaltLight}" VerticalOptions="Center" FontSize="Large" />
-						<labs:ExtendedEntry Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource asphaltPrimary}"
-							HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" />
+						<ContentView Padding="0,3,0,0">
+							<labs:ExtendedEntry x:Name="txtAlias" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource redDark}"
+								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" />
+						</ContentView>
 					</StackLayout>
 					<ContentView BackgroundColor="{StaticResource asphaltPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
 				</StackLayout>

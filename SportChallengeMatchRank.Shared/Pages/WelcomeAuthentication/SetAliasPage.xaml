@@ -4,8 +4,7 @@
 	x:Class="SportChallengeMatchRank.Shared.SetAliasPage"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	xmlns:labs="clr-namespace:XLabs.Forms.Controls;assembly=XLabs.Forms"
-	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-	BackgroundColor="{StaticResource redPrimary}">
+	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
     <local:SetAliasPageXaml.Resources>
 		<ResourceDictionary>
 			<Style TargetType="Label" BasedOn="{StaticResource whiteLabelStyle}" />
@@ -13,40 +12,82 @@
     </local:SetAliasPageXaml.Resources>
     <local:SetAliasPageXaml.Content>
     	<ScrollView>
-			<Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24">
+
+		<Grid VerticalOptions="Fill">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+		
+			<StackLayout>
+				<Grid x:Name="profileStack" Scale="1" >
+					<BoxView BackgroundColor="{StaticResource redLight}" HeightRequest="100" VerticalOptions="Start"/>
+					
+					<Grid HorizontalOptions="Fill" Padding="0,22,0,20">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="4*" />
+							<ColumnDefinition Width="6*" />
+						</Grid.ColumnDefinitions>
+
+						<StackLayout Grid.Column="1" Padding="0,40,0,0" Spacing="20" HorizontalOptions="Start" VerticalOptions="Start">
+							<Label Text="{Binding Athlete.Name}" FontSize="Large" Style="{StaticResource header}"
+								TextColor="{StaticResource redDark}" HorizontalOptions="StartAndExpand" />
+							<Label Text="{Binding Athlete.Email}" FontSize="Small" HorizontalOptions="StartAndExpand"
+								TextColor="{StaticResource redDark}" />
+						</StackLayout>
+
+						<StackLayout Padding="0,12,20,0" HorizontalOptions="End">
+							<controls:CircleImage Source="{Binding Athlete.ProfileImageUrl}"
+								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
+						</StackLayout>
+					</Grid>
+				</Grid>
+			</StackLayout>
+
+			<Grid VerticalOptions="Fill" Grid.Row="1">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="3*" />
 					<RowDefinition Height="3*" />
-					<RowDefinition Height="4*" />
+					<RowDefinition Height="3*" />
 				</Grid.RowDefinitions>
 
-				<StackLayout x:Name="label1" Padding="30,0" Scale="0" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-					<Label StyleId="label1" Text="Be cool and choose an alias/nickname. Your alias will show on the leaderboard and in challenges so make it count!"
-						FontSize="Large" XAlign="Center" />
+				<StackLayout x:Name="label1" Padding="24,0" Scale="0" HorizontalOptions="Center" VerticalOptions="Center">
+					<Label StyleId="label1" Text="{Binding Athlete.Name, StringFormat='Greetings \{0\}. It behooves you to specify an alias/nickname.'}"
+						FontSize="Medium" XAlign="Center" />
 				</StackLayout>
 
-				<StackLayout x:Name="profileStack" Grid.Row="1" Padding="30,0" Spacing="15" Scale="0" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
-					<StackLayout Orientation="Horizontal" Padding="10" Spacing="25">
-						<controls:CircleImage x:Name="photoImage" StyleId="photoImage" Source="{Binding Athlete.ProfileImageUrl}"
-							HorizontalOptions="Start" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="72" HeightRequest="72" />
+				<StackLayout Grid.Row="1" x:Name="aliasBox" Scale="0" Spacing="0" VerticalOptions="Center">
+					<ContentView BackgroundColor="{StaticResource redDark}" HeightRequest=".5" HorizontalOptions="Fill" />
+					<StackLayout Orientation="Horizontal" Spacing="20" Padding="48,0" HeightRequest="56" HorizontalOptions="Fill">
+						<Label Text="Alias:" TextColor="White" VerticalOptions="Center" FontSize="Large" />
 
-						<StackLayout VerticalOptions="CenterAndExpand">
-							<Label Text="{Binding Athlete.Name}" FontSize="Large" HorizontalOptions="StartAndExpand" />
-							<Label Text="{Binding Athlete.Email}" FontSize="Micro" HorizontalOptions="StartAndExpand" />
-						</StackLayout>
+						<ContentView Padding="0,5,0,0" HorizontalOptions="FillAndExpand">
+							<labs:ExtendedEntry x:Name="txtAlias" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource redDark}"
+								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" />
+						</ContentView>
 					</StackLayout>
-					<StackLayout VerticalOptions="Start">
-						<labs:ExtendedEntry x:Name="txtAlias" StyleId="aliasText" Grid.Row="1" Text="{Binding Athlete.Alias}" Placeholder="Alias" TextColor="White"
-							HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource redLight}" HasBorder="false" Font="Large" />
-					</StackLayout>
+					<ContentView BackgroundColor="{StaticResource redDark}" HeightRequest=".5" HorizontalOptions="Fill" />
 				</StackLayout>
 
-				<StackLayout x:Name="buttonStack" Grid.Row="2" Spacing="2" Scale="0" VerticalOptions="End">
-					<Button x:Name="btnSave" StyleId="saveButton" Text="SAVE AND CONTINUE" TextColor="White"
-						VerticalOptions="End" BackgroundColor="{StaticResource redLight}"
-						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+				<StackLayout Grid.Row="2" x:Name="label2" VerticalOptions="Center" Padding="24,0" Scale="0" HorizontalOptions="Center">
+					<Label StyleId="label2" Text="Your alias will show on the leaderboard and in challenges so make it count!"
+						FontSize="Medium" XAlign="Center" />
 				</StackLayout>
 			</Grid>
+
+			<StackLayout x:Name="buttonStack" Padding="24" Grid.Row="2" Scale="0" VerticalOptions="End" Spacing="10" HeightRequest="60">
+				<ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Color="White" HorizontalOptions="Center"
+					VerticalOptions="End" />
+
+				<Label Text="Saving profile..." IsVisible="{Binding IsBusy}" FontSize="Medium" XAlign="Center" YAlign="Center" VerticalOptions="End" />
+
+				<Button x:Name="btnSave" Text="SAVE &amp; CONTINUE" VerticalOptions="End" HorizontalOptions="FillAndExpand"
+					BackgroundColor="{StaticResource redLight}" 
+					IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+			</StackLayout>
+		</Grid>
+
     	</ScrollView>
 
 	</local:SetAliasPageXaml.Content>

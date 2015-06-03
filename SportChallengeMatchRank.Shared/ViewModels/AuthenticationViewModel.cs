@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using nsoftware.InGoogle;
 using Xamarin;
 using System.Collections.Generic;
+using System.Net;
 
 [assembly: Dependency(typeof(AuthenticationViewModel))]
 
@@ -27,7 +28,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public Action<string> OnDisplayAuthForm
+		public Action<string, Oauth> OnDisplayAuthForm
 		{
 			get;
 			set;
@@ -44,8 +45,11 @@ namespace SportChallengeMatchRank.Shared
 			return App.AuthUserProfile != null && App.AuthUserProfile.Email != null;
 		}
 
-		async public Task AuthenticateUser()
+		async public Task<bool> AuthenticateUser()
 		{
+			if(!App.IsNetworkRechable)
+				throw new WebException("Please connect to the Information Super Highway");
+
 			_authClient = new Oauth();
 			_authClient.RuntimeLicense = "42474E325841314E443131474630454D30300000000000000000000000000000000000000000000030303030303030300000324D4B42325A4E59444158360000";
 			_authClient.OnSSLServerAuthentication += OnSSLServerAuthentication;
@@ -72,17 +76,19 @@ namespace SportChallengeMatchRank.Shared
 				_authClient.OnSSLServerAuthentication -= OnSSLServerAuthentication;
 
 				await Settings.Instance.Save();
+				return true;
 			}
 			catch(Exception e)
 			{
 				//TODO Insights
 				Console.WriteLine(e.GetBaseException());
+				return false;
 			}
 		}
 
 		void OnLaunchBrowser(object sender, OauthLaunchBrowserEventArgs e)
 		{
-			OnDisplayAuthForm(e.URL);
+			OnDisplayAuthForm(e.URL, _authClient);
 		}
 
 		void OnSSLServerAuthentication(object sender, OauthSSLServerAuthenticationEventArgs e)
@@ -190,7 +196,10 @@ namespace SportChallengeMatchRank.Shared
 				if(Settings.Instance.AuthToken == null)
 				{
 					AuthenticationStatus = "Authenticating with Google";
-					await AuthenticateUser();
+					var success = await AuthenticateUser();
+
+					if(!success)
+						return;
 				}
 
 				AuthenticationStatus = "Getting Google user profile";
@@ -224,7 +233,8 @@ namespace SportChallengeMatchRank.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
+						{
 							"Name",
 							App.AuthUserProfile.Name
 						}

@@ -4,44 +4,40 @@ using Xamarin.Forms.Platform.iOS;
 using SportChallengeMatchRank.Shared;
 using UIKit;
 using System.Threading.Tasks;
+using System.Reflection;
+using System;
+using System.Collections.Generic;
 
 [assembly: ExportRenderer(typeof(SportChallengeMatchRank.Shared.ClearNavigationPage), typeof(ClearNavigationRenderer))]
 namespace SportChallengeMatchRank.iOS
 {
 	public class ClearNavigationRenderer : NavigationRenderer
 	{
-		protected override System.Threading.Tasks.Task<bool> OnPopViewAsync(Page page, bool animated)
+		protected override Task<bool> OnPushAsync(Page page, bool animated)
 		{
-			return base.OnPopViewAsync(page, animated);
-		}
-
-		//		async public override void PushViewController(UIViewController viewController, bool animated)
-		//		{
-		//			var basePage = ((NavigationPage)Element).CurrentPage as SuperBaseContentPage;
-		//			if(basePage != null)
-		//			{
-		//				await Task.Delay(1000);
-		//				await UIView.AnimateAsync(1000, () =>
-		//				{
-		//					NavigationBar.BarTintColor = basePage.BarBackgroundColor.ToUIColor();
-		//				});
-		//			}
-		//
-		//
-		//			base.PushViewController(viewController, animated);
-		//		}
-
-		protected override System.Threading.Tasks.Task<bool> OnPushAsync(Page page, bool animated)
-		{
-			Device.BeginInvokeOnMainThread(() =>
-			{
-				ChangeTheme(page);
-			});
-		
+			ChangeTheme(page);
 			return base.OnPushAsync(page, animated);
 		}
 
-		async void ChangeTheme(Page page)
+		public override UIViewController PopViewController(bool animated)
+		{
+			var obj = Element.GetType().InvokeMember("StackCopy", BindingFlags.GetProperty | BindingFlags.NonPublic, Type.DefaultBinder, Element, null);
+			if(obj != null)
+			{
+				var pages = obj as Stack<Page>;
+				if(pages != null && pages.Count >= 2)
+				{
+					var copy = new Page[pages.Count];
+					pages.CopyTo(copy, 0);
+
+					var prev = copy[1];
+					ChangeTheme(prev);
+				}
+			}
+			return base.PopViewController(animated);
+		}
+
+		void ChangeTheme(Page page)
 		{
 			var basePage = page as SuperBaseContentPage;
 			if(basePage != null)
@@ -54,17 +50,13 @@ namespace SportChallengeMatchRank.iOS
 					Font = UIFont.FromName("SegoeUI", 22),
 				};
 				UINavigationBar.Appearance.SetTitleTextAttributes(atts);
+
 //				await UIView.AnimateAsync(250, () =>
 //				{
 //					NavigationBar.BarTintColor = basePage.BarBackgroundColor.ToUIColor();
 //					NavigationBar.TintColor = basePage.BarTextColor.ToUIColor();
 //				});
 			}
-		}
-
-		protected override System.Threading.Tasks.Task<bool> OnPopToRoot(Page page, bool animated)
-		{
-			return base.OnPopToRoot(page, animated);
 		}
 	}
 }

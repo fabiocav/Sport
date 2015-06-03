@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using Connectivity.Plugin;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -85,14 +86,19 @@ namespace SportChallengeMatchRank.Shared
 			var nav = this.Parent as NavigationPage;
 			if(nav != null)
 			{
-//				nav.BarBackgroundColor = BarBackgroundColor;
-//				nav.BarTextColor = BarTextColor;
+				nav.BarBackgroundColor = BarBackgroundColor;
+				nav.BarTextColor = BarTextColor;
 			}
 
 			if(!HasInitialized)
 			{
 				HasInitialized = true;
 				OnLoaded();
+			}
+
+			if(!CrossConnectivity.Current.IsConnected)
+			{
+				
 			}
 
 			base.OnAppearing();
@@ -107,14 +113,14 @@ namespace SportChallengeMatchRank.Shared
 
 		public void ApplyTheme(NavigationPage nav)
 		{
-//			nav.BarBackgroundColor = BarBackgroundColor;
-//			nav.BarTextColor = BarTextColor;
+			nav.BarBackgroundColor = BarBackgroundColor;
+			nav.BarTextColor = BarTextColor;
 		}
 
-		public void AddDoneButton()
+		public void AddDoneButton(string text = "Done", ContentPage page = null)
 		{
 			var btnDone = new ToolbarItem {
-				Text = "Done",
+				Text = text,
 			};
 
 			btnDone.Clicked += async(sender, e) =>
@@ -122,7 +128,8 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PopModalAsync();		
 			};
 
-			ToolbarItems.Add(btnDone);			
+			page = page ?? this;
+			page.ToolbarItems.Add(btnDone);
 		}
 
 		#region Authentication
@@ -150,7 +157,7 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task<bool> AttemptToAuthenticateAthlete(bool force = false)
 		{
-			AuthenticationViewModel.OnDisplayAuthForm = (url) => Device.BeginInvokeOnMainThread(() =>
+			AuthenticationViewModel.OnDisplayAuthForm = (url, client) => Device.BeginInvokeOnMainThread(() =>
 			{
 				App.Current.Hud.Dismiss();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 				var webView = new WebView {
@@ -158,10 +165,27 @@ namespace SportChallengeMatchRank.Shared
 				};
 
 				var page = new ContentPage {
-					Content = webView
+					Content = webView,
+					Title = "Authenticate"
 				};
 
-				Navigation.PushModalAsync(page);
+				var nav = new NavigationPage(page) {
+					BarBackgroundColor = BarBackgroundColor,
+					BarTextColor = BarTextColor,
+				};
+
+				var btnDone = new ToolbarItem {
+					Text = "Cancel",
+				};
+
+				btnDone.Clicked += (sender, e) =>
+				{
+					client.InterruptAsync();
+					Navigation.PopModalAsync();
+				};
+
+				page.ToolbarItems.Add(btnDone);
+				Navigation.PushModalAsync(nav);
 			});
 
 			AuthenticationViewModel.OnHideAuthForm = async() =>
@@ -169,7 +193,15 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PopModalAsync();
 			};
 
-			await AuthenticationViewModel.GetUserProfile(force);
+			try
+			{
+				await AuthenticationViewModel.GetUserProfile(force);
+			}
+			catch(Exception ex)
+			{
+				
+			}
+
 			if(App.AuthUserProfile != null)
 			{
 				await AuthenticationViewModel.EnsureAthleteRegistered();

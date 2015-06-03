@@ -18,11 +18,16 @@ namespace SportChallengeMatchRank.Shared
 			Initialize();
 		}
 
-		protected async override void Initialize()
+		protected override void Initialize()
 		{
+			BarBackgroundColor = (Color)App.Current.Resources["purplePrimary"];
+			BarTextColor = Color.White;
+
+			BackgroundColor = BarBackgroundColor;
 			InitializeComponent();
 			Title = "Enable Push";
 
+			profileStack.Opacity = 0;
 			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", (app) =>
 			{
 				Device.BeginInvokeOnMainThread(() =>
@@ -32,73 +37,48 @@ namespace SportChallengeMatchRank.Shared
 				});
 			});
 
+			var ignoreClicks = false;
 			btnPush.Clicked += async(sender, e) =>
 			{
-				var push = DependencyService.Get<IPushNotifications>();
+				if(ignoreClicks)
+					return;
+
+				ignoreClicks = true;
 
 				#if !DEBUG
+				var push = DependencyService.Get<IPushNotifications>();
 				if(!push.IsRegistered)
 				{
 					push.RegisterForPushNotifications();
 				}
+				#else
+				await Task.Delay(1000);
+				btnPush.Text = "Thanks! We'll be in touch";
+				await Task.Delay(1000);
+
+				await profileStack.LayoutTo(new Rectangle(0, Content.Width * -1, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+				await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+				await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+				await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+				MoveToMainPage();
 				#endif
-
-				await Task.Delay(1000);
-				btnPush.Text = "Thanks! We'll be in touch.";
-				await Task.Delay(1000);
-				await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), 350, Easing.SinIn);
-
 			};
 
 			btnContinue.Clicked += (sender, e) =>
 			{
-				Settings.Instance.RegistrationComplete = true;
-				Settings.Instance.Save();
-				App.Current.MainPage = new AthleteLeaguesPage().GetNavigationPage();
+				MoveToMainPage();
 			};
-
-//			list.ItemSelected += async(sender, e) =>
-//			{
-//				if(list.SelectedItem == null)
-//					return;
-//				
-//				var league = list.SelectedItem as League;
-//				list.SelectedItem = null;
-//
-//				if(league.Id == null)
-//					return;
-//
-//				var detailsPage = new LeagueDetailsPage(league);
-//				var navPage = new NavigationPage(detailsPage);
-//				var cancel = new ToolbarItem {
-//					Text = "Cancel",
-//				};
-//
-//				detailsPage.OnJoinedLeague = (l) =>
-//				{
-//					ViewModel.LocalRefresh();
-//					Navigation.PopModalAsync();
-//				};
-//					
-//				cancel.Clicked += (sender2, e2) =>
-//				{
-//					Navigation.PopModalAsync();
-//				};
-//
-//				navPage.ToolbarItems.Add(cancel);
-//				await Navigation.PushModalAsync(navPage);	
-//			};
-
-			await ViewModel.GetAvailableLeagues();
 		}
 
 		protected async override void OnLoaded()
 		{
+			profileStack.Layout(new Rectangle(0, profileStack.Height * -1, profileStack.Width, profileStack.Height));
 			base.OnLoaded();
 
+			profileStack.Opacity = 1;
 			await Task.Delay(300);
+			await profileStack.LayoutTo(new Rectangle(0, 0, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
-			//await list.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 		}
 
@@ -110,13 +90,37 @@ namespace SportChallengeMatchRank.Shared
 			if(task.IsFaulted)
 				return;
 
-			btnPush.Text = "Thanks! We'll be in touch.";
-			await Task.Delay(1000);
-			await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), 350, Easing.SinIn);
+			btnPush.Text = "Thanks! We'll be in touch";
+			await Task.Delay(600);
+
+			await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+
+			btnPush.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+			await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+
+			btnContinue.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+			await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+
+			MoveToMainPage();
+		}
+
+		async void MoveToMainPage()
+		{
+			Settings.Instance.RegistrationComplete = true;
+			Settings.Instance.Save();
+
+			await profileStack.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+			await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+			await buttonStack.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+			var nav = new AthleteLeaguesPage(App.CurrentAthlete.Id).GetNavigationPage();
+			nav.BarBackgroundColor = (Color)App.Current.Resources["grayPrimary"];
+			nav.BarTextColor = Color.White;
+
+			App.Current.MainPage = nav;
 		}
 	}
 
-	public partial class EnablePushPageXaml : BaseContentPage<AvailableLeaguesViewModel>
+	public partial class EnablePushPageXaml : BaseContentPage<AthleteProfileViewModel>
 	{
 	}
 }

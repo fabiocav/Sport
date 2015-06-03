@@ -11,7 +11,7 @@ namespace SportChallengeMatchRank.Shared
 	public partial class App : Application
 	{
 		public IHUDProvider _hud;
-		public static int AnimationSpeed = 250;
+		public static int AnimationSpeed = 400;
 
 		public IHUDProvider Hud
 		{
@@ -38,15 +38,15 @@ namespace SportChallengeMatchRank.Shared
 		public App()
 		{
 			Colors = new List<string> {
-					"green",
-					"blue",
-					"red",
-					"yellow",
-					"asphalt",
-					"purple"
+				"green",
+				"blue",
+				"red",
+				"yellow",
+				"asphalt",
+				"purple"
 			};
 			InitializeComponent();
-			IsNetworkRechable = true;
+			IsNetworkRechable = CrossConnectivity.Current.IsConnected;
 
 			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
 			{

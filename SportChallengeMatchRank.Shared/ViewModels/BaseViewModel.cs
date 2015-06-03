@@ -45,8 +45,8 @@ namespace SportChallengeMatchRank.Shared
 		{
 			if(!App.IsNetworkRechable)
 			{
-				if(OnTaskException != null)
-					OnTaskException(new WebException("Not connected to the Information Super Highway"));
+				MessagingCenter.Send<BaseViewModel, Exception>(this, "ExceptionOccurred", new WebException("Please connect to the Information Super Highway"));
+				return;
 			}
 
 			Exception exception = null;
