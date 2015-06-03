@@ -26,7 +26,7 @@
 				<Label StyleId="label2" Text="First thing's first, you must log into the mainframe." FontSize="Medium" XAlign="Center" />
 			</StackLayout>
 
-			<StackLayout Spacing="0" Grid.Row="2" VerticalOptions="End">
+			<StackLayout x:Name="buttonStack" Spacing="0" Scale="0" Grid.Row="2" VerticalOptions="End">
 				<ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" Color="White" HorizontalOptions="Center"
 					VerticalOptions="EndAndExpand" />
 

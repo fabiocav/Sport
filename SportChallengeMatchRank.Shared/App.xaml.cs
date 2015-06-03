@@ -11,7 +11,7 @@ namespace SportChallengeMatchRank.Shared
 	public partial class App : Application
 	{
 		public IHUDProvider _hud;
-		public static int AnimationSpeed = 400;
+		public static int AnimationSpeed = 250;
 
 		public IHUDProvider Hud
 		{
@@ -29,21 +29,15 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public NavigationPage WelcomeNav
-		{
-			get;
-			set;
-		}
-
 		public App()
 		{
 			Colors = new List<string> {
-				"green",
-				"blue",
-				"red",
-				"yellow",
-				"asphalt",
-				"purple"
+					"green",
+					"blue",
+					"red",
+					"yellow",
+					"asphalt",
+					"purple"
 			};
 			InitializeComponent();
 			IsNetworkRechable = CrossConnectivity.Current.IsConnected;
@@ -99,9 +93,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			else
 			{
-				WelcomeNav = new NavigationPage(new WelcomeStartPage());
-				WelcomeNav.BarTextColor = Color.White;
-				MainPage = WelcomeNav;
+				SetToWelcomePage();
 			}
 
 			#if __IOS__
@@ -178,6 +170,11 @@ namespace SportChallengeMatchRank.Shared
 				theme.Medium = (Color)App.Current.Resources["{0}Medium".Fmt(color)];
 
 			league.Theme = theme;
+		}
+
+		public void SetToWelcomePage()
+		{
+			MainPage = new WelcomeStartPage().GetNavigationPage();
 		}
 	}
 

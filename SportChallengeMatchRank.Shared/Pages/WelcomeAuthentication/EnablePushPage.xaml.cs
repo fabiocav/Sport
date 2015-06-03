@@ -66,6 +66,10 @@ namespace SportChallengeMatchRank.Shared
 
 			btnContinue.Clicked += (sender, e) =>
 			{
+				if(ignoreClicks)
+					return;
+
+				ignoreClicks = true;
 				MoveToMainPage();
 			};
 		}
@@ -99,7 +103,7 @@ namespace SportChallengeMatchRank.Shared
 			await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 
 			btnContinue.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-			await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+			btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 
 			MoveToMainPage();
 		}
@@ -109,13 +113,7 @@ namespace SportChallengeMatchRank.Shared
 			Settings.Instance.RegistrationComplete = true;
 			Settings.Instance.Save();
 
-			await profileStack.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-			await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-			await buttonStack.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
 			var nav = new AthleteLeaguesPage(App.CurrentAthlete.Id).GetNavigationPage();
-			nav.BarBackgroundColor = (Color)App.Current.Resources["grayPrimary"];
-			nav.BarTextColor = Color.White;
-
 			App.Current.MainPage = nav;
 		}
 	}

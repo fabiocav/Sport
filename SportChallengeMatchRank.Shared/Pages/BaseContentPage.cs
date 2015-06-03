@@ -193,14 +193,7 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PopModalAsync();
 			};
 
-			try
-			{
-				await AuthenticationViewModel.GetUserProfile(force);
-			}
-			catch(Exception ex)
-			{
-				
-			}
+			await AuthenticationViewModel.GetUserProfile(force);
 
 			if(App.AuthUserProfile != null)
 			{

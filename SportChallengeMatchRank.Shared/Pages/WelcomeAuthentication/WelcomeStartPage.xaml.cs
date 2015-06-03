@@ -34,7 +34,7 @@ namespace SportChallengeMatchRank.Shared
 				{
 					await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
 					await label2.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-					await btnAuthenticate.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+					await buttonStack.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
 					await Navigation.PushAsync(new SetAliasPage());
 				}
 				else
@@ -52,7 +52,7 @@ namespace SportChallengeMatchRank.Shared
 			await Task.Delay(300);
 			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await label2.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
-			await btnAuthenticate.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
+			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 		}
 	}
 

@@ -159,10 +159,11 @@ namespace SportChallengeMatchRank.Shared
 
 		async void OnLogoutSelected()
 		{
+			_hasAuthenticated = false;
 			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
 			authViewModel.LogOut();
 
-			await EnsureUserAuthenticated();
+			App.Current.SetToWelcomePage(); 
 		}
 
 		async void OnProfileSelected()
