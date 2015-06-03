@@ -222,6 +222,14 @@
     <Compile Include="Migrations\201505310449579_RulesUrl.Designer.cs">
       <DependentUpon>201505310449579_RulesUrl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506030646456_ChallengeeScore.cs" />
+    <Compile Include="Migrations\201506030646456_ChallengeeScore.Designer.cs">
+      <DependentUpon>201506030646456_ChallengeeScore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201506030647201_ChallengerScore.cs" />
+    <Compile Include="Migrations\201506030647201_ChallengerScore.Designer.cs">
+      <DependentUpon>201506030647201_ChallengerScore.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AppContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
@@ -252,6 +260,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505310449579_RulesUrl.resx">
       <DependentUpon>201505310449579_RulesUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506030646456_ChallengeeScore.resx">
+      <DependentUpon>201506030646456_ChallengeeScore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506030647201_ChallengerScore.resx">
+      <DependentUpon>201506030647201_ChallengerScore.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

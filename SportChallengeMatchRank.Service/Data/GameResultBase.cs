@@ -19,13 +19,13 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
-		public int ChallengerScore
+		public int? ChallengerScore
 		{
 			get;
 			set;
 		}
 
-		public int ChallengeeScore
+		public int? ChallengeeScore
 		{
 			get;
 			set;

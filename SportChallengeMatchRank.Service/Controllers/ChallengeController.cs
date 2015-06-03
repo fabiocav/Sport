@@ -97,7 +97,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 					UpdatedAt = c.UpdatedAt,
 					DateCompleted = c.DateCompleted,
 					CustomMessage = c.CustomMessage,
-					MatchResult = c.MatchResult.Where(r => r.ChallengeeScore > 0 && r.ChallengerScore > 0)
+					MatchResult = c.MatchResult.Where(r => r.ChallengeeScore != null && r.ChallengerScore != null)
 						.OrderBy(r => r.Index).Select(r => new GameResultDto
 					{
 						Id = r.Id,
@@ -201,8 +201,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Payload = { { "challengeId", id } }
 			};
 
-			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
 			DeleteAsync(id);
+			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
 		}
 
 		[Route("api/acceptChallenge")]
@@ -229,27 +229,27 @@ namespace SportChallengeMatchRank.Service.Controllers
 		async public Task<ChallengeDto> PostMatchResults(List<GameResultDto> results)
 		{
 			if(results.Count < 1)
-			{
-				//BadRequest
-				return null;
-			}
+				throw "No game scores were submitted.".ToException(Request);
 
 			var challengeId = results.First().ChallengeId;
 			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == challengeId);
 
 			if(challenge.DateCompleted != null)
-			{
-				//BadRequest
-				return null;
-			}
+				throw "Scores for this challenge have already been submitted.".ToException(Request);
 
 			var league = _context.Leagues.SingleOrDefault(l => l.Id == challenge.LeagueId);
+			var tempChallenge = new Challenge();
+			tempChallenge.League = league;
+			tempChallenge.MatchResult = results.Select(g => g.ToGameResult()).ToList();
 
-			if(league == null || results.Count != league.MatchGameCount)
+			var errorMessage = tempChallenge.ValidateMatchResults();
+
+			if(errorMessage != null)
 			{
-				throw "Game result count not equal league match game count".ToException(Request);
+				throw errorMessage.ToException(Request);
 			}
 
+			tempChallenge = null;
 			challenge.DateCompleted = DateTime.UtcNow;
 			var dto = challenge.ToChallengeDto();
 			dto.MatchResult = new List<GameResultDto>();
@@ -328,6 +328,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 				throw;
 
 				#endregion
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e);
 			}
 
 			return dto;

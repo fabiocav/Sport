@@ -104,8 +104,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			//Need to remove all the existing challenges
 			var challenges = _context.Challenges.Where(c => c.LeagueId == membership.LeagueId
-				&& c.ChallengerAthleteId == membership.AthleteId
-				|| c.ChallengeeAthleteId == membership.AthleteId).ToList();
+				&& (c.ChallengerAthleteId == membership.AthleteId || c.ChallengeeAthleteId == membership.AthleteId)).ToList();
 
 			//Need to rerank the leaderboard
 			var membershipsToAlter = _context.Memberships.Where(m => m.CurrentRank >= membership.CurrentRank
