@@ -38,11 +38,10 @@ namespace SportChallengeMatchRank.iOS
 				}
 			};
 
-//			var atts = new UITextAttributes {
-//				Font = UIFont.FromName("SegoeUI", 22),
-//				TextColor = basePage.BarTextColor.ToUIColor(),
-//			};
-//			UINavigationBar.Appearance.SetTitleTextAttributes(atts);
+			var atts = new UITextAttributes {
+				Font = UIFont.FromName("SegoeUI", 22),
+			};
+			UINavigationBar.Appearance.SetTitleTextAttributes(atts);
 
 			var barButtonAtts = new UITextAttributes {
 				Font = UIFont.FromName("SegoeUI", 16),
@@ -65,6 +64,7 @@ namespace SportChallengeMatchRank.iOS
 		{
 			Console.WriteLine("FailedToRegisterForRemoteNotifications called");
 			Console.WriteLine(error);
+			MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
 		}
 
 		public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)

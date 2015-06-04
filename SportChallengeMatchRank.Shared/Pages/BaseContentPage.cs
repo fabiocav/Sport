@@ -107,7 +107,7 @@ namespace SportChallengeMatchRank.Shared
 		public NavigationPage GetNavigationPage()
 		{
 			var nav = new ClearNavigationPage(this);
-			this.ApplyTheme(nav);
+			ApplyTheme(nav);
 			return nav;
 		}
 

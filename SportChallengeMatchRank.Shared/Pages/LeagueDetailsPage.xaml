@@ -2,6 +2,7 @@
 <local:LeagueDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
+	BackgroundColor="{StaticResource grayLight}"
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
 	<ScrollView>

@@ -8,7 +8,7 @@ using System.Reflection;
 using System;
 using System.Collections.Generic;
 
-[assembly: ExportRenderer(typeof(SportChallengeMatchRank.Shared.ClearNavigationPage), typeof(ClearNavigationRenderer))]
+[assembly: ExportRenderer(typeof(ClearNavigationPage), typeof(ClearNavigationRenderer))]
 namespace SportChallengeMatchRank.iOS
 {
 	public class ClearNavigationRenderer : NavigationRenderer
@@ -45,11 +45,19 @@ namespace SportChallengeMatchRank.iOS
 				NavigationBar.BarTintColor = basePage.BarBackgroundColor.ToUIColor();
 				NavigationBar.TintColor = basePage.BarTextColor.ToUIColor();
 
-				var atts = new UITextAttributes {
-					TextColor = basePage.BarTextColor.ToUIColor(),
-					Font = UIFont.FromName("SegoeUI", 22),
-				};
-				UINavigationBar.Appearance.SetTitleTextAttributes(atts);
+				var titleAttributes = new UIStringAttributes();
+				titleAttributes.Font = UIFont.FromName("SegoeUI", 22);
+				titleAttributes.ForegroundColor = basePage.BarTextColor == Color.Default ? titleAttributes.ForegroundColor ?? UINavigationBar.Appearance.TintColor : basePage.BarTextColor.ToUIColor();
+				NavigationBar.TitleTextAttributes = titleAttributes;
+
+
+				// set Tint color (i. e. Back Button arrow and Text)
+				UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
+//				var atts = new UITextAttributes {
+//					TextColor = basePage.BarTextColor.ToUIColor(),
+//					Font = UIFont.FromName("SegoeUI", 22),
+//				};
+//				UINavigationBar.Appearance.SetTitleTextAttributes(atts);
 
 //				await UIView.AnimateAsync(250, () =>
 //				{

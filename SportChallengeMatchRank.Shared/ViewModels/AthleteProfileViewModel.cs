@@ -58,5 +58,29 @@ namespace SportChallengeMatchRank.Shared
 			await RunSafe(task);
 			return !task.IsFaulted;
 		}
+
+		public void RegisterForPushNotifications()
+		{
+			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", async(app) =>
+			{
+				if(App.CurrentAthlete.DeviceToken != null)
+				{
+					var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete);
+					await RunSafe(task);
+					await Task.Delay(500);
+					"Your device has been registered".ToToast();
+				}
+
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					MessagingCenter.Unsubscribe<App>(this, "RegisteredForRemoteNotifications");
+					IsBusy = false;
+				});
+			});
+
+			IsBusy = true;
+			var push = DependencyService.Get<IPushNotifications>();
+			push.RegisterForPushNotifications();
+		}
 	}
 }

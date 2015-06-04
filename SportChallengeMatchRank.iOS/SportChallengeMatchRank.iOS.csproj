@@ -229,6 +229,7 @@
     <BundleResource Include="Resources\ic_trending_up_white%403x.png" />
     <BundleResource Include="Resources\ic_person_add_white%402x.png" />
     <BundleResource Include="Resources\ic_person_add_white%403x.png" />
+    <BundleResource Include="Resources\icon_120.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

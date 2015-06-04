@@ -244,9 +244,8 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			page.GetNavigationPage();
 			page.AddDoneButton();
-			await Navigation.PushModalAsync(page);
+			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
 
 		async void OnJoinLeague()
@@ -274,9 +273,9 @@ namespace SportChallengeMatchRank.Shared
 
 			if(accepted)
 			{
-				if(App.CurrentAthlete.AllChallenges.Any(c => c.LeagueId == ViewModel.League.Id))
+				if(App.CurrentAthlete.AllChallenges.Any(c => c.LeagueId == ViewModel.League.Id && !c.IsCompleted))
 				{
-					accepted = await DisplayAlert("Existing Challenges?", "You have ongoing challenges - still abandon?", "Yes", "No");
+					accepted = await DisplayAlert("Existing Challenges", "You have ongoing challenges - still abandon?", "Yes", "No");
 				}
 
 				if(accepted)

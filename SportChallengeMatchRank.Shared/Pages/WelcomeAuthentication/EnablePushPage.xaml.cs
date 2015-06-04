@@ -45,30 +45,9 @@ namespace SportChallengeMatchRank.Shared
 
 				ignoreClicks = true;
 
-
 				var push = DependencyService.Get<IPushNotifications>();
-				//if(!push.IsRegistered)
-				{
-					push.RegisterForPushNotifications();
-				}
-
-				#if !DEBUG
-				var push = DependencyService.Get<IPushNotifications>();
-				if(!push.IsRegistered)
-				{
-					push.RegisterForPushNotifications();
-				}
-				#else
-//				await Task.Delay(1000);
-//				btnPush.Text = "Thanks! We'll be in touch";
-//				await Task.Delay(1000);
-
-				await profileStack.LayoutTo(new Rectangle(0, Content.Width * -1, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
-				await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-				await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
-				await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
-				MoveToMainPage();
-				#endif
+				push.RegisterForPushNotifications();
+				//#endif
 			};
 
 			btnContinue.Clicked += (sender, e) =>
@@ -95,11 +74,11 @@ namespace SportChallengeMatchRank.Shared
 
 		async Task RegisteredForPushNotificationSuccess()
 		{
-			var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete);
-			await ViewModel.RunSafe(task);
-
-			if(task.IsFaulted)
-				return;
+			if(App.CurrentAthlete.DeviceToken != null)
+			{
+				var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete);
+				await ViewModel.RunSafe(task);
+			}
 
 			btnPush.Text = "Thanks! We'll be in touch";
 			await Task.Delay(600);
@@ -118,7 +97,7 @@ namespace SportChallengeMatchRank.Shared
 		async void MoveToMainPage()
 		{
 			Settings.Instance.RegistrationComplete = true;
-			Settings.Instance.Save();
+			await Settings.Instance.Save();
 
 			var nav = new AthleteLeaguesPage(App.CurrentAthlete.Id).GetNavigationPage();
 			App.Current.MainPage = nav;

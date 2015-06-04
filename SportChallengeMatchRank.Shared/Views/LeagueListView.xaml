@@ -26,7 +26,7 @@
 									<Image x:Name="photoImage" Source="{Binding ImageUrl}" Aspect="AspectFill"
 										AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
 
-									<ContentView BackgroundColor="{Binding Theme.Light}" Opacity=".05"
+									<ContentView BackgroundColor="{Binding Theme.Light}" Opacity=".1"
 										 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,1" />
 								</AbsoluteLayout>
 

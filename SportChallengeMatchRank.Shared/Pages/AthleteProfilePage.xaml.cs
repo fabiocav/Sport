@@ -40,6 +40,11 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
+			btnRegister.Clicked += async(sender, e) =>
+			{
+				ViewModel.RegisterForPushNotifications();	
+			};
+
 			AddDoneButton();
 		}
 
