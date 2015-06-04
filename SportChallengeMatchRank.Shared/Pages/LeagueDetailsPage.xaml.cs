@@ -160,6 +160,11 @@ namespace SportChallengeMatchRank.Shared
 			{
 				await ViewModel.RefreshLeague();
 			}
+
+			scrollView.Scrolled += (sender, e) =>
+			{
+				photoImage.TranslationY = (scrollView.ScrollY * .4);
+			};
 		}
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)

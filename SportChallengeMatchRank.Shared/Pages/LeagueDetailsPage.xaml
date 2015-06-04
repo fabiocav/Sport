@@ -5,18 +5,21 @@
 	BackgroundColor="{StaticResource grayLight}"
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
 	<local:LeagueDetailsXaml.Content>
-	<ScrollView>
-		<Grid VerticalOptions="Fill">
+	<ScrollView x:Name="scrollView">
+		<Grid x:Name="root" VerticalOptions="Fill">
 			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<StackLayout Orientation="Vertical" Spacing="20" VerticalOptions="Fill">
-				<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="200"
-					VerticalOptions="Center" Aspect="AspectFill" />
+			<ContentView Padding="0,-100,0,0">
+			<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="300"
+				VerticalOptions="Center" Aspect="AspectFill" />
+			</ContentView>
 
-				<StackLayout Padding="24,0,24,14" Spacing="4" IsVisible="{Binding League.HasStarted}">
+			<StackLayout Grid.Row="1" Orientation="Vertical" Spacing="20" VerticalOptions="Fill" BackgroundColor="{StaticResource grayLight}">
+				<StackLayout Padding="24,24,24,14" Spacing="4" IsVisible="{Binding League.HasStarted}">
 					<Label Text="{Binding League.LeaderRankDescription}" Style="{StaticResource sub}" />
 					<Label Text="Next challenge between RDR &amp; Robb" Style="{StaticResource sub}" />
 					<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You are ranked \{0\}'}" Style="{StaticResource sub}" />
@@ -62,7 +65,7 @@
 				</StackLayout>
 			</StackLayout>
 
-			<StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" Padding="28" Spacing="14"
+			<StackLayout Grid.Row="2" VerticalOptions="EndAndExpand" Padding="28" Spacing="14"
 				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
 				<Button Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
 

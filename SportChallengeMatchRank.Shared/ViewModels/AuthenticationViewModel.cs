@@ -54,13 +54,14 @@ namespace SportChallengeMatchRank.Shared
 			_authClient.RuntimeLicense = "42474E325841314E443131474630454D30300000000000000000000000000000000000000000000030303030303030300000324D4B42325A4E59444158360000";
 			_authClient.OnSSLServerAuthentication += OnSSLServerAuthentication;
 			_authClient.OnLaunchBrowser += OnLaunchBrowser;
+			//_authClient.ReturnURL = "https://dl.dropboxusercontent.com/u/54307520/sport-challenge-auth-redirect.html";
 
 			try
 			{
-				AuthenticationStatus = "Checking with Google Auth";
+				AuthenticationStatus = "Checking Google auth";
 				_authClient.ClientProfile = OauthClientProfiles.cfMobile;
-				_authClient.ClientId = Constants.GoogleApiClientId;
-				_authClient.ClientSecret = Constants.GoogleClientSecret;
+				_authClient.ClientId = "236481934978-balamfh77inmje2nfeq3bphdg3udt03t.apps.googleusercontent.com";
+				_authClient.ClientSecret = "wRYG9TlQZLXnlpUbu-0X_BwF";
 				_authClient.ServerAuthURL = "https://accounts.google.com/o/oauth2/auth";
 				_authClient.ServerTokenURL = "https://accounts.google.com/o/oauth2/token";
 				_authClient.AuthorizationScope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar";
@@ -233,8 +234,7 @@ namespace SportChallengeMatchRank.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
-						{
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
 							"Name",
 							App.AuthUserProfile.Name
 						}

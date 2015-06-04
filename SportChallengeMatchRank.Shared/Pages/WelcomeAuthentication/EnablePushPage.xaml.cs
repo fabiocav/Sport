@@ -47,7 +47,6 @@ namespace SportChallengeMatchRank.Shared
 
 				var push = DependencyService.Get<IPushNotifications>();
 				push.RegisterForPushNotifications();
-				//#endif
 			};
 
 			btnContinue.Clicked += (sender, e) =>
@@ -81,16 +80,16 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			btnPush.Text = "Thanks! We'll be in touch";
-			await Task.Delay(600);
-
+			await Task.Delay(App.AnimationSpeed);
 			await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+			await profileStack.LayoutTo(new Rectangle(0, Content.Width * -1, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 
 			btnPush.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
 			await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 
 			btnContinue.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-			btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
-
+			await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+			await Task.Delay(App.AnimationSpeed);
 			MoveToMainPage();
 		}
 

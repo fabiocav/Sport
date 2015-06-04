@@ -172,7 +172,7 @@ namespace SportChallengeMatchRank.Shared
 				var diff = membership.CurrentRank - CurrentRank;
 				if(diff <= 0 || diff > League.MaxChallengeRange)
 				{
-					return "{0} is not within a valid range of being challenged.".Fmt(Athlete.Alias);
+					return "{0} is not within a valid range of being challenged".Fmt(Athlete.Alias);
 				}
 			}
 			else
@@ -184,7 +184,7 @@ namespace SportChallengeMatchRank.Shared
 			if(challenge != null)
 			{
 				var other = challenge.ChallengeeAthleteId == athlete.Id ? challenge.ChallengerAthlete : challenge.ChallengeeAthlete;
-				return "You already have an ongoing challenge with {0}.".Fmt(other.Alias);
+				return "You already have an ongoing challenge with {0}".Fmt(other.Alias);
 			}
 
 			//Athlete is within range but let's make sure there aren't already challenges out there 
@@ -192,7 +192,7 @@ namespace SportChallengeMatchRank.Shared
 			if(challenge != null)
 			{
 				var other = challenge.ChallengeeAthleteId == Athlete.Id ? challenge.ChallengerAthlete : challenge.ChallengeeAthlete;
-				return "{0} already has an ongoing challenge with {1}.".Fmt(Athlete.Alias, other.Alias);
+				return "{0} already has an ongoing challenge with {1}".Fmt(Athlete.Alias, other.Alias);
 			}
 
 			return null;
