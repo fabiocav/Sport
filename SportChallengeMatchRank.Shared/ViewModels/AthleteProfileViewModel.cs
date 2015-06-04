@@ -71,10 +71,10 @@ namespace SportChallengeMatchRank.Shared
 					"Your device has been registered".ToToast();
 				}
 
+				IsBusy = false;
 				Device.BeginInvokeOnMainThread(() =>
 				{
 					MessagingCenter.Unsubscribe<App>(this, "RegisteredForRemoteNotifications");
-					IsBusy = false;
 				});
 			});
 

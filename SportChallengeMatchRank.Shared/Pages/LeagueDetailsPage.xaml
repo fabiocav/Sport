@@ -19,7 +19,7 @@
 			</ContentView>
 
 			<StackLayout Grid.Row="1" Orientation="Vertical" Spacing="20" VerticalOptions="Fill" BackgroundColor="{StaticResource grayLight}">
-				<StackLayout Padding="24,24,24,14" Spacing="4" IsVisible="{Binding League.HasStarted}">
+				<StackLayout Padding="24,14,24,14" Spacing="4" IsVisible="{Binding League.HasStarted}">
 					<Label Text="{Binding League.LeaderRankDescription}" Style="{StaticResource sub}" />
 					<Label Text="Next challenge between RDR &amp; Robb" Style="{StaticResource sub}" />
 					<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You are ranked \{0\}'}" Style="{StaticResource sub}" />

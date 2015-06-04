@@ -61,6 +61,12 @@ namespace SportChallengeMatchRank.Shared
 					var body = response.Content.ReadAsStringAsync().Result;
 					Console.WriteLine(body);
 					dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(body);
+
+					if(!dict.ContainsKey("token_type"))
+					{
+						return null;
+					}
+
 					var newAuthToken = "{0} {1}".Fmt(dict["token_type"], dict["access_token"]);
 					return newAuthToken;
 				}

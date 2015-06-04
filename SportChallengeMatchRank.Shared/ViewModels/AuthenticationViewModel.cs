@@ -215,18 +215,25 @@ namespace SportChallengeMatchRank.Shared
 					var refreshTask = GoogleApiService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
 					await RunSafe(refreshTask);
 
+					var invalid = true;
 					if(refreshTask.IsCompleted && !refreshTask.IsFaulted)
 					{
-						//Succes in getting a new auth token - now lets attempt to get the profile again
+						//Success in getting a new auth token - now lets attempt to get the profile again
 						if(!string.IsNullOrWhiteSpace(refreshTask.Result) && Settings.Instance.AuthToken != refreshTask.Result)
 						{
+							invalid = false;
 							Settings.Instance.AuthToken = refreshTask.Result;
 							await Settings.Instance.Save();
 							await GetUserProfile();
 						}
 					}
 
-					return;
+					if(invalid)
+					{
+						Settings.Instance.AuthToken = null;
+						Settings.Instance.RefreshToken = null;
+						await GetUserProfile(force);
+					}
 				}
 
 				if(task.IsCompleted && !task.IsFaulted)
@@ -234,7 +241,8 @@ namespace SportChallengeMatchRank.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
+						{
 							"Name",
 							App.AuthUserProfile.Name
 						}
