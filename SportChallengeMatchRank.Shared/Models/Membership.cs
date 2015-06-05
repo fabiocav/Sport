@@ -66,6 +66,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				SetPropertyChanged(ref _currentRank, value);
 				SetPropertyChanged("CurrentRankDisplay");
+				SetPropertyChanged("CurrentRankOrdinal");
 			}
 		}
 
@@ -74,6 +75,14 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				return CurrentRank + 1;
+			}
+		}
+
+		public string CurrentRankOrdinal
+		{
+			get
+			{
+				return CurrentRankDisplay.ToOrdinal();
 			}
 		}
 

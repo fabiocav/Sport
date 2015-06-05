@@ -210,9 +210,9 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		ObservableCollection<Membership> _memberships = new ObservableCollection<Membership>();
+		List<Membership> _memberships = new List<Membership>();
 
-		public ObservableCollection<Membership> Memberships
+		public List<Membership> Memberships
 		{
 			get
 			{
@@ -320,7 +320,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			StartDate = DateTime.Now.AddDays(7);
 			EndDate = DateTime.Now.AddMonths(6);
-			Memberships = new ObservableCollection<Membership>();
+			Memberships = new List<Membership>();
 
 			MaxChallengeRange = 2;
 			MinHoursBetweenChallenge = 48;

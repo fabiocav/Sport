@@ -311,6 +311,11 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
+		/// <summary>
+		/// Loads all the leagues for specific athlete
+		/// </summary>
+		/// <returns>The all leagues by athlete.</returns>
+		/// <param name="athlete">Athlete.</param>
 		public Task GetAllLeaguesByAthlete(Athlete athlete)
 		{
 			return new Task(() =>
@@ -402,7 +407,7 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Membership
 
-		public Task GetMembershipsForLeague(League league)
+		public Task GetMembershipsForLeague(League league, bool loadAthletes = false, bool forceRefresh = false)
 		{
 			return new Task(() =>
 			{
@@ -414,8 +419,20 @@ namespace SportChallengeMatchRank.Shared
 					league.Memberships.Add(m);
 					DataManager.Instance.Memberships.AddOrUpdate(m);
 				}
-			});
 
+				if(loadAthletes)
+				{
+					var loaded = league.Memberships.Select(m => m.Athlete != null).ToList();
+
+					if(forceRefresh)
+						loaded.Clear();
+					
+					var notLoaded = DataManager.Instance.Athletes.Except(loaded);
+
+					var athletes = Client.GetTable<Athlete>().Where(a => notLoaded.Contains(a.Id)).ToListAsync().Result;
+					athletes.ForEach(DataManager.Instance.Athletes.AddOrUpdate);
+				}
+			});
 		}
 
 		public Task<Membership> GetMembershipById(string id, bool force = false)
