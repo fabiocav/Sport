@@ -12,5 +12,11 @@ namespace SportChallengeMatchRank
 			get;
 			set;
 		}
+
+		public List<Challenge> OngoingChallenges
+		{
+			get;
+			set;
+		}
 	}
 }

@@ -154,14 +154,14 @@ namespace SportChallengeMatchRank.Service.Controllers
 			Challenge current = await InsertAsync(item.ToChallenge());
             var result = CreatedAtRoute("Tables", new { id = current.Id }, current.ToChallengeDto());
 
-			var message = "{0}: YOU HAVE BEEN CHALLENGED by {1}!".Fmt(league.Name, challenger.Alias);
+			var message = "{0}: You have been challenged to a duel by {1}!".Fmt(league.Name, challenger.Alias);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengePosted,
 				Payload = { { "challengeId", current.Id } }
 			};
 
-			await _notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload);
+			await _notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload, 4);
 
 			return result;
         }
@@ -171,6 +171,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 		public async Task RevokeChallenge(string id)
         {
 			var challenge = Lookup(id).Queryable.FirstOrDefault();
+
+			if(challenge == null)
+				return;
+
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
@@ -191,6 +195,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 		public async Task DeclineChallenge(string id)
 		{
 			var challenge = Lookup(id).Queryable.FirstOrDefault();
+
+			if(challenge == null)
+				return;
+
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
@@ -209,6 +217,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 		async public Task<ChallengeDto> AcceptChallenge(string id)
 		{
 			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == id);
+
+			if(challenge == null)
+				throw "This challenge no longer exists".ToException(Request);
+
 			challenge.DateAccepted = DateTime.UtcNow;
 			await _context.SaveChangesAsync();
 
@@ -234,10 +246,17 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challengeId = results.First().ChallengeId;
 			var challenge = _context.Challenges.SingleOrDefault(c => c.Id == challengeId);
 
+			if(challenge == null)
+				throw "This challenge no longer exists".ToException(Request);
+
 			if(challenge.DateCompleted != null)
 				throw "Scores for this challenge have already been submitted.".ToException(Request);
 
 			var league = _context.Leagues.SingleOrDefault(l => l.Id == challenge.LeagueId);
+
+			if(league == null)
+				throw "This league no longer exists".ToException(Request);
+
 			var tempChallenge = new Challenge();
 			tempChallenge.League = league;
 			tempChallenge.MatchResult = results.Select(g => g.ToGameResult()).ToList();
@@ -245,9 +264,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var errorMessage = tempChallenge.ValidateMatchResults();
 
 			if(errorMessage != null)
-			{
 				throw errorMessage.ToException(Request);
-			}
 
 			tempChallenge = null;
 			challenge.DateCompleted = DateTime.UtcNow;
@@ -265,10 +282,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 			{
 				_context.SaveChanges();
 
-				var challengerWins = challenge.GetChallengerWinningGames();
-				var challengeeWins = challenge.GetChallengeeWinningGames();
 				var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 				var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+
+				var challengerWins = challenge.GetChallengerWinningGames();
+				var challengeeWins = challenge.GetChallengeeWinningGames();
 				var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challenger.Id && m.LeagueId == challenge.LeagueId);
 				var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.LeagueId == challenge.LeagueId);
 				var winningRank = challengeeMembership.CurrentRank;

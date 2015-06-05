@@ -92,7 +92,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				switch(deviceUpdate.Platform)
 				{
 					case "iOS":
-						var alertTemplate = "{\"aps\":{\"alert\":\"$(message)\",\"badge\":\"$(badge)\",\"payload\":\"$(payload)\"}}";
+						var alertTemplate = "{\"aps\":{\"alert\":\"$(message)\",\"badge\":\"#(badge)\",\"payload\":\"$(payload)\"}}";
 						registration = new AppleTemplateRegistrationDescription(deviceUpdate.Handle, alertTemplate);
 						break;
 					case "Android":
