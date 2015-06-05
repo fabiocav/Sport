@@ -44,12 +44,9 @@ namespace SportChallengeMatchRank.Shared
 
 			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
 			{
-				if(IsNetworkRechable == args.IsConnected)
-					return;
-					
 				IsNetworkRechable = args.IsConnected;
-				"Connectivity is now {0}connected".Fmt(!args.IsConnected ? "dis" : "")
-						.ToToast(args.IsConnected ? ToastNotificationType.Info : ToastNotificationType.Warning, "Connectivity changed");
+//				"Connectivity is now {0}connected".Fmt(!args.IsConnected ? "dis" : "")
+//						.ToToast(args.IsConnected ? ToastNotificationType.Info : ToastNotificationType.Warning, "Connectivity changed");
 			};
 
 			MessagingCenter.Subscribe<BaseViewModel, Exception>(this, "ExceptionOccurred", (viewModel, exception) =>
@@ -143,7 +140,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public void GetTheme(League league)
 		{
-			if(league.Theme != null)
+			if(league.Theme != null || league.Id == null)
 				return;
 			
 			var remaining = App.Colors.Except(Settings.Instance.LeagueColors.Values).ToList();

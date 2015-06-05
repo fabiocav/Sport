@@ -16,9 +16,9 @@ namespace SportChallengeMatchRank.Shared
 			LocalRefresh();
 		}
 
-		ObservableCollection<League> _leagues = new ObservableCollection<League>();
+		ObservableCollection<LeagueViewModel> _leagues = new ObservableCollection<LeagueViewModel>();
 
-		public ObservableCollection<League> Leagues
+		public ObservableCollection<LeagueViewModel> Leagues
 		{
 			get
 			{
@@ -44,13 +44,14 @@ namespace SportChallengeMatchRank.Shared
 				return;
 
 			Leagues.Clear();
-			DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key)).Select(k => k.Value).ToList().ForEach(Leagues.Add);
+			DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key))
+				.Select(k => k.Value).ToList().ForEach(l => Leagues.Add(new LeagueViewModel(l)));
 
 			if(Leagues.Count == 0)
 			{
-				Leagues.Add(new League {
-					Name = "There are no leagues to join",
-				});
+				Leagues.Add(new LeagueViewModel(new League {
+					Name = "There are no more available leagues to join"
+				}));
 			}
 		}
 

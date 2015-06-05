@@ -40,9 +40,16 @@ namespace SportChallengeMatchRank.UITests
 			app.PressEnter();
 			app.Tap("Then I tap Save button", e => e.Marked("saveButton"));
 
+			Thread.Sleep(1000);
 			app.Tap("Continue button", e => e.Marked("continueButton"));
+			app.Repl();
 			Thread.Sleep(3000);
 			app.Screenshot("Home page");
+
+			app.Tap("joinLeagueButton");
+			Thread.Sleep(1000);
+			app.Tap("joinLeagueButton");
+			app.Tap("NoResourceEntry-0");
 		}
 	}
 }

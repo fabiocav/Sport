@@ -50,7 +50,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public ObservableCollection<League> Leagues
+		public ObservableCollection<LeagueViewModel> Leagues
 		{
 			get;
 			set;
@@ -58,7 +58,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public AthleteLeaguesViewModel()
 		{
-			Leagues = new ObservableCollection<League>();	
+			Leagues = new ObservableCollection<LeagueViewModel>();	
 		}
 
 		async public Task GetLeagues(bool forceRefresh = false)
@@ -103,17 +103,17 @@ namespace SportChallengeMatchRank.Shared
 				return;
 			
 			var comparer = new LeagueComparer();
-			var toRemove = Leagues.Except(Athlete.Leagues, comparer).ToList();
-			var toAdd = Athlete.Leagues.Except(Leagues, comparer).OrderBy(r => r.Name).ToList();
+			var toRemove = Leagues.Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
+			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).ToList();
 
-			toRemove.ForEach(l => Leagues.Remove(l));
-			toAdd.ForEach(Leagues.Add);
+			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
+			toAdd.ForEach(l => Leagues.Add(new LeagueViewModel(l, App.CurrentAthlete)));
 
 			if(Leagues.Count == 0)
 			{
-				Leagues.Add(new League {
-					Name = "Join a league",
-				});
+				Leagues.Add(new LeagueViewModel(new League {
+					Name = "You don't belong to any leagues - you should join some :)"
+				}));
 			}
 		}
 

@@ -22,10 +22,10 @@
 					<Switch IsToggled="{Binding League.IsEnabled}" HorizontalOptions="End" />
 				</StackLayout>
 
-				<StackLayout Orientation="Horizontal">
+<!--				<StackLayout Orientation="Horizontal">
 					<Label Text="Max challenge range" HorizontalOptions="StartAndExpand" />
 					<Entry Text="{Binding League.MaxChallengeRange}" WidthRequest="40" HeightRequest="40" />
-				</StackLayout>
+				</StackLayout>-->
 
 				<StackLayout Orientation="Horizontal">
 					<Label Text="Match game count" HorizontalOptions="StartAndExpand" />

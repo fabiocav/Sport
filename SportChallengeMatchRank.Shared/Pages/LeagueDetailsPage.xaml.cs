@@ -75,12 +75,6 @@ namespace SportChallengeMatchRank.Shared
 
 			InitializeComponent();
 
-			previousCard.OnClicked = async() =>
-			{
-				var details = new ChallengeDetailsPage(ViewModel.PreviousChallenge);
-				await Navigation.PushAsync(details);
-			};
-				
 			ongoingCard.OnClicked = async() =>
 			{
 				var details = new ChallengeDetailsPage(ViewModel.OngoingChallenge);

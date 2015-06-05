@@ -27,14 +27,14 @@ namespace SportChallengeMatchRank.Shared
 				if(list.SelectedItem == null)
 					return;
 
-				var league = list.SelectedItem as League;
+				var vm = list.SelectedItem as LeagueViewModel;
 				list.SelectedItem = null;
 
 				//Empty message?
-				if(league.Id == null)
+				if(vm.League.Id == null)
 					return;
 
-				var page = new LeagueDetailsPage(league);
+				var page = new LeagueDetailsPage(vm.League);
 
 				page.OnJoinedLeague = async(l) =>
 				{

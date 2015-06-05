@@ -98,7 +98,10 @@ namespace SportChallengeMatchRank.Shared
 			Settings.Instance.RegistrationComplete = true;
 			await Settings.Instance.Save();
 
-			var nav = new AthleteLeaguesPage(App.CurrentAthlete.Id).GetNavigationPage();
+			var page = new AthleteLeaguesPage(App.CurrentAthlete.Id);
+			var nav = page.GetNavigationPage();
+			nav.BarBackgroundColor = Color.Yellow;
+//			page.ApplyTheme(nav);
 			App.Current.MainPage = nav;
 		}
 	}

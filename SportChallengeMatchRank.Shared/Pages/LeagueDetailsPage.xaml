@@ -19,10 +19,8 @@
 			</ContentView>
 
 			<StackLayout Grid.Row="1" Orientation="Vertical" Spacing="20" VerticalOptions="Fill" BackgroundColor="{StaticResource grayLight}">
-				<StackLayout Padding="24,14,24,14" Spacing="4" IsVisible="{Binding League.HasStarted}">
-					<Label Text="{Binding League.LeaderRankDescription}" Style="{StaticResource sub}" />
-					<Label Text="Next challenge between RDR &amp; Robb" Style="{StaticResource sub}" />
-					<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You are ranked \{0\}'}" Style="{StaticResource sub}" />
+				<StackLayout Padding="24,14,24,44" Spacing="4" IsVisible="{Binding League.HasStarted}">
+					<Label Text="{Binding League.Name}" FontSize="Large" TextColor="{Binding Theme.Dark}" VerticalOptions="CenterAndExpand" />
 				</StackLayout>
 
 				<StackLayout Padding="24,0,24,14" Spacing="4" IsVisible="{Binding League.HasStarted, Converter={x:Static local:InverseBoolConverter.Instance}}">
@@ -59,27 +57,35 @@
 					<ContentView Padding="0,0,0,20" IsVisible="{Binding OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 						<local:ChallengeCardView x:Name="ongoingCard" ViewModel="{Binding OngoingChallengeViewModel}" />
 					</ContentView>
-					<ContentView Padding="0,0,0,20" IsVisible="{Binding PreviousChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
-						<local:ChallengeCardView x:Name="previousCard" ViewModel="{Binding PreviousChallengeViewModel}" />
-					</ContentView>
+
+
+					<!---<ContentView Padding="0,0,0,20" IsVisible="{Binding PreviousChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+						<local:ChallengeCardView x:Name="previousCard" ViewModel="{Binding PreviousChallengeViewModel}" />-->
 				</StackLayout>
+
 			</StackLayout>
 
-			<StackLayout Grid.Row="2" VerticalOptions="EndAndExpand" Padding="28" Spacing="14"
-				IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
-				<Button Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
+			<StackLayout Grid.Row="2" VerticalOptions="EndAndExpand" HorizontalOptions="Fill">
+				<StackLayout Padding="24,24,24,14" Spacing="14" StyleId="leaderboardButton"
+					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
+					<Button Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
 
-				<Button Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
-					IsVisible="{Binding CanGetRules}" />
+					<Button Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
+						IsVisible="{Binding CanGetRules}" StyleId="rulesButton" />
 
-				<Button Text="JOIN LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
-					BackgroundColor="{Binding League.Theme.Dark}"
-					IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+					<Button Text="JOIN LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
+						BackgroundColor="{Binding League.Theme.Dark}" StyleId="joinButton"
+						IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
-				<Button Text="COWARDLY ABANDON LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"
-					IsVisible="{Binding IsMember}" Style="{StaticResource deleteButtonStyle}" />
+					<Button Text="ABANDON LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"
+						IsVisible="{Binding IsMember}" Style="{StaticResource deleteButtonStyle}" StyleId="leaveButton" />
+				</StackLayout>
+
+				<StackLayout BackgroundColor="{StaticResource grayMedium}" Padding="24,14,24,0">
+					<Label Text="{Binding League.LeagueDetails}" TextColor="{StaticResource grayLight}" FontSize="Micro" />
+				</StackLayout>
+
 			</StackLayout>
-
 		</Grid>
 	</ScrollView>
 

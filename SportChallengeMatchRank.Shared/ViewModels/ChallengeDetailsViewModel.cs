@@ -98,7 +98,7 @@ namespace SportChallengeMatchRank.Shared
 					return "this is where you'll reflect upon your victorious match result score... but you'll have to post some results first using this here button";
 
 				if(CanRevoke)
-					return "...just waiting for your opponent to accept your challenge or coward out like shameless slimeball";
+					return "...just waiting for your opponent to accept your challenge or coward out like a shameless hunk of slime";
 
 				if(!Challenge.IsCompleted)
 					return "the results of this might duel have not yet been posted... check back soon for some tasty scores!";

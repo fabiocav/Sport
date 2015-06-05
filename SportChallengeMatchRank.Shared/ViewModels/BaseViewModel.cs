@@ -91,9 +91,14 @@ namespace SportChallengeMatchRank.Shared
 
 				if(notifyOnError)
 				{
-					MessagingCenter.Send<BaseViewModel, Exception>(this, "ExceptionOccurred", exception);
+					NotifyException(exception);
 				}
 			}
+		}
+
+		public void NotifyException(Exception exception)
+		{
+			MessagingCenter.Send<BaseViewModel, Exception>(this, "ExceptionOccurred", exception);
 		}
 
 		public CancellationToken CancellationToken

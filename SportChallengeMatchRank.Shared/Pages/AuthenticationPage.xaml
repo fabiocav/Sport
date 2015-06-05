@@ -2,7 +2,8 @@
 <local:AuthenticationPageXaml xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.AuthenticationPage"
-	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank" BackgroundColor="{StaticResource redLight}">
+	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
+	BackgroundColor="{StaticResource bluePrimary}">
     <local:AuthenticationPageXaml.Content>
 
     	<Grid>

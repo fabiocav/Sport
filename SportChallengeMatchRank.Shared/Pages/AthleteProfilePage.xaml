@@ -40,26 +40,26 @@
 				</StackLayout>
 
 				<StackLayout Spacing="0" Padding="0,20">
-					<ContentView BackgroundColor="{StaticResource asphaltPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
+					<ContentView BackgroundColor="{StaticResource asphaltDark}" HeightRequest=".5" HorizontalOptions="Fill" />
 					<StackLayout Orientation="Horizontal" Spacing="20" Padding="48,0" HeightRequest="56">
 						<Label Text="Alias:" TextColor="{StaticResource asphaltLight}" VerticalOptions="Center" FontSize="Large" />
-						<ContentView Padding="0,3,0,0"  HorizontalOptions="FillAndExpand">
-							<labs:ExtendedEntry x:Name="txtAlias" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource asphaltDark}"
-								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Fill" />
+						<ContentView Padding="0,5,0,0" HorizontalOptions="FillAndExpand">
+							<labs:ExtendedEntry x:Name="txtAlias" StyleId="aliasText" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource asphaltDark}"
+								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" />
 						</ContentView>
 					</StackLayout>
-					<ContentView BackgroundColor="{StaticResource asphaltPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
+					<ContentView BackgroundColor="{StaticResource asphaltDark}" HeightRequest=".5" HorizontalOptions="Fill" />
 				</StackLayout>
 			</StackLayout>
 
 			<StackLayout Padding="24" Grid.Row="1" Spacing="14">
 				<Button x:Name="btnRegister" Text="ENABLE PUSH NOTIFICATIONS" VerticalOptions="End" HorizontalOptions="FillAndExpand"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-					BackgroundColor="{StaticResource asphaltPrimary}"/>
+					BackgroundColor="{StaticResource asphaltPrimary}" StyleId="pushButton" />
 
 				<Button x:Name="btnSave" Text="SAVE" VerticalOptions="End" HorizontalOptions="FillAndExpand"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
-					BackgroundColor="{StaticResource asphaltDark}"/>
+					BackgroundColor="{StaticResource asphaltDark}" StyleId="saveButton" />
 			</StackLayout>
 		</Grid>
 	</ScrollView>

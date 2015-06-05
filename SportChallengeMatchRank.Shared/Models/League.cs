@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -132,10 +133,11 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _isAcceptingMembers, value);
+				SetPropertyChanged("LeagueDetails");
 			}
 		}
 
-		int _maxChallengeRange;
+		int _maxChallengeRange = 1;
 
 		public int MaxChallengeRange
 		{
@@ -146,6 +148,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _maxChallengeRange, value);
+				SetPropertyChanged("LeagueDetails");
 			}
 		}
 
@@ -160,6 +163,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _minHoursBetweenChallenge, value);
+				SetPropertyChanged("LeagueDetails");
 			}
 		}
 
@@ -174,6 +178,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _matchGameCount, value);
+				SetPropertyChanged("LeagueDetails");
 			}
 		}
 
@@ -260,6 +265,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				SetPropertyChanged(ref _startDate, value);
 				SetPropertyChanged("DateRange");
+				SetPropertyChanged("LeagueDetails");
 			}
 		}
 
@@ -275,6 +281,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				SetPropertyChanged(ref _endDate, value);
 				SetPropertyChanged("DateRange");
+				SetPropertyChanged("LeagueDetails");
 			}
 		}
 
@@ -284,11 +291,28 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				if(!HasStarted || Memberships.Count == 0)
-					return null;
+				if(!HasStarted)
+					return "This league hasn't started yet";
+
+				if(Memberships.Count == 0)
+					return "The league has no members - you should totally join!";
 
 				var m = Memberships.First();
-				return "{0} ranked {1}".Fmt(m.Athlete.Name, m.RankDescription);
+				return "{0} is ranked {1}".Fmt(m.Athlete.Name, m.RankDescription);
+			}
+		}
+
+		public string LeagueDetails
+		{
+			get
+			{
+				var sb = new StringBuilder();
+				sb.AppendLine("• you may challenge up to {0} spot above your current rank".Fmt(MaxChallengeRange));
+				sb.AppendLine("• there {2} {0} game{1} to a match".Fmt(MatchGameCount, MatchGameCount == 1 ? "" : "s", MatchGameCount == 1 ? "is" : "are"));
+				sb.AppendLine("• you must wait {0} hour{1} before challenging after a loss".Fmt(MinHoursBetweenChallenge, MinHoursBetweenChallenge == 1 ? "" : "s"));
+				sb.AppendLine("• declining a challenge 3 times results in a forfeit of rank");
+
+				return sb.ToString();
 			}
 		}
 

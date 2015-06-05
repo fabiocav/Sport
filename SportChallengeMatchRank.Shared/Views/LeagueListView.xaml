@@ -3,7 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	x:Class="SportChallengeMatchRank.Shared.LeagueListView" x:Name="list"
 	IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-	BackgroundColor="{StaticResource grayLight}" SeparatorVisibility="None" RowHeight="286"
+	BackgroundColor="{StaticResource grayLight}" SeparatorVisibility="None" RowHeight="240"
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank">
 	<ListView.ItemTemplate>
 		<DataTemplate>
@@ -11,36 +11,42 @@
 				<ViewCell.View>
 					<AbsoluteLayout StyleId="leagueRow" Padding="14,14,14,0">
 						<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill"
-							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
-							IsVisible="{Binding Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Padding="48"
+							IsVisible="{Binding League.Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-							<Label Text="{Binding Name}" FontSize="Large" Style="{StaticResource header}" XAlign="Center" />
+							<Label Text="{Binding League.Name}" FontSize="Large" Style="{StaticResource header}" XAlign="Center" />
 						</StackLayout>
 
 						<StackLayout Padding="0,0,.5,.5" BackgroundColor="{StaticResource grayPrimary}"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
-								IsVisible="{Binding Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+								IsVisible="{Binding League.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
 							<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
 								<AbsoluteLayout HeightRequest="150">
-									<Image x:Name="photoImage" Source="{Binding ImageUrl}" Aspect="AspectFill"
+									<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" Aspect="AspectFill"
 										AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
 
-									<ContentView BackgroundColor="{Binding Theme.Light}" Opacity=".1"
-										 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,1" />
+<!--									<ContentView BackgroundColor="{Binding Theme.Light}" Opacity=".4"
+										 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,1" />-->
 								</AbsoluteLayout>
 
-								<StackLayout Padding="16,10" Spacing="4"
-									IsVisible="{Binding HasStarted, Converter={x:Static local:InverseBoolConverter.Instance}}">
-									<Label Text="{Binding StartDate, StringFormat='This league is slated to begin on \{0:D\}'}" Style="{StaticResource sub}" />
-									<Label Text="{Binding Memberships.Count, StringFormat='and has \{0\} members'}" Style="{StaticResource sub}" />
-								</StackLayout>
+								<StackLayout Padding="16,10" Spacing="4">
+ 									<Label Text="{Binding League.Name}" FontSize="Large" TextColor="{Binding League.Theme.Dark}" VerticalOptions="CenterAndExpand" />
+									<StackLayout Spacing="4" IsVisible="{Binding League.HasStarted, Converter={x:Static local:InverseBoolConverter.Instance}}">
+										<Label Text="{Binding League.StartDate, StringFormat='This league is slated to begin on \{0:D\}'}" Style="{StaticResource sub}" />
+										<Label Text="{Binding League.Memberships.Count, StringFormat='and has \{0\} members'}" Style="{StaticResource sub}" />
+									</StackLayout>
 
-								<StackLayout Padding="16,10" Spacing="4" IsVisible="{Binding HasStarted}">
-									<Label Text="{Binding LeaderRankDescription}" Style="{StaticResource sub}" />
-									<Label Text="Next challenge between RDR &amp; Robb" Style="{StaticResource sub}" />
-									<Label Text="Your rank will show here if you're part of the league" Style="{StaticResource sub}" />
-									<!---<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You are ranked \{0\}'}" Style="{StaticResource sub}" IsVisible="true" />-->
+									<ContentView IsVisible="{Binding IsMember}">
+										<StackLayout Spacing="4" IsVisible="{Binding HasStarted}">
+											<Label Text="{Binding Membership.RankDescription, StringFormat='You\'ve been ranked \{0\}'}" Style="{StaticResource sub}" IsVisible="true" />
+										</StackLayout>
+									</ContentView>
+									<ContentView IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}">
+										<StackLayout Spacing="4" IsVisible="{Binding HasStarted}">
+											<Label Text="{Binding League.LeaderRankDescription}" Style="{StaticResource sub}" IsVisible="true" />
+										</StackLayout>
+									</ContentView>
 								</StackLayout>
 							</StackLayout>
 						</StackLayout>

@@ -61,7 +61,7 @@
 						<Label Text="Alias:" TextColor="White" VerticalOptions="Center" FontSize="Large" />
 
 						<ContentView Padding="0,5,0,0" HorizontalOptions="FillAndExpand">
-							<labs:ExtendedEntry x:Name="txtAlias" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource redDark}"
+							<labs:ExtendedEntry x:Name="txtAlias" StyleId="aliasText" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource redDark}"
 								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" />
 						</ContentView>
 					</StackLayout>
@@ -81,7 +81,7 @@
 				<Label Text="Saving profile..." IsVisible="{Binding IsBusy}" FontSize="Medium" XAlign="Center" YAlign="Center" VerticalOptions="End" />
 
 				<Button x:Name="btnSave" Text="SAVE &amp; CONTINUE" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"
-					BackgroundColor="{StaticResource redLight}" 
+					BackgroundColor="{StaticResource redLight}" StyleId="saveButton"
 					IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>
 		</Grid>

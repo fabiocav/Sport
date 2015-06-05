@@ -170,8 +170,8 @@ namespace SportChallengeMatchRank.Shared
 				};
 
 				var nav = new NavigationPage(page) {
-					BarBackgroundColor = BarBackgroundColor,
-					BarTextColor = BarTextColor,
+//					BarBackgroundColor = BarBackgroundColor,
+//					BarTextColor = BarTextColor,					
 				};
 
 				var btnDone = new ToolbarItem {

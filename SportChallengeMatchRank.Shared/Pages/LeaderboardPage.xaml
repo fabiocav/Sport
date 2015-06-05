@@ -14,7 +14,7 @@
 						    <MenuItem Clicked="OnChallengeClicked" Text="Challenge" />
 						</ViewCell.ContextActions>
 						<ViewCell.View>
-							<StackLayout Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
+							<StackLayout StyleId="memberItem" Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
 								<Label Text="{Binding CurrentRankDisplay}" VerticalOptions="Center" FontSize="28" YAlign="Center" TextColor="{StaticResource grayDark}" />
 
 								<StackLayout Spacing="20" Orientation="Horizontal">
