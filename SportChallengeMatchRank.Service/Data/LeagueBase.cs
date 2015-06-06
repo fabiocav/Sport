@@ -8,6 +8,10 @@ namespace SportChallengeMatchRank
 {
 	public partial class LeagueBase : EntityData
 	{
+		public LeagueBase()
+		{
+		}
+
 		public string Name
 		{
 			get;

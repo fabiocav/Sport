@@ -88,19 +88,13 @@ namespace SportChallengeMatchRank.Service.Models
 				.WithMany(l => l.Memberships)
 				.HasForeignKey(m => m.LeagueId);
 
+			modelBuilder.Entity<Challenge>().HasRequired(c => c.League)
+				.WithMany(l => l.Challenges)
+				.HasForeignKey(m => m.LeagueId);
+
 			modelBuilder.Entity<Membership>().HasRequired(m => m.Athlete)
 				.WithMany(a => a.Memberships)
 				.HasForeignKey(m => m.AthleteId);
-
-			modelBuilder.Entity<Challenge>().HasRequired(c => c.ChallengeeAthlete)
-				.WithMany(a => a.IncomingChallenges)
-				.HasForeignKey(c => c.ChallengeeAthleteId)
-				.WillCascadeOnDelete(false);
-
-			modelBuilder.Entity<Challenge>().HasRequired(c => c.ChallengerAthlete)
-				.WithMany(a => a.OutgoingChallenges)
-				.HasForeignKey(c => c.ChallengerAthleteId)
-				.WillCascadeOnDelete(false);
 
 			modelBuilder.Conventions.Add(
 				new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(

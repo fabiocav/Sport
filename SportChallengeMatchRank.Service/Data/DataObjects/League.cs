@@ -9,15 +9,22 @@ namespace SportChallengeMatchRank
 		public League()
 		{
 			Memberships = new HashSet<Membership>();
+			Challenges = new HashSet<Challenge>();
 		}
 
-		public ICollection<Membership> Memberships
+		public Athlete CreatedByAthlete
 		{
 			get;
 			set;
 		}
 
-		public Athlete CreatedByAthlete
+		public virtual ICollection<Membership> Memberships
+		{
+			get;
+			set;
+		}
+
+		public virtual ICollection<Challenge> Challenges
 		{
 			get;
 			set;

@@ -18,17 +18,5 @@ namespace SportChallengeMatchRank
 			get;
 			set;
 		}
-
-		public List<string> IncomingChallengeIds
-		{
-			get;
-			set;
-		}
-
-		public List<string> OutgoingChallengeIds
-		{
-			get;
-			set;
-		}
 	}
 }

@@ -230,6 +230,10 @@
     <Compile Include="Migrations\201506030647201_ChallengerScore.Designer.cs">
       <DependentUpon>201506030647201_ChallengerScore.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506061951414_AbandonDate.cs" />
+    <Compile Include="Migrations\201506061951414_AbandonDate.Designer.cs">
+      <DependentUpon>201506061951414_AbandonDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AppContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
@@ -266,6 +270,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506030647201_ChallengerScore.resx">
       <DependentUpon>201506030647201_ChallengerScore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506061951414_AbandonDate.resx">
+      <DependentUpon>201506061951414_AbandonDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

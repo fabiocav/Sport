@@ -13,7 +13,16 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
-		public List<Challenge> OngoingChallenges
+		//public List<ChallengeDto> OngoingChallenges
+		//{
+		//	get;
+		//	set;
+		//}
+	}
+
+	public class Test
+	{
+		public string Name
 		{
 			get;
 			set;

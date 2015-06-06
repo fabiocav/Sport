@@ -30,50 +30,37 @@ namespace SportChallengeMatchRank.Service.Controllers
 			DomainManager = new EntityDomainManager<Athlete>(_context, Request, Services);
 		}
 
+		IQueryable<AthleteDto> ConvertAthleteToDto(IQueryable<Athlete> queryable)
+		{
+			return queryable.Select(a => new AthleteDto
+			{
+				Name = a.Name,
+				Id = a.Id,
+				Email = a.Email,
+				Alias = a.Alias,
+				DateCreated = a.CreatedAt,
+				IsAdmin = a.IsAdmin,
+				UpdatedAt = a.UpdatedAt,
+				DeviceToken = a.DeviceToken,
+				DevicePlatform = a.DevicePlatform,
+				NotificationRegistrationId = a.NotificationRegistrationId,
+				ProfileImageUrl = a.ProfileImageUrl,
+				AuthenticationId = a.AuthenticationId,
+				MembershipIds = a.Memberships.Where(m => m.AbandonDate == null).Select(m => m.Id).ToList(),
+			});
+		}
+
+
 		// GET tables/Athlete
 		public IQueryable<AthleteDto> GetAllAthletes()
 		{
-			return Query().Select(dto => new AthleteDto
-			{
-				Name = dto.Name,
-				Id = dto.Id,
-				Email = dto.Email,
-				Alias = dto.Alias,
-				DateCreated = dto.CreatedAt,
-				IsAdmin = dto.IsAdmin,
-				UpdatedAt = dto.UpdatedAt,
-				DeviceToken = dto.DeviceToken,
-				DevicePlatform = dto.DevicePlatform,
-				NotificationRegistrationId = dto.NotificationRegistrationId,
-				ProfileImageUrl = dto.ProfileImageUrl,
-				AuthenticationId = dto.AuthenticationId,
-				MembershipIds = dto.Memberships.Select(la => la.Id).ToList(),
-				IncomingChallengeIds = dto.IncomingChallenges.Select(la => la.Id).ToList(),
-				OutgoingChallengeIds = dto.OutgoingChallenges.Select(la => la.Id).ToList(),
-			});
+			return ConvertAthleteToDto(Query());
 		}
 
 		// GET tables/Athlete/48D68C86-6EA6-4C25-AA33-223FC9A27959
 		public SingleResult<AthleteDto> GetAthlete(string id)
 		{
-			return SingleResult<AthleteDto>.Create(Lookup(id).Queryable.Select(dto => new AthleteDto
-			{
-				Name = dto.Name,
-				Id = dto.Id,
-				DateCreated = dto.CreatedAt,
-				Email = dto.Email,
-				IsAdmin = dto.IsAdmin,
-				UpdatedAt = dto.UpdatedAt,
-				Alias = dto.Alias,
-				DeviceToken = dto.DeviceToken,
-				DevicePlatform = dto.DevicePlatform,
-				NotificationRegistrationId = dto.NotificationRegistrationId,
-				ProfileImageUrl = dto.ProfileImageUrl,
-				AuthenticationId = dto.AuthenticationId,
-				MembershipIds = dto.Memberships.Select(la => la.Id).ToList(),
-				IncomingChallengeIds = dto.IncomingChallenges.Select(la => la.Id).ToList(),
-				OutgoingChallengeIds = dto.OutgoingChallenges.Select(la => la.Id).ToList(),
-			}));
+			return SingleResult<AthleteDto>.Create(ConvertAthleteToDto(Lookup(id).Queryable));
 		}
 
 		// PATCH tables/Athlete/48D68C86-6EA6-4C25-AA33-223FC9A27959

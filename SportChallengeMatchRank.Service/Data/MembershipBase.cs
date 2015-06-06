@@ -25,6 +25,12 @@ namespace SportChallengeMatchRank
 			set;
 		}
 
+		public DateTimeOffset? AbandonDate
+		{
+			get;
+			set;
+		}
+
 		public bool IsAdmin
 		{
 			get;

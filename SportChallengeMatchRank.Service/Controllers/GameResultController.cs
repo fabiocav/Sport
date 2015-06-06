@@ -19,10 +19,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 			DomainManager = new EntityDomainManager<GameResult>(_context, Request, Services);
 		}
 
-		// GET tables/GameResult
-		public IQueryable<GameResultDto> GetAllGameResults()
+		IQueryable<GameResultDto> ConvertGameResultToDto(IQueryable<GameResult> queryable)
 		{
-			return Query().Select(dto => new GameResultDto
+			return queryable.Select(dto => new GameResultDto
 			{
 				Id = dto.Id,
 				DateCreated = dto.CreatedAt,
@@ -34,18 +33,16 @@ namespace SportChallengeMatchRank.Service.Controllers
 			});
 		}
 
+		// GET tables/GameResult
+		public IQueryable<GameResultDto> GetAllGameResults()
+		{
+			return ConvertGameResultToDto(Query());
+		}
+
 		// GET tables/GameResult/48D68C86-6EA6-4C25-AA33-223FC9A27959
 		public SingleResult<GameResultDto> GetGameResult(string id)
 		{
-			return SingleResult<GameResultDto>.Create(Lookup(id).Queryable.Select(dto => new GameResultDto
-			{
-				Id = dto.Id,
-				UpdatedAt = dto.UpdatedAt,
-				ChallengeId = dto.ChallengeId,
-				ChallengeeScore = dto.ChallengeeScore,
-				ChallengerScore = dto.ChallengerScore,
-				Index = dto.Index
-			}));
+			return SingleResult<GameResultDto>.Create(ConvertGameResultToDto(Lookup(id).Queryable));
 		}
 
 		// PATCH tables/GameResult/48D68C86-6EA6-4C25-AA33-223FC9A27959

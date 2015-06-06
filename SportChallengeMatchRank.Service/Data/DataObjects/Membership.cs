@@ -8,13 +8,13 @@ namespace SportChallengeMatchRank
 {
 	public partial class Membership : MembershipBase
 	{
-		public League League
+		public virtual League League
 		{
 			get;
 			set;
 		}
 
-		public Athlete Athlete
+		public virtual Athlete Athlete
 		{
 			get;
 			set;

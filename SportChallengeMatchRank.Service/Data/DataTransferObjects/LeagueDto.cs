@@ -2,18 +2,32 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Web.Http;
 
 namespace SportChallengeMatchRank
 {
 	public partial class LeagueDto : LeagueBase
 	{
+		public LeagueDto()
+		{
+			Memberships = new List<MembershipDto>();
+			OngoingChallenges = new List<ChallengeDto>();
+		}
+
 		public DateTimeOffset? DateCreated
 		{
 			get;
 			set;
 		}
 
-		public List<string> MembershipIds
+		public virtual List<MembershipDto> Memberships
+		{
+			get;
+			set;
+		}
+
+		public virtual List<ChallengeDto> OngoingChallenges
 		{
 			get;
 			set;

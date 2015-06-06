@@ -27,10 +27,9 @@ namespace SportChallengeMatchRank.Service.Controllers
             DomainManager = new EntityDomainManager<Challenge>(_context, Request, Services);
         }
 
-        // GET tables/Challenge
-        public IQueryable<ChallengeDto> GetAllChallenges()
-        {
-			return Query().Select(c => new ChallengeDto
+		IQueryable<ChallengeDto> ConvertChallengeToDto(IQueryable<Challenge> queryable)
+		{
+			return queryable.Select(c => new ChallengeDto
 			{
 				Id = c.Id,
 				ChallengerAthleteId = c.ChallengerAthleteId,
@@ -52,64 +51,26 @@ namespace SportChallengeMatchRank.Service.Controllers
 					Index = r.Index
 				}).ToList()
 			});
-        }
+		}
 
-        // GET tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // GET tables/Challenge
+		public IQueryable<ChallengeDto> GetAllChallenges()
+		{
+			return ConvertChallengeToDto(Query());
+		}
+		        // GET tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public SingleResult<ChallengeDto> GetChallenge(string id)
         {
-			return SingleResult<ChallengeDto>.Create(Lookup(id).Queryable.Select(dto => new ChallengeDto
-			{
-				Id = dto.Id,
-				ChallengerAthleteId = dto.ChallengerAthleteId,
-				ChallengeeAthleteId = dto.ChallengeeAthleteId,
-				LeagueId = dto.LeagueId,
-				DateCreated = dto.CreatedAt,
-				ProposedTime = dto.ProposedTime,
-				UpdatedAt = dto.UpdatedAt,
-				DateAccepted = dto.DateAccepted,
-				DateCompleted = dto.DateCompleted,
-				CustomMessage = dto.CustomMessage,
-				MatchResult = dto.MatchResult.Select(r => new GameResultDto
-				{
-					Id = r.Id,
-					DateCreated = r.CreatedAt,
-					ChallengeId = r.ChallengeId,
-					ChallengeeScore = r.ChallengeeScore,
-					ChallengerScore = r.ChallengerScore,
-					Index = r.Index
-				}).ToList()
-			}));
+			return SingleResult<ChallengeDto>.Create(ConvertChallengeToDto(Lookup(id).Queryable));
 		}
 
 		[Route("api/getChallengesForAthlete")]
-		async public Task<List<ChallengeDto>> GetChallengesForAthlete(string athleteId)
+		public IQueryable<ChallengeDto> GetChallengesForAthlete(string athleteId)
 		{
-			return Query().Where(c => c.ChallengeeAthleteId == athleteId
-				|| c.ChallengerAthleteId == athleteId).Select(c => new ChallengeDto
-				{
-					Id = c.Id,
-					ChallengerAthleteId = c.ChallengerAthleteId,
-					ChallengeeAthleteId = c.ChallengeeAthleteId,
-					LeagueId = c.LeagueId,
-					DateCreated = c.CreatedAt,
-					ProposedTime = c.ProposedTime,
-					DateAccepted = c.DateAccepted,
-					UpdatedAt = c.UpdatedAt,
-					DateCompleted = c.DateCompleted,
-					CustomMessage = c.CustomMessage,
-					MatchResult = c.MatchResult.Where(r => r.ChallengeeScore != null && r.ChallengerScore != null)
-						.OrderBy(r => r.Index).Select(r => new GameResultDto
-					{
-						Id = r.Id,
-						DateCreated = r.CreatedAt,
-						ChallengeId = r.ChallengeId,
-						ChallengeeScore = r.ChallengeeScore,
-						ChallengerScore = r.ChallengerScore,
-						Index = r.Index
-					}).ToList()
-				}).ToList();
+			return ConvertChallengeToDto(Query().Where(c => c.ChallengeeAthleteId == athleteId
+				|| c.ChallengerAthleteId == athleteId));
 		}
-		
+	
 		// PATCH tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task<Challenge> PatchChallenge(string id, Delta<Challenge> patch)
         {
@@ -121,6 +82,16 @@ namespace SportChallengeMatchRank.Service.Controllers
         {
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == item.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == item.ChallengeeAthleteId);
+
+			if(challenger == null || challengee == null)
+				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
+
+			var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challenger.Id && m.LeagueId == item.LeagueId);
+			var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.LeagueId == item.LeagueId);
+
+			if(challengerMembership == null || challengeeMembership == null
+					|| challengeeMembership.AbandonDate.HasValue || challengerMembership.AbandonDate.HasValue)
+				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
 
 			//Check to see if there are any ongoing challenges between either athlete
 			var challengeeOngoing = _context.Challenges.Where(c => (c.ChallengeeAthleteId == item.ChallengeeAthleteId || c.ChallengeeAthleteId == item.ChallengerAthleteId)
@@ -161,8 +132,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Payload = { { "challengeId", current.Id } }
 			};
 
-			await _notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload, 4);
-
+			//Not awaiting so the user's result is not delayed
+			_notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload, 4);
 			return result;
         }
 
@@ -187,7 +158,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Payload = { { "challengeId", id } }
 			};
 
-			await _notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId, payload);
+			_notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId, payload);
         }
 
 		[HttpGet]
@@ -209,8 +180,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Payload = { { "challengeId", id } }
 			};
 
-			DeleteAsync(id);
-			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
+			await DeleteAsync(id);
+			_notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
 		}
 
 		[Route("api/acceptChallenge")]
@@ -233,7 +204,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Payload = { { "challengeId", id } }
 			};
 
-			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
+			_notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
 			return challenge.ToChallengeDto();
 		}
 
@@ -256,6 +227,19 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			if(league == null)
 				throw "This league no longer exists".ToException(Request);
+
+			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
+
+			if(challenger == null || challengee == null)
+				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
+
+			var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challenger.Id && m.LeagueId == challenge.LeagueId);
+			var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.LeagueId == challenge.LeagueId);
+
+			if(challengerMembership == null || challengeeMembership == null
+					|| challengeeMembership.AbandonDate.HasValue || challengerMembership.AbandonDate.HasValue)
+				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
 
 			var tempChallenge = new Challenge();
 			tempChallenge.League = league;
@@ -281,14 +265,8 @@ namespace SportChallengeMatchRank.Service.Controllers
 			try
 			{
 				_context.SaveChanges();
-
-				var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
-				var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
-
 				var challengerWins = challenge.GetChallengerWinningGames();
 				var challengeeWins = challenge.GetChallengeeWinningGames();
-				var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challenger.Id && m.LeagueId == challenge.LeagueId);
-				var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.LeagueId == challenge.LeagueId);
 				var winningRank = challengeeMembership.CurrentRank;
 
 				var winningAthleteId = challengee.Id;
@@ -327,7 +305,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 						{"losingAthleteId", losingAthleteId} }
 				};
 
-				await _notificationController.NotifyByTag(message, challenge.LeagueId, payload);
+				_notificationController.NotifyByTag(message, challenge.LeagueId, payload);
 			}
 			catch(DbEntityValidationException e)
 			{

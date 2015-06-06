@@ -9,23 +9,23 @@ namespace SportChallengeMatchRank
 		public Athlete()
 		{
 			Memberships = new HashSet<Membership>();
-			IncomingChallenges = new HashSet<Challenge>();
-			OutgoingChallenges = new HashSet<Challenge>();
+			//IncomingChallenges = new HashSet<Challenge>();
+			//OutgoingChallenges = new HashSet<Challenge>();
 		}
 
-		[JsonIgnore]
-		public ICollection<Challenge> IncomingChallenges
-		{
-			get;
-			set;
-		}
+		//[JsonIgnore]
+		//public ICollection<Challenge> IncomingChallenges
+		//{
+		//	get;
+		//	set;
+		//}
 
-		[JsonIgnore]
-		public ICollection<Challenge> OutgoingChallenges
-		{
-			get;
-			set;
-		}
+		//[JsonIgnore]
+		//public ICollection<Challenge> OutgoingChallenges
+		//{
+		//	get;
+		//	set;
+		//}
 
 		[JsonIgnore]
 		public ICollection<Membership> Memberships

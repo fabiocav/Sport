@@ -138,6 +138,7 @@ namespace SportChallengeMatchRank.Service
 				CreatedAt = dto.DateCreated,
 				LastRankChange = dto.LastRankChange,
 				LeagueId = dto.LeagueId,
+				AbandonDate = dto.AbandonDate,
 			};
 		}
 
@@ -154,9 +155,7 @@ namespace SportChallengeMatchRank.Service
 				DeviceToken = dto.DeviceToken,
 				DevicePlatform = dto.DevicePlatform,
 				AuthenticationId = dto.AuthenticationId,
-				MembershipIds = dto.Memberships.Select(la => la.Id).ToList(),
-				IncomingChallengeIds = dto.IncomingChallenges.Select(la => la.Id).ToList(),
-				OutgoingChallengeIds = dto.OutgoingChallenges.Select(la => la.Id).ToList(),
+				MembershipIds = dto.Memberships.Where(m => m.AbandonDate == null).Select(m => m.Id).ToList(),
 			};
 		}
 
