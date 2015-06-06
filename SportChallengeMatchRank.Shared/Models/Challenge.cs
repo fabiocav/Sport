@@ -268,17 +268,6 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public ICommand ResizeCommand
-		{
-			get
-			{
-				return new Command(() =>
-				{
-					Height = 100;
-				});
-			}
-		}
-
 		public void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("League");

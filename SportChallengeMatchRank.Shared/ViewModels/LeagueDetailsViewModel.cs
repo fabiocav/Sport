@@ -42,7 +42,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return App.CurrentAthlete?.GetOngoingChallengeForLeague(League);
+				return League.OngoingChallenges.InvolvingAthlete(App.CurrentAthlete.Id);
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return App.CurrentAthlete?.GetPreviousChallengeForLeague(League);
+				return League.PastChallenges.Where(c => c.InvolvesAthlete(App.CurrentAthlete.Id)).OrderByDescending(c => c.DateCompleted).FirstOrDefault();
 			}
 		}
 

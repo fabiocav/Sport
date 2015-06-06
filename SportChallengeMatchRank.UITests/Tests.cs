@@ -47,6 +47,8 @@ namespace SportChallengeMatchRank.UITests
 			app.Screenshot("Home page");
 
 			app.Tap("joinLeagueButton");
+			app.Repl();
+
 			Thread.Sleep(1000);
 			app.Tap("joinLeagueButton");
 			app.Tap("NoResourceEntry-0");

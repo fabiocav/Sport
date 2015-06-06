@@ -53,7 +53,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				var challenge = Membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
+				var challenge = Membership.GetOngoingChallenge(App.CurrentAthlete);
 				return challenge != null && challenge.ChallengerAthleteId == App.CurrentAthlete.Id && challenge.ChallengeeAthleteId == Membership.AthleteId
 				&& Membership.LeagueId == challenge.LeagueId;
 			}
@@ -83,22 +83,6 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		async public Task RevokeExistingChallenge(Membership membership)
-		{
-			var challenge = membership.GetExistingOngoingChallengeWithAthlete(App.CurrentAthlete);
-
-			var task = AzureService.Instance.RevokeChallenge(challenge.Id);
-			await RunSafe(task);
-
-			if(task.IsFaulted)
-				return;
-
-			App.CurrentAthlete.RefreshChallenges();
-			Membership.Athlete.RefreshChallenges();
-
-			NotifyPropertiesChanged();
-		}
-
 		public void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("CanChallenge");
@@ -113,7 +97,6 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
-			Membership.Athlete.RefreshChallenges();
 			Membership.Athlete.RefreshMemberships();
 		}
 

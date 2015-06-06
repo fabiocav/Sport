@@ -71,8 +71,7 @@ namespace SportChallengeMatchRank.Shared
 			if(task.IsFaulted)
 				return null;
 
-			Challenge.ChallengerAthlete.RefreshChallenges();
-			Challenge.ChallengerAthlete.RefreshChallenges();
+			Challenge.League.RefreshChallenges();
 			return Challenge;
 		}
 

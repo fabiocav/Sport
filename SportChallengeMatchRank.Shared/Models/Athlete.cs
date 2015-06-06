@@ -24,7 +24,6 @@ namespace SportChallengeMatchRank.Shared
 
 		void Initialize()
 		{
-			RefreshChallenges();
 		}
 
 		public List<string> MembershipIds
@@ -34,18 +33,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		public string Alias
-		{
-			get;
-			set;
-		}
-
-		public List<string> IncomingChallengeIds
-		{
-			get;
-			set;
-		}
-
-		public List<string> OutgoingChallengeIds
 		{
 			get;
 			set;
@@ -107,10 +94,10 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		ObservableCollection<Membership> _memberships = new ObservableCollection<Membership>();
+		List<Membership> _memberships = new List<Membership>();
 
 		[JsonIgnore]
-		public ObservableCollection<Membership> Memberships
+		public List<Membership> Memberships
 		{
 			get
 			{
@@ -195,54 +182,29 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		[JsonIgnore]
-		public List<Challenge> IncomingChallenges
-		{
-			get;
-			private set;
-		}
+		//		public void RefreshChallenges()
+		//		{
+		//			if(IncomingChallenges == null)
+		//				IncomingChallenges = new List<Challenge>();
+		//
+		//			if(OutgoingChallenges == null)
+		//				OutgoingChallenges = new List<Challenge>();
+		//
+		//			IncomingChallenges.Clear();
+		//			DataManager.Instance.Challenges.Values.Where(m => m.ChallengeeAthleteId == Id).ToList().ForEach(IncomingChallenges.Add);
+		//
+		//			OutgoingChallenges.Clear();
+		//			DataManager.Instance.Challenges.Values.Where(m => m.ChallengerAthleteId == Id).ToList().ForEach(OutgoingChallenges.Add);
+		//		}
 
-		[JsonIgnore]
-		public List<Challenge> OutgoingChallenges
-		{
-			get;
-			private set;
-		}
-
-		[JsonIgnore]
-		public List<Challenge> AllChallenges
-		{
-			get
-			{
-				var list = new List<Challenge>(IncomingChallenges);
-				list.AddRange(OutgoingChallenges);
-				return list;
-			}
-		}
-
-		public void RefreshChallenges()
-		{
-			if(IncomingChallenges == null)
-				IncomingChallenges = new List<Challenge>();
-
-			if(OutgoingChallenges == null)
-				OutgoingChallenges = new List<Challenge>();
-
-			IncomingChallenges.Clear();
-			DataManager.Instance.Challenges.Values.Where(m => m.ChallengeeAthleteId == Id).ToList().ForEach(IncomingChallenges.Add);
-
-			OutgoingChallenges.Clear();
-			DataManager.Instance.Challenges.Values.Where(m => m.ChallengerAthleteId == Id).ToList().ForEach(OutgoingChallenges.Add);
-		}
-
-		public Challenge GetPreviousChallengeForLeague(League league)
-		{
-			return AllChallenges.Where(c => c.LeagueId == league.Id && c.IsCompleted).OrderByDescending(c => c.DateCompleted).FirstOrDefault();
-		}
-
-		public Challenge GetOngoingChallengeForLeague(League league)
-		{
-			return AllChallenges.FirstOrDefault(c => c.LeagueId == league.Id && !c.IsCompleted);
-		}
+		//		public Challenge GetPreviousChallengeForLeague(League league)
+		//		{
+		//			return AllChallenges.Where(c => c.LeagueId == league.Id && c.IsCompleted).OrderByDescending(c => c.DateCompleted).FirstOrDefault();
+		//		}
+		//
+		//		public Challenge GetOngoingChallengeForLeague(League league)
+		//		{
+		//			return AllChallenges.FirstOrDefault(c => c.LeagueId == league.Id && !c.IsCompleted);
+		//		}
 	}
 }

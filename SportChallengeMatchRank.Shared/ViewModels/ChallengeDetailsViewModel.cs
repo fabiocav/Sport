@@ -150,9 +150,7 @@ namespace SportChallengeMatchRank.Shared
 
 			await RunSafe(task);
 
-			Challenge.ChallengeeAthlete.RefreshChallenges();
-			Challenge.ChallengerAthlete.RefreshChallenges();
-
+			Challenge.League.RefreshChallenges();
 			return !task.IsFaulted;
 		}
 

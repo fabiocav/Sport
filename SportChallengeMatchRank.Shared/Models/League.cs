@@ -224,6 +224,34 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		List<Challenge> _ongoingChallenges = new List<Challenge>();
+
+		public List<Challenge> OngoingChallenges
+		{
+			get
+			{
+				return _ongoingChallenges;
+			}
+			set
+			{
+				SetPropertyChanged(ref _ongoingChallenges, value);
+			}
+		}
+
+		List<Challenge> _pastChallenges = new List<Challenge>();
+
+		public List<Challenge> PastChallenges
+		{
+			get
+			{
+				return _pastChallenges;
+			}
+			set
+			{
+				SetPropertyChanged(ref _pastChallenges, value);
+			}
+		}
+
 		string imageUrl;
 
 		public string ImageUrl
@@ -334,6 +362,17 @@ namespace SportChallengeMatchRank.Shared
 		{
 			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).OrderBy(m => m.CurrentRank).ToList().ForEach(_memberships.Add);
+		}
+
+		public void RefreshChallenges()
+		{
+			_ongoingChallenges.Clear();
+			DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && !c.IsCompleted)
+				.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_ongoingChallenges.Add);
+
+			_pastChallenges.Clear();
+			DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && c.IsCompleted)
+				.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_pastChallenges.Add);
 		}
 	}
 

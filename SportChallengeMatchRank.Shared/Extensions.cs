@@ -40,7 +40,6 @@ namespace SportChallengeMatchRank.Shared
 			var athlete = model as Athlete;
 			if(athlete != null)
 			{
-				athlete.RefreshChallenges();
 				athlete.RefreshMemberships();
 			}
 
@@ -48,6 +47,7 @@ namespace SportChallengeMatchRank.Shared
 			if(league != null)
 			{
 				league.RefreshMemberships();
+				league.RefreshChallenges();
 			}
 
 			if(dict.ContainsKey(model.Id))

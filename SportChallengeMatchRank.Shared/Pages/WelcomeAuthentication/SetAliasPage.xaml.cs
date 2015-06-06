@@ -85,13 +85,6 @@ namespace SportChallengeMatchRank.Shared
 			if(IsVisible && string.IsNullOrEmpty(ViewModel.Athlete.Alias))
 				txtAlias.Focus();
 		}
-
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-			ViewModel.Athlete.RefreshChallenges();
-			ViewModel.Athlete.RefreshMemberships();
-		}
 	}
 
 	public partial class SetAliasPageXaml : BaseContentPage<AthleteProfileViewModel>

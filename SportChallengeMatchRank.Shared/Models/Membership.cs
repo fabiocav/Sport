@@ -24,6 +24,29 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		DateTime? _abandonDate;
+
+		public DateTime? AbandonDate
+		{
+			get
+			{
+				return _abandonDate;
+			}
+			set
+			{
+				SetPropertyChanged(ref _abandonDate, value);
+				SetPropertyChanged("IsAbandoned");
+			}
+		}
+
+		public bool IsAbandoned
+		{
+			get
+			{
+				return AbandonDate.HasValue;
+			}
+		}
+
 		string _athleteId;
 
 		public string AthleteId
@@ -145,26 +168,19 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("CurrentRank");
 		}
 
-		public Challenge GetExistingOngoingChallengeWithAthlete(Athlete athlete)
+		public Challenge GetOngoingChallenge(Athlete athlete)
 		{
 			if(Athlete == null || athlete.Id == Athlete.Id)
 				return null;
 
 			//Check to see if they are part of the same league
 			var membership = athlete.Memberships.SingleOrDefault(m => m.LeagueId == LeagueId);
-
-			if(membership != null)
-			{
-				return athlete.AllChallenges.FirstOrDefault(c => (c.ChallengeeAthleteId == athlete.Id ||
-				c.ChallengerAthleteId == athlete.Id) && c.LeagueId == LeagueId && !c.IsCompleted);
-			}
-
-			return null;
+			return membership != null ? League.OngoingChallenges.InvolvingAthlete(athlete.Id) : null;
 		}
 
 		public bool HasExistingChallengeWithAthlete(Athlete athlete)
 		{
-			return GetExistingOngoingChallengeWithAthlete(athlete) != null;
+			return GetOngoingChallenge(athlete) != null;
 		}
 
 		public string GetChallengeConflictReason(Athlete athlete)
@@ -189,7 +205,8 @@ namespace SportChallengeMatchRank.Shared
 				return "{0} is not a member of the {1} league".Fmt(Athlete.Alias, League.Name);
 			}
 
-			var challenge = athlete.AllChallenges.FirstOrDefault(c => c.LeagueId == LeagueId && !c.IsCompleted);
+
+			var challenge = GetOngoingChallenge(App.CurrentAthlete);
 			if(challenge != null)
 			{
 				var other = challenge.ChallengeeAthleteId == athlete.Id ? challenge.ChallengerAthlete : challenge.ChallengeeAthlete;
@@ -197,7 +214,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			//Athlete is within range but let's make sure there aren't already challenges out there 
-			challenge = Athlete.AllChallenges.FirstOrDefault(c => c.LeagueId == LeagueId && !c.IsCompleted);
+			challenge = League.OngoingChallenges.FirstOrDefault(c => c.InvolvesAthlete(athlete.Id));
 			if(challenge != null)
 			{
 				var other = challenge.ChallengeeAthleteId == Athlete.Id ? challenge.ChallengerAthlete : challenge.ChallengeeAthlete;

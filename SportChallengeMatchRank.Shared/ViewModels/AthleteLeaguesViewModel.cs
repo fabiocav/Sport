@@ -65,7 +65,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			if(_hasLoadedLeaguesBefore && !forceRefresh)
 			{
-				Athlete.RefreshChallenges();
+				Athlete.RefreshMemberships();
 				return;
 			}
 
@@ -78,23 +78,9 @@ namespace SportChallengeMatchRank.Shared
 			_hasLoadedLeaguesBefore = true;
 		}
 
-		async public Task GetChallenges(bool forceRefresh = false)
-		{
-			if(_hasLoadedChallengesBefore && !forceRefresh)
-			{
-				Athlete.RefreshChallenges();
-				return;
-			}
-			
-			await AthleteViewModel.GetChallenges(forceRefresh |= !_hasLoadedChallengesBefore);
-			Athlete.RefreshChallenges();
-			_hasLoadedChallengesBefore = true;
-		}
-
 		public async Task RemoteRefresh()
 		{
 			await GetLeagues(true);
-			await GetChallenges(true);
 		}
 
 		public void LocalRefresh()
@@ -112,7 +98,7 @@ namespace SportChallengeMatchRank.Shared
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new LeagueViewModel(new League {
-					Name = "You don't belong to any leagues - you should join some :)"
+					Name = "You don't belong to any leagues - this saddens me"
 				}));
 			}
 		}

@@ -7,6 +7,27 @@ namespace SportChallengeMatchRank.Shared
 {
 	public static partial class Extensions
 	{
+		public static Athlete Opponent(this Challenge c, string athleteId)
+		{
+			return c.ChallengeeAthleteId == athleteId ? c.ChallengerAthlete : c.ChallengerAthleteId == athleteId ? c.ChallengeeAthlete : null;
+		}
+
+		public static bool InvolvesAthlete(this Challenge c, string athleteId)
+		{
+			return c.ChallengerAthleteId == athleteId || c.ChallengeeAthleteId == athleteId;
+		}
+
+		public static Challenge InvolvingAthlete(this List<Challenge> list, string athleteId)
+		{
+			return list.FirstOrDefault(c => c.InvolvesAthlete(athleteId));
+		}
+
+		public static bool InvolvesAthletes(this Challenge c, string athleteA, string athleteB)
+		{
+			return (c.ChallengerAthleteId == athleteA && c.ChallengeeAthleteId == athleteB)
+			|| (c.ChallengerAthleteId == athleteB && c.ChallengeeAthleteId == athleteA);
+		}
+
 		public static string ToOrdinal(this DateTime date)
 		{
 			return "{0}, {1} {2}".Fmt(date.ToString("dddd"), date.ToString("MMM"), date.Day.ToOrdinal());

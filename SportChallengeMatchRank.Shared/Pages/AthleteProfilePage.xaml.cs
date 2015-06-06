@@ -40,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 			};
 
-			btnRegister.Clicked += async(sender, e) =>
+			btnRegister.Clicked += (sender, e) =>
 			{
 				ViewModel.RegisterForPushNotifications();	
 			};
@@ -51,8 +51,8 @@ namespace SportChallengeMatchRank.Shared
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			ViewModel.Athlete.RefreshChallenges();
 			ViewModel.Athlete.RefreshMemberships();
+			ViewModel.Athlete.Memberships.ForEach(m => m.League.RefreshChallenges());
 		}
 
 		//		protected override async void OnIncomingPayload(App app, NotificationPayload payload)

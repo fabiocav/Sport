@@ -105,7 +105,6 @@ namespace SportChallengeMatchRank.Shared
 			if(App.CurrentAthlete != null && !forceRefresh)
 				return true;
 
-			Settings.Instance.AthleteId = null;
 			Athlete athlete = null;
 			using(new Busy(this))
 			{
@@ -172,13 +171,13 @@ namespace SportChallengeMatchRank.Shared
 					}
 				}
 
-				Settings.Instance.AthleteId = athlete != null ? athlete.Id : null;
+				Settings.Instance.AthleteId = athlete?.Id;
 				await Settings.Instance.Save();
 
 				if(App.CurrentAthlete != null)
 				{
 					AuthenticationStatus = "Getting Athlete's info";
-					var task = AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
+					var task = AzureService.Instance.GetAllLeaguesForAthlete(App.CurrentAthlete);
 					await RunSafe(task);
 
 					await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));

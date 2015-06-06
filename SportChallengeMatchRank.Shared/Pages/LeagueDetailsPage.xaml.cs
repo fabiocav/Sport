@@ -150,10 +150,10 @@ namespace SportChallengeMatchRank.Shared
 				}
 			}
 
-			using(new Busy(ViewModel))
-			{
-				await ViewModel.RefreshLeague();
-			}
+//			using(new Busy(ViewModel))
+//			{
+//				await ViewModel.RefreshLeague();
+//			}
 
 			scrollView.Scrolled += (sender, e) =>
 			{
@@ -182,7 +182,6 @@ namespace SportChallengeMatchRank.Shared
 		const string _leave = "Cowardly Abandon League";
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
-		//const string _rankings = "Rankings";
 
 		List<string> GetMoreMenuOptions()
 		{
@@ -191,7 +190,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.CanGetRules)
 				list.Add(_rules);
 
-			if(ViewModel.IsMember && App.CurrentAthlete.AllChallenges.Any(c => c.LeagueId == ViewModel.League.Id && c.IsCompleted))
+			if(ViewModel.IsMember && ViewModel.PreviousChallenge != null)
 				list.Add(_pastChallenges);
 
 			if(ViewModel.IsMember)
@@ -272,9 +271,11 @@ namespace SportChallengeMatchRank.Shared
 
 			if(accepted)
 			{
-				if(App.CurrentAthlete.AllChallenges.Any(c => c.LeagueId == ViewModel.League.Id && !c.IsCompleted))
+				var challenge = ViewModel.League.OngoingChallenges.InvolvingAthlete(App.CurrentAthlete.Id);
+				if(challenge != null)
 				{
-					accepted = await DisplayAlert("Existing Challenges", "You have ongoing challenges - still abandon?", "Yes", "No");
+					var message = "You have a challenge scheduled with {0}? Still abandon?".Fmt(challenge.Opponent(App.CurrentAthlete.Id).Alias);
+					accepted = await DisplayAlert("Existing Challenges", message, "Yes", "No");
 				}
 
 				if(accepted)

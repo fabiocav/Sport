@@ -92,10 +92,11 @@ namespace SportChallengeMatchRank.Shared
 
 			if(App.CurrentAthlete != null)
 			{
+				ViewModel.LocalRefresh();
+				ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
 				//using(new HUD("Getting leagues..."))
 				{
-					await ViewModel.RemoteRefresh();
-					ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
+//					await ViewModel.RemoteRefresh();
 				}
 			}
 		}

@@ -46,22 +46,6 @@ namespace SportChallengeMatchRank.Shared
 				await Navigation.PushModalAsync(new NavigationPage(datePage));
 			};
 
-//			btnRevokeChallenge.Clicked += async(sender, e) =>
-//			{
-//				var revoke = await DisplayAlert("Really?", "Are you sure you want to revoke this challenge?", "Sadly", "No");
-//
-//				if(!revoke)
-//					return;
-//					
-//				using(new HUD("Revoking..."))
-//				{
-//					await ViewModel.RevokeExistingChallenge(ViewModel.Membership);
-//				}
-//
-//				"Revoked".Fmt(ViewModel.Membership.Athlete.Name).ToToast();
-//			};
-
-			await ViewModel.RunSafe(AzureService.Instance.GetAllChallengesByAthlete(ViewModel.Membership.Athlete));
 			ViewModel.SetPropertyChanged("CanChallenge");
 		}
 

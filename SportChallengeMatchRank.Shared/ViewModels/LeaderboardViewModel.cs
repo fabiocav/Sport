@@ -60,7 +60,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				LocalRefresh();
 
-				var task = AzureService.Instance.GetAllAthletesByLeague(League);
+				var task = AzureService.Instance.GetAllAthletesForLeague(League);
 				await RunSafe(task);
 
 				_hasLoadedBefore = true;

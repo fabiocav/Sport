@@ -33,7 +33,7 @@ namespace SportChallengeMatchRank.Shared
 			{
 				Athlete.RefreshMemberships();
 
-				var task = AzureService.Instance.GetAllLeaguesByAthlete(App.CurrentAthlete);
+				var task = AzureService.Instance.GetAllLeaguesForAthlete(App.CurrentAthlete);
 				await RunSafe(task);
 
 				if(task.IsFaulted)
