@@ -77,8 +77,8 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var tags = new List<string> {
-						App.CurrentAthlete.Id,
-						"All",
+					App.CurrentAthlete.Id,
+					"All",
 				};
 
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
@@ -110,8 +110,7 @@ namespace SportChallengeMatchRank.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> {
-					{
+				var values = new Dictionary<string, string> { {
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -503,6 +502,7 @@ namespace SportChallengeMatchRank.Shared
 				Membership m;
 				try
 				{
+					
 					Client.GetTable<Membership>().DeleteAsync(new Membership {
 						Id = id
 					}).Wait();
@@ -512,6 +512,7 @@ namespace SportChallengeMatchRank.Shared
 
 					var challenges = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == m.LeagueId
 					                 && (c.ChallengerAthleteId == m.AthleteId || c.ChallengeeAthleteId == m.AthleteId)).ToList();
+
 
 					Challenge ch;
 					challenges.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
@@ -551,12 +552,7 @@ namespace SportChallengeMatchRank.Shared
 				}
 
 				DataManager.Instance.Challenges.AddOrUpdate(challenge);
-
-				if(challenge.ChallengeeAthlete != null)
-					challenge.ChallengeeAthlete.RefreshChallenges();
-
-				if(challenge.ChallengerAthlete != null)
-					challenge.ChallengerAthlete.RefreshChallenges();
+				challenge.League.RefreshChallenges();
 			});
 		}
 
@@ -567,8 +563,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -598,8 +593,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
