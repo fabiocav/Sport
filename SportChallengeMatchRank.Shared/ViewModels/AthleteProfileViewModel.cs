@@ -47,7 +47,6 @@ namespace SportChallengeMatchRank.Shared
 			{
 				var task = AzureService.Instance.SaveAthlete(Athlete);
 				await RunSafe(task);
-				await Task.Delay(1000);
 				return !task.IsFaulted;
 			}
 		}

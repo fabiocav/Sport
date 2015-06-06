@@ -77,6 +77,14 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public bool AwaitingDecision
+		{
+			get
+			{
+				return !CanAccept && !CanPostMatchResults && Challenge.InvolvesAthlete(App.CurrentAthlete.Id);
+			}
+		}
+
 		public Athlete Opponent
 		{
 			get
@@ -178,6 +186,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("Challenge");
 			SetPropertyChanged("ChallengeStatus");
 			SetPropertyChanged("Opponent");
+			SetPropertyChanged("AwaitingDecision");
 		}
 	}
 }

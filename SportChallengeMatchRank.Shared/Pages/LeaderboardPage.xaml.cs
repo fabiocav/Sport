@@ -33,23 +33,17 @@ namespace SportChallengeMatchRank.Shared
 					
 				await Navigation.PushAsync(page);
 			};
+
+			if(ViewModel.League != null)
+				ViewModel.LocalRefresh();
 		}
 
-		async protected override void OnLoaded()
+		protected override void OnAppearing()
 		{
 			if(ViewModel.League != null)
-			{
-				using(new HUD("Getting members..."))
-				{
-					await ViewModel.GetLeaderboard();
-				}
-			}
+				ViewModel.LocalRefresh();
 
-			if(ViewModel.League != null)
-				ViewModel.League.RefreshMemberships();
-			
-			//AddDoneButton();
-			base.OnLoaded();
+			base.OnAppearing();
 		}
 
 		void OnChallengeClicked(object sender, EventArgs e)

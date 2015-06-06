@@ -139,10 +139,11 @@ namespace SportChallengeMatchRank.Shared
 		{
 			return new Task(() =>
 			{
-				var memberships = Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync().Result;
+				var memberships = Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id && m.AbandonDate == null).OrderBy(m => m.CurrentRank).ToListAsync().Result;
 				var athleteIds = memberships.Where(m => !DataManager.Instance.Athletes.ContainsKey(m.AthleteId)).Select(m => m.AthleteId).ToList();
 				var athletes = new List<Athlete>();
 
+				//Get any athletes that don't exist locally
 				if(athleteIds != null && athleteIds.Count > 0)
 				{
 					athleteIds.ForEach(Console.WriteLine);
@@ -173,6 +174,7 @@ namespace SportChallengeMatchRank.Shared
 
 				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
 				DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
+				athletes.ForEach(a => a.IsDirty = false);
 			});
 		}
 
@@ -327,44 +329,54 @@ namespace SportChallengeMatchRank.Shared
 		{
 			return new Task(() =>
 			{
-				var memberships = Client.GetTable<Membership>().Where(m => m.AthleteId == athlete.Id).OrderBy(m => m.CurrentRank).ToListAsync().Result;
-				var leagueIds = memberships.Where(m => !DataManager.Instance.Leagues.ContainsKey(m.LeagueId)).Select(m => m.LeagueId).ToList();
+				var leagueIds = Client.GetTable<Membership>().Where(m => m.AthleteId == athlete.Id && m.AbandonDate == null).Select(m => m.LeagueId).ToListAsync().Result;
 
-				if(leagueIds.Count > 0)
+				//Wipe out any existing memberships related to the athlete
+				foreach(var m in DataManager.Instance.Memberships.Where(m => m.Value.AthleteId == athlete.Id).ToList())
 				{
-					var query = Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name);
-					var missingLeagues = query.ToListAsync().Result;
+					Membership mem;
+					DataManager.Instance.Memberships.TryRemove(m.Key, out mem);
+				}
 
-					missingLeagues.ForEach(DataManager.Instance.Leagues.AddOrUpdate);
+				if(leagueIds.Count == 0)
+					return;
 
-					foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == athlete.Id).ToList())
+				var query = Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name);
+				var leagues = query.ToListAsync().Result;
+
+				var athleteIds = new List<string>();
+				leagues.ForEach(l => l.Memberships.ForEach(m => athleteIds.Add(m.AthleteId)));
+
+				var allAthletes = Client.GetTable<Athlete>().Where(a => athleteIds.Distinct().Contains(a.Id)).ToListAsync().Result;
+				foreach(var a in allAthletes)
+				{
+					DataManager.Instance.Athletes.AddOrUpdate(a);
+				}
+
+				foreach(var l in leagues)
+				{
+					//Wipe out any existing memberships
+					foreach(var m in DataManager.Instance.Memberships.Where(m => m.Value.LeagueId == l.Id).ToList())
 					{
 						Membership mem;
-						DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
+						DataManager.Instance.Memberships.TryRemove(m.Key, out mem);
 					}
-				}
 
-				var leagues = DataManager.Instance.Leagues.Where(l => memberships.Select(m => m.LeagueId).Contains(l.Key)).Select(l => l.Value);
-				var index = 0;
-				foreach(var m in memberships)
-				{
-					var league = leagues.SingleOrDefault(l => l.Id == m.LeagueId);
-					league = league ?? DataManager.Instance.Leagues.Get(m.LeagueId);
-
-					if(league == null)
+					//Add the ones still valid
+					foreach(var m in l.Memberships)
 					{
-						DeleteMembership(m.Id).Wait();
+						l.MembershipIds.Add(m.Id);
+						DataManager.Instance.Memberships.AddOrUpdate(m);
+						m.Athlete?.RefreshMemberships();
 					}
 
-					league.Index = index.ToString();
-					index++;
-					DataManager.Instance.Memberships.AddOrUpdate(m);
-					DataManager.Instance.Leagues.AddOrUpdate(league);
-					m.SetPropertyChanged("League");
-				}
+					foreach(var c in l.OngoingChallenges)
+					{
+						DataManager.Instance.Challenges.AddOrUpdate(c);
+					}
 
-				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-				DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());					
+					DataManager.Instance.Leagues.AddOrUpdate(l);
+				}
 			});
 		}
 
@@ -424,7 +436,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			return new Task(() =>
 			{
-				var list = Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id).OrderBy(m => m.CurrentRank).ToListAsync().Result;
+				var list = Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id && m.AbandonDate == null).OrderBy(m => m.CurrentRank).ToListAsync().Result;
 
 				league.Memberships.Clear();
 				foreach(var m in list)
@@ -716,7 +728,7 @@ namespace SportChallengeMatchRank.Shared
 						query = query + "&";
 					}
 
-					query = query + "$expand=Memberships";
+					query = query + "$expand=Memberships,OngoingChallenges";
 					builder.Query = query.TrimStart('?');
 					request.RequestUri = builder.Uri;
 				}

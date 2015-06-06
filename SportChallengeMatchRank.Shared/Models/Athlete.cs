@@ -170,7 +170,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			_memberships.Clear();
 			//TODO Error here when deleting an existing league
-			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).OrderBy(l => l.League.Name).ToList().ForEach(_memberships.Add);
+			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).OrderBy(l => l.League?.Name).ToList().ForEach(_memberships.Add);
 		}
 
 		[JsonIgnore]

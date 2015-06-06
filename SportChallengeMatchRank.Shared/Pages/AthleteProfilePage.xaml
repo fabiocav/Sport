@@ -40,7 +40,7 @@
 				</StackLayout>
 
 				<StackLayout Spacing="0" Padding="0,20">
-					<ContentView BackgroundColor="{StaticResource asphaltDark}" HeightRequest=".5" HorizontalOptions="Fill" />
+					<ContentView BackgroundColor="{StaticResource asphaltPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
 					<StackLayout Orientation="Horizontal" Spacing="20" Padding="48,0" HeightRequest="56">
 						<Label Text="Alias:" TextColor="{StaticResource asphaltLight}" VerticalOptions="Center" FontSize="Large" />
 						<ContentView Padding="0,5,0,0" HorizontalOptions="FillAndExpand">
@@ -48,7 +48,7 @@
 								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" />
 						</ContentView>
 					</StackLayout>
-					<ContentView BackgroundColor="{StaticResource asphaltDark}" HeightRequest=".5" HorizontalOptions="Fill" />
+					<ContentView BackgroundColor="{StaticResource asphaltPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
 				</StackLayout>
 			</StackLayout>
 

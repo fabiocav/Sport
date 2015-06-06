@@ -24,9 +24,9 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		DateTime? _abandonDate;
+		DateTimeOffset? _abandonDate;
 
-		public DateTime? AbandonDate
+		public DateTimeOffset? AbandonDate
 		{
 			get
 			{

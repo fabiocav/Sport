@@ -44,7 +44,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get;
 			set;
-		}
+		} = new List<string>();
 
 		public string Index
 		{
@@ -322,10 +322,10 @@ namespace SportChallengeMatchRank.Shared
 				if(!HasStarted)
 					return "This league hasn't started yet";
 
-				if(Memberships.Count == 0)
+				if(Memberships?.Count == 0)
 					return "The league has no members - you should totally join!";
 
-				var m = Memberships.First();
+				var m = Memberships?.First();
 				return "{0} is ranked {1}".Fmt(m.Athlete.Name, m.RankDescription);
 			}
 		}
@@ -362,6 +362,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).OrderBy(m => m.CurrentRank).ToList().ForEach(_memberships.Add);
+			SetPropertyChanged("Memberships");
 		}
 
 		public void RefreshChallenges()
@@ -373,6 +374,10 @@ namespace SportChallengeMatchRank.Shared
 			_pastChallenges.Clear();
 			DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && c.IsCompleted)
 				.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_pastChallenges.Add);
+
+
+			SetPropertyChanged("OngoingChallenges");
+			SetPropertyChanged("PastChallenges");
 		}
 	}
 

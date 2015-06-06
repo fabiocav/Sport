@@ -89,6 +89,12 @@
 			</AbsoluteLayout>
 		</StackLayout>
 
+		<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="EndAndExpand" Padding="0,0,14,14" VerticalOptions="Center"
+			IsVisible="{Binding ViewModel.AwaitingDecision}">
+			<Label Text="{Binding ViewModel.Opponent.Alias, StringFormat='awaiting \{0\} to accept or decline'}"
+				TextColor="{Binding ViewModel.Challenge.League.Theme.Dark}" />
+		</StackLayout>
+
 	</StackLayout>
 	
 </ContentView>

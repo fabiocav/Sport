@@ -116,10 +116,7 @@ namespace SportChallengeMatchRank.Shared
 					var task = AzureService.Instance.GetAthleteById(Settings.Instance.AthleteId);
 					await RunSafe(task);
 
-					if(task.IsFaulted)
-						return false;
-
-					if(task.IsCompleted)
+					if(task.IsCompleted && !task.IsFaulted)
 						athlete = task.Result;
 				}
 
@@ -128,10 +125,7 @@ namespace SportChallengeMatchRank.Shared
 					var task = AzureService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
 					await RunSafe(task);
 
-					if(task.IsFaulted)
-						return false;
-					
-					if(task.IsCompleted)
+					if(task.IsCompleted && !task.IsFaulted)
 						athlete = task.Result;
 				}
 
@@ -140,10 +134,7 @@ namespace SportChallengeMatchRank.Shared
 					var task = AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
 					await RunSafe(task);
 
-					if(task.IsFaulted)
-						return false;
-
-					if(task.IsCompleted)
+					if(task.IsCompleted && !task.IsFaulted)
 						athlete = task.Result;
 				}
 
@@ -176,10 +167,11 @@ namespace SportChallengeMatchRank.Shared
 
 				if(App.CurrentAthlete != null)
 				{
-					AuthenticationStatus = "Getting Athlete's info";
+					AuthenticationStatus = "Getting leaderboards";
 					var task = AzureService.Instance.GetAllLeaguesForAthlete(App.CurrentAthlete);
 					await RunSafe(task);
 
+					App.CurrentAthlete.IsDirty = false;
 					await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
 					MessagingCenter.Send<AuthenticationViewModel>(this, "UserAuthenticated");
 				}
@@ -243,7 +235,8 @@ namespace SportChallengeMatchRank.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
+						{
 							"Name",
 							App.AuthUserProfile.Name
 						}
