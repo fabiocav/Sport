@@ -40,10 +40,10 @@ namespace SportChallengeMatchRank.Shared
 					await Navigation.PopModalAsync();
 					await Navigation.PopAsync();
 
-					"Challenge sent - it's soooo on!".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
+					"Challenge sent".Fmt(ViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
 				};
 
-				await Navigation.PushModalAsync(new NavigationPage(datePage));
+				await Navigation.PushModalAsync(datePage.GetNavigationPage());
 			};
 
 			ViewModel.SetPropertyChanged("CanChallenge");

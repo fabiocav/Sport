@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -30,7 +31,7 @@ namespace SportChallengeMatchRank.Shared
 				var vm = list.SelectedItem as LeagueViewModel;
 				list.SelectedItem = null;
 
-				//Empty message?
+				//Empty message
 				if(vm.League.Id == null)
 					return;
 
@@ -43,6 +44,8 @@ namespace SportChallengeMatchRank.Shared
 					{
 						OnJoinedLeague(l);
 					}
+
+					await Navigation.PopAsync();
 				};
 
 				await Navigation.PushAsync(page);
@@ -53,6 +56,7 @@ namespace SportChallengeMatchRank.Shared
 			using(new HUD("Getting leagues..."))
 			{
 				await ViewModel.GetAvailableLeagues(true);
+				ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
 			}
 		}
 

@@ -138,6 +138,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\MatchResultsFormPage.xaml.cs">
       <DependentUpon>MatchResultsFormPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MembershipViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

@@ -24,9 +24,9 @@ namespace SportChallengeMatchRank.Shared
 				if(list.SelectedItem == null)
 					return;
 
-				var membership = list.SelectedItem as Membership;
+				var vm = list.SelectedItem as MembershipViewModel;
 				list.SelectedItem = null;
-				var page = new MembershipDetailsPage(membership.Id) {
+				var page = new MembershipDetailsPage(vm.Membership.Id) {
 					BarBackgroundColor = ViewModel.League.Theme.Light,
 					BarTextColor = ViewModel.League.Theme.Dark,
 				};
@@ -36,6 +36,11 @@ namespace SportChallengeMatchRank.Shared
 
 			if(ViewModel.League != null)
 				ViewModel.LocalRefresh();
+
+			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", async(app) =>
+			{
+				ViewModel.LocalRefresh();
+			});
 		}
 
 		protected override void OnAppearing()
@@ -44,6 +49,12 @@ namespace SportChallengeMatchRank.Shared
 				ViewModel.LocalRefresh();
 
 			base.OnAppearing();
+		}
+
+		protected override void OnDisappearing()
+		{
+			//MessagingCenter.Unsubscribe<App>(this, "ChallengesUpdated");
+			base.OnDisappearing();
 		}
 
 		void OnChallengeClicked(object sender, EventArgs e)

@@ -72,6 +72,7 @@ namespace SportChallengeMatchRank.Shared
 				return null;
 
 			Challenge.League.RefreshChallenges();
+			MessagingCenter.Send<App>(App.Current, "ChallengesUpdated");
 			return Challenge;
 		}
 

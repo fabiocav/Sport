@@ -5,10 +5,11 @@ namespace SportChallengeMatchRank.Shared
 {
 	public class LeagueViewModel : BaseViewModel
 	{
-		public LeagueViewModel(League league, Athlete athlete = null)
+		public LeagueViewModel(League league, Athlete athlete = null, bool isLast = false)
 		{
 			League = league;
 			Athlete = athlete;
+			IsLast = isLast;
 		}
 
 		public League League
@@ -36,6 +37,20 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				return App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id);
+			}
+		}
+
+		bool _isLast;
+
+		public bool IsLast
+		{
+			get
+			{
+				return _isLast;
+			}
+			set
+			{
+				SetPropertyChanged(ref _isLast, value);
 			}
 		}
 

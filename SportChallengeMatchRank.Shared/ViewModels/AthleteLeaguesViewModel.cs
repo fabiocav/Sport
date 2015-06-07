@@ -94,25 +94,20 @@ namespace SportChallengeMatchRank.Shared
 
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
 			toAdd.ForEach(l => Leagues.Add(new LeagueViewModel(l, App.CurrentAthlete)));
+			Leagues.Sort(new LeagueSortComparer());
+
+			foreach(var l in Leagues)
+				l.IsLast = false;
+
+			var last = Leagues.LastOrDefault();
+			if(last != null)
+				last.IsLast = true;
 
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new LeagueViewModel(new League {
 					Name = "You don't belong to any leagues - this saddens me"
 				}));
-			}
-		}
-
-		public class LeagueComparer : IEqualityComparer<League>
-		{
-			public bool Equals(League x, League y)
-			{
-				return x?.Id == y?.Id && x.UpdatedAt == y.UpdatedAt;
-			}
-
-			public int GetHashCode(League obj)
-			{
-				return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
 			}
 		}
 	}

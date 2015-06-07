@@ -27,6 +27,25 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public bool IsNotLeader
+		{
+			get
+			{
+				if(League.Memberships.Count == 0)
+					return true;
+				
+				return LeaderMembership?.AthleteId != App.CurrentAthlete.Id;
+			}
+		}
+
+		public Membership LeaderMembership
+		{
+			get
+			{
+				return League.Memberships.OrderBy(m => m.CurrentRank).FirstOrDefault();
+			}
+		}
+
 		public Membership CurrentMembership
 		{
 			get
@@ -35,22 +54,6 @@ namespace SportChallengeMatchRank.Shared
 					return null;
 
 				return App.CurrentAthlete.Memberships.FirstOrDefault(l => l.LeagueId == League.Id);
-			}
-		}
-
-		public Challenge OngoingChallenge
-		{
-			get
-			{
-				return League.OngoingChallenges.InvolvingAthlete(App.CurrentAthlete.Id);
-			}
-		}
-
-		public Challenge PreviousChallenge
-		{
-			get
-			{
-				return League.PastChallenges.Where(c => c.InvolvesAthlete(App.CurrentAthlete.Id)).OrderByDescending(c => c.DateCompleted).FirstOrDefault();
 			}
 		}
 
@@ -132,12 +135,6 @@ namespace SportChallengeMatchRank.Shared
 				SetPropertyChanged(ref _league, value);
 				LeagueViewModel = new LeagueViewModel(_league);
 
-				if(OngoingChallenge != null)
-					OngoingChallengeViewModel = new ChallengeDetailsViewModel(OngoingChallenge);
-
-				if(PreviousChallenge != null)
-					PreviousChallengeViewModel = new ChallengeDetailsViewModel(PreviousChallenge);
-
 				if(_league != null)
 					App.Current.GetTheme(_league);
 				
@@ -196,24 +193,25 @@ namespace SportChallengeMatchRank.Shared
 
 		public void NotifyPropertiesChanged()
 		{
-			if(OngoingChallenge == null)
+			if(CurrentMembership?.OngoingChallenge == null)
 				OngoingChallengeViewModel = null;
 
-			if(PreviousChallenge == null)
-				PreviousChallengeViewModel = null;
-			
+			if(OngoingChallengeViewModel == null && CurrentMembership?.OngoingChallenge != null)
+				OngoingChallengeViewModel = new ChallengeDetailsViewModel(CurrentMembership?.OngoingChallenge);
+
 			SetPropertyChanged("DateRange");
 			SetPropertyChanged("CreatedBy");
 			SetPropertyChanged("IsMember");
-			SetPropertyChanged("OngoingChallenge");
-			SetPropertyChanged("PreviousChallenge");
 			SetPropertyChanged("MembershipViewModel");
 			SetPropertyChanged("CurrentMembership");
 			SetPropertyChanged("OngoingChallengeViewModel");
 			SetPropertyChanged("PreviousChallengeViewModel");
+			SetPropertyChanged("LeaderMembership");
+			SetPropertyChanged("IsNotLeader");
 
-			OngoingChallenge?.NotifyPropertiesChanged();
-			PreviousChallenge?.NotifyPropertiesChanged();
+			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
+			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
+
 			MembershipViewModel?.NotifyPropertiesChanged();
 			OngoingChallengeViewModel?.NotifyPropertiesChanged();
 			PreviousChallengeViewModel?.NotifyPropertiesChanged();

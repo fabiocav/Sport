@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -123,6 +124,14 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public Challenge OngoingChallenge
+		{
+			get
+			{
+				return League?.OngoingChallenges?.FirstOrDefault(c => c.InvolvesAthlete(AthleteId));
+			}
+		}
+
 		bool _isAdmin;
 
 		public bool IsAdmin
@@ -161,11 +170,14 @@ namespace SportChallengeMatchRank.Shared
 				Athlete.RefreshMemberships();
 
 			if(League != null)
+			{
 				League.RefreshMemberships();
+				League.RefreshChallenges();
+			}
 
-			SetPropertyChanged("OngoingChallenge");
 			SetPropertyChanged("LastRankChangeDate");
 			SetPropertyChanged("CurrentRank");
+			SetPropertyChanged("OngoingChallenge");
 		}
 
 		public Challenge GetOngoingChallenge(Athlete athlete)
@@ -227,6 +239,27 @@ namespace SportChallengeMatchRank.Shared
 		public bool CanChallengeAthlete(Athlete athlete)
 		{
 			return GetChallengeConflictReason(athlete) == null;
+		}
+	}
+
+	public class MembershipComparer : IEqualityComparer<Membership>
+	{
+		public bool Equals(Membership x, Membership y)
+		{
+			var isEqual = x?.Id == y?.Id && x?.UpdatedAt == y?.UpdatedAt && x?.CurrentRank == y?.CurrentRank;
+
+			if(isEqual && x.OngoingChallenge != null && y.OngoingChallenge != null)
+				isEqual = x.OngoingChallenge.Id == y.OngoingChallenge.Id;
+
+			if((x.OngoingChallenge == null && y.OngoingChallenge != null) || (x.OngoingChallenge != null && y.OngoingChallenge == null))
+				return false;
+
+			return isEqual;
+		}
+
+		public int GetHashCode(Membership obj)
+		{
+			return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
 		}
 	}
 }

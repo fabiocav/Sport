@@ -128,9 +128,37 @@ namespace SportChallengeMatchRank.Shared
 			return new Task<List<League>>(() =>
 			{
 				DataManager.Instance.Leagues.Clear();
-				var query = Client.GetTable<League>().OrderBy(l => l.Name);
-				var list = query.ToListAsync().Result;
+				var list = Client.GetTable<League>().OrderBy(l => l.Name).ToListAsync().Result;
 				list.ForEach(l => DataManager.Instance.Leagues.AddOrUpdate(l));
+				return list;
+			});
+		}
+
+		public Task<List<League>> GetAvailableLeagues(Athlete athlete)
+		{
+			return new Task<List<League>>(() =>
+			{
+				var memberOf = athlete.Memberships.Select(m => m.LeagueId).ToList();
+				var existingToJoin = DataManager.Instance.Leagues.Keys.Except(memberOf);
+					
+				List<League> list;
+
+				if(memberOf.Count > 0)
+				{
+					list = Client.GetTable<League>().Where(l => !memberOf.Contains(l.Id) && l.IsEnabled).OrderBy(l => l.Name).ToListAsync().Result;
+				}
+				else
+				{
+					list = Client.GetTable<League>().Where(l => l.IsEnabled).OrderBy(l => l.Name).ToListAsync().Result;
+				}
+
+				var toRemoveFromCache = existingToJoin.Except(list.Select(l => l.Id)).ToList();
+
+				League removed;
+				toRemoveFromCache.ForEach(l => DataManager.Instance.Leagues.TryRemove(l, out removed));
+
+				EnsureAthletesLoadedForLeagues(list);
+				list.ForEach(CacheLeague);
 				return list;
 			});
 		}
@@ -178,15 +206,6 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
-		public Task<List<League>> GetAllEnabledLeagues()
-		{
-			return new Task<List<League>>(() =>
-			{
-				var list = Client.GetTable<League>().Where(l => l.IsEnabled).OrderBy(l => l.Name).ToListAsync().Result;
-				return list;
-			});
-		}
-
 		public Task<League> GetLeagueById(string id, bool force = false)
 		{
 			return new Task<League>(() =>
@@ -197,19 +216,13 @@ namespace SportChallengeMatchRank.Shared
 					DataManager.Instance.Leagues.TryGetValue(id, out a);
 				
 				a = a ?? Client.GetTable<League>().LookupAsync(id).Result;
+
+				if(!a.IsEnabled)
+					return null;
+
 				DataManager.Instance.Leagues.AddOrUpdate(a);
 
 				return a;
-			});
-		}
-
-		public Task<League> GetLeagueByName(string name)
-		{
-			return new Task<League>(() =>
-			{
-				var list = Client.GetTable<League>().Where(l => l.Name == name).Take(1).ToListAsync().Result;
-				DefaultLeague = list.FirstOrDefault();
-				return DefaultLeague;
 			});
 		}
 
@@ -341,42 +354,9 @@ namespace SportChallengeMatchRank.Shared
 				if(leagueIds.Count == 0)
 					return;
 
-				var query = Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id)).OrderBy(l => l.Name);
-				var leagues = query.ToListAsync().Result;
-
-				var athleteIds = new List<string>();
-				leagues.ForEach(l => l.Memberships.ForEach(m => athleteIds.Add(m.AthleteId)));
-
-				var allAthletes = Client.GetTable<Athlete>().Where(a => athleteIds.Distinct().Contains(a.Id)).ToListAsync().Result;
-				foreach(var a in allAthletes)
-				{
-					DataManager.Instance.Athletes.AddOrUpdate(a);
-				}
-
-				foreach(var l in leagues)
-				{
-					//Wipe out any existing memberships
-					foreach(var m in DataManager.Instance.Memberships.Where(m => m.Value.LeagueId == l.Id).ToList())
-					{
-						Membership mem;
-						DataManager.Instance.Memberships.TryRemove(m.Key, out mem);
-					}
-
-					//Add the ones still valid
-					foreach(var m in l.Memberships)
-					{
-						l.MembershipIds.Add(m.Id);
-						DataManager.Instance.Memberships.AddOrUpdate(m);
-						m.Athlete?.RefreshMemberships();
-					}
-
-					foreach(var c in l.OngoingChallenges)
-					{
-						DataManager.Instance.Challenges.AddOrUpdate(c);
-					}
-
-					DataManager.Instance.Leagues.AddOrUpdate(l);
-				}
+				var leagues = Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id) && l.IsEnabled).OrderBy(l => l.Name).ToListAsync().Result;
+				EnsureAthletesLoadedForLeagues(leagues);
+				leagues.ForEach(CacheLeague);
 			});
 		}
 
@@ -399,6 +379,46 @@ namespace SportChallengeMatchRank.Shared
 
 				DataManager.Instance.Athletes.AddOrUpdate(athlete);
 			});
+		}
+
+		void EnsureAthletesLoadedForLeagues(List<League> leagues)
+		{
+			var athleteIds = new List<string>();
+			leagues.ForEach(l => l.Memberships.ForEach(m => athleteIds.Add(m.AthleteId)));
+
+			if(athleteIds.Count > 0)
+			{
+				var allAthletes = Client.GetTable<Athlete>().Where(a => athleteIds.Distinct().Contains(a.Id)).ToListAsync().Result;
+				foreach(var a in allAthletes)
+				{
+					DataManager.Instance.Athletes.AddOrUpdate(a);
+				}
+			}
+		}
+
+		void CacheLeague(League l)
+		{
+			//Wipe out any existing memberships
+			foreach(var m in DataManager.Instance.Memberships.Where(m => m.Value.LeagueId == l.Id).ToList())
+			{
+				Membership mem;
+				DataManager.Instance.Memberships.TryRemove(m.Key, out mem);
+			}
+
+			//Add the ones still valid
+			foreach(var m in l.Memberships)
+			{
+				l.MembershipIds.Add(m.Id);
+				DataManager.Instance.Memberships.AddOrUpdate(m);
+				m.Athlete?.RefreshMemberships();
+			}
+
+			foreach(var c in l.OngoingChallenges)
+			{
+				DataManager.Instance.Challenges.AddOrUpdate(c);
+			}
+
+			DataManager.Instance.Leagues.AddOrUpdate(l);
 		}
 
 		public Task DeleteAthlete(string id)
@@ -514,20 +534,17 @@ namespace SportChallengeMatchRank.Shared
 				Membership m;
 				try
 				{
-					
+					DataManager.Instance.Memberships.TryRemove(id, out m);
+					var challenges = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == m.LeagueId && c.InvolvesAthlete(m.AthleteId)).ToList();
+
+					Challenge ch;
+					challenges.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
+
 					Client.GetTable<Membership>().DeleteAsync(new Membership {
 						Id = id
 					}).Wait();
 
-					DataManager.Instance.Memberships.TryRemove(id, out m);
 					m.LocalRefresh();
-
-					var challenges = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == m.LeagueId
-					                 && (c.ChallengerAthleteId == m.AthleteId || c.ChallengeeAthleteId == m.AthleteId)).ToList();
-
-
-					Challenge ch;
-					challenges.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
 					var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(m.Athlete);
 					task.Start();
 					task.Wait();
@@ -705,6 +722,8 @@ namespace SportChallengeMatchRank.Shared
 		#endregion
 	}
 
+	#region LeagueExpandHandler
+
 	public class LeagueExpandHandler : DelegatingHandler
 	{
 		protected override async Task<HttpResponseMessage>
@@ -738,4 +757,6 @@ namespace SportChallengeMatchRank.Shared
 			return result;
 		}
 	}
+
+	#endregion
 }

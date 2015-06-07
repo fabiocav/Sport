@@ -32,7 +32,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public ObservableCollection<Membership> Memberships
+		public ObservableCollection<MembershipViewModel> Memberships
 		{
 			get;
 			set;
@@ -40,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public LeaderboardViewModel()
 		{
-			Memberships = new ObservableCollection<Membership>();
+			Memberships = new ObservableCollection<MembershipViewModel>();
 		}
 
 		public ICommand GetLeaderboardCommand
@@ -70,36 +70,27 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
-			League.RefreshMemberships();
-			var comparer = new MembershipComparer();
-			var toRemove = Memberships.Except(League.Memberships, comparer).ToList();
-			var toAdd = League.Memberships.Except(Memberships, comparer).OrderBy(r => r.CurrentRank).ToList();
+			var memberships = Memberships.Select(vm => vm.Membership).ToList();
 
-			toRemove.ForEach(l => Memberships.Remove(l));
+			var comparer = new MembershipComparer();
+			var toRemove = memberships.Except(League.Memberships, comparer).ToList();
+			var toAdd = League.Memberships.Except(memberships, comparer).ToList();
+
+			toRemove.ForEach(m => Memberships.Remove(Memberships.Single(vm => vm.Membership == m)));
 
 			foreach(var m in toAdd)
 			{
-				var prev = Memberships.SingleOrDefault(mem => mem.CurrentRank == m.CurrentRank - 1);
+				var prev = Memberships.Select(v => v.Membership).SingleOrDefault(mem => mem.CurrentRank == m.CurrentRank - 1);
 				var index = 0;
 
 				if(prev != null)
-					index = Memberships.IndexOf(prev) + 1;
-				
-				Memberships.Insert(index, m);
-			}
-		}
+					index = Memberships.Select(v => v.Membership).ToList().IndexOf(prev) + 1;
 
-		public class MembershipComparer : IEqualityComparer<Membership>
-		{
-			public bool Equals(Membership x, Membership y)
-			{
-				return x?.Id == y?.Id && x.UpdatedAt == y.UpdatedAt && x.CurrentRank == y.CurrentRank;
+				var vm = new MembershipViewModel(m);
+				Memberships.Insert(index, vm);
 			}
 
-			public int GetHashCode(Membership obj)
-			{
-				return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
-			}
+			Memberships.ToList().ForEach(vm => vm.Membership.LocalRefresh());
 		}
 	}
 }

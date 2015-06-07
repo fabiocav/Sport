@@ -326,7 +326,7 @@ namespace SportChallengeMatchRank.Shared
 					return "The league has no members - you should totally join!";
 
 				var m = Memberships?.First();
-				return "{0} is ranked {1}".Fmt(m.Athlete.Name, m.RankDescription);
+				return "{0} has been ranked {1}".Fmt(m.Athlete.Alias, m.RankDescription);
 			}
 		}
 
@@ -362,6 +362,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).OrderBy(m => m.CurrentRank).ToList().ForEach(_memberships.Add);
+			//_memberships.ForEach(m => m.LocalRefresh());
 			SetPropertyChanged("Memberships");
 		}
 
@@ -375,15 +376,45 @@ namespace SportChallengeMatchRank.Shared
 			DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && c.IsCompleted)
 				.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_pastChallenges.Add);
 
-
 			SetPropertyChanged("OngoingChallenges");
 			SetPropertyChanged("PastChallenges");
 		}
+
+		public override bool Equals(object obj)
+		{
+			var b = obj as League;
+			if(b == null)
+				return false;
+
+			if(UpdatedAt != b.UpdatedAt || Id != b.Id)
+				return false;
+			
+			if(Memberships.Count != b.Memberships.Count)
+				return false;
+
+			return true;
+		}
 	}
 
-	public enum Sports
+	public class LeagueComparer : IEqualityComparer<League>
 	{
-		TableTennis,
-		Foosball,
+		public bool Equals(League x, League y)
+		{
+			return x?.Id == y?.Id && x.UpdatedAt == y.UpdatedAt;
+		}
+
+		public int GetHashCode(League obj)
+		{
+			return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
+		}
 	}
+
+	public class LeagueSortComparer : IComparer<LeagueViewModel>
+	{
+		public int Compare(LeagueViewModel x, LeagueViewModel y)
+		{
+			return string.Compare(x.League.Name, y.League.Name, System.StringComparison.OrdinalIgnoreCase);
+		}
+	}
+
 }

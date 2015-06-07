@@ -141,6 +141,7 @@ namespace SportChallengeMatchRank.Shared
 			var task = AzureService.Instance.AcceptChallenge(Challenge);
 			await RunSafe(task);
 			NotifyPropertiesChanged();
+			MessagingCenter.Send<App>(App.Current, "ChallengesUpdated");
 			return !task.IsFaulted;
 		}
 
@@ -159,6 +160,7 @@ namespace SportChallengeMatchRank.Shared
 			await RunSafe(task);
 
 			Challenge.League.RefreshChallenges();
+			MessagingCenter.Send<App>(App.Current, "ChallengesUpdated");
 			return !task.IsFaulted;
 		}
 
@@ -187,6 +189,8 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("ChallengeStatus");
 			SetPropertyChanged("Opponent");
 			SetPropertyChanged("AwaitingDecision");
+
+			Challenge?.NotifyPropertiesChanged();
 		}
 	}
 }

@@ -16,9 +16,9 @@ namespace SportChallengeMatchRank.Shared
 			LocalRefresh();
 		}
 
-		ObservableCollection<League> _allLeagues = new ObservableCollection<League>();
+		ObservableCollection<LeagueViewModel> _allLeagues = new ObservableCollection<LeagueViewModel>();
 
-		public ObservableCollection<League> AllLeagues
+		public ObservableCollection<LeagueViewModel> AllLeagues
 		{
 			get
 			{
@@ -41,7 +41,7 @@ namespace SportChallengeMatchRank.Shared
 		public void LocalRefresh()
 		{
 			AllLeagues.Clear();
-			DataManager.Instance.Leagues.Values.OrderBy(l => l.Name).ToList().ForEach(AllLeagues.Add);
+			DataManager.Instance.Leagues.Values.OrderBy(l => l.Name).ToList().ForEach(l => AllLeagues.Add(new LeagueViewModel(l)));
 		}
 
 		async public Task GetAllLeagues(bool forceRefresh = false)

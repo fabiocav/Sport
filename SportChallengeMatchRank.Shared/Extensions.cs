@@ -6,11 +6,21 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace SportChallengeMatchRank.Shared
 {
 	public static partial class Extensions
 	{
+		public static void Sort<T>(this ObservableCollection<T> collection, IComparer<T> comparer)
+		{
+			List<T> sorted = collection.ToList();
+			sorted.Sort(comparer);
+
+			for(int i = 0; i < sorted.Count(); i++)
+				collection.Move(collection.IndexOf(sorted[i]), i);
+		}
+
 		public static void RemoveModel<T>(this ObservableCollection<T> items, string itemId) where T : BaseModel
 		{
 			items.Where(m => m.Id == itemId).ToList().ForEach(m => items.Remove(m));
@@ -52,7 +62,8 @@ namespace SportChallengeMatchRank.Shared
 
 			if(dict.ContainsKey(model.Id))
 			{
-				dict[model.Id] = model;
+				if(!model.Equals(dict[model.Id]))
+					dict[model.Id] = model;
 			}
 			else
 			{

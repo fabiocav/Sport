@@ -93,6 +93,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("Stats");
 			SetPropertyChanged("JoinDescription");
 			SetPropertyChanged("IsCurrentAthlete");
+			Membership?.LocalRefresh();
 		}
 
 		public void LocalRefresh()

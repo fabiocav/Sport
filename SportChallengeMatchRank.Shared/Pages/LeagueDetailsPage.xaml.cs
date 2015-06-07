@@ -77,7 +77,7 @@ namespace SportChallengeMatchRank.Shared
 
 			ongoingCard.OnClicked = async() =>
 			{
-				var details = new ChallengeDetailsPage(ViewModel.OngoingChallenge);
+				var details = new ChallengeDetailsPage(ViewModel.CurrentMembership?.OngoingChallenge);
 				details.OnAccept = () =>
 				{
 					ViewModel.NotifyPropertiesChanged();
@@ -98,7 +98,7 @@ namespace SportChallengeMatchRank.Shared
 
 			ongoingCard.OnPostResults = async() =>
 			{
-				var page = new MatchResultsFormPage(ViewModel.OngoingChallenge);
+				var page = new MatchResultsFormPage(ViewModel.CurrentMembership?.OngoingChallenge);
 				page.OnMatchResultsPosted = () =>
 				{
 					ViewModel.NotifyPropertiesChanged();
@@ -159,6 +159,11 @@ namespace SportChallengeMatchRank.Shared
 			{
 				photoImage.TranslationY = (scrollView.ScrollY * .4);
 			};
+
+			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", async(app) =>
+			{
+				ViewModel.NotifyPropertiesChanged();
+			});
 		}
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
@@ -190,8 +195,8 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.CanGetRules)
 				list.Add(_rules);
 
-			if(ViewModel.IsMember && ViewModel.PreviousChallenge != null)
-				list.Add(_pastChallenges);
+//			if(ViewModel.IsMember && ViewModel.PreviousChallenge != null)
+//				list.Add(_pastChallenges);
 
 			if(ViewModel.IsMember)
 				list.Add(_leave);
@@ -256,7 +261,7 @@ namespace SportChallengeMatchRank.Shared
 
 			if(success)
 			{
-				"Membership accepted!".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
+				"Membership approved!".Fmt(ViewModel.League.Name).ToToast(ToastNotificationType.Success);
 
 				if(OnJoinedLeague != null)
 				{

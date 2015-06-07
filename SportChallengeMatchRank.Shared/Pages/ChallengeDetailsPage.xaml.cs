@@ -95,7 +95,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			if(success)
-				"Revoked".ToToast();
+				"Challenge revoked".ToToast();
 
 			if(OnDecline != null)
 				OnDecline();
@@ -112,7 +112,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			if(success)
-				"Accepted".ToToast(ToastNotificationType.Success);
+				"Challenge accepted".ToToast(ToastNotificationType.Success);
 
 			if(OnAccept != null)
 				OnAccept();
@@ -132,7 +132,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			if(success)
-				"Unbelievable!".ToToast();
+				"Challenge declined".ToToast();
 
 			if(OnDecline != null)
 				OnDecline();

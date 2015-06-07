@@ -43,9 +43,26 @@ namespace SportChallengeMatchRank.Shared
 			if(App.CurrentAthlete == null)
 				return;
 
-			Leagues.Clear();
-			DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key))
-				.Select(k => k.Value).ToList().ForEach(l => Leagues.Add(new LeagueViewModel(l)));
+			var comparer = new LeagueComparer();
+			var toJoin = DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key))
+				.Select(k => k.Value).ToList();
+
+			var toRemove = Leagues.Select(vm => vm.League).Except(toJoin, comparer).ToList();
+			var toAdd = toJoin.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).ToList();
+
+			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
+			toAdd.ForEach(l => Leagues.Add(new LeagueViewModel(l, App.CurrentAthlete)));
+			Leagues.Sort(new LeagueSortComparer());
+
+			foreach(var l in Leagues)
+			{
+				l.IsLast = false;
+				App.Current.GetTheme(l.League);
+			}
+
+			var last = Leagues.LastOrDefault();
+			if(last != null)
+				last.IsLast = true;
 
 			if(Leagues.Count == 0)
 			{
@@ -68,8 +85,7 @@ namespace SportChallengeMatchRank.Shared
 
 			using(new Busy(this))
 			{
-				Leagues.Clear();
-				await RunSafe(AzureService.Instance.GetAllLeagues());
+				await RunSafe(AzureService.Instance.GetAvailableLeagues(App.CurrentAthlete));
 				_hasLoadedBefore = true;
 				LocalRefresh();
 			}
