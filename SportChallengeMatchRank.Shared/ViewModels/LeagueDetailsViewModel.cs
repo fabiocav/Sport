@@ -27,12 +27,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public bool IsNotLeader
+		public bool HasLeaderOtherThanSelf
 		{
 			get
 			{
 				if(League.Memberships.Count == 0)
-					return true;
+					return false;
 				
 				return LeaderMembership?.AthleteId != App.CurrentAthlete.Id;
 			}
@@ -203,7 +203,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public void NotifyPropertiesChanged()
 		{
-			CurrentMembership.LocalRefresh();
+			CurrentMembership?.LocalRefresh();
 
 			if(CurrentMembership?.OngoingChallenge == null)
 				OngoingChallengeViewModel = null;
@@ -219,7 +219,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("OngoingChallengeViewModel");
 			SetPropertyChanged("PreviousChallengeViewModel");
 			SetPropertyChanged("LeaderMembership");
-			SetPropertyChanged("IsNotLeader");
+			SetPropertyChanged("HasLeaderOtherThanSelf");
 
 			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
 			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();

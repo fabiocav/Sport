@@ -12,7 +12,7 @@
 					<AbsoluteLayout StyleId="leagueRow" Padding="{Binding IsLast, Converter={x:Static local:LeaguePaddingValueConverter.Instance}}">
 						<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Padding="48"
-							IsVisible="{Binding League.Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+								IsVisible="{Binding League.Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
 							<Label Text="{Binding League.Name}" FontSize="Large" Style="{StaticResource header}" XAlign="Center" />
 						</StackLayout>
@@ -23,11 +23,18 @@
 
 							<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
 								<AbsoluteLayout HeightRequest="150">
+									<Image Source="ic_missing_photo_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"
+										HeightRequest="24" WidthRequest="24" />
 									<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" Aspect="AspectFill"
 										AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
 
-									<Image Source="ic_missing_image_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
-									
+									<AbsoluteLayout IsVisible="{Binding HasChallenge}"
+										AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1,1" Padding="10">
+										<Button BorderRadius="2" BackgroundColor="{Binding League.Theme.Light}" Opacity=".75" HeightRequest="36" WidthRequest="36"
+											AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
+										<Image Source="ic_fencing_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+									</AbsoluteLayout>
+
 <!--									<ContentView BackgroundColor="{Binding Theme.Light}" Opacity=".4"
 										 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,1" />-->
 								</AbsoluteLayout>

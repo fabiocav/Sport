@@ -10,6 +10,7 @@ namespace SportChallengeMatchRank.Shared
 			League = league;
 			Athlete = athlete;
 			IsLast = isLast;
+			LocalRefresh();
 		}
 
 		public League League
@@ -22,6 +23,14 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get;
 			set;
+		}
+
+		public bool HasChallenge
+		{
+			get
+			{
+				return Membership != null && Membership.OngoingChallenge != null;
+			}
 		}
 
 		public Membership Membership
@@ -56,6 +65,11 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
+			SetPropertyChanged("HasChallenge");
+			SetPropertyChanged("Membership");
+			SetPropertyChanged("IsMember");
+			SetPropertyChanged("League");
+			SetPropertyChanged("IsLast");
 		}
 
 		async public Task GetAllMemberships(bool forceRefresh = false)
@@ -65,11 +79,10 @@ namespace SportChallengeMatchRank.Shared
 
 			using(new Busy(this))
 			{
-				LocalRefresh();
-
 				var task = AzureService.Instance.GetAllAthletesForLeague(League);
 				await RunSafe(task);
 				League.RefreshMemberships();
+				LocalRefresh();
 			}
 
 			IsBusy = false;

@@ -15,14 +15,16 @@
 						</ViewCell.ContextActions>-->
 						<ViewCell.View>
 							<Grid>
-								<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill"
-									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Padding="48"
-									IsVisible="{Binding League.Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+								<AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+									IsVisible="{Binding EmptyMessage, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
-									<Label Text="{Binding EmptyMessage}" FontSize="Large" Style="{StaticResource header}" XAlign="Center" />
-								</StackLayout>
+									<Label Text="{Binding EmptyMessage}" FontSize="Large" Style="{StaticResource header}" XAlign="Center"
+										TextColor="{StaticResource grayPrimary}" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
+								</AbsoluteLayout>
 
-								<StackLayout StyleId="memberItem" Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
+								<StackLayout StyleId="memberItem" Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center"
+									IsVisible="{Binding EmptyMessage, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+
 									<Label Text="{Binding Membership.CurrentRankDisplay}" VerticalOptions="Center" FontSize="28" YAlign="Center" TextColor="{StaticResource grayDark}" />
 
 									<StackLayout Spacing="20" Orientation="Horizontal">
@@ -30,17 +32,16 @@
 											HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" />
 
 										<StackLayout Spacing="0" VerticalOptions="Center">
-											<Label Text="{Binding Membership.Athlete.Alias}" FontSize="Medium" LineBreakMode="TailTruncation" />
+											<Label Text="{Binding Alias}" FontSize="Medium" LineBreakMode="TailTruncation" />
 											<Label Text="{Binding Membership.Athlete.Name}" FontSize="Micro" TextColor="{StaticResource grayPrimary}"  LineBreakMode="TailTruncation" />
 										</StackLayout>
 									</StackLayout>
 
 									<AbsoluteLayout IsVisible="{Binding Membership.OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" HorizontalOptions="EndAndExpand">
-										<Button BorderRadius="3" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="36" WidthRequest="36"
+										<Button BorderRadius="2" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="36" WidthRequest="36"
 											AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
 										<Image Source="ic_fencing_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
 									</AbsoluteLayout>
-
 								</StackLayout>
 							</Grid>
 						</ViewCell.View>

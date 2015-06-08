@@ -16,6 +16,22 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		public string Alias
+		{
+			get
+			{
+				return IsCurrentMembership ? "*You*" : Membership.Athlete.Alias;
+			}
+		}
+
+		public bool IsCurrentMembership
+		{
+			get
+			{
+				return Membership != null && Membership.AthleteId == App.CurrentAthlete.Id;
+			}
+		}
+
 		string _emptyMessage;
 
 		public string EmptyMessage
@@ -33,6 +49,9 @@ namespace SportChallengeMatchRank.Shared
 		public void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("Membership");
+			SetPropertyChanged("IsCurrentMemebership");
+			SetPropertyChanged("EmptyMessage");
+			SetPropertyChanged("Alias");
 		}
 	}
 }

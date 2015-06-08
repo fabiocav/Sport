@@ -20,7 +20,7 @@
 
 			<ContentView Padding="0,-100,0,0">
 				<Grid>
-					<Image Source="ic_missing_image_white" HorizontalOptions="Center" VerticalOptions="Center" />
+					<Image Source="ic_missing_photo_white" HorizontalOptions="Center" VerticalOptions="Center" />
 					<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="300"
 						VerticalOptions="Center" Aspect="AspectFill" />
 				</Grid>
@@ -49,7 +49,7 @@
 								VerticalOptions="Center" Style="{StaticResource sub}" IsVisible="true" />
 						</StackLayout>
 					</ContentView>
-					<ContentView IsVisible="{Binding IsNotLeader}">
+					<ContentView IsVisible="{Binding HasLeaderOtherThanSelf}">
 						<StackLayout Spacing="10" Orientation="Horizontal">
 							<AbsoluteLayout HeightRequest="35" WidthRequest="35">
 								<Button BorderRadius="17" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="32" WidthRequest="32"
