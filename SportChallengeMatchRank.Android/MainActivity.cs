@@ -11,7 +11,7 @@ using Android.Content.PM;
 
 namespace SportChallengeMatchRank.Android
 {
-	[Activity(Label = "Sport Challenge", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GrayTheme", ScreenOrientation = ScreenOrientation.Portrait)]
+	[Activity(Label = "Sport", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GrayTheme", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : XFormsApplicationDroid
 	{
 		protected override void OnCreate(Bundle bundle)

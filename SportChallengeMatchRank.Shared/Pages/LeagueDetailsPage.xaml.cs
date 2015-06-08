@@ -114,6 +114,7 @@ namespace SportChallengeMatchRank.Shared
 				page.OnMatchResultsPosted = async() =>
 				{
 					await ViewModel.RefreshLeague();
+					rankStrip.Membership = ViewModel.CurrentMembership;
 				};
 
 				await Navigation.PushModalAsync(page.GetNavigationPage());

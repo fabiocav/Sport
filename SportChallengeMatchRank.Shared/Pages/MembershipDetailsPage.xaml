@@ -6,7 +6,7 @@
 	xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
 	<local:MembershipDetailsXaml.Content>
 		<ScrollView>
-			<Grid VerticalOptions="Fill">
+			<Grid VerticalOptions="Fill" StyleId="memberDetailsRoot">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />

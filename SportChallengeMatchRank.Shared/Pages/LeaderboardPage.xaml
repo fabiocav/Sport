@@ -14,7 +14,7 @@
 						    <MenuItem Clicked="OnChallengeClicked" Text="Challenge" />
 						</ViewCell.ContextActions>-->
 						<ViewCell.View>
-							<Grid>
+							<Grid StyleId="memberItemRoot">
 								<AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
 									IsVisible="{Binding EmptyMessage, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
@@ -22,7 +22,7 @@
 										TextColor="{StaticResource grayPrimary}" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
 								</AbsoluteLayout>
 
-								<StackLayout StyleId="memberItem" Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center"
+								<StackLayout Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center"
 									IsVisible="{Binding EmptyMessage, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
 									<Label Text="{Binding Membership.CurrentRankDisplay}" VerticalOptions="Center" FontSize="28" YAlign="Center" TextColor="{StaticResource grayDark}" />

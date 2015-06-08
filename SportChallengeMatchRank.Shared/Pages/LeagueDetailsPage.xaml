@@ -20,7 +20,7 @@
 
 			<ContentView Padding="0,-100,0,0">
 				<Grid>
-					<Image Source="ic_missing_photo_white" HorizontalOptions="Center" VerticalOptions="Center" />
+					<Image Source="ic_missing_photo_white" StyleId="leaguePhoto" HorizontalOptions="Center" VerticalOptions="Center" />
 					<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="300"
 						VerticalOptions="Center" Aspect="AspectFill" />
 				</Grid>
@@ -102,19 +102,18 @@
 			</StackLayout>
 
 			<StackLayout Grid.Row="2" VerticalOptions="EndAndExpand" HorizontalOptions="Fill">
-				<StackLayout Padding="24,24,24,14" Spacing="14" StyleId="leaderboardButton"
-					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
-					<Button Text="LEADERBOARD" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
+				<StackLayout Padding="24,24,24,14" Spacing="14"	IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
+
+					<Button Text="LEADERBOARD" StyleId="leaderboardButton" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
 
 					<Button Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
 						IsVisible="{Binding CanGetRules}" StyleId="rulesButton" />
 
-					<Button Text="JOIN LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
-						BackgroundColor="{Binding League.Theme.Dark}" StyleId="joinButton"
-						IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+					<Button Text="JOIN LEAGUE" StyleId="joinButton" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
+						BackgroundColor="{Binding League.Theme.Dark}" IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
-					<Button Text="ABANDON LEAGUE" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"
-						IsVisible="{Binding IsMember}" Style="{StaticResource deleteButtonStyle}" StyleId="leaveButton" />
+					<Button Text="ABANDON LEAGUE" StyleId="abandonButton" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"
+						IsVisible="{Binding IsMember}" Style="{StaticResource deleteButtonStyle}" />
 				</StackLayout>
 
 				<StackLayout BackgroundColor="{StaticResource grayMedium}" Padding="18,14,24,0">

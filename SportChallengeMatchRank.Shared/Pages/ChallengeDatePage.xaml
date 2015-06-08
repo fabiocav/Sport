@@ -19,7 +19,7 @@
 						TextColor="{Binding Challenge.League.Theme.Dark}" />
 
 					<local:ExtendedDatePicker x:Name="datePicker" Opacity=".02" Date="{Binding SelectedDate}"
-						AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" />
+						AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" StyleId="datePicker" />
 				</AbsoluteLayout>
 				<ContentView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
 
@@ -29,7 +29,7 @@
 						TextColor="{Binding Challenge.League.Theme.Dark}" />
 
 					<local:ExtendedTimePicker x:Name="timePicker" Opacity=".02" Time="{Binding SelectedTime}"
-						AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" />
+						AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" StyleId="timePicker" />
 				</AbsoluteLayout>
 				<ContentView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
 			</StackLayout>
