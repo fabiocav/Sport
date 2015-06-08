@@ -37,7 +37,7 @@ namespace SportChallengeMatchRank.Shared
 			if(ViewModel.League != null)
 				ViewModel.LocalRefresh();
 
-			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", async(app) =>
+			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", (app) =>
 			{
 				ViewModel.LocalRefresh();
 			});

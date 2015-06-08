@@ -11,7 +11,6 @@ namespace SportChallengeMatchRank.Shared
 	public class AthleteLeaguesViewModel : BaseViewModel
 	{
 		bool _hasLoadedLeaguesBefore;
-		bool _hasLoadedChallengesBefore;
 		string _athleteId;
 
 		public AthleteViewModel AthleteViewModel
@@ -71,7 +70,7 @@ namespace SportChallengeMatchRank.Shared
 
 			using(new Busy(this))
 			{
-				await AthleteViewModel.GetLeagues(forceRefresh |= !_hasLoadedChallengesBefore);
+				await AthleteViewModel.GetLeagues(forceRefresh);
 				LocalRefresh();
 			}
 

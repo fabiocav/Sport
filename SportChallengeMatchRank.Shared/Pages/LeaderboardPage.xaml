@@ -14,26 +14,35 @@
 						    <MenuItem Clicked="OnChallengeClicked" Text="Challenge" />
 						</ViewCell.ContextActions>-->
 						<ViewCell.View>
-							<StackLayout StyleId="memberItem" Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
-								<Label Text="{Binding Membership.CurrentRankDisplay}" VerticalOptions="Center" FontSize="28" YAlign="Center" TextColor="{StaticResource grayDark}" />
+							<Grid>
+								<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill"
+									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Padding="48"
+									IsVisible="{Binding League.Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-								<StackLayout Spacing="20" Orientation="Horizontal">
-									<controls:CircleImage x:Name="photoImage" WidthRequest="36" HeightRequest="36" Source="{Binding Membership.Athlete.ProfileImageUrl}"
-										HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" />
-
-									<StackLayout Spacing="0" VerticalOptions="Center">
-										<Label Text="{Binding Membership.Athlete.Alias}" FontSize="Medium" LineBreakMode="TailTruncation" />
-										<Label Text="{Binding Membership.Athlete.Name}" FontSize="Micro" TextColor="{StaticResource grayPrimary}"  LineBreakMode="TailTruncation" />
-									</StackLayout>
+									<Label Text="{Binding EmptyMessage}" FontSize="Large" Style="{StaticResource header}" XAlign="Center" />
 								</StackLayout>
 
-								<AbsoluteLayout IsVisible="{Binding Membership.OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" HorizontalOptions="EndAndExpand">
-									<Button BorderRadius="3" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="36" WidthRequest="36"
-										AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
-									<Image Source="ic_fencing_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
-								</AbsoluteLayout>
+								<StackLayout StyleId="memberItem" Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
+									<Label Text="{Binding Membership.CurrentRankDisplay}" VerticalOptions="Center" FontSize="28" YAlign="Center" TextColor="{StaticResource grayDark}" />
 
-							</StackLayout>
+									<StackLayout Spacing="20" Orientation="Horizontal">
+										<controls:CircleImage x:Name="photoImage" WidthRequest="36" HeightRequest="36" Source="{Binding Membership.Athlete.ProfileImageUrl}"
+											HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" />
+
+										<StackLayout Spacing="0" VerticalOptions="Center">
+											<Label Text="{Binding Membership.Athlete.Alias}" FontSize="Medium" LineBreakMode="TailTruncation" />
+											<Label Text="{Binding Membership.Athlete.Name}" FontSize="Micro" TextColor="{StaticResource grayPrimary}"  LineBreakMode="TailTruncation" />
+										</StackLayout>
+									</StackLayout>
+
+									<AbsoluteLayout IsVisible="{Binding Membership.OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" HorizontalOptions="EndAndExpand">
+										<Button BorderRadius="3" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="36" WidthRequest="36"
+											AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
+										<Image Source="ic_fencing_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+									</AbsoluteLayout>
+
+								</StackLayout>
+							</Grid>
 						</ViewCell.View>
 					</ViewCell>
 				</DataTemplate>

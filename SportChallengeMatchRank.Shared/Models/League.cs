@@ -364,6 +364,8 @@ namespace SportChallengeMatchRank.Shared
 			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).OrderBy(m => m.CurrentRank).ToList().ForEach(_memberships.Add);
 			//_memberships.ForEach(m => m.LocalRefresh());
 			SetPropertyChanged("Memberships");
+
+			_memberships.ForEach(m => m.LocalRefresh(false));
 		}
 
 		public void RefreshChallenges()
@@ -416,5 +418,4 @@ namespace SportChallengeMatchRank.Shared
 			return string.Compare(x.League.Name, y.League.Name, System.StringComparison.OrdinalIgnoreCase);
 		}
 	}
-
 }

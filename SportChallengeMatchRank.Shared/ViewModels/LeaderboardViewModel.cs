@@ -58,12 +58,12 @@ namespace SportChallengeMatchRank.Shared
 
 			using(new Busy(this))
 			{
-				LocalRefresh();
-
-				var task = AzureService.Instance.GetAllAthletesForLeague(League);
+				var task = AzureService.Instance.GetLeagueById(League.Id, true);
 				await RunSafe(task);
 
-				_hasLoadedBefore = true;
+				if(task.IsFaulted)
+					return;
+
 				LocalRefresh();
 			}
 		}
@@ -77,20 +77,16 @@ namespace SportChallengeMatchRank.Shared
 			var toAdd = League.Memberships.Except(memberships, comparer).ToList();
 
 			toRemove.ForEach(m => Memberships.Remove(Memberships.Single(vm => vm.Membership == m)));
+			toAdd.ForEach(m => Memberships.Add(new MembershipViewModel(m)));
+			Memberships.Sort(new MembershipSortComparer());
+			Memberships.ToList().ForEach(vm => vm.NotifyPropertiesChanged());
 
-			foreach(var m in toAdd)
+			if(Memberships.Count == 0)
 			{
-				var prev = Memberships.Select(v => v.Membership).SingleOrDefault(mem => mem.CurrentRank == m.CurrentRank - 1);
-				var index = 0;
-
-				if(prev != null)
-					index = Memberships.Select(v => v.Membership).ToList().IndexOf(prev) + 1;
-
-				var vm = new MembershipViewModel(m);
-				Memberships.Insert(index, vm);
+				Memberships.Add(new MembershipViewModel(null) {
+					EmptyMessage = "This league has no members yet"
+				});
 			}
-
-			Memberships.ToList().ForEach(vm => vm.Membership.LocalRefresh());
 		}
 	}
 }

@@ -16,6 +16,20 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		string _emptyMessage;
+
+		public string EmptyMessage
+		{
+			get
+			{
+				return _emptyMessage;
+			}
+			set
+			{
+				SetPropertyChanged(ref _emptyMessage, value);
+			}
+		}
+
 		public void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("Membership");

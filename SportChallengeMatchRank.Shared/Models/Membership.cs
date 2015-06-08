@@ -128,7 +128,9 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return League?.OngoingChallenges?.FirstOrDefault(c => c.InvolvesAthlete(AthleteId));
+				var challenge = League?.OngoingChallenges?.FirstOrDefault(c => c.InvolvesAthlete(AthleteId));
+				Console.WriteLine(challenge != null ? challenge.Id : "");
+				return challenge;
 			}
 		}
 
@@ -164,12 +166,12 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		public void LocalRefresh()
+		public void LocalRefresh(bool refreshLeagues = true)
 		{
 			if(Athlete != null)
 				Athlete.RefreshMemberships();
 
-			if(League != null)
+			if(League != null && refreshLeagues)
 			{
 				League.RefreshMemberships();
 				League.RefreshChallenges();
@@ -246,7 +248,7 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public bool Equals(Membership x, Membership y)
 		{
-			var isEqual = x?.Id == y?.Id && x?.UpdatedAt == y?.UpdatedAt && x?.CurrentRank == y?.CurrentRank;
+			var isEqual = x.Id == y.Id && x.UpdatedAt == y.UpdatedAt && x.CurrentRank == y.CurrentRank;
 
 			if(isEqual && x.OngoingChallenge != null && y.OngoingChallenge != null)
 				isEqual = x.OngoingChallenge.Id == y.OngoingChallenge.Id;
@@ -260,6 +262,20 @@ namespace SportChallengeMatchRank.Shared
 		public int GetHashCode(Membership obj)
 		{
 			return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
+		}
+	}
+
+	public class MembershipSortComparer : IComparer<MembershipViewModel>
+	{
+		public int Compare(MembershipViewModel x, MembershipViewModel y)
+		{
+			if(x.Membership.CurrentRank == y.Membership.CurrentRank)
+				return 0;
+			
+			if(x.Membership.CurrentRank < y.Membership.CurrentRank)
+				return -1;
+
+			return 1;
 		}
 	}
 }

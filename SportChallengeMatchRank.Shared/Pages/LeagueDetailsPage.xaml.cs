@@ -9,6 +9,9 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public LeagueDetailsPage(League league)
 		{
+			league.RefreshChallenges();
+			league.RefreshMemberships();
+
 			ViewModel.League = league;
 
 			if(league.Theme == null)
@@ -138,22 +141,25 @@ namespace SportChallengeMatchRank.Shared
 				if(success)
 				{
 					ViewModel.NotifyPropertiesChanged();
-					"Unbelievable!".ToToast();
+					"Challenge declined".ToToast();
 				}
 			};
 
 			if(ViewModel.League != null && ViewModel.League.CreatedByAthleteId != null && ViewModel.League.CreatedByAthlete == null)
 			{
-				//using(new HUD("Getting info..."))
-				{
-					await ViewModel.LoadAthlete();
-				}
+				await ViewModel.LoadAthlete();
 			}
 
-//			using(new Busy(ViewModel))
-//			{
-//				await ViewModel.RefreshLeague();
-//			}
+			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working for some reason
+			rankStrip.OnAthleteClicked = async(membership) =>
+			{
+				var page = new MembershipDetailsPage(membership.Id) {
+					BarBackgroundColor = ViewModel.League.Theme.Light,
+					BarTextColor = ViewModel.League.Theme.Dark,
+				};
+
+				await Navigation.PushAsync(page);
+			};
 
 			scrollView.Scrolled += (sender, e) =>
 			{

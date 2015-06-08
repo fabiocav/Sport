@@ -18,7 +18,7 @@
 					VerticalOptions="Center" Aspect="AspectFill" />
 			</ContentView>
 
-			<StackLayout Grid.Row="1" Orientation="Vertical" Spacing="20" VerticalOptions="Fill" BackgroundColor="{StaticResource grayLight}">
+			<StackLayout Grid.Row="1" Orientation="Vertical" Spacing="14" VerticalOptions="Fill" BackgroundColor="{StaticResource grayLight}">
 				<StackLayout Padding="24,14,24,0" Spacing="4" IsVisible="{Binding League.HasStarted}">
 					<Label Text="{Binding League.Name}" FontSize="Large" TextColor="{Binding League.Theme.Dark}" VerticalOptions="CenterAndExpand" />
 				</StackLayout>
@@ -28,7 +28,7 @@
 					<Label Text="{Binding League.Memberships.Count, StringFormat='and has \{0\} members'}" Style="{StaticResource sub}" />
 				</StackLayout>
 
-				<StackLayout Padding="24,0,24,14" Spacing="20" IsVisible="{Binding HasStarted}">
+				<StackLayout Padding="24,0,24,14" Spacing="20" IsVisible="{Binding League.HasStarted}">
 					<ContentView IsVisible="{Binding IsMember}">
 						<StackLayout Spacing="10" Orientation="Horizontal" IsVisible="{Binding League.HasStarted}">
 							<AbsoluteLayout HeightRequest="35" WidthRequest="35">
@@ -53,6 +53,11 @@
 								VerticalOptions="Center" Style="{StaticResource sub}" IsVisible="true" />
 						</StackLayout>
 					</ContentView>
+
+					<ContentView Padding="0" IsVisible="{Binding IsMember}">
+						<local:RankStripView x:Name="rankStrip" Membership="{Binding CurrentMembership}" />
+					</ContentView>
+
 				<!---
 					<ContentView Padding="0,0,.5,.5" BackgroundColor="{StaticResource grayMedium}">
 						<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill" BackgroundColor="White"

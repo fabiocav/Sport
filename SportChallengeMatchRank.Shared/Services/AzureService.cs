@@ -77,8 +77,8 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+						App.CurrentAthlete.Id,
+						"All",
 				};
 
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
@@ -110,7 +110,8 @@ namespace SportChallengeMatchRank.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> { {
+				var values = new Dictionary<string, string> {
+					{
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -214,13 +215,16 @@ namespace SportChallengeMatchRank.Shared
 
 				if(!force)
 					DataManager.Instance.Leagues.TryGetValue(id, out a);
-				
-				a = a ?? Client.GetTable<League>().LookupAsync(id).Result;
 
-				if(!a.IsEnabled)
-					return null;
+				if(a == null)
+				{
+					a = Client.GetTable<League>().LookupAsync(id).Result;
 
-				DataManager.Instance.Leagues.AddOrUpdate(a);
+					if(!a.IsEnabled)
+						return null;
+					
+					CacheLeague(a);
+				}
 
 				return a;
 			});
@@ -405,6 +409,13 @@ namespace SportChallengeMatchRank.Shared
 				DataManager.Instance.Memberships.TryRemove(m.Key, out mem);
 			}
 
+			//Wipe out any existing challenges
+			foreach(var c in DataManager.Instance.Challenges.Where(m => m.Value.LeagueId == l.Id).ToList())
+			{
+				Challenge ch;
+				DataManager.Instance.Challenges.TryRemove(c.Key, out ch);
+			}
+
 			//Add the ones still valid
 			foreach(var m in l.Memberships)
 			{
@@ -419,6 +430,8 @@ namespace SportChallengeMatchRank.Shared
 			}
 
 			DataManager.Instance.Leagues.AddOrUpdate(l);
+			l.RefreshChallenges();
+			l.RefreshMemberships();
 		}
 
 		public Task DeleteAthlete(string id)
@@ -592,7 +605,8 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -622,7 +636,8 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}

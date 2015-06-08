@@ -186,7 +186,6 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				League = task.Result;
-				await LeagueViewModel.GetAllMemberships(true);
 				NotifyPropertiesChanged();
 			}
 		}
