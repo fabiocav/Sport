@@ -84,7 +84,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				var leagueName = _context.Leagues.Where(l => l.Id == item.LeagueId).Select(l => l.Name).ToList().First();
 				var athleteName = _context.Athletes.Where(a => a.Id == item.AthleteId).Select(a => a.Name).ToList().First();
 				var athleteAlias = _context.Athletes.Where(a => a.Id == item.AthleteId).Select(a => a.Alias).ToList().First();
-				var message = "Looky looky! {0} (AKA {1}) hath joineth the {2} league".Fmt(athleteName, athleteAlias, leagueName);
+				var message = "{0} (AKA {1}) hath joineth the {2} league".Fmt(athleteName, athleteAlias, leagueName);
 				await _notificationController.NotifyByTag(message, item.LeagueId);
 			}
 			catch(Exception e)

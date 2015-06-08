@@ -93,13 +93,13 @@ namespace SportChallengeMatchRank.Service.Controllers
 				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
 
 			//Check to see if there are any ongoing challenges between either athlete
-			var challengeeOngoing = _context.Challenges.Where(c => (c.ChallengeeAthleteId == item.ChallengeeAthleteId || c.ChallengeeAthleteId == item.ChallengerAthleteId)
+			var challengeeOngoing = _context.Challenges.Where(c => (c.ChallengeeAthleteId == item.ChallengeeAthleteId || c.ChallengerAthleteId == item.ChallengeeAthleteId)
 				&& c.LeagueId == item.LeagueId && c.DateCompleted == null);
 
 			if(challengeeOngoing.Count() > 0)
 				throw "{0} already has an existing challenge underway.".Fmt(challengee.Alias).ToException(Request);
 
-			var challengerOngoing = _context.Challenges.Where(c => (c.ChallengerAthleteId == item.ChallengeeAthleteId || c.ChallengerAthleteId == item.ChallengerAthleteId)
+			var challengerOngoing = _context.Challenges.Where(c => (c.ChallengerAthleteId == item.ChallengerAthleteId || c.ChallengeeAthleteId == item.ChallengerAthleteId)
 				&& c.LeagueId == item.LeagueId && c.DateCompleted == null);
 
 			if(challengerOngoing.Count() > 0)
