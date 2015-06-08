@@ -38,7 +38,7 @@
 						</Grid>
 					</Grid>
 
-					<StackLayout Padding="24,72" Spacing="8">
+					<StackLayout Padding="24,48,24,0" Spacing="8">
 						<Label FontSize="Medium" Text="ATHLETE STATS" TextColor="{StaticResource grayDark}" />
 						<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
 						<StackLayout Orientation="Horizontal">
@@ -59,6 +59,10 @@
 						BackgroundColor="{Binding Membership.League.Theme.Dark}" HorizontalOptions="FillAndExpand"
 						IsVisible="{Binding CanChallenge}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+
+					<Button x:Name="btnPast" Text="PAST CHALLENGES" StyleId="pastButton" HorizontalOptions="FillAndExpand"
+						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
+
 				</StackLayout>
 			</Grid>
 		</ScrollView>

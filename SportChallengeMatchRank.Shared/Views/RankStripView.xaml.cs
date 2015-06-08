@@ -19,21 +19,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetValue(MembershipProperty, value);
-
-				if(value != null)
-				{
-					UpperMembership = value.League.Memberships.SingleOrDefault(m => m.CurrentRank == value.CurrentRank - 1);
-					LowerMembership = value.League.Memberships.SingleOrDefault(m => m.CurrentRank == value.CurrentRank + 1);
-				}
-				else
-				{
-					UpperMembership = null;
-					LowerMembership = null;
-				}
-				OnPropertyChanged("UpperMembership");
-				OnPropertyChanged("LowerMembership");
-				OnPropertyChanged("DarkColor");
-				OnPropertyChanged("LightColor");
+				LocalRefresh();
 			}
 		}
 
@@ -83,6 +69,11 @@ namespace SportChallengeMatchRank.Shared
 			root.BindingContext = this;
 		}
 
+		protected override void LayoutChildren(double x, double y, double width, double height)
+		{
+			base.LayoutChildren(x, y, width, height);
+		}
+
 		void HandleChallengeClicked(object sender, EventArgs e)
 		{
 			var btn = sender as Button;
@@ -93,6 +84,26 @@ namespace SportChallengeMatchRank.Shared
 		{
 			var btn = sender as Button;
 			OnAthleteClicked?.Invoke(btn.CommandParameter as Membership);
+		}
+
+		void LocalRefresh()
+		{
+			Console.WriteLine(Membership == null ? "NULL" : Membership.CurrentRankDisplay.ToString());
+			if(Membership != null)
+			{
+				UpperMembership = Membership.League.Memberships.SingleOrDefault(m => m.CurrentRank == Membership.CurrentRank - 1);
+				LowerMembership = Membership.League.Memberships.SingleOrDefault(m => m.CurrentRank == Membership.CurrentRank + 1);
+			}
+			else
+			{
+				UpperMembership = null;
+				LowerMembership = null;
+			}
+
+			OnPropertyChanged("UpperMembership");
+			OnPropertyChanged("LowerMembership");
+			OnPropertyChanged("DarkColor");
+			OnPropertyChanged("LightColor");
 		}
 	}
 }

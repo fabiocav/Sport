@@ -52,12 +52,13 @@ namespace SportChallengeMatchRank.Shared
 			BarTextColor = Color.White;
 
 			BackgroundColor = Color.White;
-			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
-			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
-			{
-				if(App.CurrentAthlete != null)
-					OnUserAuthenticated();
-			});
+			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", OnAuthenticated);
+//			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
+//			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
+//			{
+//				if(App.CurrentAthlete != null)
+//					OnUserAuthenticated();
+//			});
 		}
 
 
@@ -101,7 +102,23 @@ namespace SportChallengeMatchRank.Shared
 				
 			}
 
+			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
+
 			base.OnAppearing();
+		}
+
+		protected override void OnDisappearing()
+		{
+			MessagingCenter.Unsubscribe<App, NotificationPayload>(this, "IncomingPayloadReceived");
+			//MessagingCenter.Unsubscribe<AuthenticationViewModel>(this, "UserAuthenticated");
+
+			base.OnDisappearing();
+		}
+
+		void OnAuthenticated(AuthenticationViewModel viewModel)
+		{
+			if(App.CurrentAthlete != null)
+				OnUserAuthenticated();
 		}
 
 		public NavigationPage GetNavigationPage()

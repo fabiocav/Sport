@@ -72,8 +72,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.IsAccepted && !Challenge.IsCompleted &&
-				(Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id || Challenge.ChallengerAthleteId == App.CurrentAthlete.Id);
+				return Challenge.IsAccepted && !Challenge.IsCompleted && Challenge.InvolvesAthlete(App.CurrentAthlete.Id);
 			}
 		}
 
@@ -81,7 +80,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return !CanAccept && !CanPostMatchResults && Challenge.InvolvesAthlete(App.CurrentAthlete.Id);
+				return !CanAccept && !CanPostMatchResults && Challenge.InvolvesAthlete(App.CurrentAthlete.Id) && !Challenge.IsCompleted;
 			}
 		}
 
@@ -180,6 +179,8 @@ namespace SportChallengeMatchRank.Shared
 
 		public void NotifyPropertiesChanged()
 		{
+			Challenge?.NotifyPropertiesChanged();
+
 			SetPropertyChanged("CanAccept");
 			SetPropertyChanged("CanDecline");
 			SetPropertyChanged("CanDeclineAfterAccept");
@@ -189,8 +190,6 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("ChallengeStatus");
 			SetPropertyChanged("Opponent");
 			SetPropertyChanged("AwaitingDecision");
-
-			Challenge?.NotifyPropertiesChanged();
 		}
 	}
 }

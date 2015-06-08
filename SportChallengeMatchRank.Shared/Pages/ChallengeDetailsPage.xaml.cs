@@ -60,7 +60,7 @@ namespace SportChallengeMatchRank.Shared
 			string challengeId = null;
 			if(payload.Payload.TryGetValue("challengeId", out challengeId))
 			{
-				if(challengeId == ViewModel.Challenge.Id && challengeId != null)
+				if(challengeId == ViewModel.Challenge.Id)
 				{
 					await ViewModel.RefreshChallenge();
 				}
@@ -78,7 +78,8 @@ namespace SportChallengeMatchRank.Shared
 					OnPostResults();
 			};
 
-			await Navigation.PushModalAsync(page);
+			page.AddDoneButton("Cancel");
+			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
 
 		async void OnRevokeChallenge()

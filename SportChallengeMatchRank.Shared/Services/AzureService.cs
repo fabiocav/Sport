@@ -52,6 +52,7 @@ namespace SportChallengeMatchRank.Shared
 
 					_client = new MobileServiceClient(Constants.AzureDomain, Constants.AzureClientId, new HttpMessageHandler[] {
 						new LeagueExpandHandler(),
+						new ChallengeExpandHandler(),
 						handler,
 					});
 
@@ -66,7 +67,7 @@ namespace SportChallengeMatchRank.Shared
 
 		#region Push Notifications
 
-		public Task UpdateAthleteNotificationHubRegistration(Athlete athlete)
+		public Task UpdateAthleteNotificationHubRegistration(Athlete athlete, bool forceSave = false)
 		{
 			return new Task(() =>
 			{
@@ -81,7 +82,9 @@ namespace SportChallengeMatchRank.Shared
 						"All",
 				};
 
+				App.CurrentAthlete.RefreshMemberships();
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
+				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
 
 				var reg = new DeviceRegistration {
 					Handle = athlete.DeviceToken,
@@ -92,7 +95,7 @@ namespace SportChallengeMatchRank.Shared
 				var registrationId = Client.InvokeApiAsync<DeviceRegistration, string>("registerWithHub", reg, HttpMethod.Put, null).Result;
 				//athlete.NotificationRegistrationId = registrationId; //Doesn't seem like this is necessary
 
-				if(athlete.IsDirty)
+				if(athlete.IsDirty || forceSave)
 				{
 					var task = SaveAthlete(athlete);
 					task.Start();
@@ -373,7 +376,6 @@ namespace SportChallengeMatchRank.Shared
 					if(athlete.Email == "rob.derosa@xamarin.com")
 						athlete.IsAdmin = true;
 
-					athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
 					Client.GetTable<Athlete>().InsertAsync(athlete).Wait();
 				}
 				else
@@ -402,31 +404,40 @@ namespace SportChallengeMatchRank.Shared
 
 		void CacheLeague(League l)
 		{
-			//Wipe out any existing memberships
-			foreach(var m in DataManager.Instance.Memberships.Where(m => m.Value.LeagueId == l.Id).ToList())
+			Console.WriteLine("Caching league " + l.Name);
 			{
-				Membership mem;
-				DataManager.Instance.Memberships.TryRemove(m.Key, out mem);
+				var toRemove = DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == l.Id && !l.Memberships.Select(mm => mm.Id).Contains(m.Id));
+				//var toAdd = l.Memberships.Where(m => !DataManager.Instance.Memberships.Keys.Contains(m.Id));
+				//var toUpdate = l.Memberships.Except(toAdd);
+
+				foreach(var m in toRemove)
+				{
+					Membership mem;
+					DataManager.Instance.Memberships.TryRemove(m.Id, out mem);
+				}
+
+				foreach(var m in l.Memberships)
+				{
+					l.MembershipIds.Add(m.Id);
+					DataManager.Instance.Memberships.AddOrUpdate(m); //need to update too
+					m.Athlete?.RefreshMemberships();
+				}
 			}
 
-			//Wipe out any existing challenges
-			foreach(var c in DataManager.Instance.Challenges.Where(m => m.Value.LeagueId == l.Id).ToList())
 			{
-				Challenge ch;
-				DataManager.Instance.Challenges.TryRemove(c.Key, out ch);
-			}
+				var toRemove = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == l.Id && !l.OngoingChallenges.Select(cc => cc.Id).Contains(c.Id));
+				//var toAdd = l.OngoingChallenges.Where(m => !DataManager.Instance.Challenges.Keys.Contains(m.Id));
 
-			//Add the ones still valid
-			foreach(var m in l.Memberships)
-			{
-				l.MembershipIds.Add(m.Id);
-				DataManager.Instance.Memberships.AddOrUpdate(m);
-				m.Athlete?.RefreshMemberships();
-			}
+				foreach(var c in toRemove)
+				{
+					Challenge ch;
+					DataManager.Instance.Challenges.TryRemove(c.Id, out ch);
+				}
 
-			foreach(var c in l.OngoingChallenges)
-			{
-				DataManager.Instance.Challenges.AddOrUpdate(c);
+				foreach(var c in l.OngoingChallenges)
+				{
+					DataManager.Instance.Challenges.AddOrUpdate(c);
+				}
 			}
 
 			DataManager.Instance.Leagues.AddOrUpdate(l);
@@ -533,10 +544,6 @@ namespace SportChallengeMatchRank.Shared
 
 				DataManager.Instance.Memberships.AddOrUpdate(membership);
 				membership.LocalRefresh();
-
-				var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(membership.Athlete);
-				task.Start();
-				task.Wait();
 			});
 		}
 
@@ -736,6 +743,44 @@ namespace SportChallengeMatchRank.Shared
 
 		#endregion
 	}
+
+	#region LeagueExpandHandler
+
+	public class ChallengeExpandHandler : DelegatingHandler
+	{
+		protected override async Task<HttpResponseMessage>
+		SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+		{
+			bool requestToTodoTable = request.RequestUri.PathAndQuery
+				.StartsWith("/tables/Challenge", StringComparison.OrdinalIgnoreCase)
+			                          && request.Method == HttpMethod.Get;
+			if(requestToTodoTable)
+			{
+				UriBuilder builder = new UriBuilder(request.RequestUri);
+				string query = builder.Query;
+				if(!query.Contains("$expand"))
+				{
+					if(string.IsNullOrEmpty(query))
+					{
+						query = string.Empty;
+					}
+					else
+					{
+						query = query + "&";
+					}
+
+					query = query + "$expand=MatchResult";
+					builder.Query = query.TrimStart('?');
+					request.RequestUri = builder.Uri;
+				}
+			}
+
+			var result = await base.SendAsync(request, cancellationToken);
+			return result;
+		}
+	}
+
+	#endregion
 
 	#region LeagueExpandHandler
 

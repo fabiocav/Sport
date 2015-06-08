@@ -51,7 +51,7 @@
 							</Grid>
 						</StackLayout>
 
-						<StackLayout Spacing="3" Padding="28,24,28,28">
+						<StackLayout Spacing="3" Padding="28,24,20,14">
 							<Grid>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="40" />
@@ -77,7 +77,7 @@
 							</Grid>
 						</StackLayout>
 
-						<StackLayout Padding="40,14" Spacing="28" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
+						<StackLayout Padding="40,0,40,24" Spacing="28" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
 							<Label Text="{Binding ChallengeStatus}" TextColor="{Binding Challenge.League.Theme.Dark}" FontSize="Medium" XAlign="Center" />
 
 							<AbsoluteLayout HorizontalOptions="Center" IsVisible="{Binding CanPostMatchResults}">

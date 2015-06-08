@@ -24,9 +24,9 @@ namespace SportChallengeMatchRank.Shared
 				if(list.SelectedItem == null)
 					return;
 
-				var league = list.SelectedItem as League;
+				var vm = list.SelectedItem as LeagueViewModel;
 				list.SelectedItem = null;
-				await Navigation.PushModalAsync(new NavigationPage(GetDetailsPage(league)));
+				await Navigation.PushModalAsync(new NavigationPage(GetDetailsPage(vm.League)));
 			};
 
 			await ViewModel.GetAllLeagues();

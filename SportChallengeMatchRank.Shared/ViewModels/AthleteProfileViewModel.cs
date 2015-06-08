@@ -64,15 +64,16 @@ namespace SportChallengeMatchRank.Shared
 			{
 				if(App.CurrentAthlete.DeviceToken != null)
 				{
-					var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete);
+					App.CurrentAthlete.IsDirty = true;
+					var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete, true);
 					await RunSafe(task);
 					await Task.Delay(500);
 					"Your device has been registered".ToToast();
 				}
 
-				IsBusy = false;
 				Device.BeginInvokeOnMainThread(() =>
 				{
+					IsBusy = false;
 					MessagingCenter.Unsubscribe<App>(this, "RegisteredForRemoteNotifications");
 				});
 			});

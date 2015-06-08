@@ -280,6 +280,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("BattleForPlace");
 			SetPropertyChanged("BattleBetween");
 			SetPropertyChanged("BattleForPlaceBetween");
+			SetPropertyChanged("MatchResult");
 		}
 	}
 }

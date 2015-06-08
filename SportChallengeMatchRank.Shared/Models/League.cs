@@ -402,7 +402,7 @@ namespace SportChallengeMatchRank.Shared
 	{
 		public bool Equals(League x, League y)
 		{
-			return x?.Id == y?.Id && x.UpdatedAt == y.UpdatedAt;
+			return x.Id == y.Id && x.UpdatedAt == y.UpdatedAt;
 		}
 
 		public int GetHashCode(League obj)

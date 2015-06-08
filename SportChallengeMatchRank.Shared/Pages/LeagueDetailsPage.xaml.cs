@@ -81,19 +81,20 @@ namespace SportChallengeMatchRank.Shared
 			ongoingCard.OnClicked = async() =>
 			{
 				var details = new ChallengeDetailsPage(ViewModel.CurrentMembership?.OngoingChallenge);
-				details.OnAccept = () =>
+				details.OnAccept = async() =>
 				{
-					ViewModel.NotifyPropertiesChanged();
+					await ViewModel.RefreshLeague();
 				};
 
-				details.OnDecline = () =>
+				details.OnDecline = async() =>
 				{
-					ViewModel.NotifyPropertiesChanged();
+					await ViewModel.RefreshLeague();
 				};
 
-				details.OnPostResults = () =>
+				details.OnPostResults = async() =>
 				{
-					ViewModel.NotifyPropertiesChanged();
+					await ViewModel.RefreshLeague();
+					rankStrip.Membership = ViewModel.CurrentMembership;
 				};
 
 				await Navigation.PushAsync(details);
@@ -102,9 +103,9 @@ namespace SportChallengeMatchRank.Shared
 			ongoingCard.OnPostResults = async() =>
 			{
 				var page = new MatchResultsFormPage(ViewModel.CurrentMembership?.OngoingChallenge);
-				page.OnMatchResultsPosted = () =>
+				page.OnMatchResultsPosted = async() =>
 				{
-					ViewModel.NotifyPropertiesChanged();
+					await ViewModel.RefreshLeague();
 				};
 
 				await Navigation.PushModalAsync(page.GetNavigationPage());
@@ -120,7 +121,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(success)
 				{
-					ViewModel.NotifyPropertiesChanged();
+					await ViewModel.RefreshLeague();
 					"Accepted".ToToast();
 				}
 			};
@@ -140,7 +141,7 @@ namespace SportChallengeMatchRank.Shared
 
 				if(success)
 				{
-					ViewModel.NotifyPropertiesChanged();
+					await ViewModel.RefreshLeague();
 					"Challenge declined".ToToast();
 				}
 			};
@@ -150,7 +151,7 @@ namespace SportChallengeMatchRank.Shared
 				await ViewModel.LoadAthlete();
 			}
 
-			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working for some reason
+			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working in XAML for some reason
 			rankStrip.OnAthleteClicked = async(membership) =>
 			{
 				var page = new MembershipDetailsPage(membership.Id) {
@@ -172,6 +173,13 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
+		protected override void OnAppearing()
+		{
+			//ViewModel.RefreshLeague();
+			ViewModel.NotifyPropertiesChanged();
+			base.OnAppearing();
+		}
+
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
 			string leagueId;
@@ -180,13 +188,14 @@ namespace SportChallengeMatchRank.Shared
 				if(leagueId == ViewModel.League.Id)
 				{
 					await ViewModel.RefreshLeague();
-				}
-			}
 
-			string challengeId;
-			if(payload.Payload.TryGetValue("challengeId", out challengeId))
-			{
-				await ViewModel.RefreshLeague();
+					Device.BeginInvokeOnMainThread(() =>
+					{
+						rankStrip.Membership = ViewModel.CurrentMembership;
+					});
+					Console.WriteLine(rankStrip.Membership.CurrentRankOrdinal);
+					return;
+				}
 			}
 		}
 

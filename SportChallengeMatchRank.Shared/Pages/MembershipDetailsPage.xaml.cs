@@ -23,6 +23,11 @@ namespace SportChallengeMatchRank.Shared
 			InitializeComponent();
 			Title = ViewModel.Membership.Athlete.Name;
 
+			btnPast.Clicked += (sender, e) =>
+			{
+				"This feature has not been implemented".ToToast();	
+			};
+
 			btnChallenge.Clicked += async(sender, e) =>
 			{
 				var conflict = ViewModel.Membership.GetChallengeConflictReason(App.CurrentAthlete);

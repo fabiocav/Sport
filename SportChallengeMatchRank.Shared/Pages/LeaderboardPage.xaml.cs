@@ -64,10 +64,10 @@ namespace SportChallengeMatchRank.Shared
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
-			string leagueId = null;
+			string leagueId;
 			if(payload.Payload.TryGetValue("leagueId", out leagueId))
 			{
-				if(ViewModel.League != null && leagueId == ViewModel.League.Id)
+				if(leagueId == ViewModel.League.Id)
 				{
 					await ViewModel.GetLeaderboard(true);
 				}

@@ -79,7 +79,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return "W 14 L 7 ~ .5";
+				return "W 14 L 7 ~ .5 (mock)";
 			}
 		}
 

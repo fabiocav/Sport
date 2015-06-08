@@ -70,6 +70,9 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
+			League.RefreshMemberships();
+			League.RefreshChallenges();
+
 			var memberships = Memberships.Select(vm => vm.Membership).ToList();
 
 			var comparer = new MembershipComparer();

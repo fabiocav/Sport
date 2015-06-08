@@ -106,7 +106,15 @@ namespace SportChallengeMatchRank.Shared
 			string leagueId = null;
 			if(payload.Payload.TryGetValue("leagueId", out leagueId))
 			{
+				//await ViewModel.RemoteRefresh();
+				return;
+			}
+
+			string challengeId;
+			if(payload.Payload.TryGetValue("challengeId", out challengeId))
+			{
 				await ViewModel.RemoteRefresh();
+				return;
 			}
 		}
 

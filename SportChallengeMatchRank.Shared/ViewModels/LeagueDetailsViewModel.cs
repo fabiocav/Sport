@@ -53,7 +53,14 @@ namespace SportChallengeMatchRank.Shared
 				if(!IsMember)
 					return null;
 
-				return App.CurrentAthlete.Memberships.FirstOrDefault(l => l.LeagueId == League.Id);
+				var membership = DataManager.Instance.Memberships.Values.SingleOrDefault(m => m.LeagueId == League.Id && m.AthleteId == App.CurrentAthlete.Id);
+
+				if(membership == null)
+				{
+					
+				}
+
+				return membership;
 			}
 		}
 
@@ -177,8 +184,12 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task RefreshLeague()
 		{
+			if(IsBusy)
+				return;
+
 			using(new Busy(this))
 			{
+				Console.WriteLine("Refreshing League!!!");
 				var task = AzureService.Instance.GetLeagueById(League.Id, true);
 				await RunSafe(task);
 
@@ -195,7 +206,7 @@ namespace SportChallengeMatchRank.Shared
 			if(CurrentMembership?.OngoingChallenge == null)
 				OngoingChallengeViewModel = null;
 
-			if(OngoingChallengeViewModel == null && CurrentMembership?.OngoingChallenge != null)
+			if(CurrentMembership?.OngoingChallenge != null)
 				OngoingChallengeViewModel = new ChallengeDetailsViewModel(CurrentMembership?.OngoingChallenge);
 
 			SetPropertyChanged("DateRange");

@@ -129,7 +129,6 @@ namespace SportChallengeMatchRank.Shared
 			get
 			{
 				var challenge = League?.OngoingChallenges?.FirstOrDefault(c => c.InvolvesAthlete(AthleteId));
-				Console.WriteLine(challenge != null ? challenge.Id : "");
 				return challenge;
 			}
 		}

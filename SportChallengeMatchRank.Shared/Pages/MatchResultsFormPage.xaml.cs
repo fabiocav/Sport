@@ -25,16 +25,6 @@ namespace SportChallengeMatchRank.Shared
 		{
 			InitializeComponent();
 
-			var btnCancel = new ToolbarItem {
-				Text = "Cancel"
-			};
-			ToolbarItems.Add(btnCancel);
-
-			btnCancel.Clicked += async(sender, e) =>
-			{
-				await Navigation.PopModalAsync();		
-			};
-
 			ViewModel.Challenge.MatchResult.Clear();
 			for(int i = 0; i < ViewModel.Challenge.League.MatchGameCount; i++)
 			{
@@ -78,7 +68,7 @@ namespace SportChallengeMatchRank.Shared
 						OnMatchResultsPosted();
 
 					var title = App.CurrentAthlete.Id == ViewModel.Challenge.WinningAthlete.Id ? "Victory!" : "Bummer";
-					"Results submitted - congrats to {0}!".Fmt(ViewModel.Challenge.WinningAthlete.Name).ToToast(ToastNotificationType.Success, title);
+					"Results submitted - congrats to {0}".Fmt(ViewModel.Challenge.WinningAthlete.Alias).ToToast();
 				}
 			};
 		}

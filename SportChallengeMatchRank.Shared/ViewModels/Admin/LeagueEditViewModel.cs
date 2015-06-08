@@ -48,7 +48,6 @@ namespace SportChallengeMatchRank.Shared
 		}
 
 		League _league;
-		public const string LeaguePropertyName = "League";
 
 		public League League
 		{
@@ -58,7 +57,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 			set
 			{
-				SetPropertyChanged(ref _league, value, LeaguePropertyName);
+				SetPropertyChanged(ref _league, value);
 				ErrorMessage = null;
 				SetPropertyChanged("CanStartLeague");
 				UpdateMembershipStatus();
@@ -94,6 +93,9 @@ namespace SportChallengeMatchRank.Shared
 			League.Sport = League.Sport ?? League.Sport.Trim();
 			League.CreatedByAthleteId = App.CurrentAthlete.Id;
 
+			League.Memberships.Clear();
+			League.OngoingChallenges.Clear();
+			League.PastChallenges.Clear();
 			var task = AzureService.Instance.SaveLeague(League);
 			await RunSafe(task);
 
