@@ -315,6 +315,14 @@ namespace SportChallengeMatchRank.Shared
 
 		#endregion
 
+		public string MemberCount
+		{
+			get
+			{
+				return "There {2} {0} member{1} enjoying sport".Fmt(Memberships.Count, Memberships.Count == 1 ? "" : "s", Memberships.Count == 1 ? "is" : "are");
+			}
+		}
+
 		public string LeaderRankDescription
 		{
 			get

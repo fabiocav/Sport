@@ -33,7 +33,7 @@
 
 				<StackLayout Padding="24,14,24,14" Spacing="4" IsVisible="{Binding League.HasStarted, Converter={x:Static local:InverseBoolConverter.Instance}}">
 					<Label Text="{Binding League.StartDate, StringFormat='This league is slated to begin on \{0:D\}'}" Style="{StaticResource sub}" />
-					<Label Text="{Binding League.Memberships.Count, StringFormat='and has \{0\} members'}" Style="{StaticResource sub}" />
+					<Label Text="{Binding League.MemberCount}" Style="{StaticResource sub}" />
 				</StackLayout>
 
 				<StackLayout Padding="24,0,24,14" Spacing="20" IsVisible="{Binding League.HasStarted}">
