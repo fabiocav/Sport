@@ -41,23 +41,21 @@
 
 								<StackLayout Padding="16,10" Spacing="4">
  									<Label Text="{Binding League.Name}" FontSize="Large" TextColor="{Binding League.Theme.Dark}" VerticalOptions="CenterAndExpand" />
-									<StackLayout Spacing="4" IsVisible="{Binding League.HasStarted, Converter={x:Static local:InverseBoolConverter.Instance}}">
+									<StackLayout Spacing="4" Padding="0,10" IsVisible="{Binding League.HasStarted, Converter={x:Static local:InverseBoolConverter.Instance}}">
 										<Label Text="{Binding League.StartDate, StringFormat='This league is slated to begin on \{0:D\}'}" Style="{StaticResource sub}" />
-										<Label Text="{Binding League.Memberships.Count, StringFormat='and has \{0\} members'}" Style="{StaticResource sub}" />
+										<Label Text="{Binding MemberCount}" Style="{StaticResource sub}" />
 									</StackLayout>
 
-									<ContentView IsVisible="{Binding IsMember}" Padding="0,6">
-										<StackLayout Spacing="10" Orientation="Horizontal" IsVisible="{Binding League.HasStarted}">
-											<AbsoluteLayout HeightRequest="36" WidthRequest="32">
-												<Button BorderRadius="17" BackgroundColor="{Binding League.Theme.Light}" HeightRequest="32" WidthRequest="32"
-													AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
-												<Label Text="{Binding Membership.CurrentRankOrdinal}" FontSize="Small" TextColor="White"
-													AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" XAlign="Center" YAlign="Center" />
-											</AbsoluteLayout>
-											<Label Text="{Binding Membership.RankDescription, StringFormat='You\'ve been ranked \{0\}'}"
-												VerticalOptions="Center" Style="{StaticResource sub}" IsVisible="true" />
-										</StackLayout>
-									</ContentView>
+									<StackLayout Padding="0,6" Spacing="10" Orientation="Horizontal" IsVisible="{Binding IsMemberAndStarted}">
+										<AbsoluteLayout HeightRequest="36" WidthRequest="32">
+											<Button BorderRadius="17" BackgroundColor="{Binding League.Theme.Light}" HeightRequest="32" WidthRequest="32"
+												AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
+											<Label Text="{Binding Membership.CurrentRankOrdinal}" FontSize="Small" TextColor="White"
+												AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" XAlign="Center" YAlign="Center" />
+										</AbsoluteLayout>
+										<Label Text="{Binding Membership.RankDescription, StringFormat='You\'ve been ranked \{0\}'}"
+											VerticalOptions="Center" Style="{StaticResource sub}" IsVisible="true" />
+									</StackLayout>
 									<ContentView IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}">
 										<StackLayout Spacing="4" IsVisible="{Binding League.HasStarted}">
 											<Label Text="{Binding League.LeaderRankDescription}" Style="{StaticResource sub}" IsVisible="true" />

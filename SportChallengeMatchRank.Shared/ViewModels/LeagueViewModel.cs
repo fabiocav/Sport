@@ -49,6 +49,22 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public string MemberCount
+		{
+			get
+			{
+				return "There {2} {0} member{1} enjoying sport".Fmt(League.Memberships.Count, League.Memberships.Count == 1 ? "" : "s", League.Memberships.Count == 1 ? "is" : "are");
+			}
+		}
+
+		public bool IsMemberAndStarted
+		{
+			get
+			{
+				return IsMember && League.HasStarted;
+			}
+		}
+
 		bool _isLast;
 
 		public bool IsLast
@@ -70,6 +86,8 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("IsMember");
 			SetPropertyChanged("League");
 			SetPropertyChanged("IsLast");
+			SetPropertyChanged("MemberCount");
+			SetPropertyChanged("IsMemberAndStarted");
 		}
 
 		async public Task GetAllMemberships(bool forceRefresh = false)
