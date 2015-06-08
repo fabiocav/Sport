@@ -29,8 +29,8 @@ namespace SportChallengeMatchRank.UITests
 			app.Tap("When the app starts", e => e.Marked("authButton"));
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com");
 
-			app.EnterText(e => e.Css("#Passwd"), "supersecret", "and I enter my credentials");
-			app.Tap(e => e.Css("#signIn"), "And I click the Sign In button");
+			app.EnterText(e => e.Css("#Passwd"), "XamarinTestCloud", "and I enter my credentials");
+			app.ScrollDownAndTap(e => e.Css("#signIn"), "And I click the Sign In button");
 
 			if(app.Query(e => e.Button("Remember")).Length > 0)
 			{
@@ -44,9 +44,9 @@ namespace SportChallengeMatchRank.UITests
 			app.ClearText(e => e.Marked("aliasText"));
 			app.EnterText(e => e.Marked("aliasText"), "XTC", "And I enter my alias");
 			app.PressEnter();
-			app.Tap("Then I tap Save button", e => e.Marked("saveButton"));
+			app.ScrollDownAndTap("Then I tap Save button", e => e.Marked("saveButton"));
 
-			app.Tap("Continue button", e => e.Marked("continueButton"));
+			app.ScrollDownAndTap("Continue button", e => e.Marked("continueButton"));
 			app.Screenshot("Athlete leagues listview");
 
 			app.Tap("leagueRow");

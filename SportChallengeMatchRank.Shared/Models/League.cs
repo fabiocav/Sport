@@ -137,7 +137,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		int _maxChallengeRange = 1;
+		int _maxChallengeRange;
 
 		public int MaxChallengeRange
 		{
@@ -358,7 +358,7 @@ namespace SportChallengeMatchRank.Shared
 			EndDate = DateTime.Now.AddMonths(6);
 			Memberships = new List<Membership>();
 
-			MaxChallengeRange = 2;
+			MaxChallengeRange = 1;
 			MinHoursBetweenChallenge = 48;
 			MatchGameCount = 3;
 

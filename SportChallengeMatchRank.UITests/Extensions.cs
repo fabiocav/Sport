@@ -10,7 +10,7 @@ namespace Xamarin.TestCloud.Extensions
 {
 	public static class Extensions
 	{
-		public static void ScrollDownAndTap(this AndroidApp app, Func<AppQuery, AppQuery> lambda = null, string screenshot = null)
+		public static void ScrollDownAndTap(this IApp app, Func<AppQuery, AppWebQuery> lambda = null, string screenshot = null)
 		{
 			app.ScrollDownEnough(lambda);
 			app.Tap(lambda);
@@ -19,7 +19,7 @@ namespace Xamarin.TestCloud.Extensions
 				app.Screenshot(screenshot);
 		}
 
-		public static void ScrollDownAndTap(this AndroidApp app, string screenshot, Func<AppQuery, AppQuery> lambda = null)
+		public static void ScrollDownAndTap(this IApp app, string screenshot, Func<AppQuery, AppWebQuery> lambda = null)
 		{
 			app.ScrollDownEnough(lambda);
 
@@ -29,7 +29,7 @@ namespace Xamarin.TestCloud.Extensions
 			app.Tap(lambda);
 		}
 
-		public static void ScrollUpAndTap(this AndroidApp app, Func<AppQuery, AppQuery> lambda = null, string screenshot = null)
+		public static void ScrollUpAndTap(this IApp app, Func<AppQuery, AppWebQuery> lambda = null, string screenshot = null)
 		{
 			app.ScrollUpEnough(lambda);
 			app.Tap(lambda);
@@ -38,7 +38,46 @@ namespace Xamarin.TestCloud.Extensions
 				app.Screenshot(screenshot);
 		}
 
-		public static void ScrollUpAndTap(this AndroidApp app, string screenshot, Func<AppQuery, AppQuery> lambda = null)
+		public static void ScrollUpAndTap(this IApp app, string screenshot, Func<AppQuery, AppWebQuery> lambda = null)
+		{
+			app.ScrollUpEnough(lambda);
+
+			if(screenshot != null)
+				app.Screenshot(screenshot);
+
+			app.Tap(lambda);
+		}
+
+
+		public static void ScrollDownAndTap(this IApp app, Func<AppQuery, AppQuery> lambda = null, string screenshot = null)
+		{
+			app.ScrollDownEnough(lambda);
+			app.Tap(lambda);
+
+			if(screenshot != null)
+				app.Screenshot(screenshot);
+		}
+
+		public static void ScrollDownAndTap(this IApp app, string screenshot, Func<AppQuery, AppQuery> lambda = null)
+		{
+			app.ScrollDownEnough(lambda);
+
+			if(screenshot != null)
+				app.Screenshot(screenshot);
+
+			app.Tap(lambda);
+		}
+
+		public static void ScrollUpAndTap(this IApp app, Func<AppQuery, AppQuery> lambda = null, string screenshot = null)
+		{
+			app.ScrollUpEnough(lambda);
+			app.Tap(lambda);
+
+			if(screenshot != null)
+				app.Screenshot(screenshot);
+		}
+
+		public static void ScrollUpAndTap(this IApp app, string screenshot, Func<AppQuery, AppQuery> lambda = null)
 		{
 			app.ScrollUpEnough(lambda);
 
@@ -133,8 +172,90 @@ namespace Xamarin.TestCloud.Extensions
 			return new AppResult[0];
 		}
 
+		public static AppWebResult[] ScrollDownEnough(this IApp app, Func<AppQuery, AppWebQuery> lambda, string screenshot = null)
+		{
+			AppResult rootView = null;
+			int count = 0;
+			const int maxTries = 20;
+
+			AppWebResult[] lastTry;
+			while(count < maxTries)
+			{
+				lastTry = app.Query(lambda);
+
+				if(lastTry.Any())
+				{
+					if(screenshot != null)
+						app.Screenshot(screenshot);
+
+					return lastTry;
+				}
+
+				if(rootView == null)
+				{
+					rootView = app.Query(e => e.All()).FirstOrDefault();
+
+					if(rootView == null)
+						throw new Exception("Unable to get root view");
+				}
+
+				float gap = rootView.Rect.Height / 5;
+				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
+				count++;
+			}
+
+			if(count == maxTries)
+			{
+				throw new Exception("Unable to scroll down to find element");
+			}
+
+			return new AppWebResult[0];
+		}
+
+		public static AppWebResult[] ScrollUpEnough(this IApp app, Func<AppQuery, AppWebQuery> lambda, string screenshot = null)
+		{
+			AppResult rootView = null;
+			int count = 0;
+			const int maxTries = 20;
+
+			AppWebResult[] lastTry;
+			while(count < maxTries)
+			{
+				lastTry = app.Query(lambda);
+
+				if(lastTry.Any())
+				{
+					if(screenshot != null)
+						app.Screenshot(screenshot);
+
+					return lastTry;
+				}
+
+				if(rootView == null)
+				{
+					rootView = app.Query(e => e.All()).FirstOrDefault();
+
+					if(rootView == null)
+						throw new Exception("Unable to get root view");
+				}
+
+				//Will try to scroll +/-100 from the vertical center point
+				float gap = rootView.Rect.Height / 5;
+				//app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY - gap, rootView.Rect.CenterX, rootView.Rect.CenterY + gap);
+				app.ScrollUp();
+				count++;
+			}
+
+			if(count == maxTries)
+			{
+				throw new Exception("Unable to scroll down to find element");
+			}
+
+			return new AppWebResult[0];
+		}
+
 		/// TEMPORARY HACK TO ALLOW LOGGING STRING DATA TO THE DEVICE LOG
-		public static void LogToDevice(this AndroidApp app, string text, params object[] formatArgs)
+		public static void LogToDevice(this IApp app, string text, params object[] formatArgs)
 		{
 			try
 			{
@@ -147,7 +268,7 @@ namespace Xamarin.TestCloud.Extensions
 			}
 		}
 
-		public static void LogToDevice(this AndroidApp app, Func<AppQuery, AppQuery> lambda = null)
+		public static void LogToDevice(this IApp app, Func<AppQuery, AppQuery> lambda = null)
 		{
 			if(lambda == null)
 			{

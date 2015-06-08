@@ -78,8 +78,8 @@ namespace SportChallengeMatchRank.Shared
 					return;
 
 				var tags = new List<string> {
-						App.CurrentAthlete.Id,
-						"All",
+					App.CurrentAthlete.Id,
+					"All",
 				};
 
 				App.CurrentAthlete.RefreshMemberships();
@@ -113,8 +113,7 @@ namespace SportChallengeMatchRank.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> {
-					{
+				var values = new Dictionary<string, string> { {
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -149,11 +148,11 @@ namespace SportChallengeMatchRank.Shared
 
 				if(memberOf.Count > 0)
 				{
-					list = Client.GetTable<League>().Where(l => !memberOf.Contains(l.Id) && l.IsEnabled).OrderBy(l => l.Name).ToListAsync().Result;
+					list = Client.GetTable<League>().Where(l => !memberOf.Contains(l.Id) && l.IsEnabled && l.IsAcceptingMembers).OrderBy(l => l.Name).ToListAsync().Result;
 				}
 				else
 				{
-					list = Client.GetTable<League>().Where(l => l.IsEnabled).OrderBy(l => l.Name).ToListAsync().Result;
+					list = Client.GetTable<League>().Where(l => l.IsEnabled && l.IsAcceptingMembers).OrderBy(l => l.Name).ToListAsync().Result;
 				}
 
 				var toRemoveFromCache = existingToJoin.Except(list.Select(l => l.Id)).ToList();
@@ -612,8 +611,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -643,8 +641,7 @@ namespace SportChallengeMatchRank.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
