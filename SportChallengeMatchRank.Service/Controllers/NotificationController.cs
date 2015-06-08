@@ -69,6 +69,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				// make sure there are no existing registrations for this push handle (used for iOS and Android)
 				if(deviceUpdate.Handle != null)
 				{
+					//Azure likes to uppercase the iOS device handles for some reason - no worries tho, I only spent 2 hours tracking this down
 					if(deviceUpdate.Platform == "iOS")
 						deviceUpdate.Handle = deviceUpdate.Handle.ToUpper();
 

@@ -178,7 +178,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 				Payload = { { "challengeId", id }, { "leagueId", challenge.LeagueId } }
 			};
 
-			_notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
+			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
 			await DeleteAsync(id);
 		}
 
