@@ -29,13 +29,16 @@ namespace SportChallengeMatchRank.UITests
 			app.Tap("When the app starts", e => e.Marked("authButton"));
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com");
 
-			app.EnterText(e => e.Css("#Passwd"), "XamarinTestCloud", "and I enter my credentials");
+			app.EnterText(e => e.Css("#Passwd"), "supersecret", "and I enter my credentials");
 			app.Tap(e => e.Css("#signIn"), "And I click the Sign In button");
+
+			if(app.Query(e => e.Button("Remember")).Length > 0)
+			{
+				app.Back();
+			}
 
 			app.WaitForElement(e => e.Css("#submit_approve_access"));
 			app.Tap("Then I can continue", e => e.Css("#submit_approve_access"));
-
-			Thread.Sleep(5000);
 
 			app.WaitForElement(e => e.Marked("aliasText"));
 			app.ClearText(e => e.Marked("aliasText"));
@@ -43,9 +46,7 @@ namespace SportChallengeMatchRank.UITests
 			app.PressEnter();
 			app.Tap("Then I tap Save button", e => e.Marked("saveButton"));
 
-			Thread.Sleep(3000);
 			app.Tap("Continue button", e => e.Marked("continueButton"));
-			Thread.Sleep(3000);
 			app.Screenshot("Athlete leagues listview");
 
 			app.Tap("leagueRow");
@@ -63,16 +64,18 @@ namespace SportChallengeMatchRank.UITests
 			app.WaitForElement("memberDetailsRoot");
 			app.Screenshot("Member details page");
 
+			app.ScrollDownEnough(e => e.Marked("pastButton"), "Bottom of member details page");
+
 			app.Tap("challengeButton");
 			app.Screenshot("Challenge date page");
 
 			app.Tap("datePicker");
 			app.Screenshot("Challenge date picker");
+			app.Back();
 
 			app.Tap("timePicker");
 			app.Screenshot("Challenge time picker");
-
-			app.ScrollDownEnough(e => e.Marked("pastButton"), "Bottom of member details page");
+			app.Back();
 		}
 	}
 }
