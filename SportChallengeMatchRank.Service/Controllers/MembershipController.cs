@@ -96,7 +96,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 		}
 
         // DELETE tables/Member/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public void DeleteMembership(string id)
+        async public Task DeleteMembership(string id)
         {
 			var membership = _context.Memberships.SingleOrDefault(m => m.Id == id);
 
@@ -111,13 +111,22 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			foreach(var c in challenges)
 			{
-				var payload = new NotificationPayload
+				try
 				{
-					Action = PushActions.ChallengeDeclined,
-					Payload = { { "leagueId", c.LeagueId }, { "challengeId", c.Id } }
-				};
-				var message = "You challenge with {0} has ben removed because they abandoned the {1} league".Fmt(membership.Athlete.Name, c.League.Name);
-				_notificationController.NotifyByTag(message, c.Opponent(membership.AthleteId).Id, payload);
+					var league = _context.Leagues.SingleOrDefault(l => l.Id == c.LeagueId);
+					var payload = new NotificationPayload
+					{
+						Action = PushActions.ChallengeDeclined,
+						Payload = { { "leagueId", c.LeagueId }, { "challengeId", c.Id } }
+					};
+					var message = "You challenge with {0} has ben removed because they abandoned the {1} league".Fmt(membership.Athlete.Name, league.Name);
+					await _notificationController.NotifyByTag(message, c.Opponent(membership.AthleteId).Id, payload);
+				}
+				catch(Exception e)
+				{
+					//TODO log to Insights
+					Console.WriteLine(e);
+				}
 			}
 
 			membership.AbandonDate = DateTime.UtcNow;

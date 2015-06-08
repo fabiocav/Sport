@@ -86,11 +86,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 			if(challenger == null || challengee == null)
 				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
 
-			var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challenger.Id && m.LeagueId == item.LeagueId);
-			var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.LeagueId == item.LeagueId);
+			var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AbandonDate == null && m.AthleteId == challenger.Id && m.LeagueId == item.LeagueId);
+			var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AbandonDate == null && m.AthleteId == challengee.Id && m.LeagueId == item.LeagueId);
 
-			if(challengerMembership == null || challengeeMembership == null
-					|| challengeeMembership.AbandonDate.HasValue || challengerMembership.AbandonDate.HasValue)
+			if(challengerMembership == null || challengeeMembership == null)
 				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
 
 			//Check to see if there are any ongoing challenges between either athlete
@@ -129,11 +128,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengePosted,
-				Payload = { { "challengeId", current.Id } }
+				Payload = { { "challengeId", current.Id }, { "leagueId", current.LeagueId } }
 			};
 
 			//Not awaiting so the user's result is not delayed
-			_notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload, 4);
+			_notificationController.NotifyByTag(message, current.ChallengeeAthleteId, payload);
 			return result;
         }
 
@@ -149,17 +148,16 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
-			await DeleteAsync(id);
-
 			var message = "Your challenge with {0} has been revoked.".Fmt(challenger.Name);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengeRevoked,
-				Payload = { { "challengeId", id } }
+				Payload = { { "challengeId", id }, { "leagueId", challenge.LeagueId } }
 			};
 
-			_notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId, payload);
-        }
+			await _notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId, payload);
+			await DeleteAsync(id);
+		}
 
 		[HttpGet]
 		[Route("api/declineChallenge")]
@@ -177,11 +175,11 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengeDeclined,
-				Payload = { { "challengeId", id } }
+				Payload = { { "challengeId", id }, { "leagueId", challenge.LeagueId } }
 			};
 
-			await DeleteAsync(id);
 			_notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
+			await DeleteAsync(id);
 		}
 
 		[Route("api/acceptChallenge")]
@@ -197,14 +195,14 @@ namespace SportChallengeMatchRank.Service.Controllers
 
 			var league = _context.Leagues.SingleOrDefault(l => l.Id == challenge.LeagueId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
-			var message = "{0}: Your challenge with {1} has been accepted! MATCH ON!!".Fmt(league.Name, challengee.Name);
+			var message = "{0}: Your challenge with {1} has been accepted!".Fmt(league.Name, challengee.Name);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengeAccepted,
-				Payload = { { "challengeId", id } }
+				Payload = { { "challengeId", id }, { "leagueId", challenge.LeagueId } }
 			};
 
-			_notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
+			await _notificationController.NotifyByTag(message, challenge.ChallengerAthleteId, payload);
 			return challenge.ToChallengeDto();
 		}
 
@@ -234,11 +232,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 			if(challenger == null || challengee == null)
 				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
 
-			var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challenger.Id && m.LeagueId == challenge.LeagueId);
-			var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.LeagueId == challenge.LeagueId);
+			var challengerMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challenger.Id && m.AbandonDate== null && m.LeagueId == challenge.LeagueId);
+			var challengeeMembership = _context.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id && m.AbandonDate == null && m.LeagueId == challenge.LeagueId);
 
-			if(challengerMembership == null || challengeeMembership == null
-					|| challengeeMembership.AbandonDate.HasValue || challengerMembership.AbandonDate.HasValue)
+			if(challengerMembership == null || challengeeMembership == null)
 				throw "The opponent in this challenge no longer belongs to this league".ToException(Request);
 
 			var tempChallenge = new Challenge();

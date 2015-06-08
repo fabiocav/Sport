@@ -35,10 +35,10 @@ namespace SportChallengeMatchRank.Service.Controllers
 				notification.Add("payload", json);
 			}
 
-			if(badgeCount != null)
-			{
-				notification.Add("badge", badgeCount.Value.ToString());
-			}
+			if(badgeCount == null)
+				badgeCount = 0;
+
+			notification.Add("badge", badgeCount.Value.ToString());
 
 			try
 			{
@@ -69,6 +69,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 				// make sure there are no existing registrations for this push handle (used for iOS and Android)
 				if(deviceUpdate.Handle != null)
 				{
+					if(deviceUpdate.Platform == "iOS")
+						deviceUpdate.Handle = deviceUpdate.Handle.ToUpper();
+
 					var registrations = await _hub.GetRegistrationsByChannelAsync(deviceUpdate.Handle, 100);
 
 					foreach(var reg in registrations)
