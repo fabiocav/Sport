@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="sportchallenge_matchrank.android">
 	<uses-sdk android:minSdkVersion="17" android:targetSdkVersion="21" />
-	<application android:label="Sport Challenge" android:theme="@android:style/Theme.Material.Light">
+	<application android:label="Sport" android:theme="@android:style/Theme.Material.Light">
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

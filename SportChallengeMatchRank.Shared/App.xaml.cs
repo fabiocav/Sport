@@ -32,12 +32,12 @@ namespace SportChallengeMatchRank.Shared
 		public App()
 		{
 			Colors = new List<string> {
-					"green",
-					"blue",
-					"red",
-					"yellow",
-					"asphalt",
-					"purple"
+				"green",
+				"blue",
+				"red",
+				"yellow",
+				"asphalt",
+				"purple"
 			};
 			InitializeComponent();
 			IsNetworkRechable = CrossConnectivity.Current.IsConnected;

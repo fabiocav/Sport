@@ -20,7 +20,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return IsCurrentMembership ? "*You*" : Membership.Athlete.Alias;
+				return IsCurrentMembership ? "*You*" : Membership != null ? Membership.Athlete.Alias : null;
 			}
 		}
 

@@ -108,7 +108,7 @@ namespace SportChallengeMatchRank.Shared
 			Athlete athlete = null;
 			using(new Busy(this))
 			{
-				AuthenticationStatus = "Getting Athlete's Profile";
+				AuthenticationStatus = "Getting athlete's profile";
 
 				//No AthleteId on record
 				if(!string.IsNullOrWhiteSpace(Settings.Instance.AthleteId))
@@ -141,7 +141,7 @@ namespace SportChallengeMatchRank.Shared
 				//Unable to get athlete - try registering as a new athlete
 				if(athlete == null)
 				{
-					AuthenticationStatus = "Registering Athlete";
+					AuthenticationStatus = "Registering athlete";
 					athlete = new Athlete(App.AuthUserProfile);
 					var task = AzureService.Instance.SaveAthlete(athlete);
 					await RunSafe(task);

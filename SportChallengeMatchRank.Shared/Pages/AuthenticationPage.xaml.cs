@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using Connectivity.Plugin;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -14,7 +15,17 @@ namespace SportChallengeMatchRank.Shared
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = "Authenticating...";
+			Title = "Authenticating";
+
+			btnAuthenticate.Clicked += (sender, e) =>
+			{
+				AttemptToAuthenticateAthlete();
+			};
+
+//			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
+//			{
+//				
+//			};
 		}
 	}
 
