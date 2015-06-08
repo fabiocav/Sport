@@ -78,6 +78,14 @@ namespace SportChallengeMatchRank.Shared
 
 			InitializeComponent();
 
+			btnRefresh.Clicked += async(sender, e) =>
+			{
+				using(new HUD("Refreshing..."))
+				{
+					await ViewModel.RefreshLeague();	
+				}
+			};
+
 			ongoingCard.OnClicked = async() =>
 			{
 				var details = new ChallengeDetailsPage(ViewModel.CurrentMembership?.OngoingChallenge);
@@ -177,6 +185,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			//ViewModel.RefreshLeague();
 			ViewModel.NotifyPropertiesChanged();
+			rankStrip.Membership = ViewModel.CurrentMembership;
 			base.OnAppearing();
 		}
 

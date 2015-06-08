@@ -203,6 +203,8 @@ namespace SportChallengeMatchRank.Shared
 
 		public void NotifyPropertiesChanged()
 		{
+			CurrentMembership.LocalRefresh();
+
 			if(CurrentMembership?.OngoingChallenge == null)
 				OngoingChallengeViewModel = null;
 

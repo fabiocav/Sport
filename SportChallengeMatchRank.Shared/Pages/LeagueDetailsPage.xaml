@@ -4,6 +4,11 @@
 	xmlns:local="clr-namespace:SportChallengeMatchRank.Shared;assembly=SportChallengeMatchRank"
 	BackgroundColor="{StaticResource grayLight}"
 	x:Class="SportChallengeMatchRank.Shared.LeagueDetailsPage">
+
+	<local:LeagueDetailsXaml.ToolbarItems>
+		<ToolbarItem x:Name="btnRefresh" Text="Refresh" StyleId="refreshButton" Icon="ic_refresh_white" />
+	</local:LeagueDetailsXaml.ToolbarItems>
+
 	<local:LeagueDetailsXaml.Content>
 	<ScrollView x:Name="scrollView">
 		<Grid x:Name="root" VerticalOptions="Fill">
@@ -14,8 +19,11 @@
 			</Grid.RowDefinitions>
 
 			<ContentView Padding="0,-100,0,0">
-				<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="300"
-					VerticalOptions="Center" Aspect="AspectFill" />
+				<Grid>
+					<Image Source="ic_missing_image_white" HorizontalOptions="Center" VerticalOptions="Center" />
+					<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="300"
+						VerticalOptions="Center" Aspect="AspectFill" />
+				</Grid>
 			</ContentView>
 
 			<StackLayout Grid.Row="1" Orientation="Vertical" Spacing="14" VerticalOptions="Fill" BackgroundColor="{StaticResource grayLight}">

@@ -31,7 +31,7 @@
 			<StackLayout AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" Spacing="0">
 				<Label Text="{Binding Membership.CurrentRankOrdinal}" FontSize="28" TextColor="{Binding Membership.League.Theme.Dark}"
 					VerticalOptions="Center" HorizontalOptions="Center" />
-				<Label Text="You" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="Medium" LineBreakMode="TailTruncation" />
+				<Label Text="You" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="Medium" FontAttributes="Bold" LineBreakMode="TailTruncation" />
 			</StackLayout>
 
 			<Button x:Name="btnSelf" BackgroundColor="Transparent" BorderRadius="3" Clicked="HandleAthleteClicked"

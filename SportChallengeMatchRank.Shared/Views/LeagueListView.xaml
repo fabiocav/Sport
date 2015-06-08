@@ -26,6 +26,7 @@
 									<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" Aspect="AspectFill"
 										AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"/>
 
+									<Image Source="ic_missing_image_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
 									
 <!--									<ContentView BackgroundColor="{Binding Theme.Light}" Opacity=".4"
 										 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,1" />-->

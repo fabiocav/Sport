@@ -99,10 +99,10 @@ namespace SportChallengeMatchRank.Shared
 				string status = null;
 
 				if(CanAccept)
-					return "it's time to a make a decision... green pill or red pill?";
+					return "do you accept ";
 
 				if(CanPostMatchResults)
-					return "this is where you'll reflect upon your victorious match result score... but you'll have to post some results first using this here button";
+					return "this is where you'll reflect upon your victorious match score... but you'll have to post some results first";
 
 				if(CanRevoke)
 					return "...just waiting for your opponent to accept your challenge or coward out like a shameless hunk of slime";

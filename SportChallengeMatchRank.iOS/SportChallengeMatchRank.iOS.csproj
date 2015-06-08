@@ -227,6 +227,10 @@
     <BundleResource Include="Resources\icon.png" />
     <BundleResource Include="Resources\icon_clear_72.png" />
     <BundleResource Include="Resources\icon_200.png" />
+    <BundleResource Include="Resources\ic_missing_photo_white%402x.png" />
+    <BundleResource Include="Resources\ic_missing_photo_white%403x.png" />
+    <BundleResource Include="Resources\ic_refresh_white%402x.png" />
+    <BundleResource Include="Resources\ic_refresh_white%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

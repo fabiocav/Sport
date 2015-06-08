@@ -206,6 +206,12 @@
     <AndroidResource Include="Resources\drawable-hdpi\ic_person_add_white.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_person_add_white.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_add_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_missing_photo_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_missing_photo_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_missing_photo_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_refresh_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_refresh_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_refresh_white.png" />
   </ItemGroup>
   <Import Project="..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems" Label="Shared" Condition="Exists('..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

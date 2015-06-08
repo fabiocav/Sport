@@ -58,11 +58,16 @@ namespace SportChallengeMatchRank.Shared
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
 			string challengeId = null;
+			string winnerId = null;
 			if(payload.Payload.TryGetValue("challengeId", out challengeId))
 			{
 				if(challengeId == ViewModel.Challenge.Id)
 				{
 					await ViewModel.RefreshChallenge();
+					if(payload.Payload.TryGetValue("winningAthleteId", out winnerId))
+					{
+						OnPostResults?.Invoke();
+					}
 				}
 			}
 		}
@@ -73,9 +78,7 @@ namespace SportChallengeMatchRank.Shared
 			page.OnMatchResultsPosted = () =>
 			{
 				ViewModel.NotifyPropertiesChanged();
-
-				if(OnPostResults != null)
-					OnPostResults();
+				OnPostResults?.Invoke();
 			};
 
 			page.AddDoneButton("Cancel");
