@@ -15,21 +15,16 @@ namespace SportChallengeMatchRank.iOS
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-			Insights.Initialize("34553a125b7e69dcaa66abde0e4c851979252f20");
+			Insights.Initialize(Constants.InsightsApiKey);
 
-			#if DEBUG
+			//#if DEBUG
 			Xamarin.Calabash.Start();
-			#endif
+			//#endif
 
 			Forms.Init();
 			ImageCircleRenderer.Init();
 			ToastNotifier.Init();
-
-			UITabBar.Appearance.BarTintColor = UIColor.FromRGB(44, 62, 80);
-			UITabBar.Appearance.TintColor = UIColor.White;
-
-			//UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
-
+		
 			Forms.ViewInitialized += (sender, e) =>
 			{
 				if(null != e.View.StyleId)

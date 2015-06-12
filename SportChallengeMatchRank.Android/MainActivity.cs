@@ -16,7 +16,7 @@ namespace SportChallengeMatchRank.Android
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
-			Xamarin.Insights.Initialize("34553a125b7e69dcaa66abde0e4c851979252f20", this);
+			Xamarin.Insights.Initialize(Constants.InsightsApiKey, this);
 
 			try
 			{

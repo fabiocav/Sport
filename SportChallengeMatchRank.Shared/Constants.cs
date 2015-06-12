@@ -15,6 +15,7 @@ namespace SportChallengeMatchRank.Shared
 
 		//public static readonly string AzureDomain = "http://192.168.1.16:51541/";
 		public static readonly string AzureDomain = "http://sportchallengematchrank.azure-mobile.net/";
+		public static readonly string InsightsApiKey = "34553a125b7e69dcaa66abde0e4c851979252f20";
 
 		//Custom Redirect
 		//public static readonly string GoogleApiClientId = "236481934978-g2nvcbc7v4hsrc8bf1h64u8rr4sepa6a.apps.googleusercontent.com";

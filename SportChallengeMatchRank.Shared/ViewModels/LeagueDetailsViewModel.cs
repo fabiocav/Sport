@@ -189,7 +189,6 @@ namespace SportChallengeMatchRank.Shared
 
 			using(new Busy(this))
 			{
-				Console.WriteLine("Refreshing League!!!");
 				var task = AzureService.Instance.GetLeagueById(League.Id, true);
 				await RunSafe(task);
 

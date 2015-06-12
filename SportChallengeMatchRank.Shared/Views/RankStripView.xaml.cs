@@ -27,7 +27,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Membership == null || Membership.League == null ? Color.Transparent : Membership.League.Theme.Light.AddLuminosity(-.05);
+				return Membership == null || Membership.League == null ? Color.Transparent : Membership.League.Theme.Light.AddLuminosity(-.1);
 			}
 		}
 
@@ -35,7 +35,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Membership == null || Membership.League == null ? Color.Transparent : Membership.League.Theme.Light.AddLuminosity(.05);
+				return Membership == null || Membership.League == null ? Color.Transparent : Membership.League.Theme.Light.AddLuminosity(.1);
 			}
 		}
 

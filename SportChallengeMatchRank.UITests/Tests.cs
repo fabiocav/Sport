@@ -26,9 +26,10 @@ namespace SportChallengeMatchRank.UITests
 		[Test]
 		public void WelcomeTextIsDisplayed()
 		{
+			//app.Repl();
+			
 			app.Tap("When the app starts", e => e.Marked("authButton"));
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com");
-
 			app.EnterText(e => e.Css("#Passwd"), "XamarinTestCloud", "and I enter my credentials");
 			app.ScrollDownAndTap(e => e.Css("#signIn"), "And I click the Sign In button");
 
@@ -37,16 +38,30 @@ namespace SportChallengeMatchRank.UITests
 				app.Back();
 			}
 
-			app.WaitForElement(e => e.Css("#submit_approve_access"));
-			app.Tap("Then I can continue", e => e.Css("#submit_approve_access"));
+			app.WaitForElement(e => e.Css("#grant_heading"));
+			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
 
+			Thread.Sleep(5000);
 			app.WaitForElement(e => e.Marked("aliasText"));
 			app.ClearText(e => e.Marked("aliasText"));
 			app.EnterText(e => e.Marked("aliasText"), "XTC", "And I enter my alias");
 			app.PressEnter();
-			app.ScrollDownAndTap("Then I tap Save button", e => e.Marked("saveButton"));
 
+			int count = 0;
+			while(app.Query("saveButton").Length == 0 && count < 5)
+			{
+				app.ScrollDown();
+				count++;
+			}
+			
+			app.Tap("saveButton");
+
+			app.Invoke("LoadData:", "");
+
+			Thread.Sleep(5000);
 			app.ScrollDownAndTap("Continue button", e => e.Marked("continueButton"));
+
+			Thread.Sleep(2000);
 			app.Screenshot("Athlete leagues listview");
 
 			app.Tap("leagueRow");
@@ -71,11 +86,23 @@ namespace SportChallengeMatchRank.UITests
 
 			app.Tap("datePicker");
 			app.Screenshot("Challenge date picker");
-			app.Back();
+
+			if(platform == Platform.Android)
+				app.Back();
+			else
+				app.Tap("Done");
+
+			app.Screenshot("End");
 
 			app.Tap("timePicker");
 			app.Screenshot("Challenge time picker");
-			app.Back();
+
+			if(platform == Platform.Android)
+				app.Back();
+			else
+				app.Tap("Done");
+
+			app.Screenshot("End");
 		}
 	}
 }

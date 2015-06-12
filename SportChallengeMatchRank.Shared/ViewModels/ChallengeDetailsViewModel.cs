@@ -163,6 +163,18 @@ namespace SportChallengeMatchRank.Shared
 			return !task.IsFaulted;
 		}
 
+		async public Task NagAthlete()
+		{
+			using(new Busy(this))
+			{
+				var task = AzureService.Instance.NagAthlete(Challenge.Id);
+				await RunSafe(task);
+
+				if(task.IsFaulted)
+					return;
+			}
+		}
+
 		async public Task RefreshChallenge()
 		{
 			using(new Busy(this))

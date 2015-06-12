@@ -32,7 +32,7 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
-		DateTime _selectedDate = DateTime.Today;
+		DateTime _selectedDate;
 
 		public DateTime SelectedDate
 		{
@@ -79,6 +79,7 @@ namespace SportChallengeMatchRank.Shared
 		public void CreateChallenge(Athlete challenger, Athlete challengee, League league)
 		{
 			SelectedTime = TimeSpan.FromTicks(DateTime.Now.AddMinutes(60).Subtract(DateTime.Today).Ticks);
+			SelectedDate = DateTime.Today;
 
 			if(SelectedTime.Ticks > TimeSpan.TicksPerDay)
 				SelectedTime = SelectedTime.Subtract(TimeSpan.FromTicks(TimeSpan.TicksPerDay));

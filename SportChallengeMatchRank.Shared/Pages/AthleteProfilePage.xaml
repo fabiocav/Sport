@@ -21,20 +21,21 @@
 						<Grid HorizontalOptions="Fill" Padding="0,12,0,20">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="5*" />
+								<ColumnDefinition Width="10" />
 								<ColumnDefinition Width="5*" />
 							</Grid.ColumnDefinitions>
 
-							<StackLayout Grid.Column="1" Padding="0,12,0,0" HorizontalOptions="Start" VerticalOptions="Start">
+							<ContentView Padding="0,12,0,0" HorizontalOptions="End">
+								<controls:CircleImage Source="{Binding Athlete.ProfileImageUrl}"
+									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
+							</ContentView>
+
+							<StackLayout Grid.Column="2" Padding="0,12,0,0" HorizontalOptions="Start" VerticalOptions="Start">
 								<Label Text="{Binding Athlete.Name}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="StartAndExpand"
 									TextColor="{StaticResource asphaltDark}" />
 								<Label Text="{Binding Athlete.Email}" FontSize="Small" HorizontalOptions="StartAndExpand"
 									TextColor="{StaticResource asphaltPrimary}"/>
 							</StackLayout>
-
-							<ContentView Padding="48,12,36,0" HorizontalOptions="End">
-								<controls:CircleImage Source="{Binding Athlete.ProfileImageUrl}"
-									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
-							</ContentView>
 						</Grid>
 					</Grid>
 				</StackLayout>
@@ -45,7 +46,7 @@
 						<Label Text="Alias:" TextColor="{StaticResource asphaltLight}" VerticalOptions="Center" FontSize="Large" />
 						<ContentView Padding="0,5,0,0" HorizontalOptions="FillAndExpand">
 							<labs:ExtendedEntry x:Name="txtAlias" StyleId="aliasText" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource asphaltDark}"
-								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" MaxLength="10" />
+								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" MaxLength="14" />
 						</ContentView>
 					</StackLayout>
 					<ContentView BackgroundColor="{StaticResource asphaltPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />

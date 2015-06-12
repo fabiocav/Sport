@@ -738,6 +738,16 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
+		public Task NagAthlete(string challengeId)
+		{
+			return new Task(() =>
+			{
+				var qs = new Dictionary<string, string>();
+				qs.Add("challengeId", challengeId);
+				var g = Client.InvokeApiAsync("nagAthlete", null, HttpMethod.Get, qs).Result;
+			});
+		}
+
 		#endregion
 	}
 

@@ -137,7 +137,7 @@
       <HintPath>..\packages\modernhttpclient.2.4.2\lib\MonoAndroid\OkHttp.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Insights">
-      <HintPath>..\packages\Xamarin.Insights.1.10.3.111\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Insights.1.10.4.112\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +212,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_refresh_white.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_refresh_white.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_refresh_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_notifications_active_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_notifications_active_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_notifications_active_white.png" />
   </ItemGroup>
   <Import Project="..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems" Label="Shared" Condition="Exists('..\SportChallengeMatchRank.Shared\SportChallengeMatchRank.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -62,7 +62,7 @@
 
 						<ContentView Padding="0,5,0,0" HorizontalOptions="FillAndExpand">
 							<labs:ExtendedEntry x:Name="txtAlias" StyleId="aliasText" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource redDark}"
-								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" MaxLength="10" />
+								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" MaxLength="14" />
 						</ContentView>
 					</StackLayout>
 					<ContentView BackgroundColor="{StaticResource redDark}" HeightRequest=".5" HorizontalOptions="Fill" />

@@ -22,7 +22,8 @@
 			<controls:CircleImage Source="{Binding ViewModel.Opponent.ProfileImageUrl}"
 				HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="36" HeightRequest="36" />
 			
-			<Label FontSize="Small" Text="{Binding ViewModel.Challenge.BattleForPlaceBetween}" VerticalOptions="Center" />
+			<Label FontSize="Small" Text="{Binding ViewModel.Challenge.BattleForPlaceBetween}" VerticalOptions="Center"
+				TextColor="{Binding ViewModel.Challenge.League.Theme.Dark}" />
 		</StackLayout>
 
 		<StackLayout Grid.Row="1" Padding="0,12,0,12" IsVisible="{Binding ViewModel.Challenge.IsCompleted}" VerticalOptions="End"

@@ -144,6 +144,17 @@ namespace SportChallengeMatchRank.Shared
 			await Navigation.PopAsync();
 		}
 
+		async void OnNagAthlete()
+		{
+			bool success;
+			using(new HUD("Nagging..."))
+			{
+				await ViewModel.NagAthlete();
+			}
+
+			"Athlete nagged".ToToast();
+		}
+
 		const string _accept = "Accept Challenge";
 		const string _revoke = "Revoke Challenge";
 		const string _decline = "Decline Challenge";
@@ -199,6 +210,11 @@ namespace SportChallengeMatchRank.Shared
 		void HandlePostResults(object sender, EventArgs e)
 		{
 			OnPostChallengeResults();
+		}
+
+		void HandleNagAthlete(object sender, EventArgs e)
+		{
+			OnNagAthlete();
 		}
 	}
 

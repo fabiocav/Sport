@@ -42,6 +42,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			AllLeagues.Clear();
 			DataManager.Instance.Leagues.Values.OrderBy(l => l.Name).ToList().ForEach(l => AllLeagues.Add(new LeagueViewModel(l)));
+			AllLeagues.ToList().ForEach(l => App.Current.GetTheme(l.League));
 		}
 
 		async public Task GetAllLeagues(bool forceRefresh = false)

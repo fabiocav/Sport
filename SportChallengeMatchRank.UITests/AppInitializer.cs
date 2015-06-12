@@ -12,7 +12,7 @@ namespace SportChallengeMatchRank.UITests
 		{
 			if(platform == Platform.Android)
 			{
-				return ConfigureApp.Android.ApiKey("a835baddbb619daf8c09f1e49756e81f").EnableLocalScreenshots().StartApp();
+				return ConfigureApp.Android.ApiKey("a835baddbb619daf8c09f1e49756e81f").StartApp();
 			}
 
 			return ConfigureApp.iOS.ApiKey("a835baddbb619daf8c09f1e49756e81f").StartApp();

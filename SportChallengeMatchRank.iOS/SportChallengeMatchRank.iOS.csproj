@@ -157,10 +157,10 @@
       <HintPath>..\SupportingProjects\iOS\MessageBarLib\MessageBarLib.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Insights">
-      <HintPath>..\packages\Xamarin.Insights.1.10.3.111\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Insights.1.10.4.112\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
     </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
-      <HintPath>..\packages\Xamarin.Insights.1.10.3.111\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Insights.1.10.4.112\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +231,8 @@
     <BundleResource Include="Resources\ic_missing_photo_white%403x.png" />
     <BundleResource Include="Resources\ic_refresh_white%402x.png" />
     <BundleResource Include="Resources\ic_refresh_white%403x.png" />
+    <BundleResource Include="Resources\ic_notifications_active_white%402x.png" />
+    <BundleResource Include="Resources\ic_notifications_active_white%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

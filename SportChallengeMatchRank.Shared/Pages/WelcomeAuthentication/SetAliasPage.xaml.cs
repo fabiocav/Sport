@@ -74,6 +74,7 @@ namespace SportChallengeMatchRank.Shared
 
 			await Task.Delay(300);
 			profileStack.Opacity = 1;
+
 			await profileStack.LayoutTo(new Rectangle(0, 0, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 			await label1.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await aliasBox.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);

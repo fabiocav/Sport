@@ -32,10 +32,18 @@ namespace SportChallengeMatchRank.Shared
 			set;
 		}
 
+		string _alias;
+
 		public string Alias
 		{
-			get;
-			set;
+			get
+			{
+				return _alias;
+			}
+			set
+			{
+				_alias = value;
+			}
 		}
 
 		string _name;

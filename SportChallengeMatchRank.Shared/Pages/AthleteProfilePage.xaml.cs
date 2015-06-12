@@ -25,6 +25,12 @@ namespace SportChallengeMatchRank.Shared
 
 			btnSave.Clicked += async(sender, e) =>
 			{
+				if(string.IsNullOrWhiteSpace(ViewModel.Athlete.Alias))
+				{
+					"Please enter an alias.".ToToast(ToastNotificationType.Warning);
+					return;
+				}
+
 				bool success;
 				using(new HUD("Saving..."))
 				{
@@ -54,24 +60,6 @@ namespace SportChallengeMatchRank.Shared
 			ViewModel.Athlete.RefreshMemberships();
 			ViewModel.Athlete.Memberships.ForEach(m => m.League.RefreshChallenges());
 		}
-
-		//		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
-		//		{
-		//			string leagueId;
-		//			if(payload.Payload.TryGetValue("leagueId", out leagueId))
-		//			{
-		//				if(leagueId == ViewModel.League.Id)
-		//				{
-		//					await ViewModel.RefreshLeague();
-		//				}
-		//			}
-		//
-		//			string challengeId;
-		//			if(payload.Payload.TryGetValue("challengeId", out challengeId))
-		//			{
-		//				await ViewModel.RefreshLeague();
-		//			}
-		//		}
 	}
 
 	public partial class AthleteProfilePageXaml : BaseContentPage<AthleteProfileViewModel>

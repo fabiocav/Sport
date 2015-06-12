@@ -111,6 +111,8 @@ namespace SportChallengeMatchRank.Shared
 			ongoingCard.OnPostResults = async() =>
 			{
 				var page = new MatchResultsFormPage(ViewModel.CurrentMembership?.OngoingChallenge);
+				page.AddDoneButton("Cancel");
+
 				page.OnMatchResultsPosted = async() =>
 				{
 					await ViewModel.RefreshLeague();
