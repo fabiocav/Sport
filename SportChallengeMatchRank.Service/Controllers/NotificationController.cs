@@ -111,13 +111,9 @@ namespace SportChallengeMatchRank.Service.Controllers
 				registration.Tags = new HashSet<string>(deviceUpdate.Tags);
 				await _hub.CreateOrUpdateRegistrationAsync(registration);
 			}
-			catch(MessagingException e)
-			{
-				ReturnGoneIfHubResponseIsGone(e);
-			}
 			catch(Exception ex)
 			{
-				Console.WriteLine(ex);
+				throw ex.GetBaseException().Message.ToException(Request);
 			}
 
 			return newRegistrationId;

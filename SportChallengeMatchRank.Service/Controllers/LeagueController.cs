@@ -128,7 +128,7 @@ namespace SportChallengeMatchRank.Service.Controllers
 			var updated = patch.GetEntity();
 			if(!league.IsAcceptingMembers && updated.IsAcceptingMembers)
 			{
-				NotifyAboutNewLeagueOpenEnrollment(updated);
+				//NotifyAboutNewLeagueOpenEnrollment(updated);
 			}
 
             return UpdateAsync(id, patch);

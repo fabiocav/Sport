@@ -206,6 +206,30 @@ namespace SportChallengeMatchRank.Service.Controllers
 			return challenge.ToChallengeDto();
 		}
 
+		[HttpGet]
+		[Route("api/nagAthlete")]
+		public async Task NagAthlete(string challengeId)
+		{
+			var challenge = Lookup(challengeId).Queryable.FirstOrDefault();
+
+			if(challenge == null)
+				throw "This challenge no longer exists".ToException(Request);
+
+			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
+
+			if(challenger == null)
+				throw "The challenger no longer exists".ToException(Request);
+
+			var message = "{0} would be much obliged if you'd accept their challenge, mkay?".Fmt(challenger.Alias);
+			var payload = new NotificationPayload
+			{
+				Action = PushActions.ChallengePosted,
+				Payload = { { "challengeId", challengeId },	{ "leagueId", challenge.LeagueId } }
+			};
+
+			await _notificationController.NotifyByTag(message, challenge.ChallengeeAthleteId, payload);
+		}
+
 		[Route("api/postMatchResults")]
 		async public Task<ChallengeDto> PostMatchResults(List<GameResultDto> results)
 		{
