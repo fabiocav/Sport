@@ -8,10 +8,10 @@ using System.Reflection;
 using System;
 using System.Collections.Generic;
 
-[assembly: ExportRenderer(typeof(ClearNavigationPage), typeof(ClearNavigationRenderer))]
+[assembly: ExportRenderer(typeof(ClearNavigationPage), typeof(ThemedNavigationRenderer))]
 namespace SportChallengeMatchRank.iOS
 {
-	public class ClearNavigationRenderer : NavigationRenderer
+	public class ThemedNavigationRenderer : NavigationRenderer
 	{
 		protected override Task<bool> OnPushAsync(Page page, bool animated)
 		{
@@ -51,14 +51,15 @@ namespace SportChallengeMatchRank.iOS
 				NavigationBar.TitleTextAttributes = titleAttributes;
 
 
-				// set Tint color (i. e. Back Button arrow and Text)
 				UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
+
+				//Hoping to animate the color transition at some point
 //				var atts = new UITextAttributes {
 //					TextColor = basePage.BarTextColor.ToUIColor(),
 //					Font = UIFont.FromName("SegoeUI", 22),
 //				};
 //				UINavigationBar.Appearance.SetTitleTextAttributes(atts);
-
+//
 //				await UIView.AnimateAsync(250, () =>
 //				{
 //					NavigationBar.BarTintColor = basePage.BarBackgroundColor.ToUIColor();

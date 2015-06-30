@@ -16,7 +16,7 @@
 
 				<StackLayout Spacing="16">
 					<StackLayout Spacing="10">
-						<StackLayout Padding="14,0,14,0" Spacing="12" BackgroundColor="{StaticResource grayLight}">
+						<StackLayout Padding="14,0,14,0" Spacing="30" BackgroundColor="{StaticResource grayLight}">
 							<Grid HorizontalOptions="Center" Padding="0,20,0,20">
 								<Grid.RowDefinitions>
 									<RowDefinition />
@@ -51,33 +51,31 @@
 							</Grid>
 						</StackLayout>
 
-						<StackLayout Spacing="3" Padding="28,24,20,14">
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="40" />
-									<RowDefinition Height="40" />
-									<RowDefinition Height="40" />
-								</Grid.RowDefinitions>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="66" />
-									<ColumnDefinition Width="*" />
-								</Grid.ColumnDefinitions>
+						<Grid Padding="0,24" HorizontalOptions="CenterAndExpand">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="40" />
+								<RowDefinition Height="40" />
+								<RowDefinition Height="40" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="66" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 
-								<Image Source="ic_trophy_gray" HorizontalOptions="Center" VerticalOptions="Center" />
-								<Label Grid.Column="1" Text="{Binding Challenge.BattleForPlace}"
-									FontSize="Small" TextColor="{StaticResource grayDark}" VerticalOptions="Center" />
+							<Image Source="ic_trophy_gray" HorizontalOptions="Center" VerticalOptions="Center" />
+							<Label Grid.Column="1" Text="{Binding Challenge.BattleForPlace}"
+								FontSize="Small" TextColor="{StaticResource grayDark}" VerticalOptions="Center" />
 
-								<Image Grid.Row="1" Source="ic_people_gray" HorizontalOptions="Center" VerticalOptions="Center" />
-								<Label Grid.Row="1" Grid.Column="1" Text="{Binding Challenge.BattleBetween}"
-									FontSize="Small" TextColor="{StaticResource grayDark}" VerticalOptions="Center" />
+							<Image Grid.Row="1" Source="ic_people_gray" HorizontalOptions="Center" VerticalOptions="Center" />
+							<Label Grid.Row="1" Grid.Column="1" Text="{Binding Challenge.BattleBetween}"
+								FontSize="Small" TextColor="{StaticResource grayDark}" VerticalOptions="Center" />
 
-								<Image Grid.Row="2" Source="ic_time_gray" HorizontalOptions="Center" VerticalOptions="Center" />
-								<Label Grid.Row="2" Grid.Column="1" Text="{Binding Challenge.ProposedTimeString}"
-									 TextColor="{StaticResource grayDark}" FontSize="Small" VerticalOptions="Center" />
-							</Grid>
-						</StackLayout>
+							<Image Grid.Row="2" Source="ic_time_gray" HorizontalOptions="Center" VerticalOptions="Center" />
+							<Label Grid.Row="2" Grid.Column="1" Text="{Binding Challenge.ProposedTimeString}"
+								 TextColor="{StaticResource grayDark}" FontSize="Small" VerticalOptions="Center" />
+						</Grid>
 
-						<StackLayout Padding="40,0,40,24" Spacing="28" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
+						<StackLayout Padding="40,0" Spacing="40" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
 							<Label Text="{Binding ChallengeStatus}" TextColor="{Binding Challenge.League.Theme.Dark}" FontSize="Medium" XAlign="Center" />
 
 							<AbsoluteLayout HorizontalOptions="Center" IsVisible="{Binding AwaitingDecision}">
@@ -87,7 +85,7 @@
 								<StackLayout Orientation="Horizontal" Spacing="8"
 									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" >
 									<Image Source="ic_notifications_active_white" VerticalOptions="Center" />
-									<Label TextColor="White" Text="NAG ATHLETE" FontSize="Medium" VerticalOptions="Center" />
+									<Label TextColor="White" Text="NUDGE ATHLETE" FontSize="Medium" VerticalOptions="Center" />
 								</StackLayout>
 
 								<!--HACK-->

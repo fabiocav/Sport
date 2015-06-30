@@ -49,6 +49,14 @@ namespace SportChallengeMatchRank.Shared
 			}
 		}
 
+		public bool IsNotMemberAndLeagueStarted
+		{
+			get
+			{
+				return !IsMember && League.HasStarted;
+			}
+		}
+
 		public bool IsMemberAndStarted
 		{
 			get
@@ -79,6 +87,7 @@ namespace SportChallengeMatchRank.Shared
 			SetPropertyChanged("League");
 			SetPropertyChanged("IsLast");
 			SetPropertyChanged("IsMemberAndStarted");
+			SetPropertyChanged("IsNotMemberAndLeagueStarted");
 		}
 
 		async public Task GetAllMemberships(bool forceRefresh = false)

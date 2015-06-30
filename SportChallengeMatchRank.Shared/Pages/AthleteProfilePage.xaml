@@ -17,26 +17,7 @@
 				<StackLayout Spacing="12">
 					<Grid>
 						<BoxView BackgroundColor="{StaticResource asphaltLight}" HeightRequest="96" VerticalOptions="Start"/>
-						
-						<Grid HorizontalOptions="Fill" Padding="0,12,0,20">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="5*" />
-								<ColumnDefinition Width="10" />
-								<ColumnDefinition Width="5*" />
-							</Grid.ColumnDefinitions>
-
-							<ContentView Padding="0,12,0,0" HorizontalOptions="End">
-								<controls:CircleImage Source="{Binding Athlete.ProfileImageUrl}"
-									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
-							</ContentView>
-
-							<StackLayout Grid.Column="2" Padding="0,12,0,0" HorizontalOptions="Start" VerticalOptions="Start">
-								<Label Text="{Binding Athlete.Name}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="StartAndExpand"
-									TextColor="{StaticResource asphaltDark}" />
-								<Label Text="{Binding Athlete.Email}" FontSize="Small" HorizontalOptions="StartAndExpand"
-									TextColor="{StaticResource asphaltPrimary}"/>
-							</StackLayout>
-						</Grid>
+						<local:ProfileStripView Athlete="{Binding Athlete}" DarkColor="{StaticResource asphaltDark}" />
 					</Grid>
 				</StackLayout>
 

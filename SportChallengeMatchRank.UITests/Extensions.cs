@@ -5,6 +5,16 @@ using Xamarin.UITest;
 using Xamarin.UITest.Android;
 using Xamarin.UITest.Queries;
 using System.Text;
+using System.Diagnostics;
+
+namespace SportChallengeMatchRank.UITests
+{
+	public class Constants
+	{
+		public static readonly string ApiKey = "a835baddbb619daf8c09f1e49756e81f";
+		public static readonly string Password = "XamarinTestCloud";
+	}
+}
 
 namespace Xamarin.TestCloud.Extensions
 {
@@ -117,7 +127,8 @@ namespace Xamarin.TestCloud.Extensions
 						throw new Exception("Unable to get root view");
 				}
 
-				float gap = rootView.Rect.Height / 5;
+				float gap = rootView.Rect.Height / 3;
+				var write = rootView.Rect.CenterX.ToString() + " - " + (rootView.Rect.CenterY + gap).ToString() + " x " + rootView.Rect.CenterX + " - " + (rootView.Rect.CenterY - gap).ToString();
 				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
 				count++;
 			}

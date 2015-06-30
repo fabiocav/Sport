@@ -15,28 +15,7 @@
 				<StackLayout>
 					<Grid>
 						<BoxView BackgroundColor="{StaticResource grayLight}" HeightRequest="96" VerticalOptions="Start"/>
-						
-						<Grid HorizontalOptions="Fill" Padding="0,12,0,20">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="5*" />
-								<ColumnDefinition Width="24" />
-								<ColumnDefinition Width="5*" />
-							</Grid.ColumnDefinitions>
-
-							<StackLayout Grid.Column="2" Padding="0,12,0,0" HorizontalOptions="Start" VerticalOptions="Start">
-								<Label Text="{Binding Membership.Athlete.Name}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="StartAndExpand" />
-								<Label Text="{Binding Membership.Athlete.Email}" FontSize="Micro" HorizontalOptions="StartAndExpand" />
-							</StackLayout>
-
-							<StackLayout Padding="0,12,0,0" HorizontalOptions="End">
-								<controls:CircleImage Source="{Binding Membership.Athlete.ProfileImageUrl}"
-									HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
-							</StackLayout>
-
-							<StackLayout Grid.Column="2" Padding="0,92,0,0">
-								<Label Text="{Binding Membership.Athlete.Alias, StringFormat='AKA \{0\}'}" FontSize="Small" TextColor="{StaticResource grayPrimary}" HorizontalOptions="StartAndExpand" />
-							</StackLayout>
-						</Grid>
+						<local:ProfileStripView Athlete="{Binding Membership.Athlete}" DarkColor="{StaticResource grayDark}" />
 					</Grid>
 
 					<StackLayout Padding="24,48,24,0" Spacing="8">

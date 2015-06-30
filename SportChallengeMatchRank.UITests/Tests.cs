@@ -2,6 +2,7 @@
 using Xamarin.UITest;
 using Xamarin.TestCloud.Extensions;
 using System.Threading;
+using System;
 
 namespace SportChallengeMatchRank.UITests
 {
@@ -24,13 +25,15 @@ namespace SportChallengeMatchRank.UITests
 		}
 
 		[Test]
-		public void WelcomeTextIsDisplayed()
+		public void JoinLeagueAndChallenge()
 		{
-			//app.Repl();
-			
-			app.Tap("When the app starts", e => e.Marked("authButton"));
+			app.Tap("authButton");
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com");
-			app.EnterText(e => e.Css("#Passwd"), "XamarinTestCloud", "and I enter my credentials");
+
+			if(app.Query(e => e.Css("#next")).Length > 0)
+				app.Tap(e => e.Css("#next"));
+
+			app.EnterText(e => e.Css("#Passwd"), Constants.Password, "and I enter my credentials");
 			app.ScrollDownAndTap(e => e.Css("#signIn"), "And I click the Sign In button");
 
 			if(app.Query(e => e.Button("Remember")).Length > 0)
@@ -41,8 +44,7 @@ namespace SportChallengeMatchRank.UITests
 			app.WaitForElement(e => e.Css("#grant_heading"));
 			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
 
-			Thread.Sleep(5000);
-			app.WaitForElement(e => e.Marked("aliasText"));
+			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));
 			app.EnterText(e => e.Marked("aliasText"), "XTC", "And I enter my alias");
 			app.PressEnter();
@@ -56,12 +58,24 @@ namespace SportChallengeMatchRank.UITests
 			
 			app.Tap("saveButton");
 
-			app.Invoke("LoadData:", "");
-
 			Thread.Sleep(5000);
 			app.ScrollDownAndTap("Continue button", e => e.Marked("continueButton"));
 
-			Thread.Sleep(2000);
+			/*
+			Thread.Sleep(5000);
+			if(platform == Platform.Android)
+				app.Tap("NoResourceEntry-0");
+
+			if(platform == Platform.iOS)
+				app.Tap("ic_person_add_white");
+
+			app.Screenshot("Then I should see a list of leagues to join");
+
+			app.ScrollDownAndTap(e => e.Marked("League for XTC tests"), "Then I select the 'League for XTC tests'");
+			app.ScrollDownAndTap("And I tap the JOIN button", e => e.Marked("joinButton"));
+			app.Tap("Done");
+			*/
+
 			app.Screenshot("Athlete leagues listview");
 
 			app.Tap("leagueRow");
@@ -75,7 +89,7 @@ namespace SportChallengeMatchRank.UITests
 			app.WaitForElement("memberItemRoot");
 			app.Screenshot("Leaderboard listview");
 
-			app.Tap("memberItemRoot");
+			app.Tap(e => e.Marked("memberItemRoot").Index(1));
 			app.WaitForElement("memberDetailsRoot");
 			app.Screenshot("Member details page");
 
@@ -101,6 +115,29 @@ namespace SportChallengeMatchRank.UITests
 				app.Back();
 			else
 				app.Tap("Done");
+
+			app.Tap("Cancel");
+
+			if(platform == Platform.Android)
+			{
+				app.Screenshot("Back");
+				app.Back();
+				app.Screenshot("Back");
+				app.Back();
+			}
+
+			if(platform == Platform.iOS)
+			{
+				app.Screenshot("Back");
+				app.Tap("Back");
+				app.Screenshot("Back");
+				app.Tap("Back");
+			}
+
+			app.Screenshot("Back");
+			app.Tap("abandonButton");
+			app.Screenshot("Confirm");
+			app.Tap("No");
 
 			app.Screenshot("End");
 		}

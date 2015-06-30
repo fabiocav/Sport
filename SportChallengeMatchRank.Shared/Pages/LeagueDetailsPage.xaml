@@ -36,33 +36,43 @@
 					<Label Text="{Binding League.MemberCount}" Style="{StaticResource sub}" />
 				</StackLayout>
 
-				<StackLayout Padding="24,0,24,14" Spacing="20" IsVisible="{Binding League.HasStarted}">
+				<StackLayout Padding="24,0,24,14" Spacing="10" IsVisible="{Binding League.HasStarted}">
 					<ContentView IsVisible="{Binding IsMember}">
-						<StackLayout Spacing="10" Orientation="Horizontal" IsVisible="{Binding League.HasStarted}">
-							<AbsoluteLayout HeightRequest="35" WidthRequest="35">
-								<Button BorderRadius="17" BackgroundColor="{Binding League.Theme.Primary}" HeightRequest="32" WidthRequest="32"
-									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
+						<Grid Padding="0,0,0,6" MinimumHeightRequest="36" MinimumWidthRequest="44" IsVisible="{Binding League.HasStarted}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="44" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<AbsoluteLayout HeightRequest="36" WidthRequest="36" HorizontalOptions="Start">
+								<Button BorderRadius="18" BackgroundColor="{Binding League.Theme.Primary}"
+									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" />
 								<Label Text="{Binding CurrentMembership.CurrentRankOrdinal}" FontSize="Small" TextColor="White"
 									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" XAlign="Center" YAlign="Center" />
 							</AbsoluteLayout>
-							<Label Text="{Binding CurrentMembership.RankDescription, StringFormat='You\'ve been ranked \{0\}'}"
+							<Label Grid.Column="1" Text="{Binding CurrentMembership.RankDescription, StringFormat='You\'ve been ranked \{0\}'}"
 								VerticalOptions="Center" Style="{StaticResource sub}" IsVisible="true" />
-						</StackLayout>
+						</Grid>
 					</ContentView>
 					<ContentView IsVisible="{Binding HasLeaderOtherThanSelf}">
-						<StackLayout Spacing="10" Orientation="Horizontal">
-							<AbsoluteLayout HeightRequest="35" WidthRequest="35">
-								<Button BorderRadius="17" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="32" WidthRequest="32"
-									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
+						<Grid Padding="0,0,0,6" MinimumHeightRequest="36" MinimumWidthRequest="44">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="44" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<AbsoluteLayout HeightRequest="36" WidthRequest="36" HorizontalOptions="Start">
+								<Button BorderRadius="18" BackgroundColor="{StaticResource grayPrimary}"
+									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" />
 								<Label Text="{Binding LeaderMembership.CurrentRankOrdinal}" FontSize="Small" TextColor="White"
 									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" XAlign="Center" YAlign="Center" />
 							</AbsoluteLayout>
-							<Label Text="{Binding League.LeaderRankDescription}"
+							<Label Grid.Column="1" Text="{Binding League.LeaderRankDescription}"
 								VerticalOptions="Center" Style="{StaticResource sub}" IsVisible="true" />
-						</StackLayout>
+						</Grid>
 					</ContentView>
 
-					<ContentView Padding="0" IsVisible="{Binding IsMember}">
+					<ContentView Padding="0,10" IsVisible="{Binding IsMember}">
 						<local:RankStripView x:Name="rankStrip" />
 					</ContentView>
 
@@ -95,7 +105,6 @@
 						<local:ChallengeCardView x:Name="ongoingCard" ViewModel="{Binding OngoingChallengeViewModel}" />
 					</ContentView>
 
-
 					<!---<ContentView Padding="0,0,0,20" IsVisible="{Binding PreviousChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 						<local:ChallengeCardView x:Name="previousCard" ViewModel="{Binding PreviousChallengeViewModel}" />-->
 				</StackLayout>
@@ -119,7 +128,6 @@
 				<StackLayout BackgroundColor="{StaticResource grayMedium}" Padding="18,14,24,0">
 					<Label Text="{Binding League.LeagueDetails}" TextColor="{StaticResource grayLight}" FontSize="Micro" />
 				</StackLayout>
-
 			</StackLayout>
 		</Grid>
 	</ScrollView>

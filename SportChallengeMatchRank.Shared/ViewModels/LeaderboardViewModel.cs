@@ -4,6 +4,8 @@ using Xamarin.Forms;
 using System.Windows.Input;
 using System.Linq;
 using System.Collections.Generic;
+using System;
+using Xamarin;
 
 [assembly: Dependency(typeof(SportChallengeMatchRank.Shared.LeaderboardViewModel))]
 namespace SportChallengeMatchRank.Shared
@@ -70,25 +72,34 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
-			League.RefreshMemberships();
-			League.RefreshChallenges();
-
-			var memberships = Memberships.Select(vm => vm.Membership).ToList();
-
-			var comparer = new MembershipComparer();
-			var toRemove = memberships.Except(League.Memberships, comparer).ToList();
-			var toAdd = League.Memberships.Except(memberships, comparer).ToList();
-
-			toRemove.ForEach(m => Memberships.Remove(Memberships.Single(vm => vm.Membership == m)));
-			toAdd.ForEach(m => Memberships.Add(new MembershipViewModel(m)));
-			Memberships.Sort(new MembershipSortComparer());
-			Memberships.ToList().ForEach(vm => vm.NotifyPropertiesChanged());
-
-			if(Memberships.Count == 0)
+			try
 			{
-				Memberships.Add(new MembershipViewModel(null) {
-					EmptyMessage = "This league has no members yet"
-				});
+				League.RefreshMemberships();
+				League.RefreshChallenges();
+
+				var memberships = Memberships.Select(vm => vm.Membership).ToList();
+
+				var comparer = new MembershipComparer();
+				var toRemove = memberships.Except(League.Memberships, comparer).ToList();
+				var toAdd = League.Memberships.Except(memberships, comparer).ToList();
+
+				toRemove.ForEach(m => Memberships.Remove(Memberships.Single(vm => vm.Membership == m)));
+
+				toAdd.ForEach(m => Memberships.Add(new MembershipViewModel(m)));
+
+				Memberships.Sort(new MembershipSortComparer());
+				Memberships.ToList().ForEach(vm => vm.NotifyPropertiesChanged());
+
+				if(Memberships.Count == 0)
+				{
+					Memberships.Add(new MembershipViewModel(null) {
+						EmptyMessage = "This league has no members yet"
+					});
+				}
+			}
+			catch(Exception e)
+			{
+				Insights.Report(e);
 			}
 		}
 	}

@@ -92,7 +92,8 @@ namespace SportChallengeMatchRank.Shared
 					Tags = tags.ToArray()
 				};
 
-				var registrationId = Client.InvokeApiAsync<DeviceRegistration, string>("registerWithHub", reg, HttpMethod.Put, null).Result;
+				var registrationId = "";
+				//Client.InvokeApiAsync<DeviceRegistration, string>("registerWithHub", reg, HttpMethod.Put, null).Result;
 				//athlete.NotificationRegistrationId = registrationId; //Doesn't seem like this is necessary
 
 				if(athlete.IsDirty || forceSave)

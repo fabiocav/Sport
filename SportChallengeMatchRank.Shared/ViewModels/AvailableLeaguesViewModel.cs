@@ -13,7 +13,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public AvailableLeaguesViewModel()
 		{
-			LocalRefresh();
+			//LocalRefresh();
 		}
 
 		ObservableCollection<LeagueViewModel> _leagues = new ObservableCollection<LeagueViewModel>();
@@ -27,6 +27,7 @@ namespace SportChallengeMatchRank.Shared
 			set
 			{
 				SetPropertyChanged(ref _leagues, value);
+				Leagues?.Clear();
 			}
 		}
 
@@ -40,6 +41,7 @@ namespace SportChallengeMatchRank.Shared
 
 		public void LocalRefresh()
 		{
+			Leagues?.Clear();
 			if(App.CurrentAthlete == null)
 				return;
 
@@ -77,6 +79,7 @@ namespace SportChallengeMatchRank.Shared
 			if(App.CurrentAthlete == null)
 				return;
 
+			Leagues?.Clear();
 			if(!forceRefresh && _hasLoadedBefore)
 			{
 				LocalRefresh();

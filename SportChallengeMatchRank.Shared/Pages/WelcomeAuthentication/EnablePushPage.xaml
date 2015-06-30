@@ -19,29 +19,11 @@
 			<StackLayout>
 				<Grid x:Name="profileStack" Scale="1">
 					<BoxView BackgroundColor="{StaticResource purpleLight}" HeightRequest="100" VerticalOptions="Start"/>
-					
-					<Grid HorizontalOptions="Fill" Padding="0,22,0,20">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="4*" />
-							<ColumnDefinition Width="6*" />
-						</Grid.ColumnDefinitions>
-
-						<StackLayout Grid.Column="1" Padding="0,40,0,0" Spacing="20" HorizontalOptions="Start" VerticalOptions="Start">
-							<Label Text="{Binding Athlete.Name}" FontSize="Large" Style="{StaticResource header}"
-								TextColor="{StaticResource purpleDark}" HorizontalOptions="StartAndExpand" />
-							<Label Text="{Binding Athlete.Email}" FontSize="Small" HorizontalOptions="StartAndExpand"
-								TextColor="{StaticResource purpleDark}" />
-						</StackLayout>
-
-						<StackLayout Padding="0,12,20,0" HorizontalOptions="End">
-							<controls:CircleImage Source="{Binding Athlete.ProfileImageUrl}"
-								HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="96" HeightRequest="96" />
-						</StackLayout>
-					</Grid>
+					<local:ProfileStripView Athlete="{Binding Athlete}" DarkColor="{StaticResource purpleDark}" />
 				</Grid>
 
 				<ContentView x:Name="label1" Scale="0" Padding="40">
-					<Label Text="Much obliged if you'd kinldy enable push notifications." FontSize="Medium" XAlign="Center" />
+					<Label Text="Much obliged if you'd kindly enable push notifications." FontSize="Medium" XAlign="Center" />
 				</ContentView>
 			</StackLayout>
 

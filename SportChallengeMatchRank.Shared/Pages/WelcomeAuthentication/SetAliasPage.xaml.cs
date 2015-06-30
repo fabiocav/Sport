@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using XLabs.Forms.Controls;
 
 namespace SportChallengeMatchRank.Shared
 {
@@ -17,8 +16,6 @@ namespace SportChallengeMatchRank.Shared
 		{
 			NavigationPage.SetHasNavigationBar(this, false);
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
-
-			//ViewModel.Athlete.Alias = null;
 
 			Initialize();
 		}

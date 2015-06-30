@@ -18,7 +18,7 @@
 						Text="{Binding SelectedDateTime, StringFormat='\{0:D\}'}" FontSize="Large"
 						TextColor="{Binding Challenge.League.Theme.Dark}" />
 
-					<local:ExtendedDatePicker x:Name="datePicker" Opacity=".02" Date="{Binding SelectedDate}"
+					<DatePicker x:Name="datePicker" Opacity=".02" Date="{Binding SelectedDate}"
 						AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" StyleId="datePicker" />
 				</AbsoluteLayout>
 				<ContentView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
@@ -28,7 +28,7 @@
 						Text="{Binding SelectedDateTime, StringFormat='\{0:t\}'}" FontSize="Large"
 						TextColor="{Binding Challenge.League.Theme.Dark}" />
 
-					<local:ExtendedTimePicker x:Name="timePicker" Opacity=".02" Time="{Binding SelectedTime}"
+					<TimePicker x:Name="timePicker" Opacity=".02" Time="{Binding SelectedTime}"
 						AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" StyleId="timePicker" />
 				</AbsoluteLayout>
 				<ContentView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
