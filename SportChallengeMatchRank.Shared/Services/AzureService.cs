@@ -389,17 +389,24 @@ namespace SportChallengeMatchRank.Shared
 
 		void EnsureAthletesLoadedForLeagues(List<League> leagues)
 		{
-			var athleteIds = new List<string>();
-			leagues.ForEach(l => l.Memberships.ForEach(m => athleteIds.Add(m.AthleteId)));
-
-			if(athleteIds.Count > 0)
+			foreach(var l in leagues)
 			{
-				var allAthletes = Client.GetTable<Athlete>().Where(a => athleteIds.Distinct().Contains(a.Id)).ToListAsync().Result;
-				foreach(var a in allAthletes)
-				{
-					DataManager.Instance.Athletes.AddOrUpdate(a);
-				}
+				var task = GetAllAthletesForLeague(l);
+				task.Start();
+				task.Wait();
 			}
+
+//			var athleteIds = new List<string>();
+//			leagues.ForEach(l => l.Memberships.ForEach(m => athleteIds.Add(m.AthleteId)));
+//
+//			if(athleteIds.Count > 0)
+//			{
+//				var allAthletes = Client.GetTable<Athlete>().Where(a => athleteIds.Distinct().Contains(a.Id)).ToListAsync().Result;
+//				foreach(var a in allAthletes)
+//				{
+//					DataManager.Instance.Athletes.AddOrUpdate(a);
+//				}
+//			}
 		}
 
 		void CacheLeague(League l)

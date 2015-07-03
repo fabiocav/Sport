@@ -172,7 +172,7 @@ namespace SportChallengeMatchRank.Shared
 					await RunSafe(task);
 
 					App.CurrentAthlete.IsDirty = false;
-					await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
+					//await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
 					MessagingCenter.Send<AuthenticationViewModel>(this, "UserAuthenticated");
 				}
 
@@ -235,8 +235,7 @@ namespace SportChallengeMatchRank.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
-						{
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
 							"Name",
 							App.AuthUserProfile.Name
 						}
