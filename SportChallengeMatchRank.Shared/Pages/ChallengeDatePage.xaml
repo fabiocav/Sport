@@ -34,6 +34,11 @@
 				<ContentView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
 			</StackLayout>
 
+			<ContentView Padding="50,0" VerticalOptions="Center" HorizontalOptions="Center">
+				<Label Text="Please specify a date and time above that will work for both of you."
+					XAlign="Center" FontSize="Medium" TextColor="{Binding Challenge.League.Theme.Primary}" />
+			</ContentView>
+
 			<ContentView Grid.Row="1" VerticalOptions="End" Padding="24">
 				<Button x:Name="btnChallenge" Text="SEND CHALLENGE" BackgroundColor="{Binding Challenge.League.Theme.Dark}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"

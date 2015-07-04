@@ -40,11 +40,12 @@
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchI18n>
     </MtouchI18n>
-    <MtouchLink>None</MtouchLink>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchUseSGen>true</MtouchUseSGen>
     <BuildIpa>true</BuildIpa>
-    <CodesignProvision>62918133-14e6-4164-b080-123eadff7d0e</CodesignProvision>
+    <IpaPackageName>
+    </IpaPackageName>
+    <MtouchLink>None</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
