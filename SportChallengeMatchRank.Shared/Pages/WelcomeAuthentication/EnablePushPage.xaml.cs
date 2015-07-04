@@ -28,25 +28,15 @@ namespace SportChallengeMatchRank.Shared
 			Title = "Enable Push";
 
 			profileStack.Opacity = 0;
-			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", (app) =>
-			{
-				Device.BeginInvokeOnMainThread(() =>
-				{
-					MessagingCenter.Unsubscribe<App>(this, "RegisteredForRemoteNotifications");
-					RegisteredForPushNotificationSuccess();
-				});
-			});
 
 			var ignoreClicks = false;
-			btnPush.Clicked += async(sender, e) =>
+			btnPush.Clicked += (sender, e) =>
 			{
 				if(ignoreClicks)
 					return;
 
 				ignoreClicks = true;
-
-				var push = DependencyService.Get<IPushNotifications>();
-				push.RegisterForPushNotifications();
+				ViewModel.RegisterForPushNotifications(() => RegisteredForPushNotificationSuccess());
 			};
 
 			btnContinue.Clicked += (sender, e) =>
@@ -73,12 +63,6 @@ namespace SportChallengeMatchRank.Shared
 
 		async Task RegisteredForPushNotificationSuccess()
 		{
-			if(App.CurrentAthlete.DeviceToken != null)
-			{
-				var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete);
-				await ViewModel.RunSafe(task);
-			}
-
 			btnPush.Text = "Thanks! We'll be in touch";
 			await Task.Delay(App.AnimationSpeed);
 			await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);

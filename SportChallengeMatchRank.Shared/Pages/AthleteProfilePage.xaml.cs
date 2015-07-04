@@ -48,7 +48,11 @@ namespace SportChallengeMatchRank.Shared
 
 			btnRegister.Clicked += (sender, e) =>
 			{
-				ViewModel.RegisterForPushNotifications();	
+				ViewModel.RegisterForPushNotifications(async() =>
+				{
+					await Task.Delay(500);
+					"Your device has been registered".ToToast();
+				});
 			};
 
 			AddDoneButton();

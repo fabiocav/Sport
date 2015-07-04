@@ -58,7 +58,7 @@ namespace SportChallengeMatchRank.Shared
 			return !task.IsFaulted;
 		}
 
-		public void RegisterForPushNotifications()
+		public void RegisterForPushNotifications(Action onComplete)
 		{
 			MessagingCenter.Subscribe<App>(this, "RegisteredForRemoteNotifications", async(app) =>
 			{
@@ -67,8 +67,8 @@ namespace SportChallengeMatchRank.Shared
 					App.CurrentAthlete.IsDirty = true;
 					var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete, true);
 					await RunSafe(task);
-					await Task.Delay(500);
-					"Your device has been registered".ToToast();
+
+					onComplete();
 				}
 
 				Device.BeginInvokeOnMainThread(() =>
