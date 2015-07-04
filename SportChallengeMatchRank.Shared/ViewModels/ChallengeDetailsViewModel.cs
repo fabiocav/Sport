@@ -40,7 +40,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !challenge.IsAccepted && !Challenge.IsCompleted;
+				return Challenge != null && Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !challenge.IsAccepted && !Challenge.IsCompleted;
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted && !Challenge.IsAccepted;
+				return Challenge != null && Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted && !Challenge.IsAccepted;
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && Challenge.IsAccepted && !Challenge.IsCompleted;
+				return Challenge != null && Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && Challenge.IsAccepted && !Challenge.IsCompleted;
 			}
 		}
 
@@ -64,7 +64,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengerAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted;
+				return Challenge != null && Challenge.ChallengerAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted;
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.IsAccepted && !Challenge.IsCompleted && Challenge.InvolvesAthlete(App.CurrentAthlete.Id);
+				return Challenge != null && Challenge.IsAccepted && !Challenge.IsCompleted && Challenge.InvolvesAthlete(App.CurrentAthlete.Id);
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return !CanAccept && !CanPostMatchResults && Challenge.InvolvesAthlete(App.CurrentAthlete.Id) && !Challenge.IsCompleted;
+				return Challenge != null && !CanAccept && !CanPostMatchResults && Challenge.InvolvesAthlete(App.CurrentAthlete.Id) && !Challenge.IsCompleted;
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
-				return Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge.ChallengeeAthlete : Challenge.ChallengerAthlete;
+				return Challenge != null && Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge.ChallengeeAthlete : Challenge.ChallengerAthlete;
 			}
 		}
 
@@ -96,6 +96,9 @@ namespace SportChallengeMatchRank.Shared
 		{
 			get
 			{
+				if(Challenge == null)
+					return null;
+				
 				string status = null;
 
 				if(CanAccept)
@@ -177,13 +180,19 @@ namespace SportChallengeMatchRank.Shared
 
 		async public Task RefreshChallenge()
 		{
+			if(Challenge == null)
+				return;
+			
 			using(new Busy(this))
 			{
 				var task = AzureService.Instance.GetChallengeById(Challenge.Id, true);
 				await RunSafe(task);
 
 				if(task.IsFaulted)
+				{
+					Challenge = null;
 					return;
+				}
 
 				Challenge = task.Result;
 			}

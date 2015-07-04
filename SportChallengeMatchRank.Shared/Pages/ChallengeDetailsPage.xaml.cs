@@ -51,19 +51,32 @@ namespace SportChallengeMatchRank.Shared
 			if(GetMoreMenuOptions().Count > 0)
 				ToolbarItems.Add(moreButton);
 
-			list.HeightRequest = list.RowHeight * ViewModel.Challenge.League.MatchGameCount + 50;
 			await ViewModel.GetMatchResults();
+			var count = ViewModel.Challenge.League.MatchGameCount;
+
+			if(ViewModel.Challenge.MatchResult != null && ViewModel.Challenge.MatchResult.Count > 0)
+				count = ViewModel.Challenge.MatchResult.Count;
+
+			list.HeightRequest = list.RowHeight * count + 50;
 		}
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
-			string challengeId = null;
-			string winnerId = null;
+			string challengeId;
+			string winnerId;
 			if(payload.Payload.TryGetValue("challengeId", out challengeId))
 			{
 				if(challengeId == ViewModel.Challenge.Id)
 				{
 					await ViewModel.RefreshChallenge();
+
+					if(ViewModel.Challenge == null)
+					{
+						OnDecline?.Invoke();
+						await Navigation.PopAsync();
+						return;
+					}
+
 					if(payload.Payload.TryGetValue("winningAthleteId", out winnerId))
 					{
 						OnPostResults?.Invoke();
@@ -101,9 +114,7 @@ namespace SportChallengeMatchRank.Shared
 			if(success)
 				"Challenge revoked".ToToast();
 
-			if(OnDecline != null)
-				OnDecline();
-
+			OnDecline?.Invoke();
 			await Navigation.PopAsync();
 		}
 
@@ -138,15 +149,12 @@ namespace SportChallengeMatchRank.Shared
 			if(success)
 				"Challenge declined".ToToast();
 
-			if(OnDecline != null)
-				OnDecline();
-
+			OnDecline?.Invoke();
 			await Navigation.PopAsync();
 		}
 
 		async void OnNagAthlete()
 		{
-			bool success;
 			using(new HUD("Nagging..."))
 			{
 				await ViewModel.NagAthlete();

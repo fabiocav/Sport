@@ -61,20 +61,23 @@ namespace SportChallengeMatchRank.Shared
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 		}
 
-		async Task RegisteredForPushNotificationSuccess()
+		Task RegisteredForPushNotificationSuccess()
 		{
-			btnPush.Text = "Thanks! We'll be in touch";
-			await Task.Delay(App.AnimationSpeed);
-			await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-			await profileStack.LayoutTo(new Rectangle(0, Content.Width * -1, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+			Device.BeginInvokeOnMainThread(async() =>
+			{
+				btnPush.Text = "Thanks! We'll be in touch";
+				await Task.Delay(App.AnimationSpeed);
+				await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+				await profileStack.LayoutTo(new Rectangle(0, Content.Width * -1, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 
-			btnPush.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-			await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+				btnPush.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+				await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 
-			btnContinue.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-			await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
-			await Task.Delay(App.AnimationSpeed);
-			MoveToMainPage();
+				btnContinue.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+				await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+				await Task.Delay(App.AnimationSpeed);
+				MoveToMainPage();
+			});
 		}
 
 		async void MoveToMainPage()

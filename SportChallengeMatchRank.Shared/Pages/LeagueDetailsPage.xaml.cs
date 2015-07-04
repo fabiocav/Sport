@@ -88,24 +88,7 @@ namespace SportChallengeMatchRank.Shared
 
 			ongoingCard.OnClicked = async() =>
 			{
-				var details = new ChallengeDetailsPage(ViewModel.CurrentMembership?.OngoingChallenge);
-				details.OnAccept = async() =>
-				{
-					await ViewModel.RefreshLeague();
-				};
-
-				details.OnDecline = async() =>
-				{
-					await ViewModel.RefreshLeague();
-				};
-
-				details.OnPostResults = async() =>
-				{
-					await ViewModel.RefreshLeague();
-					rankStrip.Membership = ViewModel.CurrentMembership;
-				};
-
-				await Navigation.PushAsync(details);
+				PushChallengeDetailsPage();
 			};
 
 			ongoingCard.OnPostResults = async() =>
@@ -184,9 +167,33 @@ namespace SportChallengeMatchRank.Shared
 			});
 		}
 
+		async void PushChallengeDetailsPage(bool refresh = false)
+		{
+			var details = new ChallengeDetailsPage(ViewModel.CurrentMembership?.OngoingChallenge);
+			details.OnAccept = async() =>
+			{
+				await ViewModel.RefreshLeague();
+			};
+
+			details.OnDecline = async() =>
+			{
+				await ViewModel.RefreshLeague();
+			};
+
+			details.OnPostResults = async() =>
+			{
+				await ViewModel.RefreshLeague();
+				rankStrip.Membership = ViewModel.CurrentMembership;
+			};
+
+			if(refresh)
+				await details.ViewModel.RefreshChallenge();
+
+			await Navigation.PushAsync(details);
+		}
+
 		protected override void OnAppearing()
 		{
-			//ViewModel.RefreshLeague();
 			ViewModel.NotifyPropertiesChanged();
 			rankStrip.Membership = ViewModel.CurrentMembership;
 			base.OnAppearing();
@@ -195,18 +202,25 @@ namespace SportChallengeMatchRank.Shared
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
 			string leagueId;
+			string winnerId;
+			string challengeId;
 			if(payload.Payload.TryGetValue("leagueId", out leagueId))
 			{
 				if(leagueId == ViewModel.League.Id)
 				{
-					await ViewModel.RefreshLeague();
+					var challenge = ViewModel.CurrentMembership?.OngoingChallenge;
+					payload.Payload.TryGetValue("challengeId", out challengeId);
 
+					if(challenge != null && challengeId == challenge.Id && payload.Payload.TryGetValue("winningAthleteId", out winnerId))
+					{
+						PushChallengeDetailsPage(true);
+					}
+
+					await ViewModel.RefreshLeague();
 					Device.BeginInvokeOnMainThread(() =>
 					{
 						rankStrip.Membership = ViewModel.CurrentMembership;
 					});
-					Console.WriteLine(rankStrip.Membership.CurrentRankOrdinal);
-					return;
 				}
 			}
 		}

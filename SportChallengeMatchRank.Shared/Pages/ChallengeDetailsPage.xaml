@@ -40,7 +40,7 @@
 										HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 								</StackLayout>
 
-<!--								<Label Grid.Column="1" Text="vs" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Center"
+<!--								<Label Grid.Row="1" Grid.ColumnSpan="2" Text="vs" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Center"
 									TextColor="{StaticResource grayDark}" XAlign="Center" YAlign="Center" />
 -->
 								<StackLayout Grid.Row="2" Grid.Column="1" Spacing="0" Padding="20,0" HorizontalOptions="Start" VerticalOptions="Center">
