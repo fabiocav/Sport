@@ -61,7 +61,7 @@ namespace SportChallengeMatchRank.Shared
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 		}
 
-		Task RegisteredForPushNotificationSuccess()
+		void RegisteredForPushNotificationSuccess()
 		{
 			Device.BeginInvokeOnMainThread(async() =>
 			{
