@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace SportChallengeMatchRank
+namespace Sport
 {
 	public partial class LeagueBase : EntityData
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Routing;
 
-namespace SportChallengeMatchRank.Service
+namespace Sport.Service
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

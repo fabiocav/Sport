@@ -1,4 +1,4 @@
-namespace SportChallengeMatchRank.Service.Migrations
+namespace Sport.Service.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.WindowsAzure.Mobile.Service.Tables;
 using Newtonsoft.Json;
 
-namespace SportChallengeMatchRank
+namespace Sport
 {
 	public partial class Membership : MembershipBase
 	{

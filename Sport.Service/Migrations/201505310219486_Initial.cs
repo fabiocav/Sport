@@ -1,4 +1,4 @@
-namespace SportChallengeMatchRank.Service.Migrations
+namespace Sport.Service.Migrations
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace SportChallengeMatchRank.Service.Migrations
         public override void Up()
         {
             CreateTable(
-                "SportChallengeMatchRank.Athlete",
+                "Sport.Athlete",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128,
@@ -67,7 +67,7 @@ namespace SportChallengeMatchRank.Service.Migrations
                 .Index(t => t.CreatedAt, clustered: true);
             
             CreateTable(
-                "SportChallengeMatchRank.Challenge",
+                "Sport.Challenge",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128,
@@ -119,16 +119,16 @@ namespace SportChallengeMatchRank.Service.Migrations
                             }),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("SportChallengeMatchRank.Athlete", t => t.ChallengeeAthleteId)
-                .ForeignKey("SportChallengeMatchRank.Athlete", t => t.ChallengerAthleteId)
-                .ForeignKey("SportChallengeMatchRank.League", t => t.LeagueId)
+                .ForeignKey("Sport.Athlete", t => t.ChallengeeAthleteId)
+                .ForeignKey("Sport.Athlete", t => t.ChallengerAthleteId)
+                .ForeignKey("Sport.League", t => t.LeagueId)
                 .Index(t => t.LeagueId)
                 .Index(t => t.ChallengerAthleteId)
                 .Index(t => t.ChallengeeAthleteId)
                 .Index(t => t.CreatedAt, clustered: true);
             
             CreateTable(
-                "SportChallengeMatchRank.League",
+                "Sport.League",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128,
@@ -187,12 +187,12 @@ namespace SportChallengeMatchRank.Service.Migrations
                             }),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("SportChallengeMatchRank.Athlete", t => t.CreatedByAthleteId)
+                .ForeignKey("Sport.Athlete", t => t.CreatedByAthleteId)
                 .Index(t => t.CreatedByAthleteId)
                 .Index(t => t.CreatedAt, clustered: true);
             
             CreateTable(
-                "SportChallengeMatchRank.Membership",
+                "Sport.Membership",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128,
@@ -242,14 +242,14 @@ namespace SportChallengeMatchRank.Service.Migrations
                             }),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("SportChallengeMatchRank.Athlete", t => t.AthleteId, cascadeDelete: true)
-                .ForeignKey("SportChallengeMatchRank.League", t => t.LeagueId, cascadeDelete: true)
+                .ForeignKey("Sport.Athlete", t => t.AthleteId, cascadeDelete: true)
+                .ForeignKey("Sport.League", t => t.LeagueId, cascadeDelete: true)
                 .Index(t => t.AthleteId)
                 .Index(t => t.LeagueId)
                 .Index(t => t.CreatedAt, clustered: true);
             
             CreateTable(
-                "SportChallengeMatchRank.GameResult",
+                "Sport.GameResult",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128,
@@ -298,7 +298,7 @@ namespace SportChallengeMatchRank.Service.Migrations
                             }),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("SportChallengeMatchRank.Challenge", t => t.ChallengeId, cascadeDelete: true)
+                .ForeignKey("Sport.Challenge", t => t.ChallengeId, cascadeDelete: true)
                 .Index(t => t.ChallengeId)
                 .Index(t => t.CreatedAt, clustered: true);
             
@@ -306,26 +306,26 @@ namespace SportChallengeMatchRank.Service.Migrations
         
         public override void Down()
         {
-            DropForeignKey("SportChallengeMatchRank.GameResult", "ChallengeId", "SportChallengeMatchRank.Challenge");
-            DropForeignKey("SportChallengeMatchRank.Challenge", "LeagueId", "SportChallengeMatchRank.League");
-            DropForeignKey("SportChallengeMatchRank.Membership", "LeagueId", "SportChallengeMatchRank.League");
-            DropForeignKey("SportChallengeMatchRank.Membership", "AthleteId", "SportChallengeMatchRank.Athlete");
-            DropForeignKey("SportChallengeMatchRank.League", "CreatedByAthleteId", "SportChallengeMatchRank.Athlete");
-            DropForeignKey("SportChallengeMatchRank.Challenge", "ChallengerAthleteId", "SportChallengeMatchRank.Athlete");
-            DropForeignKey("SportChallengeMatchRank.Challenge", "ChallengeeAthleteId", "SportChallengeMatchRank.Athlete");
-            DropIndex("SportChallengeMatchRank.GameResult", new[] { "CreatedAt" });
-            DropIndex("SportChallengeMatchRank.GameResult", new[] { "ChallengeId" });
-            DropIndex("SportChallengeMatchRank.Membership", new[] { "CreatedAt" });
-            DropIndex("SportChallengeMatchRank.Membership", new[] { "LeagueId" });
-            DropIndex("SportChallengeMatchRank.Membership", new[] { "AthleteId" });
-            DropIndex("SportChallengeMatchRank.League", new[] { "CreatedAt" });
-            DropIndex("SportChallengeMatchRank.League", new[] { "CreatedByAthleteId" });
-            DropIndex("SportChallengeMatchRank.Challenge", new[] { "CreatedAt" });
-            DropIndex("SportChallengeMatchRank.Challenge", new[] { "ChallengeeAthleteId" });
-            DropIndex("SportChallengeMatchRank.Challenge", new[] { "ChallengerAthleteId" });
-            DropIndex("SportChallengeMatchRank.Challenge", new[] { "LeagueId" });
-            DropIndex("SportChallengeMatchRank.Athlete", new[] { "CreatedAt" });
-            DropTable("SportChallengeMatchRank.GameResult",
+            DropForeignKey("Sport.GameResult", "ChallengeId", "Sport.Challenge");
+            DropForeignKey("Sport.Challenge", "LeagueId", "Sport.League");
+            DropForeignKey("Sport.Membership", "LeagueId", "Sport.League");
+            DropForeignKey("Sport.Membership", "AthleteId", "Sport.Athlete");
+            DropForeignKey("Sport.League", "CreatedByAthleteId", "Sport.Athlete");
+            DropForeignKey("Sport.Challenge", "ChallengerAthleteId", "Sport.Athlete");
+            DropForeignKey("Sport.Challenge", "ChallengeeAthleteId", "Sport.Athlete");
+            DropIndex("Sport.GameResult", new[] { "CreatedAt" });
+            DropIndex("Sport.GameResult", new[] { "ChallengeId" });
+            DropIndex("Sport.Membership", new[] { "CreatedAt" });
+            DropIndex("Sport.Membership", new[] { "LeagueId" });
+            DropIndex("Sport.Membership", new[] { "AthleteId" });
+            DropIndex("Sport.League", new[] { "CreatedAt" });
+            DropIndex("Sport.League", new[] { "CreatedByAthleteId" });
+            DropIndex("Sport.Challenge", new[] { "CreatedAt" });
+            DropIndex("Sport.Challenge", new[] { "ChallengeeAthleteId" });
+            DropIndex("Sport.Challenge", new[] { "ChallengerAthleteId" });
+            DropIndex("Sport.Challenge", new[] { "LeagueId" });
+            DropIndex("Sport.Athlete", new[] { "CreatedAt" });
+            DropTable("Sport.GameResult",
                 removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
                 {
                     {
@@ -364,7 +364,7 @@ namespace SportChallengeMatchRank.Service.Migrations
                         }
                     },
                 });
-            DropTable("SportChallengeMatchRank.Membership",
+            DropTable("Sport.Membership",
                 removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
                 {
                     {
@@ -403,7 +403,7 @@ namespace SportChallengeMatchRank.Service.Migrations
                         }
                     },
                 });
-            DropTable("SportChallengeMatchRank.League",
+            DropTable("Sport.League",
                 removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
                 {
                     {
@@ -442,7 +442,7 @@ namespace SportChallengeMatchRank.Service.Migrations
                         }
                     },
                 });
-            DropTable("SportChallengeMatchRank.Challenge",
+            DropTable("Sport.Challenge",
                 removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
                 {
                     {
@@ -481,7 +481,7 @@ namespace SportChallengeMatchRank.Service.Migrations
                         }
                     },
                 });
-            DropTable("SportChallengeMatchRank.Athlete",
+            DropTable("Sport.Athlete",
                 removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
                 {
                     {

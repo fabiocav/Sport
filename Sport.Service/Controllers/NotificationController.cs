@@ -1,17 +1,17 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using SportChallengeMatchRank.Service.Models;
+using Sport.Service.Models;
 using System.Net;
 using System.Net.Http;
 using Microsoft.ServiceBus.Notifications;
 using System.Collections.Generic;
 using Microsoft.ServiceBus.Messaging;
-using SportChallengeMatchRank.Shared;
+using Sport.Shared;
 using System;
 using Newtonsoft.Json;
 
-namespace SportChallengeMatchRank.Service.Controllers
+namespace Sport.Service.Controllers
 {
 	public class NotificationController : ApiController
 	{

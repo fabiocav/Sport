@@ -1,4 +1,4 @@
-namespace SportChallengeMatchRank.Service.Migrations
+namespace Sport.Service.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -7,12 +7,12 @@ namespace SportChallengeMatchRank.Service.Migrations
     {
         public override void Up()
         {
-            AddColumn("SportChallengeMatchRank.League", "RulesUrl", c => c.String());
+            AddColumn("Sport.League", "RulesUrl", c => c.String());
         }
         
         public override void Down()
         {
-            DropColumn("SportChallengeMatchRank.League", "RulesUrl");
+            DropColumn("Sport.League", "RulesUrl");
         }
     }
 }

@@ -4,16 +4,16 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportChallengeMatchRank.Service.Models;
+using Sport.Service.Models;
 using System.Collections.Generic;
 using System;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
-using SportChallengeMatchRank.Shared;
+using Sport.Shared;
 using System.Net;
 using System.Net.Http;
 
-namespace SportChallengeMatchRank.Service.Controllers
+namespace Sport.Service.Controllers
 {
 	//[AuthorizeLevel(AuthorizationLevel.User)]
 	public class ChallengeController : TableController<Challenge>

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace SportChallengeMatchRank
+namespace Sport
 {
 	public partial class Challenge : ChallengeBase
 	{

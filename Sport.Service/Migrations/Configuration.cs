@@ -1,18 +1,18 @@
-namespace SportChallengeMatchRank.Service.Migrations
+namespace Sport.Service.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SportChallengeMatchRank.Service.Models.AppDataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Sport.Service.Models.AppDataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(SportChallengeMatchRank.Service.Models.AppDataContext context)
+        protected override void Seed(Sport.Service.Models.AppDataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

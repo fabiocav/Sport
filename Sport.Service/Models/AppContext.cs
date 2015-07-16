@@ -3,12 +3,12 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.WindowsAzure.Mobile.Service;
 using Microsoft.WindowsAzure.Mobile.Service.Tables;
-using SportChallengeMatchRank;
+using Sport;
 using System.Collections.Generic;
 using System;
 using Microsoft.WindowsAzure.Mobile.Service.Notifications;
 
-namespace SportChallengeMatchRank.Service.Models
+namespace Sport.Service.Models
 {
 	public class AppDataContext : DbContext
 	{

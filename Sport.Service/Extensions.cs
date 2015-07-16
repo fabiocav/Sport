@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SportChallengeMatchRank;
+using Sport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
-namespace SportChallengeMatchRank.Service
+namespace Sport.Service
 {
 	public static class Extensions
 	{

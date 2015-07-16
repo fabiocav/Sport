@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportChallengeMatchRank.Service.Models;
+using Sport.Service.Models;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -12,7 +12,7 @@ using Microsoft.ServiceBus.Notifications;
 using System.Collections.Generic;
 using Microsoft.ServiceBus.Messaging;
 
-namespace SportChallengeMatchRank.Service.Controllers
+namespace Sport.Service.Controllers
 {
 	//[AuthorizeLevel(AuthorizationLevel.User)]
 	public class AthleteController : TableController<Athlete>

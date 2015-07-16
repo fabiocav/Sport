@@ -1,4 +1,4 @@
-namespace SportChallengeMatchRank.Service.Migrations
+namespace Sport.Service.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -7,14 +7,14 @@ namespace SportChallengeMatchRank.Service.Migrations
     {
         public override void Up()
         {
-            AlterColumn("SportChallengeMatchRank.GameResult", "ChallengerScore", c => c.Int());
-            AlterColumn("SportChallengeMatchRank.GameResult", "ChallengeeScore", c => c.Int());
+            AlterColumn("Sport.GameResult", "ChallengerScore", c => c.Int());
+            AlterColumn("Sport.GameResult", "ChallengeeScore", c => c.Int());
         }
         
         public override void Down()
         {
-            AlterColumn("SportChallengeMatchRank.GameResult", "ChallengeeScore", c => c.Int(nullable: false));
-            AlterColumn("SportChallengeMatchRank.GameResult", "ChallengerScore", c => c.Int(nullable: false));
+            AlterColumn("Sport.GameResult", "ChallengeeScore", c => c.Int(nullable: false));
+            AlterColumn("Sport.GameResult", "ChallengerScore", c => c.Int(nullable: false));
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportChallengeMatchRank.Service.Models;
+using Sport.Service.Models;
 
-namespace SportChallengeMatchRank.Service.Controllers
+namespace Sport.Service.Controllers
 {
 	//[AuthorizeLevel(AuthorizationLevel.User)]
 	public class GameResultController : TableController<GameResult>

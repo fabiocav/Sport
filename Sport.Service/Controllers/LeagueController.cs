@@ -4,12 +4,12 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportChallengeMatchRank.Service.Models;
+using Sport.Service.Models;
 using System;
-using SportChallengeMatchRank.Shared;
+using Sport.Shared;
 using System.Collections.Generic;
 
-namespace SportChallengeMatchRank.Service.Controllers
+namespace Sport.Service.Controllers
 {
 	//[AuthorizeLevel(AuthorizationLevel.User)]
 	public class LeagueController : TableController<League>

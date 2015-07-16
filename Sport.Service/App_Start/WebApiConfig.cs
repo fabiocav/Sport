@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Http;
 using Microsoft.WindowsAzure.Mobile.Service;
-using SportChallengeMatchRank;
-using SportChallengeMatchRank.Service.Models;
+using Sport;
+using Sport.Service.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
 using System.Data.Entity.Migrations;
-using SportChallengeMatchRank.Service.Migrations;
+using Sport.Service.Migrations;
 
-namespace SportChallengeMatchRank.Service
+namespace Sport.Service
 {
     public static class WebApiConfig
     {
