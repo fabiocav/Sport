@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<local:AvailableLeaguesXaml xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	x:Class="Sport.Shared.AvailableLeaguesPage"
+	xmlns:local="clr-namespace:Sport.Shared;assembly=Sport">
+	<local:AvailableLeaguesXaml.Content>
+		<Grid Padding="0,0,0,14" BackgroundColor="{StaticResource grayLight}">
+			<local:LeagueListView x:Name="list" ItemsSource="{Binding Leagues}" RefreshCommand="{Binding GetAvailableLeaguesCommand}"
+				IsRefreshing="{Binding IsBusy, Mode=OneWay}" />
+		</Grid>
+	</local:AvailableLeaguesXaml.Content>
+
+</local:AvailableLeaguesXaml>
