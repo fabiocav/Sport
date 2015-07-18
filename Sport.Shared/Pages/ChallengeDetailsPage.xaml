@@ -78,6 +78,11 @@
 						<StackLayout Padding="40,0" Spacing="40" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
 							<Label Text="{Binding ChallengeStatus}" TextColor="{Binding Challenge.League.Theme.Dark}" FontSize="Medium" XAlign="Center" />
 
+<!--							<local:ImageButton Text="NUDGE ATHLETE" WidthRequest="200" HeightRequest="40" IsVisible="{Binding AwaitingDecision}"
+								Source="ic_notifications_active_white" ButtonBackgroundColor="{Binding Challenge.League.Theme.Primary}"
+								Clicked="HandleNudgeAthlete" /> 
+-->
+
 							<AbsoluteLayout HorizontalOptions="Center" IsVisible="{Binding AwaitingDecision}">
 								<Button BorderRadius="3" BackgroundColor="{Binding Challenge.League.Theme.Primary}" HeightRequest="40" WidthRequest="200"
 									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
@@ -88,8 +93,7 @@
 									<Label TextColor="White" Text="NUDGE ATHLETE" FontSize="Medium" VerticalOptions="Center" />
 								</StackLayout>
 
-								<!--HACK-->
-								<Button BackgroundColor="Transparent" HeightRequest="40" WidthRequest="200" Clicked="HandleNagAthlete"
+								<Button BackgroundColor="Transparent" HeightRequest="40" WidthRequest="200" Clicked="HandleNudgeAthlete"
 									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
 							</AbsoluteLayout>
 

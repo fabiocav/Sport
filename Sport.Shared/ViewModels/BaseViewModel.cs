@@ -74,10 +74,6 @@ namespace Sport.Shared
 
 				exception = ex;
 			}
-			catch(WebException e)
-			{
-				exception = e;
-			}
 			catch(Exception e)
 			{
 				exception = e;

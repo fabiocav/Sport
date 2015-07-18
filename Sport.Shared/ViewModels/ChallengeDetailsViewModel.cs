@@ -166,7 +166,7 @@ namespace Sport.Shared
 			return !task.IsFaulted;
 		}
 
-		async public Task NagAthlete()
+		async public Task NudgeAthlete()
 		{
 			using(new Busy(this))
 			{

@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Sport.Shared
 {
@@ -153,14 +154,14 @@ namespace Sport.Shared
 			await Navigation.PopAsync();
 		}
 
-		async void OnNagAthlete()
+		async void OnNudgeAthlete()
 		{
-			using(new HUD("Nagging..."))
+			using(new HUD("Nudging..."))
 			{
-				await ViewModel.NagAthlete();
+				await ViewModel.NudgeAthlete();
 			}
 
-			"Athlete nagged".ToToast();
+			"Athlete nudged".ToToast();
 		}
 
 		const string _accept = "Accept Challenge";
@@ -220,9 +221,9 @@ namespace Sport.Shared
 			OnPostChallengeResults();
 		}
 
-		void HandleNagAthlete(object sender, EventArgs e)
+		public void HandleNudgeAthlete(object sender, EventArgs e)
 		{
-			OnNagAthlete();
+			OnNudgeAthlete();
 		}
 	}
 
