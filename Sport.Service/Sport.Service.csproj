@@ -257,6 +257,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\mobile-Sport.pubxml" />
+    <None Include="Properties\PublishProfiles\mobile-SportChallengeMatchRank.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201505310219486_Initial.resx">
