@@ -44,6 +44,7 @@
     <IpaPackageName>
     </IpaPackageName>
     <CodesignProvision>03af4c2e-72cd-421c-a353-19bd72e5400e</CodesignProvision>
+    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>

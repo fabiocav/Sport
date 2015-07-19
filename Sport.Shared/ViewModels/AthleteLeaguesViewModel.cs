@@ -49,7 +49,7 @@ namespace Sport.Shared
 			}
 		}
 
-		public List<LeagueViewModel> Leagues
+		public ObservableCollection<LeagueViewModel> Leagues
 		{
 			get;
 			set;
@@ -57,7 +57,6 @@ namespace Sport.Shared
 
 		public AthleteLeaguesViewModel()
 		{
-			Leagues = new List<LeagueViewModel>();	
 		}
 
 		async public Task GetLeagues(bool forceRefresh = false)
@@ -87,16 +86,19 @@ namespace Sport.Shared
 			if(Athlete == null)
 				return;
 
-			Leagues = new List<LeagueViewModel>();
-			Athlete.Leagues.OrderBy(l => l.Name).ToList().ForEach(l => Leagues.Add(new LeagueViewModel(l, App.CurrentAthlete)));
+			if(Leagues == null)
+			{
+				Leagues = new ObservableCollection<LeagueViewModel>();
+				Athlete.Leagues.OrderBy(l => l.Name).ToList().ForEach(l => Leagues.Add(new LeagueViewModel(l, Athlete)));
+			}
 
-//			var comparer = new LeagueComparer();
-//			var toRemove = Leagues.Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
-//			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).ToList();
-//
-//			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
-//			toAdd.ForEach(l => Leagues.Add(new LeagueViewModel(l, App.CurrentAthlete)));
-//			Leagues.Sort(new LeagueSortComparer());
+			var comparer = new LeagueComparer();
+			var toRemove = Leagues.Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
+			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).ToList();
+
+			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
+			toAdd.ForEach(l => Leagues.Add(new LeagueViewModel(l, App.CurrentAthlete)));
+			Leagues.Sort(new LeagueSortComparer());
 
 			foreach(var l in Leagues)
 				l.IsLast = false;
@@ -104,7 +106,7 @@ namespace Sport.Shared
 			var last = Leagues.LastOrDefault();
 			if(last != null)
 				last.IsLast = true;
-
+			
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new LeagueViewModel(new League {

@@ -41,7 +41,6 @@ namespace Sport.Shared
 
 		public void LocalRefresh()
 		{
-			Leagues?.Clear();
 			if(App.CurrentAthlete == null)
 				return;
 
@@ -79,7 +78,6 @@ namespace Sport.Shared
 			if(App.CurrentAthlete == null)
 				return;
 
-			Leagues?.Clear();
 			if(!forceRefresh && _hasLoadedBefore)
 			{
 				LocalRefresh();

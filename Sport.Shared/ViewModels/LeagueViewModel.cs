@@ -57,7 +57,7 @@ namespace Sport.Shared
 			}
 		}
 
-		public bool IsMemberAndStarted
+		public bool IsMemberAndLeagueStarted
 		{
 			get
 			{
@@ -86,7 +86,7 @@ namespace Sport.Shared
 			SetPropertyChanged("IsMember");
 			SetPropertyChanged("League");
 			SetPropertyChanged("IsLast");
-			SetPropertyChanged("IsMemberAndStarted");
+			SetPropertyChanged("IsMemberAndLeagueStarted");
 			SetPropertyChanged("IsNotMemberAndLeagueStarted");
 		}
 

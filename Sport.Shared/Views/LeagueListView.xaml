@@ -46,7 +46,7 @@
 										<Label Text="{Binding League.MemberCount}" Style="{StaticResource sub}" />
 									</StackLayout>
 
-									<Grid Padding="0,10" MinimumHeightRequest="36" MinimumWidthRequest="44" IsVisible="{Binding IsMember}">
+									<Grid Padding="0,10" MinimumHeightRequest="36" MinimumWidthRequest="44" IsVisible="{Binding IsMemberAndLeagueStarted}">
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="44" />
 											<ColumnDefinition Width="*" />

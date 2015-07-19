@@ -24,6 +24,8 @@ namespace Sport.Shared
 			btnJoin.Clicked += async(sender, e) =>
 			{
 				var page = new AvailableLeaguesPage();
+				//page.ViewModel.Leagues?.Clear();
+
 				page.OnJoinedLeague = (l) =>
 				{
 					ViewModel.LocalRefresh();
@@ -94,10 +96,6 @@ namespace Sport.Shared
 			{
 				ViewModel.LocalRefresh();
 				ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
-				//using(new HUD("Getting leagues..."))
-				{
-//					await ViewModel.RemoteRefresh();
-				}
 			}
 		}
 

@@ -29,7 +29,7 @@ namespace Xamarin.TestCloud.Extensions
 				app.Screenshot(screenshot);
 		}
 
-		public static void ScrollDownAndTap(this IApp app, string screenshot, Func<AppQuery, AppWebQuery> lambda = null)
+		public static void ScrollDownAndTap(this IApp app, string screenshot, Func<AppQuery, AppWebQuery> lambda)
 		{
 			app.ScrollDownEnough(lambda);
 
@@ -48,7 +48,7 @@ namespace Xamarin.TestCloud.Extensions
 				app.Screenshot(screenshot);
 		}
 
-		public static void ScrollUpAndTap(this IApp app, string screenshot, Func<AppQuery, AppWebQuery> lambda = null)
+		public static void ScrollUpAndTap(this IApp app, string screenshot, Func<AppQuery, AppWebQuery> lambda)
 		{
 			app.ScrollUpEnough(lambda);
 
@@ -58,6 +58,10 @@ namespace Xamarin.TestCloud.Extensions
 			app.Tap(lambda);
 		}
 
+		public static void ScrollDownAndTap(this IApp app, string marked, string screenshot = null)
+		{
+			app.ScrollDownAndTap(e => e.Marked(marked), screenshot);
+		}
 
 		public static void ScrollDownAndTap(this IApp app, Func<AppQuery, AppQuery> lambda = null, string screenshot = null)
 		{
@@ -68,7 +72,7 @@ namespace Xamarin.TestCloud.Extensions
 				app.Screenshot(screenshot);
 		}
 
-		public static void ScrollDownAndTap(this IApp app, string screenshot, Func<AppQuery, AppQuery> lambda = null)
+		public static void ScrollDownAndTap(this IApp app, string screenshot, Func<AppQuery, AppQuery> lambda)
 		{
 			app.ScrollDownEnough(lambda);
 
@@ -87,7 +91,7 @@ namespace Xamarin.TestCloud.Extensions
 				app.Screenshot(screenshot);
 		}
 
-		public static void ScrollUpAndTap(this IApp app, string screenshot, Func<AppQuery, AppQuery> lambda = null)
+		public static void ScrollUpAndTap(this IApp app, string screenshot, Func<AppQuery, AppQuery> lambda)
 		{
 			app.ScrollUpEnough(lambda);
 
@@ -128,7 +132,7 @@ namespace Xamarin.TestCloud.Extensions
 				}
 
 				float gap = rootView.Rect.Height / 3;
-				var write = rootView.Rect.CenterX.ToString() + " - " + (rootView.Rect.CenterY + gap).ToString() + " x " + rootView.Rect.CenterX + " - " + (rootView.Rect.CenterY - gap).ToString();
+				//var write = rootView.Rect.CenterX.ToString() + " - " + (rootView.Rect.CenterY + gap).ToString() + " x " + rootView.Rect.CenterX + " - " + (rootView.Rect.CenterY - gap).ToString();
 				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
 				count++;
 			}
@@ -298,6 +302,18 @@ namespace Xamarin.TestCloud.Extensions
 
 			if(screenshot != null)
 				app.Screenshot(screenshot);
+		}
+
+		public static void EnterText(this IApp app, string marked, string text, string screenshot)
+		{
+			app.EnterText(marked, text);
+			app.Screenshot(screenshot);
+		}
+
+		public static void Tap(this IApp app, string screenshot, string marked)
+		{
+			app.Screenshot(screenshot);
+			app.Tap(marked);
 		}
 
 		public static void EnterText(this IApp app, Func<AppQuery, AppWebQuery> lambda, string text, string screenshot)

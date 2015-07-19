@@ -28,12 +28,14 @@ namespace Sport.UITests
 		public void JoinLeagueAndChallenge()
 		{
 			app.Tap("When the app starts", "authButton");
-			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com");
+
+			app.WaitForElement(e => e.Css("#Email"), "Timed out waiting for Google Oauth form", TimeSpan.FromSeconds(60));
+			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com", "And I enter my email address");
 
 			if(app.Query(e => e.Css("#next")).Length > 0)
 				app.Tap(e => e.Css("#next"));
 
-			app.EnterText(e => e.Css("#Passwd"), Constants.Password, "and I enter my credentials");
+			app.EnterText(e => e.Css("#Passwd"), Constants.Password, "And I enter my super secret password");
 			app.ScrollDownAndTap(e => e.Css("#signIn"), "And I click the Sign In button");
 
 			if(app.Query(e => e.Button("Remember")).Length > 0)
@@ -77,8 +79,7 @@ namespace Sport.UITests
 			*/
 
 			app.Screenshot("Athlete leagues listview");
-
-			app.Tap("League for XTC tests");
+			app.ScrollDownAndTap("League for XTC tests");
 
 			app.WaitForElement("leaguePhoto");
 			app.Screenshot("Then I should see the league details");
@@ -90,7 +91,7 @@ namespace Sport.UITests
 			app.Screenshot("Leaderboard listview");
 
 			var result = app.Query("*You*")[0];
-			app.TapCoordinates(result.Rect.X, result.Rect.Y - 25);
+			app.TapCoordinates(result.Rect.X, result.Rect.Y - result.Rect.Height);
 			app.WaitForElement("memberDetailsRoot");
 			app.Screenshot("Member details page");
 
