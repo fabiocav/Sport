@@ -7,14 +7,14 @@ This project excersises the following platforms or frameworks:
 * Xamarin.iOS
 * Xamarin.Android
 * Xamarin.Forms
-⋅⋅* XAML
-⋅⋅* Bindings
-⋅⋅* Converters
-⋅⋅* Styles
-⋅⋅* Custom Renderers
-⋅⋅* IoC
-⋅⋅* Messaging Center
-⋅⋅* Custom Controls
+  * XAML
+  * Bindings
+  * Converters
+  * Styles
+  * Custom Renderers
+  * IoC
+  * Messaging Center
+  * Custom Controls
 * Xamarin Insights
 * Xamarin Test Cloud (UITest, Extensions, single code-base for iOS & Android)
 * Azure Mobile Services (C# backend, cross-platform push notifications)
