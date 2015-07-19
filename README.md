@@ -16,5 +16,10 @@ This project excersises the following platforms or frameworks:
   * Messaging Center
   * Custom Controls
 * Xamarin Insights
-* Xamarin Test Cloud (UITest, Extensions, single code-base for iOS & Android)
-* Azure Mobile Services (C# backend, cross-platform push notifications)
+* Xamarin Test Cloud
+  * UITest
+  * Extensions
+  * single code-base for iOS & Android
+* Azure Mobile Services
+  * C# backend
+  * cross-platform templated push notifications
