@@ -105,6 +105,16 @@ namespace Sport.Shared
 				await Navigation.PushModalAsync(page.GetNavigationPage());
 			};
 
+			ongoingCard.OnNudge = async() =>
+			{
+				using(new HUD("Nudging..."))
+				{
+					await ViewModel.OngoingChallengeViewModel.NudgeAthlete();
+				}
+
+				"Athlete nudged".ToToast();
+			};
+				
 			ongoingCard.OnAccepted = async() =>
 			{
 				bool success;

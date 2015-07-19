@@ -27,7 +27,7 @@ namespace Sport.UITests
 		[Test]
 		public void JoinLeagueAndChallenge()
 		{
-			app.Tap("authButton");
+			app.Tap("When the app starts", "authButton");
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com");
 
 			if(app.Query(e => e.Css("#next")).Length > 0)
@@ -78,7 +78,7 @@ namespace Sport.UITests
 
 			app.Screenshot("Athlete leagues listview");
 
-			app.Tap("leagueRow");
+			app.Tap("League for XTC tests");
 
 			app.WaitForElement("leaguePhoto");
 			app.Screenshot("Then I should see the league details");
@@ -89,7 +89,8 @@ namespace Sport.UITests
 			app.WaitForElement("memberItemRoot");
 			app.Screenshot("Leaderboard listview");
 
-			app.Tap(e => e.Marked("memberItemRoot").Index(1));
+			var result = app.Query("*You*")[0];
+			app.TapCoordinates(result.Rect.X, result.Rect.Y - 25);
 			app.WaitForElement("memberDetailsRoot");
 			app.Screenshot("Member details page");
 

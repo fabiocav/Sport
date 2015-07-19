@@ -221,7 +221,7 @@ namespace Sport.Shared
 			OnPostChallengeResults();
 		}
 
-		public void HandleNudgeAthlete(object sender, EventArgs e)
+		void HandleNudgeAthlete(object sender, EventArgs e)
 		{
 			OnNudgeAthlete();
 		}

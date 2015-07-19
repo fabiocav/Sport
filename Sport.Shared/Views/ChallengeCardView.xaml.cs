@@ -33,6 +33,12 @@ namespace Sport.Shared
 			set;
 		}
 
+		public Action OnNudge
+		{
+			get;
+			set;
+		}
+
 		public Action OnAccepted
 		{
 			get;
@@ -69,6 +75,11 @@ namespace Sport.Shared
 		void HandleAccepted(object sender, EventArgs e)
 		{
 			OnAccepted?.Invoke();
+		}
+
+		void HandleNudgeAthlete(object sender, EventArgs e)
+		{
+			OnNudge?.Invoke();
 		}
 	}
 }

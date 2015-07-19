@@ -63,8 +63,6 @@ namespace Sport.Android
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::Sport.Android.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::Sport.Android.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::Sport.Android.Resource.Styleable.ProgressWheel_ahTextSize;
-			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
-			global::Xamarin.Forms.Platform.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
 			global::Gcm.Client.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
 			global::XLabs.Platform.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
 			global::XLabs.Platform.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
@@ -109,6 +107,8 @@ namespace Sport.Android
 			global::XLabs.Forms.Resource.Style.CalendarCell_DayHeader = global::Sport.Android.Resource.Style.CalendarCell_DayHeader;
 			global::XLabs.Forms.Resource.Style.CalendarTitle = global::Sport.Android.Resource.Style.CalendarTitle;
 			global::ModernHttpClient.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
+			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
+			global::Xamarin.Forms.Platform.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
 		}
 		
 		public partial class Animation
@@ -2481,11 +2481,11 @@ namespace Sport.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f0a0019
-			public const int ApplicationName = 2131361817;
+			// aapt resource value: 0x7f0a0014
+			public const int ApplicationName = 2131361812;
 			
-			// aapt resource value: 0x7f0a0018
-			public const int Hello = 2131361816;
+			// aapt resource value: 0x7f0a0013
+			public const int Hello = 2131361811;
 			
 			// aapt resource value: 0x7f0a0001
 			public const int abc_action_bar_home_description = 2131361793;
@@ -2544,23 +2544,23 @@ namespace Sport.Android
 			// aapt resource value: 0x7f0a0000
 			public const int appbar_scrolling_view_behavior = 2131361792;
 			
-			// aapt resource value: 0x7f0a0014
-			public const int day_name_format = 2131361812;
+			// aapt resource value: 0x7f0a0016
+			public const int day_name_format = 2131361814;
 			
-			// aapt resource value: 0x7f0a0017
-			public const int full_date_format = 2131361815;
+			// aapt resource value: 0x7f0a0019
+			public const int full_date_format = 2131361817;
 			
 			// aapt resource value: 0x7f0a001a
 			public const int hello = 2131361818;
 			
+			// aapt resource value: 0x7f0a0017
+			public const int invalid_date = 2131361815;
+			
 			// aapt resource value: 0x7f0a0015
-			public const int invalid_date = 2131361813;
+			public const int library_name = 2131361813;
 			
-			// aapt resource value: 0x7f0a0013
-			public const int library_name = 2131361811;
-			
-			// aapt resource value: 0x7f0a0016
-			public const int month_name_format = 2131361814;
+			// aapt resource value: 0x7f0a0018
+			public const int month_name_format = 2131361816;
 			
 			// aapt resource value: 0x7f0a0012
 			public const int status_bar_notification_info_overflow = 2131361810;

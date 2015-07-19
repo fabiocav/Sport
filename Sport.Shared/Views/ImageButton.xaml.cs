@@ -6,11 +6,7 @@ namespace Sport.Shared
 {
 	public partial class ImageButton : ContentView
 	{
-		public EventHandler Clicked
-		{
-			get;
-			set;
-		}
+		public event EventHandler Clicked;
 
 		public static readonly BindableProperty CommandProperty =
 			BindableProperty.Create("Command", typeof(ICommand), typeof(Button), null);
@@ -77,9 +73,7 @@ namespace Sport.Shared
 			InitializeComponent();
 			root.BindingContext = this;
 
-
-//			root.GestureRecognizers.Add(new TapGestureRecognizer((view) =>
-						
+			root.GestureRecognizers.Add(new TapGestureRecognizer((view) => Clicked.Invoke(this, new EventArgs())));						
 		}
 	}
 }

@@ -78,73 +78,22 @@
 						<StackLayout Padding="40,0" Spacing="40" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
 							<Label Text="{Binding ChallengeStatus}" TextColor="{Binding Challenge.League.Theme.Dark}" FontSize="Medium" XAlign="Center" />
 
-<!--							<local:ImageButton Text="NUDGE ATHLETE" WidthRequest="200" HeightRequest="40" IsVisible="{Binding AwaitingDecision}"
+							<local:ImageButton Text="NUDGE ATHLETE" WidthRequest="200" HeightRequest="40" IsVisible="{Binding AwaitingDecision}"
 								Source="ic_notifications_active_white" ButtonBackgroundColor="{Binding Challenge.League.Theme.Primary}"
 								Clicked="HandleNudgeAthlete" /> 
--->
 
-							<AbsoluteLayout HorizontalOptions="Center" IsVisible="{Binding AwaitingDecision}">
-								<Button BorderRadius="3" BackgroundColor="{Binding Challenge.League.Theme.Primary}" HeightRequest="40" WidthRequest="200"
-									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
-
-								<StackLayout Orientation="Horizontal" Spacing="8"
-									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" >
-									<Image Source="ic_notifications_active_white" VerticalOptions="Center" />
-									<Label TextColor="White" Text="NUDGE ATHLETE" FontSize="Medium" VerticalOptions="Center" />
-								</StackLayout>
-
-								<Button BackgroundColor="Transparent" HeightRequest="40" WidthRequest="200" Clicked="HandleNudgeAthlete"
-									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
-							</AbsoluteLayout>
-
-
-							<AbsoluteLayout HorizontalOptions="Center" IsVisible="{Binding CanPostMatchResults}">
-								<Button BorderRadius="3" BackgroundColor="{Binding Challenge.League.Theme.Primary}" HeightRequest="40" WidthRequest="200"
-									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
-
-								<StackLayout Orientation="Horizontal" Spacing="8"
-									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" >
-									<Image Source="ic_send_white" VerticalOptions="Center" />
-									<Label TextColor="White" Text="POST RESULTS" FontSize="Medium" VerticalOptions="Center" />
-								</StackLayout>
-
-								<!--HACK-->
-								<Button BackgroundColor="Transparent" HeightRequest="40" WidthRequest="200" Clicked="HandlePostResults"
-									AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
-							</AbsoluteLayout>
+							<local:ImageButton Text="POST RESULTS" WidthRequest="200" HeightRequest="40" IsVisible="{Binding CanPostMatchResults}"
+								Source="ic_send_white" ButtonBackgroundColor="{Binding Challenge.League.Theme.Primary}"
+								Clicked="HandlePostResults" /> 
 
 							<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="Center" Padding="14" VerticalOptions="Center"
 								IsVisible="{Binding CanAccept}">
-								<AbsoluteLayout>
-									<Button BorderRadius="3" BackgroundColor="{StaticResource greenPrimary}" HeightRequest="40" WidthRequest="110"
-										AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White"
-										Clicked="HandleAccepted" />
 
-									<StackLayout Orientation="Horizontal" Spacing="6" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5">
-										<Image Source="ic_thumb_up_white" VerticalOptions="Center" />
-										<Label TextColor="White" Text="ACCEPT" FontSize="Small" VerticalOptions="Center" />
-									</StackLayout>
+								<local:ImageButton Text="ACCEPT" WidthRequest="110" HeightRequest="40" Source="ic_thumb_up_white"
+									ButtonBackgroundColor="{StaticResource greenPrimary}" Clicked="HandleAccepted" /> 
 
-									<!--HACK-->
-									<Button BackgroundColor="Transparent" HeightRequest="40" WidthRequest="110" Clicked="HandleAccepted"
-										AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
-								</AbsoluteLayout>
-
-								<AbsoluteLayout>
-									<Button BorderRadius="3" BackgroundColor="{StaticResource redPrimary}" HeightRequest="40" WidthRequest="110"
-										AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White"
-										Clicked="HandleDeclined" />
-
-									<StackLayout Orientation="Horizontal" Spacing="6"
-										AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" >
-										<Image Source="ic_thumb_down_white" VerticalOptions="Center" />
-										<Label TextColor="White" Text="DECLINE" FontSize="Small" VerticalOptions="Center" />
-									</StackLayout>
-
-									<!--HACK-->
-									<Button BackgroundColor="Transparent" HeightRequest="40" WidthRequest="110" Clicked="HandleDeclined"
-										AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" />
-								</AbsoluteLayout>
+								<local:ImageButton Text="DECLINE" WidthRequest="110" HeightRequest="40" Source="ic_thumb_down_white"
+									ButtonBackgroundColor="{StaticResource redPrimary}" Clicked="HandleDeclined" /> 
 							</StackLayout>
 						</StackLayout>
 
