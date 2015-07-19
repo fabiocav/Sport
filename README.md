@@ -7,8 +7,8 @@ This project excersises the following platforms or frameworks:
 - Xamarin.iOS
 - Xamarin.Android
 - Xamarin.Forms
---XAML
-⋅⋅*Bindings
+---XAML
+---Bindings
 ⋅⋅*Converters
 ⋅⋅*Styles
 ⋅⋅*Custom Renderers
