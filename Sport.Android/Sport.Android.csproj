@@ -137,6 +137,9 @@
       <HintPath>..\packages\Xamarin.Android.Support.Design.22.2.0.0\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
     </Reference>
     <Reference Include="System.Json" />
+    <Reference Include="Xamarin.Auth.Android">
+      <HintPath>..\Resources\Assemblies\Xamarin.Auth\Xamarin.Auth.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -231,11 +234,5 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Fonts\segoeui.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Downloads\Xamarin.Auth-master\src\Xamarin.Auth.Android\Xamarin.Auth.Android.csproj">
-      <Project>{FCF02C8C-6DD3-4C59-A8A2-58BC01A4BB21}</Project>
-      <Name>Xamarin.Auth.Android</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>
