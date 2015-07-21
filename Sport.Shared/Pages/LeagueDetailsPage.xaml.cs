@@ -235,7 +235,7 @@ namespace Sport.Shared
 		void Parallax()
 		{
 			var y = scrollView.ScrollY * .4;
-			int thresh = Device.OS == TargetPlatform.iOS ? -40 : 20;
+			int thresh = Device.OS == TargetPlatform.iOS ? -30 : 20;
 
 			if(y < thresh)
 			{
@@ -258,9 +258,6 @@ namespace Sport.Shared
 
 			if(ViewModel.CanGetRules)
 				list.Add(_rules);
-
-//			if(ViewModel.IsMember && ViewModel.PreviousChallenge != null)
-//				list.Add(_pastChallenges);
 
 			if(ViewModel.IsMember)
 				list.Add(_leave);
