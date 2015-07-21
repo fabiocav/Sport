@@ -40,14 +40,28 @@ namespace Sport.Android
 						task.Start();
 						task.Wait();
 
+						Device.BeginInvokeOnMainThread(() =>
+						{
+							SetResult(Result.Ok);
+							try
+							{
+								//OnBackPressed(); //Crashes because there is no handler to this activity :)
+								Finish(); //this gets hit but never actually does anything - help someone who knows what they're doing!!
+							}
+							catch(Exception ex)
+							{
+								Console.Write(ex);
+							}
+						});
+							
 						tcs.TrySetResult(task.Result);
-						Finish(); //this gets hit but never actually does anything - help!!
 					}
 				};
 
 				var intent = auth.GetUI(Forms.Context);
 				intent.SetFlags(ActivityFlags.NewTask);
 				Forms.Context.StartActivity(intent);
+				Finish();
 
 				return tcs.Task;
 			});
