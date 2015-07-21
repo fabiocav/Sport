@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Threading.Tasks;
-using nsoftware.InGoogle;
 using System.Text;
 
 [assembly: Dependency(typeof(Sport.Shared.ChallengeDateViewModel))]
@@ -104,15 +103,15 @@ namespace Sport.Shared
 			return sb.Length == 0 ? null : sb.ToString();
 		}
 
-		public async Task CrossReferenceCalendars(Athlete a, Athlete b, DateTime date)
+		public async Task CrossReferenceCalendar(Athlete a, Athlete b, DateTime date)
 		{
 			using(new Busy(this))
 			{
-				var calendar = await GetCalendarForAthlete(a);
+				//var calendar = await GetCalendarForAthlete(a);
 			}
 		}
 
-		async Task<string> GetCalendarForAthlete(Athlete athlete)
+		/*async Task<string> GetCalendarForAthlete(Athlete athlete)
 		{
 			try
 			{
@@ -151,5 +150,6 @@ namespace Sport.Shared
 			}
 			return null;
 		}
+		*/
 	}
 }

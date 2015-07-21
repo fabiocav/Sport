@@ -21,9 +21,12 @@ namespace Sport.Shared
 		//public static readonly string GoogleApiClientId = "236481934978-g2nvcbc7v4hsrc8bf1h64u8rr4sepa6a.apps.googleusercontent.com";
 		//public static readonly string GoogleClientSecret = "hpbysTYd3JRzWoyYnbbHdSgJ";
 
-		//nSoftware Redirect
 		public static readonly string GoogleApiClientId = "236481934978-balamfh77inmje2nfeq3bphdg3udt03t.apps.googleusercontent.com";
 		public static readonly string GoogleClientSecret = "wRYG9TlQZLXnlpUbu-0X_BwF";
+		public static readonly string GoogleOAuthScope = "profile email https://www.googleapis.com/auth/calendar";
+		public static readonly string GoogleOAthRedirectUrl = "urn:ietf:wg:oauth:2.0:oob";
+		public static readonly string GoogleOAuthAuthUrl = "https://accounts.google.com/o/oauth2/auth";
+		public static readonly string GoogleOAuthTokenUrl = "https://accounts.google.com/o/oauth2/token";
 
 		public static readonly string AzureClientId = "FSKOHcURfLmRDDKzUdZBuOxpmAlQyc62";
 		public static readonly string FlikrApiKey = "22a18bbd0b4f7c86975c81c8f3cb7719";

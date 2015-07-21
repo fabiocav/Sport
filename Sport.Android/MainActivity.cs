@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.App;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
@@ -7,7 +8,6 @@ using Android.Views;
 using ImageCircle.Forms.Plugin.Droid;
 using Sport.Shared;
 using XLabs.Forms;
-using Android.Content.PM;
 
 namespace Sport.Android
 {
@@ -37,11 +37,6 @@ namespace Sport.Android
 
 				var color = new ColorDrawable(Color.Transparent);
 				ActionBar.SetIcon(color);
-
-//				Window window = activity.getWindow();
-//				window.addFlags(WindowManager LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//				window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//				window.setStatusBarColor(activity.getResources().getColor(R.color.example_color));
 			}
 			catch(Exception e)
 			{

@@ -174,50 +174,12 @@ namespace Sport.Shared
 
 		async public Task<bool> AttemptToAuthenticateAthlete(bool force = false)
 		{
-			AuthenticationViewModel.OnDisplayAuthForm = (url, client) => Device.BeginInvokeOnMainThread(() =>
-			{
-				App.Current.Hud.Dismiss();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-				var webView = new WebView {
-					Source = url			
-				};
-
-				var page = new ContentPage {
-					Content = webView,
-					Title = "Authenticate"
-				};
-
-				var nav = new NavigationPage(page) {
-//					BarBackgroundColor = BarBackgroundColor,
-//					BarTextColor = BarTextColor,					
-				};
-
-				var btnDone = new ToolbarItem {
-					Text = "Cancel",
-				};
-
-				btnDone.Clicked += (sender, e) =>
-				{
-					client.InterruptAsync();
-					Navigation.PopModalAsync();
-				};
-
-				page.ToolbarItems.Add(btnDone);
-				Navigation.PushModalAsync(nav);
-			});
-
-			AuthenticationViewModel.OnHideAuthForm = async() =>
-			{
-				await Navigation.PopModalAsync();
-			};
-
 			await AuthenticationViewModel.GetUserProfile(force);
 
 			if(App.AuthUserProfile != null)
-			{
 				await AuthenticationViewModel.EnsureAthleteRegistered();
-			}
 
-			return true;
+			return Settings.Instance.AuthToken != null;
 		}
 
 		#endregion

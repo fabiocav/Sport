@@ -18,6 +18,8 @@ namespace Sport.Shared
 			Initialize();
 		}
 
+		bool _ignoreClicks;
+
 		protected override void Initialize()
 		{
 			BarBackgroundColor = (Color)App.Current.Resources["purplePrimary"];
@@ -32,19 +34,19 @@ namespace Sport.Shared
 			var ignoreClicks = false;
 			btnPush.Clicked += (sender, e) =>
 			{
-				if(ignoreClicks)
+				if(_ignoreClicks)
 					return;
 
-				ignoreClicks = true;
-				ViewModel.RegisterForPushNotifications(() => RegisteredForPushNotificationSuccess());
+				_ignoreClicks = true;
+				ViewModel.RegisterForPushNotifications(RegisteredForPushNotificationSuccess);
 			};
 
 			btnContinue.Clicked += (sender, e) =>
 			{
-				if(ignoreClicks)
+				if(_ignoreClicks)
 					return;
 
-				ignoreClicks = true;
+				_ignoreClicks = true;
 				MoveToMainPage();
 			};
 		}
@@ -65,18 +67,26 @@ namespace Sport.Shared
 		{
 			Device.BeginInvokeOnMainThread(async() =>
 			{
-				btnPush.Text = "Thanks! We'll be in touch";
-				await Task.Delay(App.AnimationSpeed);
-				await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-				await profileStack.LayoutTo(new Rectangle(0, Content.Width * -1, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+				if(App.CurrentAthlete.DeviceToken != null)
+				{
+					btnPush.Text = "Thanks! We'll be in touch";
+					await Task.Delay(App.AnimationSpeed);
+					await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+					await profileStack.LayoutTo(new Rectangle(0, Content.Width * -1, profileStack.Width, profileStack.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 
-				btnPush.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-				await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+					btnPush.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+					await btnPush.LayoutTo(new Rectangle(Content.Width, btnPush.Bounds.Y, btnPush.Bounds.Width, btnPush.Height), (uint)App.AnimationSpeed, Easing.SinIn);
 
-				btnContinue.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
-				await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
-				await Task.Delay(App.AnimationSpeed);
-				MoveToMainPage();
+					btnContinue.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
+					await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
+					await Task.Delay(App.AnimationSpeed);
+					MoveToMainPage();
+				}
+				else
+				{
+					_ignoreClicks = false;
+					"Unable to register for push notifications".ToToast();
+				}
 			});
 		}
 

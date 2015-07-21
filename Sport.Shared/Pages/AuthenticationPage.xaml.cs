@@ -19,7 +19,7 @@ namespace Sport.Shared
 
 			btnAuthenticate.Clicked += (sender, e) =>
 			{
-				AttemptToAuthenticateAthlete();
+				//AttemptToAuthenticateAthlete();
 			};
 
 //			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>

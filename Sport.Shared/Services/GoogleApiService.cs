@@ -39,6 +39,40 @@ namespace Sport.Shared
 			});
 		}
 
+		public Task<Tuple<string, string>> GetAuthAndRefreshToken(string code)
+		{
+			return new Task<Tuple<string, string>>(() =>
+			{
+				string url = "https://www.googleapis.com/oauth2/v3/token";
+
+				using(var client = new HttpClient())
+				{
+					var dict = new Dictionary<string, string>();
+					dict.Add("code", code);
+					dict.Add("grant_type", "authorization_code");
+					dict.Add("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
+					dict.Add("client_id", Constants.GoogleApiClientId);
+					dict.Add("client_secret", Constants.GoogleClientSecret);
+
+					var content = new FormUrlEncodedContent(dict);
+					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+					var response = client.PostAsync(url, content).Result;
+					var body = response.Content.ReadAsStringAsync().Result;
+					Console.WriteLine(body);
+					dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(body);
+
+					if(!dict.ContainsKey("token_type"))
+					{
+						return null;
+					}
+
+					var newAuthToken = "{0} {1}".Fmt(dict["token_type"], dict["access_token"]);
+					var refreshToken = dict["refresh_token"];
+					return new Tuple<string, string>(newAuthToken, refreshToken);
+				}
+			});
+		}
+
 		public Task<string> GetNewAuthToken(string refreshToken)
 		{
 			return new Task<string>(() =>

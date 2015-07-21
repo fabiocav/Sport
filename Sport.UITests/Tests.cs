@@ -32,6 +32,7 @@ namespace Sport.UITests
 			app.WaitForElement(e => e.Css("#Email"), "Timed out waiting for Google Oauth form", TimeSpan.FromSeconds(60));
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com", "And I enter my email address");
 
+			Thread.Sleep(2000);
 			if(app.Query(e => e.Css("#next")).Length > 0)
 				app.Tap(e => e.Css("#next"));
 
@@ -51,14 +52,7 @@ namespace Sport.UITests
 			app.EnterText(e => e.Marked("aliasText"), "XTC", "And I enter my alias");
 			app.PressEnter();
 
-			int count = 0;
-			while(app.Query("saveButton").Length == 0 && count < 5)
-			{
-				app.ScrollDown();
-				count++;
-			}
-			
-			app.Tap("saveButton");
+			app.ScrollDownAndTap("saveButton");
 
 			Thread.Sleep(5000);
 			app.ScrollDownAndTap("Continue button", e => e.Marked("continueButton"));

@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Sport.Shared;
 using Xamarin.Forms;
-using nsoftware.InGoogle;
 using Xamarin;
 using System.Collections.Generic;
 using System.Net;
@@ -13,7 +12,6 @@ namespace Sport.Shared
 {
 	public class AuthenticationViewModel : BaseViewModel
 	{
-		Oauth _authClient;
 		string _authenticationStatus;
 
 		public string AuthenticationStatus
@@ -26,12 +24,6 @@ namespace Sport.Shared
 			{
 				SetPropertyChanged(ref _authenticationStatus, value);
 			}
-		}
-
-		public Action<string, Oauth> OnDisplayAuthForm
-		{
-			get;
-			set;
 		}
 
 		public Action OnHideAuthForm
@@ -53,51 +45,17 @@ namespace Sport.Shared
 				return false;
 			}
 
-			_authClient = new Oauth();
-			_authClient.RuntimeLicense = "42474E325841314E443131474630454D30300000000000000000000000000000000000000000000030303030303030300000324D4B42325A4E59444158360000";
-			_authClient.OnSSLServerAuthentication += OnSSLServerAuthentication;
-			_authClient.OnLaunchBrowser += OnLaunchBrowser;
-			//_authClient.ReturnURL = "https://dl.dropboxusercontent.com/u/54307520/sport-challenge-auth-redirect.html";
+			var provider = DependencyService.Get<IAuthentication>();
+			var tuple = await provider.AuthenticateUser();
 
-			try
+			if(tuple != null)
 			{
-				AuthenticationStatus = "Checking Google auth";
-				_authClient.ClientProfile = OauthClientProfiles.cfMobile;
-				_authClient.ClientId = Constants.GoogleApiClientId;
-				_authClient.ClientSecret = Constants.GoogleClientSecret;
-				_authClient.ServerAuthURL = "https://accounts.google.com/o/oauth2/auth";
-				_authClient.ServerTokenURL = "https://accounts.google.com/o/oauth2/token";
-				_authClient.AuthorizationScope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar";
-				var token = await _authClient.GetAuthorizationAsync();
-
-				//Gets hit when user is redirected to success URL
-				OnHideAuthForm();
-
-				Settings.Instance.RefreshToken = _authClient.RefreshToken;
-				Settings.Instance.AuthToken = token;
-
-				_authClient.OnLaunchBrowser -= OnLaunchBrowser;
-				_authClient.OnSSLServerAuthentication -= OnSSLServerAuthentication;
-
+				Settings.Instance.AuthToken = tuple.Item1;
+				Settings.Instance.RefreshToken = tuple.Item2;
 				await Settings.Instance.Save();
-				return true;
 			}
-			catch(Exception e)
-			{
-				//TODO Insights
-				Console.WriteLine(e.GetBaseException());
-				return false;
-			}
-		}
 
-		void OnLaunchBrowser(object sender, OauthLaunchBrowserEventArgs e)
-		{
-			OnDisplayAuthForm(e.URL, _authClient);
-		}
-
-		void OnSSLServerAuthentication(object sender, OauthSSLServerAuthenticationEventArgs e)
-		{
-			e.Accept = true;
+			return Settings.Instance.AuthToken != null;
 		}
 
 		async public Task<bool> EnsureAthleteRegistered(bool forceRefresh = false)
