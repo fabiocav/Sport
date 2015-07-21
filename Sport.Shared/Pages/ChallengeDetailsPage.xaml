@@ -75,7 +75,7 @@
 								 TextColor="{StaticResource grayDark}" FontSize="Small" VerticalOptions="Center" />
 						</Grid>
 
-						<StackLayout Padding="40,0" Spacing="40" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
+						<StackLayout Padding="20,0" Spacing="40" IsVisible="{Binding Challenge.IsCompleted, Converter={x:Static local:InverseBoolConverter.Instance}}">
 							<Label Text="{Binding ChallengeStatus}" TextColor="{Binding Challenge.League.Theme.Dark}" FontSize="Medium" XAlign="Center" />
 
 							<local:ImageButton Text="NUDGE ATHLETE" WidthRequest="200" HeightRequest="40" IsVisible="{Binding AwaitingDecision}"
@@ -86,13 +86,13 @@
 								Source="ic_send_white" ButtonBackgroundColor="{Binding Challenge.League.Theme.Primary}"
 								Clicked="HandlePostResults" /> 
 
-							<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="Center" Padding="14" VerticalOptions="Center"
+							<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="Fill" Padding="14" VerticalOptions="Center"
 								IsVisible="{Binding CanAccept}">
 
-								<local:ImageButton Text="ACCEPT" WidthRequest="110" HeightRequest="40" Source="ic_thumb_up_white"
+								<local:ImageButton Text="ACCEPT" WidthRequest="160" HeightRequest="50" Source="ic_thumb_up_white"
 									ButtonBackgroundColor="{StaticResource greenPrimary}" Clicked="HandleAccepted" /> 
 
-								<local:ImageButton Text="DECLINE" WidthRequest="110" HeightRequest="40" Source="ic_thumb_down_white"
+								<local:ImageButton Text="DECLINE" WidthRequest="160" HeightRequest="50" Source="ic_thumb_down_white"
 									ButtonBackgroundColor="{StaticResource redPrimary}" Clicked="HandleDeclined" /> 
 							</StackLayout>
 						</StackLayout>

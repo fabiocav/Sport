@@ -40,10 +40,10 @@
 		<StackLayout Orientation="Horizontal" Spacing="14" HorizontalOptions="EndAndExpand" Padding="14" VerticalOptions="Center"
 			IsVisible="{Binding ViewModel.CanAccept}">
 
-			<local:ImageButton Text="ACCEPT" WidthRequest="110" HeightRequest="40" Source="ic_thumb_up_white"
+			<local:ImageButton Text="ACCEPT" WidthRequest="160" HeightRequest="50" Source="ic_thumb_up_white"
 				ButtonBackgroundColor="{StaticResource greenPrimary}" Clicked="HandleAccepted" /> 
 
-			<local:ImageButton Text="DECLINE" WidthRequest="110" HeightRequest="40" Source="ic_thumb_down_white"
+			<local:ImageButton Text="DECLINE" WidthRequest="160" HeightRequest="50" Source="ic_thumb_down_white"
 				ButtonBackgroundColor="{StaticResource redPrimary}" Clicked="HandleDeclined" /> 
 
 		</StackLayout>

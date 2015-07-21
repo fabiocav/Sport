@@ -63,9 +63,10 @@ namespace Sport.Android
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::Sport.Android.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::Sport.Android.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::Sport.Android.Resource.Styleable.ProgressWheel_ahTextSize;
+			global::Gcm.Client.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
+			global::ModernHttpClient.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
 			global::Xamarin.Forms.Platform.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
-			global::Gcm.Client.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
 			global::XLabs.Platform.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
 			global::XLabs.Platform.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
 			global::XLabs.Forms.Resource.Color.calendar_active_month_bg = global::Sport.Android.Resource.Color.calendar_active_month_bg;
@@ -108,7 +109,6 @@ namespace Sport.Android
 			global::XLabs.Forms.Resource.Style.CalendarCell_CalendarDate = global::Sport.Android.Resource.Style.CalendarCell_CalendarDate;
 			global::XLabs.Forms.Resource.Style.CalendarCell_DayHeader = global::Sport.Android.Resource.Style.CalendarCell_DayHeader;
 			global::XLabs.Forms.Resource.Style.CalendarTitle = global::Sport.Android.Resource.Style.CalendarTitle;
-			global::ModernHttpClient.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
 		}
 		
 		public partial class Animation

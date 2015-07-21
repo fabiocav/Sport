@@ -77,6 +77,8 @@ namespace Sport.Shared
 			BarTextColor = ViewModel.League.Theme.Dark;
 
 			InitializeComponent();
+			scrollView.Scrolled += (sender, e) => Parallax();
+			Parallax();
 
 			btnRefresh.Clicked += async(sender, e) =>
 			{
@@ -86,7 +88,7 @@ namespace Sport.Shared
 				}
 			};
 
-			ongoingCard.OnClicked = async() =>
+			ongoingCard.OnClicked = () =>
 			{
 				PushChallengeDetailsPage();
 			};
@@ -166,11 +168,6 @@ namespace Sport.Shared
 				await Navigation.PushAsync(page);
 			};
 
-			scrollView.Scrolled += (sender, e) =>
-			{
-				photoImage.TranslationY = (scrollView.ScrollY * .4);
-			};
-
 			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", async(app) =>
 			{
 				ViewModel.NotifyPropertiesChanged();
@@ -232,6 +229,22 @@ namespace Sport.Shared
 						rankStrip.Membership = ViewModel.CurrentMembership;
 					});
 				}
+			}
+		}
+
+		void Parallax()
+		{
+			var y = scrollView.ScrollY * .4;
+			int thresh = Device.OS == TargetPlatform.iOS ? -40 : 20;
+
+			if(y < thresh)
+			{
+				photoImage.Scale = 1.0 + ((y + thresh * -1) * -.01);
+			}
+			else
+			{
+				photoImage.Scale = 1;
+				photoImage.TranslationY = y;
 			}
 		}
 

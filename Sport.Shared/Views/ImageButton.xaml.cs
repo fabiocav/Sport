@@ -72,8 +72,11 @@ namespace Sport.Shared
 		{
 			InitializeComponent();
 			root.BindingContext = this;
+		}
 
-			root.GestureRecognizers.Add(new TapGestureRecognizer((view) => Clicked.Invoke(this, new EventArgs())));						
+		void HandleClick(object sender, EventArgs e)
+		{
+			Clicked.Invoke(this, e);
 		}
 	}
 }
