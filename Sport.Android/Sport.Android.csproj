@@ -145,9 +145,7 @@
     <Compile Include="Providers\HUDProvider.cs" />
     <Compile Include="Providers\PushNotifications.cs" />
     <Compile Include="Providers\ToastNotifier.cs" />
-    <Compile Include="Providers\AuthenticationProvider.cs">
-      <DependentUpon>HUDProvider.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Providers\AuthenticationProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
