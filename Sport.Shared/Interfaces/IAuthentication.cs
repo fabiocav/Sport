@@ -8,4 +8,3 @@ namespace Sport.Shared
 		Task<Tuple<string, string>> AuthenticateUser();
 	}
 }
-

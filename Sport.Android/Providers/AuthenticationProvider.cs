@@ -12,7 +12,8 @@ using Android.App;
 
 namespace Sport.Android
 {
-	public class AuthenticationProvider : Activity, IAuthentication
+	[Activity(NoHistory = true)]
+	public class AuthenticationProvider : IAuthentication
 	{
 		public async Task<Tuple<string, string>> AuthenticateUser()
 		{
@@ -22,46 +23,30 @@ namespace Sport.Android
 
 				var auth = new OAuth2Authenticator(Constants.GoogleApiClientId, Constants.GoogleClientSecret, Constants.GoogleOAuthScope, new Uri(Constants.GoogleOAuthAuthUrl), new Uri(Constants.GoogleOAthRedirectUrl), new Uri(Constants.GoogleOAuthTokenUrl));
 				auth.AllowCancel = true;
+				auth.ClearCookiesBeforeLogin = false;
+				auth.ShowUIErrors = false;
+				auth.ShouldLoadPage = (uri) =>
+				{
+					if(uri.Host == auth.RedirectUrl.Host && uri.LocalPath == auth.RedirectUrl.LocalPath)
+						return false;
+
+					return true;
+				};
 
 				auth.Completed += (sender, e) =>
 				{
-					tcs.TrySetResult(null);
-				};
-
-				auth.PageLoaded += (sender, e) =>
-				{
-					Console.WriteLine(auth.DocumentTitle);
-					if(auth.DocumentTitle != null && auth.DocumentTitle.StartsWith("Success ", StringComparison.Ordinal))
+					Tuple<string, string> result = null;
+					if(e.IsAuthenticated)
 					{
-						var param = auth.DocumentTitle.Split(' ')[1];
-						var keys = Regex.Matches(param, "([^?=&]+)(=([^&]*))?").Cast<Match>().ToDictionary(x => x.Groups[1].Value, x => x.Groups[3].Value);
-
-						var task = GoogleApiService.Instance.GetAuthAndRefreshToken(keys["code"]);
-						task.Start();
-						task.Wait();
-
-						Device.BeginInvokeOnMainThread(() =>
-						{
-							SetResult(Result.Ok);
-							try
-							{
-								//OnBackPressed(); //Crashes because there is no handler to this activity :)
-								Finish(); //this gets hit but never actually does anything - help someone who knows what they're doing!!
-							}
-							catch(Exception ex)
-							{
-								Console.Write(ex);
-							}
-						});
-							
-						tcs.TrySetResult(task.Result);
+						result = new Tuple<string, string>(e.Account.Properties["access_token"], e.Account.Properties["refresh_token"]);
 					}
+
+					tcs.TrySetResult(result);
 				};
 
 				var intent = auth.GetUI(Forms.Context);
-				intent.SetFlags(ActivityFlags.NewTask);
+				//intent.SetFlags(ActivityFlags.NewTask);
 				Forms.Context.StartActivity(intent);
-				Finish();
 
 				return tcs.Task;
 			});

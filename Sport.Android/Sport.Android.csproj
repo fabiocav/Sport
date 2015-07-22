@@ -95,9 +95,6 @@
       <HintPath>..\packages\Xamarin.Android.Support.Design.22.2.0.0\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
     </Reference>
     <Reference Include="System.Json" />
-    <Reference Include="Xamarin.Auth.Android">
-      <HintPath>..\Resources\Assemblies\Xamarin.Auth\Xamarin.Auth.Android.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Forms.Platform.Android">
       <HintPath>..\packages\Xamarin.Forms.1.4.3.6376\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
     </Reference>
@@ -139,6 +136,9 @@
     </Reference>
     <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.0.14\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Auth.Android">
+      <HintPath>..\Resources\Assemblies\Xamarin.Auth\Xamarin.Auth.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +229,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="xamandroidsupportv7appcompat">
       <Version>21.0.3.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="xamarin.auth">
+      <Version>1.2.3.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

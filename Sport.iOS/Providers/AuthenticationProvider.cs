@@ -4,8 +4,6 @@ using Sport.Shared;
 using UIKit;
 using Xamarin.Auth;
 using Xamarin.Forms;
-using System.Text.RegularExpressions;
-using System.Linq;
 
 [assembly: Dependency(typeof(Sport.iOS.AuthenticationProvider))]
 
@@ -21,34 +19,22 @@ namespace Sport.iOS
 
 				var auth = new OAuth2Authenticator(Constants.GoogleApiClientId, Constants.GoogleClientSecret, Constants.GoogleOAuthScope, new Uri(Constants.GoogleOAuthAuthUrl), new Uri(Constants.GoogleOAthRedirectUrl), new Uri(Constants.GoogleOAuthTokenUrl));
 				auth.AllowCancel = true;
+				auth.ShowUIErrors = false;
+				auth.ClearCookiesBeforeLogin = false;
 
 				auth.Completed += (sender, e) =>
 				{
-					UIApplication.SharedApplication.KeyWindow.RootViewController.DismissViewController(true, null);
-					tcs.TrySetResult(null);
-				};
+					Device.BeginInvokeOnMainThread(() => UIApplication.SharedApplication.KeyWindow.RootViewController.DismissViewController(true, null));
 
-				auth.PageLoaded += async(sender, e) =>
-				{
-					Console.WriteLine(auth.DocumentTitle);
-					if(auth.DocumentTitle != null && auth.DocumentTitle.StartsWith("Success "))
+					Tuple<string, string> result = null;
+					if(e.IsAuthenticated)
 					{
-						var param = auth.DocumentTitle.Split(' ')[1];
-						var keys = Regex.Matches(param, "([^?=&]+)(=([^&]*))?").Cast<Match>().ToDictionary(x => x.Groups[1].Value, x => x.Groups[3].Value);
-
-						Device.BeginInvokeOnMainThread(() =>
-						{
-							UIApplication.SharedApplication.KeyWindow.RootViewController.DismissViewController(true, null);
-						});
-
-						var vm = new BaseViewModel();
-						var task = GoogleApiService.Instance.GetAuthAndRefreshToken(keys["code"]);
-						await vm.RunSafe(task);
-
-						tcs.TrySetResult(task.Result);
+						result = new Tuple<string, string>(e.Account.Properties["access_token"], e.Account.Properties["refresh_token"]);
 					}
-				};
 
+					tcs.TrySetResult(result);
+				};
+					
 				Device.BeginInvokeOnMainThread(() =>
 				{
 					UIViewController vc = auth.GetUI();

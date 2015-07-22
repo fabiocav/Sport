@@ -24,7 +24,7 @@ namespace Sport.Shared
 		public static readonly string GoogleApiClientId = "236481934978-balamfh77inmje2nfeq3bphdg3udt03t.apps.googleusercontent.com";
 		public static readonly string GoogleClientSecret = "wRYG9TlQZLXnlpUbu-0X_BwF";
 		public static readonly string GoogleOAuthScope = "profile email https://www.googleapis.com/auth/calendar";
-		public static readonly string GoogleOAthRedirectUrl = "urn:ietf:wg:oauth:2.0:oob";
+		public static readonly string GoogleOAthRedirectUrl = "http://localhost";
 		public static readonly string GoogleOAuthAuthUrl = "https://accounts.google.com/o/oauth2/auth";
 		public static readonly string GoogleOAuthTokenUrl = "https://accounts.google.com/o/oauth2/token";
 

@@ -8,6 +8,9 @@ using Android.Views;
 using ImageCircle.Forms.Plugin.Droid;
 using Sport.Shared;
 using XLabs.Forms;
+using Xamarin.Auth;
+
+[assembly:Xamarin.Forms.Dependency(typeof(Sport.Android.MainActivity))]
 
 namespace Sport.Android
 {
@@ -42,6 +45,12 @@ namespace Sport.Android
 			{
 				Console.WriteLine(e);
 			}
+		}
+
+		public void Authenticate(OAuth2Authenticator auth)
+		{
+			var intent = auth.GetUI(this);
+			StartActivity(intent);
 		}
 	}
 }

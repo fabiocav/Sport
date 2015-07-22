@@ -2,11 +2,17 @@
 using System;
 using System.Threading;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Sport.Shared
 {
 	public static partial class Extensions
 	{
+		public static Dictionary<string, string> ToKeyValuePair(this string querystring)
+		{
+			return Regex.Matches(querystring, "([^?=&]+)(=([^&]*))?").Cast<Match>().ToDictionary(x => x.Groups[1].Value, x => x.Groups[3].Value);
+		}
+
 		public static Athlete Opponent(this Challenge c, string athleteId)
 		{
 			return c.ChallengeeAthleteId == athleteId ? c.ChallengerAthlete : c.ChallengerAthleteId == athleteId ? c.ChallengeeAthlete : null;
