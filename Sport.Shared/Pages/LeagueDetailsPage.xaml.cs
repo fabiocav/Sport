@@ -2,6 +2,7 @@
 using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -90,17 +91,22 @@ namespace Sport.Shared
 
 			ongoingCard.OnClicked = () =>
 			{
-				PushChallengeDetailsPage();
+				PushChallengeDetailsPage(ViewModel.OngoingChallengeViewModel?.Challenge);
 			};
 
 			ongoingCard.OnPostResults = async() =>
 			{
-				var page = new MatchResultsFormPage(ViewModel.CurrentMembership?.OngoingChallenge);
+				var challenge = ViewModel.CurrentMembership.OngoingChallenge;
+				if(challenge == null)
+					return;
+				
+				var page = new MatchResultsFormPage(challenge);
 				page.AddDoneButton("Cancel");
 
-				page.OnMatchResultsPosted = async() =>
+				page.OnMatchResultsPosted = () =>
 				{
-					await ViewModel.RefreshLeague();
+					PushChallengeDetailsPage(challenge, true);
+					ViewModel.RefreshLeague();
 					rankStrip.Membership = ViewModel.CurrentMembership;
 				};
 
@@ -114,7 +120,7 @@ namespace Sport.Shared
 					await ViewModel.OngoingChallengeViewModel.NudgeAthlete();
 				}
 
-				"Athlete nudged".ToToast();
+				"Athlete has sooo been nudged".ToToast();
 			};
 				
 			ongoingCard.OnAccepted = async() =>
@@ -174,9 +180,9 @@ namespace Sport.Shared
 			});
 		}
 
-		async void PushChallengeDetailsPage(bool refresh = false)
+		async void PushChallengeDetailsPage(Challenge challenge, bool refresh = false)
 		{
-			var details = new ChallengeDetailsPage(ViewModel.CurrentMembership?.OngoingChallenge);
+			var details = new ChallengeDetailsPage(challenge);
 			details.OnAccept = async() =>
 			{
 				await ViewModel.RefreshLeague();
@@ -220,7 +226,7 @@ namespace Sport.Shared
 
 					if(challenge != null && challengeId == challenge.Id && payload.Payload.TryGetValue("winningAthleteId", out winnerId))
 					{
-						PushChallengeDetailsPage(true);
+						PushChallengeDetailsPage(ViewModel.OngoingChallengeViewModel?.Challenge, true);
 					}
 
 					await ViewModel.RefreshLeague();
@@ -239,7 +245,7 @@ namespace Sport.Shared
 
 			if(y < thresh)
 			{
-				photoImage.Scale = 1.0 + ((y + thresh * -1) * -.01);
+				photoImage.Scale = 1.0 + ((y + thresh * -1) * -.006);
 			}
 			else
 			{

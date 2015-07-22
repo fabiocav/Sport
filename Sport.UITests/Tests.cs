@@ -31,12 +31,18 @@ namespace Sport.UITests
 
 			app.WaitForElement(e => e.Css("#Email"), "Timed out waiting for Google Oauth form", TimeSpan.FromSeconds(60));
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com", "And I enter my email address");
+			if(platform == Platform.Android)
+				app.Back(); //Dismiss keyboard
 
 			Thread.Sleep(2000);
+
 			if(app.Query(e => e.Css("#next")).Length > 0)
 				app.Tap(e => e.Css("#next"));
 
 			app.EnterText(e => e.Css("#Passwd"), Constants.Password, "And I enter my super secret password");
+			if(platform == Platform.Android)
+				app.Back(); //Dismiss keyboard
+			
 			app.ScrollDownAndTap(e => e.Css("#signIn"), "And I click the Sign In button");
 
 			if(app.Query(e => e.Button("Remember")).Length > 0)
@@ -49,7 +55,7 @@ namespace Sport.UITests
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));
-			app.EnterText(e => e.Marked("aliasText"), "XTC", "And I enter my alias");
+			app.EnterText(e => e.Marked("aliasText"), "XTC Tester", "And I enter my alias");
 			app.PressEnter();
 
 			app.ScrollDownAndTap("saveButton");
@@ -73,7 +79,7 @@ namespace Sport.UITests
 			*/
 
 			app.Screenshot("Athlete leagues listview");
-			app.ScrollDownAndTap("League for XTC tests");
+			app.ScrollDownAndTap("XTC Tests");
 
 			app.WaitForElement("leaguePhoto");
 			app.Screenshot("Then I should see the league details");
