@@ -48,7 +48,7 @@
     <MtouchLink>None</MtouchLink>
     <IpaPackageName>
     </IpaPackageName>
-    <CodesignProvision>03493da8-4c9d-4223-a628-d5efdfeed78a</CodesignProvision>
+    <CodesignProvision>da0af9ec-7474-47bd-b4d3-cd3e06112291</CodesignProvision>
     <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">

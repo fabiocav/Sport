@@ -64,7 +64,7 @@ namespace Sport.UITests
 			app.ScrollDownAndTap("saveButton");
 
 			Thread.Sleep(5000);
-			app.ScrollDownAndTap("Continue button", e => e.Marked("continueButton"));
+			app.Tap("Continue button", "continueButton");
 
 			/*
 			Thread.Sleep(5000);
