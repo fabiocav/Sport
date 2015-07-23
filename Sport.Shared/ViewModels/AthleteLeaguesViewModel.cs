@@ -110,7 +110,7 @@ namespace Sport.Shared
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new LeagueViewModel(new League {
-					Name = "You don't belong to any leagues"
+					Name = "You don't belong to any leagues.\n\nYou can join leagues by tapping the + button above."
 				}));
 			}
 

@@ -136,6 +136,7 @@ namespace Sport.Shared
 		const string _admin = "Admin";
 		const string _profile = "My Profile";
 		const string _logout = "Log Out";
+		const string _about = "About";
 
 		List<string> GetMoreMenuOptions()
 		{
@@ -145,6 +146,7 @@ namespace Sport.Shared
 			if(App.CurrentAthlete.IsAdmin)
 				list.Add(_admin);
 
+			list.Add(_about);
 			list.Add(_logout);
 
 			return list;
@@ -163,6 +165,9 @@ namespace Sport.Shared
 
 			if(action == _admin)
 				OnAdminSelected();
+
+			if(action == _about)
+				OnAboutSelected();
 		}
 
 		async void OnLogoutSelected()
@@ -188,8 +193,15 @@ namespace Sport.Shared
 
 		async void OnAdminSelected()
 		{
-			var admin = new NavigationPage(new AdminPage());
-			await Navigation.PushModalAsync(admin);
+			await Navigation.PushModalAsync(new AdminPage().GetNavigationPage());
+		}
+
+		async void OnAboutSelected()
+		{
+			var page = new AboutPage();
+			page.AddDoneButton();
+			
+			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
 	}
 

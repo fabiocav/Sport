@@ -88,7 +88,6 @@ namespace Sport.Shared
 
 		void LocalRefresh()
 		{
-			Console.WriteLine(Membership == null ? "NULL" : Membership.CurrentRankDisplay.ToString());
 			if(Membership != null)
 			{
 				UpperMembership = Membership.League.Memberships.SingleOrDefault(m => m.CurrentRank == Membership.CurrentRank - 1);

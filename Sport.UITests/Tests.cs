@@ -50,7 +50,10 @@ namespace Sport.UITests
 				app.Back();
 			}
 
+			Thread.Sleep(5000);
 			app.WaitForElement(e => e.Css("#grant_heading"));
+
+			Thread.Sleep(5000);
 			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));

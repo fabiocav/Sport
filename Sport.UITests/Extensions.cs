@@ -215,7 +215,6 @@ namespace Xamarin.TestCloud.Extensions
 				}
 
 				float gap = rootView.Rect.Height / 5;
-				Console.WriteLine(rootView.Rect.CenterX.ToString() + " - " + (rootView.Rect.CenterY + gap).ToString() + " x " + rootView.Rect.CenterX + " - " + (rootView.Rect.CenterY - gap).ToString());
 				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
 				count++;
 			}
@@ -276,7 +275,6 @@ namespace Xamarin.TestCloud.Extensions
 			try
 			{
 				var finalText = formatArgs.Length > 0 ? string.Format(text, formatArgs) : text;
-				Console.WriteLine(finalText);
 				app.Invoke("*******Xamarin Log*******", finalText);
 			}
 			catch(Exception)

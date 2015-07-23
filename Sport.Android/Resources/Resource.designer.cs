@@ -1868,8 +1868,8 @@ namespace Sport.Android
 			// aapt resource value: 0x7f020050
 			public const int icon = 2130837584;
 			
-			// aapt resource value: 0x7f020054
-			public const int notification_template_icon_bg = 2130837588;
+			// aapt resource value: 0x7f020055
+			public const int notification_template_icon_bg = 2130837589;
 			
 			// aapt resource value: 0x7f020051
 			public const int roundedbg = 2130837585;
@@ -1879,6 +1879,9 @@ namespace Sport.Android
 			
 			// aapt resource value: 0x7f020053
 			public const int snackbar_background = 2130837587;
+			
+			// aapt resource value: 0x7f020054
+			public const int sport_xamarin_logos = 2130837588;
 			
 			static Drawable()
 			{

@@ -28,6 +28,11 @@
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <DebugSymbols>true</DebugSymbols>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Custom" name="Run in XTC" command="sh run_Android_XTC.sh" workingdir="${SolutionDir}" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -217,6 +222,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\ic_notifications_active_white.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_notifications_active_white.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_notifications_active_white.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\sport_xamarin_logos.png" />
   </ItemGroup>
   <Import Project="..\Sport.Shared\Sport.Shared.projitems" Label="Shared" Condition="Exists('..\Sport.Shared\Sport.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

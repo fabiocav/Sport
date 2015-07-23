@@ -76,7 +76,6 @@ namespace Sport.iOS
 
 		public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
 		{
-			Console.WriteLine(userInfo);
 			NSObject aps;
 			NSObject alert;
 			NSObject payload;

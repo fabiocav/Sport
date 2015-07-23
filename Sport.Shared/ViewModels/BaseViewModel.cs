@@ -131,7 +131,6 @@ namespace Sport.Shared
 			{
 				lock(_sync)
 				{
-					Console.WriteLine("Busy");
 					_viewModel.IsBusy = true;
 				}
 			});
@@ -144,7 +143,6 @@ namespace Sport.Shared
 				lock(_sync)
 				{
 					_viewModel.IsBusy = false;
-					Console.WriteLine("Not Busy");
 				}
 			});
 		}

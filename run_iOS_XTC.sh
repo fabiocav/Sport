@@ -1,0 +1,1 @@
+mono packages/Xamarin.UITest.1.0.0/tools/test-cloud.exe submit ~/Desktop/sport.mobile.xtc.ipa a835baddbb619daf8c09f1e49756e81f --devices 917f702c --series "master" --locale "en_US" --app-name "Sport" --user rob.derosa@xamarin.com --assembly-dir Sport.UITests/bin/Release

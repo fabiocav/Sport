@@ -128,8 +128,6 @@ namespace Sport.Shared
 
 					if(cal.CalendarPrimary)
 					{
-						Console.WriteLine(cal.CalendarSummary);
-
 						cal.EventStartDate.DateTime = DateTime.Now.Subtract(TimeSpan.FromDays(1)).ToString();
 						cal.EventEndDate.DateTime = DateTime.Now.Add(TimeSpan.FromDays(1)).ToString();
 						await cal.ListEventsAsync();

@@ -16,7 +16,8 @@ namespace Sport.Shared
 		//public static readonly string AzureDomain = "http://192.168.1.16:51541/";
 		public static readonly string AzureDomain = "http://sportchallengematchrank.azure-mobile.net/";
 		public static readonly string InsightsApiKey = "23a3e3502a5258fbc6bf97bd85341af8b4a0b69b";
-
+		public static readonly string SourceCodeUrl = "https://github.com/rob-derosa/Sport";
+			
 		//Custom Redirect
 		//public static readonly string GoogleApiClientId = "236481934978-g2nvcbc7v4hsrc8bf1h64u8rr4sepa6a.apps.googleusercontent.com";
 		//public static readonly string GoogleClientSecret = "hpbysTYd3JRzWoyYnbbHdSgJ";

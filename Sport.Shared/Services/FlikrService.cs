@@ -33,7 +33,6 @@ namespace Sport.Shared
 			{
 				var photoUrl = "https://farm{0}.staticflickr.com/{1}/{2}_{3}_b.jpg".Fmt(photo.Farm, photo.Server, photo.Id, photo.Secret);
 				list.Add(photoUrl);
-				Console.WriteLine(photoUrl);
 			}
 
 			return list;
