@@ -20,7 +20,7 @@ namespace Sport.Shared
 			Initialize();
 		}
 
-		protected async override void Initialize()
+		protected override void Initialize()
 		{
 			BarBackgroundColor = (Color)App.Current.Resources["redPrimary"];
 			BarTextColor = Color.White;

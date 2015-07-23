@@ -18,10 +18,10 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<ContentView Padding="0,-100,0,0">
+			<ContentView Padding="0,0,0,0">
 				<Grid>
 					<Image Source="ic_missing_photo_white" StyleId="leaguePhoto" HorizontalOptions="Center" VerticalOptions="Center" />
-					<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="300"
+					<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="200"
 						VerticalOptions="Center" Aspect="AspectFill" />
 				</Grid>
 			</ContentView>

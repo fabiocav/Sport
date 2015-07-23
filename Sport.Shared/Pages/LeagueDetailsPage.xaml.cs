@@ -238,14 +238,19 @@ namespace Sport.Shared
 			}
 		}
 
+		double _imageHeight;
+
 		void Parallax()
 		{
-			var y = scrollView.ScrollY * .4;
-			int thresh = Device.OS == TargetPlatform.iOS ? -30 : 20;
+			if(_imageHeight <= 0)
+				_imageHeight = photoImage.Height;
 
-			if(y < thresh)
+			var y = scrollView.ScrollY * .4;
+			if(y < 0)
 			{
-				photoImage.Scale = 1.0 + ((y + thresh * -1) * -.006);
+				double newHeight = _imageHeight + (scrollView.ScrollY * -1);
+				photoImage.Scale = newHeight / _imageHeight;
+				photoImage.TranslationY = scrollView.ScrollY / 2;
 			}
 			else
 			{

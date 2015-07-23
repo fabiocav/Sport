@@ -33,6 +33,7 @@
         <Command type="Custom" name="Run in XTC" command="sh run_Android_XTC.sh" workingdir="${SolutionDir}" />
       </CustomCommands>
     </CustomCommands>
+    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
