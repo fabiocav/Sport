@@ -48,7 +48,7 @@
     <MtouchLink>None</MtouchLink>
     <IpaPackageName>
     </IpaPackageName>
-    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
+    <CodesignProvision>03493da8-4c9d-4223-a628-d5efdfeed78a</CodesignProvision>
     <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
