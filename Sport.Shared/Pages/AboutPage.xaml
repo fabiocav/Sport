@@ -44,6 +44,8 @@
 								        <Span Text="    &#x2022; Messaging Center&#10;" />
 								        <Span Text="    &#x2022; Custom Controls&#10;" />
 								        <Span Text="    &#x2022; Custom Renderer&#10;" />
+								        <Span Text="    &#x2022; ImageCircle Plugin&#10;" />
+								        <Span Text="    &#x2022; XLabs ExtendedEntry&#10;" />
 								        <Span Text="&#x2022; Xamarin Insights&#10;" />
 								        <Span Text="&#x2022; Xamarin Test Cloud&#10;" />
 								        <Span Text="    &#x2022; UITest&#10;" />
