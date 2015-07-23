@@ -1,9 +1,9 @@
 # Sport
-A leaderboard for folk who dabble in sport and are fond of ranking match.
+A leaderboard for likeminded folk who dabble in sport thus fond of ranking match.
 
-We implore you to rank sport and match on all the way down the yards to a HOMEGOAL!!]
+We implore you to rank match and challenge sport all the way down the sideyard to (Gods be good) a home goal.
 
-This project excersises the following platforms or frameworks:
+This project excercises the following platforms, frameworks or features:
 * Xamarin.iOS
 * Xamarin.Android
 * Xamarin.Forms
@@ -15,6 +15,8 @@ This project excersises the following platforms or frameworks:
   * IoC
   * Messaging Center
   * Custom Controls
+  * ImageCircle Plugin
+  * XLabs ExtendedEntry
 * Xamarin Insights
 * Xamarin Test Cloud
   * UITest

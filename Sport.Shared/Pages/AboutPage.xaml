@@ -53,7 +53,7 @@
 								        <Span Text="    &#x2022; C# backend&#10;" />
 								        <Span Text="    &#x2022; WebAPI&#10;" />
 								        <Span Text="    &#x2022; Entity Framework&#10;" />
-								        <Span Text="    &#x2022; Cross-platform templated push notifications" />
+								        <Span Text="    &#x2022; Cross-platform templated push notifications&#10;" />
 								    </FormattedString.Spans>
 								</FormattedString>
 							</Label.FormattedText>
@@ -61,7 +61,7 @@
 					</StackLayout>
 				</StackLayout>
 
-				<StackLayout Grid.Row="1" Padding="24,0,24,14" Spacing="14">
+				<StackLayout Grid.Row="1" Padding="24,10,24,14" Spacing="14">
 					<Button Text="VIEW SOURCE" StyleId="sourceButton" HorizontalOptions="FillAndExpand"
 						BackgroundColor="{StaticResource greenPrimary}" Clicked="HandleViewSourceClicked" />
 				</StackLayout>
