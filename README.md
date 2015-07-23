@@ -28,3 +28,5 @@ This project excercises the following platforms, frameworks or features:
 
 
 Note - you will need to provide your own Keys.cs file with keys for Azure, OAuth (Google), Xamarin Insights, Xamarin Test Cloud, Flickr
+
+[![Sport Screenshot](https://raw.githubusercontent.com/rob-derosa/Sport/master/Resources/Screenshots/sport_screenshot.png)](https://www.youtube.com/watch?v=GmdvxDVluRA)
