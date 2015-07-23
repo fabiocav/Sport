@@ -58,16 +58,16 @@
 				</StackLayout>
 
 				<Image Source="{Binding League.ImageUrl}" HeightRequest="50" WidthRequest="70" />
-				<Button Text="Select Image" Clicked="OnSelectPhotoButtonClicked" />
+				<local:SportButton Text="Select Image" Clicked="OnSelectPhotoButtonClicked" />
 
-				<Button x:Name="btnSaveLeague" Text="Save League" VerticalOptions="End"
+				<local:SportButton x:Name="btnSaveLeague" Text="Save League" VerticalOptions="End"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
-				<Button x:Name="btnStartLeague" Text="Start League" VerticalOptions="End"
+				<local:SportButton x:Name="btnStartLeague" Text="Start League" VerticalOptions="End"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 						IsVisible="{Binding CanStartLeague}" />
 
-				<Button x:Name="btnDeleteLeague" Text="Delete League" Style="{StaticResource deleteButtonStyle}"
+				<local:SportButton x:Name="btnDeleteLeague" Text="Delete League" Style="{StaticResource deleteButtonStyle}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End"
 						IsVisible="{Binding League.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" />
 

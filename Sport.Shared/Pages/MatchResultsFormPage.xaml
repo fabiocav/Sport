@@ -15,7 +15,7 @@
 				<StackLayout x:Name="games" />
 
 				<StackLayout Grid.Row="1" Padding="24,14,24,24" VerticalOptions="EndAndExpand">
-					<Button x:Name="btnSubmit" Text="POST MATCH RESULT" BackgroundColor="{Binding Challenge.League.Theme.Dark}"
+					<local:SportButton x:Name="btnSubmit" Text="POST MATCH RESULT" BackgroundColor="{Binding Challenge.League.Theme.Dark}"
 						HorizontalOptions="FillAndExpand" StyleId="postButton"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 				</StackLayout>

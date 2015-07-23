@@ -74,9 +74,12 @@ namespace Sport.Shared
 			root.BindingContext = this;
 		}
 
-		void HandleClick(object sender, EventArgs e)
+		async void HandleClick(object sender, EventArgs e)
 		{
 			Clicked.Invoke(this, e);
+
+			await root.ScaleTo(1.2, 100);
+			await root.ScaleTo(1, 100);
 		}
 	}
 }

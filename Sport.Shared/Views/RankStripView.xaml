@@ -10,7 +10,7 @@
 	<StackLayout x:Name="root" Orientation="Horizontal" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 		<AbsoluteLayout IsVisible="{Binding UpperMembership, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}"
 			VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-			<Button BackgroundColor="{Binding DarkColor}" BorderRadius="3"
+			<local:SportButton BackgroundColor="{Binding DarkColor}" BorderRadius="3"
 				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" />
 
 			<StackLayout AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" Spacing="0">
@@ -19,13 +19,13 @@
 				<Label Text="{Binding UpperMembership.Athlete.Alias}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="Medium" LineBreakMode="TailTruncation" />
 			</StackLayout>
 
-			<Button x:Name="btnUpper" BackgroundColor="Transparent" BorderRadius="3" Clicked="HandleAthleteClicked"
+			<local:SportButton x:Name="btnUpper" BackgroundColor="Transparent" BorderRadius="3" Clicked="HandleAthleteClicked"
 				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" CommandParameter="{Binding UpperMembership}" />
 		</AbsoluteLayout>
 
 		<AbsoluteLayout IsVisible="{Binding Membership, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}"
 			VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-			<Button BackgroundColor="{Binding Membership.League.Theme.Light}" BorderRadius="3"
+			<local:SportButton BackgroundColor="{Binding Membership.League.Theme.Light}" BorderRadius="3"
 				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" />
 
 			<StackLayout AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" Spacing="0">
@@ -34,14 +34,14 @@
 				<Label Text="*You*" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="Medium" LineBreakMode="TailTruncation" />
 			</StackLayout>
 
-			<Button x:Name="btnSelf" BackgroundColor="Transparent" BorderRadius="3" Clicked="HandleAthleteClicked"
+			<local:SportButton x:Name="btnSelf" BackgroundColor="Transparent" BorderRadius="3" Clicked="HandleAthleteClicked"
 				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" CommandParameter="{Binding Membership}" />
 
 		</AbsoluteLayout>
 
 		<AbsoluteLayout IsVisible="{Binding LowerMembership, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}"
 			VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-			<Button  BackgroundColor="{Binding LightColor}" BorderRadius="3" 
+			<local:SportButton  BackgroundColor="{Binding LightColor}" BorderRadius="3" 
 				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" />
 
 			<StackLayout AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" Spacing="0">
@@ -50,7 +50,7 @@
 				<Label Text="{Binding LowerMembership.Athlete.Alias}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="Medium" LineBreakMode="TailTruncation" />
 			</StackLayout>
 
-			<Button x:Name="btnLower" BackgroundColor="Transparent" BorderRadius="3" Clicked="HandleAthleteClicked"
+			<local:SportButton x:Name="btnLower" BackgroundColor="Transparent" BorderRadius="3" Clicked="HandleAthleteClicked"
 				AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" CommandParameter="{Binding LowerMembership}" />
 		</AbsoluteLayout>
 

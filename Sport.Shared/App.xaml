@@ -71,6 +71,7 @@
                 <Setter Property="BackgroundColor" Value="{StaticResource grayPrimary}" />
             </Style>
             <Style TargetType="Button" BasedOn="{StaticResource buttonStyle}" />
+            <Style TargetType="local:SportButton" BasedOn="{StaticResource buttonStyle}" />
             <Style x:Key="actionButtonStyle" TargetType="Button">
                 <Setter Property="TextColor" Value="{StaticResource greenDark}" />
                 <Setter Property="BorderRadius" Value="2" />

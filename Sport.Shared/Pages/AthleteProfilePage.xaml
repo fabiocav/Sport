@@ -35,11 +35,11 @@
 			</StackLayout>
 
 			<StackLayout Padding="24" Grid.Row="1" Spacing="14">
-				<Button x:Name="btnRegister" Text="ENABLE PUSH NOTIFICATIONS" VerticalOptions="End" HorizontalOptions="FillAndExpand"
+				<local:SportButton x:Name="btnRegister" Text="ENABLE PUSH NOTIFICATIONS" VerticalOptions="End" HorizontalOptions="FillAndExpand"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 					BackgroundColor="{StaticResource asphaltPrimary}" StyleId="pushButton" />
 
-				<Button x:Name="btnSave" Text="SAVE" VerticalOptions="End" HorizontalOptions="FillAndExpand"
+				<local:SportButton x:Name="btnSave" Text="SAVE" VerticalOptions="End" HorizontalOptions="FillAndExpand"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 					BackgroundColor="{StaticResource asphaltDark}" StyleId="saveButton" />
 			</StackLayout>

@@ -64,7 +64,7 @@
 				</StackLayout>
 
 				<StackLayout Grid.Row="1" Padding="24,10,24,14" Spacing="14">
-					<Button Text="VIEW SOURCE" StyleId="sourceButton" HorizontalOptions="FillAndExpand"
+					<local:SportButton Text="VIEW SOURCE" StyleId="sourceButton" HorizontalOptions="FillAndExpand"
 						BackgroundColor="{StaticResource greenPrimary}" Clicked="HandleViewSourceClicked" />
 				</StackLayout>
 

@@ -62,7 +62,7 @@
 
 				<Label Text="Saving profile..." IsVisible="{Binding IsBusy}" FontSize="Medium" XAlign="Center" YAlign="Center" VerticalOptions="End" />
 
-				<Button x:Name="btnSave" Text="SAVE &amp; CONTINUE" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"
+				<local:SportButton x:Name="btnSave" Text="SAVE &amp; CONTINUE" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand"
 					BackgroundColor="{StaticResource redLight}" StyleId="saveButton"
 					IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>

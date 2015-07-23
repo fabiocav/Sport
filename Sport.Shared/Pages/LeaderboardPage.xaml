@@ -38,7 +38,7 @@
 									</StackLayout>
 
 									<AbsoluteLayout IsVisible="{Binding Membership.OngoingChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" HorizontalOptions="EndAndExpand">
-										<Button BorderRadius="2" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="36" WidthRequest="36"
+										<local:SportButton BorderRadius="2" BackgroundColor="{StaticResource grayPrimary}" HeightRequest="36" WidthRequest="36"
 											AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
 										<Image Source="ic_fencing_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
 									</AbsoluteLayout>

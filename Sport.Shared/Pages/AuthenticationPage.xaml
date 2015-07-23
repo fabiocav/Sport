@@ -18,7 +18,7 @@
 				IsVisible="{Binding AuthenticationStatus, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}" XAlign="Center" YAlign="Center" VerticalOptions="Start" />
 
 			<StackLayout Spacing="0" Grid.Row="2" VerticalOptions="End" Padding="24">
-				<Button x:Name="btnAuthenticate" StyleId="authButton" Text="TRY AGAIN" IsVisible="false"
+				<local:SportButton x:Name="btnAuthenticate" StyleId="authButton" Text="TRY AGAIN" IsVisible="false"
 					BackgroundColor="{StaticResource blueLight}" VerticalOptions="EndAndExpand" TextColor="White"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 			</StackLayout>

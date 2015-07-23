@@ -6,7 +6,7 @@
 	BackgroundColor="Transparent">
 
 	<AbsoluteLayout x:Name="root" HorizontalOptions="Center" WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}">
-		<Button x:Name="background" BorderRadius="3" BackgroundColor="{Binding ButtonBackgroundColor}"
+		<local:SportButton x:Name="background" BorderRadius="3" BackgroundColor="{Binding ButtonBackgroundColor}"
 			AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" TextColor="White" />
 
 		<StackLayout Orientation="Horizontal" Spacing="8" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" >
@@ -14,7 +14,7 @@
 			<Label TextColor="White" Text="{Binding Text}" FontSize="Medium" VerticalOptions="Center" />
 		</StackLayout>
 
-		<Button BorderRadius="{Binding BorderRadius}" BackgroundColor="Transparent" BindingContext="{x:Reference Name=background}"
+		<local:SportButton BorderRadius="{Binding BorderRadius}" BackgroundColor="Transparent" BindingContext="{x:Reference Name=background}"
 			AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" Clicked="HandleClick" />
 	</AbsoluteLayout>
 

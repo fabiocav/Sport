@@ -40,7 +40,7 @@
 			</ContentView>
 
 			<ContentView Grid.Row="1" VerticalOptions="End" Padding="24">
-				<Button x:Name="btnChallenge" Text="SEND CHALLENGE" BackgroundColor="{Binding Challenge.League.Theme.Dark}"
+				<local:SportButton x:Name="btnChallenge" Text="SEND CHALLENGE" BackgroundColor="{Binding Challenge.League.Theme.Dark}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 					VerticalOptions="End" />
 			</ContentView>

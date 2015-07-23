@@ -28,11 +28,11 @@
 			</StackLayout>
 
 			<StackLayout x:Name="buttonStack" Grid.Row="1" Spacing="14" Scale="0" VerticalOptions="End" Padding="24">
-				<Button x:Name="btnPush" StyleId="pushButton" Text="ALLOW PUSH NOTIFICATIONS" BackgroundColor="{StaticResource purpleDark}"
+				<local:SportButton x:Name="btnPush" StyleId="pushButton" Text="ALLOW PUSH NOTIFICATIONS" BackgroundColor="{StaticResource purpleDark}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}"
 					TextColor="White" VerticalOptions="EndAndExpand" />
 
-				<Button x:Name="btnContinue" StyleId="continueButton" Text="CONTINUE"
+				<local:SportButton x:Name="btnContinue" StyleId="continueButton" Text="CONTINUE"
 					BackgroundColor="{StaticResource purpleLight}"
 					IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" VerticalOptions="End" />
 			</StackLayout>

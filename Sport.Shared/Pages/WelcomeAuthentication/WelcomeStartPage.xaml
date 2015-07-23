@@ -33,7 +33,7 @@
 				<Label Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}" IsVisible="{Binding IsBusy}" FontSize="Medium"
 					XAlign="Center" YAlign="Center" VerticalOptions="EndAndExpand" HeightRequest="70" />
 
-				<Button x:Name="btnAuthenticate" StyleId="authButton" Text="LOG IN" Scale="1"
+				<local:SportButton x:Name="btnAuthenticate" StyleId="authButton" Text="LOG IN" Scale="1"
 					BackgroundColor="{StaticResource blueLight}" VerticalOptions="EndAndExpand" TextColor="White"
 					IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 

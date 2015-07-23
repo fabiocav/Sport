@@ -45,7 +45,7 @@
 							</Grid.ColumnDefinitions>
 
 							<AbsoluteLayout HeightRequest="36" WidthRequest="36" HorizontalOptions="Start">
-								<Button BorderRadius="18" BackgroundColor="{Binding League.Theme.Primary}"
+								<local:SportButton BorderRadius="18" BackgroundColor="{Binding League.Theme.Primary}"
 									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" />
 								<Label Text="{Binding CurrentMembership.CurrentRankOrdinal}" FontSize="Small" TextColor="White"
 									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" XAlign="Center" YAlign="Center" />
@@ -62,7 +62,7 @@
 							</Grid.ColumnDefinitions>
 
 							<AbsoluteLayout HeightRequest="36" WidthRequest="36" HorizontalOptions="Start">
-								<Button BorderRadius="18" BackgroundColor="{StaticResource grayPrimary}"
+								<local:SportButton BorderRadius="18" BackgroundColor="{StaticResource grayPrimary}"
 									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" />
 								<Label Text="{Binding LeaderMembership.CurrentRankOrdinal}" FontSize="Small" TextColor="White"
 									AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds=".5,.5,1,1" XAlign="Center" YAlign="Center" />
@@ -113,15 +113,15 @@
 			<StackLayout Grid.Row="2" VerticalOptions="EndAndExpand" HorizontalOptions="Fill">
 				<StackLayout Padding="24,24,24,14" Spacing="14"	IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
 
-					<Button Text="LEADERBOARD" StyleId="leaderboardButton" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
+					<local:SportButton Text="LEADERBOARD" StyleId="leaderboardButton" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
 
-					<Button Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
+					<local:SportButton Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
 						IsVisible="{Binding CanGetRules}" StyleId="rulesButton" />
 
-					<Button Text="JOIN LEAGUE" StyleId="joinButton" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
+					<local:SportButton Text="JOIN LEAGUE" StyleId="joinButton" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
 						BackgroundColor="{Binding League.Theme.Dark}" IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
-					<Button Text="ABANDON LEAGUE" StyleId="abandonButton" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"
+					<local:SportButton Text="ABANDON LEAGUE" StyleId="abandonButton" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"
 						IsVisible="{Binding IsMember}" Style="{StaticResource deleteButtonStyle}" />
 				</StackLayout>
 

@@ -35,12 +35,12 @@
 				</StackLayout>
 			
 				<StackLayout Grid.Row="1" Padding="24" VerticalOptions="EndAndExpand">
-					<Button x:Name="btnChallenge" Text="CHALLENGE" StyleId="challengeButton"
+					<local:SportButton x:Name="btnChallenge" Text="CHALLENGE" StyleId="challengeButton"
 						BackgroundColor="{Binding Membership.League.Theme.Dark}" HorizontalOptions="FillAndExpand"
 						IsVisible="{Binding CanChallenge}"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
-					<Button x:Name="btnPast" Text="PAST CHALLENGES" StyleId="pastButton" HorizontalOptions="FillAndExpand"
+					<local:SportButton x:Name="btnPast" Text="PAST CHALLENGES" StyleId="pastButton" HorizontalOptions="FillAndExpand"
 						IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 
 				</StackLayout>
