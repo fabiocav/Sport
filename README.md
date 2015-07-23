@@ -23,3 +23,6 @@ This project excersises the following platforms or frameworks:
 * Azure Mobile Services
   * C# backend
   * cross-platform templated push notifications
+
+
+  Note - you will need to provide your own Keys.cs file with keys for Azure, OAuth (Google), Xamarin Insights, Xamarin Test Cloud, Flickr

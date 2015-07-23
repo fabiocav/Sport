@@ -25,7 +25,7 @@ namespace Sport.Shared
 
 		void HandleViewSourceClicked(object sender, EventArgs e)
 		{
-			Device.OpenUri(new Uri(Constants.SourceCodeUrl));
+			Device.OpenUri(new Uri(Keys.SourceCodeUrl));
 		}
 	}
 

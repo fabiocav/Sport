@@ -19,7 +19,7 @@ namespace Sport.Android
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
-			Xamarin.Insights.Initialize(Constants.InsightsApiKey, this);
+			Xamarin.Insights.Initialize(Keys.InsightsApiKey, this);
 
 			try
 			{

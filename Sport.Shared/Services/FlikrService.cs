@@ -21,7 +21,7 @@ namespace Sport.Shared
 		async public Task<List<string>> SearchPhotos(string keyword)
 		{
 			string url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&tag_mode=all&api_key={1}&tags={0},B%26W&format=json&nojsoncallback=1";
-			url = url.Fmt(keyword, Constants.FlikrApiKey);
+			url = url.Fmt(keyword, Keys.FlikrApiKey);
 
 			var client = new HttpClient();
 			var json = await client.GetStringAsync(url);

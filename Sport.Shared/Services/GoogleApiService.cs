@@ -50,8 +50,8 @@ namespace Sport.Shared
 					dict.Add("code", code);
 					dict.Add("grant_type", "authorization_code");
 					dict.Add("redirect_uri", "urn:ietf:wg:oauth:2.0:oob");
-					dict.Add("client_id", Constants.GoogleApiClientId);
-					dict.Add("client_secret", Constants.GoogleClientSecret);
+					dict.Add("client_id", Keys.GoogleApiClientId);
+					dict.Add("client_secret", Keys.GoogleClientSecret);
 
 					var content = new FormUrlEncodedContent(dict);
 					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
@@ -82,8 +82,8 @@ namespace Sport.Shared
 					var dict = new Dictionary<string, string>();
 					dict.Add("grant_type", "refresh_token");
 					dict.Add("refresh_token", refreshToken);
-					dict.Add("client_id", Constants.GoogleApiClientId);
-					dict.Add("client_secret", Constants.GoogleClientSecret);
+					dict.Add("client_id", Keys.GoogleApiClientId);
+					dict.Add("client_secret", Keys.GoogleClientSecret);
 
 					var content = new FormUrlEncodedContent(dict);
 

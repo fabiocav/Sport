@@ -50,7 +50,7 @@ namespace Sport.Shared
 
 					#endif
 
-					_client = new MobileServiceClient(Constants.AzureDomain, Constants.AzureClientId, new HttpMessageHandler[] {
+					_client = new MobileServiceClient(Keys.AzureDomain, Keys.AzureClientId, new HttpMessageHandler[] {
 						new LeagueExpandHandler(),
 						new ChallengeExpandHandler(),
 						handler,

@@ -21,7 +21,7 @@ namespace Sport.Android
 			{
 				var tcs = new TaskCompletionSource<Tuple<string, string>>();
 
-				var auth = new OAuth2Authenticator(Constants.GoogleApiClientId, Constants.GoogleClientSecret, Constants.GoogleOAuthScope, new Uri(Constants.GoogleOAuthAuthUrl), new Uri(Constants.GoogleOAthRedirectUrl), new Uri(Constants.GoogleOAuthTokenUrl));
+				var auth = new OAuth2Authenticator(Keys.GoogleApiClientId, Keys.GoogleClientSecret, Keys.GoogleOAuthScope, new Uri(Keys.GoogleOAuthAuthUrl), new Uri(Keys.GoogleOAthRedirectUrl), new Uri(Keys.GoogleOAuthTokenUrl));
 				auth.AllowCancel = true;
 				auth.ClearCookiesBeforeLogin = false;
 				auth.ShowUIErrors = false;

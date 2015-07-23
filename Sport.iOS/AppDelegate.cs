@@ -15,7 +15,7 @@ namespace Sport.iOS
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-			Insights.Initialize(Constants.InsightsApiKey);
+			Insights.Initialize(Keys.InsightsApiKey);
 
 			//#if DEBUG
 			Xamarin.Calabash.Start();
