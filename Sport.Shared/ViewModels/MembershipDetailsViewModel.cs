@@ -101,19 +101,19 @@ namespace Sport.Shared
 			Membership.Athlete.RefreshMemberships();
 		}
 
-		public ICommand SaveCommand
-		{
-			get
-			{
-				return new Command(async(param) =>
-					await SaveMembership());
-			}
-		}
-
-		async public Task SaveMembership()
-		{
-			await RunSafe(AzureService.Instance.SaveMembership(Membership));
-		}
+		//		public ICommand SaveCommand
+		//		{
+		//			get
+		//			{
+		//				return new Command(async(param) =>
+		//					await SaveMembership());
+		//			}
+		//		}
+		//
+		//		async public Task SaveMembership()
+		//		{
+		//			await RunSafe(AzureService.Instance.SaveMembership(Membership));
+		//		}
 
 		async public Task DeleteMembership()
 		{

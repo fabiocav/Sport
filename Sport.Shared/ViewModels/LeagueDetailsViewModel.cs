@@ -171,6 +171,12 @@ namespace Sport.Shared
 			var task = AzureService.Instance.SaveMembership(membership);
 			await RunSafe(task);
 
+			if(task.IsCompleted && !task.IsFaulted)
+			{
+				var regTask = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete, true);
+				await RunSafe(regTask);
+			}
+
 			NotifyPropertiesChanged();
 			return task.IsCompleted && !task.IsFaulted;
 		}
@@ -178,7 +184,16 @@ namespace Sport.Shared
 		async public Task LeaveLeague()
 		{
 			var membership = App.CurrentAthlete.Memberships.SingleOrDefault(m => m.LeagueId == League.Id);
-			await RunSafe(AzureService.Instance.DeleteMembership(membership.Id));
+
+			var task = AzureService.Instance.DeleteMembership(membership.Id);
+			await RunSafe(task);
+
+			if(task.IsCompleted && !task.IsFaulted)
+			{
+				var regTask = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete, true);
+				await RunSafe(regTask);
+			}
+
 			NotifyPropertiesChanged();
 		}
 

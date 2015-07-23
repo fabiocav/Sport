@@ -57,6 +57,7 @@ namespace Sport.Shared
 
 		public AthleteLeaguesViewModel()
 		{
+			Leagues = new ObservableCollection<LeagueViewModel>();
 		}
 
 		async public Task GetLeagues(bool forceRefresh = false)
@@ -88,7 +89,6 @@ namespace Sport.Shared
 
 			if(Leagues == null)
 			{
-				Leagues = new ObservableCollection<LeagueViewModel>();
 				Athlete.Leagues.OrderBy(l => l.Name).ToList().ForEach(l => Leagues.Add(new LeagueViewModel(l, Athlete)));
 			}
 
@@ -110,11 +110,9 @@ namespace Sport.Shared
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new LeagueViewModel(new League {
-					Name = "You don't belong to any leagues.\n\nYou can join leagues by tapping the + button above."
+					Name = "You don't belong to any leagues.\n\n\nYou can join leagues by tapping the + button above."
 				}));
 			}
-
-			SetPropertyChanged("Leagues");
 		}
 	}
 }

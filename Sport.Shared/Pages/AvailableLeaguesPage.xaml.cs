@@ -45,7 +45,10 @@ namespace Sport.Shared
 						OnJoinedLeague(l);
 					}
 
-					await Navigation.PopAsync();
+					Device.BeginInvokeOnMainThread(() =>
+					{
+						Navigation.PopAsync();
+					});
 				};
 
 				await Navigation.PushAsync(page);

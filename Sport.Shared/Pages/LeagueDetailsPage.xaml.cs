@@ -9,6 +9,7 @@ namespace Sport.Shared
 		const string _leave = "Cowardly Abandon League";
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
+		double _imageHeight;
 
 		public LeagueDetailsPage(League league)
 		{
@@ -122,7 +123,7 @@ namespace Sport.Shared
 					await ViewModel.OngoingChallengeViewModel.NudgeAthlete();
 				}
 
-				"Athlete has sooo been nudged".ToToast();
+				"{0} has been nudged.".Fmt(ViewModel.OngoingChallengeViewModel.Opponent.Alias).ToToast();
 			};
 				
 			ongoingCard.OnAccepted = async() =>
@@ -240,14 +241,13 @@ namespace Sport.Shared
 			}
 		}
 
-		double _imageHeight;
-
 		void Parallax()
 		{
 			if(_imageHeight <= 0)
 				_imageHeight = photoImage.Height;
 
 			var y = scrollView.ScrollY * .4;
+			//var thresh = Device.OS == TargetPlatform.iOS ? 0 : 40;
 			if(y < 0)
 			{
 				//Calculate a scale that equalizes the height vs scroll

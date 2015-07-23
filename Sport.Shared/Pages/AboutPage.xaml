@@ -29,7 +29,7 @@
 					<StackLayout>
 						<Label Text="Sport features the following platforms/frameworks:" FontSize="Small" XAlign="Center" HorizontalOptions="Center"
 							TextColor="{StaticResource greenDark}"/>
-						<Label HorizontalOptions="Center" FontSize="10" TextColor="{StaticResource greenDark}">
+						<Label HorizontalOptions="Center" FontSize="11" TextColor="{StaticResource greenDark}">
 							<Label.FormattedText>
 								<FormattedString>
 								    <FormattedString.Spans>
