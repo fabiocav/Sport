@@ -4,7 +4,9 @@ A leaderboard for likeminded folk who dabble in sport thus fond of ranking match
 We implore you to rank match and challenge sport all the way down the sideyard to (Gods be good) a home goal.
 
 https://www.youtube.com/watch?v=GmdvxDVluRA
+
 [iOS Test Results](https://testcloud.xamarin.com/test/sport_e945d60d-dd9a-4d55-909f-9de27c9e0ba3/)
+
 [Android Test Results](https://testcloud.xamarin.com/test/sport_e945d60d-dd9a-4d55-909f-9de27c9e0ba3/)
 
 [![Sport Screenshot](https://raw.githubusercontent.com/rob-derosa/Sport/master/Resources/Screenshots/sport_screenshot.png)](https://www.youtube.com/watch?v=GmdvxDVluRA)
