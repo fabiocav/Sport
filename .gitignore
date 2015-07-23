@@ -191,3 +191,5 @@ FakesAssemblies/
 *.userprefs
 
 *.userprefs
+
+Sport.Shared/Constants.cs

@@ -1,13 +1,15 @@
-﻿using System.Linq;
-using System;
+﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
 	public partial class LeagueDetailsPage : LeagueDetailsXaml
 	{
+		const string _leave = "Cowardly Abandon League";
+		const string _rules = "League Rules";
+		const string _pastChallenges = "Past Challenges";
+
 		public LeagueDetailsPage(League league)
 		{
 			league.RefreshChallenges();
@@ -248,6 +250,7 @@ namespace Sport.Shared
 			var y = scrollView.ScrollY * .4;
 			if(y < 0)
 			{
+				//Calculate a scale that equalizes the height vs scroll
 				double newHeight = _imageHeight + (scrollView.ScrollY * -1);
 				photoImage.Scale = newHeight / _imageHeight;
 				photoImage.TranslationY = scrollView.ScrollY / 2;
@@ -258,10 +261,6 @@ namespace Sport.Shared
 				photoImage.TranslationY = y;
 			}
 		}
-
-		const string _leave = "Cowardly Abandon League";
-		const string _rules = "League Rules";
-		const string _pastChallenges = "Past Challenges";
 
 		List<string> GetMoreMenuOptions()
 		{
