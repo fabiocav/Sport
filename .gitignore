@@ -192,4 +192,5 @@ FakesAssemblies/
 
 *.userprefs
 
-Sport.Shared/Constants.cs
+Sport.Shared/Keys.cs
+*.sh
