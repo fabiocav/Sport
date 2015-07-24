@@ -2,10 +2,8 @@
 using System.Linq;
 using System.Threading;
 using Xamarin.UITest;
-using Xamarin.UITest.Android;
 using Xamarin.UITest.Queries;
 using System.Text;
-using System.Diagnostics;
 
 namespace Sport.UITests
 {
@@ -20,6 +18,24 @@ namespace Xamarin.TestCloud.Extensions
 {
 	public static class Extensions
 	{
+		public static void Back(this IApp app, Platform platform, bool screenshot = true)
+		{
+			if(platform == Platform.Android)
+			{
+				if(screenshot)
+					app.Screenshot("Back");
+				
+				app.Back();
+			}
+			else if(platform == Platform.iOS)
+			{
+				if(screenshot)
+					app.Screenshot("Back");
+
+				app.Tap("Back");
+			}
+		}
+
 		public static void ScrollDownAndTap(this IApp app, Func<AppQuery, AppWebQuery> lambda = null, string screenshot = null)
 		{
 			app.ScrollDownEnough(lambda);

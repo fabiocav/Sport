@@ -16,6 +16,7 @@
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <AssemblyName>Sport</AssemblyName>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -27,7 +28,6 @@
     <ConsolePause>false</ConsolePause>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <DebugSymbols>true</DebugSymbols>
-    <AndroidLinkMode>None</AndroidLinkMode>
     <CustomCommands>
       <CustomCommands>
         <Command type="Custom" name="Run in XTC" command="sh run_Android_XTC.sh" workingdir="${SolutionDir}" />
@@ -44,6 +44,7 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
     <AotAssemblies>true</AotAssemblies>
+    <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

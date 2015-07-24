@@ -57,7 +57,7 @@
 					<DatePicker x:Name="datePicker" Opacity=".02" Date="{Binding SelectedDate}"
 						AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" StyleId="datePicker" />
 				</AbsoluteLayout>
-				<ContentView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
+				<ContentView BackgroundColor="{Binding Challenge.League.Theme.Primary}" HeightRequest=".5" HorizontalOptions="Fill" />
 
 				<AbsoluteLayout HeightRequest="56" HorizontalOptions="Fill" Padding="24,0">
 					<Label AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,.5,1,1" YAlign="Center"
@@ -67,7 +67,7 @@
 					<TimePicker x:Name="timePicker" Opacity=".02" Time="{Binding SelectedTime}"
 						AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" StyleId="timePicker" />
 				</AbsoluteLayout>
-				<ContentView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="Fill" />
+				<ContentView BackgroundColor="{Binding Challenge.League.Theme.Primary}" HeightRequest=".5" HorizontalOptions="Fill" />
 			</StackLayout>
 			<ContentView Grid.Row="1" Padding="50,0" VerticalOptions="Center" HorizontalOptions="Center">
 				<Label Text="Please specify a date and time above that will work for both of you."

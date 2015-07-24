@@ -5,6 +5,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Linq;
+using System.Reflection;
 
 namespace Sport.Shared
 {
@@ -39,6 +40,18 @@ namespace Sport.Shared
 				"asphalt",
 				"purple"
 			};
+
+			#region Linker
+
+//			if(false)
+//			{
+//				new WelcomeStartPageXaml();
+//				new SetAliasPageXaml();
+//				new EnablePushPageXaml();
+//			}
+
+			#endregion
+
 			InitializeComponent();
 			IsNetworkRechable = CrossConnectivity.Current.IsConnected;
 

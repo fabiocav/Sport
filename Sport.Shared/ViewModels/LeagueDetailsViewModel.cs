@@ -106,7 +106,7 @@ namespace Sport.Shared
 			{
 				var gap = League.MaxChallengeRange;
 				Membership best = null;
-				while(best == null && gap > 0)
+				while(best == null && gap > 0 && CurrentMembership != null)
 				{
 					best = League.Memberships.SingleOrDefault(m => m.CurrentRank == CurrentMembership.CurrentRank - gap);
 

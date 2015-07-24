@@ -48,11 +48,10 @@
     <MtouchLink>None</MtouchLink>
     <IpaPackageName>
     </IpaPackageName>
-    <CodesignProvision>da0af9ec-7474-47bd-b4d3-cd3e06112291</CodesignProvision>
+    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
     <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -85,6 +84,7 @@
     </MtouchI18n>
     <IpaPackageName>
     </IpaPackageName>
+    <MtouchLink>None</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

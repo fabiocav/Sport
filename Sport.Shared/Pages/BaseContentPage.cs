@@ -1,7 +1,5 @@
 ﻿using Xamarin.Forms;
 using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
 using Connectivity.Plugin;
 
 namespace Sport.Shared
@@ -53,12 +51,6 @@ namespace Sport.Shared
 
 			BackgroundColor = Color.White;
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", OnAuthenticated);
-//			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
-//			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", (viewModel) =>
-//			{
-//				if(App.CurrentAthlete != null)
-//					OnUserAuthenticated();
-//			});
 		}
 
 
