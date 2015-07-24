@@ -46,14 +46,12 @@ namespace Sport.UITests
 			app.ScrollDownAndTap(e => e.Css("#signIn"), "And I click the Sign In button");
 
 			if(app.Query(e => e.Button("Remember")).Length > 0)
-			{
 				app.Back();
-			}
 
 			Thread.Sleep(5000);
 			app.WaitForElement(e => e.Css("#grant_heading"));
 
-			Thread.Sleep(5000);
+			Thread.Sleep(10000);
 			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));

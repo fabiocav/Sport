@@ -370,6 +370,28 @@ namespace Sport.Shared
 			}
 		}
 
+		async void OnCreateChallenge()
+		{
+			var membership = ViewModel.GetBestChallengee;
+			var conflict = membership.GetChallengeConflictReason(App.CurrentAthlete);
+			if(conflict != null)
+			{
+				conflict.ToToast();
+				return;
+			}
+
+			var datePage = new ChallengeDatePage(membership.Athlete, membership.League);
+
+			datePage.OnChallengeSent = async(challenge) =>
+			{
+				ViewModel.NotifyPropertiesChanged();
+				await Navigation.PopAsync();
+
+				"Challenge sent".Fmt(ViewModel.MembershipViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
+			};
+			await Navigation.PushModalAsync(datePage.GetNavigationPage());
+		}
+
 		void HandleRulesClicked(object sender, EventArgs e)
 		{
 			OnOpenRules();
@@ -388,6 +410,11 @@ namespace Sport.Shared
 		void HandleJoinClicked(object sender, EventArgs e)
 		{
 			OnJoinLeague();
+		}
+
+		void HandleChallengeClicked(object sender, EventArgs e)
+		{
+			OnCreateChallenge();
 		}
 	}
 

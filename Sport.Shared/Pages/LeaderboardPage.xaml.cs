@@ -51,17 +51,6 @@ namespace Sport.Shared
 			base.OnAppearing();
 		}
 
-		protected override void OnDisappearing()
-		{
-			//MessagingCenter.Unsubscribe<App>(this, "ChallengesUpdated");
-			base.OnDisappearing();
-		}
-
-		void OnChallengeClicked(object sender, EventArgs e)
-		{
-			
-		}
-
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
 		{
 			string leagueId;

@@ -76,44 +76,20 @@
 						<local:RankStripView x:Name="rankStrip" />
 					</ContentView>
 
-				<!---
-					<ContentView Padding="0,0,.5,.5" BackgroundColor="{StaticResource grayMedium}">
-						<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill" BackgroundColor="White"
-							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Padding="0">
-
-							<StackLayout BackgroundColor="{StaticResource grayPrimary}" Orientation="Horizontal"
-								HorizontalOptions="FillAndExpand" Padding="14">
-								<Image Source="ic_trending_up_white" />
-								<Label Text="Your Stats" FontSize="Medium" TextColor="White" VerticalOptions="Center" LineBreakMode="NoWrap" />
-							</StackLayout>
-
-							<StackLayout Padding="14">
-								<StackLayout Orientation="Horizontal">
-									<Label FontSize="Small" Text="Rank" TextColor="{StaticResource grayDark}" />
-									<Label FontSize="Small" Text="{Binding MembershipViewModel.RankDescription}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
-								</StackLayout>
-								<BoxView BackgroundColor="{StaticResource grayPrimary}" HeightRequest=".5" HorizontalOptions="FillAndExpand" />
-								<StackLayout Orientation="Horizontal">
-									<Label FontSize="Small" Text="Stats" TextColor="{StaticResource grayDark}" />
-									<Label FontSize="Small" Text="{Binding MembershipViewModel.Stats}" TextColor="{StaticResource grayDark}" HorizontalOptions="EndAndExpand" />
-								</StackLayout>
-							</StackLayout>
-						</StackLayout>
-					</ContentView>
-					-->
 					<ContentView Padding="0" IsVisible="{Binding OngoingChallengeViewModel, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 						<local:ChallengeCardView x:Name="ongoingCard" ViewModel="{Binding OngoingChallengeViewModel}" />
 					</ContentView>
-
-					<!---<ContentView Padding="0,0,0,20" IsVisible="{Binding PreviousChallenge, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
-						<local:ChallengeCardView x:Name="previousCard" ViewModel="{Binding PreviousChallengeViewModel}" />-->
 				</StackLayout>
 			</StackLayout>
 
 			<StackLayout Grid.Row="2" VerticalOptions="EndAndExpand" HorizontalOptions="Fill">
 				<StackLayout Padding="24,24,24,14" Spacing="14"	IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
 
-					<local:SportButton Text="LEADERBOARD" StyleId="leaderboardButton" HorizontalOptions="FillAndExpand" Clicked="HandleRankingsClicked" />
+					<local:SportButton Text="CHALLENGE" StyleId="challengeButton" HorizontalOptions="FillAndExpand"
+						BackgroundColor="{Binding League.Theme.Primary}" Clicked="HandleChallengeClicked" IsVisible="{Binding CanChallenge}" />
+
+					<local:SportButton Text="LEADERBOARD" StyleId="leaderboardButton" HorizontalOptions="FillAndExpand"
+						Clicked="HandleRankingsClicked" />
 
 					<local:SportButton Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
 						IsVisible="{Binding CanGetRules}" StyleId="rulesButton" />

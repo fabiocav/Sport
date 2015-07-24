@@ -92,6 +92,30 @@ namespace Sport.Shared
 			}
 		}
 
+		public bool CanChallenge
+		{
+			get
+			{
+				return GetBestChallengee != null;
+			}
+		}
+
+		public Membership GetBestChallengee
+		{
+			get
+			{
+				var gap = League.MaxChallengeRange;
+				Membership best = null;
+				while(best == null && gap > 0)
+				{
+					best = League.Memberships.SingleOrDefault(m => m.CurrentRank == CurrentMembership.CurrentRank - gap);
+					gap--;
+				}
+
+				return best;
+			}
+		}
+
 		public string DateRange
 		{
 			get
