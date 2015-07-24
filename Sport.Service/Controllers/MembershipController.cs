@@ -83,7 +83,7 @@ namespace Sport.Service.Controllers
 			{
 				var leagueName = _context.Leagues.Where(l => l.Id == item.LeagueId).Select(l => l.Name).ToList().First();
 				var athlete = _context.Athletes.Where(a => a.Id == item.AthleteId).First();
-				var message = "{0} (AKA {1}) hath joineth the {2} league".Fmt(athlete.Name, athlete.Alias, leagueName);
+				var message = "{0} (AKA {1}) just joined the {2} league".Fmt(athlete.Name, athlete.Alias, leagueName);
 				await _notificationController.NotifyByTag(message, item.LeagueId);
 			}
 			catch(Exception e)
@@ -118,7 +118,7 @@ namespace Sport.Service.Controllers
 						Action = PushActions.ChallengeDeclined,
 						Payload = { { "leagueId", c.LeagueId }, { "challengeId", c.Id } }
 					};
-					var message = "You challenge with {0} has ben removed because they abandoned the {1} league".Fmt(membership.Athlete.Name, league.Name);
+					var message = "You challenge with {0} has ben removed because they abandoned the {1} league".Fmt(membership.Athlete.Alias, league.Name);
 					await _notificationController.NotifyByTag(message, c.Opponent(membership.AthleteId).Id, payload);
 				}
 				catch(Exception e)

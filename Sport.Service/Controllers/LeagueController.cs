@@ -109,7 +109,7 @@ namespace Sport.Service.Controllers
 			}
 			_context.SaveChanges();
 
-			var message = "The {0} league has officially started. It's on like a prawn that yawns at dawn!".Fmt(league.Name);
+			var message = "The {0} league has officially started!".Fmt(league.Name);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.LeagueStarted,
@@ -137,7 +137,7 @@ namespace Sport.Service.Controllers
 		void NotifyAboutNewLeagueOpenEnrollment(League league)
 		{
 			var date = league.StartDate.Value.DateTime.ToOrdinal();
-			var message = "The {0} league has been created and will begin on {1}.  Be cool for once and join!".Fmt(league.Name, date);
+			var message = "Open enrollment for the {0} league has started. The league will begin on {1}".Fmt(league.Name, date);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.LeagueStarted,

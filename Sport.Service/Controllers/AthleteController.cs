@@ -88,6 +88,9 @@ namespace Sport.Service.Controllers
 			if(exists)
 				return Conflict();
 
+			if((item.Alias == null || item.Alias.Trim() == string.Empty) && item.Name != null)
+				item.Alias = item.Name.Split(' ')[0];
+
 			Athlete athlete = await InsertAsync(item.ToAthlete());
 			return CreatedAtRoute("Tables", new
 			{

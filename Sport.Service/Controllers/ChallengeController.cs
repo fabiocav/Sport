@@ -58,7 +58,8 @@ namespace Sport.Service.Controllers
 		{
 			return ConvertChallengeToDto(Query());
 		}
-		        // GET tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
+		
+		// GET tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public SingleResult<ChallengeDto> GetChallenge(string id)
         {
 			return SingleResult<ChallengeDto>.Create(ConvertChallengeToDto(Lookup(id).Queryable));
@@ -148,7 +149,7 @@ namespace Sport.Service.Controllers
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
-			var message = "Your challenge with {0} has been revoked.".Fmt(challenger.Name);
+			var message = "Your challenge with {0} has been revoked.".Fmt(challenger.Alias);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengeRevoked,
@@ -171,7 +172,7 @@ namespace Sport.Service.Controllers
 			var challenger = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengerAthleteId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
 
-			var message = "Your challenge with {0} has been declined.".Fmt(challengee.Name);
+			var message = "Your challenge with {0} has been declined.".Fmt(challengee.Alias);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengeDeclined,
@@ -195,7 +196,7 @@ namespace Sport.Service.Controllers
 
 			var league = _context.Leagues.SingleOrDefault(l => l.Id == challenge.LeagueId);
 			var challengee = _context.Athletes.SingleOrDefault(a => a.Id == challenge.ChallengeeAthleteId);
-			var message = "{0}: Your challenge with {1} has been accepted!".Fmt(league.Name, challengee.Name);
+			var message = "{0}: Your challenge with {1} has been accepted!".Fmt(league.Name, challengee.Alias);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengeAccepted,
@@ -220,7 +221,7 @@ namespace Sport.Service.Controllers
 			if(challenger == null)
 				throw "The challenger no longer exists".ToException(Request);
 
-			var message = "{0} would be much obliged if you'd accept their challenge, mkay?".Fmt(challenger.Alias);
+			var message = "{0} would be much obliged if you'd accept their challenge.".Fmt(challenger.Alias);
 			var payload = new NotificationPayload
 			{
 				Action = PushActions.ChallengePosted,

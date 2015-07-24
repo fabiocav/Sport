@@ -100,7 +100,7 @@ namespace Sport.Service.Controllers
 						registration = new AppleTemplateRegistrationDescription(deviceUpdate.Handle, alertTemplate);
 						break;
 					case "Android":
-						var messageTemplate = "{\"data\":{\"message\":\"$(message)\",\"payload\":\"$(payload)\"}}";
+						var messageTemplate = "{\"data\":{\"title\":\"Sport\",\"message\":\"$(message)\",\"payload\":\"$(payload)\"}}";
 						registration = new GcmTemplateRegistrationDescription(deviceUpdate.Handle, messageTemplate);
 						break;
 					default:
