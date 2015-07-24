@@ -52,35 +52,31 @@ namespace Sport.UITests
 
 			Thread.Sleep(5000);
 			app.WaitForElement(e => e.Css("#grant_heading"));
-
-			Thread.Sleep(5000);
-
-			if(app.Query(e => e.Css("#submit_approve_access")).Length > 0)
-				app.Tap("Then I can continue", e => e.Css("#submit_approve_access"));
+			app.Tap("Then I can continue", e => e.Css("#submit_approve_access"));
 
 			Thread.Sleep(10000);
-//			int tries = 0;
-//			while(tries < 10 && app.Query("aliasText").Length == 0)
-//			{
-//				if(tries == 0)
-//					app.LogToDevice(e => e.All());
-//				
-//				Thread.Sleep(2000);
-//
-//				if(app.Query(e => e.Css("#submit_approve_access")).Length > 0)
-//					app.Tap(e => e.Css("#submit_approve_access"));
-//				
-//				tries++;
-//			}
+			int tries = 0;
+			while(tries < 10 && app.Query("aliasText").Length == 0)
+			{
+				if(tries == 0)
+					app.LogToDevice(e => e.All());
+				
+				Thread.Sleep(2000);
+
+				if(app.Query(e => e.Css("#submit_approve_access")).Length > 0)
+					app.Tap(e => e.Css("#submit_approve_access"));
+				
+				tries++;
+			}
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));
 			app.EnterText(e => e.Marked("aliasText"), "XTC Tester", "And I enter my alias");
 			app.PressEnter();
 
-			app.ScrollDownAndTap("saveButton", "And I save my profile");
-			Thread.Sleep(300);
-			app.Screenshot("Possible toast error?");
+			app.Tap(e => e.Marked("saveButton"), "And I save my profile");
+//			Thread.Sleep(300);
+//			app.Screenshot("Possible toast error?");
 
 			Thread.Sleep(5000);
 			app.Tap("Continue button", "continueButton");
@@ -95,7 +91,6 @@ namespace Sport.UITests
 
 			if(platform == Platform.iOS)
 				app.Tap("ic_add_white");
-
 			
 			app.WaitForElement(e => e.Marked("leagueRow"));
 			app.Screenshot("Then I should see a list of leagues to join");

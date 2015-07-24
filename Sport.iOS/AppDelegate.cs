@@ -18,7 +18,7 @@ namespace Sport.iOS
 			Insights.Initialize(Keys.InsightsApiKey);
 
 			//#if DEBUG
-			Xamarin.Calabash.Start();
+			//Xamarin.Calabash.Start();
 			//#endif
 
 			Forms.Init();
