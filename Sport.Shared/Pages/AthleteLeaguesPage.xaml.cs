@@ -24,7 +24,6 @@ namespace Sport.Shared
 			btnJoin.Clicked += async(sender, e) =>
 			{
 				var page = new AvailableLeaguesPage();
-				//page.ViewModel.Leagues?.Clear();
 
 				page.OnJoinedLeague = (l) =>
 				{
@@ -33,19 +32,6 @@ namespace Sport.Shared
 				};
 
 				await Navigation.PushModalAsync(page.GetNavigationPage());
-			};
-
-			//list.ButtonStyle = (Style)App.Current.Resources["actionButtonStyle"];
-			list.OnRankings = async(league) =>
-			{
-				if(!league.HasStarted)
-				{
-					"This league hasn't started".ToToast();
-					return;
-				}
-
-				var membershipsPage = new LeaderboardPage(league);
-				await Navigation.PushAsync(membershipsPage);	
 			};
 
 			list.ItemSelected += async(sender, e) =>
@@ -73,11 +59,8 @@ namespace Sport.Shared
 
 			if(App.CurrentAthlete != null)
 			{
-				//using(new HUD("Getting leagues..."))
-				{
-					await ViewModel.RemoteRefresh();
-					ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
-				}
+				await ViewModel.RemoteRefresh();
+				ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
 			}
 		}
 
@@ -87,7 +70,7 @@ namespace Sport.Shared
 			await EnsureUserAuthenticated();
 		}
 
-		protected override async void OnUserAuthenticated()
+		protected override void OnUserAuthenticated()
 		{
 			base.OnUserAuthenticated();
 			ViewModel.AthleteId = App.CurrentAthlete.Id;

@@ -34,9 +34,6 @@
 											AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
 										<Image Source="ic_fencing_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
 									</AbsoluteLayout>
-
-<!--									<ContentView BackgroundColor="{Binding Theme.Light}" Opacity=".4"
-										 AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,1,1,1" />-->
 								</AbsoluteLayout>
 
 								<StackLayout Padding="16,10" Spacing="4">

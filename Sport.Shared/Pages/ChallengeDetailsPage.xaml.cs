@@ -38,6 +38,8 @@ namespace Sport.Shared
 
 		async protected override void Initialize()
 		{
+			_moreButton = new ToolbarItem("More", "ic_more_vert_white", () => OnMoreClicked());
+
 			InitializeComponent();
 			Title = "Challenge";
 
@@ -51,8 +53,6 @@ namespace Sport.Shared
 
 			if(ViewModel.Challenge.MatchResult != null && ViewModel.Challenge.MatchResult.Count > 0)
 				count = ViewModel.Challenge.MatchResult.Count;
-
-			_moreButton = new ToolbarItem("More", "ic_more_vert_white", () => OnMoreClicked());
 
 			list.HeightRequest = list.RowHeight * count + 50;
 		}

@@ -20,7 +20,7 @@
 							<Grid HorizontalOptions="Center" Padding="0,20,0,20">
 								<Grid.RowDefinitions>
 									<RowDefinition />
-									<RowDefinition Height="50" />
+									<RowDefinition Height="30" />
 									<RowDefinition />
 								</Grid.RowDefinitions>
 								<Grid.ColumnDefinitions>
