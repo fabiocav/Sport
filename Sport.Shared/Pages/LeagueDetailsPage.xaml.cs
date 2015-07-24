@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -181,6 +182,10 @@ namespace Sport.Shared
 			{
 				ViewModel.NotifyPropertiesChanged();
 			});
+
+
+			await Task.Delay(2000);
+			await ViewModel.RefreshLeague();
 		}
 
 		async void PushChallengeDetailsPage(Challenge challenge, bool refresh = false)
@@ -385,7 +390,7 @@ namespace Sport.Shared
 			datePage.OnChallengeSent = async(challenge) =>
 			{
 				ViewModel.NotifyPropertiesChanged();
-				await Navigation.PopAsync();
+				await Navigation.PopModalAsync();
 
 				"Challenge sent".Fmt(ViewModel.MembershipViewModel.Membership.Athlete.Name).ToToast(ToastNotificationType.Success);
 			};

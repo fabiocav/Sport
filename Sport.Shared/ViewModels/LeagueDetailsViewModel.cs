@@ -109,6 +109,11 @@ namespace Sport.Shared
 				while(best == null && gap > 0)
 				{
 					best = League.Memberships.SingleOrDefault(m => m.CurrentRank == CurrentMembership.CurrentRank - gap);
+
+					//Ensure no ongoing challenges
+					if(best != null && best.OngoingChallenge != null)
+						best = null;
+
 					gap--;
 				}
 
@@ -258,6 +263,8 @@ namespace Sport.Shared
 			SetPropertyChanged("PreviousChallengeViewModel");
 			SetPropertyChanged("LeaderMembership");
 			SetPropertyChanged("HasLeaderOtherThanSelf");
+			SetPropertyChanged("CanChallenge");
+			SetPropertyChanged("GetBestChallengee");
 
 			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
 			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();

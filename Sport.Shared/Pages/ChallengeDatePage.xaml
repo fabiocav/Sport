@@ -18,7 +18,7 @@
 					<Grid HorizontalOptions="Center" Padding="0,20,0,20">
 						<Grid.RowDefinitions>
 							<RowDefinition />
-							<RowDefinition Height="20" />
+							<RowDefinition Height="50" />
 							<RowDefinition />
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
@@ -31,6 +31,8 @@
 
 						<controls:CircleImage Grid.Row="2" Source="{Binding Challenge.ChallengeeAthlete.ProfileImageUrl}"
 							HorizontalOptions="End" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="42" HeightRequest="42" />
+
+						<Label Grid.Row="1" Grid.ColumnSpan="2" Text="vs" HorizontalOptions="Center" FontSize="10" YAlign="Center" XAlign="Center" VerticalOptions="Center"  />
 
 						<StackLayout Grid.Column="1" Spacing="0" Padding="20,0" VerticalOptions="Center" HorizontalOptions="Start">
 							<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />

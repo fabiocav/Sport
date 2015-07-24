@@ -7,6 +7,8 @@ namespace Sport.Shared
 {
 	public partial class ChallengeDetailsPage : ChallengeDetailsXaml
 	{
+		ToolbarItem _moreButton;
+
 		public Action OnDecline
 		{
 			get;
@@ -44,21 +46,34 @@ namespace Sport.Shared
 				list.SelectedItem = null;
 			};
 
-			var moreButton = new ToolbarItem("More", "ic_more_vert_white", () =>
-			{
-				OnMoreClicked();
-			});
-
-			if(GetMoreMenuOptions().Count > 0)
-				ToolbarItems.Add(moreButton);
-
 			await ViewModel.GetMatchResults();
 			var count = ViewModel.Challenge.League.MatchGameCount;
 
 			if(ViewModel.Challenge.MatchResult != null && ViewModel.Challenge.MatchResult.Count > 0)
 				count = ViewModel.Challenge.MatchResult.Count;
 
+			_moreButton = new ToolbarItem("More", "ic_more_vert_white", () => OnMoreClicked());
+
 			list.HeightRequest = list.RowHeight * count + 50;
+		}
+
+		protected override void OnAppearing()
+		{
+			RefreshMenuButtons();
+			base.OnAppearing();
+		}
+
+		void RefreshMenuButtons()
+		{
+			if(GetMoreMenuOptions().Count > 0)
+			{
+				if(!ToolbarItems.Contains(_moreButton))
+					ToolbarItems.Add(_moreButton);
+			}
+			else
+			{
+				ToolbarItems.Remove(_moreButton);
+			}
 		}
 
 		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
@@ -172,12 +187,6 @@ namespace Sport.Shared
 		List<string> GetMoreMenuOptions()
 		{
 			var list = new List<string>();
-
-//			if(ViewModel.CanPostMatchResults)
-//				list.Add(_post);
-//
-//			if(ViewModel.CanAccept)
-//				list.Add(_accept);
 
 			if(ViewModel.CanRevoke)
 				list.Add(_revoke);
