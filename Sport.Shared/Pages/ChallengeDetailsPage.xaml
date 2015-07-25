@@ -8,7 +8,7 @@
     <local:ChallengeDetailsXaml.Content>
 
 		<ScrollView VerticalOptions="Fill">
-			<Grid VerticalOptions="Fill">
+			<Grid VerticalOptions="Fill" StyleId="challengeRoot">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />

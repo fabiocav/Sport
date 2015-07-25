@@ -66,6 +66,10 @@ namespace Sport.Shared
 		async protected override void OnAppearing()
 		{
 			base.OnAppearing();
+
+			foreach(var l in ViewModel.Leagues)
+				l.LocalRefresh();
+			
 			await EnsureUserAuthenticated();
 		}
 

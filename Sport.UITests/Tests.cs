@@ -120,6 +120,18 @@ namespace Sport.UITests
 			app.Screenshot("Member details page");
 
 			app.ScrollDownEnough(e => e.Marked("pastButton"), "Bottom of member details page");
+			app.Tap("pastButton");
+			app.Screenshot("Challenge history page");
+
+			app.WaitForElement("challengeItemRoot");
+			if(app.Query("resultItemRoot").Length > 0)
+			{
+				app.Tap("resultItemRoot");
+				app.WaitForElement("challengeRoot");
+				app.Screenshot("Challenge result page");
+				app.Back(platform);
+				app.Tap("Done");
+			}
 
 			app.Tap("challengeButton");
 			app.Screenshot("Challenge date page");

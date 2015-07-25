@@ -157,9 +157,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeHistoryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteLeaguesViewModel.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteLeaguesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

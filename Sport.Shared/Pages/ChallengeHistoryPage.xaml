@@ -22,7 +22,7 @@
 								<StackLayout Orientation="Horizontal" VerticalOptions="Center"
 									IsVisible="{Binding EmptyMessage, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-									<StackLayout Padding="16,4" Spacing="20" Orientation="Horizontal">
+									<StackLayout StyleId="resultItemRoot" Padding="16,4" Spacing="20" Orientation="Horizontal">
 										<Grid VerticalOptions="Center">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="50" />
