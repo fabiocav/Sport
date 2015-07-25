@@ -5,27 +5,33 @@ using System.Collections.Generic;
 
 namespace Sport
 {
-	public partial class ChallengeBase : EntityData
-	{
-		public string LeagueId
-		{
-			get;
-			set;
-		}
+    public partial class ChallengeBase : EntityData
+    {
+        public string LeagueId
+        {
+            get;
+            set;
+        }
 
-		public string ChallengerAthleteId
-		{
-			get;
-			set;
-		}
+        public string ChallengerAthleteId
+        {
+            get;
+            set;
+        }
 
-		public string ChallengeeAthleteId
-		{
-			get;
-			set;
-		}
+        public string ChallengeeAthleteId
+        {
+            get;
+            set;
+        }
 
-		public string CustomMessage
+        public string CustomMessage
+        {
+            get;
+            set;
+        }
+
+		public int? BattleForRank
 		{
 			get;
 			set;

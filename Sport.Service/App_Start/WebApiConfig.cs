@@ -7,7 +7,6 @@ using Sport;
 using Sport.Service.Models;
 using Microsoft.WindowsAzure.Mobile.Service.Security.Providers;
 using System.Data.Entity.Migrations;
-using Sport.Service.Migrations;
 
 namespace Sport.Service
 {
@@ -24,17 +23,17 @@ namespace Sport.Service
             HttpConfiguration config = ServiceConfig.Initialize(new ConfigBuilder(options));
 
 			//config.SetIsHosted(true);
-            // To display errors in the browser during development, uncomment the following
-            // line. Comment it out again when you deploy your service for production use.
-            // config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-            
-            //Database.SetInitializer(new SportRanker_MatchOnInitializer());
-			var migrator = new DbMigrator(new Configuration
-			{
-				AutomaticMigrationDataLossAllowed = true,
-				AutomaticMigrationsEnabled = true
-			});
-			migrator.Update();
+			// To display errors in the browser during development, uncomment the following
+			// line. Comment it out again when you deploy your service for production use.
+			// config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+
+			//Database.SetInitializer(new SportRanker_MatchOnInitializer());
+			//var migrator = new DbMigrator(new Configuration
+			//{
+			//	AutomaticMigrationDataLossAllowed = true,
+			//	AutomaticMigrationsEnabled = true
+			//});
+			//migrator.Update();
 		}
     }
 

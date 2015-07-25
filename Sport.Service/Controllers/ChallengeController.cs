@@ -36,6 +36,7 @@ namespace Sport.Service.Controllers
 				ChallengeeAthleteId = c.ChallengeeAthleteId,
 				LeagueId = c.LeagueId,
 				DateCreated = c.CreatedAt,
+                BattleForRank = c.BattleForRank,
 				UpdatedAt = c.UpdatedAt,
 				ProposedTime = c.ProposedTime,
 				DateAccepted = c.DateAccepted,
@@ -65,11 +66,19 @@ namespace Sport.Service.Controllers
 			return SingleResult<ChallengeDto>.Create(ConvertChallengeToDto(Lookup(id).Queryable));
 		}
 
-		[Route("api/getChallengesForAthlete")]
-		public IQueryable<ChallengeDto> GetChallengesForAthlete(string athleteId)
+		[Route("api/getChallengesForMembership")]
+		public IQueryable<ChallengeDto> GetChallengesForMembership(string membershipId)
 		{
-			return ConvertChallengeToDto(Query().Where(c => c.ChallengeeAthleteId == athleteId
-				|| c.ChallengerAthleteId == athleteId));
+            var membership = _context.Memberships.SingleOrDefault(m => m.Id == membershipId);
+
+            if(membership == null)
+                throw "This membership no longer exists".ToException(Request);
+
+            return ConvertChallengeToDto(Query().Where(c => c.LeagueId == membership.LeagueId
+                && c.DateCompleted != null
+                && (c.ChallengeeAthleteId == membership.AthleteId
+				|| c.ChallengerAthleteId == membership.AthleteId))
+                .OrderByDescending(c => c.DateCompleted));
 		}
 	
 		// PATCH tables/Challenge/48D68C86-6EA6-4C25-AA33-223FC9A27959
