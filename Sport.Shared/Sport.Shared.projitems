@@ -153,6 +153,11 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Keys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SportButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ChallengeHistoryPage.xaml.cs">
+      <DependentUpon>ChallengeHistoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeHistoryViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -237,6 +242,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\AboutPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ChallengeHistoryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

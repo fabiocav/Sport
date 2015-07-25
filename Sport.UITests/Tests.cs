@@ -79,7 +79,7 @@ namespace Sport.UITests
 //			app.Screenshot("Possible toast error?");
 
 			Thread.Sleep(5000);
-			app.Tap("Continue button", "continueButton");
+			app.Tap("Continue button", e => e.Marked("continueButton"));
 
 			Thread.Sleep(5000);
 
