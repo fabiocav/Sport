@@ -72,6 +72,9 @@ namespace Sport.Shared
 			{
 				await AthleteViewModel.GetLeagues(forceRefresh);
 				LocalRefresh();
+
+				Settings.Instance.LeagueColors.Clear();
+				AthleteViewModel.Athlete.Leagues.EnsureLeaguesThemed(true);
 			}
 
 			_hasLoadedLeaguesBefore = true;

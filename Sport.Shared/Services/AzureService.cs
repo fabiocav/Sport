@@ -78,8 +78,8 @@ namespace Sport.Shared
 					return;
 
 				var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+						App.CurrentAthlete.Id,
+						"All",
 				};
 
 				App.CurrentAthlete.RefreshMemberships();
@@ -111,7 +111,8 @@ namespace Sport.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> { {
+				var values = new Dictionary<string, string> {
+					{
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -342,9 +343,9 @@ namespace Sport.Shared
 		/// </summary>
 		/// <returns>The all leagues by athlete.</returns>
 		/// <param name="athlete">Athlete.</param>
-		public Task GetAllLeaguesForAthlete(Athlete athlete)
+		public Task<List<League>> GetAllLeaguesForAthlete(Athlete athlete)
 		{
-			return new Task(() =>
+			return new Task<List<League>>(() =>
 			{
 				var leagueIds = Client.GetTable<Membership>().Where(m => m.AthleteId == athlete.Id && m.AbandonDate == null).Select(m => m.LeagueId).ToListAsync().Result;
 
@@ -356,11 +357,13 @@ namespace Sport.Shared
 				}
 
 				if(leagueIds.Count == 0)
-					return;
+					return new List<League>();
 
 				var leagues = Client.GetTable<League>().Where(l => leagueIds.Contains(l.Id) && l.IsEnabled).OrderBy(l => l.Name).ToListAsync().Result;
 				EnsureAthletesLoadedForLeagues(leagues);
 				leagues.ForEach(CacheLeague);
+
+				return leagues;
 			});
 		}
 
@@ -479,32 +482,21 @@ namespace Sport.Shared
 
 		#region Membership
 
-		public Task GetMembershipsForLeague(League league, bool loadAthletes = false, bool forceRefresh = false)
+		public void LoadAthletesForChallenges(List<Challenge> list, bool forceRefresh = false)
 		{
-			return new Task(() =>
-			{
-				var list = Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id && m.AbandonDate == null).OrderBy(m => m.CurrentRank).ToListAsync().Result;
+			var loaded = list.Where(c => c.Opponent(App.CurrentAthlete.Id) != null).ToList();
 
-				league.Memberships.Clear();
-				foreach(var m in list)
-				{
-					league.Memberships.Add(m);
-					DataManager.Instance.Memberships.AddOrUpdate(m);
-				}
+			if(forceRefresh)
+				loaded.Clear();
 
-				if(loadAthletes)
-				{
-					var loaded = league.Memberships.Where(m => m.Athlete != null).Select(a => a.AthleteId).ToList();
+			List<string> notLoaded = list.Except(loaded).Select(c => c.ChallengeeAthleteId == App.CurrentAthlete.Id ? c.ChallengerAthleteId : c.ChallengeeAthleteId).ToList();
+			notLoaded = notLoaded ?? new List<string>();
 
-					if(forceRefresh)
-						loaded.Clear();
-					
-					var notLoaded = DataManager.Instance.Athletes.Keys.Except(loaded).ToList();
+			List<Athlete> athletes = new List<Athlete>();
+			if(notLoaded.Count > 0)
+				athletes = Client.GetTable<Athlete>().Where(a => notLoaded.Contains(a.Id)).ToListAsync().Result;
 
-					var athletes = Client.GetTable<Athlete>().Where(a => notLoaded.Contains(a.Id)).ToListAsync().Result;
-					athletes.ForEach(DataManager.Instance.Athletes.AddOrUpdate);
-				}
-			});
+			athletes.ForEach(DataManager.Instance.Athletes.AddOrUpdate);
 		}
 
 		public Task<Membership> GetMembershipById(string id, bool force = false)
@@ -615,7 +607,8 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -645,7 +638,8 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -667,36 +661,33 @@ namespace Sport.Shared
 			});
 		}
 
-		//		public Task GetAllChallengesByAthlete(Athlete athlete)
-		//		{
-		//			return new Task(() =>
-		//			{
-		//				var qs = new Dictionary<string, string>();
-		//				qs.Add("athleteId", athlete.Id);
-		//				var challenges = Client.InvokeApiAsync<string, List<Challenge>>("getChallengesForAthlete", null, HttpMethod.Get, qs).Result;
-		//				if(challenges != null)
-		//				{
-		//					var list = new List<string>();
-		//					foreach(var c in challenges)
-		//					{
-		//						if(!list.Contains(c.ChallengeeAthleteId))
-		//							list.Add(c.ChallengeeAthleteId);
-		//
-		//						if(!list.Contains(c.ChallengerAthleteId))
-		//							list.Add(c.ChallengerAthleteId);
-		//					}
-		//
-		//					var athletes = Client.GetTable<Athlete>().Where(a => list.Contains(a.Id)).ToListAsync().Result;
-		//					athletes.ForEach(DataManager.Instance.Athletes.AddOrUpdate);
-		//
-		//					Challenge ch;
-		//					var toRemove = athlete.AllChallenges.ToList();
-		//					toRemove.ForEach(c => DataManager.Instance.Challenges.TryRemove(c.Id, out ch));
-		//					challenges.ForEach(DataManager.Instance.Challenges.AddOrUpdate);
-		//					athlete.RefreshChallenges();
-		//				}
-		//			});
-		//		}
+		public Task<List<Challenge>> GetChallengesForMembership(Membership membership)
+		{
+			return new Task<List<Challenge>>(() =>
+			{
+				var qs = new Dictionary<string, string>();
+				qs.Add("membershipId", membership.Id);
+				qs.Add("$expand", "MatchResult");
+				var challenges = Client.InvokeApiAsync<string, List<Challenge>>("getChallengesForMembership", null, HttpMethod.Get, qs).Result;
+				if(challenges != null)
+				{
+					var cached = DataManager.Instance.Challenges.Values.Where(c => c.InvolvesAthlete(membership.Athlete.Id) && c.IsCompleted).ToList();
+					var stale = cached.Except(challenges).ToList();
+
+					foreach(var c in stale)
+					{
+						Challenge ch;
+						DataManager.Instance.Challenges.TryRemove(c.Id, out ch);
+					}
+
+					challenges.ForEach(c => DataManager.Instance.Challenges.AddOrUpdate(c));
+
+					LoadAthletesForChallenges(challenges);
+					return challenges;
+				}
+				return new List<Challenge>();
+			});
+		}
 
 		public Task PostMatchResults(Challenge challenge)
 		{

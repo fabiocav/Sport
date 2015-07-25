@@ -50,7 +50,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AvailableLeaguesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\AdminViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Admin\LeagueLandingViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteLeaguesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\LeagueListView.xaml.cs">
       <DependentUpon>LeagueListView.xaml</DependentUpon>
     </Compile>
@@ -158,6 +157,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeHistoryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\AthleteLeaguesViewModel.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

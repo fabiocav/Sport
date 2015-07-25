@@ -54,9 +54,10 @@ namespace Sport.UITests
 			app.WaitForElement(e => e.Css("#grant_heading"));
 			app.Tap("Then I can continue", e => e.Css("#submit_approve_access"));
 
+			//Weird issue where sometimes the first tap doesn't take
 			Thread.Sleep(10000);
 			int tries = 0;
-			while(tries < 10 && app.Query("aliasText").Length == 0)
+			while(tries < 5 && app.Query("aliasText").Length == 0)
 			{
 				if(tries == 0)
 					app.LogToDevice(e => e.All());

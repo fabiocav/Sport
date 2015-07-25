@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Linq;
+using System.Text;
 
 namespace Sport.Shared
 {
@@ -163,6 +164,32 @@ namespace Sport.Shared
 			}
 		}
 
+		int? _battleForRank;
+
+		public int? BattleForRank
+		{
+			get
+			{
+				return _battleForRank;
+			}
+			set
+			{
+				SetPropertyChanged(ref _battleForRank, value);
+			}
+		}
+
+		public int? BattleForRankDisplay
+		{
+			get
+			{
+				if(BattleForRank == null)
+					return null;
+						
+				return BattleForRank.Value + 1;
+			}
+		}
+
+
 		[JsonIgnore]
 		public bool IsAccepted
 		{
@@ -196,6 +223,24 @@ namespace Sport.Shared
 		}
 
 		[JsonIgnore]
+		public List<GameResult> ChallengeeWinningGames
+		{
+			get
+			{
+				return this.GetChallengeeWinningGames().ToList();
+			}
+		}
+
+		[JsonIgnore]
+		public List<GameResult> ChallengerWinningGames
+		{
+			get
+			{
+				return this.GetChallengerWinningGames().ToList();
+			}
+		}
+
+		[JsonIgnore]
 		public string ProposedTimeString
 		{
 			get
@@ -219,11 +264,10 @@ namespace Sport.Shared
 		{
 			get
 			{
-				if(League == null)
+				if(BattleForRank == null)
 					return null;
 				
-				var mem = League.Memberships.SingleOrDefault(m => m.AthleteId == ChallengeeAthleteId);
-				return mem == null ? null : "an epic battle for {0} place".Fmt((mem.CurrentRank + 1).ToOrdinal());
+				return "an epic battle for {0} place".Fmt(BattleForRankDisplay.Value.ToOrdinal());
 			}
 		}
 
@@ -268,6 +312,19 @@ namespace Sport.Shared
 			}
 		}
 
+		public string MatchResultSummary
+		{
+			get
+			{
+				if(MatchResult == null)
+					return null;
+
+				var sb = new StringBuilder();
+				MatchResult.ForEach(g => sb.AppendFormat("{0} - {1}, ", g.ChallengerScore, g.ChallengeeScore));
+				return sb.ToString().TrimEnd(" ,".ToCharArray());
+			}
+		}
+
 		public void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("League");
@@ -278,9 +335,58 @@ namespace Sport.Shared
 			SetPropertyChanged("ProposedTimeString");
 			SetPropertyChanged("IsAccepted");
 			SetPropertyChanged("BattleForPlace");
+			SetPropertyChanged("BattleForRankDisplay");
 			SetPropertyChanged("BattleBetween");
 			SetPropertyChanged("BattleForPlaceBetween");
 			SetPropertyChanged("MatchResult");
+			SetPropertyChanged("MatchResultSummary");
+			SetPropertyChanged("ChallengerWinningGames");
+			SetPropertyChanged("ChallengeeWinningGames");
+		}
+	}
+
+	public class ChallengeComparer : IEqualityComparer<Challenge>
+	{
+		public bool Equals(Challenge x, Challenge y)
+		{
+			if(x.WinningAthlete == y.WinningAthlete
+			   && x.MatchResult.Count == y.MatchResult.Count
+			   && x.ChallengeeAthleteId == y.ChallengeeAthleteId
+			   && x.ChallengerAthleteId == y.ChallengerAthleteId)
+			{
+				for(int i = 0; i < x.MatchResult.Count; i++)
+				{
+					var xGame = x.MatchResult[i];
+					var yGame = y.MatchResult[i];
+
+					if(xGame.ChallengeeScore != yGame.ChallengeeScore ||
+					   xGame.ChallengerScore != yGame.ChallengerScore)
+						return false;
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public int GetHashCode(Challenge obj)
+		{
+			return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
+		}
+	}
+
+	public class ChallengeSortComparer : IComparer<ChallengeViewModel>
+	{
+		public int Compare(ChallengeViewModel x, ChallengeViewModel y)
+		{
+			if(x.Challenge.DateCompleted == y.Challenge.DateCompleted)
+				return 0;
+
+			if(x.Challenge.DateCompleted < y.Challenge.DateCompleted)
+				return -1;
+
+			return 1;
 		}
 	}
 }

@@ -21,11 +21,6 @@ namespace Sport.Shared
 			{
 				//AttemptToAuthenticateAthlete();
 			};
-
-//			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
-//			{
-//				
-//			};
 		}
 	}
 

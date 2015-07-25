@@ -129,6 +129,12 @@ namespace Sport.Shared
 					var task = AzureService.Instance.GetAllLeaguesForAthlete(App.CurrentAthlete);
 					await RunSafe(task);
 
+					if(task.IsCompleted && !task.IsFaulted)
+					{
+						Settings.Instance.LeagueColors.Clear();
+						task.Result.EnsureLeaguesThemed(true);
+					}
+
 					App.CurrentAthlete.IsDirty = false;
 					//await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
 					MessagingCenter.Send<AuthenticationViewModel>(this, "UserAuthenticated");
@@ -193,7 +199,8 @@ namespace Sport.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
+						{
 							"Name",
 							App.AuthUserProfile.Name
 						}
