@@ -5,7 +5,7 @@ We implore you to rank match and challenge sport all the way down the sideyard t
 
 https://www.youtube.com/watch?v=GmdvxDVluRA
 
-[iOS Test Results](https://testcloud.xamarin.com/test/sport_b98c1155-6b02-45c6-b2ee-e9415934fae6/?step=0_0_13/) | [Android Test Results](https://testcloud.xamarin.com/test/sport_ab5e303e-de12-4f92-992e-ca266de2736f/?step=0_0_13/)
+[iOS Test Results](https://testcloud.xamarin.com/test/sport_b98c1155-6b02-45c6-b2ee-e9415934fae6/?step=0_0_13) | [Android Test Results](https://testcloud.xamarin.com/test/sport_ab5e303e-de12-4f92-992e-ca266de2736f/?step=0_0_13)
 
 [![Sport Screenshot](https://raw.githubusercontent.com/rob-derosa/Sport/master/Resources/Screenshots/sport_screenshot.png)](https://www.youtube.com/watch?v=GmdvxDVluRA)
 
