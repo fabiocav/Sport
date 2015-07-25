@@ -171,9 +171,6 @@ namespace Sport.Shared
 				SetPropertyChanged(ref _league, value);
 				LeagueViewModel = new LeagueViewModel(_league);
 
-				if(_league != null)
-					App.Current.GetTheme(_league);
-				
 				NotifyPropertiesChanged();
 			}
 		}

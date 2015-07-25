@@ -18,14 +18,18 @@ namespace Sport.Shared
 			Initialize();
 		}
 
-		protected async override void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
 			Title = ViewModel.Membership.Athlete.Name;
 
-			btnPast.Clicked += (sender, e) =>
+			btnPast.Clicked += async(sender, e) =>
 			{
-				"This feature has not been implemented".ToToast();	
+				var historyPage = new ChallengeHistoryPage(ViewModel.Membership);
+				historyPage.AddDoneButton("Done");
+
+				await Navigation.PushModalAsync(historyPage.GetNavigationPage());
+				historyPage.ViewModel.GetChallengeHistory(true);
 			};
 
 			btnChallenge.Clicked += async(sender, e) =>

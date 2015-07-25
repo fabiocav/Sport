@@ -59,7 +59,6 @@ namespace Sport.Shared
 			using(new HUD("Getting leagues..."))
 			{
 				await ViewModel.GetAvailableLeagues(true);
-				ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
 			}
 		}
 

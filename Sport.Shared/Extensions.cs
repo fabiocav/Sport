@@ -12,6 +12,14 @@ namespace Sport.Shared
 {
 	public static partial class Extensions
 	{
+		public static void EnsureLeaguesThemed(this IList<League> leagues, bool reset = false)
+		{
+			foreach(var l in leagues)
+			{
+				App.Current.GetTheme(l, reset);
+			}
+		}
+
 		public static void Sort<T>(this ObservableCollection<T> collection, IComparer<T> comparer)
 		{
 			List<T> sorted = collection.ToList();

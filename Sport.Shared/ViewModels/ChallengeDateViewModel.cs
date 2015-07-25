@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Text;
+using System.Linq;
 
 [assembly: Dependency(typeof(Sport.Shared.ChallengeDateViewModel))]
 
@@ -83,7 +84,10 @@ namespace Sport.Shared
 			if(SelectedTime.Ticks > TimeSpan.TicksPerDay)
 				SelectedTime = SelectedTime.Subtract(TimeSpan.FromTicks(TimeSpan.TicksPerDay));
 
+			var membership = league.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id);
+
 			Challenge = new Challenge {
+				BattleForRank = membership.CurrentRank,
 				ChallengerAthleteId = challenger.Id,
 				ChallengeeAthleteId = challengee.Id,
 				ProposedTime = SelectedDateTime,
@@ -103,13 +107,13 @@ namespace Sport.Shared
 			return sb.Length == 0 ? null : sb.ToString();
 		}
 
-		public async Task CrossReferenceCalendar(Athlete a, Athlete b, DateTime date)
-		{
-			using(new Busy(this))
-			{
-				//var calendar = await GetCalendarForAthlete(a);
-			}
-		}
+		//		public async Task CrossReferenceCalendar(Athlete a, Athlete b, DateTime date)
+		//		{
+		//			using(new Busy(this))
+		//			{
+		//				var calendar = await GetCalendarForAthlete(a);
+		//			}
+		//		}
 
 		/*async Task<string> GetCalendarForAthlete(Athlete athlete)
 		{

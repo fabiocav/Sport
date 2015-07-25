@@ -19,9 +19,6 @@ namespace Sport.Shared
 
 			ViewModel.League = league;
 
-			if(league.Theme == null)
-				App.Current.GetTheme(league);
-
 			Title = ViewModel.League?.Name;
 			Initialize();
 		}

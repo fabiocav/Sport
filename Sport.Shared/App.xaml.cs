@@ -151,16 +151,17 @@ namespace Sport.Shared
 			set;
 		}
 
-		public void GetTheme(League league)
+		public void GetTheme(League league, bool forceReset = false)
 		{
-			if(league.Theme != null || league.Id == null)
+			if((!forceReset && league.Theme != null) || league.Id == null)
 				return;
-			
+
 			var remaining = App.Colors.Except(Settings.Instance.LeagueColors.Values).ToList();
 			if(remaining.Count == 0)
 				remaining.AddRange(App.Colors);
 
-			var color = remaining[new Random().Next(0, remaining.Count)];
+			var random = new Random().Next(0, remaining.Count - 1);
+			var color = remaining[random];
 			if(Settings.Instance.LeagueColors.ContainsKey(league.Id))
 			{
 				color = Settings.Instance.LeagueColors[league.Id];

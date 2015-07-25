@@ -60,7 +60,6 @@ namespace Sport.Shared
 			if(App.CurrentAthlete != null)
 			{
 				await ViewModel.RemoteRefresh();
-				ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
 			}
 		}
 
@@ -78,7 +77,6 @@ namespace Sport.Shared
 			if(App.CurrentAthlete != null)
 			{
 				ViewModel.LocalRefresh();
-				ViewModel.Leagues.Select(vm => vm.League).ToList().ForEach(App.Current.GetTheme);
 			}
 		}
 

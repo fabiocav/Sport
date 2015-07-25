@@ -10,12 +10,6 @@ namespace Sport.Shared
 	public class AvailableLeaguesViewModel : BaseViewModel
 	{
 		bool _hasLoadedBefore;
-
-		public AvailableLeaguesViewModel()
-		{
-			//LocalRefresh();
-		}
-
 		ObservableCollection<LeagueViewModel> _leagues = new ObservableCollection<LeagueViewModel>();
 
 		public ObservableCollection<LeagueViewModel> Leagues
@@ -58,7 +52,6 @@ namespace Sport.Shared
 			foreach(var l in Leagues)
 			{
 				l.IsLast = false;
-				App.Current.GetTheme(l.League);
 			}
 
 			var last = Leagues.LastOrDefault();
@@ -86,9 +79,16 @@ namespace Sport.Shared
 
 			using(new Busy(this))
 			{
-				await RunSafe(AzureService.Instance.GetAvailableLeagues(App.CurrentAthlete));
-				_hasLoadedBefore = true;
-				LocalRefresh();
+				var task = AzureService.Instance.GetAvailableLeagues(App.CurrentAthlete);
+				await RunSafe(task);
+
+				if(task.IsCompleted && !task.IsFaulted)
+				{
+					task.Result.EnsureLeaguesThemed();
+
+					_hasLoadedBefore = true;
+					LocalRefresh();
+				}
 			}
 		}
 	}
