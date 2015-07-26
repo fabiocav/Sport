@@ -214,5 +214,33 @@ namespace Sport.Shared
 		//		{
 		//			return AllChallenges.FirstOrDefault(c => c.LeagueId == league.Id && !c.IsCompleted);
 		//		}
+
+		public override bool Equals(object obj)
+		{
+			var comp = new AthleteComparer();
+			return comp.Equals(this, obj as Athlete);
+		}
+	}
+
+	public class AthleteComparer : IEqualityComparer<Athlete>
+	{
+		public bool Equals(Athlete x, Athlete y)
+		{
+			if(x == null || y == null)
+				return false;
+
+			var isEqual = x.Id == y.Id
+			              && x.Alias == y.Alias
+			              && x.Email == y.Email
+			              && x.Name == y.Name
+			              && x.ProfileImageUrl == y.ProfileImageUrl;
+
+			return isEqual;
+		}
+
+		public int GetHashCode(Athlete obj)
+		{
+			return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
+		}
 	}
 }

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Threading;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
-using System.Threading.Tasks;
-using System.Collections;
 
 namespace Sport.Shared
 {
@@ -16,7 +13,7 @@ namespace Sport.Shared
 		{
 			foreach(var l in leagues)
 			{
-				App.Current.GetTheme(l, reset);
+				l.Theme = App.Current.GetTheme(l, reset);
 			}
 		}
 
@@ -66,6 +63,13 @@ namespace Sport.Shared
 			{
 				league.RefreshMemberships();
 				league.RefreshChallenges();
+
+				//Retain the previous theme when replacing a league
+//				if(dict.ContainsKey(league.Id))
+//				{
+//					var oldLeague = dict[league.Id] as League;
+//					league.Theme = oldLeague.Theme;
+//				}
 			}
 
 			if(dict.ContainsKey(model.Id))

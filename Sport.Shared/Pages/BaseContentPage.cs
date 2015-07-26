@@ -6,13 +6,13 @@ namespace Sport.Shared
 {
 	public class BaseContentPage<T> : SuperBaseContentPage where T : BaseViewModel, new()
 	{
-		T _viewModel;
+		protected T _viewModel;
 
 		public T ViewModel
 		{
 			get
 			{
-				return _viewModel ?? (_viewModel = DependencyService.Get<T>());
+				return _viewModel ?? (_viewModel = new T());
 			}
 		}
 

@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System;
 
 [assembly: Dependency(typeof(Sport.Shared.AthleteLeaguesViewModel))]
 namespace Sport.Shared
@@ -74,7 +75,7 @@ namespace Sport.Shared
 				LocalRefresh();
 
 				Settings.Instance.LeagueColors.Clear();
-				AthleteViewModel.Athlete.Leagues.EnsureLeaguesThemed(true);
+				DataManager.Instance.Leagues.Values.ToList().EnsureLeaguesThemed(true);
 			}
 
 			_hasLoadedLeaguesBefore = true;
@@ -91,32 +92,49 @@ namespace Sport.Shared
 				return;
 
 			if(Leagues == null)
-			{
-				Athlete.Leagues.OrderBy(l => l.Name).ToList().ForEach(l => Leagues.Add(new LeagueViewModel(l, Athlete)));
-			}
+				Leagues = new ObservableCollection<LeagueViewModel>();
 
-			var comparer = new LeagueComparer();
+			var comparer = new LeagueIdComparer();
 			var toRemove = Leagues.Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
-			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).ToList();
-
-			var newIds = toAdd.Select(l => l.Id);
-			var existing = Leagues.Where(l => !newIds.Contains(l.League.Id)).ToList();
-
+			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l, App.CurrentAthlete)).ToList();
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
 
-			var preSort = new List<LeagueViewModel>();
-			toAdd.ForEach(l => preSort.Add(new LeagueViewModel(l, App.CurrentAthlete)));
-			preSort.Sort(new LeagueSortComparer());
-			existing.ForEach(l => l.LocalRefresh());
+			var eqComparer = new LeagueComparer();
+			var changed = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), eqComparer).ToList();
 
-			var last = preSort.LastOrDefault();
-			preSort.ForEach(l => l.IsLast = l == last);
-			preSort.ForEach(Leagues.Add);
+			var compare = new LeagueSortComparer();
+			foreach(var lv in toAdd)
+			{
+				int index = 0;
+				foreach(var l in Leagues.ToList())
+				{
+					if(compare.Compare(lv, l) < 0)
+						break;
+
+					index++;
+				}
+				Leagues.Insert(index, lv);
+			}
+
+			var last = Leagues.LastOrDefault();
+			foreach(var l in Leagues)
+				l.IsLast = l == last;
+
+			//Not updating for some reason
+			foreach(var league in changed)
+			{
+				var vm = Leagues.SingleOrDefault(v => v.League.Id == league.Id);
+				if(vm != null)
+				{
+					vm.League = league;
+					vm.LocalRefresh();
+				}
+			}
 
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new LeagueViewModel(new League {
-					Name = "You don't belong to any leagues.\n\n\nYou can join leagues by tapping the + button above."
+					Name = "You don't belong to any leagues... yet.\n\n\n\nYou can and will join leagues by tapping the + button above."
 				}));
 			}
 		}

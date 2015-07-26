@@ -32,13 +32,12 @@ namespace Sport.UITests
 			if(platform == Platform.Android)
 				menuButton = e => e.Marked("NoResourceEntry-0").Index(app.Query(ee => ee.Marked("NoResourceEntry-0")).Length - 1);
 
-			app.WaitForElement("authButton");
+			Thread.Sleep(2000);
 			app.Tap("When the app starts", "authButton");
 
 			app.WaitForElement(e => e.Css("#Email"), "Timed out waiting for Google Oauth form", TimeSpan.FromSeconds(60));
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com", "And I enter my email address");
-			if(platform == Platform.Android && (app.Query(e => e.Css("#signIn")).Length == 0 && app.Query(e => e.Css("#next")).Length == 0))
-				app.Back(); //Dismiss keyboard
+			app.DismissKeyboard();
 
 			Thread.Sleep(2000);
 
@@ -46,9 +45,8 @@ namespace Sport.UITests
 				app.Tap(e => e.Css("#next"));
 
 			app.EnterText(e => e.Css("#Passwd"), Constants.Password, "And I enter my super secret password");
-			if(platform == Platform.Android && app.Query(e => e.Css("#signIn")).Length == 0)
-				app.Back(); //Dismiss keyboard
-			
+			app.DismissKeyboard();
+
 			app.Tap(e => e.Css("#signIn"), "And I click the Sign In button");
 
 			Thread.Sleep(2000);
@@ -57,30 +55,31 @@ namespace Sport.UITests
 
 			Thread.Sleep(5000);
 			app.WaitForElement(e => e.Css("#grant_heading"));
-			app.Tap("Then I can continue", e => e.Css("#submit_approve_access"));
+			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
 
 			//Weird issue where sometimes the first tap doesn't take
 			Thread.Sleep(10000);
 			int tries = 0;
-			while(tries < 5 && app.Query("aliasText").Length == 0)
+			while(tries < 3 && app.Query("aliasText").Length == 0)
 			{
-				if(tries == 0)
-					app.LogToDevice(e => e.All());
-				
-				Thread.Sleep(2000);
-
 				if(app.Query(e => e.Css("#submit_approve_access")).Length > 0)
-					app.Tap(e => e.Css("#submit_approve_access"));
+					app.ScrollDownAndTap(e => e.Css("#submit_approve_access"));
 				
+				Thread.Sleep(4000);
 				tries++;
 			}
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));
 			app.EnterText(e => e.Marked("aliasText"), "XTC Tester", "And I enter my alias");
-			app.PressEnter();
+			app.DismissKeyboard();
 
 			app.Tap(e => e.Marked("saveButton"), "And I save my profile");
+
+			Thread.Sleep(2000);
+			if(app.Query(e => e.Marked("saveButton")).Length > 0)
+				app.Tap(e => e.Marked("saveButton"));
+			
 //			Thread.Sleep(300);
 //			app.Screenshot("Possible toast error?");
 
@@ -134,8 +133,8 @@ namespace Sport.UITests
 				app.WaitForElement("challengeRoot");
 				app.Screenshot("Challenge result page");
 
-				app.ScrollDownEnough(e => e.Marked("winningLabel"));
-				app.Screenshot("Challenge result page end");
+//				app.ScrollDownEnough(e => e.Marked("winningLabel"));
+//				app.Screenshot("Challenge result page end");
 
 				app.Back(platform);
 				app.Tap("Done");
@@ -196,7 +195,7 @@ namespace Sport.UITests
 			app.Tap(e => e.Marked("My Profile"), "Profile page");
 			app.ScrollDownAndTap(e => e.Marked("saveButton"), "Saving profile");
 
-			app.WaitForElement(e => e.Marked("leagueRow"));
+			app.WaitForElement(e => e.Marked("leagueRow"), "Timed out waiting for leagues list", TimeSpan.FromMinutes(2));
 			Assert.IsTrue(app.Query(e => e.Marked("leagueRow")).Length > 0);
 
 			app.Screenshot("End of test");

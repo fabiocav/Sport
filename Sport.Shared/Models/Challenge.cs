@@ -343,13 +343,23 @@ namespace Sport.Shared
 			SetPropertyChanged("ChallengerWinningGames");
 			SetPropertyChanged("ChallengeeWinningGames");
 		}
+
+		public override bool Equals(object obj)
+		{
+			var comp = new ChallengeComparer();
+			return comp.Equals(this, obj as Challenge);
+		}
 	}
 
 	public class ChallengeComparer : IEqualityComparer<Challenge>
 	{
 		public bool Equals(Challenge x, Challenge y)
 		{
-			if(x.WinningAthlete == y.WinningAthlete
+			if(x == null || y == null)
+				return false;
+
+			if(x.Id == y.Id
+			   && x.WinningAthlete == y.WinningAthlete
 			   && x.MatchResult.Count == y.MatchResult.Count
 			   && x.ChallengeeAthleteId == y.ChallengeeAthleteId
 			   && x.ChallengerAthleteId == y.ChallengerAthleteId)

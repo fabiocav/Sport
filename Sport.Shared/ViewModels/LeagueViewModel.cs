@@ -13,10 +13,18 @@ namespace Sport.Shared
 			LocalRefresh();
 		}
 
+		League _league;
+
 		public League League
 		{
-			get;
-			set;
+			get
+			{
+				return _league;
+			}
+			set
+			{
+				SetPropertyChanged(ref _league, value);
+			}
 		}
 
 		public Athlete Athlete

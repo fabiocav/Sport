@@ -75,10 +75,14 @@ namespace Sport.Shared
 
 		async protected override void Initialize()
 		{
-			BarBackgroundColor = ViewModel.League.Theme.Light;
-			BarTextColor = ViewModel.League.Theme.Dark;
+			if(ViewModel.League.Theme != null)
+			{
+				BarBackgroundColor = ViewModel.League.Theme.Light;
+				BarTextColor = ViewModel.League.Theme.Dark;
+			}
 
 			InitializeComponent();
+			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working in XAML for some reason
 			scrollView.Scrolled += (sender, e) => Parallax();
 			Parallax();
 
@@ -165,7 +169,6 @@ namespace Sport.Shared
 				await ViewModel.LoadAthlete();
 			}
 
-			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working in XAML for some reason
 			rankStrip.OnAthleteClicked = async(membership) =>
 			{
 				var page = new MembershipDetailsPage(membership.Id) {
@@ -181,8 +184,7 @@ namespace Sport.Shared
 				ViewModel.NotifyPropertiesChanged();
 			});
 
-
-			await Task.Delay(2000);
+			//await Task.Delay(2000);
 			await ViewModel.RefreshLeague();
 		}
 
@@ -213,9 +215,12 @@ namespace Sport.Shared
 
 		protected override void OnAppearing()
 		{
-			ViewModel.NotifyPropertiesChanged();
-			rankStrip.Membership = ViewModel.CurrentMembership;
 			RefreshMenuButtons();
+
+//			ViewModel.NotifyPropertiesChanged();
+//			if(rankStrip.Membership != ViewModel.CurrentMembership)
+//				rankStrip.Membership = ViewModel.CurrentMembership;
+
 			base.OnAppearing();
 		}
 

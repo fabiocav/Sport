@@ -21,7 +21,6 @@ namespace Sport.Shared
 			set
 			{
 				SetPropertyChanged(ref _challenge, value);
-				NotifyPropertiesChanged();
 			}
 		}
 

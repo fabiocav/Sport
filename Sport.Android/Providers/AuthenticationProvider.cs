@@ -45,7 +45,6 @@ namespace Sport.Android
 				};
 
 				var intent = auth.GetUI(Forms.Context);
-				//intent.SetFlags(ActivityFlags.NewTask);
 				Forms.Context.StartActivity(intent);
 
 				return tcs.Task;

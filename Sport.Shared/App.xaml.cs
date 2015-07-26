@@ -33,12 +33,12 @@ namespace Sport.Shared
 		public App()
 		{
 			Colors = new List<string> {
-				"green",
-				"blue",
-				"red",
-				"yellow",
-				"asphalt",
-				"purple"
+					"green",
+					"blue",
+					"red",
+					"yellow",
+					"asphalt",
+					"purple"
 			};
 
 			#region Linker
@@ -151,17 +151,22 @@ namespace Sport.Shared
 			set;
 		}
 
-		public void GetTheme(League league, bool forceReset = false)
+		public LeagueTheme GetTheme(League league, bool forceReset = false)
 		{
-			if((!forceReset && league.Theme != null) || league.Id == null)
-				return;
+			if(league.Id == null)
+				return null;
 
+
+			league.Theme = null;
 			var remaining = App.Colors.Except(Settings.Instance.LeagueColors.Values).ToList();
 			if(remaining.Count == 0)
 				remaining.AddRange(App.Colors);
 
 			var random = new Random().Next(0, remaining.Count - 1);
 			var color = remaining[random];
+			Console.WriteLine("RANDOM: " + random);
+			Console.WriteLine("COLOR: " + color);
+
 			if(Settings.Instance.LeagueColors.ContainsKey(league.Id))
 			{
 				color = Settings.Instance.LeagueColors[league.Id];
@@ -180,7 +185,7 @@ namespace Sport.Shared
 			if(App.Current.Resources.ContainsKey("{0}Medium".Fmt(color)))
 				theme.Medium = (Color)App.Current.Resources["{0}Medium".Fmt(color)];
 
-			league.Theme = theme;
+			return theme;
 		}
 
 		public void SetToWelcomePage()

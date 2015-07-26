@@ -58,7 +58,10 @@ namespace Sport.Shared
 					await label2.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
 					await buttonStack.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
 
-					await Navigation.PushAsync(new EnablePushPage());
+					var page = new EnablePushPage();
+					page.ViewModel.AthleteId = ViewModel.AthleteId;
+
+					await Navigation.PushAsync(page);
 				}
 				ignoreClicks = success;
 			};

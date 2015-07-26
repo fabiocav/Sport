@@ -147,9 +147,10 @@ namespace Xamarin.TestCloud.Extensions
 						throw new Exception("Unable to get root view");
 				}
 
-				float gap = rootView.Rect.Height / 3;
-				//var write = rootView.Rect.CenterX.ToString() + " - " + (rootView.Rect.CenterY + gap).ToString() + " x " + rootView.Rect.CenterX + " - " + (rootView.Rect.CenterY - gap).ToString();
-				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
+				app.ScrollDown();
+//				float gap = rootView.Rect.Height / 4;
+//				//var write = rootView.Rect.CenterX.ToString() + " - " + (rootView.Rect.CenterY + gap).ToString() + " x " + rootView.Rect.CenterX + " - " + (rootView.Rect.CenterY - gap).ToString();
+//				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
 				count++;
 			}
 
@@ -230,8 +231,9 @@ namespace Xamarin.TestCloud.Extensions
 						throw new Exception("Unable to get root view");
 				}
 
-				float gap = rootView.Rect.Height / 5;
-				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
+				app.ScrollDown();
+//				float gap = rootView.Rect.Height / 5;
+//				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
 				count++;
 			}
 

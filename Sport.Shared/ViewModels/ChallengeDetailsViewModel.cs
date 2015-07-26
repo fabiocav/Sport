@@ -179,12 +179,14 @@ namespace Sport.Shared
 					return;
 				}
 
-				Challenge = task.Result;
+				if(task.Result != Challenge)
+					Challenge = task.Result;
 			}
 		}
 
 		public override void NotifyPropertiesChanged()
 		{
+			Console.WriteLine("CDTVM INPC");
 			base.NotifyPropertiesChanged();
 			Challenge?.NotifyPropertiesChanged();
 

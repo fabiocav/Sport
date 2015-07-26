@@ -54,12 +54,6 @@ namespace Sport.Shared
 					return null;
 
 				var membership = DataManager.Instance.Memberships.Values.SingleOrDefault(m => m.LeagueId == League.Id && m.AthleteId == App.CurrentAthlete.Id);
-
-				if(membership == null)
-				{
-					
-				}
-
 				return membership;
 			}
 		}
@@ -175,10 +169,14 @@ namespace Sport.Shared
 			}
 			set
 			{
+				var diff = _league != value;
 				SetPropertyChanged(ref _league, value);
-				LeagueViewModel = new LeagueViewModel(_league);
 
-				NotifyPropertiesChanged();
+				if(diff)
+				{
+					LeagueViewModel = new LeagueViewModel(_league);
+					NotifyPropertiesChanged();
+				}
 			}
 		}
 
@@ -243,36 +241,38 @@ namespace Sport.Shared
 				if(task.IsFaulted)
 					return;
 
-				League = task.Result;
-				NotifyPropertiesChanged();
+				if(League == null || !League.Equals(task.Result))
+				{
+					task.Result.Theme = League?.Theme;
+					League = task.Result;
+				}
 			}
 		}
 
 		public void NotifyPropertiesChanged()
 		{
+			Console.WriteLine("LDTVM INPC");
 			CurrentMembership?.LocalRefresh();
 
 			if(CurrentMembership?.OngoingChallenge == null)
 				OngoingChallengeViewModel = null;
 
-			if(CurrentMembership?.OngoingChallenge != null)
+			if(CurrentMembership?.OngoingChallenge != null && OngoingChallengeViewModel == null)
 				OngoingChallengeViewModel = new ChallengeDetailsViewModel(CurrentMembership?.OngoingChallenge);
 
 			SetPropertyChanged("DateRange");
 			SetPropertyChanged("CreatedBy");
 			SetPropertyChanged("IsMember");
-			SetPropertyChanged("MembershipViewModel");
-			SetPropertyChanged("CurrentMembership");
-			SetPropertyChanged("OngoingChallengeViewModel");
-			SetPropertyChanged("PreviousChallengeViewModel");
 			SetPropertyChanged("LeaderMembership");
 			SetPropertyChanged("HasLeaderOtherThanSelf");
+			SetPropertyChanged("MembershipViewModel");
+			SetPropertyChanged("CurrentMembership");
 			SetPropertyChanged("CanChallenge");
+			SetPropertyChanged("OngoingChallengeViewModel");
+			SetPropertyChanged("PreviousChallengeViewModel");
 			SetPropertyChanged("GetBestChallengee");
 
 			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
-			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
-
 			MembershipViewModel?.NotifyPropertiesChanged();
 			OngoingChallengeViewModel?.NotifyPropertiesChanged();
 			PreviousChallengeViewModel?.NotifyPropertiesChanged();

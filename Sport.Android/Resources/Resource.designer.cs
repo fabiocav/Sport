@@ -2550,8 +2550,8 @@ namespace Sport.Android
 			// aapt resource value: 0x7f0a0011
 			public const int abc_toolbar_collapse_description = 2131361809;
 			
-			// aapt resource value: 0x7f0a001b
-			public const int app_name = 2131361819;
+			// aapt resource value: 0x7f0a001a
+			public const int app_name = 2131361818;
 			
 			// aapt resource value: 0x7f0a0000
 			public const int appbar_scrolling_view_behavior = 2131361792;
@@ -2561,9 +2561,6 @@ namespace Sport.Android
 			
 			// aapt resource value: 0x7f0a0017
 			public const int full_date_format = 2131361815;
-			
-			// aapt resource value: 0x7f0a001a
-			public const int hello = 2131361818;
 			
 			// aapt resource value: 0x7f0a0015
 			public const int invalid_date = 2131361813;

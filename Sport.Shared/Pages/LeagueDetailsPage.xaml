@@ -87,7 +87,7 @@
 				<StackLayout Padding="24,24,24,14" Spacing="14"	IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
 
 					<local:SportButton Text="CHALLENGE" StyleId="challengeButton" HorizontalOptions="FillAndExpand"
-						BackgroundColor="{Binding League.Theme.Primary}" Clicked="HandleChallengeClicked" IsVisible="{Binding CanChallenge}" />
+						BackgroundColor="{Binding League.Theme.Dark}" Clicked="HandleChallengeClicked" IsVisible="{Binding CanChallenge}" />
 
 					<local:SportButton Text="LEADERBOARD" StyleId="leaderboardButton" HorizontalOptions="FillAndExpand"
 						Clicked="HandleRankingsClicked" />
