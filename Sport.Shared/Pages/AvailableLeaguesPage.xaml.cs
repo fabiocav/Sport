@@ -37,7 +37,7 @@ namespace Sport.Shared
 
 				var page = new LeagueDetailsPage(vm.League);
 
-				page.OnJoinedLeague = async(l) =>
+				page.OnJoinedLeague = (l) =>
 				{
 					ViewModel.LocalRefresh();
 					if(OnJoinedLeague != null)

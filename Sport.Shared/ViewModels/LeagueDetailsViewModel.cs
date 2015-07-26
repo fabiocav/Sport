@@ -104,14 +104,21 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(!League.HasStarted && CurrentMembership != null)
+					return null;
+				
 				var gap = League.MaxChallengeRange;
 				Membership best = null;
 				while(best == null && gap > 0 && CurrentMembership != null)
 				{
 					best = League.Memberships.SingleOrDefault(m => m.CurrentRank == CurrentMembership.CurrentRank - gap);
 
-					//Ensure no ongoing challenges
-					if(best != null && best.OngoingChallenge != null)
+					if(best == null)
+						return null;
+					
+					//Ensure no issues with player
+					var conflict = best.GetChallengeConflictReason(CurrentMembership.Athlete);
+					if(best != null && conflict != null)
 						best = null;
 
 					gap--;
