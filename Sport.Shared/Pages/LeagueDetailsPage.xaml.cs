@@ -10,7 +10,6 @@ namespace Sport.Shared
 		const string _leave = "Cowardly Abandon League";
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
-		ToolbarItem _moreButton;
 		double _imageHeight;
 
 		public LeagueDetailsPage(League league)
@@ -87,7 +86,7 @@ namespace Sport.Shared
 			{
 				using(new HUD("Refreshing..."))
 				{
-					await ViewModel.RefreshLeague();	
+					await ViewModel.RefreshLeague();
 					rankStrip.Membership = ViewModel.CurrentMembership;
 				}
 			};
