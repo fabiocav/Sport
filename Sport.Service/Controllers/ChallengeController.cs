@@ -27,7 +27,7 @@ namespace Sport.Service.Controllers
             DomainManager = new EntityDomainManager<Challenge>(_context, Request, Services);
         }
 
-		IQueryable<ChallengeDto> ConvertChallengeToDto(IQueryable<Challenge> queryable)
+		public static IQueryable<ChallengeDto> ConvertChallengeToDto(IQueryable<Challenge> queryable)
 		{
 			return queryable.Select(c => new ChallengeDto
 			{

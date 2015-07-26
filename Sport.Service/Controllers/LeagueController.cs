@@ -62,6 +62,7 @@ namespace Sport.Service.Controllers
 					ChallengerAthleteId = c.ChallengerAthleteId,
 					ChallengeeAthleteId = c.ChallengeeAthleteId,
 					LeagueId = c.LeagueId,
+					BattleForRank = c.BattleForRank,
 					DateCreated = c.CreatedAt,
 					ProposedTime = c.ProposedTime,
 					UpdatedAt = c.UpdatedAt,
@@ -69,8 +70,7 @@ namespace Sport.Service.Controllers
 				}).ToList(),
 			});
 		}
-
-
+		
         // GET tables/League
         public IQueryable<LeagueDto> GetAllLeagues()
         {
