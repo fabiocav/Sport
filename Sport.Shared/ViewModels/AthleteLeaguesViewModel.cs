@@ -103,18 +103,16 @@ namespace Sport.Shared
 			var existing = Leagues.Where(l => !newIds.Contains(l.League.Id)).ToList();
 
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
-			toAdd.ForEach(l => Leagues.Add(new LeagueViewModel(l, App.CurrentAthlete)));
-			Leagues.Sort(new LeagueSortComparer());
 
+			var preSort = new List<LeagueViewModel>();
+			toAdd.ForEach(l => preSort.Add(new LeagueViewModel(l, App.CurrentAthlete)));
+			preSort.Sort(new LeagueSortComparer());
 			existing.ForEach(l => l.LocalRefresh());
 
-			foreach(var l in Leagues)
-				l.IsLast = false;
+			var last = preSort.LastOrDefault();
+			preSort.ForEach(l => l.IsLast = l == last);
+			preSort.ForEach(Leagues.Add);
 
-			var last = Leagues.LastOrDefault();
-			if(last != null)
-				last.IsLast = true;
-			
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new LeagueViewModel(new League {

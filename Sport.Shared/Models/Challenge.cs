@@ -320,8 +320,8 @@ namespace Sport.Shared
 					return null;
 
 				var sb = new StringBuilder();
-				MatchResult.ForEach(g => sb.AppendFormat("{0} - {1}, ", g.ChallengerScore, g.ChallengeeScore));
-				return sb.ToString().TrimEnd(" ,".ToCharArray());
+				MatchResult.ForEach(g => sb.AppendFormat("{0} - {1}  :  ", g.ChallengerScore, g.ChallengeeScore));
+				return sb.ToString().TrimEnd(" ,:".ToCharArray());
 			}
 		}
 
@@ -380,13 +380,16 @@ namespace Sport.Shared
 	{
 		public int Compare(ChallengeViewModel x, ChallengeViewModel y)
 		{
-			if(x.Challenge.DateCompleted == y.Challenge.DateCompleted)
+			if(!x.Challenge.DateCreated.HasValue || !y.Challenge.DateCompleted.HasValue)
 				return 0;
 
-			if(x.Challenge.DateCompleted < y.Challenge.DateCompleted)
+			if(x.Challenge.DateCompleted.Value > y.Challenge.DateCompleted.Value)
 				return -1;
 
-			return 1;
+			if(x.Challenge.DateCompleted.Value < y.Challenge.DateCompleted.Value)
+				return 1;
+
+			return 0;
 		}
 	}
 }

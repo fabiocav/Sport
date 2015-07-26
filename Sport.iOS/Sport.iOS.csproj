@@ -248,6 +248,8 @@
     <BundleResource Include="Resources\ic_notifications_active_white%402x.png" />
     <BundleResource Include="Resources\ic_notifications_active_white%403x.png" />
     <BundleResource Include="Resources\sport_xamarin_logos.png" />
+    <BundleResource Include="Resources\ic_trophy_white%402x.png" />
+    <BundleResource Include="Resources\ic_trophy_white%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

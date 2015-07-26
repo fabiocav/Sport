@@ -3,6 +3,7 @@ using Xamarin.UITest;
 using Xamarin.TestCloud.Extensions;
 using System.Threading;
 using System;
+using Xamarin.UITest.Queries;
 
 namespace Sport.UITests
 {
@@ -27,6 +28,10 @@ namespace Sport.UITests
 		[Test]
 		public void JoinLeagueAndChallenge()
 		{
+			Func<AppQuery, AppQuery> menuButton = e => e.Marked("ic_more_vert_white");
+			if(platform == Platform.Android)
+				menuButton = e => e.Marked("NoResourceEntry-0").Index(app.Query(ee => ee.Marked("NoResourceEntry-0")).Length - 1);
+
 			app.WaitForElement("authButton");
 			app.Tap("When the app starts", "authButton");
 
@@ -86,11 +91,10 @@ namespace Sport.UITests
 
 			app.Screenshot("Now I should see a list of leagues I have joined");
 
-			//Availalbe leagues
+			//Available leagues
 			if(platform == Platform.Android)
 				app.Tap("NoResourceEntry-0");
-
-			if(platform == Platform.iOS)
+			else if(platform == Platform.iOS)
 				app.Tap("ic_add_white");
 			
 			app.WaitForElement(e => e.Marked("leagueRow"));
@@ -107,7 +111,7 @@ namespace Sport.UITests
 
 			app.WaitForElement("leaguePhoto");
 			app.Screenshot("Then I should see the league details");
-			app.ScrollDownEnough(e => e.Marked("abandonButton"), "Bottom of list");
+			app.ScrollDownEnough(e => e.Marked("leaderboardButton"), "Bottom of list");
 
 			app.Tap("leaderboardButton");
 
@@ -129,6 +133,10 @@ namespace Sport.UITests
 				app.Tap("resultItemRoot");
 				app.WaitForElement("challengeRoot");
 				app.Screenshot("Challenge result page");
+
+				app.ScrollDownEnough(e => e.Marked("winningLabel"));
+				app.Screenshot("Challenge result page end");
+
 				app.Back(platform);
 				app.Tap("Done");
 			}
@@ -156,22 +164,42 @@ namespace Sport.UITests
 
 			app.Tap("datePicker");
 			app.Screenshot("Challenge date picker");
-
 			DismissPicker();
 			app.Screenshot("End");
 
 			app.Tap("timePicker");
 			app.Screenshot("Challenge time picker");
-
 			DismissPicker();
 			app.Tap("Cancel");
+
 			app.Screenshot("Back");
-			app.Tap("abandonButton");
+
+			app.Tap(menuButton);
+			app.Tap("Cowardly Abandon League");
+
 			app.Screenshot("Confirm");
 			app.Tap("No");
 
 			app.Back(platform);
 			app.Screenshot("End");
+
+			app.Tap(menuButton);
+			app.Screenshot("More options menu");
+			app.Tap(e => e.Marked("About"), "About page");
+
+			app.ScrollDownEnough(e => e.Marked("sourceButton"));
+			app.Screenshot("Bottom of About page");
+
+			app.Tap("Done");
+
+			app.Tap(menuButton);
+			app.Tap(e => e.Marked("My Profile"), "Profile page");
+			app.ScrollDownAndTap(e => e.Marked("saveButton"), "Saving profile");
+
+			app.WaitForElement(e => e.Marked("leagueRow"));
+			Assert.IsTrue(app.Query(e => e.Marked("leagueRow")).Length > 0);
+
+			app.Screenshot("End of test");
 		}
 
 		void DismissPicker()

@@ -41,6 +41,14 @@ namespace Sport.Shared
 			}
 		}
 
+		public bool IsFirstPlace
+		{
+			get
+			{
+				return App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id && m.CurrentRank == 0 && m.League != null && m.League.HasStarted);
+			}
+		}
+
 		public bool IsMember
 		{
 			get
@@ -88,6 +96,7 @@ namespace Sport.Shared
 			SetPropertyChanged("IsLast");
 			SetPropertyChanged("IsMemberAndLeagueStarted");
 			SetPropertyChanged("IsNotMemberAndLeagueStarted");
+			SetPropertyChanged("IsFirstPlace");
 		}
 
 		async public Task GetAllMemberships(bool forceRefresh = false)

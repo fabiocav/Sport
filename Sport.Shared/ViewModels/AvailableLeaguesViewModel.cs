@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 [assembly: Dependency(typeof(Sport.Shared.AvailableLeaguesViewModel))]
 namespace Sport.Shared
@@ -46,17 +47,13 @@ namespace Sport.Shared
 			var toAdd = toJoin.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).ToList();
 
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
-			toAdd.ForEach(l => Leagues.Add(new LeagueViewModel(l, App.CurrentAthlete)));
-			Leagues.Sort(new LeagueSortComparer());
+			var preSort = new List<LeagueViewModel>();
+			toAdd.ForEach(l => preSort.Add(new LeagueViewModel(l, App.CurrentAthlete)));
+			preSort.Sort(new LeagueSortComparer());
 
-			foreach(var l in Leagues)
-			{
-				l.IsLast = false;
-			}
-
-			var last = Leagues.LastOrDefault();
-			if(last != null)
-				last.IsLast = true;
+			var last = preSort.LastOrDefault();
+			preSort.ForEach(l => l.IsLast = l == last);
+			preSort.ForEach(Leagues.Add);
 
 			if(Leagues.Count == 0)
 			{

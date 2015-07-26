@@ -62,12 +62,25 @@ namespace Sport.Shared
 
 			using(new Busy(this))
 			{
+				ChallengeViewModel empty = null;
+				if(Challenges.Count == 0)
+				{
+					empty = new ChallengeViewModel(null) {
+						EmptyMessage = "Loading previous challenges"
+					};
+
+					Challenges.Add(empty);
+				}
+
 				var task = AzureService.Instance.GetChallengesForMembership(Membership);
 				await RunSafe(task);
 
 				if(task.IsFaulted)
 					return;
 
+				if(empty != null)
+					Challenges.Remove(empty);
+				
 				LocalRefresh(task.Result);
 			}
 		}
@@ -81,11 +94,13 @@ namespace Sport.Shared
 				var comparer = new ChallengeComparer();
 				var toRemove = current.Except(challenges, comparer).ToList();
 				var toAdd = challenges.Except(current, comparer).ToList();
-
 				toRemove.ForEach(c => Challenges.Remove(Challenges.Single(vm => vm.Challenge == c)));
 
-				toAdd.ForEach(c => Challenges.Add(new ChallengeViewModel(c)));
-				Challenges.Sort(new ChallengeSortComparer());
+				var preSort = new List<ChallengeViewModel>();
+				toAdd.ForEach(c => preSort.Add(new ChallengeViewModel(c)));
+				preSort.Sort(new ChallengeSortComparer());
+
+				preSort.ForEach(Challenges.Add);
 
 				if(Challenges.Count == 0)
 				{

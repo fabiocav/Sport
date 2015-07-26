@@ -7,40 +7,25 @@ using System.Collections.Generic;
 
 namespace Sport.Shared
 {
-	public class ChallengeDetailsViewModel : BaseViewModel
+	public class ChallengeDetailsViewModel : ChallengeViewModel
 	{
-		public ChallengeDetailsViewModel()
+		public ChallengeDetailsViewModel() : base(null)
 		{
 			Challenge = new Challenge();
 		}
 
-		public ChallengeDetailsViewModel(Challenge challenge)
+		public ChallengeDetailsViewModel(Challenge challenge) : base(challenge)
 		{
 			Challenge = challenge;
 		}
 
 		#region Properties
 
-		Challenge challenge;
-
-		public Challenge Challenge
-		{
-			get
-			{
-				return challenge;
-			}
-			set
-			{
-				SetPropertyChanged(ref challenge, value);
-				NotifyPropertiesChanged();
-			}
-		}
-
 		public bool CanAccept
 		{
 			get
 			{
-				return Challenge != null && Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !challenge.IsAccepted && !Challenge.IsCompleted;
+				return Challenge != null && Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !_challenge.IsAccepted && !Challenge.IsCompleted;
 			}
 		}
 
@@ -48,7 +33,7 @@ namespace Sport.Shared
 		{
 			get
 			{
-				return Challenge != null && Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted && !Challenge.IsAccepted;
+				return CanAccept;
 			}
 		}
 
@@ -198,8 +183,9 @@ namespace Sport.Shared
 			}
 		}
 
-		public void NotifyPropertiesChanged()
+		public override void NotifyPropertiesChanged()
 		{
+			base.NotifyPropertiesChanged();
 			Challenge?.NotifyPropertiesChanged();
 
 			SetPropertyChanged("CanAccept");

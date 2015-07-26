@@ -28,8 +28,8 @@ namespace Sport.Shared
 				var historyPage = new ChallengeHistoryPage(ViewModel.Membership);
 				historyPage.AddDoneButton("Done");
 
+				historyPage.ViewModel.GetChallengeHistoryCommand.Execute(null);
 				await Navigation.PushModalAsync(historyPage.GetNavigationPage());
-				historyPage.ViewModel.GetChallengeHistory(true);
 			};
 
 			btnChallenge.Clicked += async(sender, e) =>

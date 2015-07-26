@@ -8,12 +8,11 @@ namespace Sport.UITests
 		{
 			if(platform == Platform.Android)
 			{
-				//return ConfigureApp.Android.ApiKey(Constants.ApiKey).StartApp();
-				return ConfigureApp.Android.ApiKey(Constants.ApiKey).ApkFile("/Users/Rob/Desktop/com.xamarin.sport.apk").StartApp();
+				return ConfigureApp.Android.ApiKey(Constants.ApiKey).StartApp();
+				//	return ConfigureApp.Android.ApiKey(Constants.ApiKey).ApkFile("/Users/Rob/Desktop/com.xamarin.sport.apk").StartApp();
 			}
 
-			//return ConfigureApp.iOS.ApiKey(Constants.ApiKey).StartApp();
-			return ConfigureApp.iOS.ApiKey(Constants.ApiKey).InstalledApp("com.xamarin.sport").StartApp();
+			return ConfigureApp.iOS.ApiKey(Constants.ApiKey).StartApp();
 		}
 	}
 }

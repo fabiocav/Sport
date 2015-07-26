@@ -10,6 +10,7 @@ namespace Sport.Shared
 		const string _leave = "Cowardly Abandon League";
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
+		ToolbarItem _moreButton;
 		double _imageHeight;
 
 		public LeagueDetailsPage(League league)
@@ -87,6 +88,7 @@ namespace Sport.Shared
 				using(new HUD("Refreshing..."))
 				{
 					await ViewModel.RefreshLeague();	
+					rankStrip.Membership = ViewModel.CurrentMembership;
 				}
 			};
 
@@ -214,6 +216,7 @@ namespace Sport.Shared
 		{
 			ViewModel.NotifyPropertiesChanged();
 			rankStrip.Membership = ViewModel.CurrentMembership;
+			RefreshMenuButtons();
 			base.OnAppearing();
 		}
 
@@ -277,7 +280,20 @@ namespace Sport.Shared
 			return list;
 		}
 
-		async void OnMoreClicked()
+		void RefreshMenuButtons()
+		{
+			if(GetMoreMenuOptions().Count > 0)
+			{
+				if(!ToolbarItems.Contains(btnMore))
+					ToolbarItems.Add(btnMore);
+			}
+			else
+			{
+				ToolbarItems.Remove(btnMore);
+			}
+		}
+
+		async void OnMoreClicked(object sender, EventArgs e)
 		{
 			var list = GetMoreMenuOptions();
 			var action = await DisplayActionSheet("Additional actions", "Cancel", null, list.ToArray());

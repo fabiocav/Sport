@@ -22,11 +22,11 @@
 								<StackLayout Orientation="Horizontal" VerticalOptions="Center"
 									IsVisible="{Binding EmptyMessage, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-									<StackLayout StyleId="resultItemRoot" Padding="16,4" Spacing="20" Orientation="Horizontal">
+									<StackLayout StyleId="resultItemRoot" Padding="24,4" Spacing="10" Orientation="Horizontal">
 										<Grid VerticalOptions="Center">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="50" />
-												<ColumnDefinition Width="20" />
+												<ColumnDefinition Width="10" />
 												<ColumnDefinition Width="50" />
 											</Grid.ColumnDefinitions>
 
@@ -56,7 +56,7 @@
 										</Grid>
 
 										<StackLayout Spacing="0" VerticalOptions="Center">
-											<Label Text="{Binding Challenge.MatchResultSummary}" FontSize="13" TextColor="{Binding Challenge.League.Theme.Dark}" />
+											<Label Text="{Binding Challenge.MatchResultSummary}" FontSize="Small" TextColor="{Binding Challenge.League.Theme.Dark}" />
 											<Label Text="{Binding Challenge.BattleForPlace}" FontSize="10" TextColor="{Binding Challenge.League.Theme.Primary}" />
 											<Label Text="{Binding Challenge.DateCompleted, StringFormat='completed on \{0:ddd, MMM d \\a\\t h:mm tt\}'}"
 												FontSize="10" TextColor="{Binding Challenge.League.Theme.Primary}" />

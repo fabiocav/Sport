@@ -78,11 +78,13 @@ namespace Sport.Shared
 
 		public void CreateChallenge(Athlete challenger, Athlete challengee, League league)
 		{
-			SelectedTime = TimeSpan.FromTicks(DateTime.Now.AddMinutes(60).Subtract(DateTime.Today).Ticks);
-			SelectedDate = DateTime.Today;
+			var time = TimeSpan.FromTicks(DateTime.Now.AddMinutes(60).Subtract(DateTime.Today).Ticks);
 
-			if(SelectedTime.Ticks > TimeSpan.TicksPerDay)
-				SelectedTime = SelectedTime.Subtract(TimeSpan.FromTicks(TimeSpan.TicksPerDay));
+			if(time.Ticks > TimeSpan.TicksPerDay)
+				time = time.Subtract(TimeSpan.FromTicks(TimeSpan.TicksPerDay));
+
+			SelectedTime = time;
+			SelectedDate = DateTime.Today;
 
 			var membership = league.Memberships.SingleOrDefault(m => m.AthleteId == challengee.Id);
 

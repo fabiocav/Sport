@@ -7,6 +7,7 @@
 
 	<local:LeagueDetailsXaml.ToolbarItems>
 		<ToolbarItem x:Name="btnRefresh" Text="Refresh" StyleId="refreshButton" Icon="ic_refresh_white" />
+		<ToolbarItem x:Name="btnMore" Icon="ic_more_vert_white" Clicked="OnMoreClicked" StyleId="moreButton" />
 	</local:LeagueDetailsXaml.ToolbarItems>
 
 	<local:LeagueDetailsXaml.Content>
@@ -91,14 +92,8 @@
 					<local:SportButton Text="LEADERBOARD" StyleId="leaderboardButton" HorizontalOptions="FillAndExpand"
 						Clicked="HandleRankingsClicked" />
 
-					<local:SportButton Text="LEAGUE RULES" HorizontalOptions="FillAndExpand" Clicked="HandleRulesClicked"
-						IsVisible="{Binding CanGetRules}" StyleId="rulesButton" />
-
 					<local:SportButton Text="JOIN LEAGUE" StyleId="joinButton" HorizontalOptions="FillAndExpand" Clicked="HandleJoinClicked"
 						BackgroundColor="{Binding League.Theme.Dark}" IsVisible="{Binding IsMember, Converter={x:Static local:InverseBoolConverter.Instance}}" />
-
-					<local:SportButton Text="ABANDON LEAGUE" StyleId="abandonButton" HorizontalOptions="FillAndExpand" Clicked="HandleLeaveClicked"
-						IsVisible="{Binding IsMember}" Style="{StaticResource deleteButtonStyle}" />
 				</StackLayout>
 
 				<StackLayout BackgroundColor="{StaticResource grayMedium}" Padding="18,14,24,0">

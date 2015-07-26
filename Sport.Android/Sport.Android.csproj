@@ -224,6 +224,9 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_notifications_active_white.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_notifications_active_white.png" />
     <AndroidResource Include="Resources\drawable-hdpi\sport_xamarin_logos.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_trophy_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_trophy_white.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_trophy_white.png" />
   </ItemGroup>
   <Import Project="..\Sport.Shared\Sport.Shared.projitems" Label="Shared" Condition="Exists('..\Sport.Shared\Sport.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

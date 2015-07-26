@@ -24,6 +24,14 @@ namespace Sport.Shared
 			}
 		}
 
+		public bool IsFirstPlace
+		{
+			get
+			{
+				return Membership != null && Membership.CurrentRank == 0 && Membership.League != null && Membership.League.HasStarted;
+			}
+		}
+
 		public bool IsCurrentMembership
 		{
 			get
@@ -51,6 +59,7 @@ namespace Sport.Shared
 			SetPropertyChanged("Membership");
 			SetPropertyChanged("IsCurrentMemebership");
 			SetPropertyChanged("EmptyMessage");
+			SetPropertyChanged("IsFirstPlace");
 			SetPropertyChanged("Alias");
 		}
 	}

@@ -28,12 +28,19 @@
 									<ColumnDefinition Width="6*" />
 								</Grid.ColumnDefinitions>
 
-								<controls:CircleImage Source="{Binding Challenge.ChallengerAthlete.ProfileImageUrl}"
-									HorizontalOptions="End" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="42" HeightRequest="42" />
+								<Grid WidthRequest="48" HeightRequest="48">
+									<Button BackgroundColor="{Binding Challenge.League.Theme.Light}" WidthRequest="48" HeightRequest="48" BorderRadius="24"
+										VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsChallengerWinningAthlete}" />
+									<controls:CircleImage WidthRequest="36" HeightRequest="36" Source="{Binding Challenge.ChallengerAthlete.ProfileImageUrl}"
+										HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" />
+								</Grid>
 
-								<controls:CircleImage Grid.Row="2" Source="{Binding Challenge.ChallengeeAthlete.ProfileImageUrl}"
-									HorizontalOptions="End" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="42" HeightRequest="42" />
-
+								<Grid Grid.Row="2" WidthRequest="48" HeightRequest="48">
+									<Button BackgroundColor="{Binding Challenge.League.Theme.Light}" WidthRequest="48" HeightRequest="48" BorderRadius="24"
+										VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsChallengeeWinningAthlete}" />
+									<controls:CircleImage WidthRequest="36" HeightRequest="36" Source="{Binding Challenge.ChallengeeAthlete.ProfileImageUrl}"
+										HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" />
+								</Grid>
 
 								<StackLayout Grid.Column="1" Spacing="0" Padding="20,0" VerticalOptions="Center" HorizontalOptions="Start">
 									<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" FontSize="Large" Style="{StaticResource header}" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
@@ -145,10 +152,14 @@
 					BackgroundColor="{Binding Challenge.League.Theme.Light}">
 					<StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="CenterAndExpand">
 						<Label Text="{Binding Challenge.WinningAthlete.Alias, StringFormat='this one goes to \{0\}'}" FontSize="Medium"
-							VerticalOptions="Center" TextColor="{Binding Challenge.League.Theme.Dark}" />
+							VerticalOptions="Center" TextColor="{Binding Challenge.League.Theme.Dark}" StyleId="winningLabel" />
 
-						<controls:CircleImage Source="{Binding Challenge.WinningAthlete.ProfileImageUrl}"
-							HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFill" WidthRequest="36" HeightRequest="36"  />
+						<Grid WidthRequest="48" HeightRequest="48" HorizontalOptions="Start" VerticalOptions="Center">
+							<Button BackgroundColor="{Binding Challenge.League.Theme.Primary}" WidthRequest="48" HeightRequest="48" BorderRadius="24"
+								VerticalOptions="Center" HorizontalOptions="Center" />
+							<controls:CircleImage WidthRequest="36" HeightRequest="36" Source="{Binding Challenge.WinningAthlete.ProfileImageUrl}"
+								HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" />
+						</Grid>
 					</StackLayout>
 				</StackLayout>
 			</Grid>

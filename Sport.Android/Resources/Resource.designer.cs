@@ -1866,22 +1866,25 @@ namespace Sport.Android
 			public const int ic_trophy_gray = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int icon = 2130837584;
-			
-			// aapt resource value: 0x7f020055
-			public const int notification_template_icon_bg = 2130837589;
+			public const int ic_trophy_white = 2130837584;
 			
 			// aapt resource value: 0x7f020051
-			public const int roundedbg = 2130837585;
+			public const int icon = 2130837585;
+			
+			// aapt resource value: 0x7f020056
+			public const int notification_template_icon_bg = 2130837590;
 			
 			// aapt resource value: 0x7f020052
-			public const int roundedbgdark = 2130837586;
+			public const int roundedbg = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int snackbar_background = 2130837587;
+			public const int roundedbgdark = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int sport_xamarin_logos = 2130837588;
+			public const int snackbar_background = 2130837588;
+			
+			// aapt resource value: 0x7f020055
+			public const int sport_xamarin_logos = 2130837589;
 			
 			static Drawable()
 			{

@@ -8,13 +8,21 @@ namespace Sport.Shared
 		public ChallengeViewModel(Challenge challenge)
 		{
 			Challenge = challenge;
-			NotifyPropertiesChanged();
 		}
+
+		protected Challenge _challenge;
 
 		public Challenge Challenge
 		{
-			get;
-			set;
+			get
+			{
+				return _challenge;
+			}
+			set
+			{
+				SetPropertyChanged(ref _challenge, value);
+				NotifyPropertiesChanged();
+			}
 		}
 
 		string _emptyMessage;
@@ -47,7 +55,7 @@ namespace Sport.Shared
 			}
 		}
 
-		public void NotifyPropertiesChanged()
+		public virtual void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("Challenge");
 			SetPropertyChanged("EmptyMessage");
