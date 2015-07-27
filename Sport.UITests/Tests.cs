@@ -28,6 +28,8 @@ namespace Sport.UITests
 		[Test]
 		public void JoinLeagueAndChallenge()
 		{
+			//Thread Sleeps are to accommodate the animations on very slow devices
+
 			Func<AppQuery, AppQuery> menuButton = e => e.Marked("ic_more_vert_white");
 			if(platform == Platform.Android)
 				menuButton = e => e.Marked("NoResourceEntry-0").Index(app.Query(ee => ee.Marked("NoResourceEntry-0")).Length - 1);
@@ -57,17 +59,22 @@ namespace Sport.UITests
 			app.WaitForElement(e => e.Css("#grant_heading"));
 			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
 
-			//Weird issue where sometimes the first tap doesn't take
-			Thread.Sleep(10000);
 			int tries = 0;
-			while(tries < 3 && app.Query("aliasText").Length == 0)
+			while(tries < 5 && app.Query("aliasText").Length == 0)
 			{
+				Thread.Sleep(5000);
+				app.LogToDevice(app.Query(e => e.Css("*")));
 				if(app.Query(e => e.Css("#submit_approve_access")).Length > 0)
-					app.ScrollDownAndTap(e => e.Css("#submit_approve_access"));
-				
-				Thread.Sleep(4000);
+					app.Tap(e => e.Css("#submit_approve_access"));
+							
 				tries++;
 			}
+
+			Thread.Sleep(5000);
+//			if(app.Query(e => e.Marked("aliasText")).Length == 0)
+//			{
+//			app.LogToDevice(app.Query(e => e.Css("*")));
+//			}
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));
