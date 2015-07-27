@@ -186,7 +186,6 @@ namespace Sport.Shared
 
 		public override void NotifyPropertiesChanged()
 		{
-			Console.WriteLine("CDTVM INPC");
 			base.NotifyPropertiesChanged();
 			Challenge?.NotifyPropertiesChanged();
 

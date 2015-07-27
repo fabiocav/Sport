@@ -8,8 +8,6 @@ namespace Sport.Shared
 {
 	public partial class AthleteLeaguesPage : AthleteLeaguesXaml
 	{
-		bool _hasAuthenticated;
-
 		public AthleteLeaguesPage(string athleteId = null)
 		{
 			ViewModel.AthleteId = athleteId;
@@ -61,6 +59,8 @@ namespace Sport.Shared
 			{
 				await ViewModel.RemoteRefresh();
 			}
+
+			await EnsureUserAuthenticated();
 		}
 
 		async protected override void OnAppearing()
@@ -69,8 +69,6 @@ namespace Sport.Shared
 
 			foreach(var l in ViewModel.Leagues)
 				l.LocalRefresh();
-			
-			await EnsureUserAuthenticated();
 		}
 
 		protected override void OnUserAuthenticated()
@@ -98,23 +96,6 @@ namespace Sport.Shared
 			{
 				await ViewModel.RemoteRefresh();
 				return;
-			}
-		}
-
-		public async Task EnsureUserAuthenticated()
-		{
-			if(App.CurrentAthlete == null && !_hasAuthenticated)
-			{
-				_hasAuthenticated = true;
-
-				var authPage = new AuthenticationPage();
-				await Navigation.PushModalAsync(authPage);
-				await authPage.AttemptToAuthenticateAthlete();
-
-				if(App.CurrentAthlete != null)
-				{
-					await Navigation.PopModalAsync();
-				}
 			}
 		}
 
@@ -157,16 +138,7 @@ namespace Sport.Shared
 
 		async void OnLogoutSelected()
 		{
-			var decline = await DisplayAlert("Really?", "Are you sure you want to log out?", "Yes", "No");
-
-			if(!decline)
-				return;
-
-			_hasAuthenticated = false;
-			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
-			authViewModel.LogOut();
-
-			App.Current.SetToWelcomePage(); 
+			LogoutUser();
 		}
 
 		async void OnProfileSelected()

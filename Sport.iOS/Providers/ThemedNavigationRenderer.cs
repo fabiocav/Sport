@@ -37,6 +37,21 @@ namespace Sport.iOS
 			return base.PopViewController(animated);
 		}
 
+		public override void ViewDidLoad()
+		{
+			Element.PropertyChanged += HandlePropertyChanged;
+			base.ViewDidLoad();
+		}
+
+		void HandlePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if(e.PropertyName == NavigationPage.BarTextColorProperty.PropertyName)
+			{
+				//This is here to override the default Forms behavior which modifies this value based on BarTextColor luminosity > .5
+				UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
+			}
+		}
+
 		void ChangeTheme(Page page)
 		{
 			var basePage = page as SuperBaseContentPage;
@@ -65,6 +80,15 @@ namespace Sport.iOS
 //					NavigationBar.BarTintColor = basePage.BarBackgroundColor.ToUIColor();
 //					NavigationBar.TintColor = basePage.BarTextColor.ToUIColor();
 //				});
+			}
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			if(disposing)
+			{
+				var navPage = (NavigationPage)Element;
+				navPage.PropertyChanged -= HandlePropertyChanged;
 			}
 		}
 	}

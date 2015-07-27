@@ -187,7 +187,6 @@ namespace Sport.Android
 
 		protected override bool OnRecoverableError(Context context, string errorId)
 		{
-			Console.WriteLine(errorId);
 			//Some recoverable error happened
 			return base.OnRecoverableError(context, errorId);
 		}

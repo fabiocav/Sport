@@ -37,8 +37,8 @@ namespace Sport.Shared
 
 		protected override void Initialize()
 		{
-			InitializeComponent();
 			Title = "Date and Time";
+			InitializeComponent();
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{

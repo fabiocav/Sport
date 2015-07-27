@@ -22,6 +22,16 @@ namespace Sport.Shared
 				//AttemptToAuthenticateAthlete();
 			};
 		}
+
+		async public Task<bool> AttemptToAuthenticateAthlete(bool force = false)
+		{
+			await ViewModel.GetUserProfile(force);
+
+			if(App.AuthUserProfile != null)
+				await ViewModel.EnsureAthleteRegistered();
+
+			return Settings.Instance.AuthToken != null;
+		}
 	}
 
 	public partial class AuthenticationPageXaml : BaseContentPage<AuthenticationViewModel>

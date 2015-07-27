@@ -33,12 +33,12 @@ namespace Sport.Shared
 		public App()
 		{
 			Colors = new List<string> {
-					"green",
-					"blue",
-					"red",
-					"yellow",
-					"asphalt",
-					"purple"
+				"green",
+				"blue",
+				"red",
+				"yellow",
+				"asphalt",
+				"purple"
 			};
 
 			#region Linker
@@ -164,8 +164,6 @@ namespace Sport.Shared
 
 			var random = new Random().Next(0, remaining.Count - 1);
 			var color = remaining[random];
-			Console.WriteLine("RANDOM: " + random);
-			Console.WriteLine("COLOR: " + color);
 
 			if(Settings.Instance.LeagueColors.ContainsKey(league.Id))
 			{

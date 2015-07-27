@@ -124,7 +124,7 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			AppResult rootView = null;
 			int count = 0;
-			const int maxTries = 20;
+			const int maxTries = 10;
 
 			AppResult[] lastTry;
 			while(count < maxTries)
@@ -166,7 +166,7 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			AppResult rootView = null;
 			int count = 0;
-			const int maxTries = 20;
+			const int maxTries = 10;
 
 			AppResult[] lastTry;
 			while(count < maxTries)
@@ -208,7 +208,7 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			AppResult rootView = null;
 			int count = 0;
-			const int maxTries = 20;
+			const int maxTries = 10;
 
 			AppWebResult[] lastTry;
 			while(count < maxTries)
@@ -232,8 +232,8 @@ namespace Xamarin.TestCloud.Extensions
 				}
 
 				app.ScrollDown();
-				float gap = rootView.Rect.Height / 5;
-				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
+//				float gap = rootView.Rect.Height / 5;
+//				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
 				count++;
 			}
 
@@ -249,7 +249,7 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			AppResult rootView = null;
 			int count = 0;
-			const int maxTries = 20;
+			const int maxTries = 10;
 
 			AppWebResult[] lastTry;
 			while(count < maxTries)

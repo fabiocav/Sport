@@ -38,28 +38,10 @@ namespace Sport.Shared
 			}
 		}
 
-		public bool IsChallengerWinningAthlete
-		{
-			get
-			{
-				return Challenge != null && Challenge.WinningAthlete != null && Challenge.WinningAthlete.Id == Challenge.ChallengerAthleteId;
-			}
-		}
-
-		public bool IsChallengeeWinningAthlete
-		{
-			get
-			{
-				return Challenge != null && Challenge.WinningAthlete != null && Challenge.WinningAthlete.Id == Challenge.ChallengeeAthleteId;
-			}
-		}
-
 		public virtual void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("Challenge");
 			SetPropertyChanged("EmptyMessage");
-			SetPropertyChanged("IsChallengeeWinningAthlete");
-			SetPropertyChanged("IsChallengerWinningAthlete");
 		}
 	}
 }

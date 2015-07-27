@@ -251,7 +251,6 @@ namespace Sport.Shared
 
 		public void NotifyPropertiesChanged()
 		{
-			Console.WriteLine("LDTVM INPC");
 			CurrentMembership?.LocalRefresh();
 
 			if(CurrentMembership?.OngoingChallenge == null)

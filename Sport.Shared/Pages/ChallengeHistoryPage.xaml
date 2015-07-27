@@ -33,7 +33,7 @@
 											<StackLayout Spacing="0" VerticalOptions="Center" HorizontalOptions="Center">
 												<Grid WidthRequest="48" HeightRequest="48">
 													<Button BackgroundColor="{Binding Challenge.League.Theme.Light}" WidthRequest="48" HeightRequest="48" BorderRadius="24"
-														VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsChallengerWinningAthlete}" />
+														VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding Challenge.IsChallengerWinningAthlete}" />
 													<controls:CircleImage WidthRequest="36" HeightRequest="36" Source="{Binding Challenge.ChallengerAthlete.ProfileImageUrl}"
 														HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" />
 												</Grid>
@@ -46,7 +46,7 @@
 											<StackLayout Grid.Column="2" Spacing="0" VerticalOptions="Center" HorizontalOptions="Center">
 												<Grid WidthRequest="48" HeightRequest="48">
 													<Button BackgroundColor="{Binding Challenge.League.Theme.Light}" WidthRequest="48" HeightRequest="48" BorderRadius="24"
-														VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsChallengeeWinningAthlete}" />
+														VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding Challenge.IsChallengeeWinningAthlete}" />
 													<controls:CircleImage WidthRequest="36" HeightRequest="36" Source="{Binding Challenge.ChallengeeAthlete.ProfileImageUrl}"
 														HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" />
 												</Grid>

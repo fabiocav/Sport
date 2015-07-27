@@ -94,15 +94,15 @@ namespace Sport.Shared
 			League.CreatedByAthleteId = App.CurrentAthlete.Id;
 
 			League.Memberships.Clear();
+			League.MembershipIds.Clear();
 			League.OngoingChallenges.Clear();
 			League.PastChallenges.Clear();
+
 			var task = AzureService.Instance.SaveLeague(League);
 			await RunSafe(task);
 
 			if(task.IsFaulted)
 				return false;
-
-			await RunSafe(AzureService.Instance.SaveLeague(League));
 
 			if(!_wasMember && IsMember)
 			{

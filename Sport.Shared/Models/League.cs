@@ -413,6 +413,9 @@ namespace Sport.Shared
 	{
 		public bool Equals(League x, League y)
 		{
+			if(x == null || y == null)
+				return false;
+
 			var isEqual = x.Id == y.Id
 			              && x.UpdatedAt == y.UpdatedAt
 			              && x.Name == y.Name

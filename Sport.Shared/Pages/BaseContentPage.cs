@@ -24,14 +24,6 @@ namespace Sport.Shared
 
 	public class SuperBaseContentPage : ContentPage
 	{
-		public AuthenticationViewModel AuthenticationViewModel
-		{
-			get
-			{
-				return DependencyService.Get<AuthenticationViewModel>();
-			}
-		}
-
 		public Color BarTextColor
 		{
 			get;
@@ -143,35 +135,47 @@ namespace Sport.Shared
 
 		#region Authentication
 
-		async public Task EnsureAthleteAuthenticated(bool showHud = false, bool force = false)
+		public async Task EnsureUserAuthenticated()
 		{
-			if((App.CurrentAthlete != null) && !force)
+			if(App.CurrentAthlete != null)
+				return;
+			
+			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
+			if(Settings.Instance.AuthToken != null)
+			{
+				var authPage = new AuthenticationPage();
+				await Navigation.PushModalAsync(authPage);
+				await authPage.AttemptToAuthenticateAthlete();
+
+				if(App.CurrentAthlete != null)
+				{
+					await Navigation.PopModalAsync();
+				}
+			}
+			else
+			{
+				await authViewModel.GetUserProfile(true);
+
+				if(App.AuthUserProfile != null)
+					await authViewModel.EnsureAthleteRegistered();
+			}
+		}
+
+		async protected void LogoutUser()
+		{
+			var decline = await DisplayAlert("Really?", "Are you sure you want to log out?", "Yes", "No");
+
+			if(!decline)
 				return;
 
-			if(showHud)
-				App.Current.Hud.DisplayProgress("Authenticating");
+			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
+			authViewModel.LogOut();
 
-			using(new Busy(AuthenticationViewModel))
-			{
-				await AttemptToAuthenticateAthlete(force);
-			}
-
-			if(showHud)
-				App.Current.Hud.Dismiss();
+			App.Current.SetToWelcomePage(); 
 		}
 
 		async protected virtual void OnIncomingPayload(App app, NotificationPayload payload)
 		{
-		}
-
-		async public Task<bool> AttemptToAuthenticateAthlete(bool force = false)
-		{
-			await AuthenticationViewModel.GetUserProfile(force);
-
-			if(App.AuthUserProfile != null)
-				await AuthenticationViewModel.EnsureAthleteRegistered();
-
-			return Settings.Instance.AuthToken != null;
 		}
 
 		#endregion

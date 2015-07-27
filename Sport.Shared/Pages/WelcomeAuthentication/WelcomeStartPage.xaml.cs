@@ -29,7 +29,7 @@ namespace Sport.Shared
 					return;
 
 				ignoreClicks = true;
-				await EnsureAthleteAuthenticated();
+				await EnsureUserAuthenticated();
 				if(App.CurrentAthlete != null)
 				{
 					await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);

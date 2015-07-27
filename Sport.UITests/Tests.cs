@@ -4,6 +4,7 @@ using Xamarin.TestCloud.Extensions;
 using System.Threading;
 using System;
 using Xamarin.UITest.Queries;
+using System.Linq;
 
 namespace Sport.UITests
 {
@@ -34,7 +35,8 @@ namespace Sport.UITests
 			if(platform == Platform.Android)
 				menuButton = e => e.Marked("NoResourceEntry-0").Index(app.Query(ee => ee.Marked("NoResourceEntry-0")).Length - 1);
 
-			Thread.Sleep(2000);
+			//Thread.Sleep(10000);
+			app.WaitForElement("authButton");
 			app.Tap("When the app starts", "authButton");
 
 			app.WaitForElement(e => e.Css("#Email"), "Timed out waiting for Google Oauth form", TimeSpan.FromSeconds(60));
@@ -57,24 +59,30 @@ namespace Sport.UITests
 
 			Thread.Sleep(5000);
 			app.WaitForElement(e => e.Css("#grant_heading"));
+
+			Thread.Sleep(5000);
 			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
 
+			Thread.Sleep(5000);
 			int tries = 0;
 			while(tries < 5 && app.Query("aliasText").Length == 0)
 			{
+				var html = app.Query(e => e.Css("button")).ToString(true);
+				app.LogToDevice(html);
+
+				var test = app.Query(x => x.Css("button")).Where(x => x.TextContent == "Accept").FirstOrDefault();
+
+				if(test != null)
+				{
+					Console.WriteLine(test.Rect.CenterX + " x " + test.Rect.CenterY);
+					app.TapCoordinates(test.Rect.CenterX, test.Rect.CenterY);
+				}
+
 				Thread.Sleep(5000);
-				app.LogToDevice(app.Query(e => e.Css("*")));
-				if(app.Query(e => e.Css("#submit_approve_access")).Length > 0)
-					app.Tap(e => e.Css("#submit_approve_access"));
-							
 				tries++;
 			}
 
 			Thread.Sleep(5000);
-//			if(app.Query(e => e.Marked("aliasText")).Length == 0)
-//			{
-//			app.LogToDevice(app.Query(e => e.Css("*")));
-//			}
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));

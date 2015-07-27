@@ -157,6 +157,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteLeaguesViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\ThememedNavigationPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\SportEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ChallengeProfileStripView.xaml.cs">
+      <DependentUpon>ChallengeProfileStripView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -244,6 +247,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ChallengeHistoryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ChallengeProfileStripView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

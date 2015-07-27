@@ -66,7 +66,6 @@ namespace Sport.iOS
 		public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)
 		{
 			Console.WriteLine("DidRegisterUserNotificationSettings called");
-			Console.WriteLine(notificationSettings);
 		}
 
 		public override void HandleAction(UIApplication application, string actionIdentifier, NSDictionary remoteNotificationInfo, Action completionHandler)

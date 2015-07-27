@@ -312,6 +312,25 @@ namespace Sport.Shared
 			}
 		}
 
+		[JsonIgnore]
+		public bool IsChallengerWinningAthlete
+		{
+			get
+			{
+				return WinningAthlete != null && WinningAthlete.Id == ChallengerAthleteId;
+			}
+		}
+
+		[JsonIgnore]
+		public bool IsChallengeeWinningAthlete
+		{
+			get
+			{
+				return WinningAthlete != null && WinningAthlete.Id == ChallengeeAthleteId;
+			}
+		}
+
+
 		public string MatchResultSummary
 		{
 			get
@@ -342,6 +361,8 @@ namespace Sport.Shared
 			SetPropertyChanged("MatchResultSummary");
 			SetPropertyChanged("ChallengerWinningGames");
 			SetPropertyChanged("ChallengeeWinningGames");
+			SetPropertyChanged("IsChallengeeWinningAthlete");
+			SetPropertyChanged("IsChallengerWinningAthlete");
 		}
 
 		public override bool Equals(object obj)
