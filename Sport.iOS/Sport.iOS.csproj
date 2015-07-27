@@ -39,7 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchArch>ARMv7s, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
@@ -155,27 +155,6 @@
     <Reference Include="Calabash">
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.14.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
     </Reference>
-    <Reference Include="XLabs.Ioc">
-      <HintPath>..\packages\XLabs.IoC.2.0.5679\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\XLabs.Ioc.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Core">
-      <HintPath>..\packages\XLabs.Core.2.0.5679\lib\Xamarin.iOS10\XLabs.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Platform.iOS">
-      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\Xamarin.iOS10\XLabs.Platform.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Platform">
-      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\Xamarin.iOS10\XLabs.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Serialization">
-      <HintPath>..\packages\XLabs.Serialization.2.0.5679\lib\Xamarin.iOS10\XLabs.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Forms.iOS">
-      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\Xamarin.iOS10\XLabs.Forms.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Forms">
-      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\Xamarin.iOS10\XLabs.Forms.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -261,11 +240,10 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Providers\HUDProvider.cs" />
     <Compile Include="Providers\PushNotifications.cs" />
-    <Compile Include="Providers\ExtendedDatePicker.cs" />
-    <Compile Include="Providers\ExtendedTimePicker.cs" />
     <Compile Include="Providers\ToastNotifier.cs" />
     <Compile Include="Providers\ThemedNavigationRenderer.cs" />
     <Compile Include="Providers\AuthenticationProvider.cs" />
+    <Compile Include="Providers\SportEntryRenderer.cs" />
   </ItemGroup>
   <Import Project="..\Sport.Shared\Sport.Shared.projitems" Label="Shared" Condition="Exists('..\Sport.Shared\Sport.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

@@ -107,27 +107,6 @@
     <Reference Include="Xamarin.Forms.Platform">
       <HintPath>..\packages\Xamarin.Forms.1.4.3.6376\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="XLabs.Ioc">
-      <HintPath>..\packages\XLabs.IoC.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Ioc.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Core">
-      <HintPath>..\packages\XLabs.Core.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Platform.Droid">
-      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\MonoAndroid\XLabs.Platform.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Platform">
-      <HintPath>..\packages\XLabs.Platform.2.0.5679\lib\MonoAndroid\XLabs.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Serialization">
-      <HintPath>..\packages\XLabs.Serialization.2.0.5679\lib\portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1\XLabs.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Forms.Droid">
-      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\MonoAndroid\XLabs.Forms.Droid.dll</HintPath>
-    </Reference>
-    <Reference Include="XLabs.Forms">
-      <HintPath>..\packages\XLabs.Forms.2.0.5679\lib\MonoAndroid\XLabs.Forms.dll</HintPath>
-    </Reference>
     <Reference Include="ImageCircle.Forms.Plugin.Android">
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.0.14\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Android.dll</HintPath>
     </Reference>
@@ -155,6 +134,7 @@
     <Compile Include="Providers\PushNotifications.cs" />
     <Compile Include="Providers\ToastNotifier.cs" />
     <Compile Include="Providers\AuthenticationProvider.cs" />
+    <Compile Include="Providers\SportEntryRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

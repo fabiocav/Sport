@@ -105,7 +105,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\AuthenticationView.xaml.cs">
       <DependentUpon>AuthenticationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ClearNavPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AuthenticationPage.xaml.cs">
       <DependentUpon>AuthenticationPage.xaml</DependentUpon>
     </Compile>
@@ -115,8 +114,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeDateViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GoogleApiService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ExtendedDatePicker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ExtendedTimePIcker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IToastNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ChallengeCardView.xaml.cs">
       <DependentUpon>ChallengeCardView.xaml</DependentUpon>
@@ -158,6 +155,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeHistoryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChallengeViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AthleteLeaguesViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\ThememedNavigationPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Renderers\SportEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

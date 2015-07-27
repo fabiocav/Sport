@@ -6,12 +6,12 @@ using Sport.Shared;
 using UIKit;
 using Xamarin;
 using Xamarin.Forms;
-using XLabs.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 namespace Sport.iOS
 {
 	[Register("AppDelegate")]
-	public partial class AppDelegate : XFormsApplicationDelegate
+	public partial class AppDelegate : FormsApplicationDelegate
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{

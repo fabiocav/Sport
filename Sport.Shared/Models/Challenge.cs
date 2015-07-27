@@ -359,6 +359,10 @@ namespace Sport.Shared
 				return false;
 
 			if(x.Id == y.Id
+			   && x.DateAccepted == y.DateAccepted
+			   && x.DateCompleted == y.DateCompleted
+			   && x.BattleForRank == y.BattleForRank
+			   && x.ProposedTime == y.ProposedTime
 			   && x.WinningAthlete == y.WinningAthlete
 			   && x.MatchResult.Count == y.MatchResult.Count
 			   && x.ChallengeeAthleteId == y.ChallengeeAthleteId

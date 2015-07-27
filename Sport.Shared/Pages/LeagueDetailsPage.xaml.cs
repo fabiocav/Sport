@@ -90,7 +90,7 @@ namespace Sport.Shared
 			{
 				using(new HUD("Refreshing..."))
 				{
-					await ViewModel.RefreshLeague();
+					await ViewModel.RefreshLeague(true);
 					rankStrip.Membership = ViewModel.CurrentMembership;
 				}
 			};

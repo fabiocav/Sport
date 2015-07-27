@@ -43,7 +43,7 @@
 						<Label Text="Alias:" TextColor="White" VerticalOptions="Center" FontSize="Large" />
 
 						<ContentView Padding="0,5,0,0" HorizontalOptions="FillAndExpand">
-							<labs:ExtendedEntry x:Name="txtAlias" StyleId="aliasText" Text="{Binding Athlete.Alias}" Font="Large" TextColor="White" Opacity=".7"
+							<local:SportEntry x:Name="txtAlias" StyleId="aliasText" Text="{Binding Athlete.Alias}" Font="Large" TextColor="White" Opacity=".7"
 								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" MaxLength="14" />
 						</ContentView>
 					</StackLayout>

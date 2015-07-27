@@ -26,7 +26,7 @@
 					<StackLayout Orientation="Horizontal" Spacing="20" Padding="48,0" HeightRequest="56">
 						<Label Text="Alias:" TextColor="{StaticResource asphaltLight}" VerticalOptions="Center" FontSize="Large" />
 						<ContentView Padding="0,5,0,0" HorizontalOptions="FillAndExpand">
-							<labs:ExtendedEntry x:Name="txtAlias" StyleId="aliasText" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource asphaltDark}"
+							<local:SportEntry x:Name="txtAlias" StyleId="aliasText" Text="{Binding Athlete.Alias}" Font="Large" TextColor="{StaticResource asphaltDark}"
 								HasBorder="false" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Fill" MaxLength="14" />
 						</ContentView>
 					</StackLayout>

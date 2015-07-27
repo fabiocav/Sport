@@ -29,14 +29,14 @@
 			FontSize="Medium" VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource grayLight}" XAlign="Center" YAlign="Center" />
 
 		<ContentView Padding="0,10,0,0" Grid.Row="2" HorizontalOptions="Center">
-			<labs:ExtendedEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
+			<local:SportEntry Text="{Binding GameResult.ChallengerScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
 				TextColor="{Binding Challenge.League.Theme.Dark}" VerticalOptions="Center" WidthRequest="60" HeightRequest="60" MaxLength="2"
 				BackgroundColor="{Binding Challenge.League.Theme.Light}" HasBorder="false" Font="36" XAlign="Center" TextChanged="TextChanged"
 				Keyboard="Numeric" />
 		</ContentView>
 
 		<ContentView Padding="0,10,0,0" Grid.Column="1" Grid.Row="2" HorizontalOptions="Center">
-			<labs:ExtendedEntry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
+			<local:SportEntry Text="{Binding GameResult.ChallengeeScore, Converter={x:Static local:NullIntValueConverter.Instance}, Mode=TwoWay}"
 				TextColor="{Binding Challenge.League.Theme.Dark}" VerticalOptions="Center" WidthRequest="60" HeightRequest="60" MaxLength="2" Keyboard="Numeric"
 				BackgroundColor="{Binding Challenge.League.Theme.Light}" HasBorder="false" Font="36" XAlign="Center" TextChanged="TextChanged"  />
 		</ContentView>

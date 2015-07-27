@@ -228,7 +228,7 @@ namespace Sport.Shared
 			NotifyPropertiesChanged();
 		}
 
-		async public Task RefreshLeague()
+		async public Task RefreshLeague(bool force = false)
 		{
 			if(IsBusy)
 				return;
@@ -241,7 +241,7 @@ namespace Sport.Shared
 				if(task.IsFaulted)
 					return;
 
-				if(League == null || !League.Equals(task.Result))
+				if(force || (League == null || !League.Equals(task.Result)))
 				{
 					task.Result.Theme = League?.Theme;
 					League = task.Result;

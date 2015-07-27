@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using XLabs.Forms.Controls;
 
 namespace Sport.Shared
 {

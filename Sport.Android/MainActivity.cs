@@ -7,14 +7,14 @@ using Android.OS;
 using Android.Views;
 using ImageCircle.Forms.Plugin.Droid;
 using Sport.Shared;
-using XLabs.Forms;
+using Xamarin.Forms.Platform.Android;
 
 [assembly:Xamarin.Forms.Dependency(typeof(Sport.Android.MainActivity))]
 
 namespace Sport.Android
 {
 	[Activity(Label = "Sport", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GrayTheme", ScreenOrientation = ScreenOrientation.Portrait)]
-	public class MainActivity : XFormsApplicationDroid
+	public class MainActivity : FormsApplicationActivity
 	{
 		protected override void OnCreate(Bundle bundle)
 		{

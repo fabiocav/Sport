@@ -67,48 +67,6 @@ namespace Sport.Android
 			global::ModernHttpClient.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
 			global::Xamarin.Forms.Platform.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
-			global::XLabs.Platform.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
-			global::XLabs.Platform.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
-			global::XLabs.Forms.Resource.Color.calendar_active_month_bg = global::Sport.Android.Resource.Color.calendar_active_month_bg;
-			global::XLabs.Forms.Resource.Color.calendar_bg = global::Sport.Android.Resource.Color.calendar_bg;
-			global::XLabs.Forms.Resource.Color.calendar_divider = global::Sport.Android.Resource.Color.calendar_divider;
-			global::XLabs.Forms.Resource.Color.calendar_highlighted_day_bg = global::Sport.Android.Resource.Color.calendar_highlighted_day_bg;
-			global::XLabs.Forms.Resource.Color.calendar_inactive_month_bg = global::Sport.Android.Resource.Color.calendar_inactive_month_bg;
-			global::XLabs.Forms.Resource.Color.calendar_selected_day_bg = global::Sport.Android.Resource.Color.calendar_selected_day_bg;
-			global::XLabs.Forms.Resource.Color.calendar_selected_range_bg = global::Sport.Android.Resource.Color.calendar_selected_range_bg;
-			global::XLabs.Forms.Resource.Color.calendar_text_active = global::Sport.Android.Resource.Color.calendar_text_active;
-			global::XLabs.Forms.Resource.Color.calendar_text_inactive = global::Sport.Android.Resource.Color.calendar_text_inactive;
-			global::XLabs.Forms.Resource.Color.calendar_text_selected = global::Sport.Android.Resource.Color.calendar_text_selected;
-			global::XLabs.Forms.Resource.Color.calendar_text_selector = global::Sport.Android.Resource.Color.calendar_text_selector;
-			global::XLabs.Forms.Resource.Color.calendar_text_unselectable = global::Sport.Android.Resource.Color.calendar_text_unselectable;
-			global::XLabs.Forms.Resource.Dimension.calendar_day_headers_paddingbottom = global::Sport.Android.Resource.Dimension.calendar_day_headers_paddingbottom;
-			global::XLabs.Forms.Resource.Dimension.calendar_month_title_bottommargin = global::Sport.Android.Resource.Dimension.calendar_month_title_bottommargin;
-			global::XLabs.Forms.Resource.Dimension.calendar_month_topmargin = global::Sport.Android.Resource.Dimension.calendar_month_topmargin;
-			global::XLabs.Forms.Resource.Dimension.calendar_text_medium = global::Sport.Android.Resource.Dimension.calendar_text_medium;
-			global::XLabs.Forms.Resource.Dimension.calendar_text_small = global::Sport.Android.Resource.Dimension.calendar_text_small;
-			global::XLabs.Forms.Resource.Drawable.ad16 = global::Sport.Android.Resource.Drawable.ad16;
-			global::XLabs.Forms.Resource.Drawable.calendar_bg_selector = global::Sport.Android.Resource.Drawable.calendar_bg_selector;
-			global::XLabs.Forms.Resource.Id.calendar_grid = global::Sport.Android.Resource.Id.calendar_grid;
-			global::XLabs.Forms.Resource.Id.calendar_view = global::Sport.Android.Resource.Id.calendar_view;
-			global::XLabs.Forms.Resource.Id.left_arrow = global::Sport.Android.Resource.Id.left_arrow;
-			global::XLabs.Forms.Resource.Id.right_arrow = global::Sport.Android.Resource.Id.right_arrow;
-			global::XLabs.Forms.Resource.Id.title = global::Sport.Android.Resource.Id.title;
-			global::XLabs.Forms.Resource.Layout.calendar_pager_layout = global::Sport.Android.Resource.Layout.calendar_pager_layout;
-			global::XLabs.Forms.Resource.Layout.calendar_picker = global::Sport.Android.Resource.Layout.calendar_picker;
-			global::XLabs.Forms.Resource.Layout.dialog = global::Sport.Android.Resource.Layout.dialog;
-			global::XLabs.Forms.Resource.Layout.month = global::Sport.Android.Resource.Layout.month;
-			global::XLabs.Forms.Resource.Layout.week = global::Sport.Android.Resource.Layout.week;
-			global::XLabs.Forms.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
-			global::XLabs.Forms.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
-			global::XLabs.Forms.Resource.String.day_name_format = global::Sport.Android.Resource.String.day_name_format;
-			global::XLabs.Forms.Resource.String.full_date_format = global::Sport.Android.Resource.String.full_date_format;
-			global::XLabs.Forms.Resource.String.invalid_date = global::Sport.Android.Resource.String.invalid_date;
-			global::XLabs.Forms.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
-			global::XLabs.Forms.Resource.String.month_name_format = global::Sport.Android.Resource.String.month_name_format;
-			global::XLabs.Forms.Resource.Style.CalendarCell = global::Sport.Android.Resource.Style.CalendarCell;
-			global::XLabs.Forms.Resource.Style.CalendarCell_CalendarDate = global::Sport.Android.Resource.Style.CalendarCell_CalendarDate;
-			global::XLabs.Forms.Resource.Style.CalendarCell_DayHeader = global::Sport.Android.Resource.Style.CalendarCell_DayHeader;
-			global::XLabs.Forms.Resource.Style.CalendarTitle = global::Sport.Android.Resource.Style.CalendarTitle;
 		}
 		
 		public partial class Animation
@@ -1008,29 +966,29 @@ namespace Sport.Android
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f080055
-			public const int abc_background_cache_hint_selector_material_dark = 2131230805;
+			// aapt resource value: 0x7f08004a
+			public const int abc_background_cache_hint_selector_material_dark = 2131230794;
 			
-			// aapt resource value: 0x7f080056
-			public const int abc_background_cache_hint_selector_material_light = 2131230806;
+			// aapt resource value: 0x7f08004b
+			public const int abc_background_cache_hint_selector_material_light = 2131230795;
 			
 			// aapt resource value: 0x7f080009
 			public const int abc_input_method_navigation_guard = 2131230729;
 			
-			// aapt resource value: 0x7f080057
-			public const int abc_primary_text_disable_only_material_dark = 2131230807;
+			// aapt resource value: 0x7f08004c
+			public const int abc_primary_text_disable_only_material_dark = 2131230796;
 			
-			// aapt resource value: 0x7f080058
-			public const int abc_primary_text_disable_only_material_light = 2131230808;
+			// aapt resource value: 0x7f08004d
+			public const int abc_primary_text_disable_only_material_light = 2131230797;
 			
-			// aapt resource value: 0x7f080059
-			public const int abc_primary_text_material_dark = 2131230809;
+			// aapt resource value: 0x7f08004e
+			public const int abc_primary_text_material_dark = 2131230798;
 			
-			// aapt resource value: 0x7f08005a
-			public const int abc_primary_text_material_light = 2131230810;
+			// aapt resource value: 0x7f08004f
+			public const int abc_primary_text_material_light = 2131230799;
 			
-			// aapt resource value: 0x7f08005b
-			public const int abc_search_url_text = 2131230811;
+			// aapt resource value: 0x7f080050
+			public const int abc_search_url_text = 2131230800;
 			
 			// aapt resource value: 0x7f08000a
 			public const int abc_search_url_text_normal = 2131230730;
@@ -1041,11 +999,11 @@ namespace Sport.Android
 			// aapt resource value: 0x7f08000c
 			public const int abc_search_url_text_selected = 2131230732;
 			
-			// aapt resource value: 0x7f08005c
-			public const int abc_secondary_text_material_dark = 2131230812;
+			// aapt resource value: 0x7f080051
+			public const int abc_secondary_text_material_dark = 2131230801;
 			
-			// aapt resource value: 0x7f08005d
-			public const int abc_secondary_text_material_light = 2131230813;
+			// aapt resource value: 0x7f080052
+			public const int abc_secondary_text_material_light = 2131230802;
 			
 			// aapt resource value: 0x7f08000d
 			public const int accent_material_dark = 2131230733;
@@ -1065,14 +1023,14 @@ namespace Sport.Android
 			// aapt resource value: 0x7f080012
 			public const int background_material_light = 2131230738;
 			
-			// aapt resource value: 0x7f08004c
-			public const int blueDark = 2131230796;
+			// aapt resource value: 0x7f080041
+			public const int blueDark = 2131230785;
 			
-			// aapt resource value: 0x7f08004d
-			public const int blueLight = 2131230797;
+			// aapt resource value: 0x7f080042
+			public const int blueLight = 2131230786;
 			
-			// aapt resource value: 0x7f08004b
-			public const int bluePrimary = 2131230795;
+			// aapt resource value: 0x7f080040
+			public const int bluePrimary = 2131230784;
 			
 			// aapt resource value: 0x7f080013
 			public const int bright_foreground_disabled_material_dark = 2131230739;
@@ -1097,42 +1055,6 @@ namespace Sport.Android
 			
 			// aapt resource value: 0x7f08001a
 			public const int button_material_light = 2131230746;
-			
-			// aapt resource value: 0x7f08003c
-			public const int calendar_active_month_bg = 2131230780;
-			
-			// aapt resource value: 0x7f08003d
-			public const int calendar_bg = 2131230781;
-			
-			// aapt resource value: 0x7f08003e
-			public const int calendar_divider = 2131230782;
-			
-			// aapt resource value: 0x7f080041
-			public const int calendar_highlighted_day_bg = 2131230785;
-			
-			// aapt resource value: 0x7f08003f
-			public const int calendar_inactive_month_bg = 2131230783;
-			
-			// aapt resource value: 0x7f080040
-			public const int calendar_selected_day_bg = 2131230784;
-			
-			// aapt resource value: 0x7f080042
-			public const int calendar_selected_range_bg = 2131230786;
-			
-			// aapt resource value: 0x7f080044
-			public const int calendar_text_active = 2131230788;
-			
-			// aapt resource value: 0x7f080043
-			public const int calendar_text_inactive = 2131230787;
-			
-			// aapt resource value: 0x7f080045
-			public const int calendar_text_selected = 2131230789;
-			
-			// aapt resource value: 0x7f08005e
-			public const int calendar_text_selector = 2131230814;
-			
-			// aapt resource value: 0x7f080046
-			public const int calendar_text_unselectable = 2131230790;
 			
 			// aapt resource value: 0x7f08001b
 			public const int dim_foreground_disabled_material_dark = 2131230747;
@@ -1161,26 +1083,26 @@ namespace Sport.Android
 			// aapt resource value: 0x7f080004
 			public const int fab_stroke_top_outer_color = 2131230724;
 			
-			// aapt resource value: 0x7f080050
-			public const int grayDark = 2131230800;
+			// aapt resource value: 0x7f080045
+			public const int grayDark = 2131230789;
 			
-			// aapt resource value: 0x7f08004f
-			public const int grayLight = 2131230799;
+			// aapt resource value: 0x7f080044
+			public const int grayLight = 2131230788;
 			
-			// aapt resource value: 0x7f080051
-			public const int grayMedium = 2131230801;
+			// aapt resource value: 0x7f080046
+			public const int grayMedium = 2131230790;
 			
-			// aapt resource value: 0x7f08004e
-			public const int grayPrimary = 2131230798;
+			// aapt resource value: 0x7f080043
+			public const int grayPrimary = 2131230787;
 			
-			// aapt resource value: 0x7f08004a
-			public const int greenDark = 2131230794;
+			// aapt resource value: 0x7f08003f
+			public const int greenDark = 2131230783;
 			
-			// aapt resource value: 0x7f080049
-			public const int greenLight = 2131230793;
+			// aapt resource value: 0x7f08003e
+			public const int greenLight = 2131230782;
 			
-			// aapt resource value: 0x7f080048
-			public const int greenPrimary = 2131230792;
+			// aapt resource value: 0x7f08003d
+			public const int greenPrimary = 2131230781;
 			
 			// aapt resource value: 0x7f08001f
 			public const int highlighted_text_material_dark = 2131230751;
@@ -1239,11 +1161,11 @@ namespace Sport.Android
 			// aapt resource value: 0x7f080031
 			public const int primary_text_disabled_material_light = 2131230769;
 			
-			// aapt resource value: 0x7f080052
-			public const int purpleDark = 2131230802;
+			// aapt resource value: 0x7f080047
+			public const int purpleDark = 2131230791;
 			
-			// aapt resource value: 0x7f080053
-			public const int purplePrimary = 2131230803;
+			// aapt resource value: 0x7f080048
+			public const int purplePrimary = 2131230792;
 			
 			// aapt resource value: 0x7f080032
 			public const int ripple_material_dark = 2131230770;
@@ -1281,11 +1203,11 @@ namespace Sport.Android
 			// aapt resource value: 0x7f080039
 			public const int switch_thumb_disabled_material_light = 2131230777;
 			
-			// aapt resource value: 0x7f08005f
-			public const int switch_thumb_material_dark = 2131230815;
+			// aapt resource value: 0x7f080053
+			public const int switch_thumb_material_dark = 2131230803;
 			
-			// aapt resource value: 0x7f080060
-			public const int switch_thumb_material_light = 2131230816;
+			// aapt resource value: 0x7f080054
+			public const int switch_thumb_material_light = 2131230804;
 			
 			// aapt resource value: 0x7f08003a
 			public const int switch_thumb_normal_material_dark = 2131230778;
@@ -1293,11 +1215,11 @@ namespace Sport.Android
 			// aapt resource value: 0x7f08003b
 			public const int switch_thumb_normal_material_light = 2131230779;
 			
-			// aapt resource value: 0x7f080054
-			public const int textPrimary = 2131230804;
+			// aapt resource value: 0x7f080049
+			public const int textPrimary = 2131230793;
 			
-			// aapt resource value: 0x7f080047
-			public const int white = 2131230791;
+			// aapt resource value: 0x7f08003c
+			public const int white = 2131230780;
 			
 			static Color()
 			{
@@ -1494,21 +1416,6 @@ namespace Sport.Android
 			
 			// aapt resource value: 0x7f060008
 			public const int appbar_elevation = 2131099656;
-			
-			// aapt resource value: 0x7f06005f
-			public const int calendar_day_headers_paddingbottom = 2131099743;
-			
-			// aapt resource value: 0x7f060061
-			public const int calendar_month_title_bottommargin = 2131099745;
-			
-			// aapt resource value: 0x7f060060
-			public const int calendar_month_topmargin = 2131099744;
-			
-			// aapt resource value: 0x7f060062
-			public const int calendar_text_medium = 2131099746;
-			
-			// aapt resource value: 0x7f060063
-			public const int calendar_text_small = 2131099747;
 			
 			// aapt resource value: 0x7f060022
 			public const int dialog_fixed_height_major = 2131099682;
@@ -1803,88 +1710,82 @@ namespace Sport.Android
 			public const int abc_textfield_search_material = 2130837562;
 			
 			// aapt resource value: 0x7f02003b
-			public const int ad16 = 2130837563;
+			public const int fab_background = 2130837563;
 			
 			// aapt resource value: 0x7f02003c
-			public const int calendar_bg_selector = 2130837564;
+			public const int ic_add_white = 2130837564;
 			
 			// aapt resource value: 0x7f02003d
-			public const int fab_background = 2130837565;
+			public const int ic_errorstatus = 2130837565;
 			
 			// aapt resource value: 0x7f02003e
-			public const int ic_add_white = 2130837566;
+			public const int ic_fencing_white = 2130837566;
 			
 			// aapt resource value: 0x7f02003f
-			public const int ic_errorstatus = 2130837567;
+			public const int ic_menu_white = 2130837567;
 			
 			// aapt resource value: 0x7f020040
-			public const int ic_fencing_white = 2130837568;
+			public const int ic_missing_photo_white = 2130837568;
 			
 			// aapt resource value: 0x7f020041
-			public const int ic_menu_white = 2130837569;
+			public const int ic_more_vert_white = 2130837569;
 			
 			// aapt resource value: 0x7f020042
-			public const int ic_missing_photo_white = 2130837570;
+			public const int ic_notifications_active_white = 2130837570;
 			
 			// aapt resource value: 0x7f020043
-			public const int ic_more_vert_white = 2130837571;
+			public const int ic_people_gray = 2130837571;
 			
 			// aapt resource value: 0x7f020044
-			public const int ic_notifications_active_white = 2130837572;
+			public const int ic_person_add_white = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int ic_people_gray = 2130837573;
+			public const int ic_refresh_white = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int ic_person_add_white = 2130837574;
+			public const int ic_send_white = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int ic_refresh_white = 2130837575;
+			public const int ic_successstatus = 2130837575;
 			
 			// aapt resource value: 0x7f020048
-			public const int ic_send_white = 2130837576;
+			public const int ic_thumb_down_white = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int ic_successstatus = 2130837577;
+			public const int ic_thumb_up_white = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int ic_thumb_down_white = 2130837578;
+			public const int ic_time_gray = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int ic_thumb_up_white = 2130837579;
+			public const int ic_trending_up_white = 2130837579;
 			
 			// aapt resource value: 0x7f02004c
-			public const int ic_time_gray = 2130837580;
+			public const int ic_trending_up_white_24dp = 2130837580;
 			
 			// aapt resource value: 0x7f02004d
-			public const int ic_trending_up_white = 2130837581;
+			public const int ic_trophy_gray = 2130837581;
 			
 			// aapt resource value: 0x7f02004e
-			public const int ic_trending_up_white_24dp = 2130837582;
+			public const int ic_trophy_white = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int ic_trophy_gray = 2130837583;
-			
-			// aapt resource value: 0x7f020050
-			public const int ic_trophy_white = 2130837584;
-			
-			// aapt resource value: 0x7f020051
-			public const int icon = 2130837585;
-			
-			// aapt resource value: 0x7f020056
-			public const int notification_template_icon_bg = 2130837590;
-			
-			// aapt resource value: 0x7f020052
-			public const int roundedbg = 2130837586;
-			
-			// aapt resource value: 0x7f020053
-			public const int roundedbgdark = 2130837587;
+			public const int icon = 2130837583;
 			
 			// aapt resource value: 0x7f020054
-			public const int snackbar_background = 2130837588;
+			public const int notification_template_icon_bg = 2130837588;
 			
-			// aapt resource value: 0x7f020055
-			public const int sport_xamarin_logos = 2130837589;
+			// aapt resource value: 0x7f020050
+			public const int roundedbg = 2130837584;
+			
+			// aapt resource value: 0x7f020051
+			public const int roundedbgdark = 2130837585;
+			
+			// aapt resource value: 0x7f020052
+			public const int snackbar_background = 2130837586;
+			
+			// aapt resource value: 0x7f020053
+			public const int sport_xamarin_logos = 2130837587;
 			
 			static Drawable()
 			{
@@ -1899,8 +1800,8 @@ namespace Sport.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f090070
-			public const int action0 = 2131296368;
+			// aapt resource value: 0x7f09006c
+			public const int action0 = 2131296364;
 			
 			// aapt resource value: 0x7f090057
 			public const int action_bar = 2131296343;
@@ -1926,8 +1827,8 @@ namespace Sport.Android
 			// aapt resource value: 0x7f090058
 			public const int action_context_bar = 2131296344;
 			
-			// aapt resource value: 0x7f090074
-			public const int action_divider = 2131296372;
+			// aapt resource value: 0x7f090070
+			public const int action_divider = 2131296368;
 			
 			// aapt resource value: 0x7f090003
 			public const int action_menu_divider = 2131296259;
@@ -1962,14 +1863,8 @@ namespace Sport.Android
 			// aapt resource value: 0x7f09004d
 			public const int buttonPanel = 2131296333;
 			
-			// aapt resource value: 0x7f09006f
-			public const int calendar_grid = 2131296367;
-			
-			// aapt resource value: 0x7f090066
-			public const int calendar_view = 2131296358;
-			
-			// aapt resource value: 0x7f090071
-			public const int cancel_action = 2131296369;
+			// aapt resource value: 0x7f09006d
+			public const int cancel_action = 2131296365;
 			
 			// aapt resource value: 0x7f090012
 			public const int center = 2131296274;
@@ -1983,8 +1878,8 @@ namespace Sport.Android
 			// aapt resource value: 0x7f09004f
 			public const int checkbox = 2131296335;
 			
-			// aapt resource value: 0x7f090077
-			public const int chronometer = 2131296375;
+			// aapt resource value: 0x7f090073
+			public const int chronometer = 2131296371;
 			
 			// aapt resource value: 0x7f090015
 			public const int clip_horizontal = 2131296277;
@@ -2025,8 +1920,8 @@ namespace Sport.Android
 			// aapt resource value: 0x7f090017
 			public const int end = 2131296279;
 			
-			// aapt resource value: 0x7f09007c
-			public const int end_padder = 2131296380;
+			// aapt resource value: 0x7f090078
+			public const int end_padder = 2131296376;
 			
 			// aapt resource value: 0x7f09000a
 			public const int enterAlways = 2131296266;
@@ -2070,20 +1965,17 @@ namespace Sport.Android
 			// aapt resource value: 0x7f09003f
 			public const int image = 2131296319;
 			
-			// aapt resource value: 0x7f09007b
-			public const int info = 2131296379;
+			// aapt resource value: 0x7f090077
+			public const int info = 2131296375;
 			
 			// aapt resource value: 0x7f09001b
 			public const int left = 2131296283;
 			
-			// aapt resource value: 0x7f090068
-			public const int left_arrow = 2131296360;
+			// aapt resource value: 0x7f090071
+			public const int line1 = 2131296369;
 			
 			// aapt resource value: 0x7f090075
-			public const int line1 = 2131296373;
-			
-			// aapt resource value: 0x7f090079
-			public const int line3 = 2131296377;
+			public const int line3 = 2131296373;
 			
 			// aapt resource value: 0x7f090023
 			public const int listMode = 2131296291;
@@ -2091,17 +1983,17 @@ namespace Sport.Android
 			// aapt resource value: 0x7f090041
 			public const int list_item = 2131296321;
 			
-			// aapt resource value: 0x7f09006d
-			public const int loadingImage = 2131296365;
+			// aapt resource value: 0x7f09006a
+			public const int loadingImage = 2131296362;
+			
+			// aapt resource value: 0x7f090068
+			public const int loadingProgressBar = 2131296360;
 			
 			// aapt resource value: 0x7f09006b
-			public const int loadingProgressBar = 2131296363;
+			public const int loadingProgressWheel = 2131296363;
 			
-			// aapt resource value: 0x7f09006e
-			public const int loadingProgressWheel = 2131296366;
-			
-			// aapt resource value: 0x7f090073
-			public const int media_actions = 2131296371;
+			// aapt resource value: 0x7f09006f
+			public const int media_actions = 2131296367;
 			
 			// aapt resource value: 0x7f09002c
 			public const int middle = 2131296300;
@@ -2141,9 +2033,6 @@ namespace Sport.Android
 			
 			// aapt resource value: 0x7f09001c
 			public const int right = 2131296284;
-			
-			// aapt resource value: 0x7f090067
-			public const int right_arrow = 2131296359;
 			
 			// aapt resource value: 0x7f090036
 			public const int screen = 2131296310;
@@ -2202,11 +2091,11 @@ namespace Sport.Android
 			// aapt resource value: 0x7f090029
 			public const int showTitle = 2131296297;
 			
-			// aapt resource value: 0x7f09006a
-			public const int snackbar_action = 2131296362;
+			// aapt resource value: 0x7f090067
+			public const int snackbar_action = 2131296359;
 			
-			// aapt resource value: 0x7f090069
-			public const int snackbar_text = 2131296361;
+			// aapt resource value: 0x7f090066
+			public const int snackbar_text = 2131296358;
 			
 			// aapt resource value: 0x7f090008
 			public const int split_action_bar = 2131296264;
@@ -2223,8 +2112,8 @@ namespace Sport.Android
 			// aapt resource value: 0x7f09001d
 			public const int start = 2131296285;
 			
-			// aapt resource value: 0x7f090072
-			public const int status_bar_latest_event_content = 2131296370;
+			// aapt resource value: 0x7f09006e
+			public const int status_bar_latest_event_content = 2131296366;
 			
 			// aapt resource value: 0x7f090062
 			public const int submit_area = 2131296354;
@@ -2232,20 +2121,20 @@ namespace Sport.Android
 			// aapt resource value: 0x7f090024
 			public const int tabMode = 2131296292;
 			
-			// aapt resource value: 0x7f09007a
-			public const int text = 2131296378;
+			// aapt resource value: 0x7f090076
+			public const int text = 2131296374;
 			
-			// aapt resource value: 0x7f090078
-			public const int text2 = 2131296376;
+			// aapt resource value: 0x7f090074
+			public const int text2 = 2131296372;
 			
 			// aapt resource value: 0x7f09004a
 			public const int textSpacerNoButtons = 2131296330;
 			
-			// aapt resource value: 0x7f09006c
-			public const int textViewStatus = 2131296364;
+			// aapt resource value: 0x7f090069
+			public const int textViewStatus = 2131296361;
 			
-			// aapt resource value: 0x7f090076
-			public const int time = 2131296374;
+			// aapt resource value: 0x7f090072
+			public const int time = 2131296370;
 			
 			// aapt resource value: 0x7f090043
 			public const int title = 2131296323;
@@ -2394,91 +2283,76 @@ namespace Sport.Android
 			public const int abc_simple_dropdown_hint = 2130903064;
 			
 			// aapt resource value: 0x7f030019
-			public const int calendar_pager_layout = 2130903065;
+			public const int design_navigation_item = 2130903065;
 			
 			// aapt resource value: 0x7f03001a
-			public const int calendar_picker = 2130903066;
+			public const int design_navigation_item_header = 2130903066;
 			
 			// aapt resource value: 0x7f03001b
-			public const int design_navigation_item = 2130903067;
+			public const int design_navigation_item_separator = 2130903067;
 			
 			// aapt resource value: 0x7f03001c
-			public const int design_navigation_item_header = 2130903068;
+			public const int design_navigation_item_subheader = 2130903068;
 			
 			// aapt resource value: 0x7f03001d
-			public const int design_navigation_item_separator = 2130903069;
+			public const int design_navigation_menu = 2130903069;
 			
 			// aapt resource value: 0x7f03001e
-			public const int design_navigation_item_subheader = 2130903070;
+			public const int layout_snackbar = 2130903070;
 			
 			// aapt resource value: 0x7f03001f
-			public const int design_navigation_menu = 2130903071;
+			public const int layout_snackbar_include = 2130903071;
 			
 			// aapt resource value: 0x7f030020
-			public const int dialog = 2130903072;
+			public const int layout_tab_icon = 2130903072;
 			
 			// aapt resource value: 0x7f030021
-			public const int layout_snackbar = 2130903073;
+			public const int layout_tab_text = 2130903073;
 			
 			// aapt resource value: 0x7f030022
-			public const int layout_snackbar_include = 2130903074;
+			public const int loading = 2130903074;
 			
 			// aapt resource value: 0x7f030023
-			public const int layout_tab_icon = 2130903075;
+			public const int loadingimage = 2130903075;
 			
 			// aapt resource value: 0x7f030024
-			public const int layout_tab_text = 2130903076;
+			public const int loadingprogress = 2130903076;
 			
 			// aapt resource value: 0x7f030025
-			public const int loading = 2130903077;
+			public const int notification_media_action = 2130903077;
 			
 			// aapt resource value: 0x7f030026
-			public const int loadingimage = 2130903078;
+			public const int notification_media_cancel_action = 2130903078;
 			
 			// aapt resource value: 0x7f030027
-			public const int loadingprogress = 2130903079;
+			public const int notification_template_big_media = 2130903079;
 			
 			// aapt resource value: 0x7f030028
-			public const int month = 2130903080;
+			public const int notification_template_big_media_narrow = 2130903080;
 			
 			// aapt resource value: 0x7f030029
-			public const int notification_media_action = 2130903081;
+			public const int notification_template_lines = 2130903081;
 			
 			// aapt resource value: 0x7f03002a
-			public const int notification_media_cancel_action = 2130903082;
+			public const int notification_template_media = 2130903082;
 			
 			// aapt resource value: 0x7f03002b
-			public const int notification_template_big_media = 2130903083;
+			public const int notification_template_part_chronometer = 2130903083;
 			
 			// aapt resource value: 0x7f03002c
-			public const int notification_template_big_media_narrow = 2130903084;
+			public const int notification_template_part_time = 2130903084;
 			
 			// aapt resource value: 0x7f03002d
-			public const int notification_template_lines = 2130903085;
+			public const int select_dialog_item_material = 2130903085;
 			
 			// aapt resource value: 0x7f03002e
-			public const int notification_template_media = 2130903086;
+			public const int select_dialog_multichoice_material = 2130903086;
 			
 			// aapt resource value: 0x7f03002f
-			public const int notification_template_part_chronometer = 2130903087;
+			public const int select_dialog_singlechoice_material = 2130903087;
 			
 			// aapt resource value: 0x7f030030
-			public const int notification_template_part_time = 2130903088;
-			
-			// aapt resource value: 0x7f030031
-			public const int select_dialog_item_material = 2130903089;
-			
-			// aapt resource value: 0x7f030032
-			public const int select_dialog_multichoice_material = 2130903090;
-			
-			// aapt resource value: 0x7f030033
-			public const int select_dialog_singlechoice_material = 2130903091;
-			
-			// aapt resource value: 0x7f030034
-			public const int support_simple_spinner_dropdown_item = 2130903092;
-			
-			// aapt resource value: 0x7f030035
-			public const int week = 2130903093;
+			public const int support_simple_spinner_dropdown_item = 2130903088;
 			
 			static Layout()
 			{
@@ -2493,11 +2367,11 @@ namespace Sport.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f0a0019
-			public const int ApplicationName = 2131361817;
+			// aapt resource value: 0x7f0a0014
+			public const int ApplicationName = 2131361812;
 			
-			// aapt resource value: 0x7f0a0018
-			public const int Hello = 2131361816;
+			// aapt resource value: 0x7f0a0013
+			public const int Hello = 2131361811;
 			
 			// aapt resource value: 0x7f0a0001
 			public const int abc_action_bar_home_description = 2131361793;
@@ -2550,26 +2424,14 @@ namespace Sport.Android
 			// aapt resource value: 0x7f0a0011
 			public const int abc_toolbar_collapse_description = 2131361809;
 			
-			// aapt resource value: 0x7f0a001a
-			public const int app_name = 2131361818;
+			// aapt resource value: 0x7f0a0016
+			public const int app_name = 2131361814;
 			
 			// aapt resource value: 0x7f0a0000
 			public const int appbar_scrolling_view_behavior = 2131361792;
 			
-			// aapt resource value: 0x7f0a0014
-			public const int day_name_format = 2131361812;
-			
-			// aapt resource value: 0x7f0a0017
-			public const int full_date_format = 2131361815;
-			
 			// aapt resource value: 0x7f0a0015
-			public const int invalid_date = 2131361813;
-			
-			// aapt resource value: 0x7f0a0013
-			public const int library_name = 2131361811;
-			
-			// aapt resource value: 0x7f0a0016
-			public const int month_name_format = 2131361814;
+			public const int library_name = 2131361813;
 			
 			// aapt resource value: 0x7f0a0012
 			public const int status_bar_notification_info_overflow = 2131361810;
@@ -2998,20 +2860,8 @@ namespace Sport.Android
 			// aapt resource value: 0x7f050001
 			public const int Base_Widget_Design_TabLayout = 2131034113;
 			
-			// aapt resource value: 0x7f050135
-			public const int CalendarCell = 2131034421;
-			
-			// aapt resource value: 0x7f050137
-			public const int CalendarCell_CalendarDate = 2131034423;
-			
-			// aapt resource value: 0x7f050136
-			public const int CalendarCell_DayHeader = 2131034422;
-			
 			// aapt resource value: 0x7f050134
-			public const int CalendarTitle = 2131034420;
-			
-			// aapt resource value: 0x7f050138
-			public const int GrayTheme = 2131034424;
+			public const int GrayTheme = 2131034420;
 			
 			// aapt resource value: 0x7f050020
 			public const int Platform_AppCompat = 2131034144;
@@ -3037,14 +2887,14 @@ namespace Sport.Android
 			// aapt resource value: 0x7f05002a
 			public const int Platform_V14_AppCompat_Light = 2131034154;
 			
-			// aapt resource value: 0x7f050139
-			public const int PurpleTheme = 2131034425;
+			// aapt resource value: 0x7f050135
+			public const int PurpleTheme = 2131034421;
 			
-			// aapt resource value: 0x7f05013b
-			public const int RobotoButtonStyle = 2131034427;
+			// aapt resource value: 0x7f050137
+			public const int RobotoButtonStyle = 2131034423;
 			
-			// aapt resource value: 0x7f05013a
-			public const int RobotoTextViewStyle = 2131034426;
+			// aapt resource value: 0x7f050136
+			public const int RobotoTextViewStyle = 2131034422;
 			
 			// aapt resource value: 0x7f050030
 			public const int RtlOverlay_DialogWindowTitle_AppCompat = 2131034160;
