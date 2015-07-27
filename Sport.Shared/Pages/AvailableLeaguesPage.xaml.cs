@@ -35,8 +35,7 @@ namespace Sport.Shared
 				if(vm.League.Id == null)
 					return;
 
-				var page = new LeagueDetailsPage();
-				page.SetLeague(vm.League);
+				var page = new LeagueDetailsPage(vm.League);
 
 				page.OnJoinedLeague = (l) =>
 				{

@@ -8,8 +8,6 @@ namespace Sport.Shared
 {
 	public partial class AthleteLeaguesPage : AthleteLeaguesXaml
 	{
-		LeagueDetailsPage _detailspage;
-
 		public AthleteLeaguesPage(string athleteId = null)
 		{
 			ViewModel.AthleteId = athleteId;
@@ -46,19 +44,15 @@ namespace Sport.Shared
 				if(vm.League.Id == null)
 					return;
 
-				if(_detailspage == null)
+				var page = new LeagueDetailsPage(vm.League);
+				page.OnAbandondedLeague = async(l) =>
 				{
-					_detailspage = new LeagueDetailsPage();
-					_detailspage.OnAbandondedLeague = async(l) =>
-					{
-						ViewModel.LocalRefresh();
-						ViewModel.SetPropertyChanged("Athlete");
-						await Navigation.PopAsync();
-					};
-				}
+					ViewModel.LocalRefresh();
+					ViewModel.SetPropertyChanged("Athlete");
+					await Navigation.PopAsync();
+				};
 
-				_detailspage.SetLeague(vm.League);
-				await Navigation.PushAsync(_detailspage);
+				await Navigation.PushAsync(page);
 			};
 
 			if(App.CurrentAthlete != null)

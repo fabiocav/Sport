@@ -12,19 +12,15 @@ namespace Sport.Shared
 		double _imageHeight;
 		bool _didPost;
 
-		public LeagueDetailsPage()
-		{
-			Initialize();
-		}
-
-		public void SetLeague(League league)
+		public LeagueDetailsPage(League league)
 		{
 			league.RefreshChallenges();
 			league.RefreshMemberships();
 
-			Title = ViewModel.League?.Name;
 			ViewModel.League = league;
-			ViewModel.NotifyPropertiesChanged();
+
+			Title = ViewModel.League?.Name;
+			Initialize();
 		}
 
 		#region Properties
@@ -189,12 +185,12 @@ namespace Sport.Shared
 				ViewModel.NotifyPropertiesChanged();
 			});
 
-			//await Task.Delay(2000);
-			await ViewModel.RefreshLeague();
+			ViewModel.NotifyPropertiesChanged();
 		}
 
 		async void PushChallengeDetailsPage(Challenge challenge, bool refresh = false)
 		{
+			_didPost = false; //reset
 			var details = new ChallengeDetailsPage(challenge);
 			details.OnAccept = async() =>
 			{
