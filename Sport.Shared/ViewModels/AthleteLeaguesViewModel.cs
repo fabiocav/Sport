@@ -103,6 +103,15 @@ namespace Sport.Shared
 			var changed = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), eqComparer).ToList();
 
 			var compare = new LeagueSortComparer();
+
+			if(Leagues.Count == 0)
+			{
+				//This keeps the list from shifting up on the first refresh
+				var last = toAdd.LastOrDefault();
+				foreach(var l in toAdd)
+					l.IsLast = l == last;
+			}
+
 			foreach(var lv in toAdd)
 			{
 				int index = 0;
@@ -116,9 +125,12 @@ namespace Sport.Shared
 				Leagues.Insert(index, lv);
 			}
 
-			var last = Leagues.LastOrDefault();
-			foreach(var l in Leagues)
-				l.IsLast = l == last;
+			if(toAdd.Count > 0 || toRemove.Count > 0)
+			{
+				var last = Leagues.LastOrDefault();
+				foreach(var l in Leagues)
+					l.IsLast = l == last;
+			}
 
 			//Not updating for some reason
 			foreach(var league in changed)

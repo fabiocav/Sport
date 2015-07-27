@@ -175,7 +175,6 @@ namespace Sport.Shared
 				if(diff)
 				{
 					LeagueViewModel = new LeagueViewModel(_league);
-					NotifyPropertiesChanged();
 				}
 			}
 		}
@@ -186,6 +185,7 @@ namespace Sport.Shared
 		{
 			await RunSafe(AzureService.Instance.GetAthleteById(League.CreatedByAthleteId));
 			League.RefreshMemberships();
+
 
 			League.SetPropertyChanged("CreatedByAthlete");
 			NotifyPropertiesChanged();
@@ -245,6 +245,7 @@ namespace Sport.Shared
 				{
 					task.Result.Theme = League?.Theme;
 					League = task.Result;
+					NotifyPropertiesChanged();
 				}
 			}
 		}
@@ -258,6 +259,8 @@ namespace Sport.Shared
 
 			if(CurrentMembership?.OngoingChallenge != null && OngoingChallengeViewModel == null)
 				OngoingChallengeViewModel = new ChallengeDetailsViewModel(CurrentMembership?.OngoingChallenge);
+			else if(OngoingChallengeViewModel != null)
+				OngoingChallengeViewModel.Challenge = CurrentMembership?.OngoingChallenge;
 
 			SetPropertyChanged("DateRange");
 			SetPropertyChanged("CreatedBy");

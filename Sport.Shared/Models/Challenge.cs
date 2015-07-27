@@ -380,6 +380,7 @@ namespace Sport.Shared
 				return false;
 
 			if(x.Id == y.Id
+			   && x.UpdatedAt == y.UpdatedAt
 			   && x.DateAccepted == y.DateAccepted
 			   && x.DateCompleted == y.DateCompleted
 			   && x.BattleForRank == y.BattleForRank

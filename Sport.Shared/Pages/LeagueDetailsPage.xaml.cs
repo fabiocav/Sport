@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -11,16 +10,21 @@ namespace Sport.Shared
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
 		double _imageHeight;
+		bool _didPost;
 
-		public LeagueDetailsPage(League league)
+		public LeagueDetailsPage()
+		{
+			Initialize();
+		}
+
+		public void SetLeague(League league)
 		{
 			league.RefreshChallenges();
 			league.RefreshMemberships();
 
-			ViewModel.League = league;
-
 			Title = ViewModel.League?.Name;
-			Initialize();
+			ViewModel.League = league;
+			ViewModel.NotifyPropertiesChanged();
 		}
 
 		#region Properties
@@ -111,6 +115,7 @@ namespace Sport.Shared
 
 				page.OnMatchResultsPosted = () =>
 				{
+					_didPost = true;
 					PushChallengeDetailsPage(challenge, true);
 					ViewModel.RefreshLeague();
 					rankStrip.Membership = ViewModel.CurrentMembership;
@@ -217,9 +222,8 @@ namespace Sport.Shared
 		{
 			RefreshMenuButtons();
 
-//			ViewModel.NotifyPropertiesChanged();
-//			if(rankStrip.Membership != ViewModel.CurrentMembership)
-//				rankStrip.Membership = ViewModel.CurrentMembership;
+			if(rankStrip.Membership != ViewModel.CurrentMembership)
+				rankStrip.Membership = ViewModel.CurrentMembership;
 
 			base.OnAppearing();
 		}
@@ -238,10 +242,13 @@ namespace Sport.Shared
 
 					if(challenge != null && challengeId == challenge.Id && payload.Payload.TryGetValue("winningAthleteId", out winnerId))
 					{
-						PushChallengeDetailsPage(ViewModel.OngoingChallengeViewModel?.Challenge, true);
+						if(!_didPost)
+						{
+							PushChallengeDetailsPage(ViewModel.OngoingChallengeViewModel?.Challenge, true);
+						}
 					}
 
-					await ViewModel.RefreshLeague();
+					await ViewModel.RefreshLeague(true);
 					Device.BeginInvokeOnMainThread(() =>
 					{
 						rankStrip.Membership = ViewModel.CurrentMembership;
