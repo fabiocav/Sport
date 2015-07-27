@@ -377,16 +377,23 @@ namespace Sport.Shared
 
 		public void RefreshChallenges()
 		{
-			_ongoingChallenges.Clear();
-			DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && !c.IsCompleted)
-				.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_ongoingChallenges.Add);
+			if(_ongoingChallenges != null)
+			{
+				_ongoingChallenges.Clear();
+				DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && !c.IsCompleted)
+					.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_ongoingChallenges.Add);
+				
+				SetPropertyChanged("OngoingChallenges");
+			}
 
-			_pastChallenges.Clear();
-			DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && c.IsCompleted)
-				.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_pastChallenges.Add);
+			if(_pastChallenges != null)
+			{
+				_pastChallenges.Clear();
+				DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && c.IsCompleted)
+					.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_pastChallenges.Add);
 
-			SetPropertyChanged("OngoingChallenges");
-			SetPropertyChanged("PastChallenges");
+				SetPropertyChanged("PastChallenges");
+			}
 		}
 
 		public override bool Equals(object obj)
