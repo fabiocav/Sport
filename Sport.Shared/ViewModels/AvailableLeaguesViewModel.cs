@@ -67,9 +67,9 @@ namespace Sport.Shared
 
 			if(Leagues.Count == 0)
 			{
-				Leagues.Add(new LeagueViewModel(new League {
-					Name = "There are no available leagues to join."
-				}));
+				Leagues.Add(new LeagueViewModel(null) {
+					EmptyMessage = "There are no available leagues to join."
+				});
 			}
 		}
 
@@ -86,12 +86,25 @@ namespace Sport.Shared
 
 			using(new Busy(this))
 			{
+				LeagueViewModel empty = null;
+				if(Leagues.Count == 0)
+				{
+					empty = new LeagueViewModel(null) {
+						EmptyMessage = "Loading available leagues"
+					};
+
+					Leagues.Add(empty);
+				}
+
 				var task = AzureService.Instance.GetAvailableLeagues(App.CurrentAthlete);
 				await RunSafe(task);
 
 				if(task.IsCompleted && !task.IsFaulted)
 				{
 					task.Result.EnsureLeaguesThemed();
+
+					if(empty != null && Leagues.Contains(empty))
+						Leagues.Remove(empty);
 
 					_hasLoadedBefore = true;
 					LocalRefresh();

@@ -78,7 +78,7 @@ namespace Sport.Shared
 				if(task.IsFaulted)
 					return;
 
-				if(empty != null)
+				if(empty != null && Challenges.Contains(empty))
 					Challenges.Remove(empty);
 				
 				LocalRefresh(task.Result);
@@ -99,7 +99,6 @@ namespace Sport.Shared
 				var preSort = new List<ChallengeViewModel>();
 				toAdd.ForEach(c => preSort.Add(new ChallengeViewModel(c)));
 				preSort.Sort(new ChallengeSortComparer());
-
 				preSort.ForEach(Challenges.Add);
 
 				if(Challenges.Count == 0)

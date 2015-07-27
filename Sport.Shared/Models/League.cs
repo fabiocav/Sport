@@ -407,6 +407,9 @@ namespace Sport.Shared
 	{
 		public bool Equals(League x, League y)
 		{
+			if(x == null || y == null)
+				return false;
+			
 			return x.Id == y.Id;
 		}
 
@@ -452,7 +455,10 @@ namespace Sport.Shared
 	{
 		public int Compare(LeagueViewModel x, LeagueViewModel y)
 		{
-			return string.Compare(x.League.Name, y.League.Name, System.StringComparison.OrdinalIgnoreCase);
+			if(x?.League == null || y?.League == null)
+				return -1;
+			
+			return string.Compare(x.League?.Name, y.League?.Name, System.StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }

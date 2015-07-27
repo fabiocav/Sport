@@ -53,6 +53,9 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(League == null || App.CurrentAthlete.Memberships == null)
+					return false;
+				
 				return App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id && m.CurrentRank == 0 && m.League != null && m.League.HasStarted);
 			}
 		}
@@ -61,6 +64,9 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(League == null || App.CurrentAthlete.Memberships == null)
+					return false;
+
 				return App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id);
 			}
 		}
@@ -69,6 +75,9 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(League == null)
+					return false;
+
 				return !IsMember && League.HasStarted;
 			}
 		}
@@ -77,6 +86,9 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(League == null)
+					return false;
+
 				return IsMember && League.HasStarted;
 			}
 		}
@@ -95,6 +107,20 @@ namespace Sport.Shared
 			}
 		}
 
+		string _emptyMessage;
+
+		public string EmptyMessage
+		{
+			get
+			{
+				return _emptyMessage;
+			}
+			set
+			{
+				SetPropertyChanged(ref _emptyMessage, value);
+			}
+		}
+
 		public void LocalRefresh()
 		{
 			SetPropertyChanged("HasChallenge");
@@ -105,11 +131,12 @@ namespace Sport.Shared
 			SetPropertyChanged("IsMemberAndLeagueStarted");
 			SetPropertyChanged("IsNotMemberAndLeagueStarted");
 			SetPropertyChanged("IsFirstPlace");
+			SetPropertyChanged("EmptyMessage");
 		}
 
 		async public Task GetAllMemberships(bool forceRefresh = false)
 		{
-			if(!forceRefresh)
+			if(!forceRefresh || League == null)
 				return;
 
 			using(new Busy(this))
