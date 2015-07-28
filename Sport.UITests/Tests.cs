@@ -49,6 +49,7 @@ namespace Sport.UITests
 
 			app.Tap(e => e.Css("#signIn"), "And I click the Sign In button");
 
+			Thread.Sleep(2000);
 			if(app.Query(e => e.Button("Remember")).Length > 0)
 				app.Back();
 

@@ -73,7 +73,7 @@ namespace Sport.Shared
 		{
 			get
 			{
-				return Challenge != null && Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge.ChallengeeAthlete : Challenge.ChallengerAthlete;
+				return Challenge != null && Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge?.ChallengeeAthlete : Challenge?.ChallengerAthlete;
 			}
 		}
 

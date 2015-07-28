@@ -46,6 +46,8 @@ namespace Sport.Shared
 			}
 		}
 
+		Membership _currentMembership;
+
 		public Membership CurrentMembership
 		{
 			get
@@ -53,8 +55,10 @@ namespace Sport.Shared
 				if(!IsMember)
 					return null;
 
-				var membership = DataManager.Instance.Memberships.Values.SingleOrDefault(m => m.LeagueId == League.Id && m.AthleteId == App.CurrentAthlete.Id);
-				return membership;
+				if(_currentMembership == null)
+					_currentMembership = DataManager.Instance.Memberships.Values.SingleOrDefault(m => m.LeagueId == League.Id && m.AthleteId == App.CurrentAthlete.Id);
+
+				return _currentMembership;
 			}
 		}
 
@@ -174,6 +178,8 @@ namespace Sport.Shared
 
 				if(diff)
 				{
+					_currentMembership = null;
+					SetPropertyChanged("CurrentMembership");
 					LeagueViewModel = new LeagueViewModel(_league);
 				}
 			}
