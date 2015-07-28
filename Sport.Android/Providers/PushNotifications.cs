@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Gcm.Client;
-using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using Sport.Shared;
 using Xamarin.Forms;
+using Android.OS;
+using Xamarin;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "com.google.android.c2dm.permission.RECEIVE")]
-
+[assembly: UsesPermission(Name = "android.permission.WAKE_LOCK")]
 //GET_ACCOUNTS is only needed for android versions 4.0.3 and below
 [assembly: UsesPermission(Name = "android.permission.GET_ACCOUNTS")]
 [assembly: UsesPermission(Name = "android.permission.INTERNET")]
@@ -31,17 +31,10 @@ namespace Sport.Android
 			}
 		}
 
-		public static MobileServiceClient Client
-		{
-			get;
-			private set;
-		}
-
 		public void RegisterForPushNotifications()
 		{
 			try
 			{
-				Client = AzureService.Instance.Client;
 				GcmClient.CheckDevice(Forms.Context);
 				GcmClient.CheckManifest(Forms.Context);
 
@@ -54,7 +47,6 @@ namespace Sport.Android
 			}
 		}
 	}
-
 
 	[BroadcastReceiver(Permission = Gcm.Client.Constants.PERMISSION_GCM_INTENTS)]
 	[IntentFilter(new string[] {
@@ -72,41 +64,73 @@ namespace Sport.Android
 	}, Categories = new string[] {
 		"@PACKAGE_NAME@"
 	})]
+
+	[IntentFilter(new string[] {
+		"Android.Content.Intent.ActionBootCompleted"
+	})]
+
 	public class GcmBroadcastReceiver : GcmBroadcastReceiverBase<PushHandlerService>
 	{
-		//IMPORTANT: Change this to your own Sender ID!
-		//The SENDER_ID is your Google API Console App Project Number
 		public static string[] SENDER_IDS = {
-			"236481934978"
+			Keys.GooglePushNotificationSenderId
 		};
 
-		//		public override void OnReceive(Context context, Intent intent)
-		//		{
-		//			PowerManager.WakeLock sWakeLock;
-		//			var pm = PowerManager.FromContext(context);
-		//			sWakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
-		//			sWakeLock.Acquire();
-		//
-		//			string message = string.Empty;
-		//
-		//			// Extract the push notification message from the intent.
-		//			if(intent.Extras.ContainsKey("msg"))
-		//			{
-		//				message = intent.Extras.Get("msg").ToString();
-		//				var n = new Notification.Builder(context);
-		//				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
-		//				n.SetContentTitle("title");
-		//				n.SetTicker(message);
-		//				n.SetContentText(message);
-		//
-		//				var toast = Toast.MakeText(context, message, ToastLength.Long);
-		//				toast.Show();
-		//				var nm = NotificationManager.FromContext(context);
-		//				nm.Notify(0, n.Build());
-		//			}
-		//
-		//			sWakeLock.Release();
-		//		}
+		public override void OnReceive(Context context, Intent intent)
+		{
+			PowerManager.WakeLock sWakeLock;
+			var pm = PowerManager.FromContext(context);
+			sWakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
+			sWakeLock.Acquire();
+		
+			// Extract the push notification message from the intent.
+			string message = null;
+			string payload = null;
+			if(intent.Extras.ContainsKey("message"))
+			{
+				message = intent.Extras.Get("message").ToString();
+				var title = intent.Extras.Get("title").ToString();
+
+				var pintent = PendingIntent.GetActivity(context, 0, new Intent(context, typeof(MainActivity)), 0);
+
+				var n = new Notification.Builder(context);
+				n.SetSmallIcon(Resource.Drawable.ic_successstatus);
+				n.SetContentIntent(pintent);
+				n.SetContentTitle(title);
+				n.SetTicker(message);
+				n.SetSmallIcon(Resource.Drawable.icon);
+				n.SetContentText(message);
+
+				var nm = NotificationManager.FromContext(context);
+				nm.Notify(0, n.Build());
+
+				if(MainActivity.IsRunning)
+				{
+					try
+					{
+						message.ToToast();
+						if(intent.Extras.ContainsKey("payload"))
+						{
+							payload = intent.Extras.Get("payload").ToString();
+							var payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload);
+
+							if(payloadValue != null)
+							{
+								Device.BeginInvokeOnMainThread(() =>
+								{
+									MessagingCenter.Send<App, NotificationPayload>(App.Current, "IncomingPayloadReceived", payloadValue);
+								});
+							}
+						}
+					}
+					catch(Exception e)
+					{
+						Insights.Report(e, Insights.Severity.Error);
+					}
+				}
+			}
+		
+			sWakeLock.Release();
+		}
 	}
 
 	[Service] //Must use the service tag
@@ -149,6 +173,7 @@ namespace Sport.Android
 				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
 				n.SetContentTitle(title);
 				n.SetTicker(message);
+				n.SetSmallIcon(Android.Resource.Drawable.icon);
 				n.SetLargeIcon(global::Android.Graphics.BitmapFactory.DecodeResource(Resources, Resource.Drawable.icon));
 				n.SetContentText(message);
 
