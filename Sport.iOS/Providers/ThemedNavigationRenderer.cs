@@ -43,11 +43,12 @@ namespace Sport.iOS
 			base.ViewDidLoad();
 		}
 
-		void HandlePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		async void HandlePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if(e.PropertyName == NavigationPage.BarTextColorProperty.PropertyName)
 			{
 				//This is here to override the default Forms behavior which modifies this value based on BarTextColor luminosity > .5
+				await Task.Delay(100);
 				UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 			}
 		}

@@ -143,31 +143,22 @@ namespace Sport.Android
 			if(intent.Extras.ContainsKey("message"))
 			{
 				message = intent.Extras.Get("message").ToString();
-
-				//var title = intent.Extras.Get("title").ToString();
-
-				// Create a notification manager to send the notification.
-				//var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
-
-				// Create a new intent to show the notification in the UI. 
-				//PendingIntent contentIntent = PendingIntent.GetActivity(context, 0, new Intent(this, typeof(MainActivity)), 0);           
+				var title = intent.Extras.Get("title").ToString();
 
 				var n = new Notification.Builder(context);
 				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
-				n.SetContentTitle("title");
+				n.SetContentTitle(title);
 				n.SetTicker(message);
+				n.SetLargeIcon(global::Android.Graphics.BitmapFactory.DecodeResource(Resources, Resource.Drawable.icon));
 				n.SetContentText(message);
+
+				var nm = NotificationManager.FromContext(context);
+				nm.Notify(0, n.Build());
 
 				Device.BeginInvokeOnMainThread(() =>
 				{
 					message.ToToast(ToastNotificationType.Info, "Incoming notification");
 				});
-
-//				var toast = Toast.MakeText(context, message, ToastLength.Long);
-//				toast.Show();
-
-				var nm = NotificationManager.FromContext(context);
-				nm.Notify(0, n.Build());
 
 				if(intent.Extras.ContainsKey("payload"))
 				{

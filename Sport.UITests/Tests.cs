@@ -35,7 +35,6 @@ namespace Sport.UITests
 			if(platform == Platform.Android)
 				menuButton = e => e.Marked("NoResourceEntry-0").Index(app.Query(ee => ee.Marked("NoResourceEntry-0")).Length - 1);
 
-			//Thread.Sleep(10000);
 			app.WaitForElement("authButton");
 			app.Tap("When the app starts", "authButton");
 
@@ -43,7 +42,6 @@ namespace Sport.UITests
 			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com", "And I enter my email address");
 			app.DismissKeyboard();
 
-			Thread.Sleep(2000);
 
 			if(app.Query(e => e.Css("#next")).Length > 0)
 				app.Tap(e => e.Css("#next"));
@@ -53,36 +51,33 @@ namespace Sport.UITests
 
 			app.Tap(e => e.Css("#signIn"), "And I click the Sign In button");
 
-			Thread.Sleep(2000);
 			if(app.Query(e => e.Button("Remember")).Length > 0)
 				app.Back();
 
-			Thread.Sleep(5000);
 			app.WaitForElement(e => e.Css("#grant_heading"));
 
-			Thread.Sleep(5000);
+			Thread.Sleep(7000);
 			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
 
-			Thread.Sleep(5000);
-			int tries = 0;
-			while(tries < 5 && app.Query("aliasText").Length == 0)
-			{
-				var html = app.Query(e => e.Css("button")).ToString(true);
-				app.LogToDevice(html);
-
-				var test = app.Query(x => x.Css("button")).Where(x => x.TextContent == "Accept").FirstOrDefault();
-
-				if(test != null)
-				{
-					Console.WriteLine(test.Rect.CenterX + " x " + test.Rect.CenterY);
-					app.TapCoordinates(test.Rect.CenterX, test.Rect.CenterY);
-				}
-
-				Thread.Sleep(5000);
-				tries++;
-			}
-
-			Thread.Sleep(5000);
+//			int tries = 0;
+//			while(tries < 5 && app.Query("aliasText").Length == 0)
+//			{
+//				var html = app.Query(e => e.Css("button")).ToString(true);
+//				app.LogToDevice(html);
+//
+//				var test = app.Query(x => x.Css("button")).Where(x => x.TextContent == "Accept").FirstOrDefault();
+//
+//				if(test != null)
+//				{
+//					Console.WriteLine(test.Rect.CenterX + " x " + test.Rect.CenterY);
+//					app.TapCoordinates(test.Rect.CenterX, test.Rect.CenterY);
+//				}
+//
+//				Thread.Sleep(5000);
+//				tries++;
+//			}
+//
+//			Thread.Sleep(5000);
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));
