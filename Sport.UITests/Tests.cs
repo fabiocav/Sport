@@ -40,7 +40,7 @@ namespace Sport.UITests
 			app.EnterText(e => e.Css("#Email"), Keys.TestEmail, "And I enter my email address");
 			app.DismissKeyboard();
 
-
+			Thread.Sleep(2000);
 			if(app.Query(e => e.Css("#next")).Length > 0)
 				app.Tap(e => e.Css("#next"));
 
