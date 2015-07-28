@@ -1,12 +1,12 @@
-﻿using Sport.iOS;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
+using Sport.iOS;
 using Sport.Shared;
 using UIKit;
-using System.Threading.Tasks;
-using System.Reflection;
-using System;
-using System.Collections.Generic;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(ThemedNavigationPage), typeof(ThemedNavigationRenderer))]
 namespace Sport.iOS
@@ -39,18 +39,8 @@ namespace Sport.iOS
 
 		public override void ViewDidLoad()
 		{
-			Element.PropertyChanged += HandlePropertyChanged;
+			//Element.PropertyChanged += HandlePropertyChanged;
 			base.ViewDidLoad();
-		}
-
-		async void HandlePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if(e.PropertyName == NavigationPage.BarTextColorProperty.PropertyName)
-			{
-				//This is here to override the default Forms behavior which modifies this value based on BarTextColor luminosity > .5
-				await Task.Delay(100);
-				UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
-			}
 		}
 
 		void ChangeTheme(Page page)
@@ -89,7 +79,7 @@ namespace Sport.iOS
 			if(disposing)
 			{
 				var navPage = (NavigationPage)Element;
-				navPage.PropertyChanged -= HandlePropertyChanged;
+				//navPage.PropertyChanged -= HandlePropertyChanged;
 			}
 		}
 	}

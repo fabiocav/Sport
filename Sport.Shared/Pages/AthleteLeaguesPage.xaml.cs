@@ -71,7 +71,7 @@ namespace Sport.Shared
 				l.LocalRefresh();
 		}
 
-		protected override void OnUserAuthenticated()
+		internal override void OnUserAuthenticated()
 		{
 			base.OnUserAuthenticated();
 			ViewModel.AthleteId = App.CurrentAthlete.Id;

@@ -12,7 +12,8 @@ namespace Sport.Shared
 		{
 			get
 			{
-				return _viewModel ?? (_viewModel = new T());
+				return _viewModel ?? (_viewModel = DependencyService.Get<T>());
+				//return _viewModel ?? (_viewModel = new T());
 			}
 		}
 
@@ -57,7 +58,7 @@ namespace Sport.Shared
 			
 		}
 
-		protected virtual void OnUserAuthenticated()
+		internal virtual void OnUserAuthenticated()
 		{
 
 		}
@@ -148,9 +149,7 @@ namespace Sport.Shared
 				await authPage.AttemptToAuthenticateAthlete();
 
 				if(App.CurrentAthlete != null)
-				{
-					await Navigation.PopModalAsync();
-				}
+					Navigation.PopModalAsync();
 			}
 			else
 			{

@@ -69,11 +69,6 @@ namespace Sport.Shared
 			root.BindingContext = this;
 		}
 
-		protected override void LayoutChildren(double x, double y, double width, double height)
-		{
-			base.LayoutChildren(x, y, width, height);
-		}
-
 		void HandleChallengeClicked(object sender, EventArgs e)
 		{
 			var btn = sender as Button;

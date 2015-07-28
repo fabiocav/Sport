@@ -29,8 +29,6 @@ namespace Sport.UITests
 		[Test]
 		public void JoinLeagueAndChallenge()
 		{
-			//Thread Sleeps are to accommodate the animations on very slow devices
-
 			Func<AppQuery, AppQuery> menuButton = e => e.Marked("ic_more_vert_white");
 			if(platform == Platform.Android)
 				menuButton = e => e.Marked("NoResourceEntry-0").Index(app.Query(ee => ee.Marked("NoResourceEntry-0")).Length - 1);
@@ -39,14 +37,14 @@ namespace Sport.UITests
 			app.Tap("When the app starts", "authButton");
 
 			app.WaitForElement(e => e.Css("#Email"), "Timed out waiting for Google Oauth form", TimeSpan.FromSeconds(60));
-			app.EnterText(e => e.Css("#Email"), "rob.testcloud@gmail.com", "And I enter my email address");
+			app.EnterText(e => e.Css("#Email"), Keys.Email, "And I enter my email address");
 			app.DismissKeyboard();
 
 
 			if(app.Query(e => e.Css("#next")).Length > 0)
 				app.Tap(e => e.Css("#next"));
 
-			app.EnterText(e => e.Css("#Passwd"), Constants.Password, "And I enter my super secret password");
+			app.EnterText(e => e.Css("#Passwd"), Keys.Password, "And I enter my super secret password");
 			app.DismissKeyboard();
 
 			app.Tap(e => e.Css("#signIn"), "And I click the Sign In button");
@@ -56,28 +54,7 @@ namespace Sport.UITests
 
 			app.WaitForElement(e => e.Css("#grant_heading"));
 
-			Thread.Sleep(7000);
 			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
-
-//			int tries = 0;
-//			while(tries < 5 && app.Query("aliasText").Length == 0)
-//			{
-//				var html = app.Query(e => e.Css("button")).ToString(true);
-//				app.LogToDevice(html);
-//
-//				var test = app.Query(x => x.Css("button")).Where(x => x.TextContent == "Accept").FirstOrDefault();
-//
-//				if(test != null)
-//				{
-//					Console.WriteLine(test.Rect.CenterX + " x " + test.Rect.CenterY);
-//					app.TapCoordinates(test.Rect.CenterX, test.Rect.CenterY);
-//				}
-//
-//				Thread.Sleep(5000);
-//				tries++;
-//			}
-//
-//			Thread.Sleep(5000);
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));
@@ -90,13 +67,7 @@ namespace Sport.UITests
 			if(app.Query(e => e.Marked("saveButton")).Length > 0)
 				app.Tap(e => e.Marked("saveButton"));
 			
-//			Thread.Sleep(300);
-//			app.Screenshot("Possible toast error?");
-
-			Thread.Sleep(5000);
 			app.Tap("Continue button", e => e.Marked("continueButton"));
-
-			Thread.Sleep(5000);
 
 			app.Screenshot("Now I should see a list of leagues I have joined");
 

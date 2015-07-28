@@ -23,14 +23,6 @@ namespace Sport.Android
 {
 	public class PushNotifications : IPushNotifications
 	{
-		public bool IsRegistered
-		{
-			get
-			{
-				return true;
-			}
-		}
-
 		public void RegisterForPushNotifications()
 		{
 			try

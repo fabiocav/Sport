@@ -74,7 +74,7 @@ namespace Sport.Shared
 				await AthleteViewModel.GetLeagues(forceRefresh);
 				LocalRefresh();
 
-				Settings.Instance.LeagueColors.Clear();
+				//Settings.Instance.LeagueColors.Clear();
 				DataManager.Instance.Leagues.Values.ToList().EnsureLeaguesThemed(true);
 			}
 

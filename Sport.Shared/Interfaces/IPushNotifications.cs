@@ -7,12 +7,6 @@ namespace Sport.Shared
 	public interface IPushNotifications
 	{
 		//event EventHandler<IncomingPushNotificationEventArgs> OnPushNotificationReceived;
-
-		bool IsRegistered
-		{
-			get;
-		}
-
 		void RegisterForPushNotifications();
 	}
 

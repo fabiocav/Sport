@@ -5,15 +5,6 @@ using Xamarin.UITest;
 using Xamarin.UITest.Queries;
 using System.Text;
 
-namespace Sport.UITests
-{
-	public class Constants
-	{
-		public static readonly string ApiKey = "a835baddbb619daf8c09f1e49756e81f";
-		public static readonly string Password = "XamarinTestCloud";
-	}
-}
-
 namespace Xamarin.TestCloud.Extensions
 {
 	public static class Extensions

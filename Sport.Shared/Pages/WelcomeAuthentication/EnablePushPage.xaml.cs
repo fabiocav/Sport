@@ -97,8 +97,7 @@ namespace Sport.Shared
 
 			var page = new AthleteLeaguesPage(App.CurrentAthlete.Id);
 			var nav = page.GetNavigationPage();
-			nav.BarBackgroundColor = Color.Yellow;
-//			page.ApplyTheme(nav);
+			page.OnUserAuthenticated();
 			App.Current.MainPage = nav;
 		}
 	}
