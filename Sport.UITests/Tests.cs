@@ -37,14 +37,14 @@ namespace Sport.UITests
 			app.Tap("When the app starts", "authButton");
 
 			app.WaitForElement(e => e.Css("#Email"), "Timed out waiting for Google Oauth form", TimeSpan.FromSeconds(60));
-			app.EnterText(e => e.Css("#Email"), Keys.Email, "And I enter my email address");
+			app.EnterText(e => e.Css("#Email"), Keys.TestEmail, "And I enter my email address");
 			app.DismissKeyboard();
 
 
 			if(app.Query(e => e.Css("#next")).Length > 0)
 				app.Tap(e => e.Css("#next"));
 
-			app.EnterText(e => e.Css("#Passwd"), Keys.Password, "And I enter my super secret password");
+			app.EnterText(e => e.Css("#Passwd"), Keys.TestPassword, "And I enter my super secret password");
 			app.DismissKeyboard();
 
 			app.Tap(e => e.Css("#signIn"), "And I click the Sign In button");
