@@ -119,8 +119,9 @@ namespace Sport.UITests
 			app.ScrollDownEnough(e => e.Marked("pastButton"), "Bottom of member details page");
 			app.Tap("pastButton");
 
-			app.WaitForElement("resultItemRoot");
+			app.WaitForElement("challengeItemRoot");
 			app.Screenshot("Challenge history page");
+			Thread.Sleep(10000);
 
 			if(app.Query("resultItemRoot").Length > 0)
 			{

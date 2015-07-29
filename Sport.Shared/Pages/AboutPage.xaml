@@ -65,6 +65,9 @@
 				<StackLayout Grid.Row="1" Padding="24,10,24,14" Spacing="14">
 					<local:SportButton Text="VIEW SOURCE" StyleId="sourceButton" HorizontalOptions="FillAndExpand"
 						BackgroundColor="{StaticResource greenPrimary}" Clicked="HandleViewSourceClicked" />
+
+					<local:SportButton Text="ABOUT XAMARIN.FORMS" StyleId="xamarinButton" HorizontalOptions="FillAndExpand"
+						BackgroundColor="{StaticResource bluePrimary}" Clicked="HandleXamarinClicked" />
 				</StackLayout>
 
 			</Grid>

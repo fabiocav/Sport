@@ -6,21 +6,20 @@ namespace Sport.Shared
 {
 	public partial class AboutPage : AboutPageXaml
 	{
-		public Action OnDelete
-		{
-			get;
-			set;
-		}
-
 		public AboutPage()
 		{
 			Initialize();
 			Title = "About";
 		}
 
-		protected async override void Initialize()
+		protected override void Initialize()
 		{
 			InitializeComponent();
+		}
+
+		void HandleXamarinClicked(object sender, EventArgs e)
+		{
+			Device.OpenUri(new Uri("http://xamarin.com/forms"));
 		}
 
 		void HandleViewSourceClicked(object sender, EventArgs e)

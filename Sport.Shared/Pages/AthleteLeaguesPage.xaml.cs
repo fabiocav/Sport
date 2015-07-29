@@ -136,7 +136,7 @@ namespace Sport.Shared
 				OnAboutSelected();
 		}
 
-		async void OnLogoutSelected()
+		void OnLogoutSelected()
 		{
 			LogoutUser();
 		}
