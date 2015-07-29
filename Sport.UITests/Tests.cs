@@ -54,8 +54,20 @@ namespace Sport.UITests
 				app.Back();
 
 			app.WaitForElement(e => e.Css("#grant_heading"));
+			Thread.Sleep(5000);
 
-			app.ScrollDownAndTap("Then I can continue", e => e.Css("#submit_approve_access"));
+			int tries = 0;
+			while(app.Query(e => e.Marked("aliasText")).Length == 0 && tries < 5)
+			{
+				app.ScrollDown();
+				if(app.Query(e => e.Css("#submit_approve_access")).Length > 0)
+				{
+					app.Tap(e => e.Css("#submit_approve_access"), "And I accept the terms");
+				}
+
+				Thread.Sleep(5000);
+				tries++;
+			}
 
 			app.WaitForElement(e => e.Marked("aliasText"), "Timed out waiting for aliasText", TimeSpan.FromMinutes(2));
 			app.ClearText(e => e.Marked("aliasText"));
@@ -106,9 +118,10 @@ namespace Sport.UITests
 
 			app.ScrollDownEnough(e => e.Marked("pastButton"), "Bottom of member details page");
 			app.Tap("pastButton");
+
+			app.WaitForElement("resultItemRoot");
 			app.Screenshot("Challenge history page");
 
-			app.WaitForElement("challengeItemRoot");
 			if(app.Query("resultItemRoot").Length > 0)
 			{
 				app.Tap("resultItemRoot");

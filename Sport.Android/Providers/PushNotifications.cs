@@ -93,12 +93,20 @@ namespace Sport.Android
 
 			var n = new Notification.Builder(context);
 			n.SetSmallIcon(Resource.Drawable.ic_successstatus);
+			n.SetLights(global::Android.Graphics.Color.Blue, 200, 200);
 			n.SetContentIntent(pintent);
 			n.SetContentTitle(title);
 			n.SetTicker(message);
 			n.SetLargeIcon(global::Android.Graphics.BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.icon));
 			n.SetSmallIcon(Resource.Drawable.ic_trophy_white);
 			n.SetContentText(message);
+			n.SetVibrate(new long[] {
+				200,
+				200,
+				100,
+				200,
+				200
+			});
 
 			var nm = NotificationManager.FromContext(context);
 			nm.Notify(0, n.Build());
