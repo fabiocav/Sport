@@ -146,7 +146,7 @@ namespace Sport.Shared
 			if(Leagues.Count == 0)
 			{
 				Leagues.Add(new LeagueViewModel(null) {
-					EmptyMessage = "You don't belong to any leagues... yet.\n\n\n\nYou can and will join leagues by tapping the + button above."
+					EmptyMessage = "You don't belong to any leagues... yet."
 				});
 			}
 		}

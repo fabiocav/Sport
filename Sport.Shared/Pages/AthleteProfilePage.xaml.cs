@@ -39,7 +39,7 @@ namespace Sport.Shared
 
 				if(success)
 				{
-					"Profile saved".ToToast(ToastNotificationType.Success);
+					"Your profile has been saved".ToToast(ToastNotificationType.Success);
 
 					if(OnSave != null)
 						OnSave();

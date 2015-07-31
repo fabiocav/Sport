@@ -55,6 +55,7 @@ namespace Sport.Shared
 			};
 
 			AddDoneButton();
+
 			await ViewModel.GetAvailableLeagues(true);
 		}
 

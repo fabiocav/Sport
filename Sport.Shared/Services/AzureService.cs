@@ -67,7 +67,7 @@ namespace Sport.Shared
 
 		#region Push Notifications
 
-		public Task UpdateAthleteNotificationHubRegistration(Athlete athlete, bool forceSave = false)
+		public Task UpdateAthleteNotificationHubRegistration(Athlete athlete, bool forceSave = false, bool sendTestPush = false)
 		{
 			return new Task(() =>
 			{
@@ -93,7 +93,14 @@ namespace Sport.Shared
 				};
 
 				var registrationId = Client.InvokeApiAsync<DeviceRegistration, string>("registerWithHub", reg, HttpMethod.Put, null).Result;
-				athlete.NotificationRegistrationId = registrationId; //Doesn't seem like this is necessary
+				athlete.NotificationRegistrationId = registrationId;
+
+				if(sendTestPush)
+				{
+					var qs = new Dictionary<string, string>();
+					qs.Add("athleteId", athlete.Id);
+					Client.InvokeApiAsync("sendTestPushNotification", null, HttpMethod.Get, qs).Wait();
+				}
 
 				if(athlete.IsDirty || forceSave)
 				{
@@ -175,7 +182,6 @@ namespace Sport.Shared
 				//Get any athletes that don't exist locally
 				if(athleteIds != null && athleteIds.Count > 0)
 				{
-					athleteIds.ForEach(Console.WriteLine);
 					athletes = Client.GetTable<Athlete>().Where(a => athleteIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync().Result;
 				}
 

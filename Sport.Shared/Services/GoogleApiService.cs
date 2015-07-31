@@ -104,7 +104,6 @@ namespace Sport.Shared
 					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 					var response = client.PostAsync(url, content).Result;
 					var body = response.Content.ReadAsStringAsync().Result;
-					Console.WriteLine(body);
 					dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(body);
 
 					if(!dict.ContainsKey("token_type"))

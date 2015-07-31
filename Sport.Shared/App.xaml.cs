@@ -33,12 +33,36 @@ namespace Sport.Shared
 		public App()
 		{
 			Colors = new List<string> {
-				"green",
-				"blue",
-				"red",
-				"yellow",
-				"asphalt",
-				"purple"
+					"green",
+					"blue",
+					"red",
+					"yellow",
+					"asphalt",
+					"purple"
+			};
+
+			PraisePhrases = new List<string> {
+				"sensational",
+				"crazmazing",
+				"stellar",
+				"ill",
+				"peachy keen",
+				"killer",
+				"wicked awesome",
+				"kinda terrific",
+				"top notch",
+				"impressive",
+				"legit",
+				"spectaculawesome",
+				"supernacular",
+				"bad to the bone",
+				"radical",
+				"a hoss boss",
+				"mad chill",
+				"srsly, super chill",
+				"a beast",
+				"killer fresh",
+				"slammin it",
 			};
 
 			#region Linker
@@ -146,6 +170,12 @@ namespace Sport.Shared
 		}
 
 		static List<string> Colors
+		{
+			get;
+			set;
+		}
+
+		static List<string> PraisePhrases
 		{
 			get;
 			set;

@@ -40,7 +40,7 @@
 				</StackLayout>
 
 				<StackLayout Spacing="6" Grid.Column="2" HorizontalOptions="Start">
-					<StackLayout Spacing="0" VerticalOptions="Center" HorizontalOptions="Start" HeightRequest="56">
+					<StackLayout Spacing="0" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="56">
 						<Label Text="{Binding Challenge.ChallengerAthlete.Alias}" FontSize="Large"
 							Style="{StaticResource header}" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
 						<Label Text="{Binding Challenge.ChallengerAthlete.Name}" FontSize="Micro" TextColor="{StaticResource grayDark}"

@@ -5,7 +5,7 @@
 	xmlns:local="clr-namespace:Sport.Shared;assembly=Sport">
 	<local:AboutPageXaml.Content>
 		<ScrollView>
-			<Grid VerticalOptions="Fill" StyleId="memberDetailsRoot">
+			<Grid VerticalOptions="Fill" StyleId="root">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />

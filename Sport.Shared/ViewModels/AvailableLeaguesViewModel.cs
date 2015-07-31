@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using System;
 
 [assembly: Dependency(typeof(Sport.Shared.AvailableLeaguesViewModel))]
 namespace Sport.Shared
@@ -36,9 +37,11 @@ namespace Sport.Shared
 
 		public void LocalRefresh()
 		{
+			Console.WriteLine(Leagues.Count);
 			if(App.CurrentAthlete == null)
 				return;
 
+			Console.WriteLine(Leagues.Count);
 			var comparer = new LeagueComparer();
 			var toJoin = DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key))
 				.Select(k => k.Value).ToList();
@@ -46,6 +49,14 @@ namespace Sport.Shared
 			var toRemove = Leagues.Select(vm => vm.League).Except(toJoin, comparer).ToList();
 			var toAdd = toJoin.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l, App.CurrentAthlete)).ToList();
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
+
+			if(Leagues.Count == 0)
+			{
+				//This keeps the list from shifting up on the first refresh
+				var last = toAdd.LastOrDefault();
+				foreach(var l in toAdd)
+					l.IsLast = l == last;
+			}
 
 			var compare = new LeagueSortComparer();
 			foreach(var lv in toAdd)
@@ -61,9 +72,12 @@ namespace Sport.Shared
 				Leagues.Insert(index, lv);
 			}
 
-			var last = Leagues.LastOrDefault();
-			foreach(var l in Leagues)
-				l.IsLast = l == last;
+			if(toAdd.Count > 0 || toRemove.Count > 0)
+			{
+				var last = Leagues.LastOrDefault();
+				foreach(var l in Leagues)
+					l.IsLast = l == last;
+			}
 
 			if(Leagues.Count == 0)
 			{
@@ -87,14 +101,6 @@ namespace Sport.Shared
 			using(new Busy(this))
 			{
 				LeagueViewModel empty = null;
-				if(Leagues.Count == 0)
-				{
-					empty = new LeagueViewModel(null) {
-						EmptyMessage = "Loading available leagues"
-					};
-
-					Leagues.Add(empty);
-				}
 
 				var task = AzureService.Instance.GetAvailableLeagues(App.CurrentAthlete);
 				await RunSafe(task);

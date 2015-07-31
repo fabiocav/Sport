@@ -62,9 +62,9 @@
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.55</string>
+	<string>0.56</string>
 	<key>CFBundleVersion</key>
-	<string>0.55</string>
+	<string>0.56</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

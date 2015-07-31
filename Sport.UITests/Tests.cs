@@ -33,6 +33,7 @@ namespace Sport.UITests
 			if(platform == Platform.Android)
 				menuButton = e => e.Marked("NoResourceEntry-0").Index(app.Query(ee => ee.Marked("NoResourceEntry-0")).Length - 1);
 
+			Thread.Sleep(5000);
 			app.WaitForElement("authButton");
 			app.Tap("When the app starts", "authButton");
 
@@ -76,7 +77,7 @@ namespace Sport.UITests
 
 			app.Tap(e => e.Marked("saveButton"), "And I save my profile");
 
-			Thread.Sleep(2000);
+			Thread.Sleep(5000);
 			if(app.Query(e => e.Marked("saveButton")).Length > 0)
 				app.Tap(e => e.Marked("saveButton"));
 			
@@ -129,10 +130,11 @@ namespace Sport.UITests
 				app.WaitForElement("challengeRoot");
 				app.Screenshot("Challenge result page");
 
-//				app.ScrollDownEnough(e => e.Marked("winningLabel"));
-//				app.Screenshot("Challenge result page end");
-
 				app.Back(platform);
+				app.Tap("Done");
+			}
+			else
+			{
 				app.Tap("Done");
 			}
 

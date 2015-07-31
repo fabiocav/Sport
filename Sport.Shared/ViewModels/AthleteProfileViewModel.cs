@@ -65,7 +65,7 @@ namespace Sport.Shared
 				if(App.CurrentAthlete.DeviceToken != null)
 				{
 					App.CurrentAthlete.IsDirty = true;
-					var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete, true);
+					var task = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete, true, true);
 					await RunSafe(task);
 				}
 

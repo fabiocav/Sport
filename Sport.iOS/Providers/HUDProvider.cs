@@ -1,8 +1,6 @@
 ﻿using BigTed;
 using Sport.Shared;
 using Xamarin.Forms;
-using System;
-using System.Threading.Tasks;
 
 [assembly: Dependency(typeof(Sport.iOS.HUDProvider))]
 

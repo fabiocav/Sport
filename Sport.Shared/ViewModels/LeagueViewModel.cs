@@ -131,7 +131,7 @@ namespace Sport.Shared
 			SetPropertyChanged("IsMemberAndLeagueStarted");
 			SetPropertyChanged("IsNotMemberAndLeagueStarted");
 			SetPropertyChanged("IsFirstPlace");
-			SetPropertyChanged("EmptyMessage");
+			//SetPropertyChanged("EmptyMessage");
 		}
 
 		async public Task GetAllMemberships(bool forceRefresh = false)

@@ -62,6 +62,14 @@ namespace Sport.Shared
 			}
 		}
 
+		public bool IsFirstPlace
+		{
+			get
+			{
+				return CurrentMembership != null && CurrentMembership.CurrentRank == 0 && CurrentMembership.League.HasStarted;
+			}
+		}
+
 		public bool CanGetRules
 		{
 			get
@@ -279,6 +287,7 @@ namespace Sport.Shared
 			SetPropertyChanged("OngoingChallengeViewModel");
 			SetPropertyChanged("PreviousChallengeViewModel");
 			SetPropertyChanged("GetBestChallengee");
+			SetPropertyChanged("IsFirstPlace");
 
 			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
 			MembershipViewModel?.NotifyPropertiesChanged();

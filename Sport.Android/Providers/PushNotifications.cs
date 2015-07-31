@@ -93,7 +93,7 @@ namespace Sport.Android
 
 			var n = new Notification.Builder(context);
 			n.SetSmallIcon(Resource.Drawable.ic_successstatus);
-			n.SetLights(global::Android.Graphics.Color.Blue, 200, 200);
+			n.SetLights(global::Android.Graphics.Color.Blue, 300, 1000);
 			n.SetContentIntent(pintent);
 			n.SetContentTitle(title);
 			n.SetTicker(message);
@@ -104,8 +104,6 @@ namespace Sport.Android
 				200,
 				200,
 				100,
-				200,
-				200
 			});
 
 			var nm = NotificationManager.FromContext(context);

@@ -186,11 +186,15 @@ namespace Sport.Shared
 			});
 
 			ViewModel.NotifyPropertiesChanged();
+
+			if(ViewModel.CurrentMembership != null && ViewModel.CurrentMembership.CurrentRank == 0)
+			{
+				HeapGloriousPraise();
+			}
 		}
 
 		async void PushChallengeDetailsPage(Challenge challenge, bool refresh = false)
 		{
-			_didPost = false; //reset
 			var details = new ChallengeDetailsPage(challenge);
 			details.OnAccept = async() =>
 			{
@@ -216,6 +220,7 @@ namespace Sport.Shared
 
 		protected override void OnAppearing()
 		{
+			_didPost = false; //reset
 			RefreshMenuButtons();
 
 			if(rankStrip.Membership != ViewModel.CurrentMembership)
@@ -440,6 +445,11 @@ namespace Sport.Shared
 		void HandleChallengeClicked(object sender, EventArgs e)
 		{
 			OnCreateChallenge();
+		}
+
+		void HeapGloriousPraise()
+		{
+			//var image = ImageSource.FromFile("");
 		}
 	}
 
