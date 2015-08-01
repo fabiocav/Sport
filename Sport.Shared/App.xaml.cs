@@ -33,12 +33,12 @@ namespace Sport.Shared
 		public App()
 		{
 			Colors = new List<string> {
-					"green",
-					"blue",
-					"red",
-					"yellow",
-					"asphalt",
-					"purple"
+				"green",
+				"blue",
+				"red",
+				"yellow",
+				"asphalt",
+				"purple"
 			};
 
 			PraisePhrases = new List<string> {
@@ -169,13 +169,13 @@ namespace Sport.Shared
 			set;
 		}
 
-		static List<string> Colors
+		public static List<string> Colors
 		{
 			get;
 			set;
 		}
 
-		static List<string> PraisePhrases
+		public static List<string> PraisePhrases
 		{
 			get;
 			set;

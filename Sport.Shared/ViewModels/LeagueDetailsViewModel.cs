@@ -78,6 +78,21 @@ namespace Sport.Shared
 			}
 		}
 
+		string _praisePhrase;
+
+		public string PraisePhrase
+		{
+			get
+			{
+				if(_praisePhrase == null)
+				{
+					var random = new Random().Next(0, App.PraisePhrases.Count - 1);
+					_praisePhrase = App.PraisePhrases[random];
+				}
+				return "you're {0}".Fmt(_praisePhrase);
+			}
+		}
+
 		MembershipDetailsViewModel _membershipViewModel;
 
 		public MembershipDetailsViewModel MembershipViewModel
@@ -186,6 +201,7 @@ namespace Sport.Shared
 
 				if(diff)
 				{
+					_praisePhrase = null;
 					_currentMembership = null;
 					SetPropertyChanged("CurrentMembership");
 					LeagueViewModel = new LeagueViewModel(_league);
@@ -258,6 +274,7 @@ namespace Sport.Shared
 				if(force || (League == null || !League.Equals(task.Result)))
 				{
 					task.Result.Theme = League?.Theme;
+					_praisePhrase = null;
 					League = task.Result;
 					NotifyPropertiesChanged();
 				}
@@ -288,6 +305,7 @@ namespace Sport.Shared
 			SetPropertyChanged("PreviousChallengeViewModel");
 			SetPropertyChanged("GetBestChallengee");
 			SetPropertyChanged("IsFirstPlace");
+			SetPropertyChanged("PraisePhrase");
 
 			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
 			MembershipViewModel?.NotifyPropertiesChanged();
