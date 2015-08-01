@@ -18,8 +18,6 @@
 
 						<Label Text="built with Xamarin love in SF" FontSize="Medium" XAlign="Center" HorizontalOptions="Center"
 							 TextColor="{StaticResource bluePrimary}" />
-
-						<Label Text="written by Rob DeRosa" FontSize="12" XAlign="Center" HorizontalOptions="Center" TextColor="{StaticResource bluePrimary}"/>
 					</StackLayout>
 
 					<StackLayout>

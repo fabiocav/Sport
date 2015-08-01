@@ -86,6 +86,8 @@ namespace Sport.Shared
 			await GetLeagues(true);
 		}
 
+		LeagueViewModel _empty;
+
 		public void LocalRefresh()
 		{
 			if(Athlete == null)
@@ -95,21 +97,21 @@ namespace Sport.Shared
 				Leagues = new ObservableCollection<LeagueViewModel>();
 
 			var comparer = new LeagueIdComparer();
-			var toRemove = Leagues.Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
+			var toRemove = Leagues.Where(vm => vm.League != null).Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
 			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l, App.CurrentAthlete)).ToList();
+
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
-
-			var eqComparer = new LeagueComparer();
-			var changed = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), eqComparer).ToList();
-
 			var compare = new LeagueSortComparer();
 
-			if(Leagues.Count == 0)
+			if(Leagues.Count == 0 && toAdd.Count == 0)
 			{
-				//This keeps the list from shifting up on the first refresh
-				var last = toAdd.LastOrDefault();
-				foreach(var l in toAdd)
-					l.IsLast = l == last;
+				if(_empty == null)
+					_empty = new LeagueViewModel(null) {
+						EmptyMessage = "You don't belong to any leagues... yet."
+					};
+
+				if(!Leagues.Contains(_empty))
+					Leagues.Add(_empty);
 			}
 
 			foreach(var lv in toAdd)
@@ -132,22 +134,9 @@ namespace Sport.Shared
 					l.IsLast = l == last;
 			}
 
-			//Not updating for some reason
-			foreach(var league in changed)
+			if(Leagues.Count > 0 && Leagues.Contains(_empty) && Leagues.First() != _empty)
 			{
-				var vm = Leagues.SingleOrDefault(v => v.League.Id == league.Id);
-				if(vm != null)
-				{
-					vm.League = league;
-					vm.LocalRefresh();
-				}
-			}
-
-			if(Leagues.Count == 0)
-			{
-				Leagues.Add(new LeagueViewModel(null) {
-					EmptyMessage = "You don't belong to any leagues... yet."
-				});
+				Leagues.Remove(_empty);
 			}
 		}
 	}

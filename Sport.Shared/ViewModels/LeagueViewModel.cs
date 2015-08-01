@@ -131,23 +131,7 @@ namespace Sport.Shared
 			SetPropertyChanged("IsMemberAndLeagueStarted");
 			SetPropertyChanged("IsNotMemberAndLeagueStarted");
 			SetPropertyChanged("IsFirstPlace");
-			//SetPropertyChanged("EmptyMessage");
-		}
-
-		async public Task GetAllMemberships(bool forceRefresh = false)
-		{
-			if(!forceRefresh || League == null)
-				return;
-
-			using(new Busy(this))
-			{
-				var task = AzureService.Instance.GetAllAthletesForLeague(League);
-				await RunSafe(task);
-				League.RefreshMemberships();
-				LocalRefresh();
-			}
-
-			IsBusy = false;
+			SetPropertyChanged("EmptyMessage");
 		}
 	}
 }

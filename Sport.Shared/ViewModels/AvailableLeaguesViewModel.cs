@@ -35,6 +35,8 @@ namespace Sport.Shared
 			}
 		}
 
+		LeagueViewModel _empty;
+
 		public void LocalRefresh()
 		{
 			Console.WriteLine(Leagues.Count);
@@ -46,16 +48,19 @@ namespace Sport.Shared
 			var toJoin = DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key))
 				.Select(k => k.Value).ToList();
 
-			var toRemove = Leagues.Select(vm => vm.League).Except(toJoin, comparer).ToList();
+			var toRemove = Leagues.Where(vm => vm.League != null).Select(vm => vm.League).Except(toJoin, comparer).ToList();
 			var toAdd = toJoin.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l, App.CurrentAthlete)).ToList();
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
 
-			if(Leagues.Count == 0)
+			if(Leagues.Count == 0 && toAdd.Count == 0)
 			{
-				//This keeps the list from shifting up on the first refresh
-				var last = toAdd.LastOrDefault();
-				foreach(var l in toAdd)
-					l.IsLast = l == last;
+				if(_empty == null)
+					_empty = new LeagueViewModel(null) {
+						EmptyMessage = "There are no available leagues to join."
+					};
+
+				if(!Leagues.Contains(_empty))
+					Leagues.Add(_empty);
 			}
 
 			var compare = new LeagueSortComparer();
@@ -79,11 +84,9 @@ namespace Sport.Shared
 					l.IsLast = l == last;
 			}
 
-			if(Leagues.Count == 0)
+			if(Leagues.Count > 0 && Leagues.Contains(_empty) && Leagues.First() != _empty)
 			{
-				Leagues.Add(new LeagueViewModel(null) {
-					EmptyMessage = "There are no available leagues to join."
-				});
+				Leagues.Remove(_empty);
 			}
 		}
 
