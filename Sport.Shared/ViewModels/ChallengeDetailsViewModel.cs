@@ -2,6 +2,9 @@
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Calendar.v3;
+using System.Linq;
 
 [assembly: Dependency(typeof(Sport.Shared.ChallengeDetailsViewModel))]
 
