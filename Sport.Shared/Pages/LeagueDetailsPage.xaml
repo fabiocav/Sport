@@ -24,6 +24,15 @@
 					<Image Source="ic_missing_photo_white" StyleId="leaguePhoto" HorizontalOptions="Center" VerticalOptions="Center" />
 					<Image x:Name="photoImage" Source="{Binding League.ImageUrl}" HorizontalOptions="Fill" HeightRequest="200"
 						VerticalOptions="Center" Aspect="AspectFill" />
+
+					<StackLayout IsVisible="{Binding IsFirstPlace}" Orientation="Horizontal" VerticalOptions="End">
+						<AbsoluteLayout AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0,1" Padding="10">
+							<local:SportButton BorderRadius="2" BackgroundColor="{Binding League.Theme.Light}" Opacity=".75" HeightRequest="36" WidthRequest="36"
+								AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5" TextColor="White" />
+							<Image Source="ic_trophy_white" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5"/>
+						</AbsoluteLayout>
+						<Label TextColor="White" Text="{Binding PraisePhrase}" FontSize="Medium" YAlign="Center" HorizontalOptions="Start" />
+					</StackLayout>
 				</Grid>
 			</ContentView>
 
@@ -39,7 +48,7 @@
 
 				<StackLayout Padding="24,0,24,14" Spacing="10" IsVisible="{Binding League.HasStarted}">
 					<ContentView IsVisible="{Binding IsMember}">
-						<Grid Padding="0,0,0,6" MinimumHeightRequest="36" MinimumWidthRequest="44" IsVisible="{Binding League.HasStarted}">
+						<Grid Padding="0,0,0,6" IsVisible="{Binding League.HasStarted}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="44" />
 								<ColumnDefinition Width="*" />
@@ -56,7 +65,7 @@
 						</Grid>
 					</ContentView>
 					<ContentView IsVisible="{Binding HasLeaderOtherThanSelf}">
-						<Grid Padding="0,0,0,6" MinimumHeightRequest="36" MinimumWidthRequest="44">
+						<Grid Padding="0,0,0,6">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="44" />
 								<ColumnDefinition Width="*" />
@@ -87,7 +96,7 @@
 				<StackLayout Padding="24,24,24,14" Spacing="14"	IsEnabled="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}">
 
 					<local:SportButton Text="CHALLENGE" StyleId="challengeButton" HorizontalOptions="FillAndExpand"
-						BackgroundColor="{Binding League.Theme.Primary}" Clicked="HandleChallengeClicked" IsVisible="{Binding CanChallenge}" />
+						BackgroundColor="{Binding League.Theme.Dark}" Clicked="HandleChallengeClicked" IsVisible="{Binding CanChallenge}" />
 
 					<local:SportButton Text="LEADERBOARD" StyleId="leaderboardButton" HorizontalOptions="FillAndExpand"
 						Clicked="HandleRankingsClicked" />

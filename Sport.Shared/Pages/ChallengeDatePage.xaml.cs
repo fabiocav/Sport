@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using XLabs.Forms.Controls;
 
 namespace Sport.Shared
 {
@@ -38,8 +37,8 @@ namespace Sport.Shared
 
 		protected override void Initialize()
 		{
-			InitializeComponent();
 			Title = "Date and Time";
+			InitializeComponent();
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{

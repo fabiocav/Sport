@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using Android.Widget;
 using Android.Support.Design.Widget;
+using Android.App;
 
 [assembly: Dependency(typeof(Sport.Android.ToastNotifier))]
 
@@ -17,7 +18,8 @@ namespace Sport.Android
 		{
 			var taskCompletionSource = new TaskCompletionSource<bool>();
 
-			//var snackBar = new SnackBar();
+//			global::Android.Views.View parent = ((Activity)Forms.Context).Window.DecorView.FindViewById(16908290);
+//			Snackbar.Make(parent, description, Snackbar.LengthLong).Show();
 			Toast.MakeText(Forms.Context, description, ToastLength.Short).Show();
 
 			return taskCompletionSource.Task;

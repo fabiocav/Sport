@@ -12,14 +12,14 @@
 					<AbsoluteLayout StyleId="leagueRow" Padding="{Binding IsLast, Converter={x:Static local:LeaguePaddingValueConverter.Instance}}">
 						<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="Fill"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Padding="48"
-								IsVisible="{Binding League.Id, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
+								IsVisible="{Binding League, Converter={x:Static local:IsNullToBoolConverter.Instance}}">
 
-							<Label Text="{Binding League.Name}" FontSize="Large" Style="{StaticResource header}" XAlign="Center" />
+							<Label Text="{Binding EmptyMessage}" FontSize="Large" Style="{StaticResource header}" XAlign="Center" />
 						</StackLayout>
 
 						<StackLayout Padding="0,0,.5,.5" BackgroundColor="{StaticResource grayPrimary}"
 							AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
-								IsVisible="{Binding League.Id, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
+								IsVisible="{Binding League, Converter={x:Static local:IsNotNullToBoolConverter.Instance}}">
 
 							<StackLayout Orientation="Vertical" BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
 								<AbsoluteLayout HeightRequest="150">

@@ -27,7 +27,7 @@ namespace Sport.Shared
 		{
 			get
 			{
-				return Membership == null || Membership.League == null ? Color.Transparent : Membership.League.Theme.Light.AddLuminosity(-.1);
+				return Membership == null || Membership.League == null || Membership.League.Theme == null ? Color.Transparent : Membership.League.Theme.Light.AddLuminosity(-.1);
 			}
 		}
 
@@ -35,7 +35,7 @@ namespace Sport.Shared
 		{
 			get
 			{
-				return Membership == null || Membership.League == null ? Color.Transparent : Membership.League.Theme.Light.AddLuminosity(.07);
+				return Membership == null || Membership.League == null || Membership.League.Theme == null ? Color.Transparent : Membership.League.Theme.Light.AddLuminosity(.07);
 			}
 		}
 
@@ -69,11 +69,6 @@ namespace Sport.Shared
 			root.BindingContext = this;
 		}
 
-		protected override void LayoutChildren(double x, double y, double width, double height)
-		{
-			base.LayoutChildren(x, y, width, height);
-		}
-
 		void HandleChallengeClicked(object sender, EventArgs e)
 		{
 			var btn = sender as Button;
@@ -88,6 +83,9 @@ namespace Sport.Shared
 
 		void LocalRefresh()
 		{
+			OnPropertyChanged("DarkColor");
+			OnPropertyChanged("LightColor");
+
 			if(Membership != null)
 			{
 				UpperMembership = Membership.League.Memberships.SingleOrDefault(m => m.CurrentRank == Membership.CurrentRank - 1);
@@ -101,8 +99,6 @@ namespace Sport.Shared
 
 			OnPropertyChanged("UpperMembership");
 			OnPropertyChanged("LowerMembership");
-			OnPropertyChanged("DarkColor");
-			OnPropertyChanged("LightColor");
 		}
 	}
 }

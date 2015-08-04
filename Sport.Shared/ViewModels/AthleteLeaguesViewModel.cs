@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System;
 
 [assembly: Dependency(typeof(Sport.Shared.AthleteLeaguesViewModel))]
 namespace Sport.Shared
@@ -73,8 +74,8 @@ namespace Sport.Shared
 				await AthleteViewModel.GetLeagues(forceRefresh);
 				LocalRefresh();
 
-				Settings.Instance.LeagueColors.Clear();
-				AthleteViewModel.Athlete.Leagues.EnsureLeaguesThemed(true);
+				//Settings.Instance.LeagueColors.Clear();
+				DataManager.Instance.Leagues.Values.ToList().EnsureLeaguesThemed(true);
 			}
 
 			_hasLoadedLeaguesBefore = true;
@@ -85,39 +86,57 @@ namespace Sport.Shared
 			await GetLeagues(true);
 		}
 
+		LeagueViewModel _empty;
+
 		public void LocalRefresh()
 		{
 			if(Athlete == null)
 				return;
 
 			if(Leagues == null)
-			{
-				Athlete.Leagues.OrderBy(l => l.Name).ToList().ForEach(l => Leagues.Add(new LeagueViewModel(l, Athlete)));
-			}
+				Leagues = new ObservableCollection<LeagueViewModel>();
 
-			var comparer = new LeagueComparer();
-			var toRemove = Leagues.Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
-			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).ToList();
-
-			var newIds = toAdd.Select(l => l.Id);
-			var existing = Leagues.Where(l => !newIds.Contains(l.League.Id)).ToList();
+			var comparer = new LeagueIdComparer();
+			var toRemove = Leagues.Where(vm => vm.League != null).Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
+			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l, App.CurrentAthlete)).ToList();
 
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
+			var compare = new LeagueSortComparer();
 
-			var preSort = new List<LeagueViewModel>();
-			toAdd.ForEach(l => preSort.Add(new LeagueViewModel(l, App.CurrentAthlete)));
-			preSort.Sort(new LeagueSortComparer());
-			existing.ForEach(l => l.LocalRefresh());
-
-			var last = preSort.LastOrDefault();
-			preSort.ForEach(l => l.IsLast = l == last);
-			preSort.ForEach(Leagues.Add);
-
-			if(Leagues.Count == 0)
+			if(Leagues.Count == 0 && toAdd.Count == 0)
 			{
-				Leagues.Add(new LeagueViewModel(new League {
-					Name = "You don't belong to any leagues.\n\n\nYou can join leagues by tapping the + button above."
-				}));
+				if(_empty == null)
+					_empty = new LeagueViewModel(null) {
+						EmptyMessage = "You don't belong to any leagues... yet."
+					};
+
+				if(!Leagues.Contains(_empty))
+					Leagues.Add(_empty);
+			}
+
+			foreach(var lv in toAdd)
+			{
+				int index = 0;
+				foreach(var l in Leagues.ToList())
+				{
+					if(compare.Compare(lv, l) < 0)
+						break;
+
+					index++;
+				}
+				Leagues.Insert(index, lv);
+			}
+
+			if(toAdd.Count > 0 || toRemove.Count > 0)
+			{
+				var last = Leagues.LastOrDefault();
+				foreach(var l in Leagues)
+					l.IsLast = l == last;
+			}
+
+			if(Leagues.Count > 0 && Leagues.Contains(_empty) && Leagues.First() != _empty)
+			{
+				Leagues.Remove(_empty);
 			}
 		}
 	}

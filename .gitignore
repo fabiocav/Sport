@@ -187,3 +187,5 @@ FakesAssemblies/
 run_iOS_XTC.sh
 
 run_Android_XTC.sh
+
+Sport.Shared/Keys.cs

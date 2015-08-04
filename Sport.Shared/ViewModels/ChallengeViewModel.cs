@@ -1,5 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Linq;
+using Google.Apis.Calendar.v3;
+using System;
+using Google.Apis.Services;
+using Google.Apis.Calendar.v3.Data;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -21,7 +26,6 @@ namespace Sport.Shared
 			set
 			{
 				SetPropertyChanged(ref _challenge, value);
-				NotifyPropertiesChanged();
 			}
 		}
 
@@ -39,28 +43,10 @@ namespace Sport.Shared
 			}
 		}
 
-		public bool IsChallengerWinningAthlete
-		{
-			get
-			{
-				return Challenge != null && Challenge.WinningAthlete != null && Challenge.WinningAthlete.Id == Challenge.ChallengerAthleteId;
-			}
-		}
-
-		public bool IsChallengeeWinningAthlete
-		{
-			get
-			{
-				return Challenge != null && Challenge.WinningAthlete != null && Challenge.WinningAthlete.Id == Challenge.ChallengeeAthleteId;
-			}
-		}
-
 		public virtual void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("Challenge");
 			SetPropertyChanged("EmptyMessage");
-			SetPropertyChanged("IsChallengeeWinningAthlete");
-			SetPropertyChanged("IsChallengerWinningAthlete");
 		}
 	}
 }

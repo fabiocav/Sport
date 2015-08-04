@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -378,31 +377,45 @@ namespace Sport.Shared
 
 		public void RefreshChallenges()
 		{
-			_ongoingChallenges.Clear();
-			DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && !c.IsCompleted)
-				.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_ongoingChallenges.Add);
+			if(_ongoingChallenges != null)
+			{
+				_ongoingChallenges.Clear();
+				DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && !c.IsCompleted)
+					.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_ongoingChallenges.Add);
+				
+				SetPropertyChanged("OngoingChallenges");
+			}
 
-			_pastChallenges.Clear();
-			DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && c.IsCompleted)
-				.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_pastChallenges.Add);
+			if(_pastChallenges != null)
+			{
+				_pastChallenges.Clear();
+				DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == Id && c.IsCompleted)
+					.OrderByDescending(c => c.ProposedTime).ToList().ForEach(_pastChallenges.Add);
 
-			SetPropertyChanged("OngoingChallenges");
-			SetPropertyChanged("PastChallenges");
+				SetPropertyChanged("PastChallenges");
+			}
 		}
 
 		public override bool Equals(object obj)
 		{
-			var b = obj as League;
-			if(b == null)
-				return false;
+			var comp = new LeagueComparer();
+			return comp.Equals(this, obj as League);
+		}
+	}
 
-			if(UpdatedAt != b.UpdatedAt || Id != b.Id)
+	public class LeagueIdComparer : IEqualityComparer<League>
+	{
+		public bool Equals(League x, League y)
+		{
+			if(x == null || y == null)
 				return false;
 			
-			if(Memberships.Count != b.Memberships.Count)
-				return false;
+			return x.Id == y.Id;
+		}
 
-			return true;
+		public int GetHashCode(League obj)
+		{
+			return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
 		}
 	}
 
@@ -410,7 +423,26 @@ namespace Sport.Shared
 	{
 		public bool Equals(League x, League y)
 		{
-			return x.Id == y.Id && x.UpdatedAt == y.UpdatedAt;
+			if(x == null || y == null)
+				return false;
+
+			var isEqual = x.Id == y.Id
+			              && x.UpdatedAt == y.UpdatedAt
+			              && x.Name == y.Name
+			              && x.Description == y.Description
+			              && x.EndDate == y.EndDate
+			              && x.StartDate == y.StartDate
+			              && x.HasStarted == y.HasStarted
+			              && x.ImageUrl == y.ImageUrl
+			              && x.IsEnabled == y.IsEnabled
+			              && x.IsAcceptingMembers == y.IsAcceptingMembers
+			              && x.MatchGameCount == y.MatchGameCount
+			              && x.RulesUrl == y.RulesUrl
+			              && x.OngoingChallenges?.Count == y.OngoingChallenges?.Count
+			              && x.MembershipIds?.Count == y.MembershipIds?.Count;
+
+			//Console.WriteLine("IsEqual: " + isEqual);
+			return isEqual;
 		}
 
 		public int GetHashCode(League obj)
@@ -423,7 +455,10 @@ namespace Sport.Shared
 	{
 		public int Compare(LeagueViewModel x, LeagueViewModel y)
 		{
-			return string.Compare(x.League.Name, y.League.Name, System.StringComparison.OrdinalIgnoreCase);
+			if(x?.League == null || y?.League == null)
+				return -1;
+			
+			return string.Compare(x.League?.Name, y.League?.Name, System.StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }

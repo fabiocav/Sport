@@ -5,15 +5,6 @@ using Xamarin.UITest;
 using Xamarin.UITest.Queries;
 using System.Text;
 
-namespace Sport.UITests
-{
-	public class Constants
-	{
-		public static readonly string ApiKey = "a835baddbb619daf8c09f1e49756e81f";
-		public static readonly string Password = "XamarinTestCloud";
-	}
-}
-
 namespace Xamarin.TestCloud.Extensions
 {
 	public static class Extensions
@@ -124,7 +115,7 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			AppResult rootView = null;
 			int count = 0;
-			const int maxTries = 20;
+			const int maxTries = 10;
 
 			AppResult[] lastTry;
 			while(count < maxTries)
@@ -147,9 +138,10 @@ namespace Xamarin.TestCloud.Extensions
 						throw new Exception("Unable to get root view");
 				}
 
-				float gap = rootView.Rect.Height / 3;
-				//var write = rootView.Rect.CenterX.ToString() + " - " + (rootView.Rect.CenterY + gap).ToString() + " x " + rootView.Rect.CenterX + " - " + (rootView.Rect.CenterY - gap).ToString();
-				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
+				app.ScrollDown();
+//				float gap = rootView.Rect.Height / 4;
+//				//var write = rootView.Rect.CenterX.ToString() + " - " + (rootView.Rect.CenterY + gap).ToString() + " x " + rootView.Rect.CenterX + " - " + (rootView.Rect.CenterY - gap).ToString();
+//				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
 				count++;
 			}
 
@@ -165,7 +157,7 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			AppResult rootView = null;
 			int count = 0;
-			const int maxTries = 20;
+			const int maxTries = 10;
 
 			AppResult[] lastTry;
 			while(count < maxTries)
@@ -207,7 +199,7 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			AppResult rootView = null;
 			int count = 0;
-			const int maxTries = 20;
+			const int maxTries = 10;
 
 			AppWebResult[] lastTry;
 			while(count < maxTries)
@@ -230,8 +222,9 @@ namespace Xamarin.TestCloud.Extensions
 						throw new Exception("Unable to get root view");
 				}
 
-				float gap = rootView.Rect.Height / 5;
-				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
+				app.ScrollDown();
+//				float gap = rootView.Rect.Height / 5;
+//				app.DragCoordinates(rootView.Rect.CenterX, rootView.Rect.CenterY + gap, rootView.Rect.CenterX, rootView.Rect.CenterY - gap);
 				count++;
 			}
 
@@ -247,7 +240,7 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			AppResult rootView = null;
 			int count = 0;
-			const int maxTries = 20;
+			const int maxTries = 10;
 
 			AppWebResult[] lastTry;
 			while(count < maxTries)
@@ -306,6 +299,11 @@ namespace Xamarin.TestCloud.Extensions
 			}
 
 			var results = app.Query(lambda);
+			app.LogToDevice(results.ToString(true));
+		}
+
+		public static void LogToDevice(this IApp app, AppWebResult[] results)
+		{
 			app.LogToDevice(results.ToString(true));
 		}
 
@@ -431,5 +429,36 @@ namespace Xamarin.TestCloud.Extensions
 
 			return sb.ToString();
 		}
+
+		public static string ToString(this AppWebResult[] result, bool repl)
+		{
+			var sb = new StringBuilder();
+			var index = 0;
+
+			foreach(var res in result)
+			{
+				var innerSb = new StringBuilder();
+				innerSb.AppendLine("{");
+				innerSb.AppendLine(string.Format("    Index         - {0}", index));
+				innerSb.AppendLine(string.Format("    Class         - {0}", res.Class));
+				innerSb.AppendLine(string.Format("    NodeName      - {0}", res.NodeName));
+				innerSb.AppendLine(string.Format("    TextContent   - {0}", res.TextContent));
+
+				if(res.TextContent != null)
+					innerSb.AppendLine(string.Format("    TextContent   - {0}", res.TextContent));
+
+				innerSb.AppendLine(string.Format("    ID            - {0}", res.Id));
+				innerSb.AppendLine(string.Format("    Rect          - {0} x {1}, {2} x {3}", res.Rect.X, res.Rect.Y, res.Rect.Width, res.Rect.Height));
+				innerSb.AppendLine(string.Format("    Html          - {0}", res.Html));
+				innerSb.AppendLine("}");
+				innerSb.AppendLine("");
+
+				sb.Append(innerSb.ToString());
+				index++;
+			}
+
+			return sb.ToString();
+		}
+
 	}
 }

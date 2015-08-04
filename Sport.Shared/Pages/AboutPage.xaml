@@ -5,7 +5,7 @@
 	xmlns:local="clr-namespace:Sport.Shared;assembly=Sport">
 	<local:AboutPageXaml.Content>
 		<ScrollView>
-			<Grid VerticalOptions="Fill" StyleId="memberDetailsRoot">
+			<Grid VerticalOptions="Fill" StyleId="root">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
@@ -18,8 +18,6 @@
 
 						<Label Text="built with Xamarin love in SF" FontSize="Medium" XAlign="Center" HorizontalOptions="Center"
 							 TextColor="{StaticResource bluePrimary}" />
-
-						<Label Text="written by Rob DeRosa" FontSize="12" XAlign="Center" HorizontalOptions="Center" TextColor="{StaticResource bluePrimary}"/>
 					</StackLayout>
 
 					<StackLayout>
@@ -45,7 +43,6 @@
 								        <Span Text="    &#x2022; Custom Controls&#10;" />
 								        <Span Text="    &#x2022; Custom Renderer&#10;" />
 								        <Span Text="    &#x2022; ImageCircle Plugin&#10;" />
-								        <Span Text="    &#x2022; XLabs ExtendedEntry&#10;" />
 								        <Span Text="&#x2022; Xamarin Insights&#10;" />
 								        <Span Text="&#x2022; Xamarin Test Cloud&#10;" />
 								        <Span Text="    &#x2022; UITest&#10;" />
@@ -66,6 +63,9 @@
 				<StackLayout Grid.Row="1" Padding="24,10,24,14" Spacing="14">
 					<local:SportButton Text="VIEW SOURCE" StyleId="sourceButton" HorizontalOptions="FillAndExpand"
 						BackgroundColor="{StaticResource greenPrimary}" Clicked="HandleViewSourceClicked" />
+
+					<local:SportButton Text="ABOUT XAMARIN.FORMS" StyleId="xamarinButton" HorizontalOptions="FillAndExpand"
+						BackgroundColor="{StaticResource bluePrimary}" Clicked="HandleXamarinClicked" />
 				</StackLayout>
 
 			</Grid>

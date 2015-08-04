@@ -101,13 +101,14 @@ namespace Sport.Shared
 				{
 					AuthenticationStatus = "Registering athlete";
 					athlete = new Athlete(App.AuthUserProfile);
+
 					var task = AzureService.Instance.SaveAthlete(athlete);
 					await RunSafe(task);
 
 					if(task.IsCompleted && task.IsFaulted)
 						return false;
 
-					"Registered".ToToast();
+					"You're now an officially registered athlete!".ToToast();
 				}
 				else
 				{
@@ -199,8 +200,7 @@ namespace Sport.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
-						{
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
 							"Name",
 							App.AuthUserProfile.Name
 						}

@@ -312,6 +312,25 @@ namespace Sport.Shared
 			}
 		}
 
+		[JsonIgnore]
+		public bool IsChallengerWinningAthlete
+		{
+			get
+			{
+				return WinningAthlete != null && WinningAthlete.Id == ChallengerAthleteId;
+			}
+		}
+
+		[JsonIgnore]
+		public bool IsChallengeeWinningAthlete
+		{
+			get
+			{
+				return WinningAthlete != null && WinningAthlete.Id == ChallengeeAthleteId;
+			}
+		}
+
+
 		public string MatchResultSummary
 		{
 			get
@@ -342,6 +361,14 @@ namespace Sport.Shared
 			SetPropertyChanged("MatchResultSummary");
 			SetPropertyChanged("ChallengerWinningGames");
 			SetPropertyChanged("ChallengeeWinningGames");
+			SetPropertyChanged("IsChallengeeWinningAthlete");
+			SetPropertyChanged("IsChallengerWinningAthlete");
+		}
+
+		public override bool Equals(object obj)
+		{
+			var comp = new ChallengeComparer();
+			return comp.Equals(this, obj as Challenge);
 		}
 	}
 
@@ -349,7 +376,16 @@ namespace Sport.Shared
 	{
 		public bool Equals(Challenge x, Challenge y)
 		{
-			if(x.WinningAthlete == y.WinningAthlete
+			if(x == null || y == null)
+				return false;
+
+			if(x.Id == y.Id
+			   && x.UpdatedAt == y.UpdatedAt
+			   && x.DateAccepted == y.DateAccepted
+			   && x.DateCompleted == y.DateCompleted
+			   && x.BattleForRank == y.BattleForRank
+			   && x.ProposedTime == y.ProposedTime
+			   && x.WinningAthlete == y.WinningAthlete
 			   && x.MatchResult.Count == y.MatchResult.Count
 			   && x.ChallengeeAthleteId == y.ChallengeeAthleteId
 			   && x.ChallengerAthleteId == y.ChallengerAthleteId)

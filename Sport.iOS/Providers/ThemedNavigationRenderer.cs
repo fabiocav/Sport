@@ -1,12 +1,12 @@
-﻿using Sport.iOS;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
+using Sport.iOS;
 using Sport.Shared;
 using UIKit;
-using System.Threading.Tasks;
-using System.Reflection;
-using System;
-using System.Collections.Generic;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(ThemedNavigationPage), typeof(ThemedNavigationRenderer))]
 namespace Sport.iOS
@@ -37,6 +37,12 @@ namespace Sport.iOS
 			return base.PopViewController(animated);
 		}
 
+		public override void ViewDidLoad()
+		{
+			//Element.PropertyChanged += HandlePropertyChanged;
+			base.ViewDidLoad();
+		}
+
 		void ChangeTheme(Page page)
 		{
 			var basePage = page as SuperBaseContentPage;
@@ -65,6 +71,15 @@ namespace Sport.iOS
 //					NavigationBar.BarTintColor = basePage.BarBackgroundColor.ToUIColor();
 //					NavigationBar.TintColor = basePage.BarTextColor.ToUIColor();
 //				});
+			}
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			if(disposing)
+			{
+				var navPage = (NavigationPage)Element;
+				//navPage.PropertyChanged -= HandlePropertyChanged;
 			}
 		}
 	}

@@ -54,6 +54,7 @@
     <Compile Include="Tests.cs" />
     <Compile Include="AppInitializer.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Keys.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

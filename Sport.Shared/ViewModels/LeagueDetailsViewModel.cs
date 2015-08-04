@@ -46,6 +46,8 @@ namespace Sport.Shared
 			}
 		}
 
+		Membership _currentMembership;
+
 		public Membership CurrentMembership
 		{
 			get
@@ -53,14 +55,18 @@ namespace Sport.Shared
 				if(!IsMember)
 					return null;
 
-				var membership = DataManager.Instance.Memberships.Values.SingleOrDefault(m => m.LeagueId == League.Id && m.AthleteId == App.CurrentAthlete.Id);
+				if(_currentMembership == null)
+					_currentMembership = DataManager.Instance.Memberships.Values.SingleOrDefault(m => m.LeagueId == League.Id && m.AthleteId == App.CurrentAthlete.Id);
 
-				if(membership == null)
-				{
-					
-				}
+				return _currentMembership;
+			}
+		}
 
-				return membership;
+		public bool IsFirstPlace
+		{
+			get
+			{
+				return CurrentMembership != null && CurrentMembership.CurrentRank == 0 && CurrentMembership.League.HasStarted;
 			}
 		}
 
@@ -69,6 +75,21 @@ namespace Sport.Shared
 			get
 			{
 				return !string.IsNullOrWhiteSpace(League.RulesUrl);	
+			}
+		}
+
+		string _praisePhrase;
+
+		public string PraisePhrase
+		{
+			get
+			{
+				if(_praisePhrase == null)
+				{
+					var random = new Random().Next(0, App.PraisePhrases.Count - 1);
+					_praisePhrase = App.PraisePhrases[random];
+				}
+				return "you're {0}".Fmt(_praisePhrase);
 			}
 		}
 
@@ -175,10 +196,16 @@ namespace Sport.Shared
 			}
 			set
 			{
+				var diff = _league != value;
 				SetPropertyChanged(ref _league, value);
-				LeagueViewModel = new LeagueViewModel(_league);
 
-				NotifyPropertiesChanged();
+				if(diff)
+				{
+					_praisePhrase = null;
+					_currentMembership = null;
+					SetPropertyChanged("CurrentMembership");
+					LeagueViewModel = new LeagueViewModel(_league);
+				}
 			}
 		}
 
@@ -188,6 +215,7 @@ namespace Sport.Shared
 		{
 			await RunSafe(AzureService.Instance.GetAthleteById(League.CreatedByAthleteId));
 			League.RefreshMemberships();
+
 
 			League.SetPropertyChanged("CreatedByAthlete");
 			NotifyPropertiesChanged();
@@ -230,7 +258,7 @@ namespace Sport.Shared
 			NotifyPropertiesChanged();
 		}
 
-		async public Task RefreshLeague()
+		async public Task RefreshLeague(bool force = false)
 		{
 			if(IsBusy)
 				return;
@@ -243,8 +271,13 @@ namespace Sport.Shared
 				if(task.IsFaulted)
 					return;
 
-				League = task.Result;
-				NotifyPropertiesChanged();
+				if(force || (League == null || !League.Equals(task.Result)))
+				{
+					task.Result.Theme = League?.Theme;
+					_praisePhrase = null;
+					League = task.Result;
+					NotifyPropertiesChanged();
+				}
 			}
 		}
 
@@ -255,24 +288,26 @@ namespace Sport.Shared
 			if(CurrentMembership?.OngoingChallenge == null)
 				OngoingChallengeViewModel = null;
 
-			if(CurrentMembership?.OngoingChallenge != null)
+			if(CurrentMembership?.OngoingChallenge != null && OngoingChallengeViewModel == null)
 				OngoingChallengeViewModel = new ChallengeDetailsViewModel(CurrentMembership?.OngoingChallenge);
+			else if(OngoingChallengeViewModel != null)
+				OngoingChallengeViewModel.Challenge = CurrentMembership?.OngoingChallenge;
 
 			SetPropertyChanged("DateRange");
 			SetPropertyChanged("CreatedBy");
 			SetPropertyChanged("IsMember");
-			SetPropertyChanged("MembershipViewModel");
-			SetPropertyChanged("CurrentMembership");
-			SetPropertyChanged("OngoingChallengeViewModel");
-			SetPropertyChanged("PreviousChallengeViewModel");
 			SetPropertyChanged("LeaderMembership");
 			SetPropertyChanged("HasLeaderOtherThanSelf");
+			SetPropertyChanged("MembershipViewModel");
+			SetPropertyChanged("CurrentMembership");
 			SetPropertyChanged("CanChallenge");
+			SetPropertyChanged("OngoingChallengeViewModel");
+			SetPropertyChanged("PreviousChallengeViewModel");
 			SetPropertyChanged("GetBestChallengee");
+			SetPropertyChanged("IsFirstPlace");
+			SetPropertyChanged("PraisePhrase");
 
 			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
-			CurrentMembership?.OngoingChallenge?.NotifyPropertiesChanged();
-
 			MembershipViewModel?.NotifyPropertiesChanged();
 			OngoingChallengeViewModel?.NotifyPropertiesChanged();
 			PreviousChallengeViewModel?.NotifyPropertiesChanged();

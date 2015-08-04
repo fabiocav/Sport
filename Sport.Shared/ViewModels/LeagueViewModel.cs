@@ -13,10 +13,18 @@ namespace Sport.Shared
 			LocalRefresh();
 		}
 
+		League _league;
+
 		public League League
 		{
-			get;
-			set;
+			get
+			{
+				return _league;
+			}
+			set
+			{
+				SetPropertyChanged(ref _league, value);
+			}
 		}
 
 		public Athlete Athlete
@@ -45,6 +53,9 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(League == null || App.CurrentAthlete.Memberships == null)
+					return false;
+				
 				return App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id && m.CurrentRank == 0 && m.League != null && m.League.HasStarted);
 			}
 		}
@@ -53,6 +64,9 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(League == null || App.CurrentAthlete.Memberships == null)
+					return false;
+
 				return App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id);
 			}
 		}
@@ -61,6 +75,9 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(League == null)
+					return false;
+
 				return !IsMember && League.HasStarted;
 			}
 		}
@@ -69,6 +86,9 @@ namespace Sport.Shared
 		{
 			get
 			{
+				if(League == null)
+					return false;
+
 				return IsMember && League.HasStarted;
 			}
 		}
@@ -87,6 +107,20 @@ namespace Sport.Shared
 			}
 		}
 
+		string _emptyMessage;
+
+		public string EmptyMessage
+		{
+			get
+			{
+				return _emptyMessage;
+			}
+			set
+			{
+				SetPropertyChanged(ref _emptyMessage, value);
+			}
+		}
+
 		public void LocalRefresh()
 		{
 			SetPropertyChanged("HasChallenge");
@@ -97,22 +131,7 @@ namespace Sport.Shared
 			SetPropertyChanged("IsMemberAndLeagueStarted");
 			SetPropertyChanged("IsNotMemberAndLeagueStarted");
 			SetPropertyChanged("IsFirstPlace");
-		}
-
-		async public Task GetAllMemberships(bool forceRefresh = false)
-		{
-			if(!forceRefresh)
-				return;
-
-			using(new Busy(this))
-			{
-				var task = AzureService.Instance.GetAllAthletesForLeague(League);
-				await RunSafe(task);
-				League.RefreshMemberships();
-				LocalRefresh();
-			}
-
-			IsBusy = false;
+			SetPropertyChanged("EmptyMessage");
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -11,6 +10,7 @@ namespace Sport.Shared
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
 		double _imageHeight;
+		bool _didPost;
 
 		public LeagueDetailsPage(League league)
 		{
@@ -75,10 +75,14 @@ namespace Sport.Shared
 
 		async protected override void Initialize()
 		{
-			BarBackgroundColor = ViewModel.League.Theme.Light;
-			BarTextColor = ViewModel.League.Theme.Dark;
+			if(ViewModel.League.Theme != null)
+			{
+				BarBackgroundColor = ViewModel.League.Theme.Light;
+				BarTextColor = ViewModel.League.Theme.Dark;
+			}
 
 			InitializeComponent();
+			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working in XAML for some reason
 			scrollView.Scrolled += (sender, e) => Parallax();
 			Parallax();
 
@@ -86,7 +90,7 @@ namespace Sport.Shared
 			{
 				using(new HUD("Refreshing..."))
 				{
-					await ViewModel.RefreshLeague();
+					await ViewModel.RefreshLeague(true);
 					rankStrip.Membership = ViewModel.CurrentMembership;
 				}
 			};
@@ -107,6 +111,7 @@ namespace Sport.Shared
 
 				page.OnMatchResultsPosted = () =>
 				{
+					_didPost = true;
 					PushChallengeDetailsPage(challenge, true);
 					ViewModel.RefreshLeague();
 					rankStrip.Membership = ViewModel.CurrentMembership;
@@ -165,7 +170,6 @@ namespace Sport.Shared
 				await ViewModel.LoadAthlete();
 			}
 
-			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working in XAML for some reason
 			rankStrip.OnAthleteClicked = async(membership) =>
 			{
 				var page = new MembershipDetailsPage(membership.Id) {
@@ -181,9 +185,12 @@ namespace Sport.Shared
 				ViewModel.NotifyPropertiesChanged();
 			});
 
+			ViewModel.NotifyPropertiesChanged();
 
-			await Task.Delay(2000);
-			await ViewModel.RefreshLeague();
+			if(ViewModel.CurrentMembership != null && ViewModel.CurrentMembership.CurrentRank == 0)
+			{
+				HeapGloriousPraise();
+			}
 		}
 
 		async void PushChallengeDetailsPage(Challenge challenge, bool refresh = false)
@@ -213,9 +220,12 @@ namespace Sport.Shared
 
 		protected override void OnAppearing()
 		{
-			ViewModel.NotifyPropertiesChanged();
-			rankStrip.Membership = ViewModel.CurrentMembership;
+			_didPost = false; //reset
 			RefreshMenuButtons();
+
+			if(rankStrip.Membership != ViewModel.CurrentMembership)
+				rankStrip.Membership = ViewModel.CurrentMembership;
+
 			base.OnAppearing();
 		}
 
@@ -233,10 +243,13 @@ namespace Sport.Shared
 
 					if(challenge != null && challengeId == challenge.Id && payload.Payload.TryGetValue("winningAthleteId", out winnerId))
 					{
-						PushChallengeDetailsPage(ViewModel.OngoingChallengeViewModel?.Challenge, true);
+						if(!_didPost)
+						{
+							PushChallengeDetailsPage(ViewModel.OngoingChallengeViewModel?.Challenge, true);
+						}
 					}
 
-					await ViewModel.RefreshLeague();
+					await ViewModel.RefreshLeague(true);
 					Device.BeginInvokeOnMainThread(() =>
 					{
 						rankStrip.Membership = ViewModel.CurrentMembership;
@@ -432,6 +445,11 @@ namespace Sport.Shared
 		void HandleChallengeClicked(object sender, EventArgs e)
 		{
 			OnCreateChallenge();
+		}
+
+		void HeapGloriousPraise()
+		{
+			//var image = ImageSource.FromFile("");
 		}
 	}
 

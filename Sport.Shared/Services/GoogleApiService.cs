@@ -25,6 +25,19 @@ namespace Sport.Shared
 
 		#region Authentication
 
+		public Task<bool> ValidateToken(string token)
+		{
+			return new Task<bool>(() =>
+			{
+				var client = new HttpClient();
+				string url = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token.TrimStart("Bearer ");
+				var json = client.GetStringAsync(url).Result;
+				var result = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+				return result.ContainsKey("user_id");
+			});
+		}
+
+
 		public Task<UserProfile> GetUserProfile()
 		{
 			return new Task<UserProfile>(() =>
@@ -91,7 +104,6 @@ namespace Sport.Shared
 					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 					var response = client.PostAsync(url, content).Result;
 					var body = response.Content.ReadAsStringAsync().Result;
-					Console.WriteLine(body);
 					dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(body);
 
 					if(!dict.ContainsKey("token_type"))

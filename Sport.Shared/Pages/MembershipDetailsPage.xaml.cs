@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -28,8 +29,9 @@ namespace Sport.Shared
 				var historyPage = new ChallengeHistoryPage(ViewModel.Membership);
 				historyPage.AddDoneButton("Done");
 
-				historyPage.ViewModel.GetChallengeHistoryCommand.Execute(null);
 				await Navigation.PushModalAsync(historyPage.GetNavigationPage());
+				await Task.Delay(500);
+				historyPage.ViewModel.GetChallengeHistoryCommand.Execute(null);
 			};
 
 			btnChallenge.Clicked += async(sender, e) =>

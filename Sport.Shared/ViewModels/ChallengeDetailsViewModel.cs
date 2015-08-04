@@ -2,6 +2,9 @@
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Calendar.v3;
+using System.Linq;
 
 [assembly: Dependency(typeof(Sport.Shared.ChallengeDetailsViewModel))]
 
@@ -73,7 +76,7 @@ namespace Sport.Shared
 		{
 			get
 			{
-				return Challenge != null && Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge.ChallengeeAthlete : Challenge.ChallengerAthlete;
+				return Challenge != null && Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge?.ChallengeeAthlete : Challenge?.ChallengerAthlete;
 			}
 		}
 
@@ -179,7 +182,8 @@ namespace Sport.Shared
 					return;
 				}
 
-				Challenge = task.Result;
+				if(task.Result != Challenge)
+					Challenge = task.Result;
 			}
 		}
 

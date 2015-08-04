@@ -41,6 +41,37 @@ namespace Sport.Shared
 				"purple"
 			};
 
+			PraisePhrases = new List<string> {
+				"sensational",
+				"crazmazing",
+				"stellar",
+				"ill",
+				"peachy keen",
+				"the bees knees",
+				"the cat's pajamas",
+				"the coolest kid in the cave",
+				"killer",
+				"aces",
+				"wicked awesome",
+				"kinda terrific",
+				"top notch",
+				"impressive",
+				"legit",
+				"nifty",
+				"spectaculawesome",
+				"supernacular",
+				"bad to the bone",
+				"radical",
+				"neat",
+				"a hoss boss",
+				"mad chill",
+				"srsly, super chill",
+				"srsly, super chill",
+				"a beast",
+				"funky fresh",
+				"slammin it",
+			};
+
 			#region Linker
 
 //			if(false)
@@ -145,23 +176,32 @@ namespace Sport.Shared
 			set;
 		}
 
-		static List<string> Colors
+		public static List<string> Colors
 		{
 			get;
 			set;
 		}
 
-		public void GetTheme(League league, bool forceReset = false)
+		public static List<string> PraisePhrases
 		{
-			if((!forceReset && league.Theme != null) || league.Id == null)
-				return;
+			get;
+			set;
+		}
 
+		public LeagueTheme GetTheme(League league, bool forceReset = false)
+		{
+			if(league.Id == null)
+				return null;
+
+
+			league.Theme = null;
 			var remaining = App.Colors.Except(Settings.Instance.LeagueColors.Values).ToList();
 			if(remaining.Count == 0)
 				remaining.AddRange(App.Colors);
 
 			var random = new Random().Next(0, remaining.Count - 1);
 			var color = remaining[random];
+
 			if(Settings.Instance.LeagueColors.ContainsKey(league.Id))
 			{
 				color = Settings.Instance.LeagueColors[league.Id];
@@ -180,7 +220,7 @@ namespace Sport.Shared
 			if(App.Current.Resources.ContainsKey("{0}Medium".Fmt(color)))
 				theme.Medium = (Color)App.Current.Resources["{0}Medium".Fmt(color)];
 
-			league.Theme = theme;
+			return theme;
 		}
 
 		public void SetToWelcomePage()

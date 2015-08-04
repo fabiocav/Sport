@@ -3,6 +3,9 @@ using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Text;
 using System.Linq;
+using Google.Apis.Calendar.v3;
+using Google.Apis.Calendar.v3.Data;
+using System.Collections.Generic;
 
 [assembly: Dependency(typeof(Sport.Shared.ChallengeDateViewModel))]
 
@@ -10,6 +13,14 @@ namespace Sport.Shared
 {
 	public class ChallengeDateViewModel : BaseViewModel
 	{
+		public Athlete Opponent
+		{
+			get
+			{
+				return Challenge != null && Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge?.ChallengeeAthlete : Challenge?.ChallengerAthlete;
+			}
+		}
+
 		Challenge _challenge;
 
 		public Challenge Challenge
@@ -71,6 +82,9 @@ namespace Sport.Shared
 			if(task.IsFaulted)
 				return null;
 
+			task = AddChallengeEventToCalendar();
+			await RunSafe(task);
+
 			Challenge.League.RefreshChallenges();
 			MessagingCenter.Send<App>(App.Current, "ChallengesUpdated");
 			return Challenge;
@@ -97,6 +111,49 @@ namespace Sport.Shared
 			};
 		}
 
+		public Task AddChallengeEventToCalendar()
+		{
+			return new Task(() =>
+			{
+				var service = new CalendarService();
+				service.HttpClient.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
+				var req = service.CalendarList.List();
+				var list = req.Execute();
+
+				var primaryCalendar = list.Items.ToList().FirstOrDefault(i => i.Primary.HasValue && i.Primary.Value);
+
+				if(primaryCalendar == null)
+				{
+					"Unable to locate default calendar".ToToast();
+					return;
+				}
+
+				var evnt = new Event();
+				evnt.Attendees = new List<EventAttendee> {
+					new EventAttendee {
+						Email = Opponent.Email,
+						DisplayName = Opponent.Name,
+					}
+				};
+
+				evnt.Summary = "{0}: {1} vs {2}".Fmt(Challenge.League.Name, Challenge.ChallengerAthlete.Alias, Challenge.ChallengeeAthlete.Alias);
+				evnt.Description = Challenge.BattleForPlaceBetween;
+				evnt.Start = new EventDateTime {
+					DateTime = Challenge.ProposedTime.UtcDateTime,
+					TimeZone = "GMT",
+				};
+
+				evnt.End = new EventDateTime {
+					DateTime = Challenge.ProposedTime.UtcDateTime.AddMinutes(30),
+					TimeZone = "GMT",
+				};
+
+				var saved = service.Events.Insert(evnt, primaryCalendar.Id).Execute();
+				Console.WriteLine(saved.HtmlLink);
+			});
+		}
+
+
 		public string Validate()
 		{
 			var sb = new StringBuilder();
@@ -108,52 +165,5 @@ namespace Sport.Shared
 
 			return sb.Length == 0 ? null : sb.ToString();
 		}
-
-		//		public async Task CrossReferenceCalendar(Athlete a, Athlete b, DateTime date)
-		//		{
-		//			using(new Busy(this))
-		//			{
-		//				var calendar = await GetCalendarForAthlete(a);
-		//			}
-		//		}
-
-		/*async Task<string> GetCalendarForAthlete(Athlete athlete)
-		{
-			try
-			{
-				Gcalendar cal = new Gcalendar();
-				cal.Authorization = Settings.Instance.AuthToken;
-
-				await cal.ListCalendarsAsync();
-
-
-
-				for(int i = 0; i < cal.CalendarCount; i++)
-				{
-					cal.CalendarIndex = i;
-
-					if(cal.CalendarPrimary)
-					{
-						cal.EventStartDate.DateTime = DateTime.Now.Subtract(TimeSpan.FromDays(1)).ToString();
-						cal.EventEndDate.DateTime = DateTime.Now.Add(TimeSpan.FromDays(1)).ToString();
-						await cal.ListEventsAsync();
-
-						for(int j = 0; j < cal.EventCount; j++)
-						{
-							cal.EventIndex = j;
-							Console.WriteLine(cal.EventStartDate.DateTime + " " + cal.EventSummary);
-						}
-					}
-				}
-				return null;
-
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e);
-			}
-			return null;
-		}
-		*/
 	}
 }

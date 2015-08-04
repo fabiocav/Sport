@@ -176,7 +176,7 @@ namespace Sport.Shared
 				await ViewModel.NudgeAthlete();
 			}
 
-			"Athlete nudged".ToToast();
+			"{0} has been nudged".Fmt(ViewModel.Opponent.Alias).ToToast();
 		}
 
 		const string _accept = "Accept Challenge";

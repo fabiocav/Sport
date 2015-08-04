@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using System;
 
 [assembly: Dependency(typeof(Sport.Shared.AvailableLeaguesViewModel))]
 namespace Sport.Shared
@@ -34,32 +35,58 @@ namespace Sport.Shared
 			}
 		}
 
+		LeagueViewModel _empty;
+
 		public void LocalRefresh()
 		{
+			Console.WriteLine(Leagues.Count);
 			if(App.CurrentAthlete == null)
 				return;
 
+			Console.WriteLine(Leagues.Count);
 			var comparer = new LeagueComparer();
 			var toJoin = DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key))
 				.Select(k => k.Value).ToList();
 
-			var toRemove = Leagues.Select(vm => vm.League).Except(toJoin, comparer).ToList();
-			var toAdd = toJoin.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).ToList();
-
+			var toRemove = Leagues.Where(vm => vm.League != null).Select(vm => vm.League).Except(toJoin, comparer).ToList();
+			var toAdd = toJoin.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l, App.CurrentAthlete)).ToList();
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
-			var preSort = new List<LeagueViewModel>();
-			toAdd.ForEach(l => preSort.Add(new LeagueViewModel(l, App.CurrentAthlete)));
-			preSort.Sort(new LeagueSortComparer());
 
-			var last = preSort.LastOrDefault();
-			preSort.ForEach(l => l.IsLast = l == last);
-			preSort.ForEach(Leagues.Add);
-
-			if(Leagues.Count == 0)
+			if(Leagues.Count == 0 && toAdd.Count == 0)
 			{
-				Leagues.Add(new LeagueViewModel(new League {
-					Name = "There are no more available leagues to join"
-				}));
+				if(_empty == null)
+					_empty = new LeagueViewModel(null) {
+						EmptyMessage = "There are no available leagues to join."
+					};
+
+				if(!Leagues.Contains(_empty))
+					Leagues.Add(_empty);
+			}
+
+			var compare = new LeagueSortComparer();
+			foreach(var lv in toAdd)
+			{
+				int index = 0;
+				foreach(var l in Leagues.ToList())
+				{
+					if(compare.Compare(lv, l) < 0)
+						break;
+
+					index++;
+				}
+				Leagues.Insert(index, lv);
+			}
+
+			if(toAdd.Count > 0 || toRemove.Count > 0)
+			{
+				var last = Leagues.LastOrDefault();
+				foreach(var l in Leagues)
+					l.IsLast = l == last;
+			}
+
+			if(Leagues.Count > 0 && Leagues.Contains(_empty) && Leagues.First() != _empty)
+			{
+				Leagues.Remove(_empty);
 			}
 		}
 
@@ -76,12 +103,17 @@ namespace Sport.Shared
 
 			using(new Busy(this))
 			{
+				LeagueViewModel empty = null;
+
 				var task = AzureService.Instance.GetAvailableLeagues(App.CurrentAthlete);
 				await RunSafe(task);
 
 				if(task.IsCompleted && !task.IsFaulted)
 				{
 					task.Result.EnsureLeaguesThemed();
+
+					if(empty != null && Leagues.Contains(empty))
+						Leagues.Remove(empty);
 
 					_hasLoadedBefore = true;
 					LocalRefresh();

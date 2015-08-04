@@ -56,10 +56,7 @@ namespace Sport.Shared
 
 			AddDoneButton();
 
-			using(new HUD("Getting leagues..."))
-			{
-				await ViewModel.GetAvailableLeagues(true);
-			}
+			await ViewModel.GetAvailableLeagues(true);
 		}
 
 		protected override void OnDisappearing()

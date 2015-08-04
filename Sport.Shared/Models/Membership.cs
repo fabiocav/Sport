@@ -239,12 +239,21 @@ namespace Sport.Shared
 		{
 			return GetChallengeConflictReason(athlete) == null;
 		}
+
+		public override bool Equals(object obj)
+		{
+			var comp = new MembershipComparer();
+			return comp.Equals(this, obj as Membership);
+		}
 	}
 
 	public class MembershipComparer : IEqualityComparer<Membership>
 	{
 		public bool Equals(Membership x, Membership y)
 		{
+			if(x == null || y == null)
+				return false;
+
 			var isEqual = x.Id == y.Id && x.UpdatedAt == y.UpdatedAt && x.CurrentRank == y.CurrentRank;
 
 			if(isEqual && x.OngoingChallenge != null && y.OngoingChallenge != null)

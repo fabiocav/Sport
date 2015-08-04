@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.OS;
 using Gcm.Client;
-using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using Sport.Shared;
+using Xamarin;
 using Xamarin.Forms;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "com.google.android.c2dm.permission.RECEIVE")]
+[assembly: UsesPermission(Name = "android.permission.WAKE_LOCK")]
 
-//GET_ACCOUNTS is only needed for android versions 4.0.3 and below
 [assembly: UsesPermission(Name = "android.permission.GET_ACCOUNTS")]
 [assembly: UsesPermission(Name = "android.permission.INTERNET")]
 [assembly: UsesPermission(Name = "android.permission.WAKE_LOCK")]
@@ -23,38 +23,21 @@ namespace Sport.Android
 {
 	public class PushNotifications : IPushNotifications
 	{
-		public bool IsRegistered
-		{
-			get
-			{
-				return true;
-			}
-		}
-
-		public static MobileServiceClient Client
-		{
-			get;
-			private set;
-		}
-
 		public void RegisterForPushNotifications()
 		{
 			try
 			{
-				Client = AzureService.Instance.Client;
 				GcmClient.CheckDevice(Forms.Context);
 				GcmClient.CheckManifest(Forms.Context);
-
-				//Call to Register the device for Push Notifications
 				GcmClient.Register(Forms.Context, GcmBroadcastReceiver.SENDER_IDS);
 			}
 			catch(Exception e)
 			{
+				Insights.Report(e);
 				Console.WriteLine(e);
 			}
 		}
 	}
-
 
 	[BroadcastReceiver(Permission = Gcm.Client.Constants.PERMISSION_GCM_INTENTS)]
 	[IntentFilter(new string[] {
@@ -72,44 +55,90 @@ namespace Sport.Android
 	}, Categories = new string[] {
 		"@PACKAGE_NAME@"
 	})]
+
 	public class GcmBroadcastReceiver : GcmBroadcastReceiverBase<PushHandlerService>
 	{
-		//IMPORTANT: Change this to your own Sender ID!
-		//The SENDER_ID is your Google API Console App Project Number
 		public static string[] SENDER_IDS = {
-			"236481934978"
+			Keys.GooglePushNotificationSenderId
 		};
 
-		//		public override void OnReceive(Context context, Intent intent)
-		//		{
-		//			PowerManager.WakeLock sWakeLock;
-		//			var pm = PowerManager.FromContext(context);
-		//			sWakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
-		//			sWakeLock.Acquire();
-		//
-		//			string message = string.Empty;
-		//
-		//			// Extract the push notification message from the intent.
-		//			if(intent.Extras.ContainsKey("msg"))
-		//			{
-		//				message = intent.Extras.Get("msg").ToString();
-		//				var n = new Notification.Builder(context);
-		//				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
-		//				n.SetContentTitle("title");
-		//				n.SetTicker(message);
-		//				n.SetContentText(message);
-		//
-		//				var toast = Toast.MakeText(context, message, ToastLength.Long);
-		//				toast.Show();
-		//				var nm = NotificationManager.FromContext(context);
-		//				nm.Notify(0, n.Build());
-		//			}
-		//
-		//			sWakeLock.Release();
-		//		}
+		public override void OnReceive(Context context, Intent intent)
+		{
+			PowerManager.WakeLock sWakeLock;
+			var pm = PowerManager.FromContext(context);
+			sWakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
+			sWakeLock.Acquire();
+
+			if(!HandlePushNotification(context, intent))
+			{
+				base.OnReceive(context, intent);
+			}
+		
+			sWakeLock.Release();
+		}
+
+		internal static bool HandlePushNotification(Context context, Intent intent)
+		{
+			string message;
+			string payload;
+			if(!intent.Extras.ContainsKey("message"))
+				return false;
+
+			message = intent.Extras.Get("message").ToString();
+			var title = intent.Extras.Get("title").ToString();
+
+			var activityIntent = new Intent(context, typeof(MainActivity));
+			activityIntent.SetFlags(ActivityFlags.SingleTop);
+			var pintent = PendingIntent.GetActivity(context, 0, activityIntent, PendingIntentFlags.UpdateCurrent);
+
+			var n = new Notification.Builder(context);
+			n.SetSmallIcon(Resource.Drawable.ic_successstatus);
+			n.SetLights(global::Android.Graphics.Color.Blue, 300, 1000);
+			n.SetContentIntent(pintent);
+			n.SetContentTitle(title);
+			n.SetTicker(message);
+			n.SetLargeIcon(global::Android.Graphics.BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.icon));
+			n.SetSmallIcon(Resource.Drawable.ic_trophy_white);
+			n.SetContentText(message);
+			n.SetVibrate(new long[] {
+				200,
+				200,
+				100,
+			});
+
+			var nm = NotificationManager.FromContext(context);
+			nm.Notify(0, n.Build());
+
+			if(MainActivity.IsRunning)
+			{
+				try
+				{
+					message.ToToast();
+					if(intent.Extras.ContainsKey("payload"))
+					{
+						payload = intent.Extras.Get("payload").ToString();
+						var payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload);
+
+						if(payloadValue != null)
+						{
+							Device.BeginInvokeOnMainThread(() =>
+							{
+								MessagingCenter.Send<App, NotificationPayload>(App.Current, "IncomingPayloadReceived", payloadValue);
+							});
+						}
+					}
+				}
+				catch(Exception e)
+				{
+					Insights.Report(e, Insights.Severity.Error);
+				}
+			}
+
+			return true;
+		}
 	}
 
-	[Service] //Must use the service tag
+	[Service]
 	public class PushHandlerService : GcmServiceBase
 	{
 		public PushHandlerService() : base(GcmBroadcastReceiver.SENDER_IDS)
@@ -125,8 +154,14 @@ namespace Sport.Android
 			}
 			catch(Exception e)
 			{
+				Insights.Report(e);
 				Console.WriteLine(e);
 			}
+		}
+
+		protected override void OnMessage(Context context, Intent intent)
+		{
+			GcmBroadcastReceiver.HandlePushNotification(context, intent);
 		}
 
 		protected override void OnUnRegistered(Context context, string registrationId)
@@ -134,67 +169,10 @@ namespace Sport.Android
 			//Receive notice that the app no longer wants notifications
 		}
 
-		protected override void OnMessage(Context context, Intent intent)
-		{
-			string message = null;
-			string payload = null;
-
-			// Extract the push notification message from the intent.
-			if(intent.Extras.ContainsKey("message"))
-			{
-				message = intent.Extras.Get("message").ToString();
-
-				//var title = intent.Extras.Get("title").ToString();
-
-				// Create a notification manager to send the notification.
-				//var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
-
-				// Create a new intent to show the notification in the UI. 
-				//PendingIntent contentIntent = PendingIntent.GetActivity(context, 0, new Intent(this, typeof(MainActivity)), 0);           
-
-				var n = new Notification.Builder(context);
-				n.SetSmallIcon(Android.Resource.Drawable.ic_successstatus);
-				n.SetContentTitle("title");
-				n.SetTicker(message);
-				n.SetContentText(message);
-
-				Device.BeginInvokeOnMainThread(() =>
-				{
-					message.ToToast(ToastNotificationType.Info, "Incoming notification");
-				});
-
-//				var toast = Toast.MakeText(context, message, ToastLength.Long);
-//				toast.Show();
-
-				var nm = NotificationManager.FromContext(context);
-				nm.Notify(0, n.Build());
-
-				if(intent.Extras.ContainsKey("payload"))
-				{
-					payload = intent.Extras.Get("payload").ToString();
-					var payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload);
-
-					if(payloadValue != null)
-					{
-						Device.BeginInvokeOnMainThread(() =>
-						{
-							MessagingCenter.Send<App, NotificationPayload>(App.Current, "IncomingPayloadReceived", payloadValue);
-						});
-					}
-				}
-			}
-		}
-
-		protected override bool OnRecoverableError(Context context, string errorId)
-		{
-			Console.WriteLine(errorId);
-			//Some recoverable error happened
-			return base.OnRecoverableError(context, errorId);
-		}
-
 		protected override void OnError(Context context, string errorId)
 		{
 			//Some more serious error happened
+			Console.WriteLine("PushHandlerService error: " + errorId);
 		}
 	}
 }

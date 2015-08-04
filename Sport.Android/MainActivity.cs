@@ -7,16 +7,21 @@ using Android.OS;
 using Android.Views;
 using ImageCircle.Forms.Plugin.Droid;
 using Sport.Shared;
-using XLabs.Forms;
-using Xamarin.Auth;
+using Xamarin.Forms.Platform.Android;
 
 [assembly:Xamarin.Forms.Dependency(typeof(Sport.Android.MainActivity))]
 
 namespace Sport.Android
 {
 	[Activity(Label = "Sport", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/GrayTheme", ScreenOrientation = ScreenOrientation.Portrait)]
-	public class MainActivity : XFormsApplicationDroid
+	public class MainActivity : FormsApplicationActivity
 	{
+		public static bool IsRunning
+		{
+			get;
+			private set;
+		}
+
 		protected override void OnCreate(Bundle bundle)
 		{
 			Xamarin.Insights.Initialize(Keys.InsightsApiKey, this);
@@ -47,10 +52,30 @@ namespace Sport.Android
 			}
 		}
 
-		public void Authenticate(OAuth2Authenticator auth)
+		protected override void OnPause()
 		{
-			var intent = auth.GetUI(this);
-			StartActivity(intent);
+			Console.WriteLine("PAUSE");
+			IsRunning = false;
+			base.OnPause();
+		}
+
+		protected override void OnResume()
+		{
+			Console.WriteLine("RESUME");
+			IsRunning = true;
+			base.OnResume();
+		}
+
+		protected override void OnStop()
+		{
+			Console.WriteLine("STOP");
+			base.OnStop();
+		}
+
+		protected override void OnStart()
+		{
+			Console.WriteLine("START");
+			base.OnStart();
 		}
 	}
 }
