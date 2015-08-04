@@ -1,15 +1,16 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using Sport.Service.Models;
-using System.Net;
-using System.Net.Http;
+﻿using Microsoft.ServiceBus.Messaging;
 using Microsoft.ServiceBus.Notifications;
-using System.Collections.Generic;
-using Microsoft.ServiceBus.Messaging;
+using Newtonsoft.Json;
+using Sport.Service.Models;
 using Sport.Shared;
 using System;
-using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Controllers;
 
 namespace Sport.Service.Controllers
 {
@@ -34,8 +35,12 @@ namespace Sport.Service.Controllers
 				var json = JsonConvert.SerializeObject(payload);
 				notification.Add("payload", json);
 			}
+			else
+			{
+				notification.Add("payload", "");
+			}
 
-			if(badgeCount == null)
+			if (badgeCount == null)
 				badgeCount = 0;
 
 			notification.Add("badge", badgeCount.Value.ToString());
@@ -117,6 +122,17 @@ namespace Sport.Service.Controllers
 			}
 
 			return newRegistrationId;
+		}
+
+		[HttpGet]
+		[Route("api/sendTestPushNotification")]
+		public async Task SendTestPushNotification(string athleteId)
+		{
+			if(athleteId != null)
+			{
+				var message = "Push notifications are working for you - yay!";
+				await NotifyByTag(message, athleteId);
+			}
 		}
 
 		[HttpDelete]
