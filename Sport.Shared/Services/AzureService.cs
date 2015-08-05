@@ -176,14 +176,10 @@ namespace Sport.Shared
 			return new Task(() =>
 			{
 				var memberships = Client.GetTable<Membership>().Where(m => m.LeagueId == league.Id && m.AbandonDate == null).OrderBy(m => m.CurrentRank).ToListAsync().Result;
-				var athleteIds = memberships.Where(m => !DataManager.Instance.Athletes.ContainsKey(m.AthleteId)).Select(m => m.AthleteId).ToList();
-				var athletes = new List<Athlete>();
-
-				//Get any athletes that don't exist locally
-				if(athleteIds != null && athleteIds.Count > 0)
-				{
-					athletes = Client.GetTable<Athlete>().Where(a => athleteIds.Contains(a.Id)).OrderBy(a => a.Name).ToListAsync().Result;
-				}
+	
+				var qs = new Dictionary<string, string>();
+				qs.Add("leagueId", league.Id);
+				var athletes = Client.InvokeApiAsync<string, List<Athlete>>("getAthletesForLeague", null, HttpMethod.Get, qs).Result;
 
 				foreach(var m in DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == league.Id).ToList())
 				{

@@ -37,10 +37,21 @@ namespace Sport.Shared
 			if(ViewModel.League != null)
 				ViewModel.LocalRefresh();
 
-			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", (app) =>
+			SubscribeToChallenges();
+		}
+
+		void SubscribeToChallenges()
+		{
+			var self = new WeakReference<LeaderboardPage>(this);
+			Action<App> action = (app) =>
 			{
-				ViewModel.LocalRefresh();
-			});
+				LeaderboardPage v;
+				if(!self.TryGetTarget(out v))
+					return;
+
+				v.ViewModel.LocalRefresh();
+			};
+			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", action);
 		}
 
 		protected override void OnAppearing()
@@ -51,7 +62,7 @@ namespace Sport.Shared
 			base.OnAppearing();
 		}
 
-		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		protected override async void OnIncomingPayload(NotificationPayload payload)
 		{
 			string leagueId;
 			if(payload.Payload.TryGetValue("leagueId", out leagueId))

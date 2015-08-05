@@ -180,7 +180,7 @@ namespace Sport.Shared
 
 				var evnt = new Event();
 				evnt.Attendees = new List<EventAttendee> {
-						new EventAttendee {
+					new EventAttendee {
 							Email = Opponent.Email,
 							DisplayName = Opponent.Name,
 						}
@@ -199,7 +199,6 @@ namespace Sport.Shared
 				};
 
 				var saved = service.Events.Insert(evnt, primaryCalendar.Id).Execute();
-				Console.WriteLine(saved.HtmlLink);
 			});
 		}
 

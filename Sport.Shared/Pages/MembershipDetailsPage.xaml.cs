@@ -67,7 +67,7 @@ namespace Sport.Shared
 			ViewModel.NotifyPropertiesChanged();
 		}
 
-		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		protected override async void OnIncomingPayload(NotificationPayload payload)
 		{
 			var reload = false;
 

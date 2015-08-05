@@ -39,11 +39,9 @@ namespace Sport.Shared
 
 		public void LocalRefresh()
 		{
-			Console.WriteLine(Leagues.Count);
 			if(App.CurrentAthlete == null)
 				return;
 
-			Console.WriteLine(Leagues.Count);
 			var comparer = new LeagueComparer();
 			var toJoin = DataManager.Instance.Leagues.Where(k => !App.CurrentAthlete.Memberships.Select(m => m.LeagueId).Contains(k.Key))
 				.Select(k => k.Value).ToList();

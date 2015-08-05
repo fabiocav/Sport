@@ -1,10 +1,12 @@
 ﻿using Xamarin.Forms;
 using System.Threading.Tasks;
 using Connectivity.Plugin;
+using System;
+using System.Diagnostics;
 
 namespace Sport.Shared
 {
-	public class BaseContentPage<T> : SuperBaseContentPage where T : BaseViewModel, new()
+	public class BaseContentPage<T> : MainBaseContentPage where T : BaseViewModel, new()
 	{
 		protected T _viewModel;
 
@@ -13,7 +15,6 @@ namespace Sport.Shared
 			get
 			{
 				return _viewModel ?? (_viewModel = DependencyService.Get<T>());
-				//return _viewModel ?? (_viewModel = new T());
 			}
 		}
 
@@ -23,7 +24,7 @@ namespace Sport.Shared
 		}
 	}
 
-	public class SuperBaseContentPage : ContentPage
+	public class MainBaseContentPage : ContentPage
 	{
 		public Color BarTextColor
 		{
@@ -37,15 +38,49 @@ namespace Sport.Shared
 			set;
 		}
 
-		public SuperBaseContentPage()
+		public MainBaseContentPage()
 		{
 			BarBackgroundColor = (Color)App.Current.Resources["grayPrimary"];
 			BarTextColor = Color.White;
-
 			BackgroundColor = Color.White;
-			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", OnAuthenticated);
+			SubscribeToAuthentication();
+			SubscribeToIncomingPayload();
 		}
 
+		~MainBaseContentPage()
+		{
+			#if DEBUG
+			Debug.WriteLine("Destructor called for {0}".Fmt(GetType().Name));
+			#endif
+		}
+
+		void SubscribeToIncomingPayload()
+		{
+			var self = new WeakReference<MainBaseContentPage>(this);
+			Action<App, NotificationPayload> action = (app, payload) =>
+			{
+				MainBaseContentPage v;
+				if(!self.TryGetTarget(out v))
+					return;
+
+				v.OnIncomingPayload(payload);
+			};
+			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", action);
+		}
+
+		void SubscribeToAuthentication()
+		{
+			var self = new WeakReference<MainBaseContentPage>(this);
+			Action<AuthenticationViewModel> action = (vm) =>
+			{
+				MainBaseContentPage v;
+				if(!self.TryGetTarget(out v))
+					return;
+
+				v.OnAuthenticated();
+			};
+			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", action);
+		}
 
 		public bool HasInitialized
 		{
@@ -82,25 +117,10 @@ namespace Sport.Shared
 				OnLoaded();
 			}
 
-			if(!CrossConnectivity.Current.IsConnected)
-			{
-				
-			}
-
-			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", OnIncomingPayload);
-
 			base.OnAppearing();
 		}
 
-		protected override void OnDisappearing()
-		{
-			MessagingCenter.Unsubscribe<App, NotificationPayload>(this, "IncomingPayloadReceived");
-			//MessagingCenter.Unsubscribe<AuthenticationViewModel>(this, "UserAuthenticated");
-
-			base.OnDisappearing();
-		}
-
-		void OnAuthenticated(AuthenticationViewModel viewModel)
+		void OnAuthenticated()
 		{
 			if(App.CurrentAthlete != null)
 				OnUserAuthenticated();
@@ -132,6 +152,10 @@ namespace Sport.Shared
 
 			page = page ?? this;
 			page.ToolbarItems.Add(btnDone);
+		}
+
+		async protected virtual void OnIncomingPayload(NotificationPayload payload)
+		{
 		}
 
 		#region Authentication
@@ -171,10 +195,6 @@ namespace Sport.Shared
 			authViewModel.LogOut();
 
 			App.Current.SetToWelcomePage(); 
-		}
-
-		async protected virtual void OnIncomingPayload(App app, NotificationPayload payload)
-		{
 		}
 
 		#endregion

@@ -76,7 +76,7 @@ namespace Sport.Shared
 			}
 		}
 
-		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		protected override async void OnIncomingPayload(NotificationPayload payload)
 		{
 			string challengeId;
 			string winnerId;

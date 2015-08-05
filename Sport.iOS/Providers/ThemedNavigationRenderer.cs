@@ -37,15 +37,9 @@ namespace Sport.iOS
 			return base.PopViewController(animated);
 		}
 
-		public override void ViewDidLoad()
-		{
-			//Element.PropertyChanged += HandlePropertyChanged;
-			base.ViewDidLoad();
-		}
-
 		void ChangeTheme(Page page)
 		{
-			var basePage = page as SuperBaseContentPage;
+			var basePage = page as MainBaseContentPage;
 			if(basePage != null)
 			{
 				NavigationBar.BarTintColor = basePage.BarBackgroundColor.ToUIColor();
@@ -71,15 +65,6 @@ namespace Sport.iOS
 //					NavigationBar.BarTintColor = basePage.BarBackgroundColor.ToUIColor();
 //					NavigationBar.TintColor = basePage.BarTextColor.ToUIColor();
 //				});
-			}
-		}
-
-		protected override void Dispose(bool disposing)
-		{
-			if(disposing)
-			{
-				var navPage = (NavigationPage)Element;
-				//navPage.PropertyChanged -= HandlePropertyChanged;
 			}
 		}
 	}
