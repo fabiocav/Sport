@@ -107,7 +107,7 @@ namespace Sport.Shared
 			{
 				if(_empty == null)
 					_empty = new LeagueViewModel(null) {
-						EmptyMessage = "You don't belong to any leagues... yet."
+						EmptyMessage = "You don't belong to any leagues... yet.\n\n\n\nYou can and will join leagues by tapping the + button above."
 					};
 
 				if(!Leagues.Contains(_empty))

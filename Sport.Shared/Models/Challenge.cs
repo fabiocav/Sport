@@ -57,6 +57,15 @@ namespace Sport.Shared
 			}
 		}
 
+		[JsonIgnore]
+		public DateTimeOffset ProposedTimeLocal
+		{
+			get
+			{
+				return ProposedTime.ToLocalTime();
+			}
+		}
+
 		string _leagueId;
 
 		public string LeagueId
@@ -245,7 +254,7 @@ namespace Sport.Shared
 		{
 			get
 			{
-				var date = ProposedTime.ToLocalTime().LocalDateTime;
+				var date = ProposedTimeLocal.LocalDateTime;
 				return "{0} at {1}".Fmt(date.ToString("dddd, MMMMM dd"), date.ToString("t"), League.Name);
 			}
 		}
@@ -352,6 +361,7 @@ namespace Sport.Shared
 			SetPropertyChanged("ChallengerAthlete");
 			SetPropertyChanged("IsCompleted");
 			SetPropertyChanged("ProposedTimeString");
+			SetPropertyChanged("ProposedTimeLocal");
 			SetPropertyChanged("IsAccepted");
 			SetPropertyChanged("BattleForPlace");
 			SetPropertyChanged("BattleForRankDisplay");

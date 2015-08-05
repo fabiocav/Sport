@@ -130,6 +130,13 @@ namespace Sport.Shared
 		{
 			var task = AzureService.Instance.AcceptChallenge(Challenge);
 			await RunSafe(task);
+
+			if(task.IsCompleted && !task.IsFaulted)
+			{
+				task = AddChallengeEventToCalendar();
+				await RunSafe(task);
+			}
+
 			NotifyPropertiesChanged();
 			MessagingCenter.Send<App>(App.Current, "ChallengesUpdated");
 			return !task.IsFaulted;
@@ -152,6 +159,47 @@ namespace Sport.Shared
 			Challenge.League.RefreshChallenges();
 			MessagingCenter.Send<App>(App.Current, "ChallengesUpdated");
 			return !task.IsFaulted;
+		}
+
+		public Task AddChallengeEventToCalendar()
+		{
+			return new Task(() =>
+			{
+				var service = new CalendarService();
+				service.HttpClient.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
+				var req = service.CalendarList.List();
+				var list = req.Execute();
+
+				var primaryCalendar = list.Items.ToList().FirstOrDefault(i => i.Primary.HasValue && i.Primary.Value);
+
+				if(primaryCalendar == null)
+				{
+					"Unable to locate default calendar".ToToast();
+					return;
+				}
+
+				var evnt = new Event();
+				evnt.Attendees = new List<EventAttendee> {
+					new EventAttendee {
+							Email = Opponent.Email,
+							DisplayName = Opponent.Name,
+						}
+				};
+
+				evnt.Summary = "{0}: {1} vs {2}".Fmt(Challenge.League.Name, Challenge.ChallengerAthlete.Alias, Challenge.ChallengeeAthlete.Alias);
+				evnt.Description = Challenge.BattleForPlaceBetween;
+				evnt.Start = new EventDateTime {
+					DateTime = Challenge.ProposedTime.UtcDateTime,
+					TimeZone = "GMT",
+				};
+
+				evnt.End = new EventDateTime {
+					DateTime = Challenge.ProposedTime.UtcDateTime.AddMinutes(30),
+					TimeZone = "GMT",
+				};
+
+				var saved = service.Events.Insert(evnt, primaryCalendar.Id).Execute();
+			});
 		}
 
 		async public Task NudgeAthlete()

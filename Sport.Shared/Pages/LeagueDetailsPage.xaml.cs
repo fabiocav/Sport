@@ -1,6 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -180,17 +182,27 @@ namespace Sport.Shared
 				await Navigation.PushAsync(page);
 			};
 
-			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", async(app) =>
-			{
-				ViewModel.NotifyPropertiesChanged();
-			});
-
+			SubscribeToChallenges();
 			ViewModel.NotifyPropertiesChanged();
 
 			if(ViewModel.CurrentMembership != null && ViewModel.CurrentMembership.CurrentRank == 0)
 			{
 				HeapGloriousPraise();
 			}
+		}
+
+		void SubscribeToChallenges()
+		{
+			var self = new WeakReference<LeagueDetailsPage>(this);
+			Action<App> action = (app) =>
+			{
+				LeagueDetailsPage v;
+				if(!self.TryGetTarget(out v))
+					return;
+
+				v.ViewModel.NotifyPropertiesChanged();
+			};
+			MessagingCenter.Subscribe<App>(this, "ChallengesUpdated", action);
 		}
 
 		async void PushChallengeDetailsPage(Challenge challenge, bool refresh = false)
@@ -229,7 +241,7 @@ namespace Sport.Shared
 			base.OnAppearing();
 		}
 
-		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
+		protected override async void OnIncomingPayload(NotificationPayload payload)
 		{
 			string leagueId;
 			string winnerId;
@@ -449,7 +461,7 @@ namespace Sport.Shared
 
 		void HeapGloriousPraise()
 		{
-			//var image = ImageSource.FromFile("");
+			//Forthcoming
 		}
 	}
 
