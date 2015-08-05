@@ -103,5 +103,18 @@ namespace Sport.Service.Controllers
 		{
 			return DeleteAsync(id);
 		}
+
+		[Route("api/getAthletesForLeague")]
+		public IQueryable<AthleteDto> GetAthletesForLeague(string leagueId)
+		{
+			var query = from m in _context.Memberships
+						from a in _context.Athletes
+						where m.AthleteId == a.Id
+						&& m.LeagueId == leagueId
+						&& m.AbandonDate == null
+						select a;
+
+			return ConvertAthleteToDto(query);
+		}
 	}
 }

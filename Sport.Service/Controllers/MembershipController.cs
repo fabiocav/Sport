@@ -132,5 +132,5 @@ namespace Sport.Service.Controllers
 			challenges.ForEach(c => _context.Entry(c).State = EntityState.Deleted);
 			_context.SaveChanges();
         }
-    }
+	}
 }
