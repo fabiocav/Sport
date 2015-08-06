@@ -7,23 +7,31 @@ namespace Sport.Shared
 	{
 		public LeagueViewModel(League league, Athlete athlete = null, bool isLast = false)
 		{
-			League = league;
+			LeagueId = league.Id;
 			Athlete = athlete;
 			IsLast = isLast;
 			LocalRefresh();
 		}
 
-		League _league;
+		string _leagueId;
+
+		public string LeagueId
+		{
+			get
+			{
+				return _leagueId;
+			}
+			set
+			{
+				SetPropertyChanged(ref _leagueId, value);
+			}
+		}
 
 		public League League
 		{
 			get
 			{
-				return _league;
-			}
-			set
-			{
-				SetPropertyChanged(ref _league, value);
+				return LeagueId == null ? null : DataManager.Instance.Leagues.Get(LeagueId);
 			}
 		}
 
@@ -126,6 +134,7 @@ namespace Sport.Shared
 			SetPropertyChanged("HasChallenge");
 			SetPropertyChanged("Membership");
 			SetPropertyChanged("IsMember");
+			SetPropertyChanged("LeagueId");
 			SetPropertyChanged("League");
 			SetPropertyChanged("IsLast");
 			SetPropertyChanged("IsMemberAndLeagueStarted");

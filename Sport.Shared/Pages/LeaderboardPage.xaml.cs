@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 using System;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -38,6 +39,14 @@ namespace Sport.Shared
 				ViewModel.LocalRefresh();
 
 			SubscribeToChallenges();
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.League != null)
+				metadata.Add("leagueId", ViewModel.League.Id);
+
+			base.TrackPage(metadata);
 		}
 
 		void SubscribeToChallenges()

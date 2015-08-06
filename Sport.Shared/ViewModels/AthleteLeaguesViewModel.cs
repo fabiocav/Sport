@@ -101,7 +101,8 @@ namespace Sport.Shared
 			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l, App.CurrentAthlete)).ToList();
 
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
-			var compare = new LeagueSortComparer();
+			foreach(var l in Leagues)
+				l.LocalRefresh();
 
 			if(Leagues.Count == 0 && toAdd.Count == 0)
 			{
@@ -114,6 +115,7 @@ namespace Sport.Shared
 					Leagues.Add(_empty);
 			}
 
+			var compare = new LeagueSortComparer();
 			foreach(var lv in toAdd)
 			{
 				int index = 0;

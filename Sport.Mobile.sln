@@ -17,6 +17,7 @@ Global
 		Debug|iPhone = Debug|iPhone
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		XTC|iPhone = XTC|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{227EF35C-9145-4290-BDC4-C7EE602F69BF}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
@@ -31,6 +32,8 @@ Global
 		{227EF35C-9145-4290-BDC4-C7EE602F69BF}.Release|iPhone.Build.0 = Release|iPhone
 		{227EF35C-9145-4290-BDC4-C7EE602F69BF}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{227EF35C-9145-4290-BDC4-C7EE602F69BF}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{227EF35C-9145-4290-BDC4-C7EE602F69BF}.XTC|iPhone.ActiveCfg = XTC|iPhone
+		{227EF35C-9145-4290-BDC4-C7EE602F69BF}.XTC|iPhone.Build.0 = XTC|iPhone
 		{6113CA96-8C69-47C8-80D9-3B7EDCDBB449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6113CA96-8C69-47C8-80D9-3B7EDCDBB449}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6113CA96-8C69-47C8-80D9-3B7EDCDBB449}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -43,6 +46,8 @@ Global
 		{6113CA96-8C69-47C8-80D9-3B7EDCDBB449}.Release|iPhone.Build.0 = Release|Any CPU
 		{6113CA96-8C69-47C8-80D9-3B7EDCDBB449}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{6113CA96-8C69-47C8-80D9-3B7EDCDBB449}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{6113CA96-8C69-47C8-80D9-3B7EDCDBB449}.XTC|iPhone.ActiveCfg = Release|Any CPU
+		{6113CA96-8C69-47C8-80D9-3B7EDCDBB449}.XTC|iPhone.Build.0 = Release|Any CPU
 		{ABC00C4D-C363-4E51-81A6-F95C4B376705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ABC00C4D-C363-4E51-81A6-F95C4B376705}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABC00C4D-C363-4E51-81A6-F95C4B376705}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -55,5 +60,7 @@ Global
 		{ABC00C4D-C363-4E51-81A6-F95C4B376705}.Release|iPhone.Build.0 = Release|Any CPU
 		{ABC00C4D-C363-4E51-81A6-F95C4B376705}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{ABC00C4D-C363-4E51-81A6-F95C4B376705}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{ABC00C4D-C363-4E51-81A6-F95C4B376705}.XTC|iPhone.ActiveCfg = Release|Any CPU
+		{ABC00C4D-C363-4E51-81A6-F95C4B376705}.XTC|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

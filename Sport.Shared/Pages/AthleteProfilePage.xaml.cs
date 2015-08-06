@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -56,6 +57,14 @@ namespace Sport.Shared
 			};
 
 			AddDoneButton();
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Athlete != null)
+				metadata.Add("athleteId", ViewModel.Athlete.Id);
+
+			base.TrackPage(metadata);
 		}
 
 		protected override void OnAppearing()

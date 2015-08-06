@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Connectivity.Plugin;
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
+using Xamarin;
 
 namespace Sport.Shared
 {
@@ -90,7 +92,7 @@ namespace Sport.Shared
 
 		protected virtual void OnLoaded()
 		{
-			
+			TrackPage(new Dictionary<string, string>());
 		}
 
 		internal virtual void OnUserAuthenticated()
@@ -152,6 +154,12 @@ namespace Sport.Shared
 
 			page = page ?? this;
 			page.ToolbarItems.Add(btnDone);
+		}
+
+		protected virtual void TrackPage(Dictionary<string, string> metadata)
+		{
+			var identifier = GetType().Name;
+			Insights.Track(identifier, metadata);
 		}
 
 		async protected virtual void OnIncomingPayload(NotificationPayload payload)

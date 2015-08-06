@@ -174,6 +174,9 @@ namespace Sport.Shared
 
 			rankStrip.OnAthleteClicked = async(membership) =>
 			{
+				Console.WriteLine(membership);
+				return;
+
 				var page = new MembershipDetailsPage(membership.Id) {
 					BarBackgroundColor = ViewModel.League.Theme.Light,
 					BarTextColor = ViewModel.League.Theme.Dark,
@@ -189,6 +192,14 @@ namespace Sport.Shared
 			{
 				HeapGloriousPraise();
 			}
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.League != null)
+				metadata.Add("leagueId", ViewModel.League.Id);
+
+			base.TrackPage(metadata);
 		}
 
 		void SubscribeToChallenges()

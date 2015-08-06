@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 using System;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -32,17 +33,13 @@ namespace Sport.Shared
 			};
 		}
 
-		//		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
-		//		{
-		//			string leagueId;
-		//			if(payload.Payload.TryGetValue("leagueId", out leagueId))
-		//			{
-		//				if(leagueId == ViewModel.League.Id)
-		//				{
-		//					await ViewModel.GetLeaderboard(true);
-		//				}
-		//			}
-		//		}
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Membership != null)
+				metadata.Add("membershipId", ViewModel.Membership.Id);
+
+			base.TrackPage(metadata);
+		}
 	}
 
 	public partial class ChallengeHistoryPageXaml : BaseContentPage<ChallengeHistoryViewModel>

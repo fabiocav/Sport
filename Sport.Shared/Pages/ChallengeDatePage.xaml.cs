@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -70,6 +71,18 @@ namespace Sport.Shared
 			};
 
 			ToolbarItems.Add(btnCancel);
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Challenge != null)
+			{
+				metadata.Add("challengeId", ViewModel.Challenge.Id);
+				metadata.Add("challengerAthleteId", ViewModel.Challenge.ChallengerAthleteId);
+				metadata.Add("challengeeAthleteId", ViewModel.Challenge.ChallengeeAthleteId);
+			}
+
+			base.TrackPage(metadata);
 		}
 	}
 

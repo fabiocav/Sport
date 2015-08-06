@@ -66,7 +66,7 @@ namespace Sport.UITests
 					app.Tap(e => e.Css("#submit_approve_access"), "And I accept the terms");
 				}
 
-				Thread.Sleep(5000);
+				Thread.Sleep(10000);
 				tries++;
 			}
 
@@ -90,7 +90,8 @@ namespace Sport.UITests
 				app.Tap("NoResourceEntry-0");
 			else if(platform == Platform.iOS)
 				app.Tap("ic_add_white");
-			
+
+			Thread.Sleep(5000);
 			app.WaitForElement(e => e.Marked("leagueRow"));
 			app.Screenshot("Then I should see a list of leagues to join");
 

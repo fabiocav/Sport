@@ -57,6 +57,14 @@ namespace Sport.Shared
 			list.HeightRequest = list.RowHeight * count + 50;
 		}
 
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Challenge != null)
+				metadata.Add("challengeId", ViewModel.Challenge.Id);
+
+			base.TrackPage(metadata);
+		}
+
 		protected override void OnAppearing()
 		{
 			RefreshMenuButtons();

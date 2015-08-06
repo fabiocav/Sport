@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -67,10 +68,17 @@ namespace Sport.Shared
 					if(OnMatchResultsPosted != null)
 						OnMatchResultsPosted();
 
-					var title = App.CurrentAthlete.Id == ViewModel.Challenge.WinningAthlete.Id ? "Victory!" : "Bummer";
 					"Results submitted - congrats to {0}".Fmt(ViewModel.Challenge.WinningAthlete.Alias).ToToast();
 				}
 			};
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Challenge != null)
+				metadata.Add("challengeId", ViewModel.Challenge.Id);
+
+			base.TrackPage(metadata);
 		}
 	}
 
