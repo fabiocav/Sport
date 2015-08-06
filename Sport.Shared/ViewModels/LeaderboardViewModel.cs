@@ -74,8 +74,7 @@ namespace Sport.Shared
 		{
 			try
 			{
-				League.RefreshMemberships();
-				League.RefreshChallenges();
+				League.LocalRefresh();
 
 				var memberships = Memberships.Select(vm => vm.Membership).ToList();
 
@@ -86,7 +85,7 @@ namespace Sport.Shared
 				toRemove.ForEach(m => Memberships.Remove(Memberships.Single(vm => vm.Membership == m)));
 
 				toAdd.ForEach(m => Memberships.Add(new MembershipViewModel {
-					Membership = m
+					MembershipId = m.Id
 				}));
 
 				Memberships.Sort(new MembershipSortComparer());

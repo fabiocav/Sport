@@ -82,7 +82,7 @@ namespace Sport.Shared
 						"All",
 				};
 
-				App.CurrentAthlete.RefreshMemberships();
+				App.CurrentAthlete.LocalRefresh();
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
 				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
 
@@ -204,8 +204,8 @@ namespace Sport.Shared
 					m.SetPropertyChanged("Athlete");
 				}
 
-				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-				DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
+				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.LocalRefresh());
+				DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.LocalRefresh());
 				athletes.ForEach(a => a.IsDirty = false);
 			});
 		}
@@ -428,7 +428,7 @@ namespace Sport.Shared
 				{
 					l.MembershipIds.Add(m.Id);
 					DataManager.Instance.Memberships.AddOrUpdate(m); //need to update too
-					m.Athlete?.RefreshMemberships();
+					m.Athlete?.LocalRefresh();
 				}
 			}
 

@@ -55,7 +55,7 @@ namespace Sport.Shared
 			var athlete = model as Athlete;
 			if(athlete != null)
 			{
-				athlete.RefreshMemberships();
+				athlete.LocalRefresh();
 			}
 
 			var league = model as League;

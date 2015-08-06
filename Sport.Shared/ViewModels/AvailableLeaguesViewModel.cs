@@ -47,13 +47,16 @@ namespace Sport.Shared
 				.Select(k => k.Value).ToList();
 
 			var toRemove = Leagues.Where(vm => vm.League != null).Select(vm => vm.League).Except(toJoin, comparer).ToList();
-			var toAdd = toJoin.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l.Id)).ToList();
+			var toAdd = toJoin.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel {
+				LeagueId = l.Id
+			}).ToList();
+
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
 
 			if(Leagues.Count == 0 && toAdd.Count == 0)
 			{
 				if(_empty == null)
-					_empty = new LeagueViewModel(null) {
+					_empty = new LeagueViewModel {
 						EmptyMessage = "There are no available leagues to join."
 					};
 

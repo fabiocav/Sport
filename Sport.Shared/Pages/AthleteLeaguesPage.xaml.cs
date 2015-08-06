@@ -68,7 +68,7 @@ namespace Sport.Shared
 			base.OnAppearing();
 
 			foreach(var l in ViewModel.Leagues)
-				l.LocalRefresh();
+				l.NotifyPropertiesChanged();
 		}
 
 		internal override void OnUserAuthenticated()

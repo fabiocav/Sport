@@ -33,6 +33,10 @@ namespace Sport.Shared
 			}
 		}
 
+		public virtual void NotifyPropertiesChanged()
+		{
+		}
+
 		#region Task Safety
 
 		public Action<Exception> OnTaskException

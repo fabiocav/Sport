@@ -112,7 +112,7 @@ namespace Sport.Shared
 			}
 		}
 
-		public virtual void NotifyPropertiesChanged()
+		public override void NotifyPropertiesChanged()
 		{
 			SetPropertyChanged("Challenge");
 			SetPropertyChanged("EmptyMessage");

@@ -70,7 +70,7 @@ namespace Sport.Shared
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			ViewModel.Athlete.RefreshMemberships();
+			ViewModel.Athlete.LocalRefresh();
 			ViewModel.Athlete.Memberships.ForEach(m => m.League.RefreshChallenges());
 		}
 	}

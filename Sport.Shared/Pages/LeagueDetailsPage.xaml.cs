@@ -19,7 +19,7 @@ namespace Sport.Shared
 			league.RefreshChallenges();
 			league.RefreshMemberships();
 
-			ViewModel.League = league;
+			ViewModel.LeagueId = league.Id;
 
 			Title = ViewModel.League?.Name;
 			Initialize();

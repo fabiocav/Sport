@@ -396,6 +396,13 @@ namespace Sport.Shared
 			}
 		}
 
+		public override void LocalRefresh()
+		{
+			base.LocalRefresh();
+			RefreshMemberships();
+			RefreshChallenges();
+		}
+
 		public override bool Equals(object obj)
 		{
 			var comp = new LeagueComparer();

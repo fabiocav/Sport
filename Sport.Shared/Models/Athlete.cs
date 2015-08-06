@@ -174,10 +174,10 @@ namespace Sport.Shared
 			}
 		}
 
-		public void RefreshMemberships()
+		public override void LocalRefresh()
 		{
-			_memberships.Clear();
 			//TODO Error here when deleting an existing league
+			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).OrderBy(l => l.League?.Name).ToList().ForEach(_memberships.Add);
 		}
 

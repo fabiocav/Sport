@@ -41,7 +41,9 @@ namespace Sport.Shared
 		public void LocalRefresh()
 		{
 			AllLeagues.Clear();
-			DataManager.Instance.Leagues.Values.OrderBy(l => l.Name).ToList().ForEach(l => AllLeagues.Add(new LeagueViewModel(l.Id)));
+			DataManager.Instance.Leagues.Values.OrderBy(l => l.Name).ToList().ForEach(l => AllLeagues.Add(new LeagueViewModel {
+				LeagueId = l.Id
+			}));
 		}
 
 		async public Task GetAllLeagues(bool forceRefresh = false)

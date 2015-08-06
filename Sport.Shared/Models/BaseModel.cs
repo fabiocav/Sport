@@ -54,5 +54,13 @@ namespace Sport.Shared
 			get;
 			set;
 		}
+
+		public virtual void LocalRefresh()
+		{
+		}
+
+		public virtual void NotifyPropertiesChanged()
+		{
+		}
 	}
 }

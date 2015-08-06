@@ -7,31 +7,8 @@ using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
-	public class AthleteProfileViewModel : BaseViewModel
+	public class AthleteProfileViewModel : AthleteViewModel
 	{
-		string _athleteId;
-
-		public string AthleteId
-		{
-			get
-			{
-				return _athleteId;
-			}
-			set
-			{
-				_athleteId = value;
-				SetPropertyChanged("Athlete");
-			}
-		}
-
-		public Athlete Athlete
-		{
-			get
-			{
-				return AthleteId == null ? null : DataManager.Instance.Athletes.Get(AthleteId);
-			}
-		}
-
 		public ICommand SaveCommand
 		{
 			get

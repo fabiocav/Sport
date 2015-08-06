@@ -168,14 +168,17 @@ namespace Sport.Shared
 		public void LocalRefresh(bool refreshLeagues = true)
 		{
 			if(Athlete != null)
-				Athlete.RefreshMemberships();
+				Athlete.LocalRefresh();
 
 			if(League != null && refreshLeagues)
 			{
-				League.RefreshMemberships();
-				League.RefreshChallenges();
+				League.LocalRefresh();
 			}
+		}
 
+		public override void NotifyPropertiesChanged()
+		{
+			base.NotifyPropertiesChanged();
 			SetPropertyChanged("LastRankChangeDate");
 			SetPropertyChanged("CurrentRank");
 			SetPropertyChanged("OngoingChallenge");

@@ -30,7 +30,9 @@ namespace Sport.Shared
 			{
 				_athleteId = value;
 				SetPropertyChanged("Athlete");
-				AthleteViewModel = new AthleteViewModel(Athlete);
+				AthleteViewModel = new AthleteViewModel {
+					AthleteId = Athlete?.Id
+				};
 			}
 		}
 
@@ -65,7 +67,7 @@ namespace Sport.Shared
 		{
 			if(_hasLoadedLeaguesBefore && !forceRefresh)
 			{
-				Athlete.RefreshMemberships();
+				Athlete.LocalRefresh();
 				return;
 			}
 
@@ -98,16 +100,18 @@ namespace Sport.Shared
 
 			var comparer = new LeagueIdComparer();
 			var toRemove = Leagues.Where(vm => vm.League != null).Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
-			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l.Id)).ToList();
+			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel {
+				LeagueId = l.Id
+			}).ToList();
 
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
 			foreach(var l in Leagues)
-				l.LocalRefresh();
+				l.NotifyPropertiesChanged();
 
 			if(Leagues.Count == 0 && toAdd.Count == 0)
 			{
 				if(_empty == null)
-					_empty = new LeagueViewModel(null) {
+					_empty = new LeagueViewModel {
 						EmptyMessage = "You don't belong to any leagues... yet.\n\n\n\nYou can and will join leagues by tapping the + button above."
 					};
 
