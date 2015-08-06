@@ -98,7 +98,7 @@ namespace Sport.Shared
 
 			var comparer = new LeagueIdComparer();
 			var toRemove = Leagues.Where(vm => vm.League != null).Select(vm => vm.League).Except(Athlete.Leagues, comparer).ToList();
-			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l.Id, App.CurrentAthlete)).ToList();
+			var toAdd = Athlete.Leagues.Except(Leagues.Select(vm => vm.League), comparer).OrderBy(r => r.Name).Select(l => new LeagueViewModel(l.Id)).ToList();
 
 			toRemove.ForEach(l => Leagues.Remove(Leagues.Single(vm => vm.League == l)));
 			foreach(var l in Leagues)

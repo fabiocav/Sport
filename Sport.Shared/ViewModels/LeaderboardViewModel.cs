@@ -85,14 +85,16 @@ namespace Sport.Shared
 
 				toRemove.ForEach(m => Memberships.Remove(Memberships.Single(vm => vm.Membership == m)));
 
-				toAdd.ForEach(m => Memberships.Add(new MembershipViewModel(m)));
+				toAdd.ForEach(m => Memberships.Add(new MembershipViewModel {
+					Membership = m
+				}));
 
 				Memberships.Sort(new MembershipSortComparer());
 				Memberships.ToList().ForEach(vm => vm.NotifyPropertiesChanged());
 
 				if(Memberships.Count == 0)
 				{
-					Memberships.Add(new MembershipViewModel(null) {
+					Memberships.Add(new MembershipViewModel {
 						EmptyMessage = "This league has no members yet"
 					});
 				}

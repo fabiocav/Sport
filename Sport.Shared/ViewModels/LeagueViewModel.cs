@@ -1,14 +1,12 @@
-﻿using System.Threading.Tasks;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Sport.Shared
 {
 	public class LeagueViewModel : BaseViewModel
 	{
-		public LeagueViewModel(string leagueId, Athlete athlete = null, bool isLast = false)
+		public LeagueViewModel(string leagueId, bool isLast = false)
 		{
 			LeagueId = leagueId;
-			Athlete = athlete;
 			IsLast = isLast;
 			LocalRefresh();
 		}
@@ -24,6 +22,7 @@ namespace Sport.Shared
 			set
 			{
 				SetPropertyChanged(ref _leagueId, value);
+				SetPropertyChanged("League");
 			}
 		}
 
@@ -33,12 +32,6 @@ namespace Sport.Shared
 			{
 				return LeagueId == null ? null : DataManager.Instance.Leagues.Get(LeagueId);
 			}
-		}
-
-		public Athlete Athlete
-		{
-			get;
-			set;
 		}
 
 		public bool HasChallenge
@@ -53,7 +46,7 @@ namespace Sport.Shared
 		{
 			get
 			{
-				return Athlete?.Memberships.FirstOrDefault(m => m.LeagueId == League.Id);
+				return App.CurrentAthlete?.Memberships.FirstOrDefault(m => m.LeagueId == League.Id);
 			}
 		}
 
@@ -61,10 +54,10 @@ namespace Sport.Shared
 		{
 			get
 			{
-				if(League == null || App.CurrentAthlete.Memberships == null)
+				if(Membership == null)
 					return false;
 				
-				return App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id && m.CurrentRank == 0 && m.League != null && m.League.HasStarted);
+				return Membership.League.HasStarted && Membership.CurrentRank == 0;
 			}
 		}
 
@@ -72,10 +65,7 @@ namespace Sport.Shared
 		{
 			get
 			{
-				if(League == null || App.CurrentAthlete.Memberships == null)
-					return false;
-
-				return App.CurrentAthlete.Memberships.Any(m => m.LeagueId == League.Id);
+				return Membership != null;
 			}
 		}
 
@@ -134,8 +124,8 @@ namespace Sport.Shared
 			SetPropertyChanged("HasChallenge");
 			SetPropertyChanged("Membership");
 			SetPropertyChanged("IsMember");
-			SetPropertyChanged("LeagueId");
 			SetPropertyChanged("League");
+			SetPropertyChanged("Athlete");
 			SetPropertyChanged("IsLast");
 			SetPropertyChanged("IsMemberAndLeagueStarted");
 			SetPropertyChanged("IsNotMemberAndLeagueStarted");

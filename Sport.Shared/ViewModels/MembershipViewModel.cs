@@ -5,11 +5,6 @@ namespace Sport.Shared
 {
 	public class MembershipViewModel : BaseViewModel
 	{
-		public MembershipViewModel(Membership membership)
-		{
-			Membership = membership;
-		}
-
 		public Membership Membership
 		{
 			get;
