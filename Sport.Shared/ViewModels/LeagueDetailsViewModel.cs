@@ -204,7 +204,7 @@ namespace Sport.Shared
 					_praisePhrase = null;
 					_currentMembership = null;
 					SetPropertyChanged("CurrentMembership");
-					LeagueViewModel = new LeagueViewModel(_league);
+					LeagueViewModel = new LeagueViewModel(_league.Id);
 				}
 			}
 		}

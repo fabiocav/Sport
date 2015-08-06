@@ -41,7 +41,7 @@ namespace Sport.Shared
 
 				list.SelectedItem = null;
 
-				if(vm.League.Id == null)
+				if(vm.LeagueId == null)
 					return;
 
 				var page = new LeagueDetailsPage(vm.League);

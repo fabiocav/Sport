@@ -145,7 +145,7 @@
       <HintPath>..\packages\Xam.Plugins.Forms.ImageCircle.1.1.2\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis.Calendar.v3">
-      <HintPath>..\packages\Google.Apis.Calendar.v3.1.9.2.1320\lib\portable-net40+sl50+win+wpa81+wp80\Google.Apis.Calendar.v3.dll</HintPath>
+      <HintPath>..\packages\Google.Apis.Calendar.v3.1.9.2.1330\lib\portable-net40+sl50+win+wpa81+wp80\Google.Apis.Calendar.v3.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

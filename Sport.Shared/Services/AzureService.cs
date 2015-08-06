@@ -50,7 +50,7 @@ namespace Sport.Shared
 
 					#endif
 
-					_client = new MobileServiceClient(Keys.AzureDomain, Keys.AzureClientId, new HttpMessageHandler[] {
+					_client = new MobileServiceClient(Keys.AzureDomain, Keys.AzureApplicationKey, new HttpMessageHandler[] {
 						new LeagueExpandHandler(),
 						new ChallengeExpandHandler(),
 						handler,
@@ -78,8 +78,8 @@ namespace Sport.Shared
 					return;
 
 				var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+						App.CurrentAthlete.Id,
+						"All",
 				};
 
 				App.CurrentAthlete.RefreshMemberships();
@@ -118,7 +118,8 @@ namespace Sport.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> { {
+				var values = new Dictionary<string, string> {
+					{
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -608,7 +609,8 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -638,7 +640,8 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}

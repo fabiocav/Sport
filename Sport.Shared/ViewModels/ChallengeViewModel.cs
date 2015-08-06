@@ -1,11 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Linq;
-using Google.Apis.Calendar.v3;
-using System;
-using Google.Apis.Services;
-using Google.Apis.Calendar.v3.Data;
-using System.Collections.Generic;
-
+﻿
 namespace Sport.Shared
 {
 	public class ChallengeViewModel : BaseViewModel

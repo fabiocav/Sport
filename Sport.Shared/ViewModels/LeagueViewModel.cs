@@ -5,9 +5,9 @@ namespace Sport.Shared
 {
 	public class LeagueViewModel : BaseViewModel
 	{
-		public LeagueViewModel(League league, Athlete athlete = null, bool isLast = false)
+		public LeagueViewModel(string leagueId, Athlete athlete = null, bool isLast = false)
 		{
-			LeagueId = league.Id;
+			LeagueId = leagueId;
 			Athlete = athlete;
 			IsLast = isLast;
 			LocalRefresh();
