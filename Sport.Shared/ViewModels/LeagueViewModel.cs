@@ -224,6 +224,8 @@ namespace Sport.Shared
 
 		public override void NotifyPropertiesChanged()
 		{
+			_league = null;
+
 			base.NotifyPropertiesChanged();
 			SetPropertyChanged("League");
 			SetPropertyChanged("Athlete");

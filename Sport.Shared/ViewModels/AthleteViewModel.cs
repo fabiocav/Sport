@@ -63,6 +63,13 @@ namespace Sport.Shared
 
 			IsBusy = false;
 		}
+
+		public override void NotifyPropertiesChanged()
+		{
+			_athlete = null;
+
+			base.NotifyPropertiesChanged();
+		}
 	}
 }
 

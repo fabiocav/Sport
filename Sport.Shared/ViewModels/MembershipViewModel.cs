@@ -114,6 +114,8 @@ namespace Sport.Shared
 
 		public override void NotifyPropertiesChanged()
 		{
+			_membership = null;
+
 			base.NotifyPropertiesChanged();
 
 			SetPropertyChanged("Membership");

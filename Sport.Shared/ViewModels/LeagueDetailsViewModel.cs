@@ -44,7 +44,6 @@ namespace Sport.Shared
 			await RunSafe(AzureService.Instance.GetAthleteById(League.CreatedByAthleteId));
 			League.RefreshMemberships();
 
-
 			League.SetPropertyChanged("CreatedByAthlete");
 			NotifyPropertiesChanged();
 		}
@@ -107,6 +106,8 @@ namespace Sport.Shared
 
 		public override void NotifyPropertiesChanged()
 		{
+			base.NotifyPropertiesChanged();
+
 			CurrentMembership?.LocalRefresh();
 
 			if(CurrentMembership?.OngoingChallenge == null)
@@ -120,7 +121,6 @@ namespace Sport.Shared
 				OngoingChallengeViewModel.Challenge = CurrentMembership.OngoingChallenge;
 			}
 
-			base.NotifyPropertiesChanged();
 			SetPropertyChanged("OngoingChallengeViewModel");
 			SetPropertyChanged("PreviousChallengeViewModel");
 
