@@ -289,9 +289,15 @@ namespace Sport.Shared
 				OngoingChallengeViewModel = null;
 
 			if(CurrentMembership?.OngoingChallenge != null && OngoingChallengeViewModel == null)
-				OngoingChallengeViewModel = new ChallengeDetailsViewModel(CurrentMembership?.OngoingChallenge);
+			{
+				OngoingChallengeViewModel = new ChallengeDetailsViewModel {
+					Challenge = CurrentMembership?.OngoingChallenge
+				};
+			}
 			else if(OngoingChallengeViewModel != null)
+			{
 				OngoingChallengeViewModel.Challenge = CurrentMembership?.OngoingChallenge;
+			}
 
 			SetPropertyChanged("DateRange");
 			SetPropertyChanged("CreatedBy");

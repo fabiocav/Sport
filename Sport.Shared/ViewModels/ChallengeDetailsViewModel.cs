@@ -1,5 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Google.Apis.Calendar.v3.Data;
@@ -12,102 +11,6 @@ namespace Sport.Shared
 {
 	public class ChallengeDetailsViewModel : ChallengeViewModel
 	{
-		public ChallengeDetailsViewModel() : base(null)
-		{
-			Challenge = new Challenge();
-		}
-
-		public ChallengeDetailsViewModel(Challenge challenge) : base(challenge)
-		{
-			Challenge = challenge;
-		}
-
-		#region Properties
-
-		public bool CanAccept
-		{
-			get
-			{
-				return Challenge != null && Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && !_challenge.IsAccepted && !Challenge.IsCompleted;
-			}
-		}
-
-		public bool CanDecline
-		{
-			get
-			{
-				return CanAccept;
-			}
-		}
-
-		public bool CanDeclineAfterAccept
-		{
-			get
-			{
-				return Challenge != null && Challenge.ChallengeeAthleteId == App.CurrentAthlete.Id && Challenge.IsAccepted && !Challenge.IsCompleted;
-			}
-		}
-
-		public bool CanRevoke
-		{
-			get
-			{
-				return Challenge != null && Challenge.ChallengerAthleteId == App.CurrentAthlete.Id && !Challenge.IsCompleted;
-			}
-		}
-
-		public bool CanPostMatchResults
-		{
-			get
-			{
-				return Challenge != null && Challenge.IsAccepted && !Challenge.IsCompleted && Challenge.InvolvesAthlete(App.CurrentAthlete.Id);
-			}
-		}
-
-		public bool AwaitingDecision
-		{
-			get
-			{
-				return Challenge != null && !CanAccept && !CanPostMatchResults && Challenge.InvolvesAthlete(App.CurrentAthlete.Id) && !Challenge.IsCompleted;
-			}
-		}
-
-		public Athlete Opponent
-		{
-			get
-			{
-				return Challenge != null && Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge?.ChallengeeAthlete : Challenge?.ChallengerAthlete;
-			}
-		}
-
-		public string ChallengeStatus
-		{
-			get
-			{
-				if(Challenge == null)
-					return null;
-				
-				string status = null;
-
-				if(CanAccept)
-					return "do you accept this honorable duel?";
-
-				if(CanPostMatchResults)
-					return "this is where you'll reflect upon your victorious match score... but you'll have to post some results first";
-
-				if(CanRevoke)
-					return "...just waiting for your opponent to accept your challenge or coward out like a shameless hunk of slime";
-
-				if(!Challenge.IsCompleted)
-					return "the results of this might duel have not yet been posted... check back soon for some tasty scores!";
-				
-				return status;
-			}
-		}
-
-
-		#endregion
-
 		async public Task GetMatchResults(bool forceRefresh = false)
 		{
 			if(!forceRefresh && Challenge.MatchResult.Count > 0)
@@ -180,7 +83,7 @@ namespace Sport.Shared
 
 				var evnt = new Event();
 				evnt.Attendees = new List<EventAttendee> {
-					new EventAttendee {
+						new EventAttendee {
 							Email = Opponent.Email,
 							DisplayName = Opponent.Name,
 						}
@@ -198,7 +101,7 @@ namespace Sport.Shared
 					TimeZone = "GMT",
 				};
 
-				var saved = service.Events.Insert(evnt, primaryCalendar.Id).Execute();
+				service.Events.Insert(evnt, primaryCalendar.Id).Execute();
 			});
 		}
 
@@ -233,22 +136,6 @@ namespace Sport.Shared
 				if(task.Result != Challenge)
 					Challenge = task.Result;
 			}
-		}
-
-		public override void NotifyPropertiesChanged()
-		{
-			base.NotifyPropertiesChanged();
-			Challenge?.NotifyPropertiesChanged();
-
-			SetPropertyChanged("CanAccept");
-			SetPropertyChanged("CanDecline");
-			SetPropertyChanged("CanDeclineAfterAccept");
-			SetPropertyChanged("CanRevoke");
-			SetPropertyChanged("CanPostMatchResults");
-			SetPropertyChanged("Challenge");
-			SetPropertyChanged("ChallengeStatus");
-			SetPropertyChanged("Opponent");
-			SetPropertyChanged("AwaitingDecision");
 		}
 	}
 }

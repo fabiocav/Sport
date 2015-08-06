@@ -174,9 +174,6 @@ namespace Sport.Shared
 
 			rankStrip.OnAthleteClicked = async(membership) =>
 			{
-				Console.WriteLine(membership);
-				return;
-
 				var page = new MembershipDetailsPage(membership.Id) {
 					BarBackgroundColor = ViewModel.League.Theme.Light,
 					BarTextColor = ViewModel.League.Theme.Dark,

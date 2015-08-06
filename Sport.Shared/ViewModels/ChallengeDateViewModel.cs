@@ -1,40 +1,15 @@
 ﻿using System;
-using Xamarin.Forms;
-using System.Threading.Tasks;
-using System.Text;
 using System.Linq;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Calendar.v3.Data;
-using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 [assembly: Dependency(typeof(Sport.Shared.ChallengeDateViewModel))]
 
 namespace Sport.Shared
 {
-	public class ChallengeDateViewModel : BaseViewModel
+	public class ChallengeDateViewModel : ChallengeViewModel
 	{
-		public Athlete Opponent
-		{
-			get
-			{
-				return Challenge != null && Challenge.ChallengeeAthleteId != App.CurrentAthlete.Id ? Challenge?.ChallengeeAthlete : Challenge?.ChallengerAthlete;
-			}
-		}
-
-		Challenge _challenge;
-
-		public Challenge Challenge
-		{
-			get
-			{
-				return _challenge;
-			}
-			set
-			{
-				SetPropertyChanged(ref _challenge, value);
-			}
-		}
-
 		public DateTime SelectedDateTime
 		{
 			get

@@ -382,6 +382,8 @@ namespace Sport.Shared
 		}
 	}
 
+	#region Comparers
+
 	public class ChallengeComparer : IEqualityComparer<Challenge>
 	{
 		public bool Equals(Challenge x, Challenge y)
@@ -438,4 +440,6 @@ namespace Sport.Shared
 			return 0;
 		}
 	}
+
+	#endregion
 }

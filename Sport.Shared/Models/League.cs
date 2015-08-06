@@ -403,6 +403,8 @@ namespace Sport.Shared
 		}
 	}
 
+	#region Comparers
+
 	public class LeagueIdComparer : IEqualityComparer<League>
 	{
 		public bool Equals(League x, League y)
@@ -461,4 +463,6 @@ namespace Sport.Shared
 			return string.Compare(x.League?.Name, y.League?.Name, System.StringComparison.OrdinalIgnoreCase);
 		}
 	}
+
+	#endregion
 }
