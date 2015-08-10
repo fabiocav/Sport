@@ -37,7 +37,8 @@ namespace Sport.iOS
 					
 				Device.BeginInvokeOnMainThread(() =>
 				{
-					UIViewController vc = auth.GetUI();
+					var vc = auth.GetUI();
+					Console.WriteLine(vc);
 					UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(vc, true, null);
 				});
 

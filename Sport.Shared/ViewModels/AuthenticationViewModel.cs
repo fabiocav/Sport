@@ -26,12 +26,6 @@ namespace Sport.Shared
 			}
 		}
 
-		public Action OnHideAuthForm
-		{
-			get;
-			set;
-		}
-
 		public bool IsUserValid()
 		{
 			return App.AuthUserProfile != null && App.AuthUserProfile.Email != null;
@@ -191,6 +185,7 @@ namespace Sport.Shared
 					{
 						Settings.Instance.AuthToken = null;
 						Settings.Instance.RefreshToken = null;
+						await Settings.Instance.Save();
 						await GetUserProfile(force);
 					}
 				}
@@ -200,7 +195,8 @@ namespace Sport.Shared
 					AuthenticationStatus = "Authentication complete";
 					App.AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> { {
+					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
+						{
 							"Name",
 							App.AuthUserProfile.Name
 						}
