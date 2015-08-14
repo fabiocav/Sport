@@ -80,9 +80,8 @@ namespace Sport.UITests
 			Thread.Sleep(5000);
 			if(app.Query(e => e.Marked("saveButton")).Length > 0)
 				app.Tap(e => e.Marked("saveButton"));
-			
-			app.Tap("Continue button", e => e.Marked("continueButton"));
 
+			app.Tap("Continue button", e => e.Marked("continueButton"));
 			app.Screenshot("Now I should see a list of leagues I have joined");
 
 			//Available leagues

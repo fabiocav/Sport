@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json;
 using ModernHttpClient;
-using System.Threading;
+using Newtonsoft.Json;
 
 namespace Sport.Shared
 {
@@ -24,12 +25,6 @@ namespace Sport.Shared
 			}
 		}
 
-		public League DefaultLeague
-		{
-			get;
-			set;
-		}
-
 		MobileServiceClient _client;
 
 		public MobileServiceClient Client
@@ -42,7 +37,7 @@ namespace Sport.Shared
 
 					#if __IOS__
 
-					//Use ModernHttpClient and allow traffic to be routed into Charles/Fiddler/etc
+					//Use ModernHttpClient for caching and to allow traffic to be routed through Charles/Fiddler/etc
 					handler = new ModernHttpClient.NativeMessageHandler() {
 						Proxy = CoreFoundation.CFNetwork.GetDefaultProxy(),
 						UseProxy = true,
@@ -67,6 +62,10 @@ namespace Sport.Shared
 
 		#region Push Notifications
 
+		/// <summary>
+		/// This app uses Azure as the backend which utilizes Notifications hubs
+		/// </summary>
+		/// <returns>The athlete notification hub registration.</returns>
 		public Task UpdateAthleteNotificationHubRegistration(Athlete athlete, bool forceSave = false, bool sendTestPush = false)
 		{
 			return new Task(() =>
@@ -78,8 +77,8 @@ namespace Sport.Shared
 					return;
 
 				var tags = new List<string> {
-						App.CurrentAthlete.Id,
-						"All",
+					App.CurrentAthlete.Id,
+					"All",
 				};
 
 				App.CurrentAthlete.LocalRefresh();
@@ -95,6 +94,7 @@ namespace Sport.Shared
 				var registrationId = Client.InvokeApiAsync<DeviceRegistration, string>("registerWithHub", reg, HttpMethod.Put, null).Result;
 				athlete.NotificationRegistrationId = registrationId;
 
+				//Used to verify the device is successfully registered with the backend 
 				if(sendTestPush)
 				{
 					var qs = new Dictionary<string, string>();
@@ -118,8 +118,7 @@ namespace Sport.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> {
-					{
+				var values = new Dictionary<string, string> { {
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -271,7 +270,7 @@ namespace Sport.Shared
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine(e);
+					Debug.WriteLine(e);
 				}
 			});
 		}
@@ -575,7 +574,7 @@ namespace Sport.Shared
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine(e);
+					Debug.WriteLine(e);
 				}
 			});			
 		}
@@ -609,8 +608,7 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -628,7 +626,7 @@ namespace Sport.Shared
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine(e);
+					Debug.WriteLine(e);
 				}
 			});
 		}
@@ -640,8 +638,7 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -658,7 +655,7 @@ namespace Sport.Shared
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine(e);
+					Debug.WriteLine(e);
 				}
 			});
 		}
@@ -750,6 +747,10 @@ namespace Sport.Shared
 
 	#region ChallengeExpandHandler
 
+	/// <summary>
+	/// This class is needed to pull down properties that are complex objects - Azure omits complex/Navigation properties by default
+	/// You need to 'expand' the property in order for it to be included
+	/// </summary>
 	public class ChallengeExpandHandler : DelegatingHandler
 	{
 		protected override async Task<HttpResponseMessage>
@@ -788,6 +789,10 @@ namespace Sport.Shared
 
 	#region LeagueExpandHandler
 
+	/// <summary>
+	/// This class is needed to pull down properties that are complex objects - Azure omits complex/Navigation properties by default
+	/// You need to 'expand' the property in order for it to be included
+	/// </summary>
 	public class LeagueExpandHandler : DelegatingHandler
 	{
 		protected override async Task<HttpResponseMessage>

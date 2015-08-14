@@ -37,8 +37,8 @@ namespace Sport.Shared
 
 		protected override void Initialize()
 		{
-			Title = "Date and Time";
 			InitializeComponent();
+			Title = "Date and Time";
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{
@@ -70,6 +70,12 @@ namespace Sport.Shared
 			};
 
 			ToolbarItems.Add(btnCancel);
+		}
+
+		protected override void OnDisappearing()
+		{
+			ViewModel.CancelTasks();
+			base.OnDisappearing();
 		}
 
 		protected override void TrackPage(Dictionary<string, string> metadata)

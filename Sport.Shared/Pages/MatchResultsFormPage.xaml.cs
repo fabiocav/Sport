@@ -14,7 +14,6 @@ namespace Sport.Shared
 
 		public MatchResultsFormPage(Challenge challenge)
 		{
-			Title = "Match Score";
 			BarBackgroundColor = challenge.League.Theme.Light;
 			BarTextColor = challenge.League.Theme.Dark;
 
@@ -25,6 +24,7 @@ namespace Sport.Shared
 		protected override void Initialize()
 		{
 			InitializeComponent();
+			Title = "Match Score";
 
 			ViewModel.Challenge.MatchResult.Clear();
 			for(int i = 0; i < ViewModel.Challenge.League.MatchGameCount; i++)

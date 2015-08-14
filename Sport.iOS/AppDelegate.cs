@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Foundation;
 using ImageCircle.Forms.Plugin.iOS;
 using Newtonsoft.Json;
@@ -58,19 +59,19 @@ namespace Sport.iOS
 
 		public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
 		{
-			Console.WriteLine("FailedToRegisterForRemoteNotifications called");
-			Console.WriteLine(error);
+			Debug.WriteLine("FailedToRegisterForRemoteNotifications called");
+			Debug.WriteLine(error);
 			MessagingCenter.Send<App>(App.Current, "RegisteredForRemoteNotifications");
 		}
 
 		public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)
 		{
-			Console.WriteLine("DidRegisterUserNotificationSettings called");
+			Debug.WriteLine("DidRegisterUserNotificationSettings called");
 		}
 
 		public override void HandleAction(UIApplication application, string actionIdentifier, NSDictionary remoteNotificationInfo, Action completionHandler)
 		{
-			Console.WriteLine("HandleAction called");
+			Debug.WriteLine("HandleAction called");
 		}
 
 		public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)

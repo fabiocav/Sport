@@ -38,10 +38,10 @@ namespace Sport.Shared
 
 		async protected override void Initialize()
 		{
-			_moreButton = new ToolbarItem("More", "ic_more_vert_white", () => OnMoreClicked());
-
 			InitializeComponent();
 			Title = "Challenge";
+
+			_moreButton = new ToolbarItem("More", "ic_more_vert_white", () => OnMoreClicked());
 
 			list.ItemSelected += (sender, e) =>
 			{

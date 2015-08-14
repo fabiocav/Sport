@@ -1,17 +1,23 @@
-﻿using Xamarin.Forms;
-using System.Threading.Tasks;
-using Connectivity.Plugin;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Xamarin;
+using Xamarin.Forms;
 
 namespace Sport.Shared
 {
+	/// <summary>
+	/// Each ContentPage is required to align with a corresponding ViewModel
+	/// ViewModels will be the BindingContext by default
+	/// </summary>
 	public class BaseContentPage<T> : MainBaseContentPage where T : BaseViewModel, new()
 	{
 		protected T _viewModel;
 
+		/// <summary>
+		/// ViewModels are created once for the lifetime of the app - properties are updates as new pages/data is loaded
+		/// </summary>
 		public T ViewModel
 		{
 			get
@@ -45,41 +51,34 @@ namespace Sport.Shared
 			BarBackgroundColor = (Color)App.Current.Resources["grayPrimary"];
 			BarTextColor = Color.White;
 			BackgroundColor = Color.White;
+
 			SubscribeToAuthentication();
 			SubscribeToIncomingPayload();
 		}
 
 		~MainBaseContentPage()
 		{
-			#if DEBUG
 			Debug.WriteLine("Destructor called for {0}".Fmt(GetType().Name));
-			#endif
 		}
 
 		void SubscribeToIncomingPayload()
 		{
-			var self = new WeakReference<MainBaseContentPage>(this);
+			var weakSelf = new WeakReference(this);
 			Action<App, NotificationPayload> action = (app, payload) =>
 			{
-				MainBaseContentPage v;
-				if(!self.TryGetTarget(out v))
-					return;
-
-				v.OnIncomingPayload(payload);
+				var self = (MainBaseContentPage)weakSelf.Target;
+				self.OnIncomingPayload(payload);
 			};
 			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", action);
 		}
 
 		void SubscribeToAuthentication()
 		{
-			var self = new WeakReference<MainBaseContentPage>(this);
+			var weakSelf = new WeakReference(this);
 			Action<AuthenticationViewModel> action = (vm) =>
 			{
-				MainBaseContentPage v;
-				if(!self.TryGetTarget(out v))
-					return;
-
-				v.OnAuthenticated();
+				var self = (MainBaseContentPage)weakSelf.Target;
+				self.OnAuthenticated();
 			};
 			MessagingCenter.Subscribe<AuthenticationViewModel>(this, "UserAuthenticated", action);
 		}
@@ -97,7 +96,6 @@ namespace Sport.Shared
 
 		internal virtual void OnUserAuthenticated()
 		{
-
 		}
 
 		protected virtual void Initialize()
@@ -106,7 +104,7 @@ namespace Sport.Shared
 
 		protected override void OnAppearing()
 		{
-			var nav = this.Parent as NavigationPage;
+			var nav = Parent as NavigationPage;
 			if(nav != null)
 			{
 				nav.BarBackgroundColor = BarBackgroundColor;
@@ -148,9 +146,7 @@ namespace Sport.Shared
 			};
 
 			btnDone.Clicked += async(sender, e) =>
-			{
-				await Navigation.PopModalAsync();		
-			};
+			await Navigation.PopModalAsync();
 
 			page = page ?? this;
 			page.ToolbarItems.Add(btnDone);
@@ -162,7 +158,7 @@ namespace Sport.Shared
 			Insights.Track(identifier, metadata);
 		}
 
-		async protected virtual void OnIncomingPayload(NotificationPayload payload)
+		protected virtual void OnIncomingPayload(NotificationPayload payload)
 		{
 		}
 
@@ -194,7 +190,7 @@ namespace Sport.Shared
 
 		async protected void LogoutUser()
 		{
-			var decline = await DisplayAlert("Really?", "Are you sure you want to log out?", "Yes", "No");
+			var decline = await DisplayAlert("For ultra sure?", "Are you sure you want to log out?", "Yes", "No");
 
 			if(!decline)
 				return;
@@ -202,7 +198,7 @@ namespace Sport.Shared
 			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
 			authViewModel.LogOut();
 
-			App.Current.SetToWelcomePage(); 
+			App.Current.StartAuthenticationFlow(); 
 		}
 
 		#endregion

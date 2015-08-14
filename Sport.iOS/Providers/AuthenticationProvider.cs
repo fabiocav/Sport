@@ -4,6 +4,7 @@ using Sport.Shared;
 using UIKit;
 using Xamarin.Auth;
 using Xamarin.Forms;
+using System.Diagnostics;
 
 [assembly: Dependency(typeof(Sport.iOS.AuthenticationProvider))]
 
@@ -38,7 +39,7 @@ namespace Sport.iOS
 				Device.BeginInvokeOnMainThread(() =>
 				{
 					var vc = auth.GetUI();
-					Console.WriteLine(vc);
+					Debug.WriteLine(vc);
 					UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(vc, true, null);
 				});
 

@@ -13,11 +13,10 @@ namespace Sport.Shared
 
 		protected override void Initialize()
 		{
+			InitializeComponent();
 			BarBackgroundColor = (Color)App.Current.Resources["bluePrimary"];
 			BarTextColor = Color.White;
-
 			BackgroundColor = BarBackgroundColor;
-			InitializeComponent();
 			Title = "Welcome!";
 
 			NavigationPage.SetHasNavigationBar(this, false);

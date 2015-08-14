@@ -1,18 +1,20 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
 	public partial class LeagueDetailsPage : LeagueDetailsXaml
 	{
+		#region Fields
+
 		const string _leave = "Cowardly Abandon League";
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
 		double _imageHeight;
 		bool _didPost;
+
+		#endregion
 
 		public LeagueDetailsPage(League league)
 		{
@@ -33,7 +35,7 @@ namespace Sport.Shared
 			set;
 		}
 
-		public Action<League> OnAbandondedLeague
+		Action<League> OnAbandondedLeague
 		{
 			get;
 			set;
@@ -77,13 +79,14 @@ namespace Sport.Shared
 
 		async protected override void Initialize()
 		{
+			InitializeComponent();
+
 			if(ViewModel.League.Theme != null)
 			{
 				BarBackgroundColor = ViewModel.League.Theme.Light;
 				BarTextColor = ViewModel.League.Theme.Dark;
 			}
 
-			InitializeComponent();
 			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working in XAML for some reason
 			scrollView.Scrolled += (sender, e) => Parallax();
 			Parallax();
@@ -189,6 +192,11 @@ namespace Sport.Shared
 			{
 				HeapGloriousPraise();
 			}
+		}
+
+		public void SetOnAbandonedLeagueAction(Action<League> a)
+		{
+			OnAbandondedLeague = a;
 		}
 
 		protected override void TrackPage(Dictionary<string, string> metadata)
@@ -469,7 +477,7 @@ namespace Sport.Shared
 
 		void HeapGloriousPraise()
 		{
-			//Forthcoming
+			//Forthcoming - streamers? confetti? balloons?
 		}
 	}
 

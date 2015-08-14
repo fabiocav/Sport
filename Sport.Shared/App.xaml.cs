@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using System.Linq;
-using System.Reflection;
+using System.Diagnostics;
 
 namespace Sport.Shared
 {
@@ -22,7 +22,7 @@ namespace Sport.Shared
 			}
 		}
 
-		public static App Current
+		public new static App Current
 		{
 			get
 			{
@@ -32,44 +32,48 @@ namespace Sport.Shared
 
 		public App()
 		{
+			#region Setting Default Values
+
 			Colors = new List<string> {
-					"green",
-					"blue",
-					"red",
-					"yellow",
-					"asphalt",
-					"purple"
+				"green",
+				"blue",
+				"red",
+				"yellow",
+				"asphalt",
+				"purple"
 			};
 
 			PraisePhrases = new List<string> {
-					"sensational",
-					"crazmazing",
-					"stellar",
-					"ill",
-					"peachy keen",
-					"the bees knees",
-					"the cat's pajamas",
-					"the coolest kid in the cave",
-					"killer",
-					"aces",
-					"wicked awesome",
-					"kinda terrific",
-					"top notch",
-					"impressive",
-					"legit",
-					"nifty",
-					"spectaculawesome",
-					"supernacular",
-					"bad to the bone",
-					"radical",
-					"neat",
-					"a hoss boss",
-					"mad chill",
-					"super chill",
-					"a beast",
-					"funky fresh",
-					"slammin it",
+				"sensational",
+				"crazmazing",
+				"stellar",
+				"ill",
+				"peachy keen",
+				"the bees knees",
+				"the cat's pajamas",
+				"the coolest kid in the cave",
+				"killer",
+				"aces",
+				"wicked awesome",
+				"kinda terrific",
+				"top notch",
+				"impressive",
+				"legit",
+				"nifty",
+				"spectaculawesome",
+				"supernacular",
+				"bad to the bone",
+				"radical",
+				"neat",
+				"a hoss boss",
+				"mad chill",
+				"super chill",
+				"a beast",
+				"funky fresh",
+				"slammin it",
 			};
+
+			#endregion
 
 			#region Linker
 
@@ -122,18 +126,18 @@ namespace Sport.Shared
 					}
 					catch(Exception e)
 					{
-						Console.WriteLine(e);
+						Debug.WriteLine(e);
 					}
 				});
 			});
 
-			if(Settings.Instance.AuthToken != null && Settings.Instance.RegistrationComplete)
+			if(Settings.Instance.AuthToken == null || !Settings.Instance.RegistrationComplete)
 			{
-				MainPage = new AthleteLeaguesPage().GetNavigationPage();
+				StartAuthenticationFlow();
 			}
 			else
 			{
-				SetToWelcomePage();
+				StartMainFlow();
 			}
 
 			#if __IOS__
@@ -187,11 +191,25 @@ namespace Sport.Shared
 			set;
 		}
 
+		void StartMainFlow()
+		{
+			//Create our entry page and add it to a NavigationPage, then apply a randomly assigned color theme
+			var page = new AthleteLeaguesPage();
+			var navPage = new ThemedNavigationPage(page);
+			page.ApplyTheme(navPage);
+
+			MainPage = navPage;
+		}
+
+		public void StartAuthenticationFlow()
+		{
+			MainPage = new WelcomeStartPage().GetNavigationPage();
+		}
+
 		public LeagueTheme GetTheme(League league, bool forceReset = false)
 		{
 			if(league.Id == null)
 				return null;
-
 
 			league.Theme = null;
 			var remaining = App.Colors.Except(Settings.Instance.LeagueColors.Values).ToList();
@@ -220,11 +238,6 @@ namespace Sport.Shared
 				theme.Medium = (Color)App.Current.Resources["{0}Medium".Fmt(color)];
 
 			return theme;
-		}
-
-		public void SetToWelcomePage()
-		{
-			MainPage = new WelcomeStartPage().GetNavigationPage();
 		}
 	}
 

@@ -47,40 +47,9 @@ namespace Sport.Shared
 			}
 		}
 
-		public void SubscribeToProperty(string property, Action action)
-		{
-			List<Action> actionList;
-			if(!_actions.TryGetValue(property, out actionList))
-				actionList = new List<Action>();
-
-			actionList.Add(action);
-			_actions[property] = actionList;
-		}
-
-		public void UnSubscribeToProperty(string property, Action action)
-		{
-			List<Action> actionList;
-			if(!_actions.TryGetValue(property, out actionList))
-				return;
-
-			if(actionList.Contains(action))
-				actionList.Remove(action);
-
-			_actions[property] = actionList;
-		}
-
-		public void UnSubscribeToProperty(string property)
-		{
-			List<Action> actionList;
-			if(!_actions.TryGetValue(property, out actionList))
-				return;
-
-			actionList.Clear();
-			_actions[property] = actionList;
-		}
-
 		public void ClearEvents()
 		{
+			//Super awesome trick to wipe attached event handlers - +1 Clancey
 			_actions.Clear();
 			if(PropertyChanged == null)
 				return;
@@ -105,6 +74,7 @@ namespace System.ComponentModel
 {
 	public static class BaseNotify
 	{
+		//Just adding some new funk.tionality to System.ComponentModel
 		public static bool SetProperty<T>(this PropertyChangedEventHandler handler, object sender, ref T currentValue, T newValue, [CallerMemberName] string propertyName = "")
 		{
 			if(EqualityComparer<T>.Default.Equals(currentValue, newValue))

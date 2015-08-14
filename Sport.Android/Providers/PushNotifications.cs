@@ -1,12 +1,12 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
-using Android.OS;
 using Gcm.Client;
 using Newtonsoft.Json;
 using Sport.Shared;
 using Xamarin;
 using Xamarin.Forms;
+using System.Diagnostics;
 
 [assembly: Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
@@ -34,7 +34,7 @@ namespace Sport.Android
 			catch(Exception e)
 			{
 				Insights.Report(e);
-				Console.WriteLine(e);
+				Debug.WriteLine(e);
 			}
 		}
 	}
@@ -64,9 +64,9 @@ namespace Sport.Android
 
 		public override void OnReceive(Context context, Intent intent)
 		{
-			PowerManager.WakeLock sWakeLock;
-			var pm = PowerManager.FromContext(context);
-			sWakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
+			global::Android.OS.PowerManager.WakeLock sWakeLock;
+			var pm = global::Android.OS.PowerManager.FromContext(context);
+			sWakeLock = pm.NewWakeLock(global::Android.OS.WakeLockFlags.Partial, "GCM Broadcast Reciever Tag");
 			sWakeLock.Acquire();
 
 			if(!HandlePushNotification(context, intent))
@@ -155,7 +155,7 @@ namespace Sport.Android
 			catch(Exception e)
 			{
 				Insights.Report(e);
-				Console.WriteLine(e);
+				Debug.WriteLine(e);
 			}
 		}
 
@@ -172,7 +172,7 @@ namespace Sport.Android
 		protected override void OnError(Context context, string errorId)
 		{
 			//Some more serious error happened
-			Console.WriteLine("PushHandlerService error: " + errorId);
+			Debug.WriteLine("PushHandlerService error: " + errorId);
 		}
 	}
 }
