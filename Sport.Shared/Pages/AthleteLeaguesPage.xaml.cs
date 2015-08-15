@@ -18,25 +18,46 @@ namespace Sport.Shared
 			InitializeComponent();
 			Title = "Leagues";
 
-			btnJoin.Clicked += async(sender, e) =>
-			{
-				var page = new AvailableLeaguesPage();
-
-				page.OnJoinedLeague = (l) =>
-				{
-					ViewModel.LocalRefresh();
-					ViewModel.SetPropertyChanged("Athlete");
-				};
-
-				await Navigation.PushModalAsync(page.GetNavigationPage());
-			};
-
-			list.ItemSelected += OnListItemSelected;
-
 			if(App.CurrentAthlete != null)
 				await ViewModel.RemoteRefresh();
 
 			await EnsureUserAuthenticated();
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+
+			btnJoin.Clicked += OnJoinClicked;
+			list.ItemSelected += OnListItemSelected;
+
+			foreach(var l in ViewModel.Leagues)
+				l.NotifyPropertiesChanged();
+		}
+
+		protected override void OnDisappearing()
+		{
+			btnJoin.Clicked -= OnJoinClicked;
+			list.ItemSelected -= OnListItemSelected;
+
+			base.OnDisappearing();
+		}
+
+		async void OnJoinClicked(object sender, EventArgs e)
+		{
+			var weakSelf = new WeakReference(this);
+			var page = new AvailableLeaguesPage();
+			page.OnJoinedLeague = (l) =>
+			{
+				var self = (AthleteLeaguesPage)weakSelf.Target;
+				if(self == null)
+					return;
+				
+				self.ViewModel.LocalRefresh();
+				self.ViewModel.SetPropertyChanged("Athlete");
+			};
+
+			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
 
 		async void OnListItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -48,13 +69,13 @@ namespace Sport.Shared
 			var vm = list.SelectedItem as LeagueViewModel;
 			list.SelectedItem = null; //Deselect the item
 
-			if(vm.LeagueId == null) //Ensure the league is a valid league - some items in this list are used to display an empty message and do not have a LeagueID
+			if(vm.LeagueId == null) //Ensure the league is a valid league - some items in this list are used to display an empty message and do not have a LeagueId
 				return;
 
 			//Referencing 'this' in the body of delegate will prevent the page from being collected once it's popped
 			var weakSelf = new WeakReference(this);
 			var page = new LeagueDetailsPage(vm.League);
-			page.SetOnAbandonedLeagueAction(async(l) =>
+			page.OnAbandondedLeague = (async(l) =>
 			{
 				var self = (AthleteLeaguesPage)weakSelf.Target;
 				if(self == null)
@@ -68,23 +89,13 @@ namespace Sport.Shared
 			await Navigation.PushAsync(page);
 		}
 
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-
-			foreach(var l in ViewModel.Leagues)
-				l.NotifyPropertiesChanged();
-		}
-
 		internal override void OnUserAuthenticated()
 		{
 			base.OnUserAuthenticated();
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
 
 			if(App.CurrentAthlete != null)
-			{
 				ViewModel.LocalRefresh();
-			}
 		}
 
 		protected override async void OnIncomingPayload(NotificationPayload payload)

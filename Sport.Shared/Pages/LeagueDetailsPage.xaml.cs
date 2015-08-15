@@ -35,7 +35,7 @@ namespace Sport.Shared
 			set;
 		}
 
-		Action<League> OnAbandondedLeague
+		public Action<League> OnAbandondedLeague
 		{
 			get;
 			set;
@@ -192,11 +192,6 @@ namespace Sport.Shared
 			{
 				HeapGloriousPraise();
 			}
-		}
-
-		public void SetOnAbandonedLeagueAction(Action<League> a)
-		{
-			OnAbandondedLeague = a;
 		}
 
 		protected override void TrackPage(Dictionary<string, string> metadata)
