@@ -30,12 +30,28 @@ namespace Sport.Shared
 
 		#endregion
 
-		public ChallengeDetailsPage(Challenge challenge = null)
+		Challenge _challenge;
+
+		public ChallengeDetailsPage(Challenge challenge)
 		{
-			ViewModel.Challenge = challenge ?? new Challenge();
+			_challenge = challenge;
+			ViewModel.Challenge = _challenge;
 			SetTheme(challenge.League);
 
 			Initialize();
+		}
+
+		protected override void OnAppearing()
+		{
+			ViewModel.Challenge = _challenge;
+			RefreshMenuButtons();
+			base.OnAppearing();
+		}
+
+		protected override void OnDisappearing()
+		{
+			ViewModel.Challenge = null;
+			base.OnDisappearing();
 		}
 
 		async protected override void Initialize()
@@ -63,14 +79,8 @@ namespace Sport.Shared
 		{
 			if(ViewModel?.Challenge != null)
 				metadata.Add("challengeId", ViewModel.Challenge.Id);
-
+		
 			base.TrackPage(metadata);
-		}
-
-		protected override void OnAppearing()
-		{
-			RefreshMenuButtons();
-			base.OnAppearing();
 		}
 
 		void RefreshMenuButtons()
@@ -95,14 +105,14 @@ namespace Sport.Shared
 				if(challengeId == ViewModel.Challenge.Id)
 				{
 					await ViewModel.RefreshChallenge();
-
+		
 					if(ViewModel.Challenge == null)
 					{
 						OnDecline?.Invoke();
 						await Navigation.PopAsync();
 						return;
 					}
-
+		
 					if(payload.Payload.TryGetValue("winningAthleteId", out winnerId))
 					{
 						OnPostResults?.Invoke();
@@ -119,7 +129,7 @@ namespace Sport.Shared
 				ViewModel.NotifyPropertiesChanged();
 				OnPostResults?.Invoke();
 			};
-
+		
 			page.AddDoneButton("Cancel");
 			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
@@ -127,19 +137,19 @@ namespace Sport.Shared
 		async void OnRevokeChallenge()
 		{
 			var decline = await DisplayAlert("Really?", "Are you sure you want to revoke challenge?", "Yes", "No");
-
+		
 			if(!decline)
 				return;
-
+		
 			bool success;
 			using(new HUD("Revoking challenge..."))
 			{
 				success = await ViewModel.DeclineChallenge();
 			}
-
+		
 			if(success)
 				"Challenge revoked".ToToast();
-
+		
 			OnDecline?.Invoke();
 			await Navigation.PopAsync();
 		}
@@ -151,10 +161,10 @@ namespace Sport.Shared
 			{
 				success = await ViewModel.AcceptChallenge();
 			}
-
+		
 			if(success)
 				"Challenge accepted".ToToast(ToastNotificationType.Success);
-
+		
 			if(OnAccept != null)
 				OnAccept();
 		}
@@ -162,19 +172,19 @@ namespace Sport.Shared
 		async void OnDeclineChallenge()
 		{
 			var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly decline this honorable duel?", "Yes", "No");
-
+		
 			if(!decline)
 				return;
-
+		
 			bool success;
 			using(new HUD("Declining..."))
 			{
 				success = await ViewModel.DeclineChallenge();
 			}
-
+		
 			if(success)
 				"Challenge declined".ToToast();
-
+		
 			OnDecline?.Invoke();
 			await Navigation.PopAsync();
 		}
@@ -185,7 +195,7 @@ namespace Sport.Shared
 			{
 				await ViewModel.NudgeAthlete();
 			}
-
+		
 			"{0} has been nudged".Fmt(ViewModel.Opponent.Alias).ToToast();
 		}
 
@@ -197,13 +207,13 @@ namespace Sport.Shared
 		List<string> GetMoreMenuOptions()
 		{
 			var lst = new List<string>();
-
+		
 			if(ViewModel.CanRevoke)
 				lst.Add(_revoke);
-
+		
 			if(ViewModel.CanDecline || ViewModel.CanDeclineAfterAccept)
 				lst.Add(_decline);
-
+		
 			return lst;
 		}
 
@@ -211,16 +221,16 @@ namespace Sport.Shared
 		{
 			var lst = GetMoreMenuOptions();
 			var action = await DisplayActionSheet("Additional actions", "Cancel", null, lst.ToArray());
-
+		
 			if(action == _post)
 				OnPostChallengeResults();
-
+		
 			if(action == _accept)
 				OnAcceptChallenge();
-
+		
 			if(action == _revoke)
 				OnRevokeChallenge();
-
+		
 			if(action == _decline)
 				OnDeclineChallenge();
 		}

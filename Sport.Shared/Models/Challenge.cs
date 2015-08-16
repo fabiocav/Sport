@@ -255,7 +255,7 @@ namespace Sport.Shared
 			get
 			{
 				var date = ProposedTimeLocal.LocalDateTime;
-				return "{0} at {1}".Fmt(date.ToString("dddd, MMMMM dd"), date.ToString("t"), League.Name);
+				return "{0} at {1}".Fmt(date.ToString("dddd, MMMMM dd"), date.ToString("t"), League?.Name);
 			}
 		}
 

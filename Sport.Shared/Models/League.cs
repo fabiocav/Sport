@@ -450,7 +450,6 @@ namespace Sport.Shared
 			              && x.OngoingChallenges?.Count == y.OngoingChallenges?.Count
 			              && x.MembershipIds?.Count == y.MembershipIds?.Count;
 
-			//Debug.WriteLine("IsEqual: " + isEqual);
 			return isEqual;
 		}
 

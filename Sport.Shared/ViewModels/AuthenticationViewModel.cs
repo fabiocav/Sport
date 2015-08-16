@@ -39,8 +39,6 @@ namespace Sport.Shared
 
 		#endregion
 
-		#region Methods
-
 		/// <summary>
 		/// Performs a complete authentication pass
 		/// </summary>
@@ -243,8 +241,7 @@ namespace Sport.Shared
 					AuthenticationStatus = "Authentication complete";
 					AuthUserProfile = task.Result;
 
-					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> {
-						{
+					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> { {
 							"Name",
 							AuthUserProfile.Name
 						}
@@ -275,7 +272,5 @@ namespace Sport.Shared
 			Settings.Instance.Save();
 			AuthUserProfile = null;
 		}
-
-		#endregion
 	}
 }

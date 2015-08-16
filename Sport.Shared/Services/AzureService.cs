@@ -77,8 +77,8 @@ namespace Sport.Shared
 					return;
 
 				var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+						App.CurrentAthlete.Id,
+						"All",
 				};
 
 				App.CurrentAthlete.LocalRefresh();
@@ -118,7 +118,8 @@ namespace Sport.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> { {
+				var values = new Dictionary<string, string> {
+					{
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -396,26 +397,12 @@ namespace Sport.Shared
 				task.Start();
 				task.Wait();
 			}
-
-//			var athleteIds = new List<string>();
-//			leagues.ForEach(l => l.Memberships.ForEach(m => athleteIds.Add(m.AthleteId)));
-//
-//			if(athleteIds.Count > 0)
-//			{
-//				var allAthletes = Client.GetTable<Athlete>().Where(a => athleteIds.Distinct().Contains(a.Id)).ToListAsync().Result;
-//				foreach(var a in allAthletes)
-//				{
-//					DataManager.Instance.Athletes.AddOrUpdate(a);
-//				}
-//			}
 		}
 
 		void CacheLeague(League l)
 		{
 			{
 				var toRemove = DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == l.Id && !l.Memberships.Select(mm => mm.Id).Contains(m.Id));
-				//var toAdd = l.Memberships.Where(m => !DataManager.Instance.Memberships.Keys.Contains(m.Id));
-				//var toUpdate = l.Memberships.Except(toAdd);
 
 				foreach(var m in toRemove)
 				{
@@ -433,7 +420,6 @@ namespace Sport.Shared
 
 			{
 				var toRemove = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == l.Id && !l.OngoingChallenges.Select(cc => cc.Id).Contains(c.Id));
-				//var toAdd = l.OngoingChallenges.Where(m => !DataManager.Instance.Challenges.Keys.Contains(m.Id));
 
 				foreach(var c in toRemove)
 				{
@@ -608,7 +594,8 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -638,7 +625,8 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}

@@ -57,11 +57,13 @@ namespace Sport.Shared
 
 			SubscribeToAuthentication();
 			SubscribeToIncomingPayload();
+
+			Debug.WriteLine("Constructor called for {0} {1} {2}".Fmt(GetType().Name, GetHashCode(), Title));
 		}
 
 		~MainBaseContentPage()
 		{
-			Debug.WriteLine("Destructor called for {0}".Fmt(GetType().Name));
+			Debug.WriteLine("Destructor called for {0} {1} {2}".Fmt(GetType().Name, GetHashCode(), Title));
 		}
 
 		void SubscribeToIncomingPayload()

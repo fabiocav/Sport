@@ -83,7 +83,7 @@ namespace Sport.Shared
 
 				var evnt = new Event();
 				evnt.Attendees = new List<EventAttendee> {
-						new EventAttendee {
+					new EventAttendee {
 							Email = Opponent.Email,
 							DisplayName = Opponent.Name,
 						}

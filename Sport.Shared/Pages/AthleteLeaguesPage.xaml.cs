@@ -44,16 +44,17 @@ namespace Sport.Shared
 		async void OnJoinClicked(object sender, EventArgs e)
 		{
 			var weakSelf = new WeakReference(this);
+			//var page = new AthleteProfilePage(App.CurrentAthlete.Id);
 			var page = new AvailableLeaguesPage();
-			page.OnJoinedLeague = (l) =>
-			{
-				var self = (AthleteLeaguesPage)weakSelf.Target;
-				if(self == null)
-					return;
-				
-				self.ViewModel.LocalRefresh();
-				self.ViewModel.SetPropertyChanged("Athlete");
-			};
+//			page.OnJoinedLeague = (l) =>
+//			{
+//				var self = (AthleteLeaguesPage)weakSelf.Target;
+//				if(self == null)
+//					return;
+//				
+//				self.ViewModel.LocalRefresh();
+//				self.ViewModel.SetPropertyChanged("Athlete");
+//			};
 
 			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
