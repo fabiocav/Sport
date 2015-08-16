@@ -140,7 +140,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAuthentication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AboutPage.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>

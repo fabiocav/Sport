@@ -125,9 +125,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Auth.iOS">
-      <HintPath>..\Resources\Assemblies\Xamarin.Auth\Xamarin.Auth.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Calabash">
       <HintPath>..\packages\Xamarin.TestCloud.Agent.0.14.1\lib\Xamarin.iOS10\Calabash.dll</HintPath>
     </Reference>
@@ -266,7 +263,6 @@
     <Compile Include="Providers\PushNotifications.cs" />
     <Compile Include="Providers\ToastNotifier.cs" />
     <Compile Include="Providers\ThemedNavigationRenderer.cs" />
-    <Compile Include="Providers\AuthenticationProvider.cs" />
     <Compile Include="Providers\SportEntryRenderer.cs" />
   </ItemGroup>
   <Import Project="..\Sport.Shared\Sport.Shared.projitems" Label="Shared" Condition="Exists('..\Sport.Shared\Sport.Shared.projitems')" />
