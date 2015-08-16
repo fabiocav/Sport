@@ -1,5 +1,4 @@
 ﻿using System;
-using Xamarin.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -23,6 +22,9 @@ namespace Sport.Shared
 		{
 			InitializeComponent();
 			Title = "Profile";
+
+			var theme = App.Current.GetThemeFromColor("asphalt");
+			profileStack.Theme = theme;
 
 			AddDoneButton();
 		}

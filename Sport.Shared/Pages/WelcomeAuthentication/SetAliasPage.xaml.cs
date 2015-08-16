@@ -23,12 +23,12 @@ namespace Sport.Shared
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			BarBackgroundColor = (Color)App.Current.Resources["redPrimary"];
-			BarTextColor = Color.White;
-			BackgroundColor = BarBackgroundColor;
-			profileStack.Opacity = 0;
-
 			Title = "Athlete Alias";
+
+			var theme = App.Current.GetThemeFromColor("red");
+			BackgroundColor = theme.Primary;
+			profileStack.Opacity = 0;
+			profileStack.Theme = theme;
 
 			btnSave.Clicked += async(sender, e) =>
 			{
@@ -78,7 +78,7 @@ namespace Sport.Shared
 			await label2.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 
-			await Task.Delay(2000);
+			await Task.Delay(1000);
 			txtAlias.Focus();
 		}
 	}

@@ -21,12 +21,12 @@ namespace Sport.Shared
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			BarBackgroundColor = (Color)App.Current.Resources["purplePrimary"];
-			BarTextColor = Color.White;
-			BackgroundColor = BarBackgroundColor;
-
 			Title = "Enable Push";
+
+			var theme = App.Current.GetThemeFromColor("purple");
+			BackgroundColor = theme.Primary;
 			profileStack.Opacity = 0;
+			profileStack.Theme = theme;
 
 			btnPush.Clicked += (sender, e) =>
 			{
@@ -91,6 +91,7 @@ namespace Sport.Shared
 			var page = new AthleteLeaguesPage(App.CurrentAthlete.Id);
 			page.OnUserAuthenticated();
 
+			await Task.Delay(1000);
 			await Navigation.PushAsync(page);
 
 			Navigation.RemovePage(Navigation.NavigationStack[0]); //WelcomeStartPage

@@ -26,12 +26,11 @@ namespace Sport.Shared
 
 		public ChallengeDatePage(Athlete challengee, League league)
 		{
-			BarBackgroundColor = league.Theme.Light;
-			BarTextColor = league.Theme.Dark;
-
+			SetTheme(league);
 			ViewModel.CreateChallenge(App.CurrentAthlete, challengee, league);
 			Challengee = challengee;
 			League = league;
+
 			Initialize();
 		}
 

@@ -198,7 +198,7 @@ namespace Sport.Shared
 			if(task.IsCompleted && !task.IsFaulted)
 			{
 				App.Current.UsedLeagueColors.Clear();
-				task.Result.EnsureLeaguesThemed(true);
+				task.Result.EnsureLeaguesThemed();
 			}
 		}
 
@@ -243,7 +243,8 @@ namespace Sport.Shared
 					AuthenticationStatus = "Authentication complete";
 					AuthUserProfile = task.Result;
 
-					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> { {
+					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> {
+						{
 							"Name",
 							AuthUserProfile.Name
 						}

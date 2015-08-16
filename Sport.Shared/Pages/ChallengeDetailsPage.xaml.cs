@@ -1,12 +1,13 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace Sport.Shared
 {
 	public partial class ChallengeDetailsPage : ChallengeDetailsXaml
 	{
+		#region Properties
+
 		ToolbarItem _moreButton;
 
 		public Action OnDecline
@@ -27,12 +28,13 @@ namespace Sport.Shared
 			set;
 		}
 
+		#endregion
+
 		public ChallengeDetailsPage(Challenge challenge = null)
 		{
-			BarBackgroundColor = challenge.League.Theme.Light;
-			BarTextColor = challenge.League.Theme.Dark;
-
 			ViewModel.Challenge = challenge ?? new Challenge();
+			SetTheme(challenge.League);
+
 			Initialize();
 		}
 
@@ -41,7 +43,7 @@ namespace Sport.Shared
 			InitializeComponent();
 			Title = "Challenge";
 
-			_moreButton = new ToolbarItem("More", "ic_more_vert_white", () => OnMoreClicked());
+			_moreButton = new ToolbarItem("More", "ic_more_vert_white", OnMoreClicked);
 
 			list.ItemSelected += (sender, e) =>
 			{
@@ -194,21 +196,21 @@ namespace Sport.Shared
 
 		List<string> GetMoreMenuOptions()
 		{
-			var list = new List<string>();
+			var lst = new List<string>();
 
 			if(ViewModel.CanRevoke)
-				list.Add(_revoke);
+				lst.Add(_revoke);
 
 			if(ViewModel.CanDecline || ViewModel.CanDeclineAfterAccept)
-				list.Add(_decline);
+				lst.Add(_decline);
 
-			return list;
+			return lst;
 		}
 
 		async void OnMoreClicked()
 		{
-			var list = GetMoreMenuOptions();
-			var action = await DisplayActionSheet("Additional actions", "Cancel", null, list.ToArray());
+			var lst = GetMoreMenuOptions();
+			var action = await DisplayActionSheet("Additional actions", "Cancel", null, lst.ToArray());
 
 			if(action == _post)
 				OnPostChallengeResults();

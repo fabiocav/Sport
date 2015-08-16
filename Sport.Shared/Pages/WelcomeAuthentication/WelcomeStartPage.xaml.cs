@@ -8,6 +8,7 @@ namespace Sport.Shared
 	{
 		public WelcomeStartPage()
 		{
+			NavigationPage.SetHasNavigationBar(this, false);
 			Initialize();
 		}
 
@@ -18,8 +19,6 @@ namespace Sport.Shared
 			BarTextColor = Color.White;
 			BackgroundColor = BarBackgroundColor;
 			Title = "Welcome!";
-
-			NavigationPage.SetHasNavigationBar(this, false);
 
 			btnAuthenticate.Clicked += async(sender, e) =>
 			{

@@ -15,10 +15,10 @@ namespace Sport.Shared
 
 		#region Properties
 
-		LeagueTheme _theme;
+		ColorTheme _theme;
 
 		[JsonIgnore]
-		public LeagueTheme Theme
+		public ColorTheme Theme
 		{
 			get
 			{

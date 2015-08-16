@@ -20,10 +20,9 @@ namespace Sport.Shared
 		{
 			league.RefreshChallenges();
 			league.RefreshMemberships();
-
 			ViewModel.LeagueId = league.Id;
 
-			Title = ViewModel.League?.Name;
+			SetTheme(league);
 			Initialize();
 		}
 
@@ -80,12 +79,7 @@ namespace Sport.Shared
 		async protected override void Initialize()
 		{
 			InitializeComponent();
-
-			if(ViewModel.League.Theme != null)
-			{
-				BarBackgroundColor = ViewModel.League.Theme.Light;
-				BarTextColor = ViewModel.League.Theme.Dark;
-			}
+			Title = ViewModel.League?.Name;
 
 			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working in XAML for some reason
 			scrollView.Scrolled += (sender, e) => Parallax();
@@ -177,11 +171,7 @@ namespace Sport.Shared
 
 			rankStrip.OnAthleteClicked = async(membership) =>
 			{
-				var page = new MembershipDetailsPage(membership.Id) {
-					BarBackgroundColor = ViewModel.League.Theme.Light,
-					BarTextColor = ViewModel.League.Theme.Dark,
-				};
-
+				var page = new MembershipDetailsPage(membership.Id);
 				await Navigation.PushAsync(page);
 			};
 

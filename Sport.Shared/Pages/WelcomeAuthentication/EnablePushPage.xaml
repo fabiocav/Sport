@@ -17,10 +17,7 @@
 			</Grid.RowDefinitions>
 
 			<StackLayout>
-				<Grid x:Name="profileStack" Scale="1">
-					<BoxView BackgroundColor="{StaticResource purpleLight}" HeightRequest="100" VerticalOptions="Start"/>
-					<local:ProfileStripView Athlete="{Binding Athlete}" DarkColor="{StaticResource purpleDark}" />
-				</Grid>
+				<local:ProfileStripView x:Name="profileStack" Athlete="{Binding Athlete}" />
 
 				<ContentView x:Name="label1" Scale="0" Padding="40">
 					<Label Text="Much obliged if you'd kindly enable push notifications." FontSize="Medium" XAlign="Center" />

@@ -9,11 +9,11 @@ namespace Sport.Shared
 {
 	public static partial class Extensions
 	{
-		public static void EnsureLeaguesThemed(this IList<League> leagues, bool reset = false)
+		public static void EnsureLeaguesThemed(this IList<League> leagues)
 		{
 			foreach(var l in leagues)
 			{
-				l.Theme = App.Current.GetTheme(l, reset);
+				l.Theme = App.Current.GetTheme(l);
 			}
 		}
 

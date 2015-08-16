@@ -8,10 +8,9 @@ namespace Sport.Shared
 	{
 		public ChallengeHistoryPage(Membership membership)
 		{
-			BarBackgroundColor = membership.League.Theme.Light;
-			BarTextColor = membership.League.Theme.Dark;
-
 			ViewModel.Membership = membership;
+			SetTheme(membership.League);
+
 			Initialize();
 		}
 
@@ -20,17 +19,23 @@ namespace Sport.Shared
 			InitializeComponent();
 			Title = "Challenge History";
 
-			list.ItemSelected += async(sender, e) =>
-			{
-				var vm = e.SelectedItem as ChallengeViewModel;
+			list.ItemSelected += OnItemSelected;
+		}
 
-				if(vm == null)
-					return;
+		async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			var vm = e.SelectedItem as ChallengeViewModel;
 
-				list.SelectedItem = null;
-				var details = new ChallengeDetailsPage(vm.Challenge);
-				await Navigation.PushAsync(details);
-			};
+			if(vm == null)
+				return;
+
+			list.SelectedItem = null;
+
+			if(vm.Challenge == null)
+				return;
+			
+			var details = new ChallengeDetailsPage(vm.Challenge);
+			await Navigation.PushAsync(details);
 		}
 
 		protected override void TrackPage(Dictionary<string, string> metadata)

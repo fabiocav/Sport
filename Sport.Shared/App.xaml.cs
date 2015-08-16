@@ -99,18 +99,6 @@ namespace Sport.Shared
 			{
 				StartAuthenticationFlow();
 			}
-
-			#if __IOS__
-			object obj;
-			if(Resources.TryGetValue("buttonStyle", out obj))
-			{
-			var style = obj as Style;
-			if(style != null)
-			{
-			style.Setters.Add(VisualElement.WidthRequestProperty, 130);
-			}
-			}
-			#endif
 		}
 
 		/// <summary>
@@ -172,13 +160,13 @@ namespace Sport.Shared
 			});
 		}
 
+		#region Theme
+
 		/// <summary>
 		/// Assigns a league a randomly-chosen theme from an existing finite list
 		/// </summary>
 		/// <returns>The theme.</returns>
-		/// <param name="league">League.</param>
-		/// <param name="forceReset">If set to <c>true</c> force reset.</param>
-		public LeagueTheme GetTheme(League league, bool forceReset = false)
+		public ColorTheme GetTheme(League league)
 		{
 			if(league.Id == null)
 				return null;
@@ -200,11 +188,7 @@ namespace Sport.Shared
 				App.Current.UsedLeagueColors.Add(league.Id, color);
 			}
 
-			var theme = new LeagueTheme {
-				Primary = (Color)App.Current.Resources["{0}Primary".Fmt(color)],
-				Light = (Color)App.Current.Resources["{0}Light".Fmt(color)],
-				Dark = (Color)App.Current.Resources["{0}Dark".Fmt(color)],
-			};
+			var theme = GetThemeFromColor(color);
 
 			if(App.Current.Resources.ContainsKey("{0}Medium".Fmt(color)))
 				theme.Medium = (Color)App.Current.Resources["{0}Medium".Fmt(color)];
@@ -212,54 +196,65 @@ namespace Sport.Shared
 			return theme;
 		}
 
+		public ColorTheme GetThemeFromColor(string color)
+		{
+			return new ColorTheme {
+				Primary = (Color)App.Current.Resources["{0}Primary".Fmt(color)],
+				Light = (Color)App.Current.Resources["{0}Light".Fmt(color)],
+				Dark = (Color)App.Current.Resources["{0}Dark".Fmt(color)],
+			};
+		}
+
 		void SetDefaultPropertyValues()
 		{
 			AvailableLeagueColors = new List<string> {
-				"green",
-				"blue",
-				"red",
-				"yellow",
-				"asphalt",
-				"purple"
+					"green",
+					"blue",
+					"red",
+					"yellow",
+					"asphalt",
+					"purple"
 			};
 
 			PraisePhrases = new List<string> {
-				"sensational",
-				"crazmazing",
-				"stellar",
-				"ill",
-				"peachy keen",
-				"the bees knees",
-				"the cat's pajamas",
-				"the coolest kid in the cave",
-				"killer",
-				"aces",
-				"wicked awesome",
-				"kinda terrific",
-				"top notch",
-				"impressive",
-				"legit",
-				"nifty",
-				"spectaculawesome",
-				"supernacular",
-				"bad to the bone",
-				"radical",
-				"neat",
-				"a hoss boss",
-				"mad chill",
-				"super chill",
-				"a beast",
-				"funky fresh",
-				"slammin it",
+					"sensational",
+					"crazmazing",
+					"stellar",
+					"ill",
+					"peachy keen",
+					"the bees knees",
+					"the cat's pajamas",
+					"the coolest kid in the cave",
+					"killer",
+					"aces",
+					"wicked awesome",
+					"kinda terrific",
+					"top notch",
+					"impressive",
+					"legit",
+					"nifty",
+					"spectaculawesome",
+					"supernacular",
+					"bad to the bone",
+					"radical",
+					"neat",
+					"a hoss boss",
+					"mad chill",
+					"super chill",
+					"a beast",
+					"funky fresh",
+					"slammin it",
 			};
 		}
+
+		#endregion
 
 		#endregion
 	}
 
 	#region LeagueTheme
 
-	public class LeagueTheme
+	public class ColorTheme
 	{
 		public Color Primary
 		{

@@ -13,10 +13,7 @@
 				</Grid.RowDefinitions>
 			
 				<StackLayout>
-					<Grid>
-						<BoxView BackgroundColor="{StaticResource grayLight}" HeightRequest="96" VerticalOptions="Start"/>
-						<local:ProfileStripView Athlete="{Binding Membership.Athlete}" DarkColor="{StaticResource grayDark}" />
-					</Grid>
+					<local:ProfileStripView x:Name="profileStack" Athlete="{Binding Membership.Athlete}" />
 
 					<StackLayout Padding="24,48,24,0" Spacing="8">
 						<Label FontSize="Medium" Text="ATHLETE STATS" TextColor="{StaticResource grayDark}" />

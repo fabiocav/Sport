@@ -77,7 +77,7 @@ namespace Sport.Shared
 				LocalRefresh();
 
 				//Settings.Instance.LeagueColors.Clear();
-				DataManager.Instance.Leagues.Values.ToList().EnsureLeaguesThemed(true);
+				DataManager.Instance.Leagues.Values.ToList().EnsureLeaguesThemed();
 			}
 
 			_hasLoadedLeaguesBefore = true;

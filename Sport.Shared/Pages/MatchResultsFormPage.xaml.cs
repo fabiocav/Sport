@@ -14,10 +14,9 @@ namespace Sport.Shared
 
 		public MatchResultsFormPage(Challenge challenge)
 		{
-			BarBackgroundColor = challenge.League.Theme.Light;
-			BarTextColor = challenge.League.Theme.Dark;
-
 			ViewModel.ChallengeId = challenge.Id;
+			SetTheme(challenge.League);
+
 			Initialize();
 		}
 

@@ -136,6 +136,15 @@ namespace Sport.Shared
 			return nav;
 		}
 
+		protected void SetTheme(League l)
+		{
+			if(l == null || l.Theme == null)
+				return;
+			
+			BarBackgroundColor = l.Theme.Light;
+			BarTextColor = l.Theme.Dark;
+		}
+
 		public void ApplyTheme(NavigationPage nav)
 		{
 			nav.BarBackgroundColor = BarBackgroundColor;

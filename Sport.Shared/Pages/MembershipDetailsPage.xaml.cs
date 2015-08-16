@@ -17,13 +17,16 @@ namespace Sport.Shared
 		public MembershipDetailsPage(string membershipId)
 		{
 			ViewModel.MembershipId = membershipId;
+			SetTheme(ViewModel.Membership?.League);
+
 			Initialize();
 		}
 
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = ViewModel.Membership.Athlete.Name;
+			Title = "Membership Info";
+			profileStack.Theme = App.Current.GetThemeFromColor("gray");
 
 			btnPast.Clicked += async(sender, e) =>
 			{

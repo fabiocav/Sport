@@ -8,10 +8,9 @@ namespace Sport.Shared
 	{
 		public LeaderboardPage(League league)
 		{
-			BarBackgroundColor = league.Theme.Light;
-			BarTextColor = league.Theme.Dark;
-
 			ViewModel.League = league;
+			SetTheme(league);
+
 			Initialize();
 		}
 
@@ -27,10 +26,7 @@ namespace Sport.Shared
 
 				var vm = list.SelectedItem as MembershipViewModel;
 				list.SelectedItem = null;
-				var page = new MembershipDetailsPage(vm.Membership.Id) {
-					BarBackgroundColor = ViewModel.League.Theme.Light,
-					BarTextColor = ViewModel.League.Theme.Dark,
-				};
+				var page = new MembershipDetailsPage(vm.Membership.Id);
 					
 				await Navigation.PushAsync(page);
 			};
