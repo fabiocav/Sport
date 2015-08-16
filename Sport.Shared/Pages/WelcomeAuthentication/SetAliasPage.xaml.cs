@@ -22,29 +22,23 @@ namespace Sport.Shared
 
 		protected override void Initialize()
 		{
+			InitializeComponent();
 			BarBackgroundColor = (Color)App.Current.Resources["redPrimary"];
 			BarTextColor = Color.White;
-
 			BackgroundColor = BarBackgroundColor;
-			InitializeComponent();
 			profileStack.Opacity = 0;
 
 			Title = "Athlete Alias";
 
-			var ignoreClicks = false;
 			btnSave.Clicked += async(sender, e) =>
 			{
-				if(ignoreClicks)
-					return;
-
 				if(string.IsNullOrWhiteSpace(ViewModel.Athlete.Alias))
 				{
 					"Please enter an alias.".ToToast(ToastNotificationType.Warning);
 					return;
 				}
 
-				ignoreClicks = true;
-
+				btnSave.IsEnabled = false;
 				bool success;
 				success = await ViewModel.SaveAthlete();
 				if(success)
@@ -63,7 +57,10 @@ namespace Sport.Shared
 
 					await Navigation.PushAsync(page);
 				}
-				ignoreClicks = success;
+				else
+				{
+					btnSave.IsEnabled = true;
+				}
 			};
 		}
 
@@ -82,9 +79,7 @@ namespace Sport.Shared
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 
 			await Task.Delay(2000);
-
-			if(IsVisible && string.IsNullOrEmpty(ViewModel.Athlete.Alias))
-				txtAlias.Focus();
+			txtAlias.Focus();
 		}
 	}
 

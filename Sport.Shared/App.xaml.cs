@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Connectivity.Plugin;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using Xamarin.Forms;
-using System.Linq;
-using System.Diagnostics;
 
 namespace Sport.Shared
 {
 	public partial class App : Application
 	{
+		#region Properties
+
 		public IHUDProvider _hud;
 		public static int AnimationSpeed = 250;
 
@@ -30,11 +32,189 @@ namespace Sport.Shared
 			}
 		}
 
+		public static Athlete CurrentAthlete
+		{
+			get
+			{
+				return Settings.Instance.AthleteId == null ? null : DataManager.Instance.Athletes.Get(Settings.Instance.AthleteId);
+			}
+		}
+
+		public static bool IsNetworkRechable
+		{
+			get;
+			set;
+		}
+
+		public static List<string> PraisePhrases
+		{
+			get;
+			set;
+		}
+
+		public static List<string> AvailableLeagueColors
+		{
+			get;
+			set;
+		}
+
+		public Dictionary<string, string> UsedLeagueColors
+		{
+			get;
+			set;
+		} = new Dictionary<string, string>();
+
+		#endregion
+
+		#region Methods
+
 		public App()
 		{
-			#region Setting Default Values
+			#region Linker
 
-			Colors = new List<string> {
+			//			if(false)
+			//			{
+			//				new WelcomeStartPageXaml();
+			//				new SetAliasPageXaml();
+			//				new EnablePushPageXaml();
+			//			}
+
+			#endregion
+			SetDefaultPropertyValues();
+
+			InitializeComponent();
+			MessagingCenter.Subscribe<BaseViewModel, Exception>(this, "ExceptionOccurred", OnAppExceptionOccurred);
+			IsNetworkRechable = CrossConnectivity.Current.IsConnected;
+
+			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
+			{
+				IsNetworkRechable = args.IsConnected;
+			};
+
+			if(Settings.Instance.AuthToken == null || !Settings.Instance.RegistrationComplete)
+			{
+				StartRegistrationFlow();
+			}
+			else
+			{
+				StartAuthenticationFlow();
+			}
+
+			#if __IOS__
+			object obj;
+			if(Resources.TryGetValue("buttonStyle", out obj))
+			{
+			var style = obj as Style;
+			if(style != null)
+			{
+			style.Setters.Add(VisualElement.WidthRequestProperty, 130);
+			}
+			}
+			#endif
+		}
+
+		/// <summary>
+		/// Kicks off the main application flow - this is the typical route taken once a user is registered
+		/// </summary>
+		void StartAuthenticationFlow()
+		{
+			//Create our entry page and add it to a NavigationPage, then apply a randomly assigned color theme
+			var page = new AthleteLeaguesPage();
+			var navPage = new ThemedNavigationPage(page);
+			page.ApplyTheme(navPage);
+
+			MainPage = navPage;
+		}
+
+		/// <summary>
+		/// Kicks off the registration flow so the user can register and authenticate
+		/// </summary>
+		internal void StartRegistrationFlow()
+		{
+			MainPage = new WelcomeStartPage().GetNavigationPage();
+		}
+
+		/// <summary>
+		/// All application exceptions should be routed through this method so they get process/displayed to the user in a consistent manner
+		/// </summary>
+		void OnAppExceptionOccurred(BaseViewModel viewModel, Exception exception)
+		{
+			Device.BeginInvokeOnMainThread(async() =>
+			{
+				try
+				{
+					if(_hud != null)
+					{
+						_hud.Dismiss();
+					}
+
+					var msg = exception.Message;
+					var mse = exception as MobileServiceInvalidOperationException;
+
+					if(mse != null)
+					{
+						var body = await mse.Response.Content.ReadAsStringAsync();
+						var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
+						var error = dict["message"].ToString();
+						error.ToToast(ToastNotificationType.Warning, "Doh!");
+						return;
+					}
+
+					if(msg.Length > 300)
+						msg = msg.Substring(0, 300);
+
+					msg.ToToast(ToastNotificationType.Error, "Something bad happened");
+				}
+				catch(Exception e)
+				{
+					Debug.WriteLine(e);
+				}
+			});
+		}
+
+		/// <summary>
+		/// Assigns a league a randomly-chosen theme from an existing finite list
+		/// </summary>
+		/// <returns>The theme.</returns>
+		/// <param name="league">League.</param>
+		/// <param name="forceReset">If set to <c>true</c> force reset.</param>
+		public LeagueTheme GetTheme(League league, bool forceReset = false)
+		{
+			if(league.Id == null)
+				return null;
+
+			league.Theme = null;
+			var remaining = App.AvailableLeagueColors.Except(App.Current.UsedLeagueColors.Values).ToList();
+			if(remaining.Count == 0)
+				remaining.AddRange(App.AvailableLeagueColors);
+
+			var random = new Random().Next(0, remaining.Count - 1);
+			var color = remaining[random];
+
+			if(App.Current.UsedLeagueColors.ContainsKey(league.Id))
+			{
+				color = App.Current.UsedLeagueColors[league.Id];
+			}
+			else
+			{
+				App.Current.UsedLeagueColors.Add(league.Id, color);
+			}
+
+			var theme = new LeagueTheme {
+				Primary = (Color)App.Current.Resources["{0}Primary".Fmt(color)],
+				Light = (Color)App.Current.Resources["{0}Light".Fmt(color)],
+				Dark = (Color)App.Current.Resources["{0}Dark".Fmt(color)],
+			};
+
+			if(App.Current.Resources.ContainsKey("{0}Medium".Fmt(color)))
+				theme.Medium = (Color)App.Current.Resources["{0}Medium".Fmt(color)];
+
+			return theme;
+		}
+
+		void SetDefaultPropertyValues()
+		{
+			AvailableLeagueColors = new List<string> {
 				"green",
 				"blue",
 				"red",
@@ -72,174 +252,12 @@ namespace Sport.Shared
 				"funky fresh",
 				"slammin it",
 			};
-
-			#endregion
-
-			#region Linker
-
-//			if(false)
-//			{
-//				new WelcomeStartPageXaml();
-//				new SetAliasPageXaml();
-//				new EnablePushPageXaml();
-//			}
-
-			#endregion
-
-			InitializeComponent();
-			IsNetworkRechable = CrossConnectivity.Current.IsConnected;
-
-			CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
-			{
-				IsNetworkRechable = args.IsConnected;
-//				"Connectivity is now {0}connected".Fmt(!args.IsConnected ? "dis" : "")
-//						.ToToast(args.IsConnected ? ToastNotificationType.Info : ToastNotificationType.Warning, "Connectivity changed");
-			};
-
-			MessagingCenter.Subscribe<BaseViewModel, Exception>(this, "ExceptionOccurred", (viewModel, exception) =>
-			{
-				Device.BeginInvokeOnMainThread(async() =>
-				{
-					try
-					{
-						if(_hud != null)
-						{
-							_hud.Dismiss();
-						}
-
-						var msg = exception.Message;
-						var mse = exception as MobileServiceInvalidOperationException;
-
-						if(mse != null)
-						{
-							var body = await mse.Response.Content.ReadAsStringAsync();
-							var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
-							var error = dict["message"].ToString();
-							error.ToToast(ToastNotificationType.Warning, "Doh!");
-							return;
-						}
-
-						if(msg.Length > 300)
-							msg = msg.Substring(0, 300);
-
-						msg.ToToast(ToastNotificationType.Error, "Something bad happened");
-					}
-					catch(Exception e)
-					{
-						Debug.WriteLine(e);
-					}
-				});
-			});
-
-			if(Settings.Instance.AuthToken == null || !Settings.Instance.RegistrationComplete)
-			{
-				StartAuthenticationFlow();
-			}
-			else
-			{
-				StartMainFlow();
-			}
-
-			#if __IOS__
-			object obj;
-			if(Resources.TryGetValue("buttonStyle", out obj))
-			{
-				var style = obj as Style;
-				if(style != null)
-				{
-					style.Setters.Add(VisualElement.WidthRequestProperty, 130);
-				}
-			}
-			#endif
 		}
 
-		public static Athlete CurrentAthlete
-		{
-			get
-			{
-				return Settings.Instance.AthleteId == null ? null : DataManager.Instance.Athletes.Get(Settings.Instance.AthleteId);
-			}
-		}
-
-		public static string DeviceToken
-		{
-			get;
-			set;
-		}
-
-		public static UserProfile AuthUserProfile
-		{
-			get;
-			set;
-		}
-
-		public static bool IsNetworkRechable
-		{
-			get;
-			set;
-		}
-
-		public static List<string> Colors
-		{
-			get;
-			set;
-		}
-
-		public static List<string> PraisePhrases
-		{
-			get;
-			set;
-		}
-
-		void StartMainFlow()
-		{
-			//Create our entry page and add it to a NavigationPage, then apply a randomly assigned color theme
-			var page = new AthleteLeaguesPage();
-			var navPage = new ThemedNavigationPage(page);
-			page.ApplyTheme(navPage);
-
-			MainPage = navPage;
-		}
-
-		public void StartAuthenticationFlow()
-		{
-			MainPage = new WelcomeStartPage().GetNavigationPage();
-		}
-
-		public LeagueTheme GetTheme(League league, bool forceReset = false)
-		{
-			if(league.Id == null)
-				return null;
-
-			league.Theme = null;
-			var remaining = App.Colors.Except(Settings.Instance.LeagueColors.Values).ToList();
-			if(remaining.Count == 0)
-				remaining.AddRange(App.Colors);
-
-			var random = new Random().Next(0, remaining.Count - 1);
-			var color = remaining[random];
-
-			if(Settings.Instance.LeagueColors.ContainsKey(league.Id))
-			{
-				color = Settings.Instance.LeagueColors[league.Id];
-			}
-			else
-			{
-				Settings.Instance.LeagueColors.Add(league.Id, color);
-			}
-
-			var theme = new LeagueTheme {
-				Primary = (Color)App.Current.Resources["{0}Primary".Fmt(color)],
-				Light = (Color)App.Current.Resources["{0}Light".Fmt(color)],
-				Dark = (Color)App.Current.Resources["{0}Dark".Fmt(color)],
-			};
-
-			if(App.Current.Resources.ContainsKey("{0}Medium".Fmt(color)))
-				theme.Medium = (Color)App.Current.Resources["{0}Medium".Fmt(color)];
-
-			return theme;
-		}
+		#endregion
 	}
+
+	#region LeagueTheme
 
 	public class LeagueTheme
 	{
@@ -273,4 +291,6 @@ namespace Sport.Shared
 			set;
 		}
 	}
+
+	#endregion
 }

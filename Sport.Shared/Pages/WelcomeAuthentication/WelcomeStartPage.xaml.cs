@@ -21,14 +21,11 @@ namespace Sport.Shared
 
 			NavigationPage.SetHasNavigationBar(this, false);
 
-			bool ignoreClicks = false;
 			btnAuthenticate.Clicked += async(sender, e) =>
 			{
-				if(ignoreClicks)
-					return;
+				btnAuthenticate.IsEnabled = false;
+				await ViewModel.AuthenticateCompletely();
 
-				ignoreClicks = true;
-				await EnsureUserAuthenticated();
 				if(App.CurrentAthlete != null)
 				{
 					await label1.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
@@ -38,9 +35,8 @@ namespace Sport.Shared
 				}
 				else
 				{
-					
+					btnAuthenticate.IsEnabled = true;
 				}
-				ignoreClicks = false;
 			};
 		}
 

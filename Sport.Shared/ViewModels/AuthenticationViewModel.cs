@@ -1,10 +1,11 @@
 using System;
-using System.Threading.Tasks;
-using Sport.Shared;
-using Xamarin.Forms;
-using Xamarin;
 using System.Collections.Generic;
-using System.Net;
+using System.Threading.Tasks;
+using SimpleAuth;
+using SimpleAuth.Providers;
+using Sport.Shared;
+using Xamarin;
+using Xamarin.Forms;
 
 [assembly: Dependency(typeof(AuthenticationViewModel))]
 
@@ -12,6 +13,10 @@ namespace Sport.Shared
 {
 	public class AuthenticationViewModel : BaseViewModel
 	{
+		bool _doResetWebCache;
+
+		#region Properties
+
 		string _authenticationStatus;
 
 		public string AuthenticationStatus
@@ -26,87 +31,99 @@ namespace Sport.Shared
 			}
 		}
 
-		public bool IsUserValid()
+		internal UserProfile AuthUserProfile
 		{
-			return App.AuthUserProfile != null && App.AuthUserProfile.Email != null;
+			get;
+			set;
 		}
 
-		async public Task<bool> AuthenticateUser()
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// Performs a complete authentication pass
+		/// </summary>
+		public async Task<bool> AuthenticateCompletely()
 		{
-			if(!App.IsNetworkRechable)
+			await AuthenticateWithGoogle();
+
+			if(AuthUserProfile != null)
+				await AuthenticateWithBackend();
+
+			return App.CurrentAthlete != null;
+		}
+
+		/// <summary>
+		/// Attempts to get the user's profile and will use WebView form to authenticate if necessary
+		/// </summary>
+		async Task<bool> AuthenticateWithGoogle()
+		{
+			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
+			var success = await authViewModel.GetUserProfile();
+
+			if(!success)
 			{
-				NotifyException(new WebException("Please connect to the Information Super Highway"));
-				return false;
+				await ShowGoogleAuthenticationView();
+				await authViewModel.GetUserProfile();
 			}
 
-			var provider = DependencyService.Get<IAuthentication>();
-			var tuple = await provider.AuthenticateUser();
+			return AuthUserProfile != null;
+		}
 
-			if(tuple != null)
+		/// <summary>
+		/// Shows the Google authentication web view so the user can authenticate
+		/// </summary>
+		async Task ShowGoogleAuthenticationView()
+		{
+			var scopes = new[] {
+				"email",
+				"profile",
+				"https://www.googleapis.com/auth/calendar"
+			};
+
+			var api = new GoogleApi("google", Keys.GoogleApiClientId, Keys.GoogleClientSecret) {
+				Scopes = scopes,
+			};
+
+			if(_doResetWebCache)
 			{
-				Settings.Instance.AuthToken = tuple.Item1;
-				Settings.Instance.RefreshToken = tuple.Item2;
+				_doResetWebCache = false;				
+				api.ResetData();
+			}
+
+			var account = await api.Authenticate();
+
+			if(account != null)
+			{
+				var oauthAccount = (OAuthAccount)account;
+
+				Settings.Instance.AuthToken = oauthAccount.Token;
+				Settings.Instance.RefreshToken = oauthAccount.RefreshToken;
+				Settings.Instance.AuthUserID = oauthAccount.Identifier;
 				await Settings.Instance.Save();
 			}
-
-			return Settings.Instance.AuthToken != null;
 		}
 
-		async public Task<bool> EnsureAthleteRegistered(bool forceRefresh = false)
+		/// <summary>
+		/// Authenticates the athlete against the Azure backend and loads all necessary data to begin the app experience
+		/// </summary>
+		async Task<bool> AuthenticateWithBackend()
 		{
-			if(App.CurrentAthlete != null && !forceRefresh)
-				return true;
-
-			Athlete athlete = null;
+			Athlete athlete;
 			using(new Busy(this))
 			{
 				AuthenticationStatus = "Getting athlete's profile";
+				athlete = await GetAthletesProfile();
 
-				//No AthleteId on record
-				if(!string.IsNullOrWhiteSpace(Settings.Instance.AthleteId))
-				{
-					var task = AzureService.Instance.GetAthleteById(Settings.Instance.AthleteId);
-					await RunSafe(task);
-
-					if(task.IsCompleted && !task.IsFaulted)
-						athlete = task.Result;
-				}
-
-				if(athlete == null && !string.IsNullOrWhiteSpace(Settings.Instance.AuthUserID))
-				{
-					var task = AzureService.Instance.GetAthleteByAuthUserId(Settings.Instance.AuthUserID);
-					await RunSafe(task);
-
-					if(task.IsCompleted && !task.IsFaulted)
-						athlete = task.Result;
-				}
-
-				if(athlete == null && App.AuthUserProfile != null && !App.AuthUserProfile.Email.IsEmpty())
-				{
-					var task = AzureService.Instance.GetAthleteByEmail(App.AuthUserProfile.Email);
-					await RunSafe(task);
-
-					if(task.IsCompleted && !task.IsFaulted)
-						athlete = task.Result;
-				}
-
-				//Unable to get athlete - try registering as a new athlete
 				if(athlete == null)
 				{
-					AuthenticationStatus = "Registering athlete";
-					athlete = new Athlete(App.AuthUserProfile);
-
-					var task = AzureService.Instance.SaveAthlete(athlete);
-					await RunSafe(task);
-
-					if(task.IsCompleted && task.IsFaulted)
-						return false;
-
-					"You're now an officially registered athlete!".ToToast();
+					//Unable to get athlete - try registering as a new athlete
+					athlete = await RegisterAthlete(AuthUserProfile);
 				}
 				else
 				{
-					athlete.ProfileImageUrl = App.AuthUserProfile.Picture;
+					athlete.ProfileImageUrl = AuthUserProfile.Picture;
 
 					if(athlete.IsDirty)
 					{
@@ -120,18 +137,8 @@ namespace Sport.Shared
 
 				if(App.CurrentAthlete != null)
 				{
-					AuthenticationStatus = "Getting leaderboards";
-					var task = AzureService.Instance.GetAllLeaguesForAthlete(App.CurrentAthlete);
-					await RunSafe(task);
-
-					if(task.IsCompleted && !task.IsFaulted)
-					{
-						Settings.Instance.LeagueColors.Clear();
-						task.Result.EnsureLeaguesThemed(true);
-					}
-
+					await GetAllLeaderboards();
 					App.CurrentAthlete.IsDirty = false;
-					//await RunSafe(AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete));
 					MessagingCenter.Send<AuthenticationViewModel>(this, "UserAuthenticated");
 				}
 
@@ -140,22 +147,72 @@ namespace Sport.Shared
 			}
 		}
 
-		async public Task GetUserProfile(bool force = false)
+		/// <summary>
+		/// Gets the athlete's profile from the Azure backend
+		/// </summary>
+		async Task<Athlete> GetAthletesProfile()
 		{
-			if(!force && App.AuthUserProfile != null)
-				return;
+			Athlete athlete = null;
+
+			//Let's try to load based on email address
+			if(athlete == null && AuthUserProfile != null && !AuthUserProfile.Email.IsEmpty())
+			{
+				var task = AzureService.Instance.GetAthleteByEmail(AuthUserProfile.Email);
+				await RunSafe(task);
+
+				if(task.IsCompleted && !task.IsFaulted)
+					athlete = task.Result;
+			}
+
+			return athlete;
+		}
+
+
+		/// <summary>
+		/// Registers an athlete with the backend and returns the new athlete profile
+		/// </summary>
+		async Task<Athlete> RegisterAthlete(UserProfile profile)
+		{
+			AuthenticationStatus = "Registering athlete";
+			var athlete = new Athlete(profile);
+
+			var task = AzureService.Instance.SaveAthlete(athlete);
+			await RunSafe(task);
+
+			if(task.IsCompleted && task.IsFaulted)
+				return null;
+
+			"You're now an officially registered athlete!".ToToast();
+			return athlete;
+		}
+
+		/// <summary>
+		/// Gets all leaderboards for the system
+		/// </summary>
+		async Task GetAllLeaderboards()
+		{
+			AuthenticationStatus = "Getting leaderboards";
+			var task = AzureService.Instance.GetAllLeaguesForAthlete(App.CurrentAthlete);
+			await RunSafe(task);
+
+			if(task.IsCompleted && !task.IsFaulted)
+			{
+				App.Current.UsedLeagueColors.Clear();
+				task.Result.EnsureLeaguesThemed(true);
+			}
+		}
+
+		/// <summary>
+		/// Attempts to get the user profile from Google. Will use the refresh token if the auth token has expired
+		/// </summary>
+		async public Task<bool> GetUserProfile()
+		{
+			//Can't get profile w/out a token
+			if(Settings.Instance.AuthToken == null)
+				return false;
 
 			using(new Busy(this))
 			{
-				if(Settings.Instance.AuthToken == null)
-				{
-					AuthenticationStatus = "Authenticating with Google";
-					var success = await AuthenticateUser();
-
-					if(!success)
-						return;
-				}
-
 				AuthenticationStatus = "Getting Google user profile";
 				var task = GoogleApiService.Instance.GetUserProfile();
 				await RunSafe(task, false);
@@ -168,59 +225,56 @@ namespace Sport.Shared
 					var refreshTask = GoogleApiService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
 					await RunSafe(refreshTask);
 
-					var invalid = true;
 					if(refreshTask.IsCompleted && !refreshTask.IsFaulted)
 					{
 						//Success in getting a new auth token - now lets attempt to get the profile again
 						if(!string.IsNullOrWhiteSpace(refreshTask.Result) && Settings.Instance.AuthToken != refreshTask.Result)
 						{
-							invalid = false;
+							//We have a valid token now, let's try this again
 							Settings.Instance.AuthToken = refreshTask.Result;
 							await Settings.Instance.Save();
-							await GetUserProfile();
+							return await GetUserProfile();
 						}
-					}
-
-					if(invalid)
-					{
-						Settings.Instance.AuthToken = null;
-						Settings.Instance.RefreshToken = null;
-						await Settings.Instance.Save();
-						await GetUserProfile(force);
 					}
 				}
 
-				if(task.IsCompleted && !task.IsFaulted)
+				if(task.IsCompleted && !task.IsFaulted && task.Result != null)
 				{
 					AuthenticationStatus = "Authentication complete";
-					App.AuthUserProfile = task.Result;
+					AuthUserProfile = task.Result;
 
-					Insights.Identify(App.AuthUserProfile.Email, new Dictionary<string, string> {
-						{
+					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> { {
 							"Name",
-							App.AuthUserProfile.Name
+							AuthUserProfile.Name
 						}
 					});
 
-					Settings.Instance.AuthUserID = App.AuthUserProfile.Id;
+					Settings.Instance.AuthUserID = AuthUserProfile.Id;
 					await Settings.Instance.Save();
 				}
 				else
 				{
 					AuthenticationStatus = "Unable to authenticate";
+					_doResetWebCache = true;
 				}
 			}
+
+			return AuthUserProfile != null;
 		}
 
 		public void LogOut()
 		{
+			_doResetWebCache = true;
+
 			Settings.Instance.AthleteId = null;
 			Settings.Instance.AuthUserID = null;
 			Settings.Instance.AuthToken = null;
 			Settings.Instance.RefreshToken = null;
 			Settings.Instance.RegistrationComplete = false;
 			Settings.Instance.Save();
-			App.AuthUserProfile = null;
+			AuthUserProfile = null;
 		}
+
+		#endregion
 	}
 }

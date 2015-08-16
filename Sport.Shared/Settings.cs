@@ -50,12 +50,6 @@ namespace Sport.Shared
 			set;
 		}
 
-		public Dictionary<string, string> LeagueColors
-		{
-			get;
-			set;
-		} = new Dictionary<string, string>();
-
 		public string DeviceToken
 		{
 			get;

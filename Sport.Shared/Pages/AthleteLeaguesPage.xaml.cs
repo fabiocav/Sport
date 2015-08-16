@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -17,9 +18,6 @@ namespace Sport.Shared
 		{
 			InitializeComponent();
 			Title = "Leagues";
-
-			if(App.CurrentAthlete != null)
-				await ViewModel.RemoteRefresh();
 
 			await EnsureUserAuthenticated();
 		}
@@ -122,22 +120,22 @@ namespace Sport.Shared
 
 		List<string> GetMoreMenuOptions()
 		{
-			var list = new List<string>();
-			list.Add(_profile);
+			var lst = new List<string>();
+			lst.Add(_profile);
 
 			if(App.CurrentAthlete.IsAdmin)
-				list.Add(_admin);
+				lst.Add(_admin);
 
-			list.Add(_about);
-			list.Add(_logout);
+			lst.Add(_about);
+			lst.Add(_logout);
 
-			return list;
+			return lst;
 		}
 
 		async void OnMoreClicked(object sender, EventArgs e)
 		{
-			var list = GetMoreMenuOptions();
-			var action = await DisplayActionSheet("Additional actions", "Cancel", null, list.ToArray());
+			var lst = GetMoreMenuOptions();
+			var action = await DisplayActionSheet("Additional actions", "Cancel", null, lst.ToArray());
 
 			if(action == _logout)
 				OnLogoutSelected();
@@ -175,6 +173,21 @@ namespace Sport.Shared
 			page.AddDoneButton();
 			
 			await Navigation.PushModalAsync(page.GetNavigationPage());
+		}
+
+		async Task EnsureUserAuthenticated()
+		{
+			if(App.CurrentAthlete != null)
+				return;
+
+			var authPage = new AuthenticationPage();
+			await Navigation.PushModalAsync(authPage);
+			var success = await authPage.AttemptToAuthenticateAthlete();
+
+			if(success)
+			{
+				await Navigation.PopModalAsync();
+			}
 		}
 	}
 

@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin;
 using Xamarin.Forms;
+using SimpleAuth.Providers;
+using SimpleAuth;
+using Newtonsoft.Json;
 
 namespace Sport.Shared
 {
@@ -164,30 +167,6 @@ namespace Sport.Shared
 
 		#region Authentication
 
-		public async Task EnsureUserAuthenticated()
-		{
-			if(App.CurrentAthlete != null)
-				return;
-			
-			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
-			if(Settings.Instance.AuthToken != null)
-			{
-				var authPage = new AuthenticationPage();
-				await Navigation.PushModalAsync(authPage);
-				await authPage.AttemptToAuthenticateAthlete();
-
-				if(App.CurrentAthlete != null)
-					Navigation.PopModalAsync();
-			}
-			else
-			{
-				await authViewModel.GetUserProfile(true);
-
-				if(App.AuthUserProfile != null)
-					await authViewModel.EnsureAthleteRegistered();
-			}
-		}
-
 		async protected void LogoutUser()
 		{
 			var decline = await DisplayAlert("For ultra sure?", "Are you sure you want to log out?", "Yes", "No");
@@ -198,7 +177,7 @@ namespace Sport.Shared
 			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
 			authViewModel.LogOut();
 
-			App.Current.StartAuthenticationFlow(); 
+			App.Current.StartRegistrationFlow(); 
 		}
 
 		#endregion

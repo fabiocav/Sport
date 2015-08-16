@@ -1,7 +1,7 @@
 ﻿using System;
-using Xamarin.Forms;
 using System.Threading.Tasks;
-using Connectivity.Plugin;
+using SimpleAuth;
+using SimpleAuth.Providers;
 
 namespace Sport.Shared
 {
@@ -25,12 +25,8 @@ namespace Sport.Shared
 
 		async public Task<bool> AttemptToAuthenticateAthlete(bool force = false)
 		{
-			await ViewModel.GetUserProfile(force);
-
-			if(App.AuthUserProfile != null)
-				await ViewModel.EnsureAthleteRegistered();
-
-			return Settings.Instance.AuthToken != null;
+			await ViewModel.AuthenticateCompletely();
+			return App.CurrentAthlete != null;
 		}
 	}
 

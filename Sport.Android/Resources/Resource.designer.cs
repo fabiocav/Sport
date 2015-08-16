@@ -67,6 +67,8 @@ namespace Sport.Android
 			global::ModernHttpClient.Resource.String.library_name = global::Sport.Android.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
 			global::Xamarin.Forms.Platform.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
+			global::SimpleAuth.Droid.Resource.String.ApplicationName = global::Sport.Android.Resource.String.ApplicationName;
+			global::SimpleAuth.Droid.Resource.String.Hello = global::Sport.Android.Resource.String.Hello;
 		}
 		
 		public partial class Animation
