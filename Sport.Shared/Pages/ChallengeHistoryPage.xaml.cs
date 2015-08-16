@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 using System;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -7,10 +8,9 @@ namespace Sport.Shared
 	{
 		public ChallengeHistoryPage(Membership membership)
 		{
-			BarBackgroundColor = membership.League.Theme.Light;
-			BarTextColor = membership.League.Theme.Dark;
-
 			ViewModel.Membership = membership;
+			SetTheme(membership.League);
+
 			Initialize();
 		}
 
@@ -19,30 +19,32 @@ namespace Sport.Shared
 			InitializeComponent();
 			Title = "Challenge History";
 
-			list.ItemSelected += async(sender, e) =>
-			{
-				var vm = e.SelectedItem as ChallengeViewModel;
-
-				if(vm == null)
-					return;
-
-				list.SelectedItem = null;
-				var details = new ChallengeDetailsPage(vm.Challenge);
-				await Navigation.PushAsync(details);
-			};
+			list.ItemSelected += OnItemSelected;
 		}
 
-		//		protected override async void OnIncomingPayload(App app, NotificationPayload payload)
-		//		{
-		//			string leagueId;
-		//			if(payload.Payload.TryGetValue("leagueId", out leagueId))
-		//			{
-		//				if(leagueId == ViewModel.League.Id)
-		//				{
-		//					await ViewModel.GetLeaderboard(true);
-		//				}
-		//			}
-		//		}
+		async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			var vm = e.SelectedItem as ChallengeViewModel;
+
+			if(vm == null)
+				return;
+
+			list.SelectedItem = null;
+
+			if(vm.Challenge == null)
+				return;
+			
+			var details = new ChallengeDetailsPage(vm.Challenge);
+			await Navigation.PushAsync(details);
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Membership != null)
+				metadata.Add("membershipId", ViewModel.Membership.Id);
+
+			base.TrackPage(metadata);
+		}
 	}
 
 	public partial class ChallengeHistoryPageXaml : BaseContentPage<ChallengeHistoryViewModel>

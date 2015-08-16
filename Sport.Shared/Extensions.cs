@@ -9,11 +9,11 @@ namespace Sport.Shared
 {
 	public static partial class Extensions
 	{
-		public static void EnsureLeaguesThemed(this IList<League> leagues, bool reset = false)
+		public static void EnsureLeaguesThemed(this IList<League> leagues)
 		{
 			foreach(var l in leagues)
 			{
-				l.Theme = App.Current.GetTheme(l, reset);
+				l.Theme = App.Current.GetTheme(l);
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace Sport.Shared
 			var athlete = model as Athlete;
 			if(athlete != null)
 			{
-				athlete.RefreshMemberships();
+				athlete.LocalRefresh();
 			}
 
 			var league = model as League;
@@ -81,6 +81,53 @@ namespace Sport.Shared
 			{
 				dict.TryAdd(model.Id, model);
 			}
+		}
+
+		public static string GetChallengeConflictReason(this Membership membership, Athlete athlete)
+		{
+			if(!membership.League.HasStarted)
+				return "The league hasn't started yet";
+
+			if(membership.Athlete == null || athlete.Id == membership.Athlete.Id)
+				return "You cannot challenge yourself";
+
+			//Check to see if they are part of the same league
+			var otherMembership = athlete.Memberships.SingleOrDefault(m => m.LeagueId == membership.LeagueId);
+
+			if(otherMembership != null)
+			{
+				//Ensure they are within range and lower in rank than the challengee
+				var diff = otherMembership.CurrentRank - membership.CurrentRank;
+				if(diff <= 0 || diff > membership.League.MaxChallengeRange)
+				{
+					return "{0} is not within a valid range of being challenged".Fmt(membership.Athlete.Alias);
+				}
+			}
+			else
+			{
+				return "{0} is not a member of the {1} league".Fmt(membership.Athlete.Alias, membership.League.Name);
+			}
+
+			var challenge = membership.GetOngoingChallenge(membership.Athlete);
+			if(challenge != null)
+			{
+				return "{0} already has an ongoing challenge with {1}".Fmt(membership.Athlete.Alias, challenge.Opponent(membership.Athlete.Id).Alias);
+			}
+
+			//Athlete is within range but let's make sure there aren't already challenges out there 
+			challenge = membership.GetOngoingChallenge(athlete);
+			if(challenge != null)
+			{
+				var player = athlete.Id == App.CurrentAthlete.Id ? "You already have" : athlete.Alias + " already has";
+				return "{0} an ongoing challenge with {1}".Fmt(player, challenge.Opponent(athlete.Id).Alias);
+			}
+
+			return null;
+		}
+
+		public static bool CanChallengeAthlete(this Membership membership, Athlete athlete)
+		{
+			return membership.GetChallengeConflictReason(athlete) == null;
 		}
 
 		public static void ToToast(this string message, ToastNotificationType type = ToastNotificationType.Info, string title = null)

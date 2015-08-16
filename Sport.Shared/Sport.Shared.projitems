@@ -11,7 +11,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Dependencies\" />
     <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
     <Folder Include="$(MSBuildThisFileDirectory)Pages\Admin\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\Admin\" />
@@ -22,16 +21,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthenticationViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BaseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GameResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\League.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserProfile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\Athlete.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DataManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Membership.cs" />
@@ -142,7 +137,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAuthentication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\AboutPage.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
@@ -160,6 +154,10 @@
       <DependentUpon>ChallengeProfileStripView.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)BaseContentPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">

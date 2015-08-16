@@ -4,15 +4,33 @@ namespace Sport.Shared
 {
 	public class AthleteViewModel : BaseViewModel
 	{
-		public AthleteViewModel(Athlete athlete)
+		string _athleteId;
+
+		public string AthleteId
 		{
-			Athlete = athlete;	
+			get
+			{
+				return _athleteId;
+			}
+			set
+			{
+				_athleteId = value;
+				_athlete = null;
+				SetPropertyChanged("Athlete");
+			}
 		}
+
+		Athlete _athlete;
 
 		public Athlete Athlete
 		{
-			get;
-			set;
+			get
+			{
+				if(_athlete == null)
+					_athlete = AthleteId == null ? null : DataManager.Instance.Athletes.Get(AthleteId);
+
+				return _athlete;
+			}
 		}
 
 		async public Task GetLeagues(bool forceRefresh = false)
@@ -22,7 +40,7 @@ namespace Sport.Shared
 
 			if(!forceRefresh)
 			{
-				Athlete.RefreshMemberships();
+				Athlete.LocalRefresh();
 				return;
 			}
 
@@ -31,7 +49,7 @@ namespace Sport.Shared
 
 			using(new Busy(this))
 			{
-				Athlete.RefreshMemberships();
+				Athlete.LocalRefresh();
 
 				var task = AzureService.Instance.GetAllLeaguesForAthlete(App.CurrentAthlete);
 				await RunSafe(task);
@@ -39,11 +57,18 @@ namespace Sport.Shared
 				if(task.IsFaulted)
 					return;
 
-				Athlete.RefreshMemberships();
+				Athlete.LocalRefresh();
 				SetPropertyChanged("Athlete");
 			}
 
 			IsBusy = false;
+		}
+
+		public override void NotifyPropertiesChanged()
+		{
+			_athlete = null;
+
+			base.NotifyPropertiesChanged();
 		}
 	}
 }

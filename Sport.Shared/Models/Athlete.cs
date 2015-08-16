@@ -174,10 +174,10 @@ namespace Sport.Shared
 			}
 		}
 
-		public void RefreshMemberships()
+		public override void LocalRefresh()
 		{
-			_memberships.Clear();
 			//TODO Error here when deleting an existing league
+			_memberships.Clear();
 			DataManager.Instance.Memberships.Values.Where(m => m.AthleteId == Id).OrderBy(l => l.League?.Name).ToList().ForEach(_memberships.Add);
 		}
 
@@ -190,37 +190,14 @@ namespace Sport.Shared
 			}
 		}
 
-		//		public void RefreshChallenges()
-		//		{
-		//			if(IncomingChallenges == null)
-		//				IncomingChallenges = new List<Challenge>();
-		//
-		//			if(OutgoingChallenges == null)
-		//				OutgoingChallenges = new List<Challenge>();
-		//
-		//			IncomingChallenges.Clear();
-		//			DataManager.Instance.Challenges.Values.Where(m => m.ChallengeeAthleteId == Id).ToList().ForEach(IncomingChallenges.Add);
-		//
-		//			OutgoingChallenges.Clear();
-		//			DataManager.Instance.Challenges.Values.Where(m => m.ChallengerAthleteId == Id).ToList().ForEach(OutgoingChallenges.Add);
-		//		}
-
-		//		public Challenge GetPreviousChallengeForLeague(League league)
-		//		{
-		//			return AllChallenges.Where(c => c.LeagueId == league.Id && c.IsCompleted).OrderByDescending(c => c.DateCompleted).FirstOrDefault();
-		//		}
-		//
-		//		public Challenge GetOngoingChallengeForLeague(League league)
-		//		{
-		//			return AllChallenges.FirstOrDefault(c => c.LeagueId == league.Id && !c.IsCompleted);
-		//		}
-
 		public override bool Equals(object obj)
 		{
 			var comp = new AthleteComparer();
 			return comp.Equals(this, obj as Athlete);
 		}
 	}
+
+	#region Comparers
 
 	public class AthleteComparer : IEqualityComparer<Athlete>
 	{
@@ -243,4 +220,6 @@ namespace Sport.Shared
 			return obj.Id != null ? obj.Id.GetHashCode() : base.GetHashCode();
 		}
 	}
+
+	#endregion
 }

@@ -1,8 +1,7 @@
-﻿using Xamarin.Forms;
-using System;
-using System.Threading.Tasks;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -10,55 +9,15 @@ namespace Sport.Shared
 	{
 		public AthleteLeaguesPage(string athleteId = null)
 		{
+			//ViewModel is pulled from Dependency Injection in the ViewModel getter of BaseContentPage
 			ViewModel.AthleteId = athleteId;
 			Initialize();
 		}
 
 		protected async override void Initialize()
 		{
-			Title = "Leagues";
 			InitializeComponent();
-
-			btnJoin.Clicked += async(sender, e) =>
-			{
-				var page = new AvailableLeaguesPage();
-
-				page.OnJoinedLeague = (l) =>
-				{
-					ViewModel.LocalRefresh();
-					ViewModel.SetPropertyChanged("Athlete");
-				};
-
-				await Navigation.PushModalAsync(page.GetNavigationPage());
-			};
-
-			list.ItemSelected += async(sender, e) =>
-			{
-				if(list.SelectedItem == null)
-					return;
-
-				var vm = list.SelectedItem as LeagueViewModel;
-
-				list.SelectedItem = null;
-
-				if(vm.League.Id == null)
-					return;
-
-				var page = new LeagueDetailsPage(vm.League);
-				page.OnAbandondedLeague = async(l) =>
-				{
-					ViewModel.LocalRefresh();
-					ViewModel.SetPropertyChanged("Athlete");
-					await Navigation.PopAsync();
-				};
-
-				await Navigation.PushAsync(page);
-			};
-
-			if(App.CurrentAthlete != null)
-			{
-				await ViewModel.RemoteRefresh();
-			}
+			Title = "Leagues";
 
 			await EnsureUserAuthenticated();
 		}
@@ -67,8 +26,66 @@ namespace Sport.Shared
 		{
 			base.OnAppearing();
 
+			btnJoin.Clicked += OnJoinClicked;
+			list.ItemSelected += OnListItemSelected;
+
 			foreach(var l in ViewModel.Leagues)
-				l.LocalRefresh();
+				l.NotifyPropertiesChanged();
+		}
+
+		protected override void OnDisappearing()
+		{
+			btnJoin.Clicked -= OnJoinClicked;
+			list.ItemSelected -= OnListItemSelected;
+
+			base.OnDisappearing();
+		}
+
+		async void OnJoinClicked(object sender, EventArgs e)
+		{
+			var weakSelf = new WeakReference(this);
+			//var page = new AthleteProfilePage(App.CurrentAthlete.Id);
+			var page = new AvailableLeaguesPage();
+//			page.OnJoinedLeague = (l) =>
+//			{
+//				var self = (AthleteLeaguesPage)weakSelf.Target;
+//				if(self == null)
+//					return;
+//				
+//				self.ViewModel.LocalRefresh();
+//				self.ViewModel.SetPropertyChanged("Athlete");
+//			};
+
+			await Navigation.PushModalAsync(page.GetNavigationPage());
+		}
+
+		async void OnListItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			//This event gets triggered when you set SelectedItem to null or the item is deselected by the user so we need to check for null first
+			if(list.SelectedItem == null)
+				return;
+
+			var vm = list.SelectedItem as LeagueViewModel;
+			list.SelectedItem = null; //Deselect the item
+
+			if(vm.LeagueId == null) //Ensure the league is a valid league - some items in this list are used to display an empty message and do not have a LeagueId
+				return;
+
+			//Referencing 'this' in the body of delegate will prevent the page from being collected once it's popped
+			var weakSelf = new WeakReference(this);
+			var page = new LeagueDetailsPage(vm.League);
+			page.OnAbandondedLeague = (async(l) =>
+			{
+				var self = (AthleteLeaguesPage)weakSelf.Target;
+				if(self == null)
+					return;
+
+				self.ViewModel.LocalRefresh();
+				self.ViewModel.SetPropertyChanged("Athlete");
+				await self.Navigation.PopAsync();
+			});
+
+			await Navigation.PushAsync(page);
 		}
 
 		internal override void OnUserAuthenticated()
@@ -77,9 +94,7 @@ namespace Sport.Shared
 			ViewModel.AthleteId = App.CurrentAthlete.Id;
 
 			if(App.CurrentAthlete != null)
-			{
 				ViewModel.LocalRefresh();
-			}
 		}
 
 		protected override async void OnIncomingPayload(NotificationPayload payload)
@@ -106,22 +121,22 @@ namespace Sport.Shared
 
 		List<string> GetMoreMenuOptions()
 		{
-			var list = new List<string>();
-			list.Add(_profile);
+			var lst = new List<string>();
+			lst.Add(_profile);
 
 			if(App.CurrentAthlete.IsAdmin)
-				list.Add(_admin);
+				lst.Add(_admin);
 
-			list.Add(_about);
-			list.Add(_logout);
+			lst.Add(_about);
+			lst.Add(_logout);
 
-			return list;
+			return lst;
 		}
 
 		async void OnMoreClicked(object sender, EventArgs e)
 		{
-			var list = GetMoreMenuOptions();
-			var action = await DisplayActionSheet("Additional actions", "Cancel", null, list.ToArray());
+			var lst = GetMoreMenuOptions();
+			var action = await DisplayActionSheet("Additional actions", "Cancel", null, lst.ToArray());
 
 			if(action == _logout)
 				OnLogoutSelected();
@@ -159,6 +174,21 @@ namespace Sport.Shared
 			page.AddDoneButton();
 			
 			await Navigation.PushModalAsync(page.GetNavigationPage());
+		}
+
+		async Task EnsureUserAuthenticated()
+		{
+			if(App.CurrentAthlete != null)
+				return;
+
+			var authPage = new AuthenticationPage();
+			await Navigation.PushModalAsync(authPage);
+			var success = await authPage.AttemptToAuthenticateAthlete();
+
+			if(success)
+			{
+				await Navigation.PopModalAsync();
+			}
 		}
 	}
 

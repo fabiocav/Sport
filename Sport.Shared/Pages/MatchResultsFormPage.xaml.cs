@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -13,17 +14,16 @@ namespace Sport.Shared
 
 		public MatchResultsFormPage(Challenge challenge)
 		{
-			Title = "Match Score";
-			BarBackgroundColor = challenge.League.Theme.Light;
-			BarTextColor = challenge.League.Theme.Dark;
-
 			ViewModel.ChallengeId = challenge.Id;
+			SetTheme(challenge.League);
+
 			Initialize();
 		}
 
 		protected override void Initialize()
 		{
 			InitializeComponent();
+			Title = "Match Score";
 
 			ViewModel.Challenge.MatchResult.Clear();
 			for(int i = 0; i < ViewModel.Challenge.League.MatchGameCount; i++)
@@ -67,10 +67,17 @@ namespace Sport.Shared
 					if(OnMatchResultsPosted != null)
 						OnMatchResultsPosted();
 
-					var title = App.CurrentAthlete.Id == ViewModel.Challenge.WinningAthlete.Id ? "Victory!" : "Bummer";
 					"Results submitted - congrats to {0}".Fmt(ViewModel.Challenge.WinningAthlete.Alias).ToToast();
 				}
 			};
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Challenge != null)
+				metadata.Add("challengeId", ViewModel.Challenge.Id);
+
+			base.TrackPage(metadata);
 		}
 	}
 

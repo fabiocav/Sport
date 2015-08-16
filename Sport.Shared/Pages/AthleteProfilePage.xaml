@@ -13,14 +13,9 @@
 			</Grid.RowDefinitions>
 		
 			<StackLayout>
-				<StackLayout Spacing="12">
-					<Grid>
-						<BoxView BackgroundColor="{StaticResource asphaltLight}" HeightRequest="96" VerticalOptions="Start"/>
-						<local:ProfileStripView Athlete="{Binding Athlete}" DarkColor="{StaticResource asphaltDark}" />
-					</Grid>
-				</StackLayout>
+				<local:ProfileStripView x:Name="profileStack" Athlete="{Binding Athlete}" />
 
-				<StackLayout Spacing="0" Padding="0,20">
+				<StackLayout Spacing="0" Padding="0,40">
 					<ContentView BackgroundColor="{StaticResource asphaltLight}" HeightRequest=".5" HorizontalOptions="Fill" />
 					<StackLayout Orientation="Horizontal" Spacing="20" Padding="48,0" HeightRequest="56">
 						<Label Text="Alias:" TextColor="{StaticResource asphaltLight}" VerticalOptions="Center" FontSize="Large" />

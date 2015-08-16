@@ -1,27 +1,28 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
 	public partial class LeagueDetailsPage : LeagueDetailsXaml
 	{
+		#region Fields
+
 		const string _leave = "Cowardly Abandon League";
 		const string _rules = "League Rules";
 		const string _pastChallenges = "Past Challenges";
 		double _imageHeight;
 		bool _didPost;
 
+		#endregion
+
 		public LeagueDetailsPage(League league)
 		{
 			league.RefreshChallenges();
 			league.RefreshMemberships();
+			ViewModel.LeagueId = league.Id;
 
-			ViewModel.League = league;
-
-			Title = ViewModel.League?.Name;
+			SetTheme(league);
 			Initialize();
 		}
 
@@ -77,13 +78,9 @@ namespace Sport.Shared
 
 		async protected override void Initialize()
 		{
-			if(ViewModel.League.Theme != null)
-			{
-				BarBackgroundColor = ViewModel.League.Theme.Light;
-				BarTextColor = ViewModel.League.Theme.Dark;
-			}
-
 			InitializeComponent();
+			Title = ViewModel.League?.Name;
+
 			rankStrip.Membership = ViewModel.CurrentMembership; //Binding is not working in XAML for some reason
 			scrollView.Scrolled += (sender, e) => Parallax();
 			Parallax();
@@ -174,11 +171,7 @@ namespace Sport.Shared
 
 			rankStrip.OnAthleteClicked = async(membership) =>
 			{
-				var page = new MembershipDetailsPage(membership.Id) {
-					BarBackgroundColor = ViewModel.League.Theme.Light,
-					BarTextColor = ViewModel.League.Theme.Dark,
-				};
-
+				var page = new MembershipDetailsPage(membership.Id);
 				await Navigation.PushAsync(page);
 			};
 
@@ -189,6 +182,14 @@ namespace Sport.Shared
 			{
 				HeapGloriousPraise();
 			}
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.League != null)
+				metadata.Add("leagueId", ViewModel.League.Id);
+
+			base.TrackPage(metadata);
 		}
 
 		void SubscribeToChallenges()
@@ -461,7 +462,7 @@ namespace Sport.Shared
 
 		void HeapGloriousPraise()
 		{
-			//Forthcoming
+			//Forthcoming - streamers? confetti? balloons?
 		}
 	}
 

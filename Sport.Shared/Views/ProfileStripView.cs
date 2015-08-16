@@ -22,18 +22,18 @@ namespace Sport.Shared
 			}
 		}
 
-		public static readonly BindableProperty DarkColorProperty =
-			BindableProperty.Create("DarkColor", typeof(Color), typeof(ProfileStripView), Color.Gray);
+		public static readonly BindableProperty ThemeProperty =
+			BindableProperty.Create("Theme", typeof(ColorTheme), typeof(ProfileStripView), null);
 
-		public Color DarkColor
+		public ColorTheme Theme
 		{
 			get
 			{
-				return (Color)GetValue(DarkColorProperty);
+				return (ColorTheme)GetValue(ThemeProperty);
 			}
 			set
 			{
-				SetValue(DarkColorProperty, value);
+				SetValue(ThemeProperty, value);
 			}
 		}
 

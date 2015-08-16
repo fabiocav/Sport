@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -16,13 +17,16 @@ namespace Sport.Shared
 		public MembershipDetailsPage(string membershipId)
 		{
 			ViewModel.MembershipId = membershipId;
+			SetTheme(ViewModel.Membership?.League);
+
 			Initialize();
 		}
 
 		protected override void Initialize()
 		{
 			InitializeComponent();
-			Title = ViewModel.Membership.Athlete.Name;
+			Title = "Membership Info";
+			profileStack.Theme = App.Current.GetThemeFromColor("gray");
 
 			btnPast.Clicked += async(sender, e) =>
 			{
@@ -65,6 +69,14 @@ namespace Sport.Shared
 			base.OnAppearing();
 			ViewModel.Membership.LocalRefresh();
 			ViewModel.NotifyPropertiesChanged();
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Membership != null)
+				metadata.Add("membershipId", ViewModel.Membership.Id);
+
+			base.TrackPage(metadata);
 		}
 
 		protected override async void OnIncomingPayload(NotificationPayload payload)

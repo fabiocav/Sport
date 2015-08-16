@@ -101,7 +101,7 @@ namespace Sport.Shared
 			}
 
 			bool success;
-			using(new HUD(""))
+			using(new HUD("Saving..."))
 			{
 				success = await ViewModel.SaveLeague();
 			}

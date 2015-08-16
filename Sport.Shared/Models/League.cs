@@ -15,10 +15,10 @@ namespace Sport.Shared
 
 		#region Properties
 
-		LeagueTheme _theme;
+		ColorTheme _theme;
 
 		[JsonIgnore]
-		public LeagueTheme Theme
+		public ColorTheme Theme
 		{
 			get
 			{
@@ -396,12 +396,21 @@ namespace Sport.Shared
 			}
 		}
 
+		public override void LocalRefresh()
+		{
+			base.LocalRefresh();
+			RefreshMemberships();
+			RefreshChallenges();
+		}
+
 		public override bool Equals(object obj)
 		{
 			var comp = new LeagueComparer();
 			return comp.Equals(this, obj as League);
 		}
 	}
+
+	#region Comparers
 
 	public class LeagueIdComparer : IEqualityComparer<League>
 	{
@@ -441,7 +450,6 @@ namespace Sport.Shared
 			              && x.OngoingChallenges?.Count == y.OngoingChallenges?.Count
 			              && x.MembershipIds?.Count == y.MembershipIds?.Count;
 
-			//Console.WriteLine("IsEqual: " + isEqual);
 			return isEqual;
 		}
 
@@ -461,4 +469,6 @@ namespace Sport.Shared
 			return string.Compare(x.League?.Name, y.League?.Name, System.StringComparison.OrdinalIgnoreCase);
 		}
 	}
+
+	#endregion
 }

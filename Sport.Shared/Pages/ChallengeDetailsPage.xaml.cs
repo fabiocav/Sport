@@ -1,12 +1,13 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace Sport.Shared
 {
 	public partial class ChallengeDetailsPage : ChallengeDetailsXaml
 	{
+		#region Properties
+
 		ToolbarItem _moreButton;
 
 		public Action OnDecline
@@ -27,21 +28,38 @@ namespace Sport.Shared
 			set;
 		}
 
-		public ChallengeDetailsPage(Challenge challenge = null)
-		{
-			BarBackgroundColor = challenge.League.Theme.Light;
-			BarTextColor = challenge.League.Theme.Dark;
+		#endregion
 
-			ViewModel.Challenge = challenge ?? new Challenge();
+		Challenge _challenge;
+
+		public ChallengeDetailsPage(Challenge challenge)
+		{
+			_challenge = challenge;
+			ViewModel.Challenge = _challenge;
+			SetTheme(challenge.League);
+
 			Initialize();
+		}
+
+		protected override void OnAppearing()
+		{
+			ViewModel.Challenge = _challenge;
+			RefreshMenuButtons();
+			base.OnAppearing();
+		}
+
+		protected override void OnDisappearing()
+		{
+			ViewModel.Challenge = null;
+			base.OnDisappearing();
 		}
 
 		async protected override void Initialize()
 		{
-			_moreButton = new ToolbarItem("More", "ic_more_vert_white", () => OnMoreClicked());
-
 			InitializeComponent();
 			Title = "Challenge";
+
+			_moreButton = new ToolbarItem("More", "ic_more_vert_white", OnMoreClicked);
 
 			list.ItemSelected += (sender, e) =>
 			{
@@ -57,10 +75,12 @@ namespace Sport.Shared
 			list.HeightRequest = list.RowHeight * count + 50;
 		}
 
-		protected override void OnAppearing()
+		protected override void TrackPage(Dictionary<string, string> metadata)
 		{
-			RefreshMenuButtons();
-			base.OnAppearing();
+			if(ViewModel?.Challenge != null)
+				metadata.Add("challengeId", ViewModel.Challenge.Id);
+		
+			base.TrackPage(metadata);
 		}
 
 		void RefreshMenuButtons()
@@ -85,14 +105,14 @@ namespace Sport.Shared
 				if(challengeId == ViewModel.Challenge.Id)
 				{
 					await ViewModel.RefreshChallenge();
-
+		
 					if(ViewModel.Challenge == null)
 					{
 						OnDecline?.Invoke();
 						await Navigation.PopAsync();
 						return;
 					}
-
+		
 					if(payload.Payload.TryGetValue("winningAthleteId", out winnerId))
 					{
 						OnPostResults?.Invoke();
@@ -109,7 +129,7 @@ namespace Sport.Shared
 				ViewModel.NotifyPropertiesChanged();
 				OnPostResults?.Invoke();
 			};
-
+		
 			page.AddDoneButton("Cancel");
 			await Navigation.PushModalAsync(page.GetNavigationPage());
 		}
@@ -117,19 +137,19 @@ namespace Sport.Shared
 		async void OnRevokeChallenge()
 		{
 			var decline = await DisplayAlert("Really?", "Are you sure you want to revoke challenge?", "Yes", "No");
-
+		
 			if(!decline)
 				return;
-
+		
 			bool success;
 			using(new HUD("Revoking challenge..."))
 			{
 				success = await ViewModel.DeclineChallenge();
 			}
-
+		
 			if(success)
 				"Challenge revoked".ToToast();
-
+		
 			OnDecline?.Invoke();
 			await Navigation.PopAsync();
 		}
@@ -141,10 +161,10 @@ namespace Sport.Shared
 			{
 				success = await ViewModel.AcceptChallenge();
 			}
-
+		
 			if(success)
 				"Challenge accepted".ToToast(ToastNotificationType.Success);
-
+		
 			if(OnAccept != null)
 				OnAccept();
 		}
@@ -152,19 +172,19 @@ namespace Sport.Shared
 		async void OnDeclineChallenge()
 		{
 			var decline = await DisplayAlert("Really?", "Are you sure you want to cowardly decline this honorable duel?", "Yes", "No");
-
+		
 			if(!decline)
 				return;
-
+		
 			bool success;
 			using(new HUD("Declining..."))
 			{
 				success = await ViewModel.DeclineChallenge();
 			}
-
+		
 			if(success)
 				"Challenge declined".ToToast();
-
+		
 			OnDecline?.Invoke();
 			await Navigation.PopAsync();
 		}
@@ -175,7 +195,7 @@ namespace Sport.Shared
 			{
 				await ViewModel.NudgeAthlete();
 			}
-
+		
 			"{0} has been nudged".Fmt(ViewModel.Opponent.Alias).ToToast();
 		}
 
@@ -186,31 +206,31 @@ namespace Sport.Shared
 
 		List<string> GetMoreMenuOptions()
 		{
-			var list = new List<string>();
-
+			var lst = new List<string>();
+		
 			if(ViewModel.CanRevoke)
-				list.Add(_revoke);
-
+				lst.Add(_revoke);
+		
 			if(ViewModel.CanDecline || ViewModel.CanDeclineAfterAccept)
-				list.Add(_decline);
-
-			return list;
+				lst.Add(_decline);
+		
+			return lst;
 		}
 
 		async void OnMoreClicked()
 		{
-			var list = GetMoreMenuOptions();
-			var action = await DisplayActionSheet("Additional actions", "Cancel", null, list.ToArray());
-
+			var lst = GetMoreMenuOptions();
+			var action = await DisplayActionSheet("Additional actions", "Cancel", null, lst.ToArray());
+		
 			if(action == _post)
 				OnPostChallengeResults();
-
+		
 			if(action == _accept)
 				OnAcceptChallenge();
-
+		
 			if(action == _revoke)
 				OnRevokeChallenge();
-
+		
 			if(action == _decline)
 				OnDeclineChallenge();
 		}

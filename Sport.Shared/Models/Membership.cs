@@ -168,14 +168,17 @@ namespace Sport.Shared
 		public void LocalRefresh(bool refreshLeagues = true)
 		{
 			if(Athlete != null)
-				Athlete.RefreshMemberships();
+				Athlete.LocalRefresh();
 
 			if(League != null && refreshLeagues)
 			{
-				League.RefreshMemberships();
-				League.RefreshChallenges();
+				League.LocalRefresh();
 			}
+		}
 
+		public override void NotifyPropertiesChanged()
+		{
+			base.NotifyPropertiesChanged();
 			SetPropertyChanged("LastRankChangeDate");
 			SetPropertyChanged("CurrentRank");
 			SetPropertyChanged("OngoingChallenge");
@@ -193,59 +196,14 @@ namespace Sport.Shared
 			return GetOngoingChallenge(athlete) != null;
 		}
 
-		public string GetChallengeConflictReason(Athlete athlete)
-		{
-			if(!League.HasStarted)
-				return "The league hasn't started yet";
-
-			if(Athlete == null || athlete.Id == Athlete.Id)
-				return "You cannot challenge yourself";
-
-			//Check to see if they are part of the same league
-			var membership = athlete.Memberships.SingleOrDefault(m => m.LeagueId == LeagueId);
-
-			if(membership != null)
-			{
-				//Ensure they are within range and lower in rank than the challengee
-				var diff = membership.CurrentRank - CurrentRank;
-				if(diff <= 0 || diff > League.MaxChallengeRange)
-				{
-					return "{0} is not within a valid range of being challenged".Fmt(Athlete.Alias);
-				}
-			}
-			else
-			{
-				return "{0} is not a member of the {1} league".Fmt(Athlete.Alias, League.Name);
-			}
-
-			var challenge = GetOngoingChallenge(Athlete);
-			if(challenge != null)
-			{
-				return "{0} already has an ongoing challenge with {1}".Fmt(Athlete.Alias, challenge.Opponent(Athlete.Id).Alias);
-			}
-
-			//Athlete is within range but let's make sure there aren't already challenges out there 
-			challenge = GetOngoingChallenge(athlete);
-			if(challenge != null)
-			{
-				var player = athlete.Id == App.CurrentAthlete.Id ? "You already have" : athlete.Alias + " already has";
-				return "{0} an ongoing challenge with {1}".Fmt(player, challenge.Opponent(athlete.Id).Alias);
-			}
-
-			return null;
-		}
-
-		public bool CanChallengeAthlete(Athlete athlete)
-		{
-			return GetChallengeConflictReason(athlete) == null;
-		}
-
 		public override bool Equals(object obj)
 		{
 			var comp = new MembershipComparer();
 			return comp.Equals(this, obj as Membership);
 		}
 	}
+
+	#region Comparers
 
 	public class MembershipComparer : IEqualityComparer<Membership>
 	{
@@ -284,4 +242,6 @@ namespace Sport.Shared
 			return 1;
 		}
 	}
+
+	#endregion
 }

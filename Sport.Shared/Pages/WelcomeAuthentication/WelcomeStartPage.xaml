@@ -11,12 +11,6 @@
 
     <local:WelcomeStartPageXaml.Content>
 		<Grid VerticalOptions="Fill" HorizontalOptions="Fill" Padding="24">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="3*" />
-				<RowDefinition Height="3*" />
-				<RowDefinition Height="3*" />
-			</Grid.RowDefinitions>
-
 			<StackLayout x:Name="label1" Padding="24,0" Scale="0" VerticalOptions="Center">
 				<Label StyleId="label1" Text="It looks like this is your first time challenging sport and ranking match. Let's get you registered, athlete!"
 					FontSize="Medium" XAlign="Center" />
@@ -33,7 +27,7 @@
 				<Label Text="{Binding AuthenticationStatus, StringFormat='\{0\}...'}" IsVisible="{Binding IsBusy}" FontSize="Medium"
 					XAlign="Center" YAlign="Center" VerticalOptions="EndAndExpand" HeightRequest="70" />
 
-				<local:SportButton x:Name="btnAuthenticate" StyleId="authButton" Text="LOG IN" Scale="1"
+				<local:SportButton x:Name="btnAuthenticate" StyleId="authButton" Text="LOG IN"
 					BackgroundColor="{StaticResource blueLight}" VerticalOptions="EndAndExpand" TextColor="White"
 					IsVisible="{Binding IsBusy, Converter={x:Static local:InverseBoolConverter.Instance}}" />
 

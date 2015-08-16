@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using System.Globalization;
 using System.Collections;
 
+//All these converters create a single instance that can be reused for all bindings and avoids the need to create a dedicated Resource in XAML
 namespace Sport.Shared
 {
 	public class NullIntValueConverter : IValueConverter

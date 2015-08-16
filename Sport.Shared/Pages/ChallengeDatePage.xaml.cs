@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -26,19 +26,18 @@ namespace Sport.Shared
 
 		public ChallengeDatePage(Athlete challengee, League league)
 		{
-			BarBackgroundColor = league.Theme.Light;
-			BarTextColor = league.Theme.Dark;
-
+			SetTheme(league);
 			ViewModel.CreateChallenge(App.CurrentAthlete, challengee, league);
 			Challengee = challengee;
 			League = league;
+
 			Initialize();
 		}
 
 		protected override void Initialize()
 		{
-			Title = "Date and Time";
 			InitializeComponent();
+			Title = "Date and Time";
 
 			btnChallenge.Clicked += async(sender, e) =>
 			{
@@ -70,6 +69,24 @@ namespace Sport.Shared
 			};
 
 			ToolbarItems.Add(btnCancel);
+		}
+
+		protected override void OnDisappearing()
+		{
+			ViewModel.CancelTasks();
+			base.OnDisappearing();
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Challenge != null)
+			{
+				metadata.Add("challengeId", ViewModel.Challenge.Id);
+				metadata.Add("challengerAthleteId", ViewModel.Challenge.ChallengerAthleteId);
+				metadata.Add("challengeeAthleteId", ViewModel.Challenge.ChallengeeAthleteId);
+			}
+
+			base.TrackPage(metadata);
 		}
 	}
 

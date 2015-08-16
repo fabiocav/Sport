@@ -18,35 +18,27 @@ namespace Sport.Shared
 			Initialize();
 		}
 
-		bool _ignoreClicks;
-
 		protected override void Initialize()
 		{
-			BarBackgroundColor = (Color)App.Current.Resources["purplePrimary"];
-			BarTextColor = Color.White;
-
-			BackgroundColor = BarBackgroundColor;
 			InitializeComponent();
 			Title = "Enable Push";
 
+			var theme = App.Current.GetThemeFromColor("purple");
+			BackgroundColor = theme.Primary;
 			profileStack.Opacity = 0;
+			profileStack.Theme = theme;
 
-			var ignoreClicks = false;
 			btnPush.Clicked += (sender, e) =>
 			{
-				if(_ignoreClicks)
-					return;
-
-				_ignoreClicks = true;
+				btnPush.IsEnabled = false;
+				btnContinue.IsEnabled = false;
 				ViewModel.RegisterForPushNotifications(RegisteredForPushNotificationSuccess);
 			};
 
 			btnContinue.Clicked += (sender, e) =>
 			{
-				if(_ignoreClicks)
-					return;
-
-				_ignoreClicks = true;
+				btnContinue.IsEnabled = false;
+				btnPush.IsEnabled = false;
 				MoveToMainPage();
 			};
 		}
@@ -79,12 +71,13 @@ namespace Sport.Shared
 
 					btnContinue.FadeTo(0, (uint)App.AnimationSpeed, Easing.SinIn);
 					await btnContinue.LayoutTo(new Rectangle(Content.Width, btnContinue.Bounds.Y, btnContinue.Bounds.Width, btnContinue.Height), (uint)App.AnimationSpeed, Easing.SinIn);
-					await Task.Delay(App.AnimationSpeed);
+					await Task.Delay(1000);
 					MoveToMainPage();
 				}
 				else
 				{
-					_ignoreClicks = false;
+					btnPush.IsEnabled = true;
+					btnContinue.IsEnabled = true;
 					"Unable to register for push notifications".ToToast();
 				}
 			});
@@ -96,9 +89,14 @@ namespace Sport.Shared
 			await Settings.Instance.Save();
 
 			var page = new AthleteLeaguesPage(App.CurrentAthlete.Id);
-			var nav = page.GetNavigationPage();
 			page.OnUserAuthenticated();
-			App.Current.MainPage = nav;
+
+			await Task.Delay(1000);
+			await Navigation.PushAsync(page);
+
+			Navigation.RemovePage(Navigation.NavigationStack[0]); //WelcomeStartPage
+			Navigation.RemovePage(Navigation.NavigationStack[0]); //SetAliasPage
+			Navigation.RemovePage(Navigation.NavigationStack[0]); //EnablePushPage
 		}
 	}
 

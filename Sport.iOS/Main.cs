@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using System.Diagnostics;
 
 namespace Sport.iOS
 {
@@ -20,13 +21,13 @@ namespace Sport.iOS
 			}
 			catch(Exception e)
 			{
-				Console.WriteLine(e.GetBaseException());
+				Debug.WriteLine(e.GetBaseException());
 				throw;
 			}
 
 			AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) =>
 			{
-				Console.WriteLine(((Exception)e.ExceptionObject).GetBaseException());
+				Debug.WriteLine(((Exception)e.ExceptionObject).GetBaseException());
 			};
 
 		}

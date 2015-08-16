@@ -1,6 +1,6 @@
 ﻿using System;
-using Xamarin.Forms;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -23,37 +23,8 @@ namespace Sport.Shared
 			InitializeComponent();
 			Title = "Profile";
 
-			btnSave.Clicked += async(sender, e) =>
-			{
-				if(string.IsNullOrWhiteSpace(ViewModel.Athlete.Alias))
-				{
-					"Please enter an alias.".ToToast(ToastNotificationType.Warning);
-					return;
-				}
-
-				bool success;
-				using(new HUD("Saving..."))
-				{
-					success = await ViewModel.SaveAthlete();
-				}
-
-				if(success)
-				{
-					"Your profile has been saved".ToToast(ToastNotificationType.Success);
-
-					if(OnSave != null)
-						OnSave();
-				}
-			};
-
-			btnRegister.Clicked += (sender, e) =>
-			{
-				ViewModel.RegisterForPushNotifications(async() =>
-				{
-					await Task.Delay(500);
-					"Your device has been registered".ToToast();
-				});
-			};
+			var theme = App.Current.GetThemeFromColor("asphalt");
+			profileStack.Theme = theme;
 
 			AddDoneButton();
 		}
@@ -61,8 +32,58 @@ namespace Sport.Shared
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			ViewModel.Athlete.RefreshMemberships();
+			btnSave.Clicked += OnSaveClicked;
+			btnRegister.Clicked += OnRegisterClicked;
+
+			ViewModel.Athlete.LocalRefresh();
 			ViewModel.Athlete.Memberships.ForEach(m => m.League.RefreshChallenges());
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			btnSave.Clicked -= OnSaveClicked;
+			btnRegister.Clicked -= OnRegisterClicked;
+		}
+
+		void OnRegisterClicked(object sender, EventArgs e)
+		{
+			ViewModel.RegisterForPushNotifications(async() =>
+			{
+				await Task.Delay(500);
+				"Your device has been registered".ToToast();
+			});
+		}
+
+		async void OnSaveClicked(object sender, EventArgs e)
+		{
+			if(string.IsNullOrWhiteSpace(ViewModel.Athlete.Alias))
+			{
+				"Please enter an alias.".ToToast(ToastNotificationType.Warning);
+				return;
+			}
+
+			bool success;
+			using(new HUD("Saving..."))
+			{
+				success = await ViewModel.SaveAthlete();
+			}
+
+			if(success)
+			{
+				"Your profile has been saved".ToToast();
+
+				if(OnSave != null)
+					OnSave();
+			}
+		}
+
+		protected override void TrackPage(Dictionary<string, string> metadata)
+		{
+			if(ViewModel?.Athlete != null)
+				metadata.Add("athleteId", ViewModel.Athlete.Id);
+
+			base.TrackPage(metadata);
 		}
 	}
 

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json;
 using ModernHttpClient;
-using System.Threading;
+using Newtonsoft.Json;
 
 namespace Sport.Shared
 {
@@ -24,12 +25,6 @@ namespace Sport.Shared
 			}
 		}
 
-		public League DefaultLeague
-		{
-			get;
-			set;
-		}
-
 		MobileServiceClient _client;
 
 		public MobileServiceClient Client
@@ -42,7 +37,7 @@ namespace Sport.Shared
 
 					#if __IOS__
 
-					//Use ModernHttpClient and allow traffic to be routed into Charles/Fiddler/etc
+					//Use ModernHttpClient for caching and to allow traffic to be routed through Charles/Fiddler/etc
 					handler = new ModernHttpClient.NativeMessageHandler() {
 						Proxy = CoreFoundation.CFNetwork.GetDefaultProxy(),
 						UseProxy = true,
@@ -50,7 +45,7 @@ namespace Sport.Shared
 
 					#endif
 
-					_client = new MobileServiceClient(Keys.AzureDomain, Keys.AzureClientId, new HttpMessageHandler[] {
+					_client = new MobileServiceClient(Keys.AzureDomain, Keys.AzureApplicationKey, new HttpMessageHandler[] {
 						new LeagueExpandHandler(),
 						new ChallengeExpandHandler(),
 						handler,
@@ -67,6 +62,10 @@ namespace Sport.Shared
 
 		#region Push Notifications
 
+		/// <summary>
+		/// This app uses Azure as the backend which utilizes Notifications hubs
+		/// </summary>
+		/// <returns>The athlete notification hub registration.</returns>
 		public Task UpdateAthleteNotificationHubRegistration(Athlete athlete, bool forceSave = false, bool sendTestPush = false)
 		{
 			return new Task(() =>
@@ -78,11 +77,11 @@ namespace Sport.Shared
 					return;
 
 				var tags = new List<string> {
-					App.CurrentAthlete.Id,
-					"All",
+						App.CurrentAthlete.Id,
+						"All",
 				};
 
-				App.CurrentAthlete.RefreshMemberships();
+				App.CurrentAthlete.LocalRefresh();
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
 				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
 
@@ -95,6 +94,7 @@ namespace Sport.Shared
 				var registrationId = Client.InvokeApiAsync<DeviceRegistration, string>("registerWithHub", reg, HttpMethod.Put, null).Result;
 				athlete.NotificationRegistrationId = registrationId;
 
+				//Used to verify the device is successfully registered with the backend 
 				if(sendTestPush)
 				{
 					var qs = new Dictionary<string, string>();
@@ -118,7 +118,8 @@ namespace Sport.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> { {
+				var values = new Dictionary<string, string> {
+					{
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -203,8 +204,8 @@ namespace Sport.Shared
 					m.SetPropertyChanged("Athlete");
 				}
 
-				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.RefreshMemberships());
-				DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.RefreshMemberships());
+				DataManager.Instance.Athletes.Values.ToList().ForEach(a => a.LocalRefresh());
+				DataManager.Instance.Leagues.Values.ToList().ForEach(l => l.LocalRefresh());
 				athletes.ForEach(a => a.IsDirty = false);
 			});
 		}
@@ -270,7 +271,7 @@ namespace Sport.Shared
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine(e);
+					Debug.WriteLine(e);
 				}
 			});
 		}
@@ -396,26 +397,12 @@ namespace Sport.Shared
 				task.Start();
 				task.Wait();
 			}
-
-//			var athleteIds = new List<string>();
-//			leagues.ForEach(l => l.Memberships.ForEach(m => athleteIds.Add(m.AthleteId)));
-//
-//			if(athleteIds.Count > 0)
-//			{
-//				var allAthletes = Client.GetTable<Athlete>().Where(a => athleteIds.Distinct().Contains(a.Id)).ToListAsync().Result;
-//				foreach(var a in allAthletes)
-//				{
-//					DataManager.Instance.Athletes.AddOrUpdate(a);
-//				}
-//			}
 		}
 
 		void CacheLeague(League l)
 		{
 			{
 				var toRemove = DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == l.Id && !l.Memberships.Select(mm => mm.Id).Contains(m.Id));
-				//var toAdd = l.Memberships.Where(m => !DataManager.Instance.Memberships.Keys.Contains(m.Id));
-				//var toUpdate = l.Memberships.Except(toAdd);
 
 				foreach(var m in toRemove)
 				{
@@ -427,13 +414,12 @@ namespace Sport.Shared
 				{
 					l.MembershipIds.Add(m.Id);
 					DataManager.Instance.Memberships.AddOrUpdate(m); //need to update too
-					m.Athlete?.RefreshMemberships();
+					m.Athlete?.LocalRefresh();
 				}
 			}
 
 			{
 				var toRemove = DataManager.Instance.Challenges.Values.Where(c => c.LeagueId == l.Id && !l.OngoingChallenges.Select(cc => cc.Id).Contains(c.Id));
-				//var toAdd = l.OngoingChallenges.Where(m => !DataManager.Instance.Challenges.Keys.Contains(m.Id));
 
 				foreach(var c in toRemove)
 				{
@@ -574,7 +560,7 @@ namespace Sport.Shared
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine(e);
+					Debug.WriteLine(e);
 				}
 			});			
 		}
@@ -608,7 +594,8 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -626,7 +613,7 @@ namespace Sport.Shared
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine(e);
+					Debug.WriteLine(e);
 				}
 			});
 		}
@@ -638,7 +625,8 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> { {
+					var qs = new Dictionary<string, string> {
+						{
 							"id",
 							id
 						}
@@ -655,7 +643,7 @@ namespace Sport.Shared
 				}
 				catch(Exception e)
 				{
-					Console.WriteLine(e);
+					Debug.WriteLine(e);
 				}
 			});
 		}
@@ -747,6 +735,10 @@ namespace Sport.Shared
 
 	#region ChallengeExpandHandler
 
+	/// <summary>
+	/// This class is needed to pull down properties that are complex objects - Azure omits complex/Navigation properties by default
+	/// You need to 'expand' the property in order for it to be included
+	/// </summary>
 	public class ChallengeExpandHandler : DelegatingHandler
 	{
 		protected override async Task<HttpResponseMessage>
@@ -785,6 +777,10 @@ namespace Sport.Shared
 
 	#region LeagueExpandHandler
 
+	/// <summary>
+	/// This class is needed to pull down properties that are complex objects - Azure omits complex/Navigation properties by default
+	/// You need to 'expand' the property in order for it to be included
+	/// </summary>
 	public class LeagueExpandHandler : DelegatingHandler
 	{
 		protected override async Task<HttpResponseMessage>

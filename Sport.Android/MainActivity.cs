@@ -3,11 +3,11 @@ using Android.App;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.OS;
 using Android.Views;
 using ImageCircle.Forms.Plugin.Droid;
 using Sport.Shared;
 using Xamarin.Forms.Platform.Android;
+using System.Diagnostics;
 
 [assembly:Xamarin.Forms.Dependency(typeof(Sport.Android.MainActivity))]
 
@@ -22,7 +22,7 @@ namespace Sport.Android
 			private set;
 		}
 
-		protected override void OnCreate(Bundle bundle)
+		protected override void OnCreate(global::Android.OS.Bundle bundle)
 		{
 			Xamarin.Insights.Initialize(Keys.InsightsApiKey, this);
 
@@ -48,33 +48,33 @@ namespace Sport.Android
 			}
 			catch(Exception e)
 			{
-				Console.WriteLine(e);
+				System.Diagnostics.Debug.WriteLine(e);
 			}
 		}
 
 		protected override void OnPause()
 		{
-			Console.WriteLine("PAUSE");
+			Debug.WriteLine("PAUSE");
 			IsRunning = false;
 			base.OnPause();
 		}
 
 		protected override void OnResume()
 		{
-			Console.WriteLine("RESUME");
+			Debug.WriteLine("RESUME");
 			IsRunning = true;
 			base.OnResume();
 		}
 
 		protected override void OnStop()
 		{
-			Console.WriteLine("STOP");
+			Debug.WriteLine("STOP");
 			base.OnStop();
 		}
 
 		protected override void OnStart()
 		{
-			Console.WriteLine("START");
+			Debug.WriteLine("START");
 			base.OnStart();
 		}
 	}

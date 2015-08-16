@@ -11,6 +11,11 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(ThemedNavigationPage), typeof(ThemedNavigationRenderer))]
 namespace Sport.iOS
 {
+	/// <summary>
+	/// This custom NavigationRender is only necessary on iOS so we can change the navigation bar color *prior* to navigating instead of after
+	/// Forms currently doesn't give us a lifecycle event before the navigation takes place
+	/// This isn't an issue on Android
+	/// </summary>
 	public class ThemedNavigationRenderer : NavigationRenderer
 	{
 		protected override Task<bool> OnPushAsync(Page page, bool animated)

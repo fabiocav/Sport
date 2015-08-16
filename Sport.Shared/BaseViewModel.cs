@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Xamarin.Forms;
 using Xamarin;
+using System.Diagnostics;
 
 namespace Sport.Shared
 {
@@ -33,6 +34,10 @@ namespace Sport.Shared
 			}
 		}
 
+		public virtual void NotifyPropertiesChanged()
+		{
+		}
+
 		#region Task Safety
 
 		public Action<Exception> OnTaskException
@@ -41,6 +46,12 @@ namespace Sport.Shared
 			set;
 		}
 
+		/// <summary>
+		/// All tasks are created as unstarted tasks and are processe via a proxy method that will run the task safely
+		/// Instead of wrapping every task body in a try/catch, we'll process tasks in RunSafe
+		/// RunSafe will start the task within the scope of a try/catch block and notify the app of any exceptions
+		/// This can also be used to cancel running tasks when a user navigates away from a page - each VM has a cancellation token
+		/// </summary>
 		public async Task RunSafe(Task task, bool notifyOnError = true)
 		{
 			if(!App.IsNetworkRechable)
@@ -64,7 +75,7 @@ namespace Sport.Shared
 			}
 			catch(TaskCanceledException)
 			{
-				Console.WriteLine("Task Cancelled");
+				Debug.WriteLine("Task Cancelled");
 			}
 			catch(AggregateException e)
 			{
@@ -81,9 +92,8 @@ namespace Sport.Shared
 
 			if(exception != null)
 			{
-				//TODO Log to Insights
 				Insights.Report(exception);
-				Console.WriteLine(exception);
+				Debug.WriteLine(exception);
 
 				if(notifyOnError)
 				{
@@ -119,9 +129,12 @@ namespace Sport.Shared
 
 	#region Helper Classes
 
+	/// <summary>
+	/// Helper class that enforces the flag will always get set to false
+	/// </summary>
 	public class Busy : IDisposable
 	{
-		object _sync = new object();
+		readonly object _sync = new object();
 		readonly BaseViewModel _viewModel;
 
 		public Busy(BaseViewModel viewModel)

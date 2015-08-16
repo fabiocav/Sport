@@ -18,21 +18,13 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-		
-			<Grid x:Name="profileStack" Scale="1">
-				<BoxView BackgroundColor="{StaticResource redLight}" HeightRequest="100" VerticalOptions="Start"/>
-				<local:ProfileStripView Athlete="{Binding Athlete}" DarkColor="{StaticResource redDark}" />
-			</Grid>
+
+			<local:ProfileStripView x:Name="profileStack" Athlete="{Binding Athlete}" />
 
 			<Grid VerticalOptions="Fill" Grid.Row="1">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="3*" />
-					<RowDefinition Height="3*" />
-					<RowDefinition Height="3*" />
-				</Grid.RowDefinitions>
 
 				<StackLayout x:Name="label1" Padding="24,0" Scale="0" HorizontalOptions="Center" VerticalOptions="Center">
-					<Label StyleId="label1" Text="{Binding Athlete.Name, StringFormat='Greetings \{0\}. It behooves you to specify an alias/nickname.'}"
+					<Label StyleId="label1" Text="{Binding Athlete.Name, StringFormat='Greetings \{0\}. It behooves you to specify an alias.'}"
 						FontSize="Medium" XAlign="Center" />
 				</StackLayout>
 

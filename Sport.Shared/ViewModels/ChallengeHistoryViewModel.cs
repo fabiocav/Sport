@@ -65,7 +65,7 @@ namespace Sport.Shared
 				ChallengeViewModel empty = null;
 				if(Challenges.Count == 0)
 				{
-					empty = new ChallengeViewModel(null) {
+					empty = new ChallengeViewModel() {
 						EmptyMessage = "Loading previous challenges"
 					};
 
@@ -97,13 +97,16 @@ namespace Sport.Shared
 				toRemove.ForEach(c => Challenges.Remove(Challenges.Single(vm => vm.Challenge == c)));
 
 				var preSort = new List<ChallengeViewModel>();
-				toAdd.ForEach(c => preSort.Add(new ChallengeViewModel(c)));
+				toAdd.ForEach(c => preSort.Add(new ChallengeViewModel {
+					Challenge = c
+				}));
+
 				preSort.Sort(new ChallengeSortComparer());
 				preSort.ForEach(Challenges.Add);
 
 				if(Challenges.Count == 0)
 				{
-					Challenges.Add(new ChallengeViewModel(null) {
+					Challenges.Add(new ChallengeViewModel() {
 						EmptyMessage = "{0} no challenges for this league".Fmt(Membership.AthleteId == App.CurrentAthlete.Id
 							? "You have" : "{0} has".Fmt(Membership.Athlete.Alias))
 					});
