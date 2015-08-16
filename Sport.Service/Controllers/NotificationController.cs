@@ -18,9 +18,13 @@ namespace Sport.Service.Controllers
 	{
 		AppDataContext _context = new AppDataContext();
 		NotificationHubClient _hub = NotificationHubClient.CreateClientFromConnectionString(Constants.HubConnectionString, Constants.HubName);
+		bool _sendPushNotifications;
 
 		protected override void Initialize(HttpControllerContext controllerContext)
 		{
+			var strValue = System.Configuration.ConfigurationManager.AppSettings["SendPushNotifications"];
+			bool.TryParse(strValue, out _sendPushNotifications);
+
 			base.Initialize(controllerContext);
 		}
 
@@ -47,7 +51,8 @@ namespace Sport.Service.Controllers
 
 			try
 			{
-				await _hub.SendTemplateNotificationAsync(notification, tags);
+				if(_sendPushNotifications)
+					await _hub.SendTemplateNotificationAsync(notification, tags);
 			}
 			catch(Exception e)
 			{

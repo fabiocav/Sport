@@ -18,15 +18,10 @@ namespace Sport.Service.Controllers
 	public class AthleteController : TableController<Athlete>
 	{
 		AppDataContext _context = new AppDataContext();
-		NotificationHubClient _hub;
 
 		protected override void Initialize(HttpControllerContext controllerContext)
 		{
 			base.Initialize(controllerContext);
-
-			var endpoint = "Endpoint=sb://sportchallengematchrank.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=88LThhq/TLE879EIHHOwVlq91AS3FRomlk+DRIPVgN4=";
-			_hub = NotificationHubClient.CreateClientFromConnectionString(endpoint, "sportchallengematchrank-hub");
-
 			DomainManager = new EntityDomainManager<Athlete>(_context, Request, Services);
 		}
 

@@ -83,11 +83,12 @@ namespace Sport.Service.Controllers
 			{
 				var leagueName = _context.Leagues.Where(l => l.Id == item.LeagueId).Select(l => l.Name).ToList().First();
 				var athlete = _context.Athletes.Where(a => a.Id == item.AthleteId).First();
-				var message = "{0} just joined the {1} league".Fmt(athlete.Alias, leagueName);
+				var message = "{0} joined the {1} league".Fmt(athlete.Alias, leagueName);
 				await _notificationController.NotifyByTag(message, item.LeagueId);
 			}
 			catch(Exception e)
 			{
+				//TODO log to Insights
 				Console.WriteLine(e);
 			}
             

@@ -37,7 +37,7 @@ namespace Sport.Service
 		}
     }
 
-    public class SportRanker_MatchOnInitializer : ClearDatabaseSchemaIfModelChanges<AppDataContext>
+    public class SportInitializer : ClearDatabaseSchemaIfModelChanges<AppDataContext>
     {
         protected override void Seed(AppDataContext context)
         {
