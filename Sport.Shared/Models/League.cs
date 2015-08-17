@@ -368,8 +368,8 @@ namespace Sport.Shared
 		public void RefreshMemberships()
 		{
 			_memberships.Clear();
+
 			DataManager.Instance.Memberships.Values.Where(m => m.LeagueId == Id).OrderBy(m => m.CurrentRank).ToList().ForEach(_memberships.Add);
-			//_memberships.ForEach(m => m.LocalRefresh());
 			SetPropertyChanged("Memberships");
 
 			_memberships.ForEach(m => m.LocalRefresh(false));

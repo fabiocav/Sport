@@ -23,39 +23,41 @@ namespace Sport.Shared
 			InitializeComponent();
 			Title = "Available Leagues";
 
-			list.ItemSelected += async(sender, e) =>
+			list.ItemSelected += OnItemSelected;
+			AddDoneButton();
+
+			await ViewModel.GetAvailableLeagues(true);
+		}
+
+		async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			if(list.SelectedItem == null)
+				return;
+
+			var vm = list.SelectedItem as LeagueViewModel;
+			list.SelectedItem = null;
+
+			//Empty message
+			if(vm.LeagueId == null)
+				return;
+
+			var page = new LeagueDetailsPage(vm.League);
+
+			page.OnJoinedLeague = (l) =>
 			{
-				if(list.SelectedItem == null)
-					return;
-
-				var vm = list.SelectedItem as LeagueViewModel;
-				list.SelectedItem = null;
-
-				//Empty message
-				if(vm.LeagueId == null)
-					return;
-
-				var page = new LeagueDetailsPage(vm.League);
-
-				page.OnJoinedLeague = (l) =>
+				ViewModel.LocalRefresh();
+				if(OnJoinedLeague != null)
 				{
-					ViewModel.LocalRefresh();
-					if(OnJoinedLeague != null)
-					{
-						OnJoinedLeague(l);
-					}
+					OnJoinedLeague(l);
+				}
 
-					Device.BeginInvokeOnMainThread(() =>
-					{
-						Navigation.PopAsync();
-					});
-				};
-
-				await Navigation.PushAsync(page);
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					Navigation.PopAsync();
+				});
 			};
 
-			AddDoneButton();
-			await ViewModel.GetAvailableLeagues(true);
+			await Navigation.PushAsync(page);
 		}
 
 		protected override void OnDisappearing()

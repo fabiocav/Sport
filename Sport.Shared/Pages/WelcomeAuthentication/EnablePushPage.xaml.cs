@@ -6,6 +6,9 @@ namespace Sport.Shared
 {
 	public partial class EnablePushPage : EnablePushPageXaml
 	{
+		//Flag to disable click that will allow the button text to be updated
+		bool _ignoreClicks;
+
 		public Action OnSave
 		{
 			get;
@@ -30,15 +33,19 @@ namespace Sport.Shared
 
 			btnPush.Clicked += (sender, e) =>
 			{
-				btnPush.IsEnabled = false;
-				btnContinue.IsEnabled = false;
+				if(_ignoreClicks)
+					return;
+
+				_ignoreClicks = true;
 				ViewModel.RegisterForPushNotifications(RegisteredForPushNotificationSuccess);
 			};
 
 			btnContinue.Clicked += (sender, e) =>
 			{
-				btnContinue.IsEnabled = false;
-				btnPush.IsEnabled = false;
+				if(_ignoreClicks)
+					return;
+				
+				_ignoreClicks = true;
 				MoveToMainPage();
 			};
 		}
@@ -76,8 +83,7 @@ namespace Sport.Shared
 				}
 				else
 				{
-					btnPush.IsEnabled = true;
-					btnContinue.IsEnabled = true;
+					_ignoreClicks = false;
 					"Unable to register for push notifications".ToToast();
 				}
 			});

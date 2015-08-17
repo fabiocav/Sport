@@ -50,8 +50,6 @@ namespace Sport.Shared
 		{
 			ViewModel.RegisterForPushNotifications(async() =>
 			{
-				await Task.Delay(500);
-				"Your device has been registered".ToToast();
 			});
 		}
 

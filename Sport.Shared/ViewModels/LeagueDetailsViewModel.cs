@@ -59,6 +59,16 @@ namespace Sport.Shared
 			var task = AzureService.Instance.SaveMembership(membership);
 			await RunSafe(task);
 
+			var theme = membership.League?.Theme;
+			var getLeaderboardTask = AzureService.Instance.GetLeagueById(membership.LeagueId, true);
+			await RunSafe(getLeaderboardTask);
+
+			if(getLeaderboardTask.IsCompleted && !getLeaderboardTask.IsFaulted)
+			{
+				membership.League.Theme = theme;
+				membership.League.LocalRefresh();
+			}
+				
 			if(task.IsCompleted && !task.IsFaulted)
 			{
 				var regTask = AzureService.Instance.UpdateAthleteNotificationHubRegistration(App.CurrentAthlete, true);
