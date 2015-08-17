@@ -11,7 +11,7 @@
 	</local:LeagueDetailsXaml.ToolbarItems>
 
 	<local:LeagueDetailsXaml.Content>
-	<ScrollView x:Name="scrollView">
+	<ScrollView x:Name="scrollView" StyleId="scrollView">
 		<Grid x:Name="root" VerticalOptions="Fill">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />

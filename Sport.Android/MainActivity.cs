@@ -26,6 +26,19 @@ namespace Sport.Android
 		{
 			Xamarin.Insights.Initialize(Keys.InsightsApiKey, this);
 
+			AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+			{
+				try
+				{
+					var ex = ((Exception)e.ExceptionObject).GetBaseException();
+					Console.WriteLine("**SPORT MAIN ACTIVITY EXCEPTION**\n\n" + ex);
+					Xamarin.Insights.Report(ex, Xamarin.Insights.Severity.Critical);
+				}
+				catch
+				{
+				}
+			};
+
 			try
 			{
 				base.OnCreate(bundle);

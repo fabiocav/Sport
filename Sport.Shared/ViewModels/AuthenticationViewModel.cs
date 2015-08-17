@@ -6,6 +6,7 @@ using SimpleAuth.Providers;
 using Sport.Shared;
 using Xamarin;
 using Xamarin.Forms;
+using ModernHttpClient;
 
 [assembly: Dependency(typeof(AuthenticationViewModel))]
 
@@ -74,32 +75,40 @@ namespace Sport.Shared
 		/// </summary>
 		async Task ShowGoogleAuthenticationView()
 		{
-			var scopes = new[] {
-				"email",
-				"profile",
-				"https://www.googleapis.com/auth/calendar"
-			};
-
-			var api = new GoogleApi("google", Keys.GoogleApiClientId, Keys.GoogleClientSecret) {
-				Scopes = scopes,
-			};
-
-			if(_doResetWebCache)
+			try
 			{
-				_doResetWebCache = false;				
-				api.ResetData();
+				var scopes = new[] {
+					"email",
+					"profile",
+					"https://www.googleapis.com/auth/calendar"
+				};
+
+				var api = new GoogleApi("google", Keys.GoogleApiClientId, Keys.GoogleClientSecret, new NativeMessageHandler()) {
+					Scopes = scopes,
+				};
+
+				if(_doResetWebCache)
+				{
+					_doResetWebCache = false;				
+					api.ResetData();
+				}
+
+				var account = await api.Authenticate();
+
+				if(account != null)
+				{
+					var oauthAccount = (OAuthAccount)account;
+
+					Settings.Instance.AuthToken = oauthAccount.Token;
+					Settings.Instance.RefreshToken = oauthAccount.RefreshToken;
+					Settings.Instance.AuthUserID = oauthAccount.Identifier;
+					await Settings.Instance.Save();
+				}
 			}
-
-			var account = await api.Authenticate();
-
-			if(account != null)
+			catch(Exception e)
 			{
-				var oauthAccount = (OAuthAccount)account;
-
-				Settings.Instance.AuthToken = oauthAccount.Token;
-				Settings.Instance.RefreshToken = oauthAccount.RefreshToken;
-				Settings.Instance.AuthUserID = oauthAccount.Identifier;
-				await Settings.Instance.Save();
+				Console.WriteLine("**SPORT AUTHENTICATION ERROR**\n\n" + e.GetBaseException());
+				Insights.Report(e);
 			}
 		}
 
@@ -241,7 +250,8 @@ namespace Sport.Shared
 					AuthenticationStatus = "Authentication complete";
 					AuthUserProfile = task.Result;
 
-					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> { {
+					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> {
+						{
 							"Name",
 							AuthUserProfile.Name
 						}

@@ -5,11 +5,14 @@ using System.Net;
 using Xamarin.Forms;
 using Xamarin;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Sport.Shared
 {
 	public class BaseViewModel : BaseNotify
 	{
+		#region Properties
+
 		bool _isBusy = false;
 		CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
@@ -34,6 +37,8 @@ namespace Sport.Shared
 			}
 		}
 
+		#endregion
+
 		public virtual void NotifyPropertiesChanged()
 		{
 		}
@@ -52,7 +57,7 @@ namespace Sport.Shared
 		/// RunSafe will start the task within the scope of a try/catch block and notify the app of any exceptions
 		/// This can also be used to cancel running tasks when a user navigates away from a page - each VM has a cancellation token
 		/// </summary>
-		public async Task RunSafe(Task task, bool notifyOnError = true)
+		public async Task RunSafe(Task task, bool notifyOnError = true, [CallerMemberName] string caller = "")
 		{
 			if(!App.IsNetworkRechable)
 			{
@@ -64,6 +69,11 @@ namespace Sport.Shared
 
 			try
 			{
+				if(!string.IsNullOrEmpty(caller))
+				{
+					Console.WriteLine("{0}\tSPORT CALLER: {1}", DateTime.UtcNow.ToString("G"), caller);
+				}
+
 				await Task.Run(() =>
 				{
 					if(!CancellationToken.IsCancellationRequested)

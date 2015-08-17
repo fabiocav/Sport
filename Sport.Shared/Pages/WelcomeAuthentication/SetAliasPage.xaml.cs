@@ -78,8 +78,13 @@ namespace Sport.Shared
 			await label2.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 			await buttonStack.ScaleTo(1, (uint)App.AnimationSpeed, Easing.SinIn);
 
-			await Task.Delay(1000);
-			txtAlias.Focus();
+//			await Task.Delay(1000);
+//
+//			Device.BeginInvokeOnMainThread(() =>
+//			{
+//				if(txtAlias != null)
+//					txtAlias.Focus();
+//			});
 		}
 	}
 

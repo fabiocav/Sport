@@ -13,17 +13,17 @@ namespace Xamarin.TestCloud.Extensions
 		{
 			if(platform == Platform.Android)
 			{
+				app.Back();
+
 				if(screenshot)
 					app.Screenshot("Back");
-				
-				app.Back();
 			}
 			else if(platform == Platform.iOS)
 			{
+				app.Tap("Back");
+
 				if(screenshot)
 					app.Screenshot("Back");
-
-				app.Tap("Back");
 			}
 		}
 

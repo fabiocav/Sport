@@ -21,15 +21,24 @@ namespace Sport.iOS
 			}
 			catch(Exception e)
 			{
-				Debug.WriteLine(e.GetBaseException());
+				var ex = e.GetBaseException();
+				Console.WriteLine("**SPORT MAIN EXCEPTION**\n\n" + ex);
+				Xamarin.Insights.Report(ex, Xamarin.Insights.Severity.Critical);
 				throw;
 			}
 
-			AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) =>
+			AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
 			{
-				Debug.WriteLine(((Exception)e.ExceptionObject).GetBaseException());
+				try
+				{
+					var ex = ((Exception)e.ExceptionObject).GetBaseException();
+					Console.WriteLine("**SPORT UNHANDLED EXCEPTION**\n\n" + ex);
+					Xamarin.Insights.Report(ex, Xamarin.Insights.Severity.Critical);
+				}
+				catch
+				{
+				}
 			};
-
 		}
 	}
 }
