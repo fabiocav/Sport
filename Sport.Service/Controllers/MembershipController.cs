@@ -77,6 +77,22 @@ namespace Sport.Service.Controllers
 					item.CurrentRank = prior.CurrentRank + 1;
 
 				current = await InsertAsync(item.ToMembership());
+
+				if (WebApiConfig.IsDemoMode)
+				{
+					//Keep the lists to a reasonable amount
+					var list = _context.Memberships.Where(m => m.LeagueId == item.LeagueId && m.AbandonDate == null).ToList();
+					if(list.Count > WebApiConfig.MaxLeagueMembershipCount)
+					{
+						var diff = list.Count - WebApiConfig.MaxLeagueMembershipCount;
+						var oldest = list.OrderBy(m => m.CreatedAt).Take(diff);
+
+						foreach(var m in oldest)
+						{
+							await DeleteMembership(m.Id);
+						}
+					}
+				}
 			}
 
 			try

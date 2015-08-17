@@ -18,13 +18,9 @@ namespace Sport.Service.Controllers
 	{
 		AppDataContext _context = new AppDataContext();
 		NotificationHubClient _hub = NotificationHubClient.CreateClientFromConnectionString(Constants.HubConnectionString, Constants.HubName);
-		bool _sendPushNotifications;
 
 		protected override void Initialize(HttpControllerContext controllerContext)
 		{
-			var strValue = System.Configuration.ConfigurationManager.AppSettings["SendPushNotifications"];
-			bool.TryParse(strValue, out _sendPushNotifications);
-
 			base.Initialize(controllerContext);
 		}
 
@@ -32,6 +28,9 @@ namespace Sport.Service.Controllers
 
 		public async Task NotifyByTags(string message, List<string> tags, NotificationPayload payload = null, int? badgeCount = null)
 		{
+			if (WebApiConfig.IsDemoMode)
+				return;
+
 			var notification = new Dictionary<string, string> { { "message", message } };
 
 			if(payload != null)
@@ -51,8 +50,7 @@ namespace Sport.Service.Controllers
 
 			try
 			{
-				if(_sendPushNotifications)
-					await _hub.SendTemplateNotificationAsync(notification, tags);
+				await _hub.SendTemplateNotificationAsync(notification, tags);
 			}
 			catch(Exception e)
 			{
@@ -125,7 +123,7 @@ namespace Sport.Service.Controllers
 			{
 				throw ex.GetBaseException().Message.ToException(Request);
 			}
-
+			
 			return newRegistrationId;
 		}
 
@@ -133,6 +131,11 @@ namespace Sport.Service.Controllers
 		[Route("api/sendTestPushNotification")]
 		public async Task SendTestPushNotification(string athleteId)
 		{
+			if(WebApiConfig.IsDemoMode)
+			{
+				throw "Push notifications are disabled in DEMO mode".ToException(Request);
+			}
+
 			if(athleteId != null)
 			{
 				var message = "Push notifications are working for you - yay!";

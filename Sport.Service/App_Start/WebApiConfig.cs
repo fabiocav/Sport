@@ -12,7 +12,19 @@ namespace Sport.Service
 {
     public static class WebApiConfig
     {
-        public static void Register()
+		public static bool IsDemoMode
+		{
+			get;
+			set;
+		}
+
+		public static int MaxLeagueMembershipCount
+		{
+			get;
+			set;
+		}
+
+		public static void Register()
         {
             // Use this class to set configuration options for your mobile service
             ConfigOptions options = new ConfigOptions();
@@ -21,6 +33,16 @@ namespace Sport.Service
 
             // Use this class to set WebAPI configuration options
             HttpConfiguration config = ServiceConfig.Initialize(new ConfigBuilder(options));
+
+			bool isDemoMode;
+			var boolString = System.Configuration.ConfigurationManager.AppSettings["IsDemoMode"];
+			bool.TryParse(boolString, out isDemoMode);
+			IsDemoMode = isDemoMode;
+
+			int maxCount;
+			var intString = System.Configuration.ConfigurationManager.AppSettings["MaxLeagueMembershipCount"];
+			int.TryParse(intString, out maxCount);
+			MaxLeagueMembershipCount = maxCount;
 
 			//config.SetIsHosted(true);
 			// To display errors in the browser during development, uncomment the following
@@ -35,9 +57,9 @@ namespace Sport.Service
 			//});
 			//migrator.Update();
 		}
-    }
+	}
 
-    public class SportInitializer : ClearDatabaseSchemaIfModelChanges<AppDataContext>
+	public class SportInitializer : ClearDatabaseSchemaIfModelChanges<AppDataContext>
     {
         protected override void Seed(AppDataContext context)
         {
