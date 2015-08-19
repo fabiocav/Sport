@@ -97,14 +97,14 @@ namespace Xamarin.TestCloud.Extensions
 				innerSb.AppendLine("}");
 				innerSb.AppendLine("");
 
-				sb.Append(innerSb.ToReplString());
+				sb.Append(innerSb.ToString());
 				index++;
 			}
 
-			return sb.ToReplString();
+			return sb.ToString();
 		}
 
-		public static string ToReplString(this AppWebResult[] result, bool repl)
+		public static string ToString(this AppWebResult[] result, bool repl)
 		{
 			var sb = new StringBuilder();
 			var index = 0;
@@ -127,11 +127,11 @@ namespace Xamarin.TestCloud.Extensions
 				innerSb.AppendLine("}");
 				innerSb.AppendLine("");
 
-				sb.Append(innerSb.ToReplString());
+				sb.Append(innerSb.ToString());
 				index++;
 			}
 
-			return sb.ToReplString();
+			return sb.ToString();
 		}
 
 	}

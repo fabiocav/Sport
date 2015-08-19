@@ -89,7 +89,7 @@ namespace Sport.iOS
 			NotificationPayload payloadValue = null;
 			if(apsHash.TryGetValue(new NSString("payload"), out payload))
 			{
-				payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload.ToReplString());
+				payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload.ToString());
 				if(payloadValue != null)
 				{
 					MessagingCenter.Send<App, NotificationPayload>(App.Current, "IncomingPayloadReceived", payloadValue);
@@ -101,7 +101,7 @@ namespace Sport.iOS
 			if(badgeValue != null)
 			{
 				int count;
-				if(int.TryParse(new NSString(badgeValue.ToReplString()), out count))
+				if(int.TryParse(new NSString(badgeValue.ToString()), out count))
 				{
 					//UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
 				}
@@ -109,7 +109,7 @@ namespace Sport.iOS
 
 			if(apsHash.TryGetValue(new NSString("alert"), out alert))
 			{
-				alert.ToReplString().ToToast(ToastNotificationType.Info, "Incoming notification");
+				alert.ToString().ToToast(ToastNotificationType.Info, "Incoming notification");
 			}
 		}
 	}

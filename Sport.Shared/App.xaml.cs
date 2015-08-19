@@ -149,7 +149,7 @@ namespace Sport.Shared
 					{
 						var body = await mse.Response.Content.ReadAsStringAsync();
 						var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
-						var error = dict["message"].ToReplString();
+						var error = dict["message"].ToString();
 						error.ToToast(ToastNotificationType.Warning, "Doh!");
 						return;
 					}

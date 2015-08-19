@@ -83,7 +83,7 @@ namespace Sport.Shared
 
 				App.CurrentAthlete.LocalRefresh();
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
-				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToReplString();
+				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
 
 				var reg = new DeviceRegistration {
 					Handle = athlete.DeviceToken,
@@ -680,7 +680,7 @@ namespace Sport.Shared
 				var qs = new Dictionary<string, string>();
 				qs.Add("id", challenge.Id);
 				var token = Client.InvokeApiAsync("acceptChallenge", null, HttpMethod.Post, qs).Result;
-				var acceptedChallenge = JsonConvert.DeserializeObject<Challenge>(token.ToReplString());
+				var acceptedChallenge = JsonConvert.DeserializeObject<Challenge>(token.ToString());
 				if(acceptedChallenge != null)
 				{
 					challenge.DateAccepted = acceptedChallenge.DateAccepted;
