@@ -16,6 +16,12 @@ namespace Sport.Shared
 		public IHUDProvider _hud;
 		public static int AnimationSpeed = 250;
 
+		public static string AuthToken
+		{
+			get;
+			set;
+		}
+
 		public IHUDProvider Hud
 		{
 			get
@@ -91,7 +97,7 @@ namespace Sport.Shared
 				IsNetworkRechable = args.IsConnected;
 			};
 
-			if(Settings.Instance.AuthToken == null || !Settings.Instance.RegistrationComplete)
+			if(Settings.Instance.AthleteId == null || !Settings.Instance.RegistrationComplete)
 			{
 				StartRegistrationFlow();
 			}
@@ -143,7 +149,7 @@ namespace Sport.Shared
 					{
 						var body = await mse.Response.Content.ReadAsStringAsync();
 						var dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(body);
-						var error = dict["message"].ToString();
+						var error = dict["message"].ToReplString();
 						error.ToToast(ToastNotificationType.Warning, "Doh!");
 						return;
 					}
@@ -208,42 +214,42 @@ namespace Sport.Shared
 		void SetDefaultPropertyValues()
 		{
 			AvailableLeagueColors = new List<string> {
-					"green",
-					"blue",
-					"red",
-					"yellow",
-					"asphalt",
-					"purple"
+				"green",
+				"blue",
+				"red",
+				"yellow",
+				"asphalt",
+				"purple"
 			};
 
 			PraisePhrases = new List<string> {
-					"sensational",
-					"crazmazing",
-					"stellar",
-					"ill",
-					"peachy keen",
-					"the bees knees",
-					"the cat's pajamas",
-					"the coolest kid in the cave",
-					"killer",
-					"aces",
-					"wicked awesome",
-					"kinda terrific",
-					"top notch",
-					"impressive",
-					"legit",
-					"nifty",
-					"spectaculawesome",
-					"supernacular",
-					"bad to the bone",
-					"radical",
-					"neat",
-					"a hoss boss",
-					"mad chill",
-					"super chill",
-					"a beast",
-					"funky fresh",
-					"slammin it",
+				"sensational",
+				"crazmazing",
+				"stellar",
+				"ill",
+				"peachy keen",
+				"the bees knees",
+				"the cat's pajamas",
+				"the coolest kid in the cave",
+				"killer",
+				"aces",
+				"wicked awesome",
+				"kinda terrific",
+				"top notch",
+				"impressive",
+				"legit",
+				"nifty",
+				"spectaculawesome",
+				"supernacular",
+				"bad to the bone",
+				"radical",
+				"neat",
+				"a hoss boss",
+				"mad chill",
+				"super chill",
+				"a beast",
+				"funky fresh",
+				"slammin it",
 			};
 		}
 

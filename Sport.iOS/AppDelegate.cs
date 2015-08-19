@@ -26,6 +26,7 @@ namespace Sport.iOS
 			ImageCircleRenderer.Init();
 			ToastNotifier.Init();
 		
+			//We're using the value of the StyleId as the accessibility identifier for use w/ Xamarin UITest / XTC
 			Forms.ViewInitialized += (sender, e) =>
 			{
 				if(null != e.View.StyleId)
@@ -88,7 +89,7 @@ namespace Sport.iOS
 			NotificationPayload payloadValue = null;
 			if(apsHash.TryGetValue(new NSString("payload"), out payload))
 			{
-				payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload.ToString());
+				payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload.ToReplString());
 				if(payloadValue != null)
 				{
 					MessagingCenter.Send<App, NotificationPayload>(App.Current, "IncomingPayloadReceived", payloadValue);
@@ -100,7 +101,7 @@ namespace Sport.iOS
 			if(badgeValue != null)
 			{
 				int count;
-				if(int.TryParse(new NSString(badgeValue.ToString()), out count))
+				if(int.TryParse(new NSString(badgeValue.ToReplString()), out count))
 				{
 					//UIApplication.SharedApplication.ApplicationIconBadgeNumber = count;
 				}
@@ -108,7 +109,7 @@ namespace Sport.iOS
 
 			if(apsHash.TryGetValue(new NSString("alert"), out alert))
 			{
-				alert.ToString().ToToast(ToastNotificationType.Info, "Incoming notification");
+				alert.ToReplString().ToToast(ToastNotificationType.Info, "Incoming notification");
 			}
 		}
 	}

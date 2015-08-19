@@ -33,6 +33,27 @@ namespace Sport.Shared
 		{
 			BindingContext = ViewModel;
 		}
+
+		protected override async void OnIncomingPayload(NotificationPayload payload)
+		{
+			base.OnIncomingPayload(payload);
+
+			string challengeId;
+			if(payload.Payload.TryGetValue("challengeId", out challengeId))
+			{
+				try
+				{
+					var task = AzureService.Instance.GetChallengeById(challengeId);
+					await ViewModel.RunSafe(task);
+					var details = new ChallengeDetailsPage(task.Result);
+					await Navigation.PushAsync(details);
+				}
+				catch(Exception e)
+				{
+					Console.WriteLine(e);
+				}
+			}
+		}
 	}
 
 	public class MainBaseContentPage : ContentPage
@@ -172,7 +193,7 @@ namespace Sport.Shared
 			Insights.Track(identifier, metadata);
 		}
 
-		protected virtual void OnIncomingPayload(NotificationPayload payload)
+		async protected virtual void OnIncomingPayload(NotificationPayload payload)
 		{
 		}
 

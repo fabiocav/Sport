@@ -69,7 +69,7 @@ namespace Sport.Shared
 			return new Task(() =>
 			{
 				var service = new CalendarService();
-				service.HttpClient.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
+				service.HttpClient.DefaultRequestHeaders.Add("Authorization", App.AuthToken);
 				var req = service.CalendarList.List();
 				var list = req.Execute();
 
@@ -84,9 +84,9 @@ namespace Sport.Shared
 				var evnt = new Event();
 				evnt.Attendees = new List<EventAttendee> {
 					new EventAttendee {
-							Email = Opponent.Email,
-							DisplayName = Opponent.Name,
-						}
+						Email = Opponent.Email,
+						DisplayName = Opponent.Name,
+					}
 				};
 
 				evnt.Summary = "{0}: {1} vs {2}".Fmt(Challenge.League.Name, Challenge.ChallengerAthlete.Alias, Challenge.ChallengeeAthlete.Alias);

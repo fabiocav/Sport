@@ -77,13 +77,13 @@ namespace Sport.Shared
 					return;
 
 				var tags = new List<string> {
-						App.CurrentAthlete.Id,
-						"All",
+					App.CurrentAthlete.Id,
+					"All",
 				};
 
 				App.CurrentAthlete.LocalRefresh();
 				App.CurrentAthlete.Memberships.Select(m => m.LeagueId).ToList().ForEach(tags.Add);
-				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToString();
+				athlete.DevicePlatform = Xamarin.Forms.Device.OS.ToReplString();
 
 				var reg = new DeviceRegistration {
 					Handle = athlete.DeviceToken,
@@ -118,8 +118,7 @@ namespace Sport.Shared
 				if(athlete == null || athlete.NotificationRegistrationId == null)
 					return;
 
-				var values = new Dictionary<string, string> {
-					{
+				var values = new Dictionary<string, string> { {
 						"id",
 						athlete.NotificationRegistrationId
 					}
@@ -296,20 +295,6 @@ namespace Sport.Shared
 			return new Task<Athlete>(() =>
 			{
 				var list = Client.GetTable<Athlete>().Where(a => a.Email == email).ToListAsync().Result;
-				var athlete = list.FirstOrDefault();
-
-				if(athlete != null)
-					DataManager.Instance.Athletes.AddOrUpdate(athlete);
-
-				return athlete;
-			});
-		}
-
-		public Task<Athlete> GetAthleteByAuthUserId(string authUserid)
-		{
-			return new Task<Athlete>(() =>
-			{
-				var list = Client.GetTable<Athlete>().Where(a => a.AuthenticationId == authUserid).ToListAsync().Result;
 				var athlete = list.FirstOrDefault();
 
 				if(athlete != null)
@@ -594,8 +579,7 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -625,8 +609,7 @@ namespace Sport.Shared
 				Challenge m;
 				try
 				{
-					var qs = new Dictionary<string, string> {
-						{
+					var qs = new Dictionary<string, string> { {
 							"id",
 							id
 						}
@@ -697,7 +680,7 @@ namespace Sport.Shared
 				var qs = new Dictionary<string, string>();
 				qs.Add("id", challenge.Id);
 				var token = Client.InvokeApiAsync("acceptChallenge", null, HttpMethod.Post, qs).Result;
-				var acceptedChallenge = JsonConvert.DeserializeObject<Challenge>(token.ToString());
+				var acceptedChallenge = JsonConvert.DeserializeObject<Challenge>(token.ToReplString());
 				if(acceptedChallenge != null)
 				{
 					challenge.DateAccepted = acceptedChallenge.DateAccepted;

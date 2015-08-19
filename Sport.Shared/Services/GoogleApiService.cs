@@ -44,7 +44,7 @@ namespace Sport.Shared
 			{
 				var client = new HttpClient();
 				const string url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
-				client.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
+				client.DefaultRequestHeaders.Add("Authorization", App.AuthToken);
 				var json = client.GetStringAsync(url).Result;
 				var profile = JsonConvert.DeserializeObject<UserProfile>(json);
 				return profile;
@@ -100,7 +100,7 @@ namespace Sport.Shared
 
 					var content = new FormUrlEncodedContent(dict);
 
-					client.DefaultRequestHeaders.Add("Authorization", Settings.Instance.AuthToken);
+					client.DefaultRequestHeaders.Add("Authorization", App.AuthToken);
 					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 					var response = client.PostAsync(url, content).Result;
 					var body = response.Content.ReadAsStringAsync().Result;

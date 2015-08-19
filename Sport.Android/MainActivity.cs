@@ -46,6 +46,7 @@ namespace Sport.Android
 				Xamarin.Forms.Forms.Init(this, bundle);
 				ImageCircleRenderer.Init();
 
+				//We're using the value of the StyleId as the content description for use w/ Xamarin UITest / XTC
 				Xamarin.Forms.Forms.ViewInitialized += (sender, e) =>
 				{
 					if(!string.IsNullOrWhiteSpace(e.View.StyleId))

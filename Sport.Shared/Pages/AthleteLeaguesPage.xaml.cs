@@ -98,6 +98,8 @@ namespace Sport.Shared
 
 		protected override async void OnIncomingPayload(NotificationPayload payload)
 		{
+			base.OnIncomingPayload(payload);
+
 			string leagueId = null;
 			if(payload.Payload.TryGetValue("leagueId", out leagueId))
 			{

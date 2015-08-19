@@ -244,6 +244,8 @@ namespace Sport.Shared
 
 		protected override async void OnIncomingPayload(NotificationPayload payload)
 		{
+			base.OnIncomingPayload(payload);
+
 			string leagueId;
 			string winnerId;
 			string challengeId;

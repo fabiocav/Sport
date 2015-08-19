@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using System.Collections.Generic;
 
 namespace Sport.Shared
 {
@@ -18,18 +17,6 @@ namespace Sport.Shared
 			{
 				return _instance ?? (_instance = Settings.Load());
 			}
-		}
-
-		public string AuthToken
-		{
-			get;
-			set;
-		}
-
-		public string RefreshToken
-		{
-			get;
-			set;
 		}
 
 		public string AuthUserID

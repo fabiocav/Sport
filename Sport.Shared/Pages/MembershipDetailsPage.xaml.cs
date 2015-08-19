@@ -81,8 +81,9 @@ namespace Sport.Shared
 
 		protected override async void OnIncomingPayload(NotificationPayload payload)
 		{
-			var reload = false;
+			base.OnIncomingPayload(payload);
 
+			var reload = false;
 			string membershipId = null;
 			string winningAthleteId = null;
 			string losingAthleteId = null;

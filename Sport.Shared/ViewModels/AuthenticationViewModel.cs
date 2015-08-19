@@ -59,13 +59,8 @@ namespace Sport.Shared
 		async Task<bool> AuthenticateWithGoogle()
 		{
 			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
-			var success = await authViewModel.GetUserProfile();
-
-			if(!success)
-			{
-				await ShowGoogleAuthenticationView();
-				await authViewModel.GetUserProfile();
-			}
+			await ShowGoogleAuthenticationView();
+			await authViewModel.GetUserProfile();
 
 			return AuthUserProfile != null;
 		}
@@ -99,9 +94,7 @@ namespace Sport.Shared
 				{
 					var oauthAccount = (OAuthAccount)account;
 
-					Settings.Instance.AuthToken = oauthAccount.Token;
-					Settings.Instance.RefreshToken = oauthAccount.RefreshToken;
-					Settings.Instance.AuthUserID = oauthAccount.Identifier;
+					App.AuthToken = "{0} {1}".Fmt(oauthAccount.TokenType, oauthAccount.Token);
 					await Settings.Instance.Save();
 				}
 			}
@@ -215,7 +208,7 @@ namespace Sport.Shared
 		async public Task<bool> GetUserProfile()
 		{
 			//Can't get profile w/out a token
-			if(Settings.Instance.AuthToken == null)
+			if(App.AuthToken == null)
 				return false;
 
 			using(new Busy(this))
@@ -227,22 +220,22 @@ namespace Sport.Shared
 				if(task.IsFaulted && task.IsCompleted)
 				{
 					//Likely our authtoken has expired
-					AuthenticationStatus = "Refreshing token";
-
-					var refreshTask = GoogleApiService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
-					await RunSafe(refreshTask);
-
-					if(refreshTask.IsCompleted && !refreshTask.IsFaulted)
-					{
-						//Success in getting a new auth token - now lets attempt to get the profile again
-						if(!string.IsNullOrWhiteSpace(refreshTask.Result) && Settings.Instance.AuthToken != refreshTask.Result)
-						{
-							//We have a valid token now, let's try this again
-							Settings.Instance.AuthToken = refreshTask.Result;
-							await Settings.Instance.Save();
-							return await GetUserProfile();
-						}
-					}
+//					AuthenticationStatus = "Refreshing token";
+//
+//					var refreshTask = GoogleApiService.Instance.GetNewAuthToken(Settings.Instance.RefreshToken);
+//					await RunSafe(refreshTask);
+//
+//					if(refreshTask.IsCompleted && !refreshTask.IsFaulted)
+//					{
+//						//Success in getting a new auth token - now lets attempt to get the profile again
+//						if(!string.IsNullOrWhiteSpace(refreshTask.Result) && Settings.Instance.AuthToken != refreshTask.Result)
+//						{
+//							//We have a valid token now, let's try this again
+//							App.AuthToken = refreshTask.Result;
+//							await Settings.Instance.Save();
+//							return await GetUserProfile();
+//						}
+//					}
 				}
 
 				if(task.IsCompleted && !task.IsFaulted && task.Result != null)
@@ -250,8 +243,7 @@ namespace Sport.Shared
 					AuthenticationStatus = "Authentication complete";
 					AuthUserProfile = task.Result;
 
-					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> {
-						{
+					Insights.Identify(AuthUserProfile.Email, new Dictionary<string, string> { {
 							"Name",
 							AuthUserProfile.Name
 						}
@@ -276,8 +268,7 @@ namespace Sport.Shared
 
 			Settings.Instance.AthleteId = null;
 			Settings.Instance.AuthUserID = null;
-			Settings.Instance.AuthToken = null;
-			Settings.Instance.RefreshToken = null;
+			App.AuthToken = null;
 			Settings.Instance.RegistrationComplete = false;
 			Settings.Instance.Save();
 			AuthUserProfile = null;
