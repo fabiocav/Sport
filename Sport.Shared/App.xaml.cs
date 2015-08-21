@@ -6,6 +6,8 @@ using Connectivity.Plugin;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 using Xamarin.Forms;
+using Xamarin;
+using System.Threading.Tasks;
 
 namespace Sport.Shared
 {
@@ -14,6 +16,7 @@ namespace Sport.Shared
 		#region Properties
 
 		public IHUDProvider _hud;
+		NotificationPayload _shelvedPayload;
 		public static int AnimationSpeed = 250;
 
 		public static string AuthToken
@@ -86,6 +89,7 @@ namespace Sport.Shared
 			//			}
 
 			#endregion
+
 			SetDefaultPropertyValues();
 
 			InitializeComponent();
@@ -105,6 +109,9 @@ namespace Sport.Shared
 			{
 				StartAuthenticationFlow();
 			}
+
+			MessagingCenter.Subscribe<App, NotificationPayload>(this, "IncomingPayloadReceived", (sender, payload) => OnIncomingPayload(payload));
+			MessagingCenter.Subscribe<App>(this, "AuthenticationComplete", (sender) => OnAuthenticationComplete());
 		}
 
 		/// <summary>
@@ -164,6 +171,49 @@ namespace Sport.Shared
 					Debug.WriteLine(e);
 				}
 			});
+		}
+
+		internal async Task OnIncomingPayload(NotificationPayload payload)
+		{
+			"OnIncomingPayload1".ToToast();
+			if(payload == null)
+				return;
+
+			if(App.CurrentAthlete == null)
+			{
+				"OnIncomingPayload2".ToToast();
+				_shelvedPayload = payload;
+				return;
+			}
+
+			"OnIncomingPayload3".ToToast();
+			string challengeId;
+			if(payload.Payload.TryGetValue("challengeId", out challengeId))
+			{
+				try
+				{
+					var vm = new BaseViewModel();
+					var task = AzureService.Instance.GetChallengeById(challengeId);
+					await vm.RunSafe(task);
+					var details = new ChallengeDetailsPage(task.Result);
+					details.AddDoneButton();
+		
+					await App.Current.MainPage.Navigation.PushModalAsync(details.GetNavigationPage());
+				}
+				catch(Exception e)
+				{
+					Insights.Report(e);
+					Console.WriteLine(e);
+				}
+			}
+		}
+
+		async void OnAuthenticationComplete()
+		{
+			await System.Threading.Tasks.Task.Delay(4000);
+			await OnIncomingPayload(_shelvedPayload);
+
+			_shelvedPayload = null;
 		}
 
 		#region Theme

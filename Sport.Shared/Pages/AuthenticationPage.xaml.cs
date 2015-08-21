@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using SimpleAuth;
 using SimpleAuth.Providers;
+using Xamarin.Forms;
 
 namespace Sport.Shared
 {
@@ -16,16 +17,17 @@ namespace Sport.Shared
 		{
 			InitializeComponent();
 			Title = "Authenticating";
-
-			btnAuthenticate.Clicked += (sender, e) =>
-			{
-				//AttemptToAuthenticateAthlete();
-			};
 		}
 
 		async public Task<bool> AttemptToAuthenticateAthlete(bool force = false)
 		{
 			await ViewModel.AuthenticateCompletely();
+
+			if(App.CurrentAthlete != null)
+			{
+				MessagingCenter.Send<App>(App.Current, "AuthenticationComplete");
+			}
+
 			return App.CurrentAthlete != null;
 		}
 	}

@@ -2,11 +2,25 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Sport.Shared
 {
 	public partial class RankStripView : ContentView
 	{
+		public RankStripView()
+		{
+			InitializeComponent();
+			root.BindingContext = this;
+
+			Debug.WriteLine("Constructor called for {0} {1}".Fmt(GetType().Name, GetHashCode()));
+		}
+
+		~RankStripView()
+		{
+			Debug.WriteLine("Destructor called for {0} {1}".Fmt(GetType().Name, GetHashCode()));
+		}
+
 		public static readonly BindableProperty MembershipProperty =
 			BindableProperty.Create("Membership", typeof(Membership), typeof(RankStripView), null);
 
@@ -61,12 +75,6 @@ namespace Sport.Shared
 		{
 			get;
 			set;
-		}
-
-		public RankStripView()
-		{
-			InitializeComponent();
-			root.BindingContext = this;
 		}
 
 		void HandleChallengeClicked(object sender, EventArgs e)

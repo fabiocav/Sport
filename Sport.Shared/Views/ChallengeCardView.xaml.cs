@@ -1,11 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace Sport.Shared
 {
 	public partial class ChallengeCardView : ContentView
 	{
+		public ChallengeCardView()
+		{
+			InitializeComponent();
+			root.BindingContext = this;
+
+			root.GestureRecognizers.Add(new TapGestureRecognizer((view) =>
+			{
+				((ChallengeCardView)root.Parent).OnClicked?.Invoke();
+			}));
+
+			Debug.WriteLine("Constructor called for {0} {1}".Fmt(GetType().Name, GetHashCode()));
+		}
+
+		~ChallengeCardView()
+		{
+			Debug.WriteLine("Destructor called for {0} {1}".Fmt(GetType().Name, GetHashCode()));
+		}
+
 		public static readonly BindableProperty ViewModelProperty =
 			BindableProperty.Create("ViewModel", typeof(ChallengeDetailsViewModel), typeof(ChallengeCardView), null);
 
@@ -49,17 +68,6 @@ namespace Sport.Shared
 		{
 			get;
 			set;
-		}
-
-		public ChallengeCardView()
-		{
-			InitializeComponent();
-			root.BindingContext = this;
-
-			root.GestureRecognizers.Add(new TapGestureRecognizer((view) =>
-			{
-				OnClicked?.Invoke();
-			}));
 		}
 
 		void HandlePostResults(object sender, EventArgs e)

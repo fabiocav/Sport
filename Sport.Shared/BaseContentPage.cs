@@ -4,9 +4,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin;
 using Xamarin.Forms;
-using SimpleAuth.Providers;
-using SimpleAuth;
-using Newtonsoft.Json;
 
 namespace Sport.Shared
 {
@@ -33,27 +30,6 @@ namespace Sport.Shared
 		{
 			BindingContext = ViewModel;
 		}
-
-		protected override async void OnIncomingPayload(NotificationPayload payload)
-		{
-			base.OnIncomingPayload(payload);
-
-			string challengeId;
-			if(payload.Payload.TryGetValue("challengeId", out challengeId))
-			{
-				try
-				{
-					var task = AzureService.Instance.GetChallengeById(challengeId);
-					await ViewModel.RunSafe(task);
-					var details = new ChallengeDetailsPage(task.Result);
-					await Navigation.PushAsync(details);
-				}
-				catch(Exception e)
-				{
-					Console.WriteLine(e);
-				}
-			}
-		}
 	}
 
 	public class MainBaseContentPage : ContentPage
@@ -79,12 +55,12 @@ namespace Sport.Shared
 			SubscribeToAuthentication();
 			SubscribeToIncomingPayload();
 
-			Debug.WriteLine("Constructor called for {0} {1} {2}".Fmt(GetType().Name, GetHashCode(), Title));
+			Debug.WriteLine("Constructor called for {0} {1}".Fmt(GetType().Name, GetHashCode()));
 		}
 
 		~MainBaseContentPage()
 		{
-			Debug.WriteLine("Destructor called for {0} {1} {2}".Fmt(GetType().Name, GetHashCode(), Title));
+			Debug.WriteLine("Destructor called for {0} {1}".Fmt(GetType().Name, GetHashCode()));
 		}
 
 		void SubscribeToIncomingPayload()

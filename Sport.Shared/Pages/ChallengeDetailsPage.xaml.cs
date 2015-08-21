@@ -102,7 +102,7 @@ namespace Sport.Shared
 			string winnerId;
 			if(payload.Payload.TryGetValue("challengeId", out challengeId))
 			{
-				if(challengeId == ViewModel.Challenge.Id)
+				if(challengeId == ViewModel?.Challenge?.Id)
 				{
 					await ViewModel.RefreshChallenge();
 		
