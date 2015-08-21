@@ -56,37 +56,23 @@ namespace Sport.iOS
 			return base.FinishedLaunching(app, options);
 		}
 
-		async void ProcessPendingPayload(NSDictionary userInfo)
+		void ProcessPendingPayload(NSDictionary userInfo)
 		{
-			"Shelved2".ToToast();
 			if(userInfo == null)
 				return;
 
 			NSObject aps;
 			NSObject payload;
-
-			var sb = new StringBuilder();
-			sb.Append("KEYS");
-
-			userInfo.Keys.ToList().ForEach(k => sb.Append(k + ","));
-			sb.ToString().ToToast();
-
-			if(!userInfo.TryGetValue(new NSString("aps"), out aps))
-				return;
-
-			"Shelved APS".ToToast();
-			var apsHash = aps as NSDictionary;
-
-			NotificationPayload payloadValue = null;
-			if(apsHash.TryGetValue(new NSString("payload"), out payload))
+			NSObject innerPayload;
+			if(userInfo.TryGetValue(new NSString("UIApplicationLaunchOptionsRemoteNotificationKey"), out payload))
 			{
-				"Shelved8".ToToast();
-				payloadValue = JsonConvert.DeserializeObject<NotificationPayload>(payload.ToString());
-				if(payloadValue != null)
+				if(((NSDictionary)payload).TryGetValue(new NSString("aps"), out aps))
 				{
-					"Shelved4".ToToast();
-					//Shelve the payload until authentication complete
-					App.Current.OnIncomingPayload(payloadValue);
+					if(((NSDictionary)aps).TryGetValue(new NSString("payload"), out innerPayload))
+					{
+						var notificationPayload = JsonConvert.DeserializeObject<NotificationPayload>(innerPayload.ToString());
+						App.Current.OnIncomingPayload(notificationPayload);
+					}
 				}
 			}
 		}

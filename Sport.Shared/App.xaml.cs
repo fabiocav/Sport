@@ -175,18 +175,15 @@ namespace Sport.Shared
 
 		internal async Task OnIncomingPayload(NotificationPayload payload)
 		{
-			"OnIncomingPayload1".ToToast();
 			if(payload == null)
 				return;
 
 			if(App.CurrentAthlete == null)
 			{
-				"OnIncomingPayload2".ToToast();
 				_shelvedPayload = payload;
 				return;
 			}
 
-			"OnIncomingPayload3".ToToast();
 			string challengeId;
 			if(payload.Payload.TryGetValue("challengeId", out challengeId))
 			{
@@ -210,7 +207,6 @@ namespace Sport.Shared
 
 		async void OnAuthenticationComplete()
 		{
-			await System.Threading.Tasks.Task.Delay(4000);
 			await OnIncomingPayload(_shelvedPayload);
 
 			_shelvedPayload = null;

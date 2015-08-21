@@ -175,7 +175,7 @@
       <HintPath>..\packages\Xamarin.Insights.1.10.6\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
     </Reference>
     <Reference Include="SimpleAuth.iOS">
-      <HintPath>..\packages\Clancey.SimpleAuth.1.0.6\lib\Xamarin.iOS10\SimpleAuth.iOS.dll</HintPath>
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.8\lib\Xamarin.iOS10\SimpleAuth.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

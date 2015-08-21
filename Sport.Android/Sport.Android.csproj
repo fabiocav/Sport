@@ -145,7 +145,7 @@
       <HintPath>..\packages\Xamarin.Insights.1.10.6\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
     </Reference>
     <Reference Include="SimpleAuth.Droid">
-      <HintPath>..\packages\Clancey.SimpleAuth.1.0.6\lib\MonoAndroid\SimpleAuth.Droid.dll</HintPath>
+      <HintPath>..\packages\Clancey.SimpleAuth.1.0.8\lib\MonoAndroid\SimpleAuth.Droid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
