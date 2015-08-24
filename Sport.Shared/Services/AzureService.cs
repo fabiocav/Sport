@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using ModernHttpClient;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Sport.Shared
 {
@@ -714,6 +715,39 @@ namespace Sport.Shared
 		}
 
 		#endregion
+
+		public Task GetAuthorizationToken()
+		{
+			return new Task(() =>
+			{
+				var handler = new NativeMessageHandler();
+
+				#if __IOS__
+				handler = new ModernHttpClient.NativeMessageHandler() {
+					Proxy = CoreFoundation.CFNetwork.GetDefaultProxy(),
+					UseProxy = true,
+				};
+				#endif
+
+				var client = new HttpClient(handler);
+//				var token = JToken.FromObject(new
+//				{
+//					access_token = App.AuthToken
+//				});
+
+				var dict = new Dictionary<string, string>();
+				dict.Add("access_token", App.AuthToken);
+
+				var content = new FormUrlEncodedContent(dict);
+				var response = client.PostAsync(Keys.AzureDomain + "/login/google", content).Result;
+				var body = response.Content.ReadAsStringAsync().Result;
+
+				Console.WriteLine(body);
+
+
+			});
+		}
+
 	}
 
 	#region ChallengeExpandHandler

@@ -58,9 +58,12 @@ namespace Sport.Shared
 		/// </summary>
 		async Task<bool> AuthenticateWithGoogle()
 		{
-			var authViewModel = DependencyService.Get<AuthenticationViewModel>();
 			await ShowGoogleAuthenticationView();
-			await authViewModel.GetUserProfile();
+
+			var task = AzureService.Instance.GetAuthorizationToken();
+			await RunSafe(task);
+
+			await GetUserProfile();
 
 			return AuthUserProfile != null;
 		}
@@ -72,14 +75,8 @@ namespace Sport.Shared
 		{
 			try
 			{
-				var scopes = new[] {
-					"email",
-					"profile",
-					"https://www.googleapis.com/auth/calendar"
-				};
-
 				var api = new GoogleApi("google", Keys.GoogleApiClientId, Keys.GoogleClientSecret, new NativeMessageHandler()) {
-					Scopes = scopes,
+					Scopes = Keys.GoogleScope.Split(' '),
 				};
 
 				if(_doResetWebCache)
